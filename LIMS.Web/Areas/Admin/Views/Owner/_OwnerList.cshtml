@@ -1,0 +1,74 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model LIMS.Web.Areas.Admin.Models.AInR.FarmModel
+<div class="x_content">
+    <div id="owner-grid"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#owner-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("OwnerList", "Owner",new { farmId=Model.Id}))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+
+                {
+                    field: "NameEnglish",
+                    title: "@T("Admin.Owner.Name")",
+                    width: 300,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode(NameEnglish)#</a>',
+
+                },
+
+                {
+                    field: "Email",
+                    title: "@T("Admin.Owner.Email")",
+                    width: 300,
+                },
+                {
+                    field: "Farm.NameEnglish",
+                    title: "@T("Admin.Owner.FarmName")",
+                    width: 300,
+                },
+                 {
+                    field: "Type",
+                    title: "@T("Admin.Owner.Type")",
+                    width: 300,
+                },
+
+            ]
+
+        });
+
+    });
+</script>

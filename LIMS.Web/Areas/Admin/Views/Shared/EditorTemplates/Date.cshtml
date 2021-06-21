@@ -1,0 +1,11 @@
+﻿@model DateTime
+@using System.Globalization
+<input id="@Html.IdForModel()" name="@Html.NameForModel()" value="@((Model > DateTime.MinValue ? Model : DateTime.Today).ToString( new CultureInfo("en-GB").DateTimeFormat.ShortDatePattern))" />
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdForModel()").kendoDatePicker({
+            format: "dd-MM-yy"
+
+        });
+    });
+</script>

@@ -1,0 +1,23 @@
+﻿@model LIMS.Web.Areas.Admin.Models.MedicineReportModel
+<form method="get" action="/admin/MedicineReport/MedicineReport">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" required="required" />
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="Month" />
+            <admin-select asp-for="Month" asp-items="ViewBag.Months" required="required" />
+            <span asp-validation-for="Month"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <br />
+            <input type="submit" class="btn btn-sm btn-success" />
+        </div>
+    </div>
+</form>

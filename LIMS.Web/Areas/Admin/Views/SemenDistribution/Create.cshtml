@@ -1,0 +1,237 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Semen.SemenDistributionModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+
+                <div class="x_content form">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="BullName" />
+                            <input class="form-control" name="BullName" id="BullName" required="required" />
+                            @*<admin-input asp-for="AnimalName" />*@
+                            <input type="hidden" name="AnimalRegistrationId" id="AnimalRegistrationId" value="@Model.AnimalRegistrationId" />
+                            <span asp-validation-for="BullName"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="EarTag" />
+                            <admin-input asp-for="EarTag" />
+                            <span asp-validation-for="EarTag"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="SpeciesId" />
+                            <admin-select asp-for="SpeciesId" asp-items="ViewBag.Species" />
+                            <span asp-validation-for="SpeciesId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="BreedId" />
+                            <select name="BreedId" class="form-control" id="breedid">
+                                <option value="">Select</option>
+                            </select>
+                            <span asp-validation-for="BreedId"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="form-group">
+                            <admin-label asp-for="SireId" />
+                            <admin-input asp-for="SireId" />
+                            <span asp-validation-for="SireId"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="DamId" />
+                            <admin-input asp-for="DamId" />
+                            <span asp-validation-for="DamId"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="Dose" />
+                            <admin-input asp-for="Dose" />
+                            <span asp-validation-for="Dose"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="TotalAmount" />
+                            <admin-input asp-for="TotalAmount" />
+                            <span asp-validation-for="TotalAmount"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="Date" />
+                            <admin-input asp-for="Date" />
+                            <span asp-validation-for="Date"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="FiscalYearId" />
+                            <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYear" />
+                            <span asp-validation-for="FiscalYearId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2" id="type">
+                        <div class="form-group ">
+                            <admin-label asp-for="Type" />
+                            <admin-select asp-for="Type" asp-items="ViewBag.Type" />
+                            <span asp-validation-for="Type"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2" id="organization">
+                        <div class="form-group ">
+                            <admin-label asp-for="OrganizationName" />
+                            <admin-select asp-for="OrganizationName" asp-items="ViewBag.OrganizationName" />
+                            <span asp-validation-for="OrganizationName"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2" id="technician">
+                        <div class="form-group ">
+                            <admin-label asp-for="ServiceProviderId" />
+                            <admin-select asp-for="ServiceProviderId" asp-items="ViewBag.Technician" />
+                            <span asp-validation-for="ServiceProviderId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</form>
+<script>
+    $(document).ready(function () {
+    var species = $("#SpeciesId").val();
+    if (species != "") {
+        $("#breedid").empty();
+        $("#breedid").append("<option value=''>Select</option>");
+        url = "/Admin/Prototype/getBreed";
+        $.getJSON(url, { id: species }, (data) => {
+            $.each(data, function (i, item) {
+                $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+            });
+        });
+    }
+    $("#SpeciesId").on("change", function () {
+        var categoryId = $(this).val();
+        $("#breedid").empty();
+        $("#breedid").append("<option value=''>Select</option>");
+        url = "/Admin/Prototype/getBreed";
+        $.getJSON(url, { id: categoryId }, (data) => {
+            $.each(data, function (i, item) {
+                $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+            });
+        });
+    });
+
+        $("#organization").hide();
+        $("#technician").hide();
+        $("#Type").on("change", function () {
+            var type = $(this).val();
+            if (type == "Technician") {
+                $("#technician").show();
+                $("#organization").hide();
+            }
+            if (type == "Organization") {
+                $("#technician").hide();
+                $("#organization").show();
+            }
+           
+        });
+
+
+    });
+
+
+
+
+
+    $(document).ready(function () {
+                        $("#BullName").kendoAutoComplete({
+                        dataTextField: "Name",
+                        filter: "contains",
+                        minLength: 2,
+                        dataSource: {
+                        type: "json",
+                        // serverFiltering: true,
+                        transport: {
+                        read: {
+                        type: 'GET',
+                        url: "@Url.Action("SearchMaleAnimalAutoComplete", "AnimalRegistration")",
+                        data: onAnimalAdditionalData,
+                        },
+                        },
+                        pageSize: 5
+                        },
+                        select: onAnimalSelect,
+                        filtering: onAnimalFiltering,
+                        });
+                        // console.log(e.dataItem);
+
+
+
+
+                        function onAnimalAdditionalData() {
+                        return {
+                        term: $("#BullName").val(),
+
+                        };
+                        }
+
+                        function onAnimalSelect(e) {
+                        $('#AnimalRegistrationId').val(e.dataItem.Id);
+                        $('#SpeciesId').val(e.dataItem.SpeciesId);
+                        if (e.dataItem.SpeciesId) {
+                        $("#breedid").empty();
+                        $("#breedid").append("<option value=''>Select</option>");
+                        url = "/Admin/Prototype/getBreed";
+                        $.getJSON(url, { id: e.dataItem.SpeciesId }, (data) => {
+                        $.each(data, function (i, item) {
+                        $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                        });
+                        $('#breedid').val(e.dataItem.BreedId);
+                        });
+                        }
+                            $('#EarTag').val(e.dataItem.EarTagNo);
+                            $('#DamId').val(e.dataItem.DamId);
+                            $('#SireId').val(e.dataItem.SireId);
+                        console.log(e.dataItem);
+                        }
+
+                        function onAnimalFiltering() {
+                        $('#AnimalId').val('');
+                        $('#SpeciesId').val('');
+                        $('#EarTag').val('');
+                        $("#breedid").val();
+                         $("#DamId").val('');
+                         $("#SireId").val();
+                        }
+  });
+</script>

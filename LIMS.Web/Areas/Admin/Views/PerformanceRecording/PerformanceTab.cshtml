@@ -1,0 +1,48 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Recording.MilkAndGrowth
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <h2>
+                Animal name: @Model.GrowthMonitoringModel.AnimalRegistrationModel.Name &nbsp; Animal eartag: @Model.GrowthMonitoringModel.AnimalRegistrationModel.EarTagNo &nbsp; &nbsp; Farm name: @Model.GrowthMonitoringModel.AnimalRegistrationModel.FarmModel.NameEnglish
+            </h2>
+            <div class="x_content form" id="services">
+                <admin-tabstrip name="services-edit" SetTabPos="false">
+                    <items>
+                        <tabstrip-item text="@T("Admin.Services.MilkRecording")" tab-index="0">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_CreateMilkRecordingTab" model="Model.MilkRecordingModel" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.GrowthRecording")" tab-index="1">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <partial name="_CreateGrowthRecordingTab" model="Model.GrowthMonitoringModel" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+
+
+
+                    </items>
+                </admin-tabstrip>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

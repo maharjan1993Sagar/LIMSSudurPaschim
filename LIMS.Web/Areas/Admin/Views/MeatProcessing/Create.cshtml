@@ -1,0 +1,113 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Organization.MeatProcessingModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="showTable">
+            <table class="table table-bordered">
+                <thead>
+                    <tr style="text-align:center">
+                        <th>@T("Admin.MeatProcessing.OrganizationName")</th>
+                        <th>@T("Admin.MeatProcessing.DailyProcessingCapacity")</th>
+                        <th>@T("Admin.MeatProcessing.ChickenSusage")</th>
+                        <th>@T("Admin.MeatProcessing.PorkSusage")</th>
+                        <th>@T("Admin.MeatProcessing.SukutiBuff")</th>
+                        <th>@T("Admin.MeatProcessing.BuffSusage ")</th>
+                        <th>@T("Admin.MeatProcessing.Fish")</th>
+                        <th>@T("Admin.MeatProcessing.ProcessedMeat")</th>
+                        <th>@T("Admin.MeatProcessing.Other")</th>
+                        <th>@T("Admin.MeatProcessing.Market")</th>
+                        <th>@T("Admin.MeatProcessing.FemaleManpower")</th>
+                        <th>@T("Admin.MeatProcessing.MaleManpower")</th>
+                        <th>@T("Admin.MeatProcessing.YearlyBusiness")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var items in Model.Organization)
+                    {
+                    <tr>
+                        <td>
+                            @items.NameEnglish
+                            <input type="hidden" asp-for="OtherOrganizationId" value="@items.Id">
+                        </td>
+                        <td>
+                            <admin-input asp-for="DailyProcessingCapacity" />
+                        </td>
+                        <td>
+                            <admin-input asp-for="ChickenSusage" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="PorkSusage" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="SukutiBuff" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="BuffSusage" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Fish" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="ProcessedMeat" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Others" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Market" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="FemaleManpower" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="MaleManpower" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="YearlyBusiness" />
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <center>
+                <input type="submit" class="btn btn-success" />
+            </center>
+        </div>
+    </div>
+
+</form>
+
+

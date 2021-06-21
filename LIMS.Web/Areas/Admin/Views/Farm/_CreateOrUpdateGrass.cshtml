@@ -1,0 +1,224 @@
+﻿@model FarmModel
+
+@if (!String.IsNullOrEmpty(Model.Id))
+{
+    <div class="panel panel-default">
+        <vc:admin-widget widget-zone="farm_pictures_top" additional-data="Model" />
+        <div class="panel-body">
+            <div id="farmgrass-grid"></div>
+        </div>
+        <vc:admin-widget widget-zone="farm_pictures_bottom" additional-data="Model" />
+    </div>
+    <script>
+            $(document).ready(function () {
+                $("#farmgrass-grid").kendoGrid({
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Html.Raw(Url.Action("FarmGrassList", "Farm", new { farmId = Model.Id }))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            },
+                            update: {
+                                url:"@Html.Raw(Url.Action("FarmGrassUpdate", "Farm"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            },
+                            destroy: {
+                                url: "@Html.Raw(Url.Action("FarmGrassDelete", "Farm"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            }
+                        },
+                        schema: {
+                            data: "Data",
+                            total: "Total",
+                            errors: "Errors",
+                            model: {
+                                id: "Id",
+                                fields: {
+                                    GrassName: { editable: true, type: "string" },
+                                    Season: { editable: false, type: "string" },
+                                    Type: { editable: false, type: "string" },
+                                    TotalArea: {editable: true, type: "string" }
+                                }
+                            }
+                        },
+                        requestEnd: function(e) {
+                            if(e.type=="update") {
+                                this.read();
+                            }
+                        },
+                        error: function(e) {
+                            display_kendoui_grid_error(e);
+                            // Cancel the changes
+                            this.cancelChanges();
+                        },
+                        serverPaging: true,
+                        serverFiltering: true,
+                        serverSorting: true
+                    },
+                    pageable: {
+                        refresh: true,
+                        numeric: false,
+                        previousNext: false,
+                        info: false
+                    },
+                    editable: {
+                        confirmation: true,
+                        mode: "inline"
+                    },
+                    scrollable: false,
+                    columns: [
+                      {
+                        field: "GrassName",
+                        title: "@T("Admin.Livestock.Farms.Grass.Fields.Name")",
+                        minScreenWidth: 500,
+                        },
+                        {
+                        field: "Type",
+                        title: "@T("Admin.Livestock.Farms.Grass.Fields.Type")",
+                        minScreenWidth: 500,
+                        },
+                        {
+                        field: "Season",
+                        title: "@T("Admin.Livestock.Farms.Grass.Fields.Season")",
+                        minScreenWidth: 500,
+                        },
+                        {
+                        field: "TotalArea",
+                        title: "@T("Admin.Livestock.Farms.Grass.Fields.TotalArea")",
+                        minScreenWidth: 500,
+                    },
+                        {
+                        command: [{
+                            name: "edit",
+                            text: {
+                                edit: "@T("Admin.Common.Edit")",
+                                update: "@T("Admin.Common.Update")",
+                                cancel: "@T("Admin.Common.Cancel")"
+                            }
+                        }, {
+                            name: "destroy",
+                            text: "@T("Admin.Common.Delete")"
+                        }],
+                        width: 200
+                    }]
+                });
+            });
+    </script>
+
+    <p>
+        <strong>@T("Admin.Livestock.Farms.Grass.AddNew")</strong>
+    </p>
+    <script>
+
+        $(document).ready(function () {
+
+            $('#addFarmGrass').click(function () {
+                var type = $("#@Html.FieldIdFor(model => model.AddFarmGrass.Type)").val();
+                 var totalArea = $("#@Html.FieldIdFor(model => model.AddFarmGrass.TotalArea)").val();
+                var season = $("#@Html.FieldIdFor(model => model.AddFarmGrass.Season)").val();
+                 var name = $("#@Html.FieldIdFor(model => model.AddFarmGrass.GrassName)").val();
+                var noOfTrees =$("#@Html.FieldIdFor(model => model.AddFarmGrass.NoOfTree)").val();
+                var postData = {
+                    Type: type,
+                    TotalArea: totalArea,
+                    Season:season,
+                    GrassName:name,
+                    farmId: '@Model.Id',
+                    NoOfTree:noOfTrees
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("FarmGrassAdd", "Farm"))",
+                    data: postData,
+                    success: function(data) {
+                        var grid = $("#farmgrass-grid");
+                        grid.data('kendoGrid').dataSource.read();
+
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseJSON.Errors);
+
+                    }
+                });
+
+            });
+            $("#noOfTree").hide();
+
+            $('#@Html.IdFor(m=>m.AddFarmGrass.Type)').change(function () {
+                var value = $("#@Html.FieldIdFor(model => model.AddFarmGrass.Type)").val();
+                if (value == "Fodder trees") {
+                    $("#noOfTree").show();
+                }
+                else {
+                    $("#noOfTree").hide();
+
+                }
+
+
+            });
+
+        });
+    </script>
+    <div class="form-row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmGrass.GrassName" />
+                <admin-input asp-for="AddFarmGrass.GrassName" />
+                <span asp-validation-for="AddFarmGrass.GrassName"></span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmGrass.Type" />
+                <admin-select asp-for="AddFarmGrass.Type" asp-items="ViewBag.GrassType" />
+                <span asp-validation-for="AddFarmGrass.Type"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmGrass.Season" />
+                <admin-select asp-for="AddFarmGrass.Season" asp-items="ViewBag.Season" />
+                <span asp-validation-for="AddFarmGrass.Season"></span>
+            </div>
+        </div>
+        <div class="col-md-3"  id="noOfTree">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmGrass.NoOfTree" />
+                <admin-input asp-for="AddFarmGrass.NoOfTree" />
+                <span asp-validation-for="AddFarmGrass.NoOfTree"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmGrass.TotalArea" />
+                <admin-input asp-for="AddFarmGrass.TotalArea" />
+                <span asp-validation-for="AddFarmGrass.TotalArea"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+        <div class="form-actions">
+            <center>
+                <input type="button" id="addFarmGrass" class="k-button" value="@T("Admin.Livestock.Farms.Grass.AddButton")" />
+            </center>
+                </div>
+        </div>
+    </div>
+       
+}
+else
+{
+    <div class="note note-info">
+        @T("Admin.Livestock.Farms.Grass.SaveBeforeEdit")
+    </div>
+}
+      

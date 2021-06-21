@@ -1,0 +1,218 @@
+﻿@*@model LIMS.Web.Areas.Admin.Models.Services.ServiceProviderModel
+@{
+    //page title
+    ViewBag.Title = "Farm";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="form-body">
+
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NameNepali" />
+                                    <admin-input asp-for="NameNepali" />
+                                    <span asp-validation-for="NameNepali"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NameEnglish" />
+                                    <admin-input asp-for="NameEnglish" />
+                                    <span asp-validation-for="NameEnglish"></span>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Provience" />
+                                    <admin-select asp-for="Provience"  id="country" />
+                                    <span asp-validation-for="Provience"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="District" />
+                                    <select id="district" class="form-control">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="District"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="LocalLevel" />
+                                    <select id="locallevel" class="form-control">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="LocalLevel"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Ward" />
+                                    <admin-input asp-for="Ward" />
+                                    <span asp-validation-for="Ward"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Tole" />
+                                    <admin-input asp-for="Tole" />
+                                    <span asp-validation-for="Tole"></span>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-2 ">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Phone" />
+                                    <admin-input asp-for="Phone" />
+                                    <span asp-validation-for="Phone"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Email" />
+                                    <admin-input asp-for="Email" type="email" />
+                                    <span asp-validation-for="Email"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="ProfessionalType" />
+                                    <admin-select asp-for="ProfessionalType" asp-items="ViewBag.ServiceProviderType" id="profeesiontype" />
+
+                                    <span asp-validation-for="ProfessionalType"></span>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Designation" />
+                                    <select class="form-control" id="vetgraduate">
+                                        <option value=""> select designation</option>
+                                    </select>
+                                    <span asp-validation-for="Designation"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="PanNo" />
+                                    <admin-input asp-for="PanNo" />
+                                    <span asp-validation-for="PanNo"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="MunicipalityTaxIdentificationNumber" />
+                                    <admin-input asp-for="MunicipalityTaxIdentificationNumber" />
+                                    <span asp-validation-for="MunicipalityTaxIdentificationNumber"></span>
+
+                                </div>
+                            </div>
+
+
+
+                           
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        var $locations = $('#district');
+        // var html= '<option value="' +  + '">' + "---select---" + '</option>'
+        //$locations.html(html);
+        $('#country').change(function () {
+            var country = $(this).val(), lcns = locations[country] || [];
+            var html = $.map(lcns, function (lcn) {
+                return '<option value="' + lcn + '">' + lcn + '</option>'
+            }).join('');
+            var options = '<option value="">  select  </option>';
+            $locations.html(options + html)
+        });
+        var $local = $('#locallevel');
+        $('#district').change(function () {
+            var location = $(this).val(), lcn = local[location] || [];
+            var html = $.map(lcn, function (lc) {
+                return '<option value="' + lc + '">' + lc + '</option>'
+            }).join('');
+            var options = '<option value="">  select  </option>';
+            $local.html(options + html)
+        });
+
+
+        $("#profeesiontype").on("change", function () {
+            var categoryId = $(this).val();
+            $("#vetgraduate").empty();
+            $("#vetgraduate").append("<option value=''>select designation</option>");
+            url = "/Admin/Prototype/GetVetGraduate";
+            $.getJSON(url, { type: categoryId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#vetgraduate").append(`<option value="${item.Value}">${item.Text}</option>`);
+                });
+            });
+        });
+
+
+
+    });
+
+
+</script>*@

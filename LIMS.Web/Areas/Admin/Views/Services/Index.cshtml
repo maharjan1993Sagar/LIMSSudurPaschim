@@ -1,0 +1,236 @@
+﻿@model LIMS.Web.Areas.Admin.Models.StatisticalData.ServicesModel
+@{
+    //page title
+    ViewBag.Title = "Livestock";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+
+
+
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="SpeciesName" />
+                                <admin-select asp-for="SpeciesName" asp-items="ViewBag.SpeciesId" id="speciesid" />
+                                <span asp-validation-for="SpeciesName"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="BreedName" />
+                                <select asp-for="BreedName" id="breedid" class="form-control">
+                                    <option value="">@T("Admin.Common.Select")</option>
+                                </select>
+                                <span asp-validation-for="BreedName"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="ServicesType" />
+                                <admin-select asp-for="ServicesType" asp-items="ViewBag.ServiceTypeId" />
+                                <span asp-validation-for="ServicesType"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Quantity" />
+                                <admin-input asp-for="Quantity" />
+                                <span asp-validation-for="Quantity"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Unit" />
+                                <admin-select asp-for="Unit" asp-items="ViewBag.UnitId" />
+                                <span asp-validation-for="Unit"></span>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Provience" />
+                                <admin-select asp-for="Provience"  id="country" />
+                                <span asp-validation-for="Provience"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select id="district" class="form-control">
+                                    <option value="">Select </option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select id="locallevel" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                                <span asp-validation-for="LocalLevel"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Ward" />
+                                <admin-input asp-for="Ward" />
+                                <span asp-validation-for="Ward"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Tole" />
+                                <admin-input asp-for="Tole" />
+                                <span asp-validation-for="Tole"></span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYear" />
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" />
+                                <span asp-validation-for="FiscalYear"></span>
+
+                            </div>
+                        </div>
+
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="Date" />
+                            <input asp-for="Date" type="date" class="form-control" />
+                            <span asp-validation-for="Date"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="Quater" />
+                            <admin-select asp-for="Quater" asp-items="ViewBag.QuaterId" />
+                            <span asp-validation-for="Quater"></span>
+
+                        </div>
+                    </div>
+
+                        </div>
+
+
+
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#speciesid").on("change", function () {
+            var categoryId = $(this).val();
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select </option>");
+            url = "/Admin/Prototype/getBreed";
+            $.getJSON(url, { id: categoryId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        });
+
+        var $locations = $('#district');
+
+        $('#country').change(function () {
+            var country = $(this).val(), lcns = locations[country] || [];
+            var html = $.map(lcns, function (lcn) {
+                return '<option value="' + lcn + '">' + lcn + '</option>'
+            }).join('');
+            var options = '<option value="">  Select   </option>';
+            $locations.html(options + html)
+        });
+        var $local = $('#locallevel');
+        $('#district').change(function () {
+            var location = $(this).val(), lcn = local[location] || [];
+            var html = $.map(lcn, function (lc) {
+                return '<option value="' + lc + '">' + lc + '</option>'
+            }).join('');
+            var options = '<option value="">  Select   </option>';
+            $local.html(options + html)
+        });
+        var $locations1 = $('#district1');
+
+        $('#country1').change(function () {
+            var country = $(this).val(), lcns = locations[country] || [];
+            var html = $.map(lcns, function (lcn) {
+                return '<option value="' + lcn + '">' + lcn + '</option>'
+            }).join('');
+            var options = '<option value="">  Select   </option>';
+            $locations1.html(options + html)
+        });
+        var $local1 = $('#locallevel1');
+        $('#district1').change(function () {
+            var location = $(this).val(), lcn = local[location] || [];
+            var html = $.map(lcn, function (lc) {
+                return '<option value="' + lc + '">' + lc + '</option>'
+            }).join('');
+            var options = '<option value="">  Select   </option>';
+            $local1.html(options + html)
+        });
+
+
+
+
+
+
+    })
+
+
+</script>

@@ -1,0 +1,187 @@
+﻿@model LIMS.Web.Areas.Admin.Models.RashanBalance.FeedLibraryModel
+<div class="x_content form">
+    <div class="form-row">
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="FeedClass" />
+                <admin-select asp-for="FeedClass" asp-items="@ViewBag.FeedClass"></admin-select>
+                <span asp-validation-for="FeedClass"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="FeedType" />
+                <admin-select asp-for="FeedType" asp-items="ViewBag.FeedType" />
+                <span asp-validation-for="FeedType"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3" id="feedcategory">
+
+            <div class="form-group">
+                <admin-label asp-for="FeedTypeCategory" />
+                <admin-select asp-for="FeedTypeCategory" asp-items="ViewBag.FeedTypeCategory" />
+                <span asp-validation-for="FeedTypeCategory"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="FeedFor" />
+                <admin-select asp-for="FeedFor" asp-items="ViewBag.FeedFor" />
+                <span asp-validation-for="FeedFor"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3 ruminantonly">
+
+            <div class="form-group">
+                <admin-label asp-for="ConstituentMaxPercentageForCattle" />
+                <admin-input asp-for="ConstituentMaxPercentageForCattle" />
+                <span asp-validation-for="ConstituentMaxPercentageForCattle"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3 ruminantonly">
+
+            <div class="form-group">
+                <admin-label asp-for="ConstituentMaxPercentageForGoat" />
+                <admin-input asp-for="ConstituentMaxPercentageForGoat" />
+                <span asp-validation-for="ConstituentMaxPercentageForGoat"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="FeedNameEnglish" />
+                <admin-input asp-for="FeedNameEnglish" />
+                <span asp-validation-for="FeedNameEnglish"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="FeedNameNepali" />
+                <admin-input asp-for="FeedNameNepali" />
+                <span asp-validation-for="FeedNameNepali"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="FeedNameScientific" />
+                <admin-input asp-for="FeedNameScientific" />
+                <span asp-validation-for="FeedNameScientific"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AvailableDM" style="display:block;" />
+                <admin-input asp-for="AvailableDM" />
+                <span asp-validation-for="AvailableDM"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AvailableTDN" style="display:block;" />
+                <admin-input asp-for="AvailableTDN" />
+                <span asp-validation-for="AvailableTDN"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AvailableCa" style="display:block;" />
+                <admin-input asp-for="AvailableCa" />
+                <span asp-validation-for="AvailableCa"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AvailableDCP" style="display:block;" />
+                <admin-input asp-for="AvailableDCP" />
+                <span asp-validation-for="AvailableDCP"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AvailableP" style="display:block;" />
+                <admin-input asp-for="AvailableP" />
+                <span asp-validation-for="AvailableP"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AvailableViatminA" style="display:block;" />
+                <admin-input asp-for="AvailableViatminA" />
+                <span asp-validation-for="AvailableViatminA"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AvailableGeographicalArea"  />
+                <admin-input asp-for="AvailableGeographicalArea" />
+                <span asp-validation-for="AvailableGeographicalArea"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="FeedingSeason" />
+                <admin-input asp-for="FeedingSeason" />
+                <span asp-validation-for="FeedingSeason"></span>
+            </div>
+        </div>
+
+
+    </div>
+    </div>
+
+
+<script>
+    $(document).ready(function () {
+        var type = $("#@Html.FieldIdFor(m=>m.FeedType)").val();
+        $("#feedcategory").hide();
+        if (type == "Green") {
+            $("#feedcategory").show();
+        }
+        else {
+            $("#feedcategory").hide();
+        }
+       $("#@Html.FieldIdFor(m=>m.FeedType)").change(function () {
+            var feedtype = $(this).val();
+            if (feedtype == "Green") {
+                $("#feedcategory").show();
+            }
+            else {
+                $("#feedcategory").hide();
+                $("#@Html.FieldIdFor(m=>m.FeedTypeCategory)").val('')
+
+            }
+        });
+
+
+        var ruminent = $("#@Html.FieldIdFor(m=>m.FeedFor)").val();
+        $(".ruminantonly").hide();
+        if (ruminent == "Ruminant") {
+            $("#ruminantonly").show();
+        }
+        else {
+            $(".ruminantonly").hide();
+        }
+        $("#@Html.FieldIdFor(m=>m.FeedFor)").change(function () {
+            var feed = $(this).val();
+            if (feed == "Ruminant") {
+                $(".ruminantonly").show();
+            }
+            else {
+                $(".ruminantonly").hide();
+                $("#@Html.FieldIdFor(m=>m.ConstituentMaxPercentageForCattle)").val('')
+                $("#@Html.FieldIdFor(m=>m.ConstituentMaxPercentageForGoat)").val('')
+
+            }
+        });
+    })
+</script>

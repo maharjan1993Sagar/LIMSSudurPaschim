@@ -1,0 +1,128 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Activities.TargetModel
+@{
+    //page title
+    ViewBag.Title = "Livestock";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getTargetData()" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+
+                     
+                    </div>
+                </div>
+                <div>
+                    <table class="table table-bordered" id="showtable">
+                        <thead>
+                            <tr>
+                                <td>@T("Admin.Target.ActivityName")</td>
+                                <td>@T("Admin.Common.Unit")</td>
+                                <td>@T("Admin.Target.QuaterOneTarget")</td>
+                                <td>@T("Admin.Target.QuaterTwoTarget")</td>
+                                <td>@T("Admin.Target.QuaterThreeTarget")</td>
+                              
+                                <td>@T("Admin.Target.AnualTarget")</td>
+                            </tr>
+                        </thead>
+                        <tbody id="tabularEntry">
+                        </tbody>
+                    </table>
+                    <center>
+                        <input  type="submit" id="subumtform" class="btn btn-success" />
+                    </center>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#showtable").hide();
+        //for unit dropdown
+        $.get('/Admin/Production/GetUnit', function (data) {
+            $.each(data, function (i, item) {
+                $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+            });
+            $(".unit").html($('#select-units').html());
+        });
+        console.log($('#select-units').html());
+
+
+
+    $('#@Html.IdFor(m=>m.FiscalYearId)').change(function () {
+        var fiscalyear = $(this).val;
+        if (fiscalyear != "" || fiscalyear != undefined) {
+            var data = {
+                fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            }
+            addAntiForgeryToken(data);
+
+            $.post("@Url.Action("GetActivityByFiscalYear", "Target")", data, function (result) {
+                $.each(result, function (i, item) {
+                    console.log(item);
+                    var tableRow = '<tr id="' + item.Id + '">';
+                    tableRow += '<td style="width:35%">' + item.ActivityName + '<input type="hidden" name="ActivityId" value="' + item.Id + '"/><input type="hidden" name="TargetDataId" value="" /></td>';
+                    tableRow += '<td style="width:10%">' + $('#select-units').html() + '</td>';
+                    tableRow += '<td style="width:10%"><input type="text" name="QuaterOneTarget" class="form-control"/></td>';
+                    tableRow += '<td style="width:10%"><input type="text" name="QuaterTwoTarget" class="form-control"/></td>';
+                    tableRow += '<td style="width:10%"><input type="text" name="QuaterThreeTarget" class="form-control"/></td>';
+                    tableRow += '<td style="width:10%"><input type="text" name="AnualTarget" class="form-control"/></td>';
+
+                    tableRow += '</tr>';
+
+                    $("#tabularEntry").append(tableRow);
+                });
+                $("#showtable").show();
+
+            });
+        }
+        $("#showtable").hide();
+
+
+    });
+    });
+    
+
+    function getTargetData() {
+        var data = {
+
+
+            fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+
+        };
+        addAntiForgeryToken(data);
+        $.post("@Url.Action("GetServiceDataByFiscalYear", "Target")", data, function (result) {
+            $.each(result, function (index, item) {
+                $('tr#' + item.Activity.Id + ' input[name="TargetDataId"]').val(item.Id);
+                $('tr#' + item.Activity.Id + ' select[name="Unit"]').val(item.Unit.Id);
+                $('tr#' + item.Activity.Id + ' input[name="QuaterOneTarget"]').val(item.QuaterOneTarget);
+                $('tr#' + item.Activity.Id + ' input[name="QuaterTwoTarget"]').val(item.QuaterTwoTarget);
+                $('tr#' + item.Activity.Id + ' input[name="QuaterThreeTarget"]').val(item.QuaterThreeTarget);
+                $('tr#' + item.Activity.Id + ' input[name="AnualTarget"]').val(item.AnualTarget);
+                console.log(item);
+            });
+        });
+    }
+</script>

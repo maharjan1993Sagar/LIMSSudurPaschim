@@ -1,0 +1,182 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = T("Admin.MedicineInventory.ReceivedMedicine").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="ReceivedVaccination" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                        @T("Admin.ReceivedVaccine.List")
+                    </div>
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content form">
+                    <div class="form-horizontal">
+
+                        <div class="form-body col-md-6">
+
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="receivedVaccine-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#search-receivedVaccine').click(function () {
+            //search
+            var grid = $('#receivedVaccine-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#receivedVaccine-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "ReceivedVaccination"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    },
+                    update: {
+                        url: "@Html.Raw(Url.Action("UpdateReceivedVaccination", "ReceivedVaccination"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken,
+                        complete: function (response) {
+                            $("#receivedVaccine-grid").data("kendoGrid").dataSource.read();
+                        }
+                    },
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            VaccineName: { editable: false },
+                            FiscalYearId: { editable: true },
+                            Fiscalyear: { editable: false },
+                            Quantity: { type: "number", validation: { min: 1, required: true } },
+                            UnitId: { editable: true },
+                            Unit: { editable: false }
+                        }
+                    }
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "VaccineName",
+                    title: "@T("Admin.VaccinationInventory.VaccinationName")",
+                    width: 400,
+                },
+                {
+                    field: "FiscalYearId",
+                    title: "@T("Admin.Common.FiscalYear")",
+                    width: 200,
+                    editor: fiscalYearDropDownEditor,
+                    template: "#=Fiscalyear#"
+                },
+                {
+                    field: "Quantity",
+                    title: "@T("Admin.Common.Quantity")",
+                    width: 200,
+                    type: "number",
+                },
+                {
+                    field: "UnitId",
+                    title: "@T("Admin.Common.Unit")",
+                    width: 200,
+                    editor: unitDropDownEditor,
+                    template: "#=Unit#"
+                },
+                { command: ["edit"], title: "&nbsp;", width: "180px" }
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+            Keyword:$("#Keyword").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+    function fiscalYearDropDownEditor(container, options) {
+        $('<input required name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: true,
+                dataTextField: "EnglishFiscalYear",
+                dataValueField: "Id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "@Url.Action("FiscalYearList", "FiscalYear")"
+                    }
+                }
+            });
+    }
+
+    function unitDropDownEditor(container, options) {
+        $('<input required name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: true,
+                dataTextField: "UnitShortName",
+                dataValueField: "Id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "@Url.Action("UnitList", "Unit")"
+                    }
+                }
+            });
+    }
+</script>

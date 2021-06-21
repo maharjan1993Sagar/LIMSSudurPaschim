@@ -1,0 +1,49 @@
+﻿@using LIMS.Web.Areas.Admin.Models.DynamicMenu
+@model SubSubMenuModel
+<div class="x_content form">
+    <div class="form-row">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-body">
+
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SubMenuId" />
+                    <admin-select asp-for="SubMenuId" asp-items="@ViewBag.SubMenuId"></admin-select>
+                    <span asp-validation-for="SubMenuId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SubSubMenuName" />
+                    <admin-input asp-for="SubSubMenuName"/>
+                    <span asp-validation-for="SubSubMenuName"></span>
+
+                </div>
+            </div> 
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Url" />
+                    <admin-input asp-for="Url"/>
+                    <span asp-validation-for="Url"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="IsActive" />
+                    <admin-input asp-for="IsActive" />
+                    <span asp-validation-for="IsActive"></span>
+
+                </div>
+            </div>
+         
+        </div>
+    </div>
+</div>
+
+

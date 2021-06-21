@@ -1,0 +1,77 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Organization.VetClinicModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="showTable">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>@T("Admin.OtherOrganizationDetails.OrganizationName")</td>
+                        <td>@T("Admin.VetClinic.ProvidedServices")</td>
+                        <td>@T("Admin.VetClinic.MaleManPower")</td>
+                        <td>@T("Admin.VetClinic.FemaleManpower")</td>
+                        <td>@T("Admin.VetClinic.Remarks")</td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var items in Model.Organization)
+                    {
+                        <tr>
+                            <td>
+                                @items.NameEnglish
+                                <input type="hidden" asp-for="OtherOrganizationId" value="@items.Id">
+                            </td>
+                            
+
+                            <td>
+                                <admin-input asp-for="ProvidedServices" />
+                            </td>
+                            <td>
+                                <admin-input asp-for="MaleManPower" />
+
+                            </td>
+                            <td>
+                                <admin-input asp-for="FemaleManpower" />
+
+                            </td>
+                            <td>
+                                <admin-input asp-for="Remarks" />
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <center>
+                <input type="submit" class="btn btn-success" />
+            </center>
+        </div>
+    </div>
+
+</form>
+
+

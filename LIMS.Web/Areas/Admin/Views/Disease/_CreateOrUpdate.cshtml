@@ -1,0 +1,48 @@
+﻿@model LIMS.Web.Areas.Admin.Models.BasicSetup.DiseaseModel
+<div class="x_content form">
+    <div class="form-row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-4 col-sm-4">
+
+            <div class="form-group">
+                <admin-label asp-for="DiseaseNameEnglish"></admin-label>
+                <admin-input asp-for="DiseaseNameEnglish" type="text" class="form-control" />
+                <span asp-validation-for="DiseaseNameEnglish"></span>
+
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+
+            <div class="form-group">
+                <admin-label asp-for="DiseaseNameNepali" />
+                <admin-input asp-for="DiseaseNameNepali" />
+                <span asp-validation-for="DiseaseNameNepali"></span>
+
+
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-2">
+
+            <div class="form-group">
+                <admin-label asp-for="ShortName" />
+                <admin-input asp-for="ShortName" />
+                <span asp-validation-for="ShortName"></span>
+
+
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+
+            <div class="form-group">
+                <admin-label asp-for="Symptoms" />
+                <admin-textarea asp-for="Symptoms" />
+                <span asp-validation-for="Symptoms"></span>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

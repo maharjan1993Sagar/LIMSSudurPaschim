@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Reports.LivestockReport>
+
+<h3>Fiscal year:@Model.FirstOrDefault().FiscalYear </h3>
+
+@foreach(var item in Model)
+{
+
+@if (item.Rows!=null&& item.Rows.Count()>0)
+{
+<h3>@item.Species</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>
+                @item.Species
+            </td>
+
+            @foreach (var items in item.AnimalTypes)
+              {
+
+
+            <td>
+                @items
+            </td>
+              }
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (item.Rows != null)
+          {
+
+        @foreach (var row in item.Rows)
+              {
+        <tr>
+            @{int i = 0;}
+            <td>
+                @row.BreedType
+            </td>
+
+            @foreach (var animal in row.AnimalTypeNo)
+              {
+            <td>
+                @animal
+            </td>
+
+                  i++;
+
+              }
+
+        </tr>
+
+                      }
+                      }
+
+    </tbody>
+</table>
+}
+}

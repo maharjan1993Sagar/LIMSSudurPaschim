@@ -1,0 +1,62 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Reports.AIReport>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                S.n
+            </th>
+            <th>
+                Name of municipility
+            </th>
+            <th>
+                Cow
+            </th>
+            <th>
+                Buffalo
+            </th>
+            <th>
+                Goat
+            </th>
+            <th>
+                Pig
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Remarks
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int i = 1;}
+        @foreach(var item in Model)
+        {
+        <tr>
+            <th>
+                @i
+            </th>
+            <th>
+                @item.Cow
+            </th>
+            <th>
+                @item.Buffalo
+            </th>
+            <th>
+                @item.Goat
+            </th>
+            <th>
+                @item.Pig
+            </th>
+            <th>
+                @item.Total
+            </th>
+            <th>
+               
+            </th>
+        </tr>
+            i++;
+        }
+    </tbody>
+
+</table>

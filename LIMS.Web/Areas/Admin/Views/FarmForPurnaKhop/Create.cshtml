@@ -1,0 +1,272 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AnimalHealth.FarmForPurnaKhopModel
+@{
+
+    ViewBag.Title = "Livestock";
+}
+@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                       
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <admin-label asp-for="FarmName" />
+                                        <input class="form-control" name="FarmName" id="farm" required="required" />
+                                        <input type="hidden" name="FarmId" id="FarmId" value="@Model.FarmId" />
+                                        <span asp-validation-for="FarmId"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="MobileNo" />
+                                        <admin-input asp-for="MobileNo" />
+                                        <span asp-validation-for="MobileNo"></span>
+                                    </div>
+                                </div>
+
+                          
+                       
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Province" />
+                                <select class="form-control"  data-val="@Model.Province" name="Province" id="country">
+                                </select>
+                                <span asp-validation-for="Province"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select id="district" name="District" data-val="@Model.District" class="form-control">
+                                    <option value="">Select </option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                                <span asp-validation-for="LocalLevel"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Ward" />
+                                <admin-input asp-for="Ward" />
+                                <span asp-validation-for="Ward"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId"  required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                       
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th>@T("Admin.FarmForPurnaKhop.SpeciesName")</th>
+                                <th>@T("Admin.FarmForPurnaKhop.BreedName")</th>
+                                <th>@T("Admin.FarmForPurnaKhop.AnimalName")</th>
+                                <th>@T("Admin.FarmForPurnaKhop.EarTag")</th>
+                                <th>@T("Admin.FarmForPurnaKhop.Age")</th>
+                                <th>@T("Admin.FarmForPurnaKhop.Vaccination")</th>
+                                <th>@T("Admin.FarmForPurnaKhop.VaccinationDate")</th>
+                                <th>@T("Admin.FarmForPurnaKhop.MedicineForDisease")</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody  id="khopfarm" >
+                            <tr>
+                                <td>
+                                    <admin-select asp-for="SpeciesId" asp-items="ViewBag.SpeciesId" id="speciesid"  onchange="speciesChange(this)"  required="required" />
+
+                                </td>
+                                <td>
+                                    <admin-select asp-for="BreedId"  id="breedid" required="required" />
+
+                                </td>
+                                <td>
+                                    <admin-input asp-for="EarTag" />
+                                </td>
+                                <td>
+                                    <admin-input asp-for="AnimalName" />
+                                </td>
+                                <td>
+                                    <admin-input asp-for="Age" />
+                                </td>
+                                <td>
+                                    <admin-select asp-for="VaccinationTypeId" asp-items="ViewBag.vaccinationId" />
+                                </td>
+                                <td>
+                                    <admin-input asp-for="Date" />
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="Disease" />
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="button" id="btnAdd" class="btn btn-success" value="Add Row" />
+                        <input type="button" id="btnRemove" class="btn btn-success" value="Remove Row" />
+
+                        <input type="submit" class="btn btn-success" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    <table>
+        <tbody id="table-elements" style="display:none">
+            <tr>
+                <td>
+                    <admin-select asp-for="SpeciesId" asp-items="ViewBag.SpeciesId" id="speciesid" onchange="speciesChange(this)" required="required" />
+
+                </td>
+                <td>
+                    <admin-select asp-for="BreedId" id="breedid" required="required" />
+
+                </td>
+                <td>
+                    <admin-input asp-for="EarTag" />
+                </td>
+                <td>
+                    <admin-input asp-for="AnimalName" />
+                </td>
+                <td>
+                    <admin-input asp-for="Age" />
+                </td>
+                <td>
+                    <admin-select asp-for="VaccinationTypeId" asp-items="ViewBag.vaccinationId" />
+                </td>
+                <td>
+                    <admin-input asp-for="Date" />
+                </td>
+                <td>
+                    <admin-input asp-for="Disease"   />
+                </td>
+
+            </tr>
+        </tbody>
+            </table>
+
+
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+<script>
+    function speciesChange(ele) {
+        var categoryId = $(ele).val();
+
+        $(ele).closest("td").next("td").find('select').empty();
+        $(ele).closest("td").next("td").find('select').append("<option value=''>Select</option>");
+        url = "/Admin/Prototype/getBreed";
+        $.getJSON(url, { id: categoryId }, (data) => {
+            $.each(data, function (i, item) {
+                $(ele).closest("td").next("td").find('select').append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+            });
+        });
+    };
+
+    $(document).ready(function () {
+        $("#btnAdd").on("click", function () {
+            var tablerow = $("#table-elements").html();
+            $("#khopfarm").append(tablerow);
+        });
+        $("#btnRemove").on("click", function () {
+            var a = ("#khopfarm tr").length;
+            
+                $('#khopfarm tr:last').remove();
+            
+
+        });
+        var species = $("#SpeciesId").val();
+        if (species != "") {
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select</option>");
+            url = "/Admin/Prototype/getBreed";
+            $.getJSON(url, { id: species }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        }
+    });
+
+    $(document).ready(function () {
+        $("#farm").kendoAutoComplete({
+            dataTextField: "NameEnglish",
+            filter: "contains",
+            minLength: 3,
+            dataSource: {
+                type: "json",
+                // serverFiltering: true,
+                transport: {
+                    read: {
+                        url: "@Url.Action("SearchFarmAutoComplete", "Farm")",
+                        data: onFarmAdditionalData,
+
+                    },
+                },
+              pageSize: 5
+
+            },
+            select: onFarmSelect,
+            filtering: onFarmFiltering,
+        });
+        function onFarmAdditionalData() {
+            return {
+                term: $("#farm").val()
+            };
+        }
+        function onFarmSelect(e) {
+            $('#FarmId').val(e.dataItem.Id);
+            $('#MobileNo').val(e.dataItem.MobileNo);
+            
+            // console.log(e.dataItem);
+        }
+
+        function onFarmFiltering() {
+            $('#FarmId').val('');
+            $('#MobileNo').val('');
+        }
+
+        function onAnimalAdditionalData() {
+            return {
+                term: $("#AnimalName").val(),
+                farm: $("#FarmId").val()
+            };
+        }
+        
+    });
+</script>

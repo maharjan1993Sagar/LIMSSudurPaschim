@@ -1,0 +1,82 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model LIMS.Web.Areas.Admin.Models.AInR.AnimalRegistrationModel
+<div class="x_content">
+    <div id="growth-grid"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#growth-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("GrowthMonitoringList", "PerformanceRecording",new { animalid=Model.Id}))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+
+                {
+                    field: "AnimalRegistration.Species.EnglishName",
+                    title: "@T("Admin.AnimalRegistration.SpeciesId")",
+                    width: 300,
+
+                },
+
+                {
+                    field: "AnimalRegistration.Name",
+                    title: "@T("Admin.AnimalRegistration.Name")",
+                    width: 300,
+                },
+               
+                 {
+                    field: "AnimalRegistration.EarTagNo",
+                    title: "@T("Admin.AnimalRegistration.EarTagNo")",
+                    width: 300,
+                },
+                 {
+                     field: "MilkStatus",
+                    title: "@T("Admin.GrowthMonitoring.Length")",
+                    width: 300,
+                },
+                 {
+                     field: "Weight",
+                    title: "@T("Admin.GrowthMonitoring.Weight")",
+                    width: 300,
+                },
+
+
+
+
+            ]
+
+        });
+
+    });
+</script>

@@ -1,0 +1,177 @@
+﻿@model CustomerModel
+
+<style>
+    .control input:checked ~ .control__indicator {
+        background: #428bca !important;
+    }
+</style>
+<div class="form-horizontal">
+    <div asp-validation-summary="All"></div>
+
+    <input type="hidden" asp-for="Id" />
+    <div class="form-row">
+
+        @if (String.IsNullOrEmpty(Model.Id))
+        {
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Email" />
+
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+
+                    <admin-label asp-for="Password" />
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <admin-input asp-for="Password" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        }
+        else
+        {
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Email" />
+
+                    <input asp-for="Email" class="form-control" readonly />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+
+                    <admin-label asp-for="Password" />
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <admin-input asp-for="Password" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="FirstName" />
+                <admin-input asp-for="FirstName" />
+                <span asp-validation-for="FirstName"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="LastName" />
+                <admin-input asp-for="LastName" />
+                <span asp-validation-for="LastName"></span>
+            </div>
+        </div>
+     
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="PhoneNo" />
+                <admin-input asp-for="PhoneNo" />
+                <span asp-validation-for="PhoneNo"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="MobileNo" />
+                <admin-input asp-for="MobileNo" />
+                <span asp-validation-for="MobileNo"></span>
+            </div>
+        </div>
+        <div class="col-md-3 ">
+
+            <div class="form-group">
+                <admin-label asp-for="Province" />
+                <admin-select asp-for="Province"  id="country" />
+                <span asp-validation-for="Province"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select id="district" class="form-control">
+                    <option value=""> select</option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select id="locallevel" class="form-control">
+                    <option value=""> select</option>
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Ward" />
+                <admin-input asp-for="Ward" />
+                <span asp-validation-for="Ward"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Tole" />
+                <admin-input asp-for="Tole" />
+                <span asp-validation-for="Tole"></span>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="IDCardNo" />
+                <admin-input asp-for="IDCardNo" />
+                <span asp-validation-for="IDCardNo"></span>
+            </div>
+        </div>
+
+        <div class="mt-checkbox-list">
+            <br />
+            <label class="mt-checkbox mt-checkbox-outline control control-checkbox">
+                IsActive
+                <input type="checkbox" asp-for="Active" />
+
+                <div class="control__indicator"></div>
+            </label>
+        </div>
+
+
+    </div>
+    <vc:admin-widget widget-zone="customer_details_info_bottom" additional-data="Model" />
+</div>
+

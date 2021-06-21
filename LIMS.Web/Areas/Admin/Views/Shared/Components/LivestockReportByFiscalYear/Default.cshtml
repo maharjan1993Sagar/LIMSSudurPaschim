@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Reports.LivestockReport>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        @if (item.Rows != null && item.Rows.Count() > 0)
+        {
+            <h5>@item.Species</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr style="text-align:center">
+                        <th>
+                            @item.Species
+                        </th>
+
+                        @foreach (var items in item.AnimalTypes)
+                        {
+
+
+                            <th>
+                                @items
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (item.Rows != null)
+                    {
+
+                        @foreach (var row in item.Rows)
+                        {
+                            <tr>
+                                @{int i = 0;}
+                                <td>
+                                    @row.BreedType
+                                </td>
+
+                                @foreach (var animal in row.AnimalTypeNo)
+                                {
+                                    <td style="text-align:right">
+                                        @animal
+                                    </td>
+
+                                    i++;
+
+                                }
+
+                            </tr>
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+        }
+    }
+</div>

@@ -1,0 +1,38 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Services.NsModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <div class="x_title">
+
+
+            </div>
+            <div class="x_content form">
+                <div class="form-row">
+
+
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="BullId" />
+                            <admin-input asp-for="BullId" />
+                            <span asp-validation-for="BullId"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="Date" />
+                            <input asp-for="Date" type="date" class="form-control"/>
+                            <span asp-validation-for="Date"></span>
+
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

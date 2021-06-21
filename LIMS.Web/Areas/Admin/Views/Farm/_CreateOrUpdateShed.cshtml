@@ -1,0 +1,236 @@
+﻿@model FarmModel
+
+@if (!String.IsNullOrEmpty(Model.Id))
+{
+    <div class="panel panel-default">
+        <vc:admin-widget widget-zone="farm_pictures_top" additional-data="Model" />
+        <div class="panel-body">
+            <div id="farmshed-grid"></div>
+        </div>
+        <vc:admin-widget widget-zone="farm_pictures_bottom" additional-data="Model" />
+    </div>
+    <script>
+            $(document).ready(function () {
+                $("#farmshed-grid").kendoGrid({
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Html.Raw(Url.Action("FarmShedList", "Farm", new { farmId = Model.Id }))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            },
+                            update: {
+                                url:"@Html.Raw(Url.Action("FarmShedUpdate", "Farm"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            },
+                            destroy: {
+                                url: "@Html.Raw(Url.Action("FarmShedDelete", "Farm"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            }
+                        },
+                        schema: {
+                            data: "Data",
+                            total: "Total",
+                            errors: "Errors",
+                            model: {
+                                id: "Id",
+                                fields: {
+                                    Name: { editable: true, type: "string" },
+                                    Type: { editable: false, type: "string" },
+                                    Length: { editable: true, type: "string" },
+                                    Bredth: { editable: true, type: "string" },
+                                    Height: { editable: true, type: "string" },
+                                    ConstructedDate: {
+                                        editable: true, format: "{0:dd/MM/yyyy}", type: "date",   }
+                                }
+                            }
+                        },
+                        requestEnd: function(e) {
+                            if(e.type=="update") {
+                                this.read();
+                            }
+                        },
+                        error: function(e) {
+                            display_kendoui_grid_error(e);
+                            // Cancel the changes
+                            this.cancelChanges();
+                        },
+                        serverPaging: true,
+                        serverFiltering: true,
+                        serverSorting: true
+                    },
+                    pageable: {
+                        refresh: true,
+                        numeric: false,
+                        previousNext: false,
+                        info: false
+                    },
+                    editable: {
+                        confirmation: true,
+                        mode: "inline"
+                    },
+                    scrollable: false,
+                    columns: [
+                      {
+                        field: "Type",
+                        title: "@T("Admin.Livestock.Farms.Shed.Fields.Type")",
+                        minScreenWidth: 500,
+                        },
+                        {
+                        field: "Length",
+                        title: "@T("Admin.Livestock.Farms.shed.Fields.Length")",
+                        minScreenWidth: 500,
+                        },
+                        {
+                        field: "Bredth",
+                        title: "@T("Admin.Livestock.Farms.Shed.Fields.Bredth")",
+                        minScreenWidth: 500,
+                        },
+                        {
+                        field: "Height",
+                        title: "@T("Admin.Livestock.Farms.Shed.Fields.Height")",
+                        minScreenWidth: 500,
+                        },
+                        {
+                        field: "ConstructedDate",
+                        title: "@T("Admin.Livestock.Farms.Shed.Fields.ConstructedDate")",
+                        minScreenWidth: 500,
+                         template: "#= kendo.toString(kendo.parseDate(ConstructedDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
+                         //editor: ConstructedDate,
+
+                    },
+                        {
+                        command: [{
+                            name: "edit",
+                            text: {
+                                edit: "@T("Admin.Common.Edit")",
+                                update: "@T("Admin.Common.Update")",
+                                cancel: "@T("Admin.Common.Cancel")"
+                            }
+                        }, @*{
+                            name: "destroy",
+                            text: "@T("Admin.Common.Delete")"
+                        }*@],
+                        width: 200
+                    }]
+                });
+            });
+              function ConstructedDate(container, options) {
+                  $('<input type date required name="' + options.field + '"/>')
+                      .appendTo(container);
+                     
+    }
+
+    </script>
+
+    <p>
+        <strong>@T("Admin.Livestock.Farms.shed.AddNew")</strong>
+    </p>
+    <script>
+
+        $(document).ready(function () {
+            $('#addFarmShed').click(function () {
+                var type = $("#@Html.FieldIdFor(model => model.AddFarmShed.Type)").val();
+                var length = $("#@Html.FieldIdFor(model => model.AddFarmShed.Length)").val();
+                var bredth = $("#@Html.FieldIdFor(model => model.AddFarmShed.Bredth)").val();
+                var height = $("#@Html.FieldIdFor(model => model.AddFarmShed.Height)").val();
+               var date = $("#@Html.FieldIdFor(model => model.AddFarmShed.ConstructedDate)").val();
+               var name = $("#@Html.FieldIdFor(model => model.AddFarmShed.Name)").val();
+
+                var postData = {
+                    Name:name,
+                    Type: type,
+                    Length: length,
+                    Bredth: bredth,
+                    Height: height,
+                    ConstructedDate:date,
+                    farmId: '@Model.Id'
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("FarmShedAdd", "Farm"))",
+                    data: postData,
+                    success: function(data) {
+                        var grid = $("#farmshed-grid");
+                        grid.data('kendoGrid').dataSource.read();
+
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseJSON.Errors);
+
+                    }
+                });
+
+            });
+        });
+    </script>
+    <div class="form-row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmShed.Name" />
+                <admin-input asp-for="AddFarmShed.Name" />
+                <span asp-validation-for="AddFarmShed.Name"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmShed.Type" />
+                    <admin-select asp-for="AddFarmShed.Type" asp-items="ViewBag.ShedType" />
+                    <span asp-validation-for="AddFarmShed.Type"></span>
+                </div>
+            </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmShed.Length" />
+                <admin-input asp-for="AddFarmShed.Length" />
+                <span asp-validation-for="AddFarmShed.Length"></span>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmShed.Bredth" />
+                <admin-input asp-for="AddFarmShed.Bredth" />
+                <span asp-validation-for="AddFarmShed.Bredth"></span>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmShed.Height" />
+                <admin-input asp-for="AddFarmShed.Height" />
+                <span asp-validation-for="AddFarmShed.Height"></span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="AddFarmShed.ConstructedDate" class="col-md-12"/>
+                <admin-input asp-for="AddFarmShed.ConstructedDate" class="col-md-3" />
+                <span asp-validation-for="AddFarmShed.ConstructedDate"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-actions">
+                <center>
+                    <input type="button" id="addFarmShed" class="k-button" value="@T("Admin.Livestock.Farms.shed.AddButton")" />
+                </center>
+                    </div>
+            </div>
+        </div>
+
+}
+else
+{
+    <div class="note note-info">
+        @T("Admin.Livestock.Farms.shed.SaveBeforeEdit")
+    </div>
+}
+

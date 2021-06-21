@@ -1,0 +1,104 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Services.TreatmentServiceModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+          
+            <div class="x_content form">
+                <div class="form-row">
+                    <div class="form-body">
+
+
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Temp" />
+                                <admin-input asp-for="Temp" />
+                                <span asp-validation-for="Temp"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Pulse" />
+                                <admin-input asp-for="Pulse" />
+                                <span asp-validation-for="Pulse"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Respiration" />
+                                <admin-input asp-for="Respiration" />
+                                <span asp-validation-for="Respiration"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                <admin-label asp-for="DiseaseName" />
+                                <admin-select asp-for="DiseaseName" asp-items="ViewBag.Disease" />
+                                <span asp-validation-for="DiseaseName"></span>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-5">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Symptoms" />
+                                <input asp-for="Symptoms" class="form-control" type="text" />
+                                <span asp-validation-for="Symptoms"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Medicine" />
+                                <admin-select asp-for="Medicine" asp-items="ViewBag.vaccinationId" />
+                                <span asp-validation-for="Medicine"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <admin-label asp-for="Date" />
+                                <input asp-for="Date" type="date" class="form-control" />
+                                <span asp-validation-for="Date"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <admin-label asp-for="TechnicianName" />
+                                <admin-input asp-for="TechnicianName" />
+                                <span asp-validation-for="TechnicianName"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group ">
+                                <admin-label asp-for="Description" />
+                                <admin-textarea asp-for="Description" />
+                                <span asp-validation-for="Description"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="btn-group btn-group-devided">
+                                <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                                <button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

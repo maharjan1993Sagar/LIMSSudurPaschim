@@ -1,0 +1,134 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.AnimalRegistrationModel
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+@{
+    //page title
+    ViewBag.Title = "Animal Registration";
+}
+
+    
+    <div class="x_content form">
+        <div class="form-horizontal">
+           
+            <div class="form-body">
+                <div class="x_content">
+                    <div id="blogpost-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script>
+    $(document).ready(function () {
+        $("#AnimalRegistration").hide();
+          $("#blogpost-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("FarmList", "Prototype"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                  serverSorting: true,
+
+              },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+              scrollable: false,
+
+            columns: [
+                {
+                    field: "NameEnglish",
+                title: "English name",
+                width: 400,
+            },
+                {
+                    field: "Phone",
+                    title: "Phone",
+                    width: 400,
+                },
+                {
+                    field: "Category",
+                    title: "Category",
+                    width: 400,
+                },
+                { command: { text: "Add Animal", click: showAnimalRegistration }, title: " ", width: "180px" },
+
+
+            ]
+
+        });
+
+        $("#speciesid").on("change", function () {
+            var categoryId = $(this).val();
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select</option>");
+            url = "/Admin/Prototype/getBreed";
+            $.getJSON(url, { id: categoryId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        });
+
+
+      function showAnimalRegistration(e) {
+            window.location = '@Url.Action("AddAnimal", "Prototype",new { area="Admin"})'
+        }
+
+        $('#search-log').click(function () {
+            //search
+            var grid = $('#blogpost-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            //clear selected checkboxes
+
+            return false;
+        });
+
+        $('.FemaleOnly').hide();
+        $(':radio[name=Gender]').change(function () {
+
+            var value = $(this).val();
+            if (value == 'Female') {
+                $('.FemaleOnly').show();
+            }
+            else {
+                $('.FemaleOnly').hide();
+                $('.FemaleOnly input[type="text"]').val('');
+            }
+        })
+    })
+
+
+    </script>

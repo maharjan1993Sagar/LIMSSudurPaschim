@@ -1,0 +1,158 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = T("Admin.OtherOrganization.Hatchery").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="MilkCoOperative" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                        @T("Admin.MilkCooperative.List")
+                    </div>
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content form">
+                    <div class="form-horizontal">
+
+                        <div class="form-body col-md-6">
+
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="milkco-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#search-milkco').click(function () {
+            //search
+            var grid = $('#milkco-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#milkco-grid").kendoGrid({
+            toolbar: ["pdf"],
+            pdf: {
+                allPages: true,
+                avoidLinks: true,
+                paperSize: "A4",
+                margin: { top: "1cm", left: "0.5cm", right: "0.5cm", bottom: "1cm" },
+                landscape: true,
+                repeatHeaders: false,
+                template: $("#page-template").html(),
+                scale: 0.8,
+                encoded: false
+            },
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "MilkCoOperative"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "OtherOrganization.NameEnglish",
+                title: "@T("Admin.OtherOrganization.EnglishName")",
+                width: 150,
+                },
+                {
+                 title: "@T("Admin.OtherOrganization.Address")",
+                    width: 200,
+                    template: "#=OtherOrganization.LocalLevel#  #=OtherOrganization.District#"
+                },
+
+                {
+                    field: "OtherOrganization.MobileNo",
+                    title: "@T("Admin.OtherOrganization.ContactNo")",
+                    width: 100,
+                },
+                {
+                    field: "DailyCollection",
+                    title: "@T("Admin.OtherOrganizationDetails.DailyCollection")",
+                    width: 100,
+                },
+               {
+                   field: "MaleShareMembers",
+                    title: "@T("Admin.OtherOrganizationDetails.MaleShareMembers")",
+                    width: 100,
+                },
+               {
+                   field: "FemaleShareMembers",
+                    title: "@T("Admin.OtherOrganizationDetails.FemaleShareMembers")",
+                    width: 100,
+                },
+
+
+                {
+                    field: "Remarks",
+                    title: "@T("Admin.OtherOrganizationDetails.Remarks")",
+                    width: 100,
+                },
+
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+            Keyword:$("#Keyword").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>

@@ -1,0 +1,66 @@
+﻿@model BreedModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SpeciesId" />
+                    <admin-select asp-for="SpeciesId" asp-items="@ViewBag.SpeciesId"></admin-select>
+                    <span asp-validation-for="SpeciesId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Type" />
+                    <admin-select asp-for="Type" asp-items="ViewBag.Type" />
+                    <span asp-validation-for="Type"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="EnglishName" />
+                    <admin-input asp-for="EnglishName" />
+                    <span asp-validation-for="EnglishName"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="NepaliName" />
+                    <admin-input asp-for="NepaliName" />
+                    <span asp-validation-for="NepaliName"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="OriginForm" />
+                    <admin-input asp-for="OriginForm" />
+                    <span asp-validation-for="OriginForm"></span>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <admin-label asp-for="Detail" />
+                    <admin-textarea asp-for="Detail" />
+                    <span asp-validation-for="Detail"></span>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

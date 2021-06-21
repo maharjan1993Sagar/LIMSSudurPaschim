@@ -1,0 +1,89 @@
+﻿@model CustomerListModel
+@inject AdminAreaSettings adminAreaSettings
+@{ //page title
+    ViewBag.Title = T("Admin.Customers.Customers").Text; }
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    <i class="fa fa-comment"></i>
+                    @T("Admin.User.LIST")
+                </div>
+                <div class="actions btn-group btn-group-devided">
+                    <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                </div>
+            </div>
+           <div class="x_content">
+    <div id="customers-grid"></div>
+</div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+        $(document).ready(function () {
+
+            $('.extend-collapse').hide();
+            $('.filter-extend-button').click(function () {
+                $('.extend-collapse').toggle("slow");
+                $('.filter-text-close').toggle();
+            });
+
+                $("#customers-grid").kendoGrid({
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Html.Raw(Url.Action("List", "User"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            }
+                        },
+                        schema: {
+                            data: "Data",
+                            total: "Total",
+                            errors: "Errors"
+                        },
+                        error: function(e) {
+                            display_kendoui_grid_error(e);
+                            // Cancel the changes
+                            this.cancelChanges();
+                        },
+                        pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                        serverPaging: true,
+                        serverFiltering: true,
+                        serverSorting: true
+                    },
+                    pageable: {
+                        refresh: true,
+                        pageSizes: [@(adminAreaSettings.GridPageSizes)]
+                    },
+                    scrollable: false,
+                    columns: [ {
+                            field: "Email",
+                            title: "@T("Admin.Customers.Customers.Fields.Email")",
+                            width: 200,
+                        template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=Email#</a>',
+                        },
+                        {
+                            field: "FullName",
+                            title: "@T("Admin.Customers.Customers.Fields.FullName")",
+                            width: 200,
+                            encoded: true,
+                        },
+                        {
+                            field: "Phone",
+                            title: "@T("Admin.Customers.Customers.Fields.MobileNo")",
+                            width: 200,
+                            encoded: true,
+                        },
+]
+                });
+            });
+</script>
+
+
+         

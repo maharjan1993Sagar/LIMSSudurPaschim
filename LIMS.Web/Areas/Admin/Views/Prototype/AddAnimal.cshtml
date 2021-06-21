@@ -1,0 +1,209 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.AnimalRegistrationModel
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    Farm Name: krishna farm &nbsp; Mobile no: 9087656778
+
+                </div>
+            </div>
+            <div class="x_content form" id="services">
+                <form method="post" id="OwnerRegistration">
+                    <div class="row" id="AnimalRegistration">
+                        <div class="col-md-12">
+                            <div class="x_panel light form-fit">
+
+                                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                                <div class="x_title">
+
+                                    <div class="actions">
+                                        <div class="btn-group btn-group-devided">
+                                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="x_content form">
+                                    <div class="form-row">
+                                        <div class="form-body">
+
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <admin-label asp-for="SpeciesId" />
+                                                    <admin-select asp-for="SpeciesId" asp-items="ViewBag.SpeciesId" id="speciesid" />
+                                                    <span asp-validation-for="SpeciesId"></span>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <admin-label asp-for="BreedId" />
+                                                    <select class="form-control" id="breedid">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                    <span asp-validation-for="BreedId"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <admin-label asp-for="Name" />
+                                                    <admin-input asp-for="Name" />
+                                                    <span asp-validation-for="Name"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <admin-label asp-for="EarTagNo" />
+                                                    <admin-input asp-for="EarTagNo" />
+                                                    <span asp-validation-for="EarTagNo"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <admin-label asp-for="DOB" />
+                                                    <input asp-for="DOB" type="date" class="form-control form-rounded" />
+                                                    <span asp-validation-for="DOB"></span>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-md-1">
+                                                <div class="form-group No">
+                                                    <admin-label asp-for="Weight" />
+                                                    <input asp-for="Weight" type="number" min="1" class="form-control form-rounded" />
+                                                    <span asp-validation-for="Weight"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group ">
+                                                    <admin-label asp-for="AnimalColor" />
+                                                    <input asp-for="AnimalColor" class="form-control form-rounded" />
+                                                    <span asp-validation-for="AnimalColor"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <admin-label asp-for="Gender" /><br />
+
+                                                    @foreach (var c in System.Enum.GetValues(typeof(Genders)))
+                                                    {
+
+                                                        <label asp-for="Gender">@c</label>
+                                                        <input type="radio" asp-for="Gender" value="@(c)" />
+                                                    }
+
+
+
+                                                    <span asp-validation-for="Gender"></span>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group ">
+                                                    <admin-label asp-for="SireId" />
+                                                    <admin-input asp-for="SireId" />
+                                                    <span asp-validation-for="SireId"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 ">
+                                                <div class="form-group ">
+                                                    <admin-label asp-for="DamId" />
+                                                    <admin-input asp-for="DamId" />
+                                                    <span asp-validation-for="SireId"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 FemaleOnly">
+                                                <div class="form-group ">
+                                                    <admin-label asp-for="PregencyStatus" />
+                                                    <admin-input asp-for="PregencyStatus" />
+                                                    <span asp-validation-for="PregencyStatus"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 FemaleOnly">
+                                                <div class="form-group ">
+                                                    <admin-label asp-for="MilkStatus" />
+                                                    <admin-input asp-for="MilkStatus" />
+                                                    <span asp-validation-for="MilkStatus"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 FemaleOnly">
+                                                <div class="form-group">
+                                                    <admin-label asp-for="NoOFCalving" />
+                                                    <admin-input asp-for="NoOFCalving" />
+                                                    <span asp-validation-for="NoOFCalving"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <admin-label asp-for="PhysicalDefact" />
+                                                    <admin-input asp-for="PhysicalDefact" />
+                                                    <span asp-validation-for="PhysicalDefact"></span>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       
+<script>
+    $(document).ready(function () {
+
+
+        $("#speciesid").on("change", function () {
+            var categoryId = $(this).val();
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select</option>");
+            url = "/Admin/Prototype/getBreed";
+            $.getJSON(url, { id: categoryId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        });
+
+
+        
+        $('#search-log').click(function () {
+            //search
+            var grid = $('#blogpost-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            //clear selected checkboxes
+
+            return false;
+        });
+
+        $('.FemaleOnly').hide();
+        $(':radio[name=Gender]').change(function () {
+
+            var value = $(this).val();
+            if (value == 'Female') {
+                $('.FemaleOnly').show();
+            }
+            else {
+                $('.FemaleOnly').hide();
+                $('.FemaleOnly input[type="text"]').val('');
+            }
+        })
+    })
+
+
+</script>

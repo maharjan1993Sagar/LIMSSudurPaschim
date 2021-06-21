@@ -1,0 +1,98 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "Service Provider ";
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="ServiceProvider" asp-action="List" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.ServiceProvider.LIST")
+                    </div>
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content">
+                    <div id="serviceProvider-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function () {
+        $("#serviceProvider-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "ServiceProvider"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [{
+                field: "NameEnglish",
+                title: "@T("Admin.ServiceProvider.Field.EnglishName")",
+                width: 300,
+                template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode(NameEnglish)#</a>',
+            },
+                {
+                    field: "NameNepali",
+                    title: "@T("Admin.ServiceProvider.Field.NepaliName")",
+                    width: 300,
+                },
+                {
+                    field: "Provience",
+                    title: "@T("Admin.Common.Province")",
+                    width: 300,
+                },
+                {
+                    field: "District",
+                    title: "@T("Admin.Common.District")",
+                    width: 300,
+                },
+                {
+                    field: "Designation",
+                    title: "@T("Admin.ServiceProvider.Designation")",
+                    width: 300,
+                },
+
+
+
+
+            ]
+
+        });
+    });
+    </script>
+</form>

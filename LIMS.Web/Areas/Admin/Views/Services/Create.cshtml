@@ -1,0 +1,369 @@
+﻿@model LIMS.Web.Areas.Admin.Models.StatisticalData.ServicesModel
+@{
+    //page title
+    ViewBag.Title = "Service";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FarmId" />
+                                <select class="form-control" name="FarmId" id="farm"></select>
+                                <span asp-validation-for="FarmId"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="ServicesType" />
+                                <admin-select asp-for="ServicesType" asp-items="ViewBag.ServiceTypeId" onchange="getServiceData()" required="required" />
+                                <span asp-validation-for="ServicesType"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="species">
+                            <div class="form-group">
+                                <admin-label asp-for="SpeciesName" />
+                                <admin-select asp-for="SpeciesName" asp-items="ViewBag.SpeciesId" onchange="getServiceData()" />
+
+                                <span asp-validation-for="SpeciesName"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="vaccination">
+                            <div class="form-group">
+                                <admin-label asp-for="Vaccination" />
+                                <admin-select asp-for="Vaccination" asp-items="ViewBag.VaccinationId" onchange="getServiceData()" />
+                                <span asp-validation-for="Vaccination"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="animalHealth">
+                            <div class="form-group">
+                                <admin-label asp-for="AnimalHealthService" />
+                                <admin-select asp-for="AnimalHealthService" asp-items="ViewBag.AnimalHealthService" onchange="getServiceData()" />
+                                <span asp-validation-for="AnimalHealthService"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="treatment">
+                            <div class="form-group">
+                                <admin-label asp-for="TreatmentType" />
+                                <admin-select asp-for="TreatmentType" asp-items="ViewBag.TreatmentType" onchange="getServiceData()" />
+                                <span asp-validation-for="TreatmentType"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Provience" />
+                                <admin-select asp-for="Provience" id="country" />
+                                <span asp-validation-for="Provience"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select id="district" name="District" class="form-control">
+                                    <option value="">Select </option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select id="locallevel" name="LocalLevel" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                                <span asp-validation-for="LocalLevel"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Ward" />
+                                <admin-select asp-for="Ward" asp-items="ViewBag.Ward" required onchange="getServiceData()" />
+
+                                <span asp-validation-for="Ward"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYear" />
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" onchange="getServiceData()" required="required" />
+                                <span asp-validation-for="FiscalYear"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Quater" />
+                                <admin-select asp-for="Quater" asp-items="ViewBag.QuaterId" onchange="getServiceData()" required="required" />
+                                <span asp-validation-for="Quater"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Month" />
+                                <admin-select asp-for="Month" asp-items="ViewBag.Months" onchange="getServiceData()" required="required" />
+                                <span asp-validation-for="Month"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th id="abc">@T("Admin.Service.BreedName")</th>
+                                <th>@T("Admin.Service.Quantity")</th>
+                                <th>@T("Admin.Service.Unit")</th>
+                                <th>@T("Admin.Common.Tole")</th>
+                                <th>@T("Admin.Service.Date")</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabularEntry">
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" id="subumtform" class="btn btn-success" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.get('/Admin/Production/GetFarm', function (data) {
+            $.each(data, function (i, item) {
+                $("#farm").append($("<option></option>").val(this['Value']).html(this['Text']));
+            });
+        });
+        //for unit dropdown
+        $.get('/Admin/Production/GetUnit', function (data) {
+            $.each(data, function (i, item) {
+                $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+            });
+        });
+        $("#showTable").hide();
+        $("#vaccination").hide();
+        $("#treatment").hide();
+        $("#animalHealth").hide();
+
+        $("#species").hide();
+        $("#SpeciesName").on("change", function () {
+            $('#tabularEntry').html('');
+            var speciesId = $(this).val();
+
+            if (speciesId != "" || speciesId != undefined) {
+                $("#showTable").show();
+
+                url = "/Admin/Prototype/getBreed";
+                $.getJSON(url, { id: speciesId }, (data) => {
+                    $.each(data, function (i, item) {
+                        var tableRow = '<tr id="' + item.Id + '">';
+                        tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="BreedId" value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                        tableRow += '<td><input type="number" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                        tableRow += '<td>' + $('#select-units').html() + '</td>';
+                        tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
+                        tableRow += '<td><input type="date" name="Date"  class="form-control"></td>';
+                        tableRow += '</tr>';
+                        $("#tabularEntry").append(tableRow);
+                    });
+                });
+            }
+            else {
+                $("#showTable").hide();
+            }
+        });
+        $("#@Html.IdFor(m=>m.ServicesType)").change(function () {
+
+            if ($(this).val() == "AI") {
+                $("#vaccination").hide();
+                $("#species").show();
+                $("#showTable").hide();
+                $("#treatment").hide();
+                $("#animalHealth").hide();
+                $("#abc").text("Breed insiminated");
+
+            }
+            else if ($(this).val() == "Vaccination") {
+                $('#tabularEntry').html('');
+
+                $("#showTable").show();
+
+                url = "/Admin/Prototype/getSpecies";
+                $.getJSON(url, (data) => {
+                    $.each(data, function (i, item) {
+
+                        var tableRow = '<tr id="' + item.Id + '">';
+                        tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                        tableRow += '<td><input type="number" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                        tableRow += '<td>' + $('#select-units').html() + '</td>';
+                        tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
+                        tableRow += '<td><input type="date" name="Date"  class="form-control"></td>';
+                        tableRow += '</tr>';
+                        $("#tabularEntry").append(tableRow);
+                    });
+                });
+
+                $("#vaccination").show();
+                $("#treatment").hide();
+                $("#animalHealth").hide();
+                $("#species").hide();
+
+                $("#abc").text("Species vaccinated");
+            }
+            else if ($(this).val() == "Drenching") {
+                $('#tabularEntry').html('');
+                $("#treatment").hide();
+                $("#animalHealth").hide();
+                $("#showTable").show();
+
+                url = "/Admin/Prototype/getSpecies";
+                $.getJSON(url, (data) => {
+                    $.each(data, function (i, item) {
+                        var tableRow = '<tr id="' + item.Id + '">';
+                        tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                        tableRow += '<td><input type="number" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                        tableRow += '<td>' + $('#select-units').html() + '</td>';
+                        tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
+                        tableRow += '<td><input type="date" name="Date"  class="form-control"></td>';
+                        tableRow += '</tr>';
+                        $("#tabularEntry").append(tableRow);
+                    });
+                });
+
+                $("#vaccination").hide();
+                $("#species").hide();
+
+                $("#abc").text("Species drenched");
+            }
+            else if ($(this).val() == "Treatment") {
+                $('#tabularEntry').html('');
+
+                $("#showTable").show();
+
+                url = "/Admin/Prototype/getSpecies";
+                $.getJSON(url, (data) => {
+                    $.each(data, function (i, item) {
+                        var tableRow = '<tr id="' + item.Id + '">';
+                        tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                        tableRow += '<td><input type="number" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                        tableRow += '<td>' + $('#select-units').html() + '</td>';
+                        tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
+                        tableRow += '<td><input type="date" name="Date"  class="form-control"></td>';
+                        tableRow += '</tr>';
+                        $("#tabularEntry").append(tableRow);
+                    });
+                });
+
+                $("#vaccination").hide();
+                $("#species").hide();
+                $("#treatment").show();
+                $("#animalHealth").hide();
+                $("#abc").text("Species treated");
+            }
+            else if ($(this).val() == "Animal health") {
+                $('#tabularEntry').html('');
+
+                $("#showTable").show();
+
+                url = "/Admin/Prototype/getSpecies";
+                $.getJSON(url, (data) => {
+                    $.each(data, function (i, item) {
+                        var tableRow = '<tr id="' + item.Id + '">';
+                        tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                        tableRow += '<td><input type="number" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                        tableRow += '<td>' + $('#select-units').html() + '</td>';
+                        tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
+                        tableRow += '<td><input type="date" name="Date"  class="form-control"></td>';
+                        tableRow += '</tr>';
+                        $("#tabularEntry").append(tableRow);
+                    });
+                });
+
+                $("#vaccination").hide();
+                $("#species").hide();
+                $("#treatment").hide();
+                $("#animalHealth").show();
+                $("#abc").text("Species treated");
+            }
+
+
+
+        });
+        $("#@Html.IdFor(m=>m.Vaccination)").change(function () {
+            $('#tabularEntry').html('');
+
+            url = "/Admin/Prototype/GetSpeciesVaccination";
+            datas = {
+                VaccinationId: $(this).val()
+            }
+            $.getJSON(url, datas, (data) => {
+                $.each(data, function (i, item) {
+                    var tableRow = '<tr id="' + item.Id + '">';
+                    tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                    tableRow += '<td><input type="number" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                    tableRow += '<td>' + $('#select-units').html() + '</td>';
+                    tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
+                    tableRow += '<td><input type="date" name="Date"  class="form-control"></td>';
+                    tableRow += '</tr>';
+                    $("#tabularEntry").append(tableRow);
+                });
+            });
+
+
+
+        });
+    });
+        function getServiceData() {
+             var data = {
+            species: $('#@Html.IdFor(m => m.SpeciesName)').val(),
+            fiscalYearId: $('#@Html.IdFor(m => m.FiscalYear)').val(),
+            quater: $('#@Html.IdFor(m => m.Month)').val(),
+            serviceType: $('#@Html.IdFor(m => m.ServicesType)').val(),
+            vaccineName: $('#@Html.IdFor(m => m.Vaccination)').val(),
+             treatmentType: $('#@Html.IdFor(m => m.TreatmentType)').val(),
+             animalHealth: $('#@Html.IdFor(m => m.AnimalHealthService)').val(),
+             district: $('#district').val(),
+                 locallevel: $('#locallevel').val(),
+                 ward: $('#@Html.IdFor(m => m.Ward)').val()
+
+        };
+        addAntiForgeryToken(data);
+        $.post("@Url.Action("getServiceData", "Services")", data, function (result) {
+            $.each(result, function (index, item) {
+                if ($('#@Html.IdFor(m => m.ServicesType)').val() == "AI") {
+                    $('tr#' + item.Breed.Id + ' input[name="ServiceDataId"]').val(item.Id);
+                    $('tr#' + item.Breed.Id + ' input[name="Quantity"]').val(item.Quantity);
+                    $('tr#' + item.Breed.Id + ' select[name="Unit"]').val(item.Unit.Id);
+                    $('tr#' + item.Breed.Id + ' input[name="Tole"]').val(item.Tole);
+                    $('tr#' + item.Breed.Id + ' input[name="Date"]').val(item.Date);
+                    console.log(item);
+                }
+                else {
+                    $('tr#' + item.Species.Id + ' input[name="ServiceDataId"]').val(item.Id);
+                    $('tr#' + item.Species.Id + ' input[name="Quantity"]').val(item.Quantity);
+                    $('tr#' + item.Species.Id + ' select[name="Unit"]').val(item.Unit.Id);
+                    $('tr#' + item.Species.Id + ' input[name="Tole"]').val(item.Tole);
+                    $('tr#' + item.Species.Id + ' input[name="Date"]').val(item.Date);
+                    console.log(item);
+                }
+            });
+        });
+        }
+
+</script>

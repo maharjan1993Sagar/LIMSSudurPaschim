@@ -1,0 +1,124 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Activities.ActivityProgressModel
+@{
+    //page title
+    ViewBag.Title = "Livestock";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getProgressData()" required="required"/>
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="Month" />
+                                <admin-select asp-for="Month" asp-items="ViewBag.Months" onchange="getProgressData()" required="required"/>
+                                <span asp-validation-for="Month"></span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div>
+                    <table class="table table-bordered" id="showTable">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th>@T("Admin.ActivityProgress.ActivityName")</th>
+                                <th>@T("Admin.Common.Unit")</th>
+                                <th>@T("Admin.ActivityProgress.Progress")</th> 
+                            </tr>
+                        </thead>
+                        <tbody id="tabularEntry">
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" id="subumtform" class="btn btn-success" />
+                    </center>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        //for unit dropdown
+        $.get('/Admin/Production/GetUnit', function (data) {
+            $.each(data, function (i, item) {
+                $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+            });
+            $(".unit").html($('#select-units').html());
+        });
+        $("#showTable").hide();
+            $('#@Html.IdFor(m=>m.FiscalYearId)').change(function () {
+             var fiscalyear = $(this).val;
+             if (fiscalyear != "" || fiscalyear != undefined) {
+            var data = {
+                fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            }
+            addAntiForgeryToken(data);
+
+            $.post("@Url.Action("GetActivityByFiscalYear", "ActivityProgress")", data, function (result) {
+                $.each(result, function (i, item) {
+                    console.log(item);
+                    var tableRow = '<tr id="' + item.Id + '">';
+                    tableRow += '<td style="width:55%">' + item.ActivityName + '<input type="hidden" name="ActivityId" value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                    tableRow += '<td>' + $('#select-units').html() + '</td>';
+                    tableRow += '<td><input type="text" name="Progress" class="form-control" /></td>';
+
+                    tableRow += '</tr>';
+
+                    $("#tabularEntry").append(tableRow);
+                });
+                $("#showTable").show();
+
+            });
+        }
+        $("#showtable").hide();
+
+
+    });
+
+
+    });
+
+
+    function getProgressData() {
+        var data = {
+
+            fiscalYear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+              month: $('#@Html.IdFor(m => m.Month)').val(),
+        };
+        addAntiForgeryToken(data);
+        $.post("@Url.Action("FilterProgressByFiscalYear", "ActivityProgress")", data, function (result) {
+            $.each(result, function (index, item) {
+                $('tr#' + item.Activity.Id + ' input[name="ServiceDataId"]').val(item.Id);
+                $('tr#' + item.Activity.Id + ' select[name="Unit"]').val(item.Unit.Id);
+                $('tr#' + item.Activity.Id + ' input[name="Progress"]').val(item.Progress);
+
+                console.log(item);
+            });
+        });
+    }
+</script>

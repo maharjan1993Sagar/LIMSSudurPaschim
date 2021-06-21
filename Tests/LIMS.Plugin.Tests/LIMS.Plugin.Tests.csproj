@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <Copyright>Copyright © UNIT-SOFT Sp. z o.o.</Copyright>
+    <Company>UNIT-SOFT Sp. z o.o.</Company>
+    <Authors>UNIT-SOFT Sp. z o.o.</Authors>
+    <PackageProjectUrl>https://LIMS.com/</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.7.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.7.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.7.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Moq" Version="4.14.5" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LIMS.Domain\LIMS.Domain.csproj" />
+    <ProjectReference Include="..\..\LIMS.Core\LIMS.Core.csproj" />
+    <ProjectReference Include="..\..\LIMS.Framework\LIMS.Framework.csproj" />
+    <ProjectReference Include="..\..\LIMS.Services\LIMS.Services.csproj" />
+    <ProjectReference Include="..\..\LIMS.Api\LIMS.Api.csproj" />
+    <ProjectReference Include="..\..\LIMS.Web\LIMS.Web.csproj" />
+    <ProjectReference Include="..\LIMS.Services.Tests\LIMS.Services.Tests.csproj" />
+  </ItemGroup>
+</Project>

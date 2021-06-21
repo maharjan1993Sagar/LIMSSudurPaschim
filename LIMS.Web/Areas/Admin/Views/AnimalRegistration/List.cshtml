@@ -1,0 +1,250 @@
+﻿@model FarmListModel
+@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = T("Admin.Livestock.Farms").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="Farm" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                        @T("Admin.Farm.List")
+                    </div>
+                   
+                </div>
+                <div class="x_content form">
+                    <div class="form-inline">
+
+                        <div class="form-body col-md-12">
+                            <div class="form-group">
+                                <admin-label asp-for="Keyword" class="col-2 col-sm-4 col-md-2 control-label" />
+                                <div class="col-4 col-md-6 col-sm-6">
+                                    <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Search farm/farmer by name and district" />
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="farm-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#search-farms').click(function () {
+            //search
+            var grid = $('#farm-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#farm-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "Farm"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                field: "NameEnglish",
+                title: "@T("Admin.Farm.NameEnglish")",
+                width: 400,
+            },
+                {
+                    field: "Category",
+                    title: "@T("Admin.Farm.Category")",
+                    width: 200,
+                },
+                {
+                    field: "Phone",
+                    title:"@T("Admin.Farm.Phone")",
+                    width: 200,
+                },
+
+                {
+                    field: "District",
+                    title: "@T("Admin.Common.District")",
+                    width: 200,
+                },
+                {
+                    field: "LocalLevel",
+                    title:"@T("Admin.Common.LocalLevel")",
+                    width: 200,
+                },
+                {
+                    field: "Id",
+                    title: "Action",
+                    width: 200,
+                    template: '<a class="k-button k-button-icontext" href="Create?FarmId=#=Id#">Add animal</a>'
+                },
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+            Keyword: $('#@Html.FieldIdFor(model => model.Keyword)').val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "Farm ";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <div class="x_content">
+                <div id="farm-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+     $("#farm-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "Farm"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+                        columns: [{
+                field: "NameEnglish",
+                title: "@T("Admin.Farm.FarmName")",
+                width: 400,
+            },
+                {
+                    field: "Category",
+                    title: "@T("Admin.Farm.Category")",
+                    width: 200,
+                },
+                {
+                    field: "Phone",
+                    title:"@T("Admin.Farm.Phone")",
+                    width: 200,
+                },
+
+                {
+                    field: "District",
+                    title: "@T("Admin.Common.District")",
+                    width: 200,
+                },
+                {
+                    field: "LocalLevel",
+                    title:"@T("Admin.Common.LocalLevel")",
+                    width: 200,
+                            },
+                            {
+                                field: "Id",
+                                title: "Action",
+                                width: 200,
+                                template: '<a class="k-button k-button-icontext" href="Create?FarmId=#=Id#">Add animal</a>'
+                            },
+
+            ]
+        });
+
+
+    });
+</script>*@

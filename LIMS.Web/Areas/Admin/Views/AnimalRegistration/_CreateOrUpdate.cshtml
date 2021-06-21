@@ -1,0 +1,230 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.AnimalRegistrationModel
+@using LIMS.Web.Areas.Admin.Models.AInR
+<div class="row" id="AnimalRegistration">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <div class="x_title">
+                <div class="caption">
+                    Farm Name:@Model.FarmModel.NameEnglish &nbsp; Mobile no: @Model.FarmModel.MoblileNo &nbsp; District:@Model.FarmModel.District
+                </div>
+            </div>
+            <div class="x_content form">
+                <div class="form-row">
+                    <input type="hidden" asp-for="FarmId" />
+                    <input type="hidden" asp-for="Id" />
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="SpeciesId" />
+                            <admin-select asp-for="SpeciesId" asp-items="ViewBag.SpeciesId" />
+                            <span asp-validation-for="SpeciesId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="BreedType" />
+                            <admin-select asp-for="BreedType" asp-items="ViewBag.Type"  />
+                            <span asp-validation-for="BreedType"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="BreedId" />
+                            <select class="form-control" name="BreedId" id="breedid">
+                                <option value="">Select</option>
+                            </select>
+                            <span asp-validation-for="BreedId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="Name" />
+                            <admin-input asp-for="Name" />
+                            <span asp-validation-for="Name"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="EarTagNo" />
+                            <admin-input asp-for="EarTagNo" />
+                            <span asp-validation-for="EarTagNo"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="DOB" />
+                            <input asp-for="DOB" type="date" class="form-control form-rounded" />
+                            <span asp-validation-for="DOB"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group No">
+                            <admin-label asp-for="Weight" />
+                            <input asp-for="Weight" type="number" min="1" class="form-control form-rounded" />
+                            <span asp-validation-for="Weight"></span>
+                        </div>
+                    </div>
+                    @*<div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="AnimalColor" />
+                            <input asp-for="AnimalColor" class="form-control form-rounded" />
+                            <span asp-validation-for="AnimalColor"></span>
+                        </div>
+                    </div>*@
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="Gender" /><br />
+                            @foreach (var c in System.Enum.GetValues(typeof(Genders)))
+                            {
+                                <label asp-for="Gender">@c</label>
+                                <input type="radio" asp-for="Gender" value="@(c)" />
+                            }
+                            <span asp-validation-for="Gender"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="SireId" />
+                            <admin-input asp-for="SireId" />
+                            <span asp-validation-for="SireId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">
+                        <div class="form-group ">
+                            <admin-label asp-for="DamId" />
+                            <admin-input asp-for="DamId" />
+                            <span asp-validation-for="SireId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 FemaleOnly">
+                        <div class="form-group ">
+                            <admin-label asp-for="PregencyStatus" />
+                            <br />
+                            <input type="radio" class="radio" asp-for="PregencyStatus" value="Pregnancy " />Pregnent
+                            <input type="radio" class="radio" asp-for="PregencyStatus" value="NonPregnency" />Non-Pregnent
+                            <span asp-validation-for="PregencyStatus"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 FemaleOnly">
+                        <div class="form-group ">
+                            <admin-label asp-for="MilkStatus" />
+                            <br />
+                            <input type="radio" class="radio" asp-for="MilkStatus" value="Milking " />Milking
+                            <input type="radio" class="radio" asp-for="MilkStatus" value="Dryoff" />Dryoff
+                            <span asp-validation-for="MilkStatus"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 FemaleOnly">
+                        <div class="form-group">
+                            <admin-label asp-for="NoOFCalving" />
+                            <admin-input asp-for="NoOFCalving" />
+                            <span asp-validation-for="NoOFCalving"></span>
+                        </div>
+                    </div>
+                    @*<div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="EntryType" />
+                            <admin-select asp-for="EntryType" asp-items="ViewBag.EntryType" />
+                            <span asp-validation-for="EntryType"></span>
+                        </div>
+                    </div>*@
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <admin-label asp-for="PhysicalDefact" />
+                            <admin-input asp-for="PhysicalDefact" />
+                            <span asp-validation-for="PhysicalDefact"></span>
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </center>
+            </div>
+                <partial name="_AnimalList" model="Model.AnimalListModel"/>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var breedType = $("#@Html.IdFor(m=>m.BreedType)").val();
+          var species=$("#@Html.IdFor(m=>m.SpeciesId)").val();
+
+        if (breedType != "" && species!="") {
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select</option>");
+            url ="@Url.Action("GetBreed", "AnimalRegistration")";
+            var data = {
+                BreedType: breedType,
+                Species: species
+            }
+            $.getJSON(url, data, (result) => {
+                $.each(result, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        }
+        $("#@Html.IdFor(m=>m.BreedType)").on("change", function () {
+            var breedtype = $(this).val();
+            var species=$("#@Html.IdFor(m=>m.SpeciesId)").val();
+            //var breedtype = $(this).val();
+
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select</option>");
+            url = "@Url.Action("GetBreed", "AnimalRegistration")";
+            var data = {
+                BreedType: breedtype,
+                Species: species
+            }
+            addAntiForgeryToken(data);
+            $.getJSON(url, data, (result) => {
+                $.each(result, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        });
+        $("#@Html.IdFor(m=>m.SpeciesId)").on("change", function () {
+            $("#breedid").val('');
+            $("#BreedType").val('');
+
+        });
+
+
+
+
+        $('.FemaleOnly').hide();
+        $(':radio[name=Gender]').change(function () {
+
+            var value = $(this).val();
+            if (value == 'Female') {
+                $('.FemaleOnly').show();
+            }
+            else {
+                $('.FemaleOnly').hide();
+                $('.FemaleOnly input[type="text"]').val('');
+            }
+        })
+        var radioval = $(':radio[name=Gender]:checked').val();
+        if (radioval == "Female") {
+            $('.FemaleOnly').show();
+        }
+        else {
+            $('.FemaleOnly').hide();
+            $('.FemaleOnly input[type="text"]').val('');
+        }
+    })
+
+
+</script>
+
+
+
+
+

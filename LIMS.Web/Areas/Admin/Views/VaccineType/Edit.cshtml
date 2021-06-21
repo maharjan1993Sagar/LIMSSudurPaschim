@@ -1,0 +1,115 @@
+﻿@model VaccinationTypeModel
+@{
+    //page title
+    ViewBag.Title = "Vaccination Type";
+}
+<form asp-area="@Constants.AreaAdmin" asp-controller="VaccineType" asp-action="Edit" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.VaccinationType.Update")
+                        <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
+                    </div>
+                    
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="form-body">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <admin-label asp-for="Type" />
+                                    <admin-select asp-for="Type" asp-items="ViewBag.Type" />
+                                    <span asp-validation-for="Type"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="MedicalName" />
+                                    <admin-input asp-for="MedicalName" />
+                                    <span asp-validation-for="MedicalName"></span>
+
+                                </div>
+                            </div>
+
+
+                            @*<div class="col-md-3 col-sm-3">
+
+            <div class="form-group">
+                <admin-label asp-for="CommonName" />
+                <admin-input asp-for="CommonName" />
+                <span asp-validation-for="CommonName"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Brand" />
+                <admin-input asp-for="Brand" />
+                <span asp-validation-for="Brand"></span>
+
+            </div>
+        </div>*@
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="Species">Spcies</label><br>
+
+                                    @foreach (var item in ViewBag.Purpose)
+                                    {
+                                        if (Model.Species != null)
+                                        {
+                                            if (Model.Species.Contains(item.Id))
+                                            {
+                                                <input type="checkbox" name="Species" value="@item.Id" checked>
+                                                <label class="control-label">@item.EnglishName</label>
+
+                                                <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" name="Species" value="@item.Id">
+                                                <label class="control-label">@item.EnglishName</label>
+
+                                                <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" name="Species" value="@item.Id">
+                                            <label class="control-label">@item.EnglishName</label>
+
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Description" />
+                                    <admin-textarea asp-for="Description" />
+                                    <span asp-validation-for="Description"></span>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="btn-group btn-group-devided">
+                        <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                        <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                    </div>
+                </div>
+            </div>
+</form>

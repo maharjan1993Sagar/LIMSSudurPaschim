@@ -1,0 +1,150 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.LivestockReport.LivestockReportByWard
+<style>
+    .custom-td {
+        padding: 0 !important;
+        padding-top: 10px !important;
+        vertical-align: bottom !important;
+        padding-top: 10px !important;
+    }
+    h5{
+        font-size:14px;
+    }
+</style>
+<div class="row">
+
+    <div class="col-md-12">
+        <center>
+            <b>Office of the Rural Municipality</b><br />
+            <b>Livestock Service section</b><br />
+            <b>Yearly progress report -Livestock</b><br />
+        </center>
+    </div>
+    Year:&nbsp;@Model.FiscalYear
+    <div style="overflow-x: scroll; width: 100%">
+        @{
+            int k = 0;
+        }
+        @foreach (var item in Model.Species)
+        {
+            <h5>@item.SpeciesName</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2">
+                            Sn
+                        </th>
+                        <th rowspan="2">
+                            Ward
+                        </th>
+
+                        <th colspan="@item.AnimalTypes.Count()" class="custom-td">
+                            <p style="text-align:center"> Native &nbsp; @item.SpeciesName.ToLower()</p>
+
+                            @*<table style='width: 100%;'>
+                                    <tr>
+                                        @foreach (var animalType in item.AnimalTypes)
+                                        {
+                                            <td>
+                                                @animalType
+                                            </td>
+                                        }
+                                    </tr>
+                                </table>*@
+                        </th>
+                        <th colspan="@item.AnimalTypes.Count()" class="custom-td">
+                            <p style="text-align:center">
+                                Crossbred &nbsp; @item.SpeciesName.ToLower()
+                            </p>
+                            @*<table style='width: 100%;'>
+                                    <tr>
+                                        @foreach (var animalType in item.AnimalTypes)
+                                        {
+                                            <td>
+                                                @animalType
+                                            </td>
+                                        }
+                                    </tr>
+                                </table>*@
+                        </th>
+                        <th colspan="@item.AnimalTypes.Count()" class="custom-td">
+                            <p style="text-align:center">Pure exotic breed &nbsp; @item.SpeciesName.ToLower()</p>
+                            @*<table style='width: 100%;'>
+                                    <tr>
+                                        @foreach (var animalType in item.AnimalTypes)
+                                        {
+                                            <td>
+                                                @animalType
+                                            </td>
+                                        }
+                                    </tr>
+                                </table>*@
+                        </th>
+
+                    </tr>
+                    <tr>
+                        @foreach (var animalType in item.AnimalTypes)
+                        {
+                            <td>
+                                @animalType
+
+                            </td>
+                        }
+                        @foreach (var animalType in item.AnimalTypes)
+                        {
+                            <td>
+                                @animalType
+                            </td>
+                        }
+                        @foreach (var animalType in item.AnimalTypes)
+                        {
+                            <td>
+                                @animalType
+                            </td>
+                        }
+                    </tr>
+
+
+                </thead>
+                <tbody>
+                    @{ int j = 1; }
+
+                    @foreach (var z in Model.Wards)
+                    {
+                        @if (Model.LivestockwardWiseReports[k].Rows != null)
+                        {
+
+                            <tr style="text-align:right">
+                                <td>
+                                    @j
+                                </td>
+                                <td>
+                                    @z
+                                </td>
+
+
+                                @foreach (var animal in Model.LivestockwardWiseReports[k].Rows[0].AnimalTypeNo)
+                                {
+                                    <td>
+                                        @animal
+                                    </td>
+
+
+
+                                }
+                                @{j++; }
+                            </tr>
+
+                        }
+                        k++;
+
+                    }
+
+
+                </tbody>
+            </table>
+
+        }
+    </div>
+    </div>
+
+

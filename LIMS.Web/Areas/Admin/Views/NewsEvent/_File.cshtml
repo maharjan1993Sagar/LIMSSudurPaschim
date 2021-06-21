@@ -1,0 +1,18 @@
+﻿@using LIMS.Web.Areas.Admin.Models.NewsEvent
+@model NewsEventFileModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <admin-label asp-for="File"/>
+                    <admin-input asp-for="File" />
+                    <span asp-validation-for="File"></span>
+                    <label>@(Model.FileName?? "") </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,192 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = T("Admin.VaccinationInventory.VaccinationDistribution").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="ReceivedVaccination" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                        @T("Admin.VaccinationDistribution.List")
+                    </div>
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content form">
+                    <div class="form-horizontal">
+
+                        <div class="form-body col-md-6">
+                            @*<div class="form-group">
+                                    <admin-label name="Keyword" class="col-4 col-sm-4 col-md-4 control-label"  />
+                                    <div class="col-4 col-md-4 col-sm-4">
+                                        <input type="text" name="Keyword" id="keyword" />
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <button class="btn btn-success filter-submit" id="search-production">
+                                            <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                                        </button>
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="VaccinationDistribution-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#search-VaccinationDistribution').click(function () {
+            //search
+            var grid = $('#VaccinationDistribution-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#VaccinationDistribution-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "DistributedVaccination"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    },
+                     update: {
+                        url: "@Html.Raw(Url.Action("UpdateDistributedMedicine", "DistributedVaccination"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken,
+                        complete: function (response) {
+                            $("#VaccinationDistribution-grid").data("kendoGrid").dataSource.read();
+                        }
+                    },
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+                     model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            MedicineName: { editable: false },
+                            FiscalYearId: { editable: true },
+                            Fiscalyear: { editable: false },
+                            Quantity: { type: "number", validation: { min: 1, required: true } },
+                            UnitId: { editable: true },
+                            Unit: { editable: false }
+                        }
+                    }
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "MedicineName",
+                title: "@T("Admin.Vaccination.VaccinationName")",
+                width: 400,
+            },
+              {
+                  field: "FiscalYearId",
+                  title: "@T("Admin.Common.FiscalYear")",
+                  editor: fiscalYearDropDownEditor,
+
+                  width: 200,
+                  template: "#=Fiscalyear#"
+                },
+              {
+                    field: "Quantity",
+                    title: "@T("Admin.Common.Quantity")",
+                    width: 200,
+              },
+              {
+                  field: "UnitId",
+                  title: "@T("Admin.Common.Unit")",
+                  editor: unitDropDownEditor,
+                  width: 200,
+                  template: "#=Unit#"
+              },
+                { command: ["edit"], title: "&nbsp;", width: "180px" }
+
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+            Keyword:$("#Keyword").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+      function fiscalYearDropDownEditor(container, options) {
+        $('<input required name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: true,
+                dataTextField: "EnglishFiscalYear",
+                dataValueField: "Id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "@Url.Action("FiscalYearList", "FiscalYear")"
+                    }
+                }
+            });
+    }
+
+    function unitDropDownEditor(container, options) {
+        $('<input required name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: true,
+                dataTextField: "UnitShortName",
+                dataValueField: "Id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "@Url.Action("UnitList", "Unit")"
+                    }
+                }
+            });
+    }
+</script>

@@ -1,0 +1,93 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Services.AIServiceModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <div class="x_title">
+
+                
+            </div>
+            <div class="x_content form">
+                <div class="form-row">
+
+
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="BullId" />
+                            <admin-input asp-for="BullId" />
+                            <span asp-validation-for="BullId"></span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="TypeOfAi" />
+                            <admin-select asp-for="TypeOfAi" asp-items="ViewBag.TypeOfAi"/>
+                            <span asp-validation-for="TypeOfAi"></span>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-2">
+                        <div class="form-group No">
+                            <admin-label asp-for="SemenNo" />
+                            <input asp-for="SemenNo" class="form-control form-rounded" />
+                            <span asp-validation-for="SemenNo"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group No">
+                            <admin-label asp-for="NoOfWastedSemenDose" />
+                            <input asp-for="NoOfWastedSemenDose" class="form-control form-rounded" />
+                            <span asp-validation-for="NoOfWastedSemenDose"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group No">
+                            <admin-label asp-for="AIDate" />
+                            <input asp-for="AIDate" type="date" class="form-control" />
+                            <span asp-validation-for="AIDate"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="NoofAiDone" />
+                            <input asp-for="NoofAiDone" class="form-control form-rounded" />
+                            <span asp-validation-for="NoofAiDone"></span>
+                        </div>
+                    </div>
+             
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="Technician" />
+                            <input asp-for="Technician" class="form-control form-rounded" />
+                            <span asp-validation-for="Technician"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="FiscalYear" />
+                            <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYear" class="form-control" />
+                            <span asp-validation-for="FiscalYear"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+
+                        </div>
+
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,81 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Organization.NGOModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="showTable">
+            <table class="table table-bordered">
+                <thead>
+                    <tr style="text-align:center">
+                        <th>@T("Admin.OtherOrganizationDetails.OrganizationName")</th>
+                        <th>@T("Admin.Ngo.WorkingSector")</th>
+                        <th>@T("Admin.Ngo.Comodity")</th>
+                        <th>@T("Admin.Ngo.PlanPeriod")</th>
+                        <th>@T("Admin.Ngo.BenifitedGroups")</th>
+
+                        <th>@T("Admin.Ngo.Remarks")</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var items in Model.Organization)
+                    {
+                        <tr>
+                            <td>
+                                @items.NameEnglish
+                                <input type="hidden" asp-for="OtherOrganizationId" value="@items.Id">
+                            </td>
+                            <td>
+                                <admin-input asp-for="WorkingSector" />
+                            </td>
+                            <td>
+                                <admin-input asp-for="Comodity" />
+
+                            </td>
+                            <td>
+                                <admin-input asp-for="PlanPeriod" />
+
+                            </td>
+                            <td>
+                                <admin-input asp-for="BenifitedGroups" />
+
+                            </td>
+                            <td>
+                                <admin-input asp-for="Remarks" />
+
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <center>
+                <input type="submit" class="btn btn-success" />
+            </center>
+        </div>
+    </div>
+
+</form>
+
+

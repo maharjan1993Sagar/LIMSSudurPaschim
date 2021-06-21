@@ -1,0 +1,111 @@
+﻿@using LIMS.Web.Areas.Admin.Models.NewsEvent
+@model NewsEventTenderModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Type" />
+                    <admin-select asp-for="Type" asp-items="@ViewBag.Type"></admin-select>
+                    <span asp-validation-for="Type"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="HasTitle" /><br />
+                    <admin-input asp-for="HasTitle" />
+                    <span asp-validation-for="HasTitle"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="ShowText" /><br />
+                    <admin-input asp-for="ShowText" />
+                    <span asp-validation-for="ShowText"></span>
+
+                </div>
+            </div> <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="IsScroll" /><br />
+                    <admin-input asp-for="IsScroll" />
+                    <span asp-validation-for="IsScroll"></span>
+
+                </div>
+            </div> <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="IsModalPopup" /><br />
+                    <admin-input asp-for="IsModalPopup" />
+                    <span asp-validation-for="IsModalPopup"></span>
+
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+
+                <div class="form-group">
+                    <admin-label asp-for="Title" />
+                    <admin-input asp-for="Title" />
+                    <span asp-validation-for="Title"></span>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <admin-label asp-for="Description" />
+                    <admin-textarea asp-for="Description" />
+                    <span asp-validation-for="Description"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="ActiveDate" />
+                  @*  <partial name="DateTime" model="Model.ActiveDate" />*@
+                    <admin-input asp-for="ActiveDate"/>
+                    <span asp-validation-for="ActiveDate"></span>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="ExpiryDate" />
+                    @*<partial name="DateTime" model="Model.ExpiryDate" />*@
+                    <admin-input asp-for="ExpiryDate" />
+                    <span asp-validation-for="ExpiryDate"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="IsActive" />
+                    <admin-input asp-for="IsActive" />
+                    <span asp-validation-for="IsActive"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="FileModel.File"/>
+                    <admin-input asp-for="FileModel.File"/>
+                    <span asp-validation-for="FileModel.File"></span>
+                    <label>@(Model.FileModel.FileName)</label>
+                </div>
+            </div>
+           
+           
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,149 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "Service Provider ";
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="ServiceProvider" asp-action="PprsTechList" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.ServiceProvider.LIST")
+                    </div>
+
+                </div>
+                <div class="x_content form">
+                    <div class="form-inline">
+
+                        <div class="form-body col-md-12">
+                            <div class="form-group">
+                                <label  class="col-2 col-sm-4 col-md-2 control-label">Filter</label>
+                                <div class="col-4 col-md-6 col-sm-6">
+                                    <input name="keyword" id="keyword" class="form-control" style="width: inherit!important" placeholder="Search Technician by name and district" />
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <button class="btn btn-success filter-submit" id="search-pprs" style="font-size: 13px!important;">
+                                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="serviceProvider-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#search-pprs').click(function () {
+                //search
+                var grid = $('#serviceProvider-grid').data('kendoGrid');
+                grid.dataSource.page(1); //new search. Set page size to 1
+                //grid.dataSource.read(); we already loaded the grid above using "page" function
+                return false;
+            });
+            $("#serviceProvider-grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("PPRSTechList", "ServiceProvider"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: additionalData
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors"
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: [@(adminAreaSettings.GridPageSizes)]
+                },
+                editable: {
+                    confirmation: false,
+                    mode: "inline"
+                },
+                scrollable: false,
+                columns: [{
+                    field: "NameEnglish",
+                    title: "@T("Admin.ServiceProvider.Field.EnglishName")",
+                    width: 300,
+                },
+                {
+                    field: "NameNepali",
+                    title: "@T("Admin.ServiceProvider.Field.NepaliName")",
+                    width: 300,
+                },
+                {
+                    field: "Email",
+                    title: "@T("Admin.ServiceProvider.Field.Email")",
+                    width: 300,
+                },
+                {
+                    field: "Provience",
+                    title: "@T("Admin.Common.Province")",
+                    width: 300,
+                },
+                {
+                    field: "District",
+                    title: "@T("Admin.Common.District")",
+                    width: 300,
+                },
+                {
+                    field: "ProfessionalType",
+                    title: "@T("Admin.ServiceProvider.ProfessionalType")",
+                    width: 300,
+                },
+
+                {
+                    field: "Designation",
+                    title: "@T("Admin.ServiceProvider.Designation")",
+                    width: 300,
+                },
+
+
+
+
+                ]
+
+            });
+        });
+          function additionalData() {
+        var data = {
+            keyword: $('#keyword').val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+    </script>
+</form>

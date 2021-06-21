@@ -1,0 +1,20 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Recording.MilkRecordingModel
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <div class="x_content form" id="services">
+
+                <form method="post" asp-action="CreateMilkRecording">
+                    <partial name="_CreateOrUpdate.MilkRecordingForm" model="Model" />
+                </form>
+              
+
+            </div>
+        </div>
+    </div>
+</div>
+

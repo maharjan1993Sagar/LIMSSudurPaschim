@@ -1,0 +1,725 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Dashboard.DashboardModel
+<style>
+   
+ 
+
+    .textside {
+        margin-left: 25px;
+    }
+
+   
+   
+
+
+  
+    .inforide {
+        box-shadow: 1px 2px 8px 0px #f1f1f1;
+        border-radius: 8px;
+        height: 150px;
+    }
+    canvas {
+    }
+
+    .chart-container {
+        height: 400px !important;
+    }
+
+
+    .rideone {
+        /*        padding-top: 25px;
+    */ border-radius: 8px 0px 0px 8px;
+        height: 125px;
+        margin-left: 2px;
+        text-align: center;
+    }
+
+    .fontsty {
+        margin-right: -15px;
+    }
+        .fontsty h2 {
+            color: #6E6E6E;
+            font-size: 35px;
+            margin-top: 15px;
+            text-align: right;
+            margin-right: 30px;
+        }
+
+        .fontsty h5 {
+            color: #6E6E6E;
+            font-size: 15px;
+            margin-top: 20px;
+            text-align: right;
+            margin-right: 30px;
+        }
+        .fontsty h4 {
+            color: #6E6E6E;
+            font-size: 15px;
+            margin-top: 20px;
+            text-align: right;
+            margin-right: 30px;
+        }
+
+    </style>
+@inject LIMS.Core.IWorkContext workContext
+
+@{
+    //page title
+    ViewBag.Title = T("Admin.OtherOrganization.Hatchery").Text;
+    var organizationName = workContext.CurrentCustomer.OrgName;
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+
+
+}
+<div style=" display: inline-block !important;">
+    @if (roles.Contains("Administrators")) { }
+    else if (roles.Contains("NlboAdmin") || roles.Contains("NlboUser"))
+    {<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/cow.png" height="120px" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Total cow:@Model.Cow</h4>
+                    <h4>Milking  cow:@Model.MilkingCow</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/goat.png" height="120px" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Total goat:@Model.Goat</h4>
+                    <h4>Male:@Model.MaleGoat Female:@Model.FemaleGoat</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/Buffalo.png" height="120px" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Total buffalo:@Model.Buffalo</h4>
+                    <h4>Milking buffalo:@Model.MilkingBuffalo</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/farm.png" height="120px" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Total farm/farmer:@Model.Farm</h4>
+                    <h4>Private:@Model.PrivateFarm Public:@Model.PublicFarm</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/Vaccination.png" height="120px" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Total Vaccination:@Model.Vaccination</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/Ai.png" height="120px" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Total AI:@Model.Ai</h4>
+
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/cow.png" style="height:140px;width:85px;" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h5>Milking  cow:@Model.MilkingCow</h5>
+
+                    <h5>Total cow:@Model.Cow</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/goat.png" style="height:140px;width:85px;" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Total goat:@Model.Goat</h4>
+                    <h4>Male:@Model.MaleGoat Female:@Model.FemaleGoat</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img src="~/Images/Buffalo.png" height="120px" width="85px" />
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4>Milking buffalo:@Model.MilkingBuffalo</h4>
+
+                    <h4>Total buffalo:@Model.Buffalo</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                    <img style="height:140px; width:85px; object-fit: cover;" src="/Images/farm.png">
+
+
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                    <h4> farm/farmer:@Model.Farm</h4>
+                    <h4>Private:@Model.PrivateFarm Public:@Model.PublicFarm</h4>
+
+                </div>
+            </div>
+        </div>
+        <div id="myChart" class="col-md-6" style="height:400px; " >
+            <canvas id="canvas"></canvas>
+        </div>
+        <br />
+        <div id="myChart2" class="col-md-6" style="position: relative;height:400px; ">
+            <canvas id="canvas1"></canvas>
+        </div>
+        <div id="myChart3" class="col-md-6" style="position: relative;height:400px; ">
+            <canvas id="canvas2"></canvas>
+        </div>
+        <div id="myChart4" class="col-md-6" style="position: relative;height:400px;">
+            <canvas id="canvas3"></canvas>
+        </div>
+        <div id="myChart5" class="col-md-6" style="position: relative;height:400px; ">
+            <canvas id="canvas4"></canvas>
+        </div>
+        <div id="myChart6" class="col-md-6" style="position: relative; height:400px;">
+            <canvas id="canvas5"></canvas>
+        </div>
+
+    }
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.esm.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/helpers.esm.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/helpers.esm.min.js" integrity="sha512-4OeC7P+qUXB7Kpyeu1r5Y209JLXfCkwGKDpk8vnXzeNGMnpTr6hzOz2lMm7h0oxRBVu2ZCPRkCBPMmIlWsbaHg==" crossorigin="anonymous"></script>
+<script>
+
+
+    var url ="@Url.Action("GetAiData", "dashboard")";
+    var labels, values;
+    $.get(url, function (data) {
+        labels = data.yaxis;
+       var cow = data.Cow;
+       var buffalo = data.Buffalo;
+        chartData = [
+            {
+                label: 'cow',
+                data: cow,
+                backgroundColor: '#428bca',
+            },
+            {
+                label: 'buffalo',
+                data: buffalo,
+                backgroundColor: 'red',
+            },
+
+        ];
+        colors = [
+            { // 1st Year.
+                backgroundColor: 'rgba(77,83,96,0.2)'
+            },
+            { // 2nd Year.
+                backgroundColor: 'rgba(77,83,96,0.2)'
+            }
+        ];
+        BuildChart(labels, chartData, "AI trend", colors);
+
+    });
+
+
+    // CHART COLOR.
+
+    function BuildChart(labels, values, chartTitle, colors) {
+        var parent = $("#canvas").parent();/* document.getElementById("canvas").parentElement;*/
+       $("canvas#canvas").remove();
+        parent.append('<canvas id="canvas"></canvas>');
+        var ctx = $("#canvas").get(0).getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            options: {
+
+
+                scales: {
+                    y: {
+                        min: 0,
+                        suggestedMax: 2000,
+
+                        stepSize: 100,
+                        title: {
+                            display: true,
+                            text: 'No of aninal'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fiscal year'
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: { display: true },
+
+                    title: {
+                        display: true,
+                        text: 'Ai progress by fiscal year'
+                    },
+                  
+
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            },
+            data: {
+                labels: labels, // Our labels
+                datasets: values,
+
+            },
+
+
+        });
+        return myChart;
+    }
+
+    var url1 ="@Url.Action("GetVaccinationData", "dashboard")";
+    var labels1, values1;
+    $.get(url1, function (data) {
+        labels1 = data.yaxis;
+       var cows = data.Cow;
+       var buffalos = data.Buffalo;
+        chartDatas = [
+            {
+                label: 'cow',
+                data: cows,
+                backgroundColor: '#428bca',
+            },
+            {
+                label: 'buffalo',
+                data: buffalos,
+                backgroundColor: 'red',
+            },
+
+        ];
+        colors1 = [
+            { // 1st Year.
+                backgroundColor: 'rgba(77,83,96,0.2)'
+            },
+            { // 2nd Year.
+                backgroundColor: 'rgba(77,83,96,0.2)'
+            }
+        ];
+        BuildChartvaccine(labels1, chartDatas, "vaccination trend", colors1);
+
+    });
+
+
+    // CHART COLOR.
+
+    function BuildChartvaccine(labels, values, chartTitle, colors1) {
+
+        var parent = $("#canvas1").parent();/* document.getElementById("canvas").parentElement;*/
+        $("canvas#canvas1").remove();
+        parent.append('<canvas id="canvas1"></canvas>');
+        var ctx2 = $("#canvas1").get(0).getContext("2d");
+
+        var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: labels, // Our labels
+                datasets: values,
+
+            },
+
+            options: {
+
+                scales: {
+                    
+                    y: {
+                        min: 0,
+                        suggestedMax: 2000,
+                        title: {
+                            display: true,
+                            text: 'No of aninal'
+                        },
+
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fiscal year',
+                        },
+                    },
+
+                },
+                plugins: {
+                    title: {
+
+                        display: true,
+                        text: 'Vaccination against FMD in large ruminent animal in fiscal year'
+                    },
+                },
+                responsive: true,
+                maintainAspectRatio: false
+                }
+
+
+        });
+        return myChart2;
+    }
+
+
+      var url2 ="@Url.Action("GetMilkProductionData", "dashboard")";
+    var labels3, values3;
+    $.get(url2, function (data) {
+        labels3 = data.yaxis;
+        values3 = data.xaxis;
+        piecolors = [];
+        //for (let i = 0; i < data.xaxis.length; i++) {
+        //   piecolors.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+        //}
+        chartDatas = [
+            {
+                label: 'milk',
+                data: values3,
+                backgroundColor: "#428bca",
+            },
+
+
+        ];
+
+        BuildChartProduction(labels3, chartDatas, "vaccination trend", chartDatas);
+
+    });
+
+    function BuildChartProduction(labels, values, chartTitle, colors1) {
+
+        var parent = $("#canvas2").parent();/* document.getElementById("canvas").parentElement;*/
+        $("canvas#canvas2").remove();
+        parent.append('<canvas id="canvas2"></canvas>');
+        var ctx2 = $("#canvas2").get(0).getContext("2d");
+
+        var myChart2 = new Chart(ctx2, {
+            type:'bar',
+
+            data: {
+                labels: labels, // Our labels
+                datasets: values,
+
+            },
+
+            options: {
+                responsive: true,
+
+                scales: {
+                    y: {
+                        min: 0,
+                        suggestedMax: 2000,
+                        title: {
+                            display: true,
+                            text: 'Milk Production in MT'
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fiscal year'
+                        },
+                    },
+                },
+                plugins: {
+                   
+                    title: {
+
+                        display: true,
+                        text: 'Milk production'
+                    },
+                   
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+
+
+        });
+        return myChart2;
+    }
+
+
+
+
+     var url3 ="@Url.Action("GetMeatProduction", "dashboard")";
+    var labels4, values4;
+    $.get(url3, function (data) {
+        labels4 = data.yaxis;
+        values4 = data.xaxis;
+        piecolors1 = [];
+        for (let i = 0; i < data.xaxis.length; i++) {
+           piecolors1.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+        }
+        chartDatas1 = [
+            {
+                label: 'meat',
+                data: values4,
+                backgroundColor: "#428bca",
+            },
+
+
+        ];
+
+        BuildChartMeat(labels4, chartDatas1, "vaccination trend", piecolors1);
+
+    });
+
+    function BuildChartMeat(labels, values, chartTitle, colors1) {
+
+        var parent = $("#canvas3").parent();/* document.getElementById("canvas").parentElement;*/
+        $("canvas#canvas3").remove();
+        parent.append('<canvas id="canvas3"></canvas>');
+        var ctx3 = $("#canvas3").get(0).getContext("2d");
+
+        var myChart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: labels, // Our labels
+                datasets: values,
+
+            },
+
+            options: {
+
+                scales: {
+                    y: {
+                        min: 0,
+                        suggestedMax: 2000,
+                        title: {
+                            display: true,
+                            text: 'Meat production in MT.'
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fiscal year'
+                        },
+                    },
+                },
+
+                plugins: {
+                    title: {
+
+                        display: true,
+                        text: 'Meat production'
+                    },
+                    
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+
+
+        });
+        return myChart3;
+    }
+
+
+
+     var url5="@Url.Action("GetEggProduction", "dashboard")";
+    var labels5, values5;
+    $.get(url5, function (data) {
+        labels5 = data.yaxis;
+        values5= data.xaxis;
+        piecolors1 = [];
+        for (let i = 0; i < data.xaxis.length; i++) {
+           piecolors1.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+        }
+        chartDatas2 = [
+            {
+                label: 'Egg',
+                data: values5,
+                backgroundColor: "#428bca",
+            },
+
+
+        ];
+
+        BuildChartEgg(labels5, chartDatas2, "vaccination trend", piecolors1);
+
+    });
+
+    function BuildChartEgg(labels, values, chartTitle, colors1) {
+
+        var parent = $("#canvas4").parent();/* document.getElementById("canvas").parentElement;*/
+        $("canvas#canvas4").remove();
+        parent.append('<canvas id="canvas4"></canvas>');
+        var ctx3 = $("#canvas4").get(0).getContext("2d");
+
+        var myChart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: labels, // Our labels
+                datasets: values,
+
+            },
+
+            options: {
+
+                scales: {
+                    y: {
+                        min: 0,
+                        suggestedMax: 2000,
+                        title: {
+                            display: true,
+                            text: 'No of eggs in "000"'
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fiscal year'
+                        },
+                    },
+                },
+                plugins: {
+                    title: {
+
+                        display: true,
+                        text: 'Egg production'
+                    },
+                    
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+
+
+        });
+        return myChart3;
+    }
+
+
+      var url6="@Url.Action("GetWoolProduction", "dashboard")";
+    var labels6, values6;
+    $.get(url6, function (data) {
+        labels6 = data.yaxis;
+        values6= data.xaxis;
+        piecolors1 = [];
+        for (let i = 0; i < data.xaxis.length; i++) {
+           piecolors1.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+        }
+        chartDatas3 = [
+            {
+                label: 'Wool',
+                data: values6,
+                backgroundColor: "#428bca",
+            },
+
+
+        ];
+
+        BuildChartWool(labels6, chartDatas3, "vaccination trend", piecolors1);
+
+    });
+
+    function BuildChartWool(labels, values, chartTitle, colors1) {
+
+        var parent = $("#canvas5").parent();/* document.getElementById("canvas").parentElement;*/
+        $("canvas#canvas5").remove();
+        parent.append('<canvas id="canvas5"></canvas>');
+        var ctx3 = $("#canvas5").get(0).getContext("2d");
+
+        var myChart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: labels, // Our labels
+                datasets: values,
+
+            },
+
+            options: {
+                responsive: true,
+
+                scales: {
+                    y: {
+                        min: 0,
+                        suggestedMax: 2000,
+                        title: {
+                            display: true,
+                            text: 'Wool production in kg'
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fiscal year'
+                        },
+                    },
+                },
+            
+                plugins: {
+                    title: {
+
+                        display: true,
+                        text: 'Wool production'
+                    },
+                                   
+                            
+                },
+                  responsive: true,
+                maintainAspectRatio: false  
+            }
+
+
+        });
+        return myChart3;
+    }
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Reports.AIReport>
+@inject LIMS.Core.IWorkContext workContext
+
+@{
+    //page title
+    ViewBag.Title = T("Admin.OtherOrganization.Hatchery").Text;
+    var organizationName = workContext.CurrentCustomer.OrgName;
+
+
+}
+<div class="row">
+    <div class="col-md-12">
+
+        <center><b>Veterinary Hospital and Livestock Service Expert Center</b></center>
+        <center>
+            <b>
+                Progress report of Artificial Insemination (AI)  under VH&LSEC and local municipality level
+            </b>
+        </center>
+    </div>
+    <div class="col-md-12">
+
+        <div class="col-md-5">
+            Fiscal Year: @Model.FirstOrDefault().FiscalYear
+        </div>
+
+        @organizationName
+
+
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr style="text-align:center">
+                <th>
+                    S.n
+                </th>
+                <th>
+                    Name of municipility
+                </th>
+                <th>
+                    Cow
+                </th>
+                <th>
+                    Buffalo
+                </th>
+                <th>
+                    Goat
+                </th>
+                <th>
+                    Pig
+                </th>
+                <th>
+                    Total
+                </th>
+                <th>
+                    Remarks
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @i
+                    </td>
+                    <td>
+                        @item.Municipility
+                    </td>
+                    <td style="text-align:right">
+                        @item.Cow
+                    </td>
+                    <td style="text-align:right">
+                        @item.Buffalo
+                    </td>
+                    <td style="text-align:right">
+                        @item.Goat
+                    </td>
+                    <td style="text-align:right">
+                        @item.Pig
+                    </td>
+                    <td style="text-align:right">
+                        @item.Total
+                    </td>
+                    <th>
+
+                    </th>
+                </tr>
+                i++;
+            }
+        </tbody>
+
+    </table>
+</div>

@@ -1,0 +1,64 @@
+﻿@model LIMS.Web.Areas.Admin.Models.MedicineReportModel
+
+<div class="col-md-12">
+    <center>
+        <b>Office of the Rural Municipality</b><br />
+        <b>Livestock Service section</b><br />
+        <b>Yearly progress report</b><br />
+    </center>
+</div>
+
+<b>Year:</b>&nbsp;@Model.FiscalYear&nbsp;
+<b>Month:</b>&nbsp;@Model.Month
+<table class="table table-bordered">
+    <thead>
+        <tr style="text-align:center">
+            <th>
+                S.N.
+            </th>
+            <th>
+                Name of medicine
+            </th>
+            <th>
+                Unit
+            </th>
+            <th>
+                Total stock
+            </th>
+            <th>
+                Distribution of this month
+            </th>
+            <th>
+                Remaining stock
+            </th>
+        </tr>
+    </thead>
+    @{int i = 1;}
+    <tbody>
+        @foreach (var item in Model.BaseMedicineReportModels)
+        {
+            <tr>
+                <td style="text-align:right">
+                    @i
+                </td>
+                <td>
+                    @item.MedicineName
+                </td>
+                <td>
+                    @item.Unit
+                </td>
+                <td style="text-align:right">
+                    @item.TotalStock
+                </td>
+                <td style="text-align:right">
+                    @item.Distribution
+                </td>
+                <td style="text-align:right">
+                    @item.RemaningStock
+                </td>
+            </tr>
+            i++;
+
+        }
+    </tbody>
+</table>

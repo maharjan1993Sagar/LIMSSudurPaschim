@@ -1,0 +1,44 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.LivestockReport
+
+<form method="post"  id="productionreport">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYear" required="required" />
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <br/>
+            <input type="submit" class="btn btn-success" />
+            </div>
+        </div>
+</form>
+<br />
+<div id="result"></div>
+
+<script>
+    $('#productionreport').submit(function (e) {
+        var data = {
+            fiscalyear: $('#FiscalYear').val()
+        }
+        addAntiForgeryToken(data);
+        e.preventDefault();
+        $.ajax({
+            cache: false,
+            url: '/Admin/ProductionReport/ProductionReportHtml',
+            data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+            type: "POST",
+            success: function (response) {
+                if (response.success) {
+                    $('#result').html(response.livestockWardWiseReportHtml);
+                }
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+</script>

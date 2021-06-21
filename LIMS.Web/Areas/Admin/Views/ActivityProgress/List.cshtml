@@ -1,0 +1,132 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = T("Admin.Activity.Progress").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="Target" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                        @T("Admin.Progress.List")
+                    </div>
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content form">
+                    <div class="form-horizontal">
+
+                        <div class="form-body col-md-6">
+
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="target-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#search-target').click(function () {
+            //search
+            var grid = $('#target-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#target-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "ActivityProgress"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "ActivityName",
+                title: "@T("Admin.Activity.ActivityName")",
+                width: 400,
+            },
+
+               {
+                   field: "Progress",
+                    title: "@T("Admin.ActivityProgress.Progress")",
+                    width: 200,
+                },
+                {
+                    field: "FiscalYear",
+                    title: "@T("Admin.Common.FiscalYear")",
+                    width: 200,
+                },
+                 {
+                    field: "Month",
+                    title: "@T("Admin.Common.Month")",
+                    width: 200,
+                },
+
+
+                {
+                    field: "UnitName",
+                   title: "@T("Admin.Common.Unit")",
+                    width: 200,
+                }
+
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+            Keyword:$("#Keyword").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>

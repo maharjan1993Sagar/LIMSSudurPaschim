@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  LIMS.web:
+    image: ${DOCKER_REGISTRY-}LIMSweb
+    ulimits:
+        nofile:
+            soft: 1048576
+            hard: 1048576
+    build:
+      context: .
+      dockerfile: LIMS.Web/Dockerfile

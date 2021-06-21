@@ -1,0 +1,75 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Breed.BreedModel
+@{
+    //page title
+    ViewBag.Title = "Breed";
+}
+<form method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="form-body">
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="SpeciesId" />
+                                    <admin-select asp-for="SpeciesId" asp-items="@ViewBag.SpeciesId"></admin-select>
+                                    <span asp-validation-for="SpeciesId"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="EnglishName" />
+                                    <admin-input asp-for="EnglishName" />
+                                    <span asp-validation-for="EnglishName"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NepaliName" />
+                                    <admin-input asp-for="NepaliName" />
+                                    <span asp-validation-for="NepaliName"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <admin-label asp-for="OriginForm" />
+                                    <admin-input asp-for="OriginForm" />
+                                    <span asp-validation-for="OriginForm"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="Detail" />
+                                        <admin-textarea asp-for="Detail" />
+                                        <span asp-validation-for="Detail"></span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+                </div>
+            </div>
+</form>

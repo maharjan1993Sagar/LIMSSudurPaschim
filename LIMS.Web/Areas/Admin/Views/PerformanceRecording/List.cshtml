@@ -1,0 +1,188 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model AnimalListModel
+<form asp-area="@Constants.AreaAdmin" asp-controller="PerformanceRecording" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                    </div>
+                    
+                </div>
+                <div class="x_content form">
+                    <div class="form-inline">
+
+                        <div class="form-body col-md-12">
+                            <div class="form-group">
+                                <admin-label asp-for="Keyword" class="col-2 col-sm-4 col-md-2 control-label" />
+                                <div class="col-4 col-md-6 col-sm-6">
+                                    <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Search animal by name and eartag" />
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="animal-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @*<div class="x_content form">
+        <div class="form-inline">
+            <div class="form-body col-md-12">
+                <div class="form-group">
+                    <admin-label asp-for="Keyword" class="col-4 col-sm-4 col-md-4 control-label" />
+                    <div class="col-4 col-md-6 col-sm-6">
+                        <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Search animal by name and eartag" />
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                            <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-actions d-flex flex-column w-100">
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="x_content">
+                <div id="animal-grid"></div>
+            </div>
+        </div>
+    </div>*@
+
+</form>
+<script>
+    $(document).ready(function () {
+        $('#search-farms').click(function () {
+            //search
+            var grid = $('#animal-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+        $("#animal-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "PerformanceRecording"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    title: "@T("Admin.AnimalRegistration.SpeciesId")",
+                    width: 300,
+                    template: '#=Species.EnglishName != null ? Species.EnglishName : ""#'
+
+
+                },
+                {
+                    field: "Name",
+                    title: "@T("Admin.AnimalRegistration.Name")",
+                    width: 300,
+                },
+                {
+                    field: "EarTagNo",
+                    title: "@T("Admin.AnimalRegistration.EarTagNo")",
+                    width: 300,
+                },
+                 {
+                    field: "Farm.NameEnglish",
+                    title: "@T("Admin.AnimalRegistration.FarmName")",
+                    width: 300,
+                },
+                {
+                    field: "Farm.Category",
+                    title: "@T("Admin.farm.Category")",
+                    width: 300,
+                },
+                  {
+                    field: "Gender",
+                    title: "@T("Admin.AnimalRegistration.Gender")",
+                    width: 300,
+                },
+
+                    {
+                        field: "SireId",
+                    title: "@T("Admin.AnimalRegistration.SireId")",
+                    width: 300,
+                },
+                    {
+                        field: "DamId",
+                    title: "@T("Admin.AnimalRegistration.DamId")",
+                    width: 300,
+                },
+                {
+                    field: "Id",
+                    title: "Action",
+                    width: 200,
+                    template: '<a class="k-button k-button-icontext" href="PerformanceTab?animalid=#=Id#">Select animal</a>'
+                },
+
+
+            ]
+
+        });
+        function additionalData() {
+               var data = {
+                      Keyword: $('#@Html.FieldIdFor(model => model.Keyword)').val()
+                 };
+                addAntiForgeryToken(data);
+                return data;
+             }
+    });
+</script>

@@ -1,0 +1,145 @@
+﻿@model LIMS.Web.Areas.Admin.Models.VaccinationInventory.ReceivedVaccineModel
+@{
+    //page title
+    ViewBag.Title = "Received Vaccine";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Date" style="display:block" />
+                                <admin-input asp-for="Date" required="required" />
+                                <span asp-validation-for="Date"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="Propose" />
+                                <admin-select asp-for="Propose" asp-items="ViewBag.Purpose" required="required" />
+                                <span asp-validation-for="Propose"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="ReceivedBy" />
+                                <admin-select asp-for="ReceivedBy" asp-items="ViewBag.Received" required="required" />
+                                <span asp-validation-for="ReceivedBy"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="amountId">
+                            <div class="form-group">
+                                <admin-label asp-for="Amount" />
+                                <admin-input asp-for="Amount" type="number"  />
+                                <span asp-validation-for="Amount"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="receivedFrom">
+                            <div class="form-group">
+                                <admin-label asp-for="ReceivedFrom" />
+                                <admin-input asp-for="ReceivedFrom" type="number"  />
+                                <span asp-validation-for="ReceivedFrom"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="text-align:center">
+
+                                <th>@T("Admin.Vaccine.VaccinationName")</th>
+
+                                <th>@T("Admin.Common.Quantity")</th>
+                                <th>@T("Admin.Common.Unit")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.VaccinationType)
+                            {
+
+                                <tr id="@item.Id">
+                                    <td>
+                                        @item.MedicalName
+                                        <input type="hidden" name="VaccinationTypeId" value="@item.Id" class="form-control" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number" name="Quantity" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" class="form-control" />
+
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" id="subumtform" class="btn btn-success" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+<script>
+    $(document).ready(function () {
+        if ($("#@Html.FieldIdFor(m=>m.ReceivedBy)").val() == "Bought") {
+            $("#amountId").show();
+        }
+        else if ($("#@Html.FieldIdFor(m=>m.ReceivedBy)").val() == "Funded") {
+            $("#receivedFrom").show();
+
+        }
+        else {
+            $("#amountId").hide();
+            $("#receivedFrom").hide();
+
+        }
+        $("#@Html.FieldIdFor(m=>m.ReceivedBy)").change(function () {
+            if ($(this).val()) {
+                if ($(this).val() == "Bought") {
+                    $("#amountId").show();
+                    $("#ReceivedFrom").val('');
+                    $("#receivedFrom").hide();
+                }
+                else {
+                    $("#receivedFrom").show();
+                    $("#Amount").val('');
+                    $("#amountId").hide();
+                }
+            }
+            else {
+                $("#amountId").hide();
+                $("#receivedFrom").hide();
+            }
+        });
+    });
+</script>

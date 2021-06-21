@@ -1,0 +1,53 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.EarTagChange
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <div class="x_title">
+
+
+            </div>
+            <div class="x_content form">
+                <div class="form-row">
+
+
+
+
+
+
+
+
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="NewEartag" />
+                            <admin-input asp-for="NewEartag" />
+                            <span asp-validation-for="NewEartag"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="TagChangeDate" />
+                            <input asp-for="TagChangeDate" class="form-control" type="date" />
+                            <span asp-validation-for="TagChangeDate"></span>
+
+                        </div>
+                    </div>
+                    
+
+
+                    <div class="col-md-12">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

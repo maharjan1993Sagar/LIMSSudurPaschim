@@ -1,0 +1,116 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.AnimalRegistrationModel
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+@{
+    //page title
+    ViewBag.Title = "Performance Recording";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+
+
+                </div>
+            </div>
+            <div class="x_content">
+                <div id="services-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#services").hide();
+
+        $("#services-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ServicesList", "Prototype"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "Name",
+                    title: "Animal name",
+                    width: 200,
+                },
+                {
+                    field: "FarmModel.NameEnglish",
+                    title: "Farm name",
+                    width: 200,
+                },
+                {
+                    field: "EarTagNo",
+                    title: "Ear tag no",
+                    width: 200,
+                },
+                {
+                    field: "FarmModel.Category",
+                    title: "Category",
+                    width: 200,
+                },
+                {
+                    field: "FarmModel.Phone",
+                    title: "Phone",
+                    width: 200,
+                },
+                { command: { text: "Select animal", click: showForms }, title: " ", width: "200px" },
+
+
+            ]
+
+        });
+
+        $('#search-log').click(function () {
+            //search
+            var grid = $('#services-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            //clear selected checkboxes
+
+            return false;
+        });
+
+
+        function showForms() {
+            window.location = '@Url.Action("MovementTab", "Prototype",new { area="Admin"})'
+
+                //$("#services").show();
+
+        }
+    });
+
+
+</script>

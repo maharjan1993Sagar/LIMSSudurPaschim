@@ -1,0 +1,152 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Organization.OtherOrganizationModel
+<div asp-validation-summary="ModelOnly"></div>
+
+<div class="x_content form">
+    <div class="form-row">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <admin-label asp-for="NameNepali" />
+                <admin-input asp-for="NameNepali" />
+                <span asp-validation-for="NameNepali"></span>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <admin-label asp-for="NameEnglish" />
+                <admin-input asp-for="NameEnglish" />
+                <span asp-validation-for="NameEnglish"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Type" />
+                <admin-select asp-for="Type" asp-items="ViewBag.Type" />
+                <span asp-validation-for="Type"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Provience" />
+                <admin-select asp-for="Provience" id="country" data-val="@Model.Provience" />
+                <span asp-validation-for="Provience"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select name="District" id="district" data-val="@Model.District" class="form-control">
+                    <option value="">Select </option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select name="LocalLevel" id="locallevel" data-val="@Model.LocalLevel" class="form-control">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+
+            </div>
+        </div>
+        <div class="col-md-1">
+
+            <div class="form-group">
+                <admin-label asp-for="Ward" />
+                <admin-input asp-for="Ward" />
+                <span asp-validation-for="Ward"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Tole" />
+                <admin-input asp-for="Tole" />
+                <span asp-validation-for="Tole"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2 ">
+
+            <div class="form-group">
+                <admin-label asp-for="Phone" />
+                <admin-input asp-for="Phone" />
+                <span asp-validation-for="Phone"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Email" />
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Phone"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="ContactPersonName" />
+                <input asp-for="ContactPersonName" class="form-control" />
+                <span asp-validation-for="ContactPersonName"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="MobileNo" />
+                <input asp-for="MobileNo" class="form-control" />
+                <span asp-validation-for="MobileNo"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Proprietor" />
+                <input asp-for="Proprietor" class="form-control" />
+                <span asp-validation-for="Proprietor"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="ContactNo" />
+                <input asp-for="ContactNo" class="form-control" />
+                <span asp-validation-for="ContactNo"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3 ">
+
+            <div class="form-group">
+                <admin-label asp-for="Website" />
+                <admin-input asp-for="Website" />
+                <span asp-validation-for="Website"></span>
+
+            </div>
+        </div>
+    </div>
+</div>
+

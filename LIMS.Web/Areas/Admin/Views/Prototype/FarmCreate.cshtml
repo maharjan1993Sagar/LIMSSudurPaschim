@@ -1,0 +1,435 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.FarmModel
+@{
+    //page title
+    ViewBag.Title = "Farm";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row row">
+                        
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Category" />
+                                    <admin-select asp-for="Category" asp-items="@ViewBag.Category" id="category"></admin-select>
+                                    <span asp-validation-for="Category"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NameNepali" />
+                                    <admin-input asp-for="NameNepali" />
+                                    <span asp-validation-for="NameNepali"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NameEnglish" />
+                                    <admin-input asp-for="NameEnglish" />
+                                    <span asp-validation-for="NameEnglish"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 farmonly">
+                                <div class="form-group ">
+                                    <admin-label asp-for="FarmType" />
+                                    <admin-select asp-for="FarmType" asp-items="@ViewBag.farmType"></admin-select>
+                                    <span asp-validation-for="FarmType"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="RegNo" />
+                                    <admin-input asp-for="RegNo" />
+                                    <span asp-validation-for="RegNo"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Provience" />
+                                    <admin-select asp-for="Provience"  id="country" />
+                                    <span asp-validation-for="Provience"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="District" />
+                                    <select id="district" class="form-control">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="District"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="LocalLevel" />
+                                    <select id="locallevel" class="form-control">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="LocalLevel"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Ward" />
+                                    <admin-input asp-for="Ward" />
+                                    <span asp-validation-for="Ward"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Tole" />
+                                    <admin-input asp-for="Tole" />
+                                    <span asp-validation-for="Tole"></span>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="PanNO" />
+                                    <admin-input asp-for="PanNO" />
+                                    <span asp-validation-for="PanNO"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="CitizenshipNo" />
+                                    <admin-input asp-for="CitizenshipNo" />
+                                    <span asp-validation-for="CitizenshipNo"></span>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="RegisteredDate" />
+                                    <admin-input asp-for="RegisteredDate" />
+                                    <span asp-validation-for="RegisteredDate"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="RegNo" />
+                                    <admin-input asp-for="RegNo" />
+                                    <span asp-validation-for="RegNo"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Phone" />
+                                    <admin-input asp-for="Phone" />
+                                    <span asp-validation-for="Phone"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Email" />
+                                    <admin-input asp-for="Email" type="email" />
+                                    <span asp-validation-for="Email"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="URL" />
+                                    <admin-input asp-for="URL" />
+                                    <span asp-validation-for="URL"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NatureOfWork" />
+                                    <admin-input asp-for="NatureOfWork" />
+                                    <span asp-validation-for="NatureOfWork"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="MunicipalityTaxIdentificationNumber" />
+                                    <admin-input asp-for="MunicipalityTaxIdentificationNumber" />
+                                    <span asp-validation-for="MunicipalityTaxIdentificationNumber"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 farmeronly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="FarmerEthnicity" />
+                                    <admin-select asp-for="FarmerEthnicity" asp-items="ViewBag.EthinicGroup" />
+                                    <span asp-validation-for="FarmerEthnicity"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 farmeronly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="EducationQualification" />
+                                    <admin-select asp-for="EducationQualification" asp-items="ViewBag.Education" />
+                                    <span asp-validation-for="EducationQualification"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 farmeronly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="ForeignJobExperience" /><br />
+                                    <input type="radio" class="radio" asp-for="ForeignJobExperience" value="Yes" />Yes
+                                    <input type="radio" class="radio" asp-for="ForeignJobExperience" value="No" />No
+                                    <span asp-validation-for="ForeignJobExperience"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="RoadFacility" /><br />
+                                    <input type="radio" class="radio" asp-for="RoadFacility" value="Yes" />Yes
+                                    <input type="radio" class="radio" asp-for="RoadFacility" value="No" />No
+                                    <span asp-validation-for="RoadFacility"></span>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="DrinkingWaterFacility" /><br />
+                                    <input type="radio" class="radio" asp-for="DrinkingWaterFacility" value="Yes" />Yes
+                                    <input type="radio" class="radio" asp-for="DrinkingWaterFacility" value="No" />No
+                                    <span asp-validation-for="DrinkingWaterFacility"></span>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="ElectricityFacility" /><br />
+                                    <input type="radio" class="radio" asp-for="ElectricityFacility" value="Yes" />Yes
+                                    <input type="radio" class="radio" asp-for="ElectricityFacility" value="No" />No
+                                    <span asp-validation-for="ElectricityFacility"></span>
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="DistanceFromHighway" />
+                                    <admin-input asp-for="DistanceFromHighway" />
+                                    <span asp-validation-for="DistanceFromHighway"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="DistanceFromRoad" />
+                                    <admin-input asp-for="DistanceFromRoad" />
+                                    <span asp-validation-for="DistanceFromRoad"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="HouseNear100M" />
+                                    <admin-input asp-for="HouseNear100M" />
+                                    <span asp-validation-for="HouseNear100M"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="HouseNear50M" />
+                                    <admin-input asp-for="HouseNear50M" />
+                                    <span asp-validation-for="HouseNear50M"></span>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-2 farmonly">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Pprs" /><br />
+                                    <input type="radio" class="radio" asp-for="Pprs" value="Yes" />Yes
+                                    <input type="radio" class="radio" asp-for="Pprs" value="No" />No
+                                    <span asp-validation-for="Pprs"></span>
+
+                                </div>
+                            </div>
+
+                           
+                        
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="Citizenship" />
+                                        <admin-input asp-for="Citizenship" />
+                                        <span asp-validation-for="Citizenship"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="Image" />
+                                        <admin-input asp-for="Image" />
+                                        <span asp-validation-for="Image"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="PanCertificate" />
+                                        <admin-input asp-for="PanCertificate" />
+                                        <span asp-validation-for="PanCertificate"></span>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3 farmonly">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="RegistrationCertificate" />
+                                        <admin-input asp-for="RegistrationCertificate" />
+                                        <span asp-validation-for="RegistrationCertificate"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 farmonly">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="TaxClearanceCertificate" />
+                                        <admin-input asp-for="TaxClearanceCertificate" />
+                                        <span asp-validation-for="TaxClearanceCertificate"></span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        var $locations = $('#district');
+        // var html= '<option value="' +  + '">' + "---select---" + '</option>'
+        //$locations.html(html);
+        $('#country').change(function () {
+            var country = $(this).val(), lcns = locations[country] || [];
+            var html = $.map(lcns, function (lcn) {
+                return '<option value="' + lcn + '">' + lcn + '</option>'
+            }).join('');
+            var options = '<option value="">  select  </option>';
+            $locations.html(options + html)
+        });
+        var $local = $('#locallevel');
+        $('#district').change(function () {
+            var location = $(this).val(), lcn = local[location] || [];
+            var html = $.map(lcn, function (lc) {
+                return '<option value="' + lc + '">' + lc + '</option>'
+            }).join('');
+            var options = '<option value="">  select  </option>';
+            $local.html(options + html)
+        });
+
+
+
+        $(".farmonly").hide();
+        $(".farmeronly").hide();
+        $("#category").change(function () {
+            var category = $(this).val();
+            if (category == "farmer") {
+                $('.farmonly input[type="text"]').val('');
+                $(".farmonly").hide();
+                $(".farmeronly").show();
+            }
+            if (category == "farm") {
+                $('.farmeronly input[type="text"]').val('');
+                $(".farmonly").show();
+                $(".farmeronly").hide();
+            }
+            if (category == "") {
+                $('.farmeronly input[type="text"]').val('');
+                $('.farmonly input[type="text"]').val('');
+                $(".farmonly").hide();
+                $(".farmeronly").hide();
+            }
+        })
+    });
+
+
+</script>

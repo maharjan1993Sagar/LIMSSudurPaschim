@@ -1,0 +1,49 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Activities.ActivityModel
+<div class="x_content form">
+    <div class="form-row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-2 col-sm-2">
+
+            <div class="form-group">
+                <admin-label asp-for="FiscalYearId" />
+                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" />
+                <span asp-validation-for="FiscalYearId"></span>
+
+
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-5">
+
+            <div class="form-group">
+                <admin-label asp-for="ActivityName"></admin-label>
+                <admin-input asp-for="ActivityName" type="text" class="form-control" />
+                <span asp-validation-for="ActivityName"></span>
+
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-5">
+
+            <div class="form-group">
+                <admin-label asp-for="ActivityNameNepali" />
+                <admin-input asp-for="ActivityNameNepali" />
+                <span asp-validation-for="ActivityNameNepali"></span>
+
+
+            </div>
+        </div>
+
+        @*<div class="col-md-4 col-sm-4">
+
+            <div class="form-group">
+                <admin-label asp-for="Description" />
+                <admin-textarea asp-for="Description" />
+                <span asp-validation-for="Description"></span>
+
+
+            </div>
+        </div>*@
+
+    </div>
+</div>
+
+

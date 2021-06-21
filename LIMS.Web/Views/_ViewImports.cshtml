@@ -1,0 +1,25 @@
+﻿@inherits LIMS.Framework.Mvc.Razor.LIMSRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@*we remove the default InputTagHelper to prevent the checkbox duplicating: https://stackoverflow.com/questions/42544961/asp-net-core-custom-input-tag-helper-rendering-duplicate-checkboxes*@
+@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.InputTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, LIMS.Framework
+@addTagHelper *, LIMS.Web
+@addTagHelper *, MiniProfiler.AspNetCore.Mvc
+
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using System.Net
+@using LIMS.Framework
+@using LIMS.Framework.UI
+@using LIMS.Framework.Extensions
+@using LIMS.Framework.Security.Captcha
+@using LIMS.Framework.Security.Honeypot
+@using LIMS.Framework.Themes
+@using LIMS.Web.Extensions
+@using LIMS.Web.Models.Common
+@using LIMS.Web.Models.Customer
+@using LIMS.Web.Models.PrivateMessages
+@using LIMS.Web.Models.Profile
+@using LIMS.Core
+@using LIMS.Domain
+@using LIMS.Domain.Common
+@using LIMS.Domain.Seo

@@ -1,0 +1,302 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Services.AIServiceModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <admin-label asp-for="FarmName" />
+                                    <input class="form-control" name="FarmName" id="farm" required="required" />
+                                    <input type="hidden" name="FarmId" id="FarmId" value="@Model.FarmId" />
+                                    <span asp-validation-for="FarmId"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="MobileNo" />
+                                    <admin-input asp-for="MobileNo" />
+                                    <span asp-validation-for="MobileNo"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Eartag" />
+                                    <input class="form-control" name="Eartag" id="Eartag" required="required" />
+
+                                    @*<admin-input asp-for="Eartag" />*@
+                                    <span asp-validation-for="Eartag"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="AnimalName" />
+                                    <input class="form-control" name="AnimalName" id="AnimalName" required="required" />
+                                    @*<admin-input asp-for="AnimalName" />*@
+                                    <input type="hidden" name="AnimalId" id="AnimalId" value="@Model.AnimalId" />
+                                    <span asp-validation-for="AnimalName"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="SpeciesId" />
+                                    <admin-select asp-for="SpeciesId" asp-items="ViewBag.SpeciesId" />
+                                    <span asp-validation-for="SpeciesId"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="BreedId" />
+                                    <select name="BreedId" class="form-control" id="breedid">
+                                        <option value="">Select</option>
+                                    </select>
+                                    <span asp-validation-for="BreedId"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="FiscalYear" />
+                                    <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" required="required" />
+                                    <span asp-validation-for="FiscalYear"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Technician" />
+                                    <admin-input asp-for="Technician" required="required" />
+                                    <span asp-validation-for="Technician"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="BullId" />
+                                    <admin-input asp-for="BullId" />
+                                    <span asp-validation-for="BullId"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="TypeOfAi" />
+                                    <admin-select asp-for="TypeOfAi" asp-items="ViewBag.TypeOfAi" />
+                                    <span asp-validation-for="TypeOfAi"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group No">
+                                    <admin-label asp-for="SemenNo" />
+                                    <input asp-for="SemenNo" class="form-control form-rounded" />
+                                    <span asp-validation-for="SemenNo"></span>
+                                </div>
+                            </div>
+                            @*<div class="col-md-2">
+            <div class="form-group No">
+                <admin-label asp-for="NoOfWastedSemenDose" />
+                <input asp-for="NoOfWastedSemenDose" class="form-control form-rounded" />
+                <span asp-validation-for="NoOfWastedSemenDose"></span>
+            </div>
+        </div>*@
+                            <div class="col-md-2">
+                                <div class="form-group No">
+                                    <admin-label asp-for="AIDate" />
+                                    <admin-input asp-for="AIDate" class="form-control" />
+                                    <span asp-validation-for="AIDate"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div>
+                        <center>
+                            <input type="submit" id="subumtform" class="btn btn-success" />
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+<script>
+    $(document).ready(function () {
+
+        var species = $("#SpeciesId").val();
+        if (species != "") {
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select</option>");
+            url = "/Admin/Prototype/getBreed";
+            $.getJSON(url, { id: species }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        }
+        $("#SpeciesId").on("change", function () {
+            var categoryId = $(this).val();
+            $("#breedid").empty();
+            $("#breedid").append("<option value=''>Select</option>");
+            url = "/Admin/Prototype/getBreed";
+            $.getJSON(url, { id: categoryId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        });
+
+    });
+
+    $(document).ready(function () {
+        $("#farm").kendoAutoComplete({
+            dataTextField: "NameEnglish",
+            filter: "contains",
+            minLength: 3,
+            dataSource: {
+                type: "json",
+                // serverFiltering: true,
+                transport: {
+                    read: {
+                        url: "@Url.Action("SearchFarmAutoComplete", "Farm")",
+                        data: onFarmAdditionalData,
+
+                    },
+                },
+              pageSize: 5
+
+            },
+            select: onFarmSelect,
+            filtering: onFarmFiltering,
+        });
+        function onFarmAdditionalData() {
+            return {
+                term: $("#farm").val()
+            };
+        }
+        function onFarmSelect(e) {
+            $('#FarmId').val(e.dataItem.Id);
+            $('#MobileNo').val(e.dataItem.MobileNo);
+            $("#@Html.IdFor(m=>m.Eartag)").kendoAutoComplete({
+                dataTextField: "EarTagNo",
+                filter: "contains",
+                minLength: 3,
+                dataSource: {
+                    type: "json",
+                    // serverFiltering: true,
+                    transport: {
+                        read: {
+                            type: 'GET',
+                            url: "@Url.Action("SearchAnimalAutoComplete", "AnimalRegistration")",
+                            data: onEartagAdditionalData,
+                        },
+                    },
+                    pageSize: 5
+                },
+                select: onEarTagSelect,
+                filtering: onEartagFiltering,
+            });
+            $("#AnimalName").kendoAutoComplete({
+                dataTextField: "Name",
+                filter: "contains",
+                minLength: 3,
+                dataSource: {
+                    type: "json",
+                    // serverFiltering: true,
+                    transport: {
+                        read: {
+                            type: 'GET',
+                            url: "@Url.Action("SearchAnimalAutoComplete", "AnimalRegistration")",
+                            data: onAnimalAdditionalData,
+                        },
+                    },
+                    pageSize: 5
+                },
+                select: onAnimalSelect,
+                filtering: onAnimalFiltering,
+            });
+            // console.log(e.dataItem);
+        }
+
+        function onFarmFiltering() {
+            $('#FarmId').val('');
+            $('#MobileNo').val('');
+        }
+
+        function onAnimalAdditionalData() {
+            return {
+                term: $("#AnimalName").val(),
+                farm: $("#FarmId").val()
+            };
+        }
+        function onEartagAdditionalData() {
+            return {
+                term: $("#EarTag").val(),
+                farm: $("#FarmId").val()
+            };
+        }
+
+        function onEarTagSelect(e) {
+            $('#AnimalId').val(e.dataItem.Id);
+            $('#SpeciesId').val(e.dataItem.SpeciesId);
+            if (e.dataItem.SpeciesId) {
+                $("#breedid").empty();
+                $("#breedid").append("<option value=''>Select</option>");
+                url = "/Admin/Prototype/getBreed";
+                $.getJSON(url, { id: e.dataItem.SpeciesId }, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                    });
+                    $('#breedid').val(e.dataItem.BreedId);
+                });
+            }
+
+            $('#AnimalName').val(e.dataItem.Name);
+            var animal = document.getElementById('AnimalName');
+            animal.setAttribute("readonly", "readonly");
+            
+            
+            console.log(e.dataItem);
+        }
+        function onAnimalSelect(e) {
+            $('#AnimalId').val(e.dataItem.Id);
+            $('#SpeciesId').val(e.dataItem.SpeciesId);
+            if (e.dataItem.SpeciesId) {
+                $("#breedid").empty();
+                $("#breedid").append("<option value=''>Select</option>");
+                url = "/Admin/Prototype/getBreed";
+                $.getJSON(url, { id: e.dataItem.SpeciesId }, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                    });
+                    $('#breedid').val(e.dataItem.BreedId);
+                });
+            }
+           
+            $('#Eartag').val(e.dataItem.EarTagNo);
+            var eartag = document.getElementById("Eartag");
+            eartag.setAttribute("readonly", "readonly");
+            
+            console.log(e.dataItem);
+        }
+        function onAnimalFiltering() {
+            $('#AnimalId').val('');
+            $('#SpeciesId').val('');
+         //   $('#Eartag').val('');
+        }
+        function onEartagFiltering() {
+            $('#AnimalId').val('');
+            $('#SpeciesId').val('');
+            //$('#AnimalName').val('');
+        }
+    });
+</script>

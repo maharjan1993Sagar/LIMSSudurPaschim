@@ -1,0 +1,111 @@
+﻿@model LIMS.Web.Areas.Admin.Models.MedicineInventory.MedicineProgressModel
+@{
+    //page title
+    ViewBag.Title = "Received medicine";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="Month" />
+                                <admin-select asp-for="Month" asp-items=" ViewBag.Months" required="required" />
+                                <span asp-validation-for="Month"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="Date" />
+                                <admin-input asp-for="Date"  required="required" />
+                                <span asp-validation-for="Date"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="text-align:center">
+                       <th>@T("Admin.Medicine.VaccinationName")</th>
+                                @*<td>@T("Admin.Medicine.Specification")</td>*@
+
+                                <th>@T("Admin.Common.Quantity")</th>
+                                <th>@T("Admin.Common.Unit")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.VaccinationType)
+                            {
+                            <tr id="@item.Id">
+                                <td >
+                                    @item.MedicalName
+                                    <input type="hidden" name="MedicineId" value="@item.Id" class="form-control" />
+                                    <input type="hidden" name="ReceivedMedicineId" value="" class="form-control" />
+                                </td>
+                               
+                                <td>
+                                    <input type="number" name="Quantity" class="form-control" />
+                                </td>
+                                <td>
+                                    <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" class="form-control" />
+
+                                </td>
+                            </tr>
+                                    }
+                            
+
+                            </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" id="subumtform" class="btn btn-success" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+<script>
+     function getReceivedData() {
+        var data = {
+
+
+            fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            month:$('#@Html.IdFor(m => m.Month)').val()
+
+        };
+        addAntiForgeryToken(data);
+        $.post("@Url.Action("GetReceivedMedicine", "ReceivedMedicine")", data, function (result) {
+            $.each(result, function (index, item) {
+                $('tr#' + item.Vaccination.Id + ' input[name="ReceivedMedicineId"]').val(item.Id);
+                $('tr#' + item.Vaccination.Id + ' input[name="Quantity"]').val(item.Quantity);
+                $('tr#' + item.Vaccination.Id + ' select[name="UnitId"]').val(item.Unit.Id);
+               
+                console.log(item);
+            });
+        });
+    }
+
+</script>

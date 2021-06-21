@@ -1,0 +1,380 @@
+﻿@model LIMS.Web.Areas.Admin.Models.MoAMAC.LssModel
+<div asp-validation-summary="ModelOnly"></div>
+
+<div class="x_content form">
+    <div class="form-row">
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CustomerId" />
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="VhlsecId" />
+                <admin-select asp-for="VhlsecId" asp-items="ViewBag.VhlsecId" />
+                <span asp-validation-for="VhlsecId"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="NameNepali" />
+                <admin-input asp-for="NameNepali" />
+                <span asp-validation-for="NameNepali"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="NameEnglish" />
+                <admin-input asp-for="NameEnglish" />
+                <span asp-validation-for="NameEnglish"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Provience" />
+                <select name="Provience" id="country" data-val="@Model.Provience" class="form-control">
+                   
+                </select>                
+                <span asp-validation-for="Provience"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select data-val="@Model.District" name="District" id="district" class="form-control">
+                    <option value="">Select </option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select name="LocalLevel" data-val="@Model.LocalLevel" id="locallevel" class="form-control">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+
+            </div>
+        </div>
+        <div class="col-md-1">
+
+            <div class="form-group">
+                <admin-label asp-for="Ward" />
+                <admin-input asp-for="Ward" />
+                <span asp-validation-for="Ward"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Tole" />
+                <admin-input asp-for="Tole" />
+                <span asp-validation-for="Tole"></span>
+
+            </div>
+        </div>
+
+
+
+        <div class="col-md-2 ">
+
+            <div class="form-group">
+                <admin-label asp-for="Phone" />
+                <admin-input asp-for="Phone" />
+                <span asp-validation-for="Phone"></span>
+
+            </div>
+        </div>
+       
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Email" />
+                    <input asp-for="Email" type="email" class="form-control"  />
+                    <span asp-validation-for="Phone"></span>
+
+                </div>
+            </div>
+
+        <div class="col-md-3 ">
+
+            <div class="form-group">
+                <admin-label asp-for="Website" />
+                <admin-input asp-for="Website" />
+                <span asp-validation-for="Website"></span>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">User Details</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 ">
+
+                            <div class="form-group">
+                                <admin-label asp-for="UserNameEnglish" />
+                                <admin-input asp-for="UserNameEnglish" />
+                                <span asp-validation-for="UserNameEnglish"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 ">
+
+                            <div class="form-group">
+                                <admin-label asp-for="UserNameNepali" />
+                                <admin-input asp-for="UserNameNepali" />
+                                <span asp-validation-for="UserNameNepali"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 ">
+
+                            <div class="form-group">
+                                <admin-label asp-for="UserProvince" />
+                                <select name="UserProvince" id="usercountry" data-val="@Model.UserProvince" class="form-control">
+                                    <option value=""> select</option>
+                                </select>
+                                @*<admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry" />*@
+                                <span asp-validation-for="Provience"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select name="UserDistrict" id="userdistrict" data-val="@Model.UserDistrict" class="form-control">
+                                    <option value=""> select</option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="UserLocalLevel" />
+                                <select name="UserLocalLevel" id="userlocallevel" data-val="@Model.UserLocalLevel" class="form-control">
+                                    <option value=""> select</option>
+                                </select>
+                                <span asp-validation-for="UserLocalLevel"></span>
+
+                            </div>
+                        </div>
+                       
+
+
+                        @if (Model.CustomerId != null)
+                        {
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="UserEmail" />
+                                    <input asp-for="UserEmail" type="email" class="form-control" readonly />
+                                    <span asp-validation-for="UserEmail"></span>
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="UserEmail" />
+                                    <admin-input asp-for="UserEmail" />
+                                    <span asp-validation-for="UserEmail"></span>
+
+                                </div>
+                            </div>
+
+
+                        }
+
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Password" />
+                                <admin-input asp-for="Password" />
+                                <span asp-validation-for="Password"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                <admin-label asp-for="IDCardNo" />
+                                <admin-input asp-for="IDCardNo" />
+                                <span asp-validation-for="IDCardNo"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                <admin-label asp-for="PhoneNo" />
+                                <admin-input asp-for="PhoneNo" />
+                                <span asp-validation-for="PhoneNo"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                <admin-label asp-for="Position" />
+                                <admin-input asp-for="Position" />
+                                <span asp-validation-for="Position"></span>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+         var province = $("#usercountry").data("val");
+            url = "@Url.Action("GetProvince", "LocalStructure")";
+            $.getJSON(url, (result) => {
+                console.log(result);
+                $.each(result, function (item, value) {
+                    var selectedAttr = "";
+                    if (province == value)
+                        selectedAttr = "selected";
+                    $("#usercountry").append(`<option value="${value}" ${selectedAttr}>${value}</option>`);
+                });
+            });
+
+        if (province) {
+            // $(`#country option[value="`+province+`"]`).prop('selected', true);
+
+            var dis = $("#userdistrict").attr('data-val');
+             $("#userdistrict").empty();
+                $("#userdistrict").append('<option value="">select</option>')
+                url = "@Url.Action("GetDistrict", "LocalStructure")";
+                var data = {
+                    province: province
+                }
+                $.getJSON(url, data, (result) => {
+
+                    $.each(result, function (item1, value1) {
+                        if (value1 == dis) {
+                            $("#userdistrict").append(`<option value="${value1}" selected>${value1}</option>`);
+                        }
+                        else {
+                            $("#userdistrict").append(`<option value="${value1}">${value1}</option>`);
+
+                        }
+                        });
+                });
+            //  $("#district").val(dis);
+            if (dis) {
+                $("#userlocallevel").empty();
+                $("#userlocalLevel").append('<option value="">select</option>');
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: dis
+                }
+                $.getJSON(url, data, (result) => {
+                    $.each(result, function (item, value) {
+                        var local = $("#userlocallevel").attr('data-val');
+                        if (value == local) {
+                            $("#userlocallevel").append(`<option value="${value}" selected>${value}</option>`);
+                        }
+                        else {
+                            $("#userlocallevel").append(`<option value="${value}">${value}</option>`);
+
+                        }
+                        });
+
+                })
+            }
+            else {
+                $("#userdistrict").empty();
+                $("#userdistrict").append('<option value="">select</option>')
+                url = "@Url.Action("GetDistrict", "LocalStructure")";
+                var data = {
+                    province: province
+                }
+                $.getJSON(url, data, (result) => {
+
+                    $.each(result, function (item1, value1) {
+
+                        $("#userdistrict").append(`<option value="${value1}">${value1}</option>`);
+                    });
+                });
+            }
+        }
+            $('#usercountry').change(function () {
+                var province = $(this).val();
+                $("#userdistrict").empty();
+                $("#userdistrict").append('<option value="">select</option>')
+                url = "@Url.Action("GetDistrict", "LocalStructure")";
+                var data = {
+                    province: province
+                }
+                $.getJSON(url, data, (result) => {
+
+                    $.each(result, function (item1, value1) {
+                        $("#userdistrict").append(`<option value="${value1}">${value1}</option>`);
+                    });
+                });
+            });
+            var $local = $('#userlocallevel');
+            $('#userdistrict').change(function () {
+                var district = $(this).val();
+                $("#userlocallevel").empty();
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: district
+                }
+                $.getJSON(url, data, (result) => {
+                    $("#userlocallevel").append('<option value="">select</option>')
+                    $.each(result, function (item, value) {
+                        $("#userlocallevel").append(`<option value="${value}">${value}</option>`);
+                    });
+
+                })
+
+            });
+
+
+
+
+
+
+
+
+       
+
+
+
+    })
+
+
+</script>

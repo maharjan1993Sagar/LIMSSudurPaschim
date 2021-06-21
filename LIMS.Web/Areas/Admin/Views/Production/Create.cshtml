@@ -1,0 +1,266 @@
+﻿@model LIMS.Web.Areas.Admin.Models.StatisticalData.ProductionModel
+@{
+    //page title
+    ViewBag.Title = "Livestock";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FarmId" />
+                                <select class="form-control" name="FarmId" id="farm"></select>
+                                <span asp-validation-for="FarmId"></span>
+                            </div>
+                        </div>
+                      
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="ProductionType" />
+                                <admin-select asp-for="ProductionType" asp-items="ViewBag.ProductionTypeId" onchange="getProductionData()" required="required" />
+                                <span asp-validation-for="ProductionType"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Provience" />
+                                <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
+                                <span asp-validation-for="Provience"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select id="district" name="District" data-val="@Model.District" class="form-control">
+                                    <option value="">Select </option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                                <span asp-validation-for="LocalLevel"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYear" />
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId"  required="required" onchange="getProductionData()" />
+                                <span asp-validation-for="FiscalYear"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Quater" />
+                                <admin-select asp-for="Quater" asp-items="ViewBag.QuaterId"  required="required" onchange="getProductionData()" />
+                                <span asp-validation-for="Quater"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <table class="table table-bordered" id="showTable">
+                        <thead>
+                            <tr>
+                                <td>@T("Admin.Production.SpeciesName")</td>
+                                <td>@T("Admin.Production.Quantity")</td>
+                                <td>@T("Admin.Production.Unit")</td>
+                                <td>@T("Admin.Common.Ward")</td>
+                                <td>@T("Admin.Common.Tole")</td>
+                                <td>@T("Admin.Production.ProductionDate")</td>
+                            </tr>
+                        </thead>
+                        <tbody id="tabularEntry">
+                            @*@foreach(var item in Model.Species) {
+                            <tr id="@item.Id">
+                                <td>
+                                    @item.EnglishName
+                                    <input type="hidden" name="SpeciesId" value=@item.Id />
+                                    <input type="hidden" name="ProductionDataId" value="" />
+                                </td>
+                                <td>
+                                    <input type="number" name="Quantity" class="form-control" />
+                                </td>
+                                <td class="unit">
+                                   
+
+                                </td>
+                                <td>
+                                    <input type="text" name="Ward" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" name="Tole" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="date" name="ProductionDate" class="form-control">
+                                </td>
+                            </tr>
+                                
+                            }*@
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" id="subumtform" class="btn btn-success" />
+                    </center>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $.get('/Admin/Production/GetFarm', function (data) {
+            $.each(data, function (i, item) {
+                $("#farm").append($("<option></option>").val(this['Value']).html(this['Text']));
+            });
+        });
+        //for unit dropdown
+     
+        $("#showTable").hide();
+        console.log($('#select-units').html());
+
+        $("#@Html.IdFor(m=>m.ProductionType)").on("change", async function () {
+            var production = $(this).val();
+
+            await $.get('/Admin/Production/GetUnit', function (data) {
+                $('#select-units select')
+                    .find('option')
+                    .remove();
+                $.each(data, function (i, item) {
+                   
+                    if (production == "Milk") {
+                      
+                        if (item.Text == "Lt.") {
+                            $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                        }
+                        else {
+                            $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+
+                        }
+                    }
+                    else if (production == "Meat")
+                    {
+                       
+                            if (item.Text == "Kg.") {
+                                $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                            }
+                            else {
+                                $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+
+                            }
+                     }
+                    else if (production == "Wool")
+                        {
+                        if (item.Text == "Kg.") {
+                            $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                        }
+                        else {
+                            $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+
+                        }
+                    }
+                    else if (production == "Wool") {
+                        if (item.Text == "Kg.") {
+                            $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                        }
+                        else {
+                            $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+
+                        }
+                    }
+                    else if (production == "Egg") {
+                        if (item.Text == "No.") {
+                            $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                        }
+                        else {
+                            $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+
+                        }
+                    }
+                    else {
+                        if (item.Text == "Kg.") {
+                            $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                        }
+                        else {
+                            $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+
+                        }
+                    }
+                    });
+                $(".unit").html($('#select-units').html());
+            });
+
+            $('#tabularEntry').html('');
+            url = "@Url.Action("GetSpeciesProductionType","Production")"
+            var data= {
+                productionType:production
+            }
+            //addAntiForgeryToken(data);
+            $.getJSON(url, { productionType: production }, (result) => {
+                $.each(result, function (i, item) {
+                    var tableRow = '<tr id="' + item.Id + '">';
+                    tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="'+item.Id+'"/><input type="hidden" name="ProductionDataId" value="" /></td>';
+                    tableRow += '<td><input type="number" name="Quantity" class="form-control" min="0" step="0.01" /></td>';
+                    tableRow += '<td>' + $('#select-units').html() + '</td>';
+                    tableRow += '<td><input type="text" name="Ward" class="form-control" /></td>';
+                    tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
+                    tableRow += '<td><input type="date" name="ProductionDate"  class="form-control"></td>';
+                    tableRow += '</tr>';
+                    $("#tabularEntry").append(tableRow);
+                });
+            });
+            $("#showTable").show();
+
+        }
+
+
+            );
+        
+
+      
+        var list = [];
+        $("#subumtform").click(function () {
+
+        });
+    });
+    function getProductionData() {
+        var data = {
+
+            fiscalYearId: $('#@Html.IdFor(m => m.FiscalYear)').val(),
+            quarter: $('#@Html.IdFor(m => m.Quater)').val(),
+            productionType: $('#@Html.IdFor(m => m.ProductionType)').val()
+        };
+        addAntiForgeryToken(data);
+        $.post("@Url.Action("GetProductionData", "Production")", data, function (result) {
+            $.each(result, function (index, item) {
+                $('tr#' + item.Species.Id + ' input[name="ProductionDataId"]').val(item.Id);
+                $('tr#' + item.Species.Id + ' input[name="Quantity"]').val(item.Quantity);
+                $('tr#' + item.Species.Id + ' select[name="Unit"]').val(item.Unit.Id);
+                $('tr#' + item.Species.Id + ' input[name="Ward"]').val(item.Ward);
+                $('tr#' + item.Species.Id + ' input[name="Tole"]').val(item.Tole);
+                $('tr#' + item.Species.Id + ' input[name="ProductionDate"]').val(item.Date);
+                console.log(item);
+            });
+        });
+    }
+</script>

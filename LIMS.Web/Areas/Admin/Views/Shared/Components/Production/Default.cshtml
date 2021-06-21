@@ -1,0 +1,128 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Reports.ProductionReport>
+<style>
+    .custom-td {
+        padding: 0 !important;
+        padding-top: 10px !important;
+    }
+</style>
+@inject IWorkContext workContext
+@using LIMS.Domain.Customers
+@{
+    List<string> roles = workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+
+
+    string createdby = null;
+    if (roles.Contains("VhlsecAdmin") || roles.Contains("VhlsecUser"))
+    {
+
+        <div class="col-md-12">
+            <center>
+                <b>@workContext.CurrentCustomer.OrgName</b><br />
+                <b>Yearly progress report -animal production</b><br />
+            </center>
+        </div>
+    }
+    else
+    {
+
+        <div class="col-md-12">
+            <center>
+                <b>@workContext.CurrentCustomer.OrgName</b><br />
+                <b>Office of the Rural Municipality</b><br />
+                <b>Livestock Service section</b><br />
+                <b>Yearly progress report -animal production</b><br />
+            </center>
+        </div>
+    }
+
+}
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="text-align:center" rowspan="2">
+                Farm Name
+            </th>
+            <th style="text-align:center" rowspan="2">
+                Address
+            </th>
+
+            @if (Model.Count() != 0)
+            {
+                <th colspan="@(Model.FirstOrDefault().Species.Count() + 1)" class="custom-td">
+                    <p style="text-align:center">
+                        Milk Production(ltr)
+                    </p>
+                    <table style="width:100%">
+                        <tr style="text-align:center">
+                            @foreach (var item in Model.FirstOrDefault().Species)
+                            {
+                                <td>
+                                    @item
+                                </td>
+                            }
+                            <td>
+                                Total
+                            </td>
+                        </tr>
+                    </table>
+                </th>
+                <th colspan="@(Model.FirstOrDefault().SpeciesMeat.Count() + 1)" class="custom-td">
+                    <p style="text-align:center"> Meat Production(kg)</p>
+                    <table style="width:100%">
+                        <tr style="text-align:center">
+                            @foreach (var animal in Model.FirstOrDefault().SpeciesMeat.Where(m => m.ToLower() != "cow"))
+                            {
+                                <td>
+                                    @animal
+                                </td>
+                            }
+                            <td>
+                                Total
+                            </td>
+                        </tr>
+                    </table>
+                </th>
+
+            }
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+                <td>
+                    @item.FarmName
+                </td>
+                <td>
+                    @item.Address
+                </td>
+
+
+                @foreach (var production in item.Production)
+                {
+                    <td style="text-align:right">
+                        @production
+                    </td>
+
+
+                }
+            </tr>
+
+
+
+
+        }
+
+    </tbody>
+</table>
+
+
+
+
+@*<h3>Fiscal Year:@Model.FirstOrDefault().Year </h3>*@
+

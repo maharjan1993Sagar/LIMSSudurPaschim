@@ -1,0 +1,36 @@
+﻿@model LIMS.Web.Areas.Admin.Models.BasicSetup.FiscalyearModel
+<div asp-validation-summary="All"></div>
+
+<div class="x_content form">
+    <div class="form-row">
+
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-3 col-sm-3">
+            <div class="form-group">
+                <admin-label asp-for="@Model.NepaliFiscalYear" />
+
+                <admin-input asp-for="@Model.NepaliFiscalYear">
+                    <span asp-validation-for="@Model.NepaliFiscalYear"></span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <div class="form-group">
+                <admin-label asp-for="@Model.EnglishFiscalYear" />
+
+                <admin-input asp-for="@Model.EnglishFiscalYear">
+                    <span asp-validation-for="@Model.EnglishFiscalYear"></span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <div class="form-group">
+                <admin-label asp-for="@Model.CurrentFiscalYear" /><br />
+
+                <admin-input asp-for="@Model.CurrentFiscalYear">
+                    <span asp-validation-for="@Model.CurrentFiscalYear"></span>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+

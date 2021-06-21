@@ -1,0 +1,61 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Recording.MilkRecordingModel
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <div class="x_title">
+
+
+            </div>
+            <div class="x_content form">
+                <div class="form-row">
+                  
+                     <div class="col-md-2">
+                            <div class="form-group ">
+                                <admin-label asp-for="MilkStatus" />
+                                <br />
+                                <input type="radio" class="radio" asp-for="MilkStatus" value="Pregnancy " />Milking
+                                <input type="radio" class="radio" asp-for="MilkStatus" value="NonPregnency" />Dryoff
+                                <span asp-validation-for="MilkStatus"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <admin-label asp-for="RecordingDate" />
+                                <input asp-for="RecordingDate" type="date" class="form-control form-rounded" />
+                                <span asp-validation-for="RecordingDate"></span>
+                            </div>
+                        </div>
+                  
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="RecordingPeriod" />
+                            <admin-select asp-for="RecordingPeriod" asp-items="ViewBag.RecordingPeriod" class="form-control" />
+                            <span asp-validation-for="RecordingPeriod"></span>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="MilkVolume" />
+                            <input asp-for="MilkVolume" class="form-control form-rounded" />
+                            <span asp-validation-for="MilkVolume"></span>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-12">
+
+                        <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                        <button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+
+                    </div>
+
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

@@ -1,0 +1,73 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.AnimalRegistrationModel
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    Animal name: test 1 &nbsp; Animal eartag:123456 &nbsp;Age: 1 year & 3 month&nbsp; &nbsp; Farm name: krishna farm
+
+                </div>
+            </div>
+            <div class="x_content form" id="services">
+                <admin-tabstrip name="services-edit" SetTabPos="false">
+                    <items>
+                        <tabstrip-item text="@T("Admin.Services.Vaccination")" tab-index="0">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_vaccinationTab" model="Model.Vaccination" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.Treatment")" tab-index="1">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_TreatmentTab" model="Model.TreatmentService" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.LabSample")" tab-index="1">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_SampleEntry" model="Model.SampleModel" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+
+
+                        @*<tabstrip-item text="@T("Admin.Services.Vaccination")" tab-index="1">
+            <content>
+                <div>
+                    <div class="form-horizontal">
+                        <div class="form-body">
+                            <partial name="_VaccinationTab" model="Model.Vaccination" />
+                        </div>
+                    </div>
+                </div>
+            </content>
+        </tabstrip-item>*@
+
+
+                    </items>
+                </admin-tabstrip>
+            </div>
+        </div>
+    </div>
+</div>

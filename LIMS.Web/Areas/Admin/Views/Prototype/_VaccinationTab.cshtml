@@ -1,0 +1,70 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Services.VaccinationServiceModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+           
+            <div class="x_content form">
+                <div class="form-row">
+                    <div class="form-body">
+
+
+                        <div class="col-md-3">
+
+                            <div class="form-group">
+                                <admin-label asp-for="VaccinationTypeId" />
+                                <admin-select asp-for="VaccinationTypeId" asp-items="ViewBag.vaccinationId" />
+                                <span asp-validation-for="VaccinationTypeId"></span>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="VaccinationDate" />
+                                <input asp-for="VaccinationDate" class="form-control" type="date" />
+                                <span asp-validation-for="VaccinationDate"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="VaccinationForDisease" />
+                                <admin-select asp-for="VaccinationForDisease" asp-items="ViewBag.Disease" />
+                                <span asp-validation-for="VaccinationForDisease"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYear" class="form-control" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group ">
+                                <admin-label asp-for="ServiceProviderId" />
+                                <input asp-for="ServiceProviderId" class="form-control form-rounded" />
+                                <span asp-validation-for="ServiceProviderId"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="btn-group btn-group-devided">
+                                <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                                <button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

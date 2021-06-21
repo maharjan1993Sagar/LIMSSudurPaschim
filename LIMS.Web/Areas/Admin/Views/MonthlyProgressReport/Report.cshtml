@@ -1,0 +1,90 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Reports.MonthlyProgressReportModel>
+
+<table class="table table-bordered">
+    <tr style="text-align:center">
+        <th>
+            sn
+        </th>
+        <th>
+            Activities
+        </th>
+        <th>
+            Unit
+        </th>
+        <th>
+            Progess last month
+        </th>
+        <th>
+            Progess of this  month
+        </th>
+
+        <th>
+            Total upto progress (Cummulative)
+        </th>
+        <th>
+            Remarks
+        </th>
+
+    </tr>
+    <tbody>
+        @{string a = null;int i = 1;}
+        @foreach (var item in Model)
+        {
+            @if (a != item.Topic)
+            {
+        <tr>
+            <td>
+                @i
+            </td>
+            <td>
+                @item.Topic
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+                i++;
+                
+                    a = item.Topic;
+                
+            }
+              
+               
+            
+    <tr>
+
+
+        <td>
+        </td>
+
+        <td>
+            @item.Rows.Title
+        </td>
+        <td>
+            @item.Unit
+        </td>
+        @if (item.Rows.Data != null)
+        {
+        @foreach (var items in item.Rows.Data)
+            {
+        <td>
+            @items
+        </td>
+
+            }
+        }
+        <td></td>
+    </tr>
+                    
+                
+                    }
+       
+    </tbody>
+</table>

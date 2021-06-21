@@ -1,0 +1,132 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Users.VaccinationUserModel
+
+
+<div class="form-horizontal">
+    <div asp-validation-summary="All"></div>
+
+    <input type="hidden" asp-for="Id" />
+    <div class="form-row">
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Type" />
+
+                <admin-input asp-for="Type" />
+                <span asp-validation-for="Type"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="NameEnglish" />
+
+                <admin-input asp-for="NameEnglish" />
+                <span asp-validation-for="NameEnglish"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="NameNepali" />
+
+                <admin-input asp-for="NameNepali" />
+                <span asp-validation-for="NameNepali"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Email" />
+
+                <admin-input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="PhoneNo" />
+                <admin-input asp-for="PhoneNo" />
+                <span asp-validation-for="PhoneNo"></span>
+            </div>
+        </div>
+
+        <div class="col-md-3 ">
+
+            <div class="form-group">
+                <admin-label asp-for="Province" />
+                <admin-select asp-for="Province" asp-items="ViewBag.provience" id="country" />
+                <span asp-validation-for="Province"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select id="district" class="form-control">
+                    <option value=""> select</option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select id="locallevel" class="form-control">
+                    <option value=""> select</option>
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="WardNo" />
+                <admin-input asp-for="WardNo" />
+                <span asp-validation-for="WardNo"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Tole" />
+                <admin-input asp-for="Tole" />
+                <span asp-validation-for="Tole"></span>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="IDCardNo" />
+                <admin-input asp-for="IDCardNo" />
+                <span asp-validation-for="IDCardNo"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="PanNo" />
+                <admin-input asp-for="PanNo" />
+                <span asp-validation-for="PanNo"></span>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <vc:admin-widget widget-zone="customer_details_info_bottom" additional-data="Model" />
+</div>
+

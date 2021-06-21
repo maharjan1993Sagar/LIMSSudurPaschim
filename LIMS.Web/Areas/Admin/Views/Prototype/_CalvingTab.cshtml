@@ -1,0 +1,160 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Services.CalvingModel
+@inject AdminAreaSettings adminAreaSettings
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <div class="x_title">
+
+
+            </div>
+            <div class="x_content form">
+                <div class="form-row">
+
+
+
+
+                    @*<div class="form-group">
+                <admin-label asp-for="ServiceType" />
+                <input type="radio" class="radio" asp-for="ServiceType" value="Pregnancy " />Pregnancy
+                <input type="radio" class="radio" asp-for="ServiceType" value="NonPregnency" />NonPregnency
+                <span asp-validation-for="ServiceType"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">*@
+
+
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="CalvingDate" />
+                            <input asp-for="CalvingDate" type="date" />
+                            <span asp-validation-for="CalvingDate"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="CalvingType" />
+                            <admin-select asp-for="CalvingType" asp-items="ViewBag.CalvingType" />
+                            <span asp-validation-for="CalvingType"></span>
+                        </div>
+                    </div>
+                    @*<div class="col-md-2">
+            <div class="form-group ">
+                <admin-label asp-for="StateOfCalving" />
+                <admin-select asp-for="StateOfCalving" asp-items="ViewBag.state" />
+                <span asp-validation-for="StateOfCalving"></span>
+            </div>
+        </div>*@
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="BirthType" />
+                            <admin-select asp-for="BirthType" asp-items="ViewBag.BirthType" />
+                            <span asp-validation-for="BirthType"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="EaseBirth" />
+                            <admin-select asp-for="EaseBirth" asp-items="ViewBag.EaseBirth" />
+                            <span asp-validation-for="EaseBirth"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="FateOfCalf" />
+                            <admin-select asp-for="FateOfCalf" asp-items="ViewBag.FateOfCalf" />
+                            <span asp-validation-for="FateOfCalf"></span>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="TechnicianName" />
+                            <input asp-for="TechnicianName" class="form-control form-rounded" />
+                            <span asp-validation-for="TechnicianName"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="Fiscalyear" />
+                            <admin-select asp-for="Fiscalyear" asp-items="@ViewBag.FiscalYear" class="form-control form-rounded" />
+                            <span asp-validation-for="Fiscalyear"></span>
+                        </div>
+                    </div>
+                    <div id="calf"></div>
+
+                    <div class="col-md-12">
+
+                        <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                        <button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+
+                    </div>
+
+
+                </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+<div id="calf-template" style="display: none;">
+    <div class="col-md-2">
+        <div class="form-group ">
+            <label class="control-label">Calf Name</label>
+            <input name="CalfName" class="form-control form-rounded" />
+
+
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group ">
+            <label class="control-label">Ear tag no</label>
+            <input name="eartag" class="form-control form-rounded" />
+
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group ">
+            <label class="control-label">wieight</label>
+            <input name="eartag" class="form-control form-rounded" />
+
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group ">
+            <label class="control-label">Sex</label></br>
+            <input type="radio" name="sex" />Male
+            <input type="radio" name="sex" />Female
+
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group ">
+            <label class="control-label">Genetic defect</label>
+            <input name="geneticdefect" class="form-control form-rounded" />
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var calfTemplate = $("#calf-template").html();
+        console.log(calfTemplate);
+        $("#CalvingType").change(function () {
+            $('#calf').html('');          
+            var value = $(this).val();
+            if (value != "") {              
+                if (value == "Single male" || value == "Single female") {
+                    $("#calf").html(calfTemplate);
+                }
+                else {
+                    $("#calf").html(calfTemplate);
+                    $("#calf").append(calfTemplate);
+                }
+            }
+        });
+    });
+</script>

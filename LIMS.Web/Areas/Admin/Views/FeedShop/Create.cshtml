@@ -1,0 +1,93 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Organization.FeedIndustryModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="showTable">
+            <table class="table table-bordered">
+                <thead>
+                    <tr style="text-align:center">
+                        <th>@T("Admin.FeedIndustry.OrganizationName")</th>
+                        <th>@T("Admin.FeedIndustry.CowBuffalo")</th>
+                        <th>@T("Admin.FeedIndustry.SheepGoat")</th>
+                        <th>@T("Admin.FeedIndustry.Pig")</th>
+                        <th>@T("Admin.FeedIndustry.Chicken")</th>
+                        <th>@T("Admin.FeedIndustry.Fish")</th>
+                        <th>@T("Admin.FeedIndustry.Choker")</th>
+                        <th>@T("Admin.FeedIndustry.Other")</th>
+                        <th>@T("Admin.FeedIndustry.Remarks")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var items in Model.Organization)
+                    {
+                    <tr>
+                        <td>
+                            @items.NameEnglish
+                            <input type="hidden" asp-for="OtherOrganizationId" value="@items.Id">
+                        </td>
+                        <td>
+                            <admin-input asp-for="CowBuffalo" />
+                        </td>
+                        <td>
+                            <admin-input asp-for="SheepGoat" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Pig" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Chicken" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Fish" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Choker" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Others" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Remarks" />
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <center>
+                <input type="submit" class="btn btn-success" />
+            </center>
+        </div>
+    </div>
+
+</form>
+
+

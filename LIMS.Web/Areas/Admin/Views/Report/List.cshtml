@@ -1,0 +1,96 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+<div class="x_content">
+    <div id="animal-grid"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#animal-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("AnimalList", "AnimalRegistration"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "Species.EnglishName",
+                    title: "@T("Admin.AnimalRegistration.SpeciesId")",
+                    width: 300,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode(Species.EnglishName)#</a>',
+                },
+                 {
+                    field: "Farm.NameEnglish",
+                    title: "@T("Animal.farm.NameEnglish")",
+                    width: 300,
+                },
+                {
+                    field: "Name",
+                    title: "@T("Admin.AnimalRegistration.Name")",
+                    width: 300,
+                },
+                {
+                    field: "EarTagNo",
+                    title: "@T("Admin.AnimalRegistration.EarTagNo")",
+                    width: 300,
+                },
+                 {
+                    field: "Gender",
+                    title: "@T("Admin.AnimalRegistration.Gender")",
+                    width: 300,
+                },
+
+                    {
+                        field: "DOB",
+                    title: "@T("Admin.AnimalRegistration.DOB")",
+                    width: 300,
+                },
+                    {
+                        field: "SireId",
+                    title: "@T("Admin.AnimalRegistration.SireId")",
+                    width: 300,
+                },
+                    {
+                        field: "DamId",
+                    title: "@T("Admin.AnimalRegistration.DamId")",
+                    width: 300,
+                },
+
+
+
+
+
+
+            ]
+
+        });
+
+    });
+</script>

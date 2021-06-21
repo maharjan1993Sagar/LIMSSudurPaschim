@@ -1,0 +1,38 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Breed.AnimalTypeModel
+<div class="x_content form">
+    <div class="form-row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-4 col-sm-4">
+
+            <div class="form-group">
+                <admin-label asp-for="SpeciesId" />
+                <admin-select asp-for="SpeciesId" asp-items="ViewBag.SpeciesId"/>
+                <span asp-validation-for="SpeciesId"></span>
+
+
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+
+            <div class="form-group">
+                <admin-label asp-for="Name"></admin-label>
+                <admin-input asp-for="Name" type="text" class="form-control" />
+                <span asp-validation-for="Name"></span>
+
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+
+            <div class="form-group">
+                <admin-label asp-for="NepaliName" />
+                <admin-input asp-for="NepaliName" />
+                <span asp-validation-for="NepaliName"></span>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

@@ -1,0 +1,110 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.AnimalRegistrationModel
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    Animal name: test 1 &nbsp; Animal eartag:123456 &nbsp;Age: 1 year and 3 month&nbsp; &nbsp; Farm name: krishna farm
+
+                </div>
+            </div>
+            <div class="x_content form" id="services">
+                <admin-tabstrip name="services-edit" SetTabPos="false">
+                    <items>
+                        <tabstrip-item text="@T("Admin.Services.HeatPeriod")" tab-index="0">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_HeatRecordingTab" model="Model.HeatRecordimg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.AI")" tab-index="1">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_AiTab" model="Model.AIService" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.NS")" tab-index="2">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_NsTab" model="Model.Ns" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+
+                        <tabstrip-item text="@T("Admin.Services.PregnancyDiagnosis")" tab-index="2">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_PregnencyDiagnosis" model="Model.PregnencyDiagnosis" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.PregnancyTermination")" tab-index="3">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <partial name="_PregnencyTermination" model="Model.PregnencyTermination" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.Calving")" tab-index="4">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <partial name="_CalvingTab" model="Model.CalvingModel" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Services.Culling")" tab-index="5">
+                            <content>
+                                <div>
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <partial name="_CullingTab" model="Model.CullingService" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </content>
+                        </tabstrip-item>
+
+
+                    </items>
+                </admin-tabstrip>
+            </div>
+        </div>
+    </div>
+</div>

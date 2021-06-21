@@ -1,0 +1,47 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.AIReport
+
+<form  id="aireport">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYear" required="required" />
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" />
+            </div>
+        </div>
+</form>
+<br />
+<br />
+<br/>
+<div style="display:inline-block !important;">
+
+    <div id="result"></div>
+    </div>
+    <script>
+        $('#aireport').submit(function (e) {
+            var data = {
+                FiscalYear: $('#FiscalYear').val()
+            }
+            addAntiForgeryToken(data);
+            e.preventDefault();
+            $.ajax({
+                cache: false,
+                url: '/Admin/AiReport/ReportToHtml',
+                data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                type: "POST",
+                success: function (response) {
+                    if (response.success) {
+                        $('#result').html(response.livestockWardWiseReportHtml);
+                    }
+                    console.log(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    </script>

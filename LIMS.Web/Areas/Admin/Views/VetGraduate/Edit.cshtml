@@ -1,0 +1,53 @@
+﻿@model VetGraduateModel
+@{
+    //page title
+    ViewBag.Title =  @T("Admin.VetGraduate.Update").Text;
+}
+<form asp-area="@Constants.AreaAdmin" asp-controller="VetGraduate" asp-action="Edit" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.VetGraduate.Update")
+                        <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="form-body">
+                            <input asp-for="Id" type="hidden" />
+                            <div class="col-md-6 col-sm-6">
+
+                                <div class="form-group">
+
+                                    <admin-label asp-for="@Model.NameEnglish" />
+                                    <admin-input asp-for="@Model.NameEnglish" />
+                                    <span asp-validation-for="@Model.NameEnglish"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+
+                                <div class="form-group">
+
+                                    <admin-label asp-for="@Model.NameNepali" />
+                                    <admin-input asp-for="@Model.NameNepali" />
+                                    <span asp-validation-for="@Model.NameNepali"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+</form>

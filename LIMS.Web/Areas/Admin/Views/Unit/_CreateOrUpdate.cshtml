@@ -1,0 +1,43 @@
+﻿@model LIMS.Web.Areas.Admin.Models.BasicSetup.UnitModel
+<div asp-validation-summary="All"></div>
+
+<div class="x_content form">
+    <div class="form-row">
+
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-3 col-sm-3">
+            <div class="form-group">
+                <admin-label asp-for="@Model.UnitNameNepali" />
+
+                <admin-input asp-for="@Model.UnitNameNepali">
+                    <span asp-validation-for="@Model.UnitNameNepali"></span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <div class="form-group">
+                <admin-label asp-for="@Model.UnitNameEnglish" />
+
+                <admin-input asp-for="@Model.UnitNameEnglish">
+                    <span asp-validation-for="@Model.UnitNameEnglish"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="@Model.UnitShortName" />
+
+                <admin-input asp-for="@Model.UnitShortName">
+                    <span asp-validation-for="@Model.UnitShortName"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <admin-label asp-for="@Model.Description" />
+
+                <admin-textarea asp-for="@Model.Description"/>
+                 <span asp-validation-for="@Model.Description"></span>
+            </div>
+        </div>
+        </div>
+    </div>
+
+

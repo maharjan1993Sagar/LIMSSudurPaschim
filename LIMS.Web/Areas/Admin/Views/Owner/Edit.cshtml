@@ -1,0 +1,18 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.OwnerModel
+@inject AdminAreaSettings adminAreaSettings
+@using LIMS.Web.Areas.Admin.Models.AInR
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+           
+            <div class="x_content form" id="services">
+
+                <form method="post" asp-action="Edit">
+                    <partial name="_CreateOrUpdate" model="Model" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

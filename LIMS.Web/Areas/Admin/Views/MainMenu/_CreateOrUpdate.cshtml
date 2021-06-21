@@ -1,0 +1,48 @@
+﻿@using LIMS.Web.Areas.Admin.Models.DynamicMenu
+@model MainMenuModel
+
+<div class="x_content form">
+    <div class="form-row">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-body">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="MainMenuName" />
+                    <admin-input asp-for="MainMenuName" />
+                    <span asp-validation-for="MainMenuName"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="Url" />
+                    <admin-input asp-for="Url" />
+                    <span asp-validation-for="Url"></span>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="HasSubMenu" />
+                    <admin-input asp-for="HasSubMenu" />
+                    <span asp-validation-for="HasSubMenu"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="IsActive" />
+                    <admin-input asp-for="IsActive" />
+                    <span asp-validation-for="IsActive"></span>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+

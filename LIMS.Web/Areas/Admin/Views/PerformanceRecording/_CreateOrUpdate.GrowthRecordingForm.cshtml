@@ -1,0 +1,111 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Recording.GrowthMonitoringModel
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <div class="x_title">
+               
+            </div>
+            <div class="x_content form">
+                <div class="form-row">
+                    <input type="hidden" asp-for="AnimalRegistrationId" value="@Model.AnimalRegistrationModel.Id" />
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="Length" />
+
+                            <input asp-for="Length" class="form-control form-rounded" />
+
+                            <span asp-validation-for="Length"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="HeartGirth" />
+
+                            <input asp-for="HeartGirth" class="form-control form-rounded" />
+
+                            <span asp-validation-for="HeartGirth"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="Weight" />
+
+                            <input asp-for="Weight" class="form-control form-rounded" />
+
+                            <span asp-validation-for="Weight"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="HeightWither" />
+
+                            <input asp-for="HeightWither" class="form-control form-rounded" />
+
+                            <span asp-validation-for="HeightWither"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group ">
+                            <admin-label asp-for="MonitoringDate" />
+                            <input asp-for="MonitoringDate" type="date" class="form-control form-rounded" />
+                            <span asp-validation-for="MonitoringDate"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <admin-label asp-for="Note" />
+                            <admin-input asp-for="Note" />
+                            <span asp-validation-for="Note"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+
+                        <button class="btn btn-success" type="submit" name="save" style="font-size:13px;"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                        @*<button class="btn btn-success" type="submit" name="save-continue" style="font-size:13px;"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>*@
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <partial name="_GrowthMonitoringList" model="Model.AnimalRegistrationModel" />
+
+    </div>
+</div>
+@*<script>
+    jQueryAjaxPost = form => {
+        try {
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        $('#view-all').html(res.html)
+                        $('#form-modal .modal-body').html('');
+                        $('#form-modal .modal-title').html('');
+                        $('#form-modal').modal('hide');
+                    }
+                    else
+                        $('#form-modal .modal-body').html(res.html);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
+
+</script>*@

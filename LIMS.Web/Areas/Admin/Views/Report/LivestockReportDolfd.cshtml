@@ -1,0 +1,54 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.LivestockReport
+    <div class="form-horizontal">
+        <form method="get" action="LivestockReportForFiscalYear" id="livestockWardWiseReport">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="FiscalYear" />
+                    <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYear" required="required" />
+                    <span asp-validation-for="FiscalYear"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="LocalLevel" />
+                    <admin-select asp-for="LocalLevel" asp-items="ViewBag.LocalLevel" />
+                    <span asp-validation-for="LocalLevel"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <br />
+                    <input type="submit" class="btn btn-sm btn-success" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="display:inline-block !important;">
+
+        <div class="row" id="result"><br /><br /></div>
+        </div>
+        <script>
+            $('#livestockWardWiseReport').submit(function (e) {
+                var data = {
+                    FiscalYear: $('#FiscalYear').val(),
+                    LocalLevel: $('#LocalLevel').val()
+                }
+                addAntiForgeryToken(data);
+                e.preventDefault();
+                $.ajax({
+                    cache: false,
+                    url: '/Admin/Report/LivestockDolfdReportHtml',
+                    data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                    type: "POST",
+                    success: function (response) {
+                        if (response.success) {
+                            $('#result').html(response.livestockWardWiseReportHtml);
+                        }
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        </script>

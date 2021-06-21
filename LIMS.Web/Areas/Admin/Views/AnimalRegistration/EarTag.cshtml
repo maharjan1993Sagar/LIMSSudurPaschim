@@ -1,0 +1,125 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AInR.EarTag
+@inject AdminAreaSettings adminAreaSettings
+<form asp-area="@Constants.AreaAdmin" asp-controller="AnimalRegistration" asp-action="EarTag" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_content form" id="eartags">
+                    <div class="form-horizontal">
+                        <div class="form-body">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <admin-label asp-for="From" class="control-label" />
+                                    <admin-input asp-for="From" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <admin-label asp-for="To" class="control-label" />
+                                    <admin-input asp-for="To" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button class="btn btn-success filter-submit" id="generate-eartag">
+                                        @T("Admin.EarTag.Generate")
+                                    </button>
+                                    @*<button type="submit" class="btn purple" name="download-eartag-pdf" id="download-eartag-pdf">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                        @T("Admin.EarTag.Download")
+                                    </button>*@
+                                    <button type="submit" class="btn purple" name="download-eartag-excel" id="download-eartag-excel">
+                                        <i class="fa fa-file-excel-o"></i>
+                                        @T("Admin.EarTag.DownloadExcel")
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="x_content">
+                            <div id="eartag-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    $(document).ready(function () {
+        //generate eartag
+        $('#generate-eartag').click(function (e) {
+            e.preventDefault();
+            var data = {
+                noOfDigit: 8,
+                from: $('#@Html.FieldIdFor(model => model.From)').val(),
+                to: $('#@Html.FieldIdFor(model => model.To)').val()
+            };
+            if (data.from <= 0 || data.to <= 0) {
+                alert("@T("Admin.EarTag.FromTo.Empty")");
+                return false;
+            }
+            if (parseInt(data.to) < parseInt(data.from)) {
+                alert("@T("Admin.EarTag.FromTo.Greater")");
+                return false;
+            }
+            addAntiForgeryToken(data);
+            $.post("@Html.Raw(Url.Action("GenerateEarTag", "AnimalRegistration"))",
+                data,
+                function (data, status) {
+                    if (data.status == 'success') {
+                        var grid = $('#eartag-grid').data('kendoGrid');
+                        grid.dataSource.page(1); //new search. Set page size to 1
+                        //grid.dataSource.read(); we already loaded the grid above using "page" function
+                    } else {
+                        alert(data.message);
+                    }
+            });
+            return false;
+        });
+
+        $("#eartag-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("EarTagList", "AnimalRegistration"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken()
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "EarTagNo",
+                    title: "@T("Admin.AnimalRegistration.EarTagNo")",
+                    width: 400
+                }
+            ]
+        });
+    });
+    </script>
+</form>

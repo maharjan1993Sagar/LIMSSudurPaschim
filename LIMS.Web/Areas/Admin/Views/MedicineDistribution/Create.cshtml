@@ -1,0 +1,141 @@
+﻿@model LIMS.Web.Areas.Admin.Models.MedicineInventory.ReceivedMedicineModel
+@{
+    //page title
+    ViewBag.Title = "Medicine distribution";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="Month" />
+                                <admin-select asp-for="Month" asp-items=" ViewBag.Months" />
+                                <span asp-validation-for="Month"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="OrganizationId" />
+                                <input class="form-control" name="OrganizationName" id="organization" required="required" />
+                                <input type="hidden" name="OrganizationId" id="OrganizationId" value="@Model.OrganizationId" />
+                                <span asp-validation-for="OrganizationId"></span>
+                            </div>
+                        </div>
+                        @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="OrganizationId" />
+                <admin-select asp-for="OrganizationId" asp-items="ViewBag.OrganizationId"  onchange="getDistributedData()"  required="required"/>
+                <span asp-validation-for="OrganizationId"></span>
+            </div>
+        </div>*@
+
+
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th>@T("Admin.Medicine.VaccinationName")</th>
+                                @*<td>@T("Admin.Medicine.Specification")</td>*@
+
+                                <th>@T("Admin.Common.Quantity")</th>
+                                <th>@T("Admin.Common.Unit")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.VaccinationType)
+                            {
+                                <tr id="@item.Id">
+                                    <td>
+                                        @item.MedicalName
+                                        <input type="hidden" name="MedicineId" value="@item.Id" class="form-control" />
+                                        <input type="hidden" name="DistributeMedicineId" value="" class="form-control" />
+                                    </td>
+                                    @*<td>
+                                        @item.Specification
+
+                                    </td>*@
+                                    <td>
+                                        <input type="number" name="Quantity" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" class="form-control" />
+
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" id="subumtform" class="btn btn-success" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+
+<script>
+       $("#organization").kendoAutoComplete({
+            dataTextField: "NameEnglish",
+            filter: "contains",
+            minLength: 3,
+            dataSource: {
+                type: "json",
+                // serverFiltering: true,
+                transport: {
+                    read: {
+                        url: "@Url.Action("GetAllOrganization", "Organization")",
+                        data: onOrganizationAdditionalData,
+
+
+                        },
+                },
+                              pageSize: 5
+
+                        },
+                        select: onOrganizationSelect,
+                        filtering: onOrganizationFiltering,
+                        });
+                        function onOrganizationAdditionalData() {
+                        return {
+                        term: $("#organization").val()
+                        };
+                        }
+                        function onOrganizationSelect(e) {
+                        $('#OrganizationId').val(e.dataItem.Id);
+
+
+                        // console.log(e.dataItem);
+                        }
+
+                        function onOrganizationFiltering() {
+                        $('#OrganizationId').val('');
+
+    }
+</script>

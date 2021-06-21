@@ -1,0 +1,49 @@
+﻿@model LIMS.Web.Areas.Admin.Models.BasicSetup.FiscalYearForGraphModel
+<form method="post">
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="fiscalyear">Fiscal year</label><br>
+
+            @foreach (var item in ViewBag.FiscalYear)
+            {
+                if (Model.FiscalYear != null)
+                {
+                    if (Model.FiscalYear.Contains(item.Id))
+                    {
+                        <input type="checkbox" name="fiscalyear" value="@item.Id" checked>
+                        <label class="control-label">@item.NepaliFiscalYear</label>
+
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="fiscalyear" value="@item.Id">
+                        <label class="control-label">@item.NepaliFiscalYear</label>
+
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+
+                    }
+                }
+                else
+                {
+                    <input type="checkbox" name="fiscalyear" value="@item.Id">
+                    <label class="control-label">@item.NepaliFiscalYear</label>
+
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+
+                }
+
+            }
+
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="actions">
+            <div class="btn-group btn-group-devided">
+                <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,253 @@
+﻿@model LIMS.Web.Areas.Admin.Models.MoAMAC.DolfdModel
+@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "Farm";
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="MoamacId" />
+                                    <admin-select asp-for="MoamacId" asp-items="ViewBag.MoamacId"/>
+                                    <span asp-validation-for="MoamacId"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NameNepali" />
+                                    <admin-input asp-for="NameNepali" />
+                                    <span asp-validation-for="NameNepali"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="NameEnglish" />
+                                    <admin-input asp-for="NameEnglish" />
+                                    <span asp-validation-for="NameEnglish"></span>
+
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Provience" />
+                                    <admin-select asp-for="Provience" asp-items="ViewBag.provience"  />
+                                    <span asp-validation-for="Provience"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Address" />
+                                    <admin-input asp-for="Address" />
+                                    <span asp-validation-for="Address"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 ">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Phone" />
+                                    <admin-input asp-for="Phone" />
+                                    <span asp-validation-for="Phone"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Email" />
+                                    <admin-input asp-for="Email" type="email" />
+                                    <span asp-validation-for="Email"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Website" />
+                                    <admin-input asp-for="Website" />
+                                    <span asp-validation-for="Website"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 panel panel-default">
+                                <div class="panel-heading">User Details</div>
+                                <div class="panel-body">
+                                    <div class="col-md-3 ">
+
+                                        <div class="form-group">
+                                            <admin-label asp-for="UserNameEnglish" />
+                                            <admin-input asp-for="UserNameNepali" />
+                                            <span asp-validation-for="UserNameNepali"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+
+                                        <div class="form-group">
+                                            <admin-label asp-for="UserNameNepali" />
+                                            <admin-input asp-for="UserNameNepali" />
+                                            <span asp-validation-for="UserNameNepali"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+
+                                        <div class="form-group">
+                                            <admin-label asp-for="UserProvince" />
+                                            <admin-select asp-for="UserProvince" asp-items="ViewBag.provience" id="country" />
+                                            <span asp-validation-for="UserProvince"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <admin-label asp-for="UserDistrict" />
+                                            <select id="district" class="form-control">
+                                                <option value=""> select</option>
+                                            </select>
+                                            <span asp-validation-for="UserDistrict"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <admin-label asp-for="UserLocalLevel" />
+                                            <select id="locallevel" class="form-control">
+                                                <option value=""> select</option>
+                                            </select>
+                                            <span asp-validation-for="UserLocalLevel"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <admin-label asp-for="UserWard" />
+                                            <admin-input asp-for="UserWard" />
+                                            <span asp-validation-for="UserWard"></span>
+
+                                        </div>
+                                    </div>
+                              
+
+
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="UserEmail" />
+                                        <admin-input asp-for="UserEmail" />
+                                        <span asp-validation-for="UserEmail"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="IDCardNo" />
+                                        <admin-input asp-for="IDCardNo" />
+                                        <span asp-validation-for="IDCardNo"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="PhoneNo" />
+                                        <admin-input asp-for="PhoneNo" />
+                                        <span asp-validation-for="PhoneNo"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="Position" />
+                                        <admin-input asp-for="Position" />
+                                        <span asp-validation-for="Position"></span>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        var $locations = $('#district');
+
+        $('#country').change(function () {
+            var country = $(this).val(), lcns = locations[country] || [];
+            var html = $.map(lcns, function (lcn) {
+                return '<option value="' + lcn + '">' + lcn + '</option>'
+            }).join('');
+            var options = '<option value="">  Select   </option>';
+            $locations.html(options + html)
+        });
+        var $local = $('#locallevel');
+        $('#district').change(function () {
+            var location = $(this).val(), lcn = local[location] || [];
+            var html = $.map(lcn, function (lc) {
+                return '<option value="' + lc + '">' + lc + '</option>'
+            }).join('');
+            var options = '<option value="">  Select   </option>';
+            $local.html(options + html)
+        });
+         
+
+        function showAnimalRegistration(e) {
+               window.location = '@Url.Action("AddWorker", "Prototype",new { area="Admin"})'
+            //$("#OwnerRegistration").show();
+        }
+
+    
+
+
+    })
+
+
+</script>

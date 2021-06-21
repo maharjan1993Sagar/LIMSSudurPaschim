@@ -1,0 +1,135 @@
+﻿@model LIMS.Web.Areas.Admin.Models.AnimalHealth.PurnaKhopModel
+@{
+
+    ViewBag.Title = "Livestock";
+}
+@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FarmId" />
+                                <select name="FarmId" class="form-control" id="FarmId" onchange="Purnakhop()" >
+                                <option value="">select</option>
+
+                                </select>
+                                <span asp-validation-for="FarmId"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>@T("Admin.FarmForPurnaKhop.SpeciesName")</td>
+                                <td>@T("Admin.FarmForPurnaKhop.BreedName")</td>
+                                <td>@T("Admin.FarmForPurnaKhop.Age")</td>
+                                <td>@T("Admin.FarmForPurnaKhop.Vaccination")</td>
+                                <td>@T("Admin.PurnaKhop.VaccinationDate")</td>
+                                <td>@T("Admin.PurnaKhop.NextVaccinationDate")</td>
+                                <td>@T("Admin.PurnaKhop.Remarks")</td>
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="tabularEntry">
+
+                        </tbody>
+                    </table>
+                    <center>
+                       
+                        <input type="submit" class="btn btn-success" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div style="display: none;" id="select-vaccination">
+    <select name="Vaccination"  class="form-control"></select>
+</div>
+
+<script>
+    $.get('/Admin/PurnaKhop/GetVaccination', function (data) {
+        $.each(data, function (i, item) {
+            $("#select-vaccination select").append($("<option></option>").val(this['Value']).html(this['Text']));
+        });
+    });
+    $("#@Html.FieldIdFor(m=>m.FiscalYearId)").change(function () {
+        var fiscalyear= $("#FiscalYearId").val();
+        if (fiscalyear) {
+            $('#FarmId').empty();
+            $('#FarmId').append("<option value=''>Select</option>");
+
+            url = "@Url.Action("GetFarmByFiscalYear","PurnaKhop")";
+            addAntiForgeryToken(fiscalyear);
+            $.getJSON(url, { fiscalyear: fiscalyear }, (data) => {
+                $.each(data, function (i, item) {
+                    $('#FarmId').append(`<option value="${item.Id}">${item.NameEnglish}</option>`);
+                });
+            });
+        }
+        else {
+            $('#FarmId').empty();
+            $('#FarmId').append("<option value=''>Select</option>");
+
+
+        }
+
+
+    });
+    $("#showTable").hide();
+    function Purnakhop() {
+        $("#showTable").show();
+              var data = {
+            fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            farmId: $('#@Html.IdFor(m => m.FarmId)').val(),
+        };
+        addAntiForgeryToken(data);
+        $.get("@Url.Action("GetSpeciesByFiscalYear", "PurnaKhop")", data, function (result) {
+            $.each(result, function (index, item) {
+                var tableRow = '<tr id="' + item.Id + '">';
+                tableRow += '<td>' + item.Species.EnglishName + '<input type="hidden" name="FarmFromPurnakhopId" value="' + item.Id + '"/></td>';
+                tableRow += '<td>' + item.Breed.EnglishName + '<input type="hidden" name="SpeciesId" value="' + item.Breed.Id + '"/></td>';
+                tableRow += '<td>' + item.Age + '<input type="hidden" name="SpeciesId" value="' + item.Breed.Id + '"/></td>';
+                tableRow += '<td>' + $('#select-vaccination').html() + '</td>';
+                tableRow += '<td><input type="date" name="VaccinationDate" class="form-control" /></td>';
+                tableRow += '<td><input type="date" name="NextVaccinationDate" class="form-control" /></td>';
+                tableRow += '<td><input type="tect" name="Remarks"  class="form-control"></td>';
+                tableRow += '</tr>';
+                $("#tabularEntry").append(tableRow);
+            });
+        });
+    }
+    
+
+
+</script>
