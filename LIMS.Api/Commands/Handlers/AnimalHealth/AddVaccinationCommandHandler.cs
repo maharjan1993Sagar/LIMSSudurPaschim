@@ -20,7 +20,6 @@ namespace LIMS.Api.Commands.Handlers.AnimalHealth
         private readonly IWorkContext _workContext;
         private readonly IVaccinationService _vaccunationService;
         private readonly IVaccinationTypeService _vaccinationTypeService;
-        private readonly IDiseaseService _diseaseService;
         private readonly IFiscalYearService _fiscalYearService;
 
         public AddVaccinationCommandHandler(
@@ -28,7 +27,6 @@ namespace LIMS.Api.Commands.Handlers.AnimalHealth
             IFarmService farmService,
             IWorkContext workContext,
             IVaccinationService vaccunationService,
-            IDiseaseService diseaseService,
             IFiscalYearService fiscalYearService,
             IVaccinationTypeService vaccinationTypeService
         )
@@ -38,7 +36,6 @@ namespace LIMS.Api.Commands.Handlers.AnimalHealth
             _workContext = workContext;
             _vaccinationTypeService = vaccinationTypeService;
             _fiscalYearService = fiscalYearService;
-            _diseaseService = diseaseService;
             _vaccunationService = vaccunationService;
         }
 
@@ -48,7 +45,6 @@ namespace LIMS.Api.Commands.Handlers.AnimalHealth
             vaccination.Farm = await _farmService.GetFarmById(vaccination.FarmId);
             vaccination.AnimalRegistration = await _animalRegistrationService.GetAnimalRegistrationById(vaccination.AnimalRegistrationId);
             vaccination.FiscalYear = await _fiscalYearService.GetFiscalYearById(vaccination.FiscalYearId);
-            vaccination.Disease = await _diseaseService.GetDiseaseById(vaccination.VaccinationForDisease);
             vaccination.Source = _workContext.CurrentCustomer.OrgName + "From mobile";
             vaccination.CreatedBy = _workContext.CurrentCustomer.Id;
             vaccination.VaccinationType = await _vaccinationTypeService.GetVaccinationTypeById(vaccination.VaccinationTypeId);

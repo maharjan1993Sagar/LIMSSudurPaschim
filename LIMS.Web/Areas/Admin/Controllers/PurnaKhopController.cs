@@ -38,7 +38,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IFarmService _farmService;
         private readonly IAnimalRegistrationService _animalRegistrationService;
         private readonly IVaccinationTypeService _vaccinationTypeService;
-        private readonly IDiseaseService _diseaseService;
         private readonly IFarmForVaccinationService _farmForPurnaKhopService;
 
         public PurnaKhopController(ILocalizationService localizationService,
@@ -52,7 +51,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
              IFarmService farmService,
              IAnimalRegistrationService animalRegistrationService,
              IVaccinationTypeService vaccinationTypeService,
-             IDiseaseService diseaseService,
              IFarmForVaccinationService farmForPurnaKhopService
             )
         {
@@ -67,7 +65,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _farmService = farmService;
             _animalRegistrationService = animalRegistrationService;
             _vaccinationTypeService = vaccinationTypeService;
-            _diseaseService = diseaseService;
             _farmForPurnaKhopService = farmForPurnaKhopService;
         }
 

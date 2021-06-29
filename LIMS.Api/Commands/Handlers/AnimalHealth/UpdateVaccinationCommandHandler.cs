@@ -17,7 +17,6 @@ namespace LIMS.Api.Commands.Handlers.AnimalHealth
         private readonly IFarmService _farmService;
         private readonly IWorkContext _workContext;
         private readonly IVaccinationService _vaccunationService;
-        private readonly IDiseaseService _diseaseService;
         private readonly IFiscalYearService _fiscalYearService;
 
         public UpdateVaccinationCommandHandler(
@@ -41,7 +40,6 @@ namespace LIMS.Api.Commands.Handlers.AnimalHealth
                 vaccination.AnimalRegistration = await _animalRegistrationService.GetAnimalRegistrationById(vaccination.AnimalRegistrationId);
                 vaccination.FiscalYear = await _fiscalYearService.GetFiscalYearById(vaccination.FiscalYearId);
                 vaccination.FiscalYear = await _fiscalYearService.GetFiscalYearById(vaccination.FiscalYearId);
-                vaccination.Disease = await _diseaseService.GetDiseaseById(vaccination.VaccinationForDisease);
 
                 vaccination.Source = _workContext.CurrentCustomer.OrgName + "From mobile";
                 vaccination.UpdatedBy = _workContext.CurrentCustomer.Id;
