@@ -64,8 +64,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command)
         {
-            var newsEvent = await _newsEventService.GetNewsEvent(command.Page - 1, command.PageSize);
-            
+            var newsEvent = await _newsEventService.GetNewsEventByUser(command.Page - 1, command.PageSize);
+          
             var gridModel = new DataSourceResult {
                 Data = newsEvent,
                 Total = newsEvent.TotalCount
@@ -91,6 +91,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var NewsEvent = model.ToEntity();
+
                 if (model.FileModel != null)
                 {
                     if (!Directory.Exists(_hostEnvironment.WebRootPath + "/uploads/newsEvent"))
@@ -117,15 +118,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     MimeType=model.FileModel.File.ContentType,
                     Type= model.FileModel.File.ContentType,
                     AltAttribute= model.FileModel.File.FileName,
-                    NewsEventTenderId=NewsEvent.NewsEventTenderId.ToString(),
+                    CMSEntityId=NewsEvent.NewsEventTenderId.ToString(),
                     SeoFilename=model.FileModel.File.FileName                    
                     };
                     NewsEvent.NewsEventFile = newseventFile;
                 }
-
+                NewsEvent.UserId = _workContext.CurrentCustomer.Id;
                 await _newsEventService.InsertNewsEvent(NewsEvent);
-
-                
 
                 SuccessNotification(_localizationService.GetResource("Admin.NewsEvent.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = NewsEvent.Id }) : RedirectToAction("List");
@@ -145,7 +144,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 //No blog post found with the specified id
                 return RedirectToAction("List");
             var model = newsEvent.ToModel();
-            ViewBag.Type = new SelectList(GetNewsEventType(),model.Type);
+            model.FileModel = new NewsEventFileModel {
+                PictureId = newsEvent.NewsEventFile.PictureId,
+                FileName=newsEvent.NewsEventFile.FileName,
+                CMSEntityId=newsEvent.NewsEventFile.CMSEntityId
+            };
+            ViewBag.Type = new SelectList(GetNewsEventType(),"Value","Text",model.Type);
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
         }
@@ -155,12 +159,58 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(NewsEventTenderModel model, bool continueEditing)
         {
             var newsEvent = await _newsEventService.GetNewsEventById(model.Id);
-            if (newsEvent == null)
-               
+            if (newsEvent == null)               
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
+
+                if (model.FileModel.File != null)
+                {
+
+
+                    if (!Directory.Exists(_hostEnvironment.WebRootPath + "/uploads/newsEvent"))
+                    {
+                        Directory.CreateDirectory(_hostEnvironment.WebRootPath + "/uploads/newsEvent");
+                    }
+
+                    if (!Directory.Exists(_hostEnvironment.WebRootPath + "/uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString()))
+                    {
+                        Directory.CreateDirectory(_hostEnvironment.WebRootPath + "/uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString());
+                    }
+
+                    
+                        if (System.IO.File.Exists(_hostEnvironment.WebRootPath + "/uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString() + "/" +newsEvent.NewsEventFile.FileName))
+                        {
+                            System.IO.File.Delete(_hostEnvironment.WebRootPath + "/uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString()+"/"+newsEvent.NewsEventFile.FileName);
+                           
+                            if (!Directory.Exists(_hostEnvironment.WebRootPath + "/uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString()))
+                            {
+                                Directory.CreateDirectory(_hostEnvironment.WebRootPath + "/uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString());
+                            }
+                        }
+                    
+
+                    string uploads = Path.Combine(_hostEnvironment.WebRootPath, "uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString());
+                    string filePath = Path.Combine(uploads, model.FileModel.File.FileName);
+                    using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.FileModel.File.CopyToAsync(fileStream);
+                    }
+
+                    var newseventFile = new NewsEventFile {
+                        FileName = model.FileModel.File.FileName,
+                        FileSize = model.FileModel.File.Length,
+                        FilePath = "~/uploads/newsEvent/" + newsEvent.NewsEventTenderId.ToString() + "/" + model.FileModel.File.FileName,
+                        MimeType = model.FileModel.File.ContentType,
+                        Type = model.FileModel.File.ContentType,
+                        AltAttribute = model.FileModel.File.FileName,
+                        CMSEntityId = newsEvent.NewsEventTenderId.ToString(),
+                        SeoFilename = model.FileModel.File.FileName
+                    };
+                    newsEvent.NewsEventFile = newseventFile;
+                }
+
                 var m = model.ToEntity(newsEvent);
                 await _newsEventService.UpdateNewsEvent(m);
 

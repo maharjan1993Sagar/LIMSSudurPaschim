@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMS.Services.Tests", "Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMS.Web", "LIMS.Web\LIMS.Web.csproj", "{6F036DE1-92A5-4994-9A8C-9AFD54C9507A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMS.Website1", "LIMS.Website1\LIMS.Website1.csproj", "{48ACDCD7-3A7B-4CEE-A800-6EE1D0B800A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{6F036DE1-92A5-4994-9A8C-9AFD54C9507A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F036DE1-92A5-4994-9A8C-9AFD54C9507A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F036DE1-92A5-4994-9A8C-9AFD54C9507A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48ACDCD7-3A7B-4CEE-A800-6EE1D0B800A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48ACDCD7-3A7B-4CEE-A800-6EE1D0B800A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48ACDCD7-3A7B-4CEE-A800-6EE1D0B800A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48ACDCD7-3A7B-4CEE-A800-6EE1D0B800A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

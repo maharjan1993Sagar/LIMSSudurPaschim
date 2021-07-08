@@ -11,6 +11,8 @@ namespace LIMS.Web.Areas.Admin.Models.DynamicMenu
     {
         [LIMSResourceDisplayName("Admin.SubMenu.Name")]
         public string Name { get; set; }
+        [LIMSResourceDisplayName("Admin.SubMenu.NameNepali")]
+        public string NameNepali { get; set; }
         [LIMSResourceDisplayName("Admin.SubMenu.Url")]
         public string Url { get; set; }
         [LIMSResourceDisplayName("Admin.SubMenu.MainMenu")]
@@ -20,6 +22,9 @@ namespace LIMS.Web.Areas.Admin.Models.DynamicMenu
         [LIMSResourceDisplayName("Admin.SubMenu.HasSubSubMenu")]
 
         public bool HasSubSubMenu { get; set; }
+        [LIMSResourceDisplayName("Admin.SubMenu.SerialNo")]
+
+        public int SerialNo { get; set; }
       
     }
 }

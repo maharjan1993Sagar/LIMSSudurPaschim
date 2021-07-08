@@ -25,6 +25,7 @@ namespace LIMS.Domain.NewsEvent
         public bool ShowText { get; set; }
         public DateTime UploadedDate { get; set; }
         public string FilePath { get; set; }
+        public string UserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }

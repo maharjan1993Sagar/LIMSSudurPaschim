@@ -108,6 +108,7 @@
        public const string AccessCDS = "AccessCDS";
        public const string AccessCMS= "AccessCMS";
 
+        public const string AccessGeneralCMS = "AccessGeneralCMS";
 
     }
 }

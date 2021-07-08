@@ -1,0 +1,40 @@
+﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS 
+@model ImportantLinksModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SerialNo" />
+                    <admin-input asp-for="SerialNo" />
+                    <span asp-validation-for="SerialNo"></span>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <admin-label asp-for="LinkName" />
+                    <admin-input asp-for="LinkName" />
+                    <span asp-validation-for="LinkName"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+
+                <div class="form-group">
+                    <admin-label asp-for="URL" />
+                    <admin-input asp-for="URL" />
+                    <span asp-validation-for="URL"></span>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+

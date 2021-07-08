@@ -38,7 +38,7 @@ namespace LIMS.Api.Infrastructure.Mapper
                 .ForMember(dest => dest.CustomerRoles, mo => mo.Ignore())
                 .ForMember(dest => dest.GenericAttributes, mo => mo.Ignore());
 
-            CreateMap<Customer, CustomerDto>()
+                CreateMap<Customer, CustomerDto>()  
                 .ForMember(dest => dest.FirstName, mo => mo.MapFrom(src => src.GetAttributeFromEntity<string>(SystemCustomerAttributeNames.FirstName, "")))
                 .ForMember(dest => dest.LastName, mo => mo.MapFrom(src => src.GetAttributeFromEntity<string>(SystemCustomerAttributeNames.LastName, "")))
                 .ForMember(dest => dest.City, mo => mo.MapFrom(src => src.GetAttributeFromEntity<string>(SystemCustomerAttributeNames.City, "")))

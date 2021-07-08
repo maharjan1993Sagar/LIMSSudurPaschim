@@ -12,6 +12,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.DynamicMenu;
 using LIMS.Services.FeedBack;
+using LIMS.Services.GeneralCMS;
 using LIMS.Services.LocalStructure;
 using LIMS.Services.MedicineInventory;
 using LIMS.Services.MoAMAC;
@@ -126,6 +127,14 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<LabambitKrishakService>().As<ILabambitKrishakService>().InstancePerLifetimeScope();
 
 
+            builder.RegisterType<NewsEventService>().As<INewsEventService>().InstancePerLifetimeScope();
+            builder.RegisterType<ImportantLinksService>().As<IImportantLinksService>().InstancePerLifetimeScope();
+            builder.RegisterType<ContactUsService>().As<IContactUsService>().InstancePerLifetimeScope();
+            builder.RegisterType<EmployeeService>().As<IEmployeeService>().InstancePerLifetimeScope();
+            builder.RegisterType<GalleryService>().As<IGalleryService>().InstancePerLifetimeScope();
+            builder.RegisterType<PageContentService>().As<IPageContentService>().InstancePerLifetimeScope();
+            builder.RegisterType<BannerService>().As<IBannerService>().InstancePerLifetimeScope();
+         
         }
 
         public int Order {

@@ -19,6 +19,10 @@ using LIMS.Domain.Recording;
 using LIMS.Api.DTOs.RationBalance;
 using LIMS.Api.DTOs.AnimalBreeding;
 using LIMS.Domain.AnimalHealth;
+using LIMS.Api.DTOs.GeneralCMS;
+using LIMS.Domain.GeneralCMS;
+using LIMS.Domain.DynamicMenu;
+using LIMS.Domain.NewsEvent;
 
 namespace LIMS.Api.Extensions
 {
@@ -297,6 +301,100 @@ namespace LIMS.Api.Extensions
         {
             return model.MapTo<ExitDto, Exit>();
         }
+        #endregion
+
+        #region GeneralCMS
+        public static BannerDto ToModel(this Banner entity)
+        {
+            return entity.MapTo<Banner, BannerDto>();
+        }
+        public static Banner ToEntity(this BannerDto model)
+        {
+            return model.MapTo<BannerDto, Banner>();
+        }
+        
+        public static ContactUsDto ToModel(this ContactUs entity)
+        {
+            return entity.MapTo<ContactUs, ContactUsDto>();
+        }
+        public static ContactUs ToEntity(this ContactUsDto model)
+        {
+            return model.MapTo<ContactUsDto, ContactUs>();
+        }
+         
+        public static EmployeeDto ToModel(this Employee entity)
+        {
+            return entity.MapTo<Employee, EmployeeDto>();
+        }
+        public static Employee ToEntity(this EmployeeDto model)
+        {
+            return model.MapTo<EmployeeDto, Employee>();
+        } 
+        public static GalleryDto ToModel(this Gallery entity)
+        {
+            return entity.MapTo<Gallery, GalleryDto>();
+        }
+        public static Gallery ToEntity(this GalleryDto model)
+        {
+            return model.MapTo<GalleryDto, Gallery>();
+        }
+        public static ImportantLinksDto ToModel(this ImportantLinks entity)
+        {
+            return entity.MapTo<ImportantLinks, ImportantLinksDto>();
+        }
+        public static ImportantLinks ToEntity(this ImportantLinksDto model)
+        {
+            return model.MapTo<ImportantLinksDto, ImportantLinks>();
+        }
+        public static MainMenuDto ToModel(this MainMenu entity)
+        {
+            return entity.MapTo<MainMenu, MainMenuDto>();
+        }
+        public static MainMenu ToEntity(this MainMenuDto model)
+        {
+            return model.MapTo<MainMenuDto, MainMenu>();
+        }
+        public static SubMenuDto ToModel(this SubMenu entity)
+        {
+            return entity.MapTo<SubMenu, SubMenuDto>();
+        }
+        public static SubMenu ToEntity(this SubMenuDto model)
+        {
+            return model.MapTo<SubMenuDto, SubMenu>();
+        }
+        public static SubSubMenuDto ToModel(this SubSubMenu entity)
+        {
+            return entity.MapTo<SubSubMenu, SubSubMenuDto>();
+        }
+        public static SubSubMenu ToEntity(this SubSubMenuDto model)
+        {
+            return model.MapTo<SubSubMenuDto, SubSubMenu>();
+        }
+        public static NewsEventFileDto ToModel(this NewsEventFile entity)
+        {
+            return entity.MapTo<NewsEventFile, NewsEventFileDto>();
+        }
+        public static NewsEventFile ToEntity(this NewsEventFileDto model)
+        {
+            return model.MapTo<NewsEventFileDto, NewsEventFile>();
+        }
+        public static NewsEventTenderDto ToModel(this NewsEventTender entity)
+        {
+            return entity.MapTo<NewsEventTender, NewsEventTenderDto>();
+        }
+        public static NewsEventTender ToEntity(this NewsEventTenderDto model)
+        {
+            return model.MapTo<NewsEventTenderDto, NewsEventTender>();
+        }
+        public static PageContentDto ToModel(this PageContent entity)
+        {
+            return entity.MapTo<PageContent, PageContentDto>();
+        }
+        public static PageContent ToEntity(this PageContentDto model)
+        {
+            return model.MapTo<PageContentDto, PageContent>();
+        }
+
         #endregion
     }
 }

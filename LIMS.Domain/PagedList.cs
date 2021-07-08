@@ -48,7 +48,20 @@ namespace LIMS.Domain
             }
             PageSize = pageSize;
             PageIndex = pageIndex;
-        }
+        } 
+        private async Task InitializeAsync(IMongoCollection<T> source, FilterDefinition<T> filterdefinition, int pageIndex, int pageSize)
+        {
+            TotalCount = (int) await source.CountDocumentsAsync(filterdefinition);
+            AddRange(await source.Find(filterdefinition).Skip(pageIndex * pageSize).Limit(pageSize).ToListAsync());
+            if (pageSize > 0)
+            {
+                TotalPages = TotalCount / pageSize;
+                if (TotalCount % pageSize > 0)
+                    TotalPages++;
+            }
+            PageSize = pageSize;
+            PageIndex = pageIndex;
+        }             
 
         private async Task InitializeAsync(IAggregateFluent<T> source, int pageIndex, int pageSize)
         {
@@ -92,6 +105,13 @@ namespace LIMS.Domain
         {
             var pagelist = new PagedList<T>();
             await pagelist.InitializeAsync(source, filterdefinition, sortdefinition, pageIndex, pageSize);
+            return pagelist;
+        }
+        
+        public static async Task<PagedList<T>> Create(IMongoCollection<T> source, FilterDefinition<T> filterdefinition, int pageIndex, int pageSize)
+        {
+            var pagelist = new PagedList<T>();
+            await pagelist.InitializeAsync(source, filterdefinition, pageIndex, pageSize);
             return pagelist;
         }
 
