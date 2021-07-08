@@ -27,17 +27,17 @@ namespace LIMS.Services.ExportImport
         /// <param name="stream">Stream</param>
         /// <returns>Number of imported states</returns>
      Task<int> ImportStatesFromTxt(Stream stream);
-
+     Task ImportCategoryFromXlsx(Stream stream);
         /// <summary>
         /// Import manufacturers from XLSX file
         /// </summary>
         /// <param name="stream">Stream</param>
-       // Task ImportManufacturerFromXlsx(Stream stream);
+        // Task ImportManufacturerFromXlsx(Stream stream);
 
         /// <summary>
         /// Import categories from XLSX file
         /// </summary>
         /// <param name="stream">Stream</param>
-       /// Task ImportFeedFromXlsx(Stream stream);
+        /// Task ImportFeedFromXlsx(Stream stream);
     }
 }

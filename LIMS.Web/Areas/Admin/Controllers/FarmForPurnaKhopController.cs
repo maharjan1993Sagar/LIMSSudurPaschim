@@ -39,7 +39,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IFarmService _farmService;
         private readonly IAnimalRegistrationService _animalRegistrationService;
         private readonly IVaccinationTypeService _vaccinationTypeService;
-        private readonly IDiseaseService _diseaseService;
         public FarmForPurnaKhopController(ILocalizationService localizationService,
              ISpeciesService speciesService,
              IFiscalYearService fiscalYearService,
@@ -50,8 +49,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
              ICustomerService customerService,
              IFarmService farmService,
              IAnimalRegistrationService animalRegistrationService,
-             IVaccinationTypeService vaccinationTypeService,
-             IDiseaseService diseaseService
+             IVaccinationTypeService vaccinationTypeService
             )
         {
             _localizationService = localizationService;
@@ -65,7 +63,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _farmService = farmService;
             _animalRegistrationService = animalRegistrationService;
             _vaccinationTypeService = vaccinationTypeService;
-            _diseaseService = diseaseService;
         }
 
         public ActionResult Index() => RedirectToAction("List");

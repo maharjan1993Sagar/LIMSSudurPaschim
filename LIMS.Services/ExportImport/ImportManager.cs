@@ -1,13 +1,16 @@
 using LIMS.Core;
+using LIMS.Domain.Bali;
 using LIMS.Domain.Directory;
 using LIMS.Domain.Media;
 using LIMS.Domain.RationBalance;
+using LIMS.Services.Basic;
 using LIMS.Services.Directory;
 using LIMS.Services.ExportImport.Help;
 using LIMS.Services.Media;
 
 using Microsoft.AspNetCore.StaticFiles;
 using NPOI.XSSF.UserModel;
+using Org.BouncyCastle.Cms;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +29,7 @@ namespace LIMS.Services.ExportImport
         private readonly IPictureService _pictureService;
         private readonly ICountryService _countryService;
         private readonly IStateProvinceService _stateProvinceService;
+        private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
 
         #endregion
 
@@ -34,11 +38,13 @@ namespace LIMS.Services.ExportImport
         public ImportManager(         
             IPictureService pictureService,
             ICountryService countryService,
-            IStateProvinceService stateProvinceService)
+            IStateProvinceService stateProvinceService,
+            IPujigatKharchaKharakramService pujigatKharchaKharakramService)
         {
             _pictureService = pictureService;
             _countryService = countryService;
-            _stateProvinceService = stateProvinceService;           
+            _stateProvinceService = stateProvinceService;
+            _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
         }
 
         #endregion
@@ -180,65 +186,226 @@ namespace LIMS.Services.ExportImport
 
             return count;
         }
-  /*      public virtual async Task ImportFeedFromXlsx(Stream stream)
+
+
+
+
+
+        protected virtual void PrepareCategoryMapping(PujigatKharchaKharakram category, PropertyManager<PujigatKharchaKharakram> manager)
+        {
+            foreach (var property in manager.GetProperties)
+            {
+                switch (property.PropertyName.ToLower())
+                {
+                    case "programsummery":
+                        category.ProgramSummery = property.StringValue;
+                        break;
+                    case "program":
+                        category.Program = property.StringValue;
+                        break;
+                    case "remarks":
+                        category.Remarks = property.StringValue;
+                        break;
+                    case "limbis_code":
+                        category.Limbis_Code = property.StringValue;
+                        break;
+                    case "kharchacode":
+                        category.kharchaCode = property.StringValue;
+                        break;
+                    case "crathamchaumasikbadjet":
+                        category.PrathamChaumasikBadjet = property.StringValue;
+                        break;
+                    case "prathamchaumasikparimam":
+                        category.PrathamChaumasikParimam = property.StringValue;
+                        break;
+                    case "prathamchaumasikvar":
+                        category.PrathamChaumasikVar = property.StringValue;
+                        break;
+                    case "dosrochaumasikvar":
+                        category.DosroChaumasikVar = property.StringValue;
+                        break;
+                    case "dosroChaumasikparimam":
+                        category.DorsoChaumasikParimam = property.StringValue;
+                        break;
+                    case "dosroChaumasikbadjet":
+                        category.DosroChaumasikBadjet = property.StringValue;
+                        break;
+
+                    case "tesrochaumasikvar":
+                        category.TesroChaumasikVar = property.StringValue;
+                        break;
+                    case "tesrochaumasikparimam":
+                        category.TesroChaumasikParimam = property.StringValue;
+                        break;
+                    case "tesrochaumasikbadjet":
+                        category.TesroChaumasikBadjet = property.StringValue;
+                        break;
+                    case "barshikbadjet":
+                        category.BarsikBajet = property.StringValue;
+                        break;
+                    case "barshikbhar":
+                        category.BarshikBhar = property.StringValue;
+                        break;
+                    case "barshikparinam":
+                        category.BarshikParinam = property.StringValue;
+                        break;
+
+                    case "unit":
+                        category.Unit = property.StringValue;
+                        break;
+                        //    case "pagesize":
+                        //        category.PageSize = property.IntValue > 0 ? property.IntValue : 10;
+                        //        break;
+                        //    case "allowcustomerstoselectpageSize":
+                        //        category.AllowCustomersToSelectPageSize = property.BooleanValue;
+                        //        break;
+                        //    case "pagesizeoptions":
+                        //        category.PageSizeOptions = property.StringValue;
+                        //        break;
+                        //    case "priceranges":
+                        //        category.PriceRanges = property.StringValue;
+                        //        break;
+                        //    case "published":
+                        //        category.Published = property.BooleanValue;
+                        //        break;
+                        //    case "displayorder":
+                        //        category.DisplayOrder = property.IntValue;
+                        //        break;
+                        //    case "showonhomepage":
+                        //        category.ShowOnHomePage = property.BooleanValue;
+                        //        break;
+                        //    case "includeintopmenu":
+                        //        category.IncludeInTopMenu = property.BooleanValue;
+                        //        break;
+                        //    case "showonsearchbox":
+                        //        category.ShowOnSearchBox = property.BooleanValue;
+                        //        break;
+                        //    case "searchboxdisplayorder":
+                        //        category.SearchBoxDisplayOrder = property.IntValue;
+                        //        break;
+                        //    case "flag":
+                        //        category.Flag = property.StringValue;
+                        //        break;
+                        //    case "flagstyle":
+                        //        category.FlagStyle = property.StringValue;
+                        //        break;
+                        //    case "icon":
+                        //        category.Icon = property.StringValue;
+                        //        break;
+                        //    case "parentcategoryid":
+                        //        if (!string.IsNullOrEmpty(property.StringValue) && property.StringValue != "0")
+                        //            category.ParentCategoryId = property.StringValue;
+                        //        break;
+                        //}
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //public virtual async Task ImportFeedFromXlsx(Stream stream)
+            //{
+            //    var workbook = new XSSFWorkbook(stream);
+            //    var worksheet = workbook.GetSheetAt(0);
+            //    if (worksheet == null)
+            //        throw new LIMSException("No worksheet found");
+
+            //    var manager = GetPropertyManager<FeedLibrary>(worksheet);
+
+            //    var templates = await _manufacturerTemplateService.GetAllManufacturerTemplates();
+
+            //    for (var iRow = 1; iRow < worksheet.PhysicalNumberOfRows; iRow++)
+            //    {
+
+            //        manager.ReadFromXlsx(worksheet, iRow);
+            //        var manufacturerid = manager.GetProperty("id") != null ? manager.GetProperty("id").StringValue : string.Empty;
+            //        var manufacturer = string.IsNullOrEmpty(manufacturerid) ? null : await _manufacturerService.GetManufacturerById(manufacturerid);
+
+            //        var isNew = manufacturer == null;
+
+            //        manufacturer ??= new Manufacturer();
+
+            //        if (isNew)
+            //        {
+            //            manufacturer.CreatedOnUtc = DateTime.UtcNow;
+            //            manufacturer.ManufacturerTemplateId = templates.FirstOrDefault()?.Id;
+            //            if (!string.IsNullOrEmpty(manufacturerid))
+            //                manufacturer.Id = manufacturerid;
+            //        }
+
+            //        PrepareManufacturerMapping(manufacturer, manager, templates);
+
+
+            //        var picture = manager.GetProperty("picture") != null ? manager.GetProperty("sename").StringValue : "";
+            //        if (!string.IsNullOrEmpty(picture))
+            //        {
+            //            var _picture = await LoadPicture(picture, manufacturer.Name,
+            //                isNew ? "" : manufacturer.PictureId);
+            //            if (_picture != null)
+            //                manufacturer.PictureId = _picture.Id;
+            //        }
+            //        manufacturer.UpdatedOnUtc = DateTime.UtcNow;
+
+            //        if (isNew)
+            //            await _manufacturerService.InsertManufacturer(manufacturer);
+            //        else
+            //            await _manufacturerService.UpdateManufacturer(manufacturer);
+
+            //        var sename = manager.GetProperty("sename") != null ? manager.GetProperty("sename").StringValue : manufacturer.Name;
+            //        sename = await manufacturer.ValidateSeName(sename, manufacturer.Name, true, _seoSetting, _urlRecordService, _languageService);
+            //        manufacturer.SeName = sename;
+            //        await _manufacturerService.UpdateManufacturer(manufacturer);
+            //        await _urlRecordService.SaveSlug(manufacturer, manufacturer.SeName, "");
+
+            //    }
+
+            //}
+        }
+        public virtual async Task ImportCategoryFromXlsx(Stream stream)
         {
             var workbook = new XSSFWorkbook(stream);
             var worksheet = workbook.GetSheetAt(0);
             if (worksheet == null)
-                throw new LIMSException("No worksheet found");
+                throw new CmsException("No worksheet found");
 
-            var manager = GetPropertyManager<FeedLibrary>(worksheet);
+            var manager = GetPropertyManager<PujigatKharchaKharakram>(worksheet);
 
-            var templates = await _manufacturerTemplateService.GetAllManufacturerTemplates();
 
             for (var iRow = 1; iRow < worksheet.PhysicalNumberOfRows; iRow++)
             {
-
                 manager.ReadFromXlsx(worksheet, iRow);
-                var manufacturerid = manager.GetProperty("id") != null ? manager.GetProperty("id").StringValue : string.Empty;
-                var manufacturer = string.IsNullOrEmpty(manufacturerid) ? null : await _manufacturerService.GetManufacturerById(manufacturerid);
 
-                var isNew = manufacturer == null;
+                // var category = string.IsNullOrEmpty(categoryid) ? null : await _categoryService.GetCategoryById(categoryid);
 
-                manufacturer ??= new Manufacturer();
+                //var isNew = category == null;
 
-                if (isNew)
-                {
-                    manufacturer.CreatedOnUtc = DateTime.UtcNow;
-                    manufacturer.ManufacturerTemplateId = templates.FirstOrDefault()?.Id;
-                    if (!string.IsNullOrEmpty(manufacturerid))
-                        manufacturer.Id = manufacturerid;
-                }
+                //category ??= new Category();
 
-                PrepareManufacturerMapping(manufacturer, manager, templates);
+                var pujigatKharcha = new PujigatKharchaKharakram();
+                    pujigatKharcha.CreatedAt = DateTime.UtcNow;
+                    
+                
 
-
-                var picture = manager.GetProperty("picture") != null ? manager.GetProperty("sename").StringValue : "";
-                if (!string.IsNullOrEmpty(picture))
-                {
-                    var _picture = await LoadPicture(picture, manufacturer.Name,
-                        isNew ? "" : manufacturer.PictureId);
-                    if (_picture != null)
-                        manufacturer.PictureId = _picture.Id;
-                }
-                manufacturer.UpdatedOnUtc = DateTime.UtcNow;
-
-                if (isNew)
-                    await _manufacturerService.InsertManufacturer(manufacturer);
-                else
-                    await _manufacturerService.UpdateManufacturer(manufacturer);
-
-                var sename = manager.GetProperty("sename") != null ? manager.GetProperty("sename").StringValue : manufacturer.Name;
-                sename = await manufacturer.ValidateSeName(sename, manufacturer.Name, true, _seoSetting, _urlRecordService, _languageService);
-                manufacturer.SeName = sename;
-                await _manufacturerService.UpdateManufacturer(manufacturer);
-                await _urlRecordService.SaveSlug(manufacturer, manufacturer.SeName, "");
-
+                PrepareCategoryMapping(pujigatKharcha, manager);
+              
+                 await _pujigatKharchaKharakramService.InsertPujigatKharchaKharakram(pujigatKharcha);
+               
+                
             }
 
         }
 
-*/
         #endregion
     }
 }

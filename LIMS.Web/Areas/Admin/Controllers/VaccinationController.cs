@@ -39,7 +39,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IFarmService _farmService;
         private readonly IAnimalRegistrationService _animalRegistrationService;
         private readonly IVaccinationTypeService _vaccinationTypeService;
-        private readonly IDiseaseService _diseaseService;
         public VaccinationController(ILocalizationService localizationService,
             ISpeciesService speciesService,
             IUnitService unitService,
@@ -51,8 +50,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
              ICustomerService customerService,
              IFarmService farmService,
              IAnimalRegistrationService animalRegistrationService,
-             IVaccinationTypeService vaccinationTypeService,
-             IDiseaseService diseaseService
+             IVaccinationTypeService vaccinationTypeService
             )
         {
             _localizationService = localizationService;
@@ -67,7 +65,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _farmService = farmService;
             _animalRegistrationService = animalRegistrationService;
             _vaccinationTypeService = vaccinationTypeService;
-            _diseaseService = diseaseService;
         }
         public IActionResult Index() => RedirectToAction("List");
 
@@ -130,9 +127,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var vaccination = new SelectList(await _vaccinationTypeService.FiletrVaccinationType("Vaccine"), "Id", "MedicalName").ToList();
             vaccination.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.vaccinationId = vaccination;
-            var disease = new SelectList(await _diseaseService.GetDisease(), "Id", "DiseaseNameEnglish").ToList();
-            disease.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.DiseaseId = disease;
+            
             VaccinationServiceModel model = new VaccinationServiceModel();
             return View(model);
         }
@@ -174,7 +169,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             vaccination.Farm = await _farmService.GetFarmById(model.FarmId);
             vaccination.AnimalRegistration = await _animalRegistrationService.GetAnimalRegistrationById(model.AnimalId);
             vaccination.CreatedBy = _workContext.CurrentCustomer.Id;
-            vaccination.Disease = await _diseaseService.GetDiseaseById(vaccination.VaccinationForDisease);
             vaccination.VaccinationType = await _vaccinationTypeService.GetVaccinationTypeById(vaccination.VaccinationTypeId);
             vaccination.AnimalRegistrationId = model.AnimalId;
             await _vaccinationService.InsertVaccination(vaccination);

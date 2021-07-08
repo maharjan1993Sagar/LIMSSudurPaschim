@@ -57,7 +57,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<FarmService>().As<IFarmService>().InstancePerLifetimeScope();
             builder.RegisterType<AnimalRegistrationService>().As<IAnimalRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<OwnerService>().As<IOwnerService>().InstancePerLifetimeScope();
-            builder.RegisterType<DiseaseService>().As<IDiseaseService>().InstancePerLifetimeScope();
+            builder.RegisterType<PujigatKharchaKharakramService>().As<IPujigatKharchaKharakramService>().InstancePerLifetimeScope();
             builder.RegisterType<MilkRecordingService>().As<IMilkRecordingService>().InstancePerLifetimeScope();
             builder.RegisterType<GrowthMonitoringService>().As<IGrowthMonitoringService>().InstancePerLifetimeScope();
             builder.RegisterType<AiService>().As<IAiService>().InstancePerLifetimeScope();
