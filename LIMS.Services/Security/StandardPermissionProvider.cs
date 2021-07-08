@@ -122,6 +122,8 @@ namespace LIMS.Services.Security
         
         public static readonly PermissionRecord AccessDynamicMenu = new PermissionRecord { Name = "Admin area. Manage Dynamic Menu. Access a Dynamic Menu", SystemName = PermissionSystemName.AccessDynamicMenu, Category = "Configuration" };
         public static readonly PermissionRecord AccessNewsEventTender = new PermissionRecord { Name = "Admin area. Manage News event tender publication. Access news event tender publication.", SystemName = PermissionSystemName.AccessNewsEventTender, Category = "Configuration" };
+       public static readonly PermissionRecord AccessCDS = new PermissionRecord { Name = "Admin area. Manage CDS", SystemName = PermissionSystemName.AccessCDS};
+       public static readonly PermissionRecord AccessCMS = new PermissionRecord { Name = "Admin area. Manage CMS", SystemName = PermissionSystemName.AccessCMS};
 
         public virtual IEnumerable<PermissionRecord> GetPermissions()
         {
@@ -290,7 +292,8 @@ namespace LIMS.Services.Security
                         ManageInteractiveForm,
                         ManageActions,
                         ManageReminders,
-                       
+                       AccessCMS,
+                       AccessCDS
                     }
 
 
