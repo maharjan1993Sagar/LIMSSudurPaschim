@@ -11,7 +11,9 @@ namespace LIMS.Domain.DynamicMenu
             this.MainMenuId = Guid.NewGuid();
         }
         public Guid MainMenuId { get; set; }
+        public int SerialNo { get; set; }
         public string  MainMenuName { get; set; }
+        public string  MainMenuNameNepali { get; set; }
         public string  Url { get; set; }
         public bool HasSubMenu { get; set; }
         public bool IsActive { get; set; }

@@ -4,21 +4,19 @@ using System.Text;
 
 namespace LIMS.Domain.NewsEvent
 {
-    public  class NewsEventFile:SubBaseEntity
+    public class NewsEventFile : SubBaseEntity
     {
-        public NewsEventFile()
-        {
-            PictureId = Guid.NewGuid();
-        }
+
         /// <summary>
         /// Gets or sets the farm identifier
         /// </summary>
-        public string NewsEventTenderId { get; set; }
+        public string CMSEntityId { get; set; }
 
         /// <summary>
         /// Gets or sets the picture identifier
         /// </summary>
-        public Guid PictureId { get; set; }
+        public string PictureId { get; set; }
+        public int DisplayOrder { get; set; }
 
         public string MimeType { get; set; }
 
@@ -38,9 +36,12 @@ namespace LIMS.Domain.NewsEvent
         public string TitleAttribute { get; set; }
 
         public string Type { get; set; }
-        public string  FilePath { get; set; }
+        public string FilePath { get; set; }
         public string FileName { get; set; }
         public decimal FileSize { get; set; }
+        public string OverrideTitleAttribute { get; set; }
+        public string OverrideAltAttribute { get; set; }
+        public string PictureUrl{ get; set; }
 
     }
 }

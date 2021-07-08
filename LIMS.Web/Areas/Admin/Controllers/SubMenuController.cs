@@ -57,7 +57,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command)
         {
-            var subMenu = await _subMenuService.GetSubMenu(command.Page - 1, command.PageSize);
+            var subMenu = await _subMenuService.GetSubMenuByUser(command.Page - 1, command.PageSize);
             
             var gridModel = new DataSourceResult {
                 Data = subMenu,
@@ -70,7 +70,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var mainMenus = new SelectList(await _mainMenuService.GetMainMenu(), "Id", "MainMenuName").ToList();
+            var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;          
             return View();
@@ -82,7 +82,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             { 
-                var subMenu = model.ToEntity();              
+                var subMenu = model.ToEntity();
+                subMenu.UserId = _workContext.CurrentCustomer.Id;
                 subMenu.MainMenu = await _mainMenuService.GetMainMenuById(model.MainMenuId);
                 await _subMenuService.InsertSubMenu(subMenu);
                 SuccessNotification(_localizationService.GetResource("Admin.SubMenu.Added"));
@@ -90,7 +91,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             }
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var mainMenus = new SelectList(await _mainMenuService.GetMainMenu(), "Id", "MainMenuName").ToList();
+            var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;
             //If we got this far, something failed, redisplay form
@@ -107,7 +108,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 //No blog post found with the specified id
                 return RedirectToAction("List");
             var model = subMenu.ToModel();
-            var mainMenus = new SelectList(await _mainMenuService.GetMainMenu(), "Id", "MainMenuName").ToList();
+            var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
@@ -140,7 +141,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return RedirectToAction("List");
             }
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var mainMenus = new SelectList(await _mainMenuService.GetMainMenu(), "Id", "MainMenuName").ToList();
+            var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;
             return View(model);

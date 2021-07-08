@@ -81,7 +81,8 @@
                 {
                 field: "SubSubMenuName",
                 title: "@T("Admin.SubSubMenu.SubSubMenuName")",
-                width: 400,
+                    width: 400,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((SubSubMenuName == null) ? " ":SubSubMenuName)#</a>',
                 },
                 {
                 field: "Url",

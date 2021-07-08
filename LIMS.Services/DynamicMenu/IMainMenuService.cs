@@ -9,8 +9,10 @@ namespace LIMS.Services.DynamicMenu
     public interface IMainMenuService
     {
         Task<MainMenu> GetMainMenuById(string Id);
+        Task<List<MainMenu>> GetByUser(string userId);
 
         Task<IPagedList<MainMenu>> GetMainMenu(int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<MainMenu>> GetMainMenuByUser(int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task<List<MainMenu>> GetAll();
 

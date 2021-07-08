@@ -105,6 +105,7 @@
 
         public const string AccessDynamicMenu = "AccessDynamicMenu";
         public const string AccessNewsEventTender = "AccessNewsEventTender";
+        public const string AccessGeneralCMS = "AccessGeneralCMS";
 
     }
 }

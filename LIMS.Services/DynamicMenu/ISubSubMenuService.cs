@@ -8,9 +8,11 @@ namespace LIMS.Services.DynamicMenu
 {
     public interface ISubSubMenuService
     {
+        Task<List<SubSubMenu>> GetAll();
         Task<SubSubMenu> GetSubSubMenuById(string Id);
 
         Task<IPagedList<SubSubMenu>> GetSubSubMenu(int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<SubSubMenu>> GetSubSubMenuByUser(int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task DeleteSubSubMenu(SubSubMenu menu);
 

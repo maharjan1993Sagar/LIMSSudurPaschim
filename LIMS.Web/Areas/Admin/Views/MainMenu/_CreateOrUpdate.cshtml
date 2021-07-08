@@ -5,7 +5,13 @@
     <div class="form-row">
         <input type="hidden" asp-for="Id" />
 
-        <div class="form-body">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="SerialNo" />
+                    <admin-input asp-for="SerialNo" />
+                    <span asp-validation-for="SerialNo"></span>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="MainMenuName" />
@@ -14,7 +20,15 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+        <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="MainMenuNameNepali" />
+                    <admin-input asp-for="MainMenuNameNepali" />
+                    <span asp-validation-for="MainMenuNameNepali"></span>
+
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group">
                     <admin-label asp-for="Url" />
                     <admin-input asp-for="Url" />
@@ -23,17 +37,17 @@
             </div>
 
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
-                    <admin-label asp-for="HasSubMenu" />
+                    <admin-label asp-for="HasSubMenu" /><br />
                     <admin-input asp-for="HasSubMenu" />
                     <span asp-validation-for="HasSubMenu"></span>
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
-                    <admin-label asp-for="IsActive" />
+                    <admin-label asp-for="IsActive" /><br />
                     <admin-input asp-for="IsActive" />
                     <span asp-validation-for="IsActive"></span>
                 </div>
@@ -43,6 +57,5 @@
 
         </div>
     </div>
-</div>
 
 

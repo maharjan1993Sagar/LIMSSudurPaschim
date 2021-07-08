@@ -1,0 +1,35 @@
+﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS
+@model PageContentModel
+@{
+    //page title
+    ViewBag.Title = "";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    <i class="fa fa-comment"></i>
+                    @T("Admin.PageContent.Preview")
+                    @*@T("Admin.ContentManagement.Blog.BlogPosts.AddNew")*@
+                    <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
+                </div>
+
+            </div>
+            <div class="x_content form">
+                <img src="@Model.ImageUrl" height="200" width="150" />
+                <p>
+                    Page Name: @Model.PageName<br />
+                    Page Name: @Model.Title<br />
+                    Page Name: @Model.Description<br />
+                </p>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>

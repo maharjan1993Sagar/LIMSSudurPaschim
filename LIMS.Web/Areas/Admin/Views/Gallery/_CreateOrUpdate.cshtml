@@ -1,0 +1,244 @@
+﻿@model LIMS.Web.Areas.Admin.Models.GeneralCMS.GalleryModel
+<input type="hidden" asp-for="Id" />
+<div class="form-row">
+    <div class="col-md-2 ">
+
+        <div class="form-group">
+            <admin-label asp-for="Type" />
+            <admin-select asp-for="Type" asp-items="@ViewBag.Type" id="type"></admin-select>
+            <span asp-validation-for="Type"></span>
+
+        </div>
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="form-group">
+            <admin-label asp-for="Title" />
+            <admin-input asp-for="Title" />
+            <span asp-validation-for="Title"></span>
+
+        </div>
+    </div>
+  
+    <div class="col-md-3 videoOnly">
+
+        <div class="form-group">
+            <admin-label asp-for="VideoUrl" />
+            <admin-input asp-for="VideoUrl" />
+            <span asp-validation-for="VideoUrl"></span>
+
+        </div>
+    </div>
+
+</div>
+<center>
+    <div class="actions">
+        <div class="btn-group btn-group-devided">
+            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+        </div>
+    </div>
+</center>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#type").change(function () {
+            if ($(this).val() == "Video") {
+                $(".videoOnly").show();
+            }
+            else {
+                $(".videoOnly").hide();
+            }
+        })
+        @*var province = $("#country").data("val");
+            url = "@Url.Action("GetProvince", "LocalStructure")";
+            $.getJSON(url, (result) => {
+                console.log(result);
+                $.each(result, function (item, value) {
+                    var selectedAttr = "";
+                    if (province == value)
+                        selectedAttr = "selected";
+                    $("#country").append(`<option value="${value}" ${selectedAttr}>${value}</option>`);
+                });
+            });
+
+        if (province != "" || province != undefined) {
+            // $(`#country option[value="`+province+`"]`).prop('selected', true);
+
+            var dis = $("#district").attr('data-val');
+             $("#district").empty();
+                $("#district").append('<option value="">select</option>')
+                url = "@Url.Action("GetDistrict", "LocalStructure")";
+                var data = {
+                    province: province
+                }
+                $.getJSON(url, data, (result) => {
+
+                    $.each(result, function (item1, value1) {
+                        if (value1 == dis) {
+                            $("#district").append(`<option value="${value1}" selected>${value1}</option>`);
+                        }
+                        else {
+                            $("#district").append(`<option value="${value1}">${value1}</option>`);
+
+                        }
+                        });
+                });
+          //  $("#district").val(dis);
+            if (dis != "" || dis != undefined) {
+                $("#locallevel").empty();
+                $("#localLevel").append('<option value="">select</option>');
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: dis
+                }
+                $.getJSON(url, data, (result) => {
+                    $.each(result, function (item, value) {
+                        var local = $("#locallevel").attr('data-val');
+                        if (value == local) {
+                            $("#locallevel").append(`<option value="${value}" selected>${value}</option>`);
+                        }
+                        else {
+                            $("#locallevel").append(`<option value="${value}">${value}</option>`);
+
+                        }
+                        });
+
+                })
+            }
+            else {
+                $("#district").empty();
+                $("#district").append('<option value="">select</option>')
+                url = "@Url.Action("GetDistrict", "LocalStructure")";
+                var data = {
+                    province: province
+                }
+                $.getJSON(url, data, (result) => {
+
+                    $.each(result, function (item1, value1) {
+
+                        $("#district").append(`<option value="${value1}">${value1}</option>`);
+                    });
+                });
+            }
+        }
+            $('#country').change(function () {
+                var province = $(this).val();
+                $("#district").empty();
+                $("#district").append('<option value="">select</option>')
+                url = "@Url.Action("GetDistrict", "LocalStructure")";
+                var data = {
+                    province: province
+                }
+                $.getJSON(url, data, (result) => {
+
+                    $.each(result, function (item1, value1) {
+                        $("#district").append(`<option value="${value1}">${value1}</option>`);
+                    });
+                });
+            });
+            var $local = $('#locallevel');
+            $('#district').change(function () {
+                var district = $(this).val();
+                $("#locallevel").empty();
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: district
+                }
+                $.getJSON(url, data, (result) => {
+                    $.each(result, function (item, value) {
+                        $("#locallevel").append(`<option value="${value}">${value}</option>`);
+                    });
+
+                })
+
+            });*@
+
+
+            $(".farmonly").hide();
+            $(".farmeronly").hide();
+            $(".cooperativeOnly").hide();
+            $(".nocooperative").hide();
+            var category = $("#category").val();
+            if (category == "farmer") {
+                $(".cooperativeOnly").hide();
+                $(".farmonly").hide();
+                $(".farmeronly").show();
+            }
+            if (category == "farm") {
+                $(".cooperativeOnly").hide();
+                $(".farmeronly").hide();
+                $(".farmonly").show();
+
+            }
+            if (category == "co-operative" || category == "groups") {
+                $(".farmonly").hide();
+                $(".farmeronly").hide();
+                $(".nocooperative").hide();
+                $(".cooperativeOnly").show();
+
+            }
+            if (category == "") {
+                $('.farmeronly input[type="text"]').val('');
+                $('.farmonly input[type="text"]').val('');
+                $('.cooperativeOnly input[type="text"]').val('');
+                $(".farmonly").hide();
+                $(".farmeronly").hide();
+                $(".cooperativeOnly").hide();
+                $(".nocooperative").hide();
+            }
+
+            $("#category").change(function () {
+                var category = $(this).val();
+                if (category == "farmer") {
+                    $('.farmonly input[type="text"]').val('');
+                    $('.farmonly').find("select").prop('selectedIndex', 0);
+                    $('.farmonly').find("radio").prop('checked', false);
+                    $(".farmonly").hide();
+                    $(".farmeronly").show();
+                    $(".nocooperative").show();
+                }
+                if (category == "farm") {
+                    $('.farmeronly input[type="text"]').val('');
+                    $('.farmeronly').find("select").prop('selectedIndex', 0);
+                    $(".farmeronly").hide();
+                    $(".farmonly").show();
+                    $(".nocooperative").show();
+
+                }
+                if (category == "co-operative" || category == "groups") {
+                    $('.farmeronly input[type="text"]').val('');
+                    $('.farmeronly').find("select").prop('selectedIndex', 0);
+                    $('.farmonly input[type="text"]').val('');
+                    $('.farmonly').find("select").prop('selectedIndex', 0);
+                    $(".farmonly").hide();
+                    $(".farmeronly").hide();
+                    $(".nocooperative").hide();
+                    $(".cooperativeOnly").show();
+                }
+                if (category == "") {
+                    $(".farmonly").hide();
+                    $(".farmeronly").hide();
+                    $(".cooperativeOnly").hide();
+                    $(".nocooperative").hide();
+                }
+            })
+
+
+
+
+    });
+
+
+    function onlyNumberKey(evt) {
+
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
+</script>

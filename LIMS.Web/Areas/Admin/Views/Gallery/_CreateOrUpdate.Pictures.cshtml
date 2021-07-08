@@ -1,0 +1,191 @@
+﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS
+@model GalleryModel
+
+@if (!String.IsNullOrEmpty(Model.Id))
+{
+    <div class="panel panel-default">
+        <vc:admin-widget widget-zone="pictures_top" additional-data="Model" />
+        <div class="panel-body">
+            <div id="farmpictures-grid"></div>
+        </div>
+        <vc:admin-widget widget-zone="pictures_bottom" additional-data="Model" />
+    </div>
+    <script>
+            $(document).ready(function () {
+                $("#farmpictures-grid").kendoGrid({
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Html.Raw(Url.Action("PictureList", "Gallery", new { galleryId = Model.Id }))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            },
+                            update: {
+                                url:"@Html.Raw(Url.Action("PictureUpdate", "Gallery"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            },
+                            destroy: {
+                                url: "@Html.Raw(Url.Action("PictureDelete", "Gallery"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            }
+                        },
+                        schema: {
+                            data: "Data",
+                            total: "Total",
+                            errors: "Errors",
+                            model: {
+                                id: "Id",
+                                fields: {
+                                    PictureUrl: {editable: false, type: "string" },
+                                    //OverrideAltAttribute: {editable: true, type: "string" },
+                                    OverrideTitleAttribute: {editable: true, type: "string" }
+                                }
+                            }
+                        },
+                        requestEnd: function(e) {
+                            if(e.type=="update") {
+                                this.read();
+                            }
+                        },
+                        error: function(e) {
+                            display_kendoui_grid_error(e);
+                            // Cancel the changes
+                            this.cancelChanges();
+                        },
+                        serverPaging: true,
+                        serverFiltering: true,
+                        serverSorting: true
+                    },
+                    pageable: {
+                        refresh: true,
+                        numeric: false,
+                        previousNext: false,
+                        info: false
+                    },
+                    editable: {
+                        confirmation: true,
+                        mode: "inline"
+                    },
+                    scrollable: false,
+                    columns: [{
+                        field: "PictureUrl",
+                        title: "@T("Admin.Gallery.Pictures.Fields.Picture")",
+                        template: '<a href="#=PictureUrl#" target="_blank"><img alt="#=PictureId#" src="#=PictureUrl#" width="150" /></a>',
+                        width: 165
+                    },
+                        @*{
+                        field: "OverrideAltAttribute",
+                        minScreenWidth: 500,
+                        title: "@T("Admin.Livestock.Farms.Pictures.Fields.OverrideAltAttribute")",
+                        },*@
+                        {
+                        field: "OverrideTitleAttribute",
+                        title: "@T("Admin.Gallery.Pictures.Fields.OverrideTitleAttribute")",
+                        minScreenWidth: 500,
+                    }, {
+                        command: [{
+                            name: "edit",
+                            text: {
+                                edit: "@T("Admin.Common.Edit")",
+                                update: "@T("Admin.Common.Update")",
+                                cancel: "@T("Admin.Common.Cancel")"
+                            }
+                        }, {
+                            name: "destroy",
+                            text: "@T("Admin.Common.Delete")"
+                        }],
+                        width: 200
+                    }]
+                });
+            });
+    </script>
+
+    <p>
+        <strong>@T("Admin.Gallery.Pictures.AddNew")</strong>
+    </p>
+    <script>
+
+        $(document).ready(function () {
+            $('#addPicture').click(function () {
+                var pictureId = $("#@Html.FieldIdFor(model => model.ImageModel.PictureId)").val();
+                @*var overrideAltAttribute = $("#@Html.FieldIdFor(model => model.AddPictureModel.OverrideAltAttribute)").val();*@
+                var overrideTitleAttribute = $("#@Html.FieldIdFor(model => model.ImageModel.OverrideTitleAttribute)").val();
+               // var galleryId =  $("#@Html.FieldIdFor(model => model.Id)").val();
+                if (pictureId == 0) {
+                    alert('Upload picture first');
+                    return;
+                }
+
+                $('#addPicture').attr('disabled', true);
+
+                var postData = {
+                    pictureId: pictureId,
+                    //overrideAltAttribute: overrideAltAttribute,
+                    overrideTitleAttribute: overrideTitleAttribute,
+                    galleryId: '@Model.Id'
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("PictureAdd", "Gallery"))",
+                    data: postData,
+                    success: function(data) {
+                        var grid = $("#farmpictures-grid");
+                        grid.data('kendoGrid').dataSource.read();
+                        $('#addPicture').attr('disabled', false);
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseJSON.Errors);
+                        $('#addPicture').attr('disabled', false);
+                    }
+                });
+                $('#addPicture').attr('disabled', false);
+            });
+        });
+    </script>
+    <div class="form-horizontal">
+        <div class="form-body">
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="ImageModel.PictureId" />
+                    <admin-input asp-for="ImageModel.PictureId" />
+                    <span asp-validation-for="ImageModel.PictureId"></span>
+                </div>
+            </div>
+            @*<div class="form-group">
+            <admin-label asp-for="AddPictureModel.OverrideAltAttribute" />
+            <div class="col-md-9 col-sm-9">
+                <admin-input asp-for="AddPictureModel.OverrideAltAttribute" />
+                <span asp-validation-for="AddPictureModel.OverrideAltAttribute"></span>
+            </div>
+        </div>*@
+            <div class="col-md-3 ">
+
+                <div class="form-group">
+                    <admin-label asp-for="ImageModel.OverrideTitleAttribute" />
+                    <admin-input asp-for="ImageModel.OverrideTitleAttribute" />
+                    <span asp-validation-for="ImageModel.OverrideTitleAttribute"></span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <div class="offset-md-3 col-md-9 col-sm-9">
+                    <input type="button" id="addPicture" class="k-button" value="@T("Admin.Gallery.Pictures.AddButton")" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="note note-info">
+        @T("Admin.Livestock.Farms.Pictures.SaveBeforeEdit")
+    </div>
+}

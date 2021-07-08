@@ -4,7 +4,13 @@
     <div class="form-row">
         <input type="hidden" asp-for="Id" />
         <div class="form-body">
-
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="SerialNo" />
+                    <admin-input asp-for="SerialNo" />
+                    <span asp-validation-for="SerialNo"></span>
+                </div>
+            </div>
             <div class="col-md-3">
 
                 <div class="form-group">
@@ -18,16 +24,25 @@
 
                 <div class="form-group">
                     <admin-label asp-for="SubSubMenuName" />
-                    <admin-input asp-for="SubSubMenuName"/>
+                    <admin-input asp-for="SubSubMenuName" />
                     <span asp-validation-for="SubSubMenuName"></span>
 
                 </div>
-            </div> 
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SubSubMenuNameNepali" />
+                    <admin-input asp-for="SubSubMenuNameNepali" />
+                    <span asp-validation-for="SubSubMenuNameNepali"></span>
+
+                </div>
+            </div>
             <div class="col-md-3">
 
                 <div class="form-group">
                     <admin-label asp-for="Url" />
-                    <admin-input asp-for="Url"/>
+                    <admin-input asp-for="Url" />
                     <span asp-validation-for="Url"></span>
 
                 </div>
@@ -35,13 +50,13 @@
             <div class="col-md-3 col-sm-3">
 
                 <div class="form-group">
-                    <admin-label asp-for="IsActive" />
+                    <admin-label asp-for="IsActive" /><br />
                     <admin-input asp-for="IsActive" />
                     <span asp-validation-for="IsActive"></span>
 
                 </div>
             </div>
-         
+
         </div>
     </div>
 </div>

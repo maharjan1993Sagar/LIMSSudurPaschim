@@ -12,6 +12,7 @@ using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.DynamicMenu;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command)
         {
-            var mainMenu = await _mainMenuService.GetMainMenu(command.Page - 1, command.PageSize);
+            var mainMenu = await _mainMenuService.GetMainMenuByUser(command.Page - 1, command.PageSize);
             
             var gridModel = new DataSourceResult {
                 Data = mainMenu,
@@ -75,7 +76,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var mainMenu = model.ToEntity();
-              
+                mainMenu.UserId = _workContext.CurrentCustomer.Id;
+                mainMenu.CreatedBy = _workContext.CurrentCustomer.NameEnglish;
+                mainMenu.CreatedDate = DateTime.Now;
                 await _mainMenuService.InsertMainMenu(mainMenu);
                 SuccessNotification(_localizationService.GetResource("Admin.MainMenu.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = mainMenu.Id }) : RedirectToAction("List");
@@ -103,13 +106,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(MainMenuModel model, bool continueEditing)
         {
             var mainMenu = await _mainMenuService.GetMainMenuById(model.Id);
+
             if (mainMenu == null)
                
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
-                var m = model.ToEntity(mainMenu);               
+                var m = model.ToEntity(mainMenu);
+                m.UserId = _workContext.CurrentCustomer.Id;
+                m.EditedBy = _workContext.CurrentCustomer.NameEnglish;
+                m.EditedDate = DateTime.Now;
                 await _mainMenuService.UpdateMainMenu(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.MainMenu.Updated"));

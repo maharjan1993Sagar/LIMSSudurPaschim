@@ -5,7 +5,13 @@
         <input type="hidden" asp-for="Id" />
 
         <div class="form-body">
-
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="SerialNo" />
+                    <admin-input asp-for="SerialNo" />
+                    <span asp-validation-for="SerialNo"></span>
+                </div>
+            </div>
             <div class="col-md-3">
 
                 <div class="form-group">
@@ -27,6 +33,15 @@
             <div class="col-md-3">
 
                 <div class="form-group">
+                    <admin-label asp-for="NameNepali" />
+                    <admin-input asp-for="NameNepali" />
+                    <span asp-validation-for="NameNepali"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
                     <admin-label asp-for="Url" />
                     <admin-input asp-for="Url" />
                     <span asp-validation-for="Url"></span>
@@ -36,7 +51,7 @@
             <div class="col-md-3 col-sm-3">
 
                 <div class="form-group">
-                    <admin-label asp-for="HasSubSubMenu" />
+                    <admin-label asp-for="HasSubSubMenu" /><br />
                     <admin-input asp-for="HasSubSubMenu" />
                     <span asp-validation-for="HasSubSubMenu"></span>
 
@@ -45,7 +60,7 @@
             <div class="col-md-3 col-sm-3">
 
                 <div class="form-group">
-                    <admin-label asp-for="IsActive" />
+                    <admin-label asp-for="IsActive" /><br />
                     <admin-input asp-for="IsActive" />
                     <span asp-validation-for="IsActive"></span>
 

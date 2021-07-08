@@ -1,0 +1,33 @@
+﻿@model LIMS.Web.Areas.Admin.Models.GeneralCMS.BannerModel
+<div class="x_content form">
+    <div class="form-row">
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <admin-label asp-for="Title" />
+                    <admin-input asp-for="Title"/>
+                    <span asp-validation-for="Title"></span>
+
+                </div>
+            </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <admin-label asp-for="IsActive"/><br />
+                <admin-input asp-for="IsActive"/>
+                <span asp-validation-for="IsActive"></span>
+            </div>
+        </div>
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <admin-label asp-for="Description" />
+                    <admin-input asp-for="Description" />
+                    <span asp-validation-for="Description"></span>
+
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+

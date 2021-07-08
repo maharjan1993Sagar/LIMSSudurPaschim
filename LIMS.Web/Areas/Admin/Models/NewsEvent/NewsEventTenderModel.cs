@@ -23,11 +23,11 @@ namespace LIMS.Web.Areas.Admin.Models.NewsEvent
 
         public string Description { get; set; }
         [LIMSResourceDisplayName("Admin.NewsEvent.ActiveDate")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [UIHint("date")]
 
         public DateTime ActiveDate { get; set; }
         [LIMSResourceDisplayName("Admin.NewsEvent.ExpiryDate")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [UIHint("date")]
 
 
         public DateTime ExpiryDate { get; set; }
@@ -43,12 +43,33 @@ namespace LIMS.Web.Areas.Admin.Models.NewsEvent
         [LIMSResourceDisplayName("Admin.NewsEvent.ShowText")]
 
         public bool ShowText { get; set; }
+        public string UserId { get; set; }
         public NewsEventFileModel FileModel { get; set; }
 
     }
 
-    public class NewsEventFileModel
+    public class NewsEventFileModel:SubBaseEntity
     {
+        public string CMSEntityId { get; set; }
+
+        [UIHint("Picture")]
+        [LIMSResourceDisplayName("Admin.NewsEvent.Pictures.Fields.Picture")]
+        public string PictureId { get; set; }
+
+        [LIMSResourceDisplayName("Admin.NewsEvent.Pictures.Fields.Picture")]
+        public string PictureUrl { get; set; }
+
+        [LIMSResourceDisplayName("Admin.NewsEvent.Pictures.Fields.DisplayOrder")]
+        public int DisplayOrder { get; set; }
+
+        [LIMSResourceDisplayName("Admin.NewsEvent.Pictures.Fields.OverrideAltAttribute")]
+
+        public string OverrideAltAttribute { get; set; }
+
+        [LIMSResourceDisplayName("Admin.NewsEvent.Pictures.Fields.OverrideTitleAttribute")]
+
+        public string OverrideTitleAttribute { get; set; }
+        public string Pic { get; set; }
         public string Type { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }

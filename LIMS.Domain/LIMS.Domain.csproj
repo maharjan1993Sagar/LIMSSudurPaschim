@@ -22,8 +22,4 @@
     <PackageReference Include="MongoDB.Driver.GridFS" Version="2.11.2" />
     <PackageReference Include="DotLiquid" Version="2.0.361" />
   </ItemGroup>
-
-<ItemGroup>
-  <Folder Include="ContactUs\" />
-</ItemGroup>
 </Project>

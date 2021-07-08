@@ -3,6 +3,7 @@
 <div class="x_content form">
     <div class="form-row">
         <div class="form-body">
+            <input type="hidden" asp-for="UserId" />
 
             <div class="col-md-3">
 
@@ -69,8 +70,8 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="ActiveDate" />
-                  @*  <partial name="DateTime" model="Model.ActiveDate" />*@
-                    <admin-input asp-for="ActiveDate"/>
+                    @*  <partial name="DateTime" model="Model.ActiveDate" />*@
+                    <admin-input asp-for="ActiveDate" />
                     <span asp-validation-for="ActiveDate"></span>
                 </div>
             </div>
@@ -96,14 +97,14 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <admin-label asp-for="FileModel.File"/>
-                    <admin-input asp-for="FileModel.File"/>
+                    <admin-label asp-for="FileModel.File" />
+                    <admin-input asp-for="FileModel.File" />
                     <span asp-validation-for="FileModel.File"></span>
-                    <label>@(Model.FileModel.FileName)</label>
+                    <label>@(Model.FileModel!=null?Model.FileModel.FileName:"")</label>
                 </div>
             </div>
-           
-           
+
+
         </div>
     </div>
 </div>

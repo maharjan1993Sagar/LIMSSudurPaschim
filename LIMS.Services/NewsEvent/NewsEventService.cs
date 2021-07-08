@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LIMS.Core;
 
 namespace LIMS.Services.NewsEvent
 {
@@ -14,10 +15,18 @@ namespace LIMS.Services.NewsEvent
     {
         private readonly IRepository<NewsEventTender> _newsRepository;
         private readonly IMediator _mediator;
-        public NewsEventService(IRepository<NewsEventTender> newsRepository, IMediator mediator)
+        private readonly IWorkContext _workContext;
+        public NewsEventService(IRepository<NewsEventTender> newsRepository, IMediator mediator,IWorkContext workContext)
         {
             _newsRepository = newsRepository;
             _mediator = mediator;
+            _workContext = workContext;
+        }
+
+        public async Task<List<NewsEventTender>> GetAll()
+        {
+            var news = _newsRepository.Table;
+            return news.ToList();
         }
         public async Task DeleteNewsEvent(NewsEventTender news)
         {
@@ -34,6 +43,13 @@ namespace LIMS.Services.NewsEvent
         {
             var query = _newsRepository.Table;
             return await PagedList<NewsEventTender>.Create(query, pageIndex, pageSize);
+        } 
+        public async Task<IPagedList<NewsEventTender>> GetNewsEventByUser(int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var userId = _workContext.CurrentCustomer.Id;
+            var query = _newsRepository.Collection;
+            var filter = Builders<NewsEventTender>.Filter.Eq("UserId", userId);
+            return await PagedList<NewsEventTender>.Create(query,filter, pageIndex, pageSize);
         }
 
         public Task<NewsEventTender> GetNewsEventById(string Id)

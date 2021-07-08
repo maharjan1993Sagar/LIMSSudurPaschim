@@ -56,7 +56,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command)
         {
-            var subMenu = await _subSubMenuService.GetSubSubMenu(command.Page - 1, command.PageSize);
+            var subMenu = await _subSubMenuService.GetSubSubMenuByUser(command.Page - 1, command.PageSize);
 
             var gridModel = new DataSourceResult {
                 Data = subMenu,
@@ -81,6 +81,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 var subsubMenu = model.ToEntity();
                 subsubMenu.SubMenu = await _subMenuService.GetSubMenuById(model.SubMenuId);
+                subsubMenu.UserId = _workContext.CurrentCustomer.Id;
                 await _subSubMenuService.InsertSubSubMenu(subsubMenu);
                 SuccessNotification(_localizationService.GetResource("Admin.SubSubMenu.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = subsubMenu.Id }) : RedirectToAction("List");
@@ -157,7 +158,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<SelectList> GetSubMenu()
         {
-            var subMenu = await _subMenuService.GetSubMenu();
+            var subMenu = await _subMenuService.GetSubMenuByUser();
             var items = subMenu.Select(m => new SelectListItem {
                 Text = m.Name + "(" + m.MainMenu.MainMenuName + ")",
                 Value = m.Id.ToString()

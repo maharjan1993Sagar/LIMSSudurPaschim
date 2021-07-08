@@ -7,17 +7,27 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LIMS.Core;
 
 namespace LIMS.Services.DynamicMenu
 {
     public class SubMenuService : ISubMenuService
     {
         private readonly IRepository<SubMenu> _menuRepository;
+        private readonly IWorkContext _workContext;
         private readonly IMediator _mediator;
-        public SubMenuService(IRepository<SubMenu> menuRepository, IMediator mediator)
+        public SubMenuService(IRepository<SubMenu> menuRepository, IMediator mediator, IWorkContext workContext)
         {
             _menuRepository = menuRepository;
             _mediator = mediator;
+            _workContext = workContext;
+        }
+
+        public async Task<List<SubMenu>> GetAll()
+        {
+            var menus = _menuRepository.Table;
+
+            return menus.ToList();
         }
         public async Task DeleteSubMenu(SubMenu menu)
         {
@@ -34,6 +44,14 @@ namespace LIMS.Services.DynamicMenu
         {
             var query = _menuRepository.Table;
             return await PagedList<SubMenu>.Create(query, pageIndex, pageSize);
+        }
+         public async Task<IPagedList<SubMenu>> GetSubMenuByUser
+          (int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var userId = _workContext.CurrentCustomer.Id;
+            var query = _menuRepository.Collection;
+            var filter = Builders<SubMenu>.Filter.Eq("UserId", userId);
+            return await PagedList<SubMenu>.Create(query,filter, pageIndex, pageSize);
         }
 
         public Task<SubMenu> GetSubMenuById(string Id)

@@ -1,0 +1,30 @@
+﻿@model LIMS.Web.Areas.Admin.Models.GeneralCMS.BannerModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <admin-label asp-for="ImageModel.PictureId" />
+                    <admin-input asp-for="ImageModel.PictureId"/>
+                    <span asp-validation-for="ImageModel.PictureId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                
+                <div class="form-group">
+                    <admin-label asp-for="ImageModel.OverrideTitleAttribute" />
+                    <admin-input asp-for="ImageModel.OverrideTitleAttribute" />
+                    <span asp-validation-for="ImageModel.OverrideTitleAttribute"></span>
+
+                </div>
+            </div>
+          
+
+        </div>
+    </div>
+</div>
+
+

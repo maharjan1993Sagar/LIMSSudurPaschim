@@ -40,6 +40,7 @@
         public const string Breeding = "Breeding";
         public const string NewsEventTender = "NewsEventTender";
         public const string DynamicMenu = "DynamicMenu";
+        public const string GeneralCMS = "GeneralCMS";
 
     }
 }
