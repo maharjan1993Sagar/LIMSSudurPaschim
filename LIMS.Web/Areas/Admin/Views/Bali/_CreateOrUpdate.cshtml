@@ -1,0 +1,87 @@
+﻿@model BaliModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SpeciesId" />
+                    <admin-select asp-for="SpeciesId" asp-items="@ViewBag.SpeciesId"></admin-select>
+                    <span asp-validation-for="SpeciesId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="BreedId" />
+                    <admin-select asp-for="BreedId">
+                        <option value="">Select</option>
+
+                    </admin-select>
+                    <span asp-validation-for="BreedId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Area" />
+                    <admin-input asp-for="Area" />
+                    <span asp-validation-for="Area"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Productivity" />
+                    <admin-input asp-for="Productivity" />
+                    <span asp-validation-for="Productivity"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="Production" />
+                    <admin-input asp-for="Production" />
+                    <span asp-validation-for="Production"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="FiscalYearId" />
+                    <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalyearId" />
+                    <span asp-validation-for="FiscalYearId"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#@Html.IdFor(m => m.SpeciesId)").on("change", function () {
+            var species = $(this).val();
+            //var breedtype = $(this).val();
+
+            $("#@Html.IdFor(m => m.BreedId)").empty();
+            $("#@Html.IdFor(m => m.BreedId)").append("<option value=''>Select</option>");
+            url = "@Url.Action("GetBreed", "Bali")";
+            var data = {
+                species: species
+            }
+            addAntiForgeryToken(data);
+            $.getJSON(url, data, (result) => {
+                $.each(result, function (i, item) {
+                    $("#@Html.IdFor(m => m.BreedId)").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        });
+    });
+
+
+
+</script>

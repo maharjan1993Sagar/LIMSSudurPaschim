@@ -20,6 +20,7 @@ namespace LIMS.Domain.MoAMAC
         public string Municipility { get; set; }
         public Dolfd Dolfd { get; set; }
         public string DolfdId { get; set; }
+        public string Type { get; set; }
         public string UserEmail { get; set; }
     }
 }

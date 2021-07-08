@@ -7,6 +7,7 @@ using LIMS.Services.Activities;
 using LIMS.Services.Ainr;
 using LIMS.Services.AnimalBreeding;
 using LIMS.Services.AnimalHealth;
+using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.DynamicMenu;
@@ -112,8 +113,19 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<MainMenuService>().As<IMainMenuService>().InstancePerLifetimeScope();
             builder.RegisterType<SubMenuService>().As<ISubMenuService>().InstancePerLifetimeScope();
             builder.RegisterType<SubSubMenuService>().As<ISubSubMenuService>().InstancePerLifetimeScope();
-            builder.RegisterType<NewsEventService>().As<INewsEventService>().InstancePerLifetimeScope();
-         
+            builder.RegisterType<FarmerService>().As<IFarmerService>().InstancePerLifetimeScope();
+            builder.RegisterType<BaliRegisterService>().As<IBaliRegisterService>().InstancePerLifetimeScope();
+            builder.RegisterType<FarmLabResourceService>().As<IFarmLabResourceService>().InstancePerLifetimeScope();
+            builder.RegisterType<IncubationCenterService>().As<IIncuvationCenterService>().InstancePerLifetimeScope();
+            builder.RegisterType<TalimService>().As<ITalimService>().InstancePerLifetimeScope();
+            builder.RegisterType<SoilService>().As<ISoilService>().InstancePerLifetimeScope();
+            builder.RegisterType<MarketDataService>().As<IMarketDataService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<PujigatKharchaKharakramService>().As<IPujigatKharchaKharakramService>().InstancePerLifetimeScope();
+            builder.RegisterType<MonthlyPragatiService>().As<IMonthlyPragatiService>().InstancePerLifetimeScope();
+            builder.RegisterType<LabambitKrishakService>().As<ILabambitKrishakService>().InstancePerLifetimeScope();
+
+
         }
 
         public int Order {

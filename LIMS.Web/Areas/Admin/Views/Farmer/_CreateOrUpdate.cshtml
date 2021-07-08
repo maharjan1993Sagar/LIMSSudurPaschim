@@ -1,0 +1,79 @@
+﻿@model FarmerModel
+<div class="x_content form">
+    <div class="form-row">
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Name" />
+                <admin-input asp-for="Name" />
+                <span asp-validation-for="Name"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="NameNepali" />
+                <admin-input asp-for="NameNepali" />
+
+                <span asp-validation-for="NameNepali"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Province" />
+                <select name="Provience" id="country" data-val="Sudurpashchim Province" class="form-control">
+                    <option value="">select</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select name="district" id="district" data-val="@Model.District" class="form-control">
+                    <option value="">select</option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Address" />
+                <admin-input asp-for="Address" />
+                <span asp-validation-for="Address"></span>
+            </div>
+        </div>
+       
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Phone" />
+                <admin-input asp-for="Phone" />
+                <span asp-validation-for="Phone"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="TalimId" />
+                <admin-select asp-for="TalimId" asp-items="ViewBag.Talim" />
+                <span asp-validation-for="TalimId"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="IncuvationCenterId" />
+                <admin-select asp-for="IncuvationCenterId" asp-items="ViewBag.IncuvationCenter" />
+                <span asp-validation-for="IncuvationCenterId"></span>
+            </div>
+        </div>
+        
+
+    </div>
+</div>

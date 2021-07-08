@@ -111,7 +111,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrWhiteSpace(model.Email))
+                if (!string.IsNullOrWhiteSpace(model.UserEmail))
                 {
                     var cust2 = await _customerService.GetCustomerByEmail(model.UserEmail);
                     if (cust2 != null)
@@ -121,8 +121,18 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 //validate customer roles
                 var allCustomerRoles = await _customerService.GetAllCustomerRoles(showHidden: true);
                 var newCustomerRoles = new List<CustomerRole>();
-                var role = allCustomerRoles.Where(m => m.Name == "DolfdAdmin").FirstOrDefault();
+                var role=(dynamic) null;
+                if (model.Type.ToLower() == "dolfd")
+                {
 
+
+                     role = allCustomerRoles.Where(m => m.Name == "DolfdAdmin").FirstOrDefault();
+                }
+                else
+                {
+                     role = allCustomerRoles.Where(m => m.Name == "AddAdmin").FirstOrDefault();
+
+                }
                 newCustomerRoles.Add(role);
                 newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
                 var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);

@@ -17,6 +17,19 @@
         <div class="col-md-2">
 
             <div class="form-group">
+                <admin-label asp-for="Type" />
+                <admin-select asp-for="Type">
+                    <option value="">Option</option>
+                    <option value="DoLFD">DoLFD</option>
+                    <option value="DoLFD">ADD</option>
+                </admin-select>
+                <span asp-validation-for="Type"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
                 <admin-label asp-for="NameNepali" />
                 <admin-input asp-for="NameNepali" />
                 <span asp-validation-for="NameNepali"></span>
@@ -65,7 +78,7 @@
 
             </div>
         </div>
-        
+
         <div class="col-md-3">
 
             <div class="form-group">
@@ -111,7 +124,7 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="UserProvince" />
-                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince"  id="usercountry" />
+                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry" />
                                 <span asp-validation-for="UserProvince"></span>
 
                             </div>
@@ -131,7 +144,7 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="UserLocalLevel" />
-                                <select id="userlocallevel" name="UserLocalLevel" data-val="@Model.UserLocalLevel"  class="form-control">
+                                <select id="userlocallevel" name="UserLocalLevel" data-val="@Model.UserLocalLevel" class="form-control">
                                     <option value=""> select</option>
                                 </select>
                                 <span asp-validation-for="UserLocalLevel"></span>

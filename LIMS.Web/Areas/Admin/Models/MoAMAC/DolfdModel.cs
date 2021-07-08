@@ -77,6 +77,8 @@ namespace LIMS.Web.Areas.Admin.Models.MoAMAC
         public string PhoneNo { get; set; }
         [LIMSResourceDisplayName("Admin.dolfd.UserPosition")]
         public string Position { get; set; }
+        [LIMSResourceDisplayName("Admin.dolfd.Type")]
+        public string Type { get; set; }
 
         public string CustomerId { get; set; }
 

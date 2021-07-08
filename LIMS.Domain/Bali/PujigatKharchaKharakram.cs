@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LIMS.Domain.BesicSetup;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,6 +29,10 @@ namespace LIMS.Domain.Bali
         public string TesroChaumasikBadjet { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string FiscalYearId { get; set; }
+        public FiscalYear FiscalYear { get; set; }
+        public string Type { get; set; }
+        public string ProgramType { get; set; }
 
     }
 }

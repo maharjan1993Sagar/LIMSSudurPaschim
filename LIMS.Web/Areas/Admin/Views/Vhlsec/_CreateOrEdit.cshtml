@@ -18,6 +18,22 @@
         <div class="col-md-2">
 
             <div class="form-group">
+                <admin-label asp-for="Type" />
+                <admin-select asp-for="Type">
+                    <option value="">Select</option>
+                    <option value="Fisheries development center">Fisheries development center</option>
+                    <option value="Livestock service training center">Livestock service training center</option>
+                    <option value="VHLSEC">VHLSEC</option>
+                    <option value="AKC">AKC</option>
+
+                </admin-select>
+                <span asp-validation-for="Type"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
                 <admin-label asp-for="NameNepali" />
                 <admin-input asp-for="NameNepali" />
                 <span asp-validation-for="NameNepali"></span>

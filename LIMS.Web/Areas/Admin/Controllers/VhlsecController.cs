@@ -105,7 +105,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrWhiteSpace(model.Email))
+                if (!string.IsNullOrWhiteSpace(model.UserEmail))
                 {
                     var cust2 = await _customerService.GetCustomerByEmail(model.UserEmail);
                     if (cust2 != null)
@@ -115,8 +115,28 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 //validate customer roles
                 var allCustomerRoles = await _customerService.GetAllCustomerRoles(showHidden: true);
                 var newCustomerRoles = new List<CustomerRole>();
-                CustomerRole role = allCustomerRoles.Where(m => m.Name == "VhlsecAdmin").FirstOrDefault();
+                CustomerRole role = new CustomerRole();
+              if (model.Type=="VHLSEC")
+                {
+                     role = allCustomerRoles.Where(m => m.Name == "VhlsecAdmin").FirstOrDefault();
 
+                }
+              else if(model.Type== "Fisheries development center")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "FisheriesAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "Livestock service training center")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "LivestockAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "VHLSEC")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "VHLSECAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "AKC")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "AKCAdmin").FirstOrDefault();
+                }
                 newCustomerRoles.Add(role);
                 newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
                 var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);

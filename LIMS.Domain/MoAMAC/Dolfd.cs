@@ -24,7 +24,8 @@ namespace LIMS.Domain.MoAMAC
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Website { get; set; }
-        public string UserEmail { get; set; }        
+        public string UserEmail { get; set; }
+        public string Type { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using LIMS.Domain.Breed;
+﻿using LIMS.Domain.BesicSetup;
+using LIMS.Domain.Breed;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,8 @@ namespace LIMS.Domain.Bali
 {
     public class MarketData:BaseEntity
     {
+        public string BreedId { get; set; }
+        public BreedReg Breed { get; set; }
         public string SpeciesId { get; set; }
         public Species   Species { get; set; }
         public string Month { get; set; }
@@ -16,8 +19,11 @@ namespace LIMS.Domain.Bali
         public string District { get; set; }
         public string NameOfMarket { get; set; }
 
-        public string ProvinceBazar { get; set; }
-        public string DistrictBazar { get; set; }
+        public string AddressBazar { get; set; }
+        public FiscalYear FiscalYear { get; set; }
+        public string FiscalYearId { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedAt { get; set; }
 
     }
 }

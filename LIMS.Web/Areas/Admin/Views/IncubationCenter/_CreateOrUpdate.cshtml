@@ -1,0 +1,105 @@
+﻿@model IncubationCenterModel
+<div class="x_content form">
+    <div class="form-row">
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="OrganizationNameEnglish" />
+                <admin-input asp-for="OrganizationNameEnglish" />
+                <span asp-validation-for="OrganizationNameEnglish"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="OrganizationNameNepali" />
+                <admin-input asp-for="OrganizationNameNepali" />
+
+                <span asp-validation-for="OrganizationNameNepali"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Province" />
+                <select name="Provience" id="country" data-val="Sudurpashchim Province" class="form-control">
+                    <option value="">select</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select name="district" id="district" data-val="@Model.District" class="form-control">
+                    <option value="">select</option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Address" />
+                <admin-input asp-for="Address" />
+                <span asp-validation-for="Address"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="RegisteredAddress" />
+                <admin-input asp-for="RegisteredAddress" />
+                <span asp-validation-for="RegisteredAddress"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="RegisteredDate" />
+                <admin-input asp-for="RegisteredDate" />
+                <span asp-validation-for="RegisteredDate"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Phone" />
+                <admin-input asp-for="Phone" />
+                <span asp-validation-for="Phone"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Email" />
+                <admin-input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="NatureOfWork" />
+                <admin-input asp-for="NatureOfWork" />
+                <span asp-validation-for="NatureOfWork"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="ValueChain" />
+                <admin-input asp-for="ValueChain" />
+                <span asp-validation-for="ValueChain"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="OrganizationStatus" />
+                <admin-input asp-for="OrganizationStatus" />
+                <span asp-validation-for="OrganizationStatus"></span>
+            </div>
+        </div>
+
+    </div>
+</div>

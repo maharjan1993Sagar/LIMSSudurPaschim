@@ -9,6 +9,7 @@ using LIMS.Services.Security;
 using LIMS.Services.Stores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IExportManager _exportManager;
         private readonly IWorkContext _workContext;
         private readonly IImportManager _importManager;
+        private readonly IFiscalYearService _fiscalYearService;
 
         #endregion
         #region ctor
@@ -38,7 +40,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
              IStoreService storeService,
               IExportManager exportManager,
               IWorkContext workContext,
-              IImportManager importManager
+              IImportManager importManager,
+              IFiscalYearService fiscalYearService
 
             )
         {
@@ -50,6 +53,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _exportManager = exportManager;
             _workContext = workContext;
             _importManager = importManager;
+            _fiscalYearService = fiscalYearService;
         }
         #endregion
         public IActionResult Index() =>RedirectToAction("List");
@@ -67,7 +71,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 //        [PermissionAuthorizeAction(PermissionActionName.Import)]
         [HttpPost]
-        public async Task<IActionResult> ImportFromXlsx(IFormFile importexcelfile)
+        public async Task<IActionResult> ImportFromXlsx(IFormFile importexcelfile,string Type,string FiscalYear,string ProgramType)
         {
             //a vendor and staff cannot import categories
            
@@ -75,7 +79,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 if (importexcelfile != null && importexcelfile.Length > 0)
                 {
-                    await _importManager.ImportCategoryFromXlsx(importexcelfile.OpenReadStream());
+                    await _importManager.ImportCategoryFromXlsx(importexcelfile.OpenReadStream(),Type,FiscalYear,ProgramType);
                 }
                 else
                 {
@@ -91,6 +95,55 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return RedirectToAction("List");
             }
         }
+
+        public async Task<IActionResult> GetFiscalYear() {
+
+            return Json(await _fiscalYearService.GetFiscalYear());
+
+        }
+        public List<SelectListItem> PujigatType()
+        {
+
+            return new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="chalu",
+                    Value="chalu"
+
+                },
+                 new SelectListItem {
+                    Text="pujigat",
+                    Value="pujigat"
+
+                },
+                 new SelectListItem {
+                    Text="kha si na.",
+                    Value="kha si na."
+
+                }
+            };
+
+        }
+
+        public List<SelectListItem> ProgramType()
+        {
+
+            return new List<SelectListItem>() {
+                new SelectListItem {
+                    Text=_localizationService.GetResource("Lims.PujigatKharcha.SanghKoSasarthaAnudanAntargat"),
+                    Value="Lims.PujigatKharcha.SanghKoSasarthaAnudanAntargat",
+
+                },
+                 new SelectListItem {
+                    Text=_localizationService.GetResource("Lims.PujigatKharcha.PardeshKoBajetAntargat"),
+                    Value="Lims.PujigatKharcha.PardeshKoBajetAntargat",
+
+
+                },
+                
+            };
+
+        }
+
 
     }
 }

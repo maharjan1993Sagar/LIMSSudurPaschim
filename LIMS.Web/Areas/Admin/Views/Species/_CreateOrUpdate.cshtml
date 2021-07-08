@@ -21,86 +21,17 @@
 
             </div>
         </div>
-        <div class="form-group">
-            @if (Model.Purposes!= null)
-            {
 
-                <label class="control-label" for="Purposes">Purpose</label><br>
-                if (Model.Purposes.Contains("Milk"))
-                {
-                    <input type="checkbox" name="Purposes" value="Milk" checked>
-                    <label class="control-label">Milk</label>
-                }
-                else
-                {
-                    <input type="checkbox" name="Purposes" value="Milk">
-                    <label class="control-label">Milk</label>
-                }
-                if (Model.Purposes.Contains("Meat"))
-                {
-                    <input type="checkbox" name="Purposes" value="Meat" checked>
-                    <label class="control-label">Meat</label>
-                }
-                else
-                {
-                    <input type="checkbox" name="Purposes" value="Meat">
-                    <label class="control-label">Meat</label>
-                }
-                if (Model.Purposes.Contains("Egg"))
-                {
-                    <input type="checkbox" name="Purposes" value="Egg" checked>
-                    <label class="control-label">Egg</label>
-                }
-                else
-                {
-                    <input type="checkbox" name="Purposes" value="Egg">
-                    <label class="control-label">Egg</label>
-                }
-                if (Model.Purposes.Contains("Pasmina"))
-                {
-                    <input type="checkbox" name="Purposes" value="Pasmina" checked>
-                    <label class="control-label">Pasmina</label>
-                }
-                else
-                {
-                    <input type="checkbox" name="Purposes" value="Pasmina" >
-                    <label class="control-label">Pasmina</label>
-                }
-                if (Model.Purposes.Contains("Wool"))
-                {
-                    <input type="checkbox" name="Purposes" value="Wool" checked>
+        <div class="col-md-12 col-sm-12">
 
-                    <label class="control-label">Wool</label>
-                }
-                else
-                {
-                    <input type="checkbox" name="Purposes" value="Wool">
+            <div class="form-group">
+                <admin-label asp-for="Detail" />
+                <admin-input asp-for="Detail" />
+                <span asp-validation-for="Detail"></span>
 
-                    <label class="control-label">Wool</label>
-                }
 
-                <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
-            }
-            else
-            {
-                <label class="control-label" for="Purposes">Purposes</label><br>
-                <input type="checkbox" name="Purposes" value="Milk">
-                <label class="control-label">Milk</label>
-                <input type="checkbox" name="Purposes" value="Meat">
-                <label class="control-label">Meat</label>
-                <input type="checkbox" name="Purposes" value="Egg">
-                <label class="control-label">Egg</label>
-                <input type="checkbox" name="Purposes" value="Pasmina">
-                <label class="control-label">Pasmina</label>
-                <input type="checkbox" name="Purposes" value="Wool">
-
-                <label class="control-label">Wool</label>
-                <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
-
-            }
+            </div>
         </div>
-
-        
 
     </div>
     </div>

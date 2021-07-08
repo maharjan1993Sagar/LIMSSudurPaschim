@@ -1,0 +1,48 @@
+﻿@model FarmLabResourcesModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Type" />
+                    <admin-select asp-for="Type" asp-items="@ViewBag.Type"></admin-select>
+                    <span asp-validation-for="Type"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="UnitId" />
+                    <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId">
+
+                    </admin-select>
+                    <span asp-validation-for="UnitId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="AvailableQuantity" />
+                    <admin-input asp-for="AvailableQuantity" />
+                    <span asp-validation-for="AvailableQuantity"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="UnitPrice" />
+                    <admin-input asp-for="UnitPrice" />
+                    <span asp-validation-for="UnitPrice"></span>
+
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</div>
