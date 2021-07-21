@@ -13,18 +13,18 @@ namespace LIMS.Website1.Data
     public class DataContext
     {
         private readonly IConfiguration _config;
-        string BaseURL ;
-        string userId;
+        string BaseURL="" ;
+        string userId="";
         public DataContext(IConfiguration config)
         {
             _config = config;
             BaseURL = _config.GetValue<string>("Constants:BaseURL");
-            userId = _config.GetValue<string>("Contstants:UserId");
+            userId = _config.GetValue<string>("Constants:UserId");
         }
         public async Task<List<BannerModel>> GetBanner()
         {
             var banners = new List<BannerModel>();
-            string url = "";
+            string url = "Banner/GetBanner/"+userId;
 
             using (var httpClient = new HttpClient())
             {
@@ -43,7 +43,7 @@ namespace LIMS.Website1.Data
         public async Task<List<MainMenuModel>> GetMainMenuModel()
         {
             var mainMenus = new List<MainMenuModel>();
-            string url = "";
+            string url = "MainMenu/GetMainMenu/"+userId;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(BaseURL + url))
@@ -61,7 +61,7 @@ namespace LIMS.Website1.Data
         public async Task<List<EmployeeModel>> GetEmployee()
         {
             var lst = new List<EmployeeModel>();
-            string url = "";
+            string url = "Employee/GetEmployee/"+userId;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(BaseURL + url))
@@ -79,7 +79,7 @@ namespace LIMS.Website1.Data
         public async Task<List<NewsEventTenderModel>> GetNewsEventTender(string type)
         {
             var lst = new List<NewsEventTenderModel>();
-            string url = "";
+            string url = "NewsEvent/GetNewsEvent/"+userId;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(BaseURL + url))
@@ -91,55 +91,78 @@ namespace LIMS.Website1.Data
             if (lst.Any())
             {
                 lst = lst.Where(m => m.UserId == userId).ToList();
+                if (!String.IsNullOrEmpty(type))
+                { 
+                lst = lst.Where(m => m.UserId == userId).Where(m=>m.Type==type).ToList();
+                }
             }
             return lst;
         }
         public async Task<PageContentModel> GetPageContent(string name)
         {
-            var lst = new PageContentModel();
-            string url = "";
+            var lst = new List<PageContentModel>();
+            string url = "PageContent/GetPageContent/"+userId;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(BaseURL + url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    lst = JsonConvert.DeserializeObject<PageContentModel>(apiResponse);
+                    lst = JsonConvert.DeserializeObject<List<PageContentModel>>(apiResponse);
                 }
             }
             //if (lst!=null)
             //{
             //    lst = lst.Where(m => m.UserId == userId).ToList();
             //}
-            return lst;
+            return lst.FirstOrDefault(m=>m.PageName==name);
         }
         public async Task<ContactUsModel> GetContactUsModel()
         {
-            var lst = new ContactUsModel();
-            string url = "";
+            var lst = new List<ContactUsModel>();
+            string url = "ContactUs/GetContactUs/"+userId;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(BaseURL + url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    lst = JsonConvert.DeserializeObject<ContactUsModel>(apiResponse);
+                    lst = JsonConvert.DeserializeObject<List<ContactUsModel>>(apiResponse);
                 }
             }
             //if (lst!=null)
             //{
             //    lst = lst.Where(m => m.UserId == userId).ToList();
             //}
-            return lst;
+            return lst.FirstOrDefault();
         }
         public async Task<List<ImportantLinks>> GetImportantLinks()
         {
             var lst = new List<ImportantLinks>();
-            string url = "";
+            string url = "ImportantLink/GetLinks/"+userId;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(BaseURL + url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     lst = JsonConvert.DeserializeObject<List<ImportantLinks>>(apiResponse);
+                }
+            }
+            if (lst != null)
+            {
+                lst = lst.Where(m => m.UserId == userId).ToList();
+            }
+            return lst;
+        } 
+        
+        public async Task<List<GalleryModel>> GetGallery()
+        {
+            var lst = new List<GalleryModel>();
+            string url = "Gallery/GetGallery/"+userId;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(BaseURL + url))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lst = JsonConvert.DeserializeObject<List<GalleryModel>>(apiResponse);
                 }
             }
             if (lst != null)

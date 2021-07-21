@@ -44,9 +44,14 @@ namespace LIMS.Api.Infrastructure.Mapper.Profiles
             CreateMap<PageContentDto, PageContent>();
             CreateMap<PageContent, PageContentDto>().ForMember(dest => dest.Image,
                                                 mo => mo.MapFrom(src => src.PageContentFile));
-            CreateMap<NewsEventTenderDto, NewsEventTender>().ReverseMap();
-            CreateMap<NewsEventFileDto, NewsEventFile>().ReverseMap();
+            CreateMap<NewsEventTenderDto, NewsEventTender>();
+            CreateMap<NewsEventTender, NewsEventTenderDto>().ForMember(dest => dest.Image,
+                                                              mo => mo.MapFrom(src => src.NewsEventFile));
+            CreateMap<NewsEventFile, NewsEventFileDto>().ReverseMap();
         }
+
+
+
 
         public int Order => 1;
     }

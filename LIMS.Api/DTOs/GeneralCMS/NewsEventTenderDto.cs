@@ -26,5 +26,6 @@ namespace LIMS.Api.DTOs.GeneralCMS
         public string CreatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
+        public NewsEventFileDto Image { get; set; }
     }
 }

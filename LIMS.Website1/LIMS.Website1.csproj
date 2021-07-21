@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Dolfd\js\fontSize.js" />
+    <Content Remove="wwwroot\Dolfd\js\site.js" />
+    <Content Remove="wwwroot\Dolfd\js\sliders.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="App_Data\DataProtectionKeys\Index.htm" />
     <None Remove="App_Data\Download\Index.htm" />
     <None Remove="App_Data\GeoLite2-Country.mmdb" />
@@ -223,7 +229,71 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LIMS\LIMS.Framework\LIMS.Framework.csproj" />
+    <None Include="wwwroot\Dolfd\js\bootstrap.min.js" />
+    <None Include="wwwroot\Dolfd\js\demo.swiper_slider.js" />
+    <None Include="wwwroot\Dolfd\js\jquery-3.3.1.min.js" />
+    <None Include="wwwroot\Dolfd\js\fontSize.js" />
+    <None Include="wwwroot\Dolfd\js\site.js" />
+    <None Include="wwwroot\Dolfd\js\sliders.js" />
+    <None Include="wwwroot\Dolfd\js\scripts.js" />
+    <None Include="wwwroot\Dolfd\js\swiper.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LIMS.Framework\LIMS.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Views\Shared\Component\Menu\Default.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Default.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Gallery\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\CommonResources.ne-NP.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Resources.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Resources.ne-NP.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared\Component\Menu\Default.ne-NP.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared\Component\Menu\Default.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Default.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

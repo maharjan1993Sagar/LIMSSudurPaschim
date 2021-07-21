@@ -7,15 +7,28 @@ using System.Threading.Tasks;
 namespace LIMS.Website1.Models
 {
     public class HomeModel {
+        public GalleryModel Gallery { get; set; }
+        public GalleryModel Video { get; set; }
         public List<NewsEventTenderModel> News { get; set; }
+        public List<NewsEventTenderModel> NewsScroll { get; set; }
         public List<NewsEventTenderModel> Events { get; set; }
         public List<NewsEventTenderModel> Notices { get; set; }
         public List<NewsEventTenderModel> Tenders { get; set; }
-        public List<EmployeeModel> BoardMembers { get; set; }
+        public List<NewsEventTenderModel> PressRelease { get; set; }
+        public List<NewsEventTenderModel> Letters { get; set; }
+        public List<NewsEventTenderModel> RulesRegulation { get; set; }
+        public List<NewsEventTenderModel> Directives { get; set; }
+        public List<NewsEventTenderModel> ActsPolices { get; set; }
+        public List<NewsEventTenderModel> Reports { get; set; }
+        public List<NewsEventTenderModel> OtherFiles { get; set; }
+        public List<EmployeeModel> Employee { get; set; }
+        public EmployeeModel Director { get; set; }
+        public EmployeeModel InformationOfficer { get; set; }
         public PageContentModel PageContent { get; set; }
-        public BannerModel Banner { get; set; }
+        public List<BannerModel> Banner { get; set; }
         public ContactUsModel ContactUs { get; set; }
-        public List<ImportantLinks> ImportantLinks { get; set; }        
+        public List<ImportantLinks> ImportantLinks { get; set; } 
+        
     }
     public class EmployeeModel
     {
@@ -64,6 +77,7 @@ namespace LIMS.Website1.Models
         public string CreatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
+        public NewsEventFileModel Image { get; set; }
 
     }
 

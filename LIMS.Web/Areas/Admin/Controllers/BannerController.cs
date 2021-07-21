@@ -109,32 +109,35 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var banner = model.ToEntity();
-                if (model.ImageModel.PictureId != null)
-                {
+
+
+                if ( model.ImageModel.PictureId!=null)
+                {                 
+                    //update the new picture
                     var picture = await _pictureService.GetPictureById(model.ImageModel.PictureId);
+                    await _pictureService.UpdatePicture(picture.Id,
+                    await _pictureService.LoadPictureBinary(picture),
+                    picture.MimeType,
+                    picture.SeoFilename,
+                    model.ImageModel.OverrideAltAttribute,
+                    model.ImageModel.OverrideTitleAttribute);
 
-                    await _pictureService.UpdatePicture(model.ImageModel.PictureId,
-                           await _pictureService.LoadPictureBinary(picture),
-                           picture.MimeType,
-                           picture.SeoFilename,
-                           model.ImageModel.OverrideAltAttribute,
-                           model.ImageModel.OverrideTitleAttribute);
-
-                    await _pictureService.SetSeoFilename(model.ImageModel.PictureId, _pictureService.GetPictureSeName(model.Title));
-                    
-                    
+                    await _pictureService.SetSeoFilename(picture.Id, _pictureService.GetPictureSeName(picture.TitleAttribute));
                     string pictureUrl = await _pictureService.GetPictureUrl(model.ImageModel.PictureId);
 
+                    
 
                     banner.Image = new NewsEventFile {
-                        OverrideTitleAttribute = model.ImageModel.OverrideTitleAttribute,
-                        PictureId = model.ImageModel.PictureId,
-                        MimeType = picture.MimeType,
-                        SeoFilename = picture.SeoFilename,
-                        CMSEntityId = banner.BannerId.ToString(),
-                        PictureUrl=(await _pictureService.GetPictureUrl(model.ImageModel.PictureId))
-                    };
-
+                            PictureId = picture.Id,
+                            CMSEntityId = banner.Id,
+                            DisplayOrder = 0,
+                            AltAttribute = model.ImageModel.OverrideAltAttribute,
+                            MimeType = picture.MimeType,
+                            SeoFilename = picture.SeoFilename,
+                            TitleAttribute = model.ImageModel.OverrideTitleAttribute,
+                            PictureUrl = pictureUrl
+                        };
+                    
                 }
                 banner.UserId = _workContext.CurrentCustomer.Id;
                 await _bannerService.InsertBanner(banner);
@@ -174,47 +177,53 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var m = model.ToEntity(banner);
-                if (model.ImageModel.PictureId != null)
+
+                if (banner.Image.PictureId != model.ImageModel.PictureId)
                 {
-                    var pic = await _pictureService.GetPictureById(model.ImageModel.PictureId);
 
-                    await _pictureService.UpdatePicture(model.ImageModel.PictureId,
-                        await _pictureService.LoadPictureBinary(pic),
-                        pic.MimeType,
-                        pic.SeoFilename,
-                         model.ImageModel.OverrideAltAttribute,
-                           model.ImageModel.OverrideTitleAttribute);
+                    var pic = await _pictureService.GetPictureById(banner.Image.PictureId);
 
-                    await _pictureService.SetSeoFilename(model.ImageModel.PictureId, _pictureService.GetPictureSeName(model.Title));
+                    if (pic != null)
+                        await _pictureService.DeletePicture(pic);
 
 
+                    //update the new picture
+                    var picture = await _pictureService.GetPictureById(model.ImageModel.PictureId);
+                    await _pictureService.UpdatePicture(picture.Id,
+                    await _pictureService.LoadPictureBinary(picture),
+                    picture.MimeType,
+                    picture.SeoFilename,
+                    model.ImageModel.OverrideAltAttribute,
+                    model.ImageModel.OverrideTitleAttribute);
+
+                    await _pictureService.SetSeoFilename(picture.Id, _pictureService.GetPictureSeName(picture.TitleAttribute));
+                    string pictureUrl = await _pictureService.GetPictureUrl(model.ImageModel.PictureId);
                     if (banner.Image != null)
                     {
-                        if (banner.Image.PictureId != null)
-                        {
-                            var prevPic = await _pictureService.GetPictureById(banner.Image.PictureId);
-
-                            await _pictureService.DeletePicture(prevPic);
-                        }
-
-                        m.Image.PictureId = pic.Id;
-                        m.Image.OverrideAltAttribute = model.ImageModel.OverrideAltAttribute;
-                        m.Image.OverrideTitleAttribute = model.ImageModel.OverrideTitleAttribute;
-
+                        banner.Image.PictureId = picture.Id;
+                        banner.Image.CMSEntityId = banner.Id;
+                        banner.Image.DisplayOrder = 0;
+                        banner.Image.AltAttribute = model.ImageModel.OverrideAltAttribute;
+                        banner.Image.MimeType = picture.MimeType;
+                        banner.Image.SeoFilename = picture.SeoFilename;
+                        banner.Image.TitleAttribute = model.ImageModel.OverrideTitleAttribute;
+                        banner.Image.PictureUrl = pictureUrl;
                     }
                     else
                     {
-                        m.Image = new NewsEventFile {
-                            CMSEntityId = m.BannerId.ToString(),
-                            MimeType = pic.MimeType,
-                            SeoFilename = pic.SeoFilename,
-                            OverrideAltAttribute = model.ImageModel.OverrideAltAttribute,
-                            OverrideTitleAttribute = model.ImageModel.OverrideTitleAttribute,
-                            PictureId = model.ImageModel.PictureId,
-                            PictureUrl=(await _pictureService.GetPictureUrl(model.ImageModel.PictureId))
+
+
+                        banner.Image = new NewsEventFile {
+                            PictureId = picture.Id,
+                            CMSEntityId = banner.Id,
+                            DisplayOrder = 0,
+                            AltAttribute = model.ImageModel.OverrideAltAttribute,
+                            MimeType = picture.MimeType,
+                            SeoFilename = picture.SeoFilename,
+                            TitleAttribute = model.ImageModel.OverrideTitleAttribute,
+                            PictureUrl = pictureUrl
                         };
                     }
-
                 }
 
                 await _bannerService.UpdateBanner(m);

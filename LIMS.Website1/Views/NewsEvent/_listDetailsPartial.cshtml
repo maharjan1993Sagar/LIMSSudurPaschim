@@ -1,0 +1,55 @@
+﻿@model NewsEventViewModel
+
+
+<div class="container">
+    <div class="row">
+        <br />
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="text-primary">
+                        <i class="fa fa-newspaper-o"></i>@Model.ObjNews.Type
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <ul class="scholoar-ship">
+                        @foreach (var item in Model.News)
+                        {
+                            <li>
+                                <a style="color: #1892F5;" asp-route-id="@item.Id" asp-route-type="@item.Type">
+                                    @item.Title<span></span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <h4 class="text-primary">
+                <i class="fa fa-newspaper-o"></i>
+                @Model.ObjNews.Title
+            </h4>
+            <font style="color: rgb(159,159,159);">
+                <i class="fa fa-calendar">&nbsp;@Model.ObjNews.UploadedDate.ToShortDateString() &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
+            </font><br />
+
+            <div class="text-center">
+                <img src='@(Model.ObjNews.Image.FilePath)' onerror="hideImage(this);" width="550"
+                     alt="Avatar" />
+            </div>
+            @Model.ObjNews.Description
+
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        function hideImage(img) {
+            img.style.display = "none";
+        }
+    </script>
+
+}
