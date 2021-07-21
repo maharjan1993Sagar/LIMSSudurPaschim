@@ -43,7 +43,7 @@
 
 	/* Init */
 	jQuery(window).ready(function () {
-
+		var plugin_path = 'Dolfd/js/';
 		// jQuery 3.x do no support size() - should be replaceced with .length
 		// We use this hack to make old plugins working
 		jQuery.fn.extend({
@@ -56,7 +56,7 @@
 		_loadPopperBS4();
 
 		// Load Bootstrap JS
-		loadScript(plugin_path + 'bootstrap/js/bootstrap.min.js', function() {
+		loadScript(plugin_path + '/bootstrap.min.js', function() {
 
 			// Load Material Design Js
 			if(jQuery("body").hasClass('enable-materialdesign')) {
@@ -91,7 +91,7 @@
 		
 			_afterResize();
 			_slider_full();
-			_topNav();
+			//_topNav();
 			_megaNavHorizontal();
 			_sideNav();
 			_stickyFooter();
@@ -353,7 +353,7 @@
 
 		});
 
-
+		/*
 		// Srearch
 		jQuery('li.search i.fa').click(function () {
 			if(jQuery('#header .search-box').is(":visible")) {
@@ -397,6 +397,8 @@
 		});
 
 
+
+		*/
 
 		// Page Menu [mobile]
 		jQuery("button#page-menu-mobile").bind("click", function() {
@@ -933,7 +935,7 @@
 
 			}
 		}
-
+		/*
 		// quick cart & search for mobile - top calculate
 		// Quick Cart & top Search Fix (if #topBar exists).
 		if(jQuery("#topBar").length > 0) {
@@ -953,6 +955,7 @@
 				}
 			}
 		});
+		*/
 	}
 
 

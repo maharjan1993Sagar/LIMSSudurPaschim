@@ -1,4 +1,4 @@
-var plugin_path = 'assets/plugins/';
+var plugin_path = 'Dolfd/js/';
 var slideIndex = 0;
 showSlides();
 
