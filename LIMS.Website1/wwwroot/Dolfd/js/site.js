@@ -54,3 +54,8 @@ $(".lowBandwidth").click(function (e) {
     //    location.reload();
     //}
 })
+
+
+$("document").ready(function () {
+    $("ul.nav-second-main").remove();
+})
