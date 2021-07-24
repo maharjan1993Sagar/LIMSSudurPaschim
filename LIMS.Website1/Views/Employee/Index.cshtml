@@ -1,6 +1,6 @@
 ﻿@model List<EmployeeModel>
 @{
-    
+
     int i = 1;
 }
 <section>
@@ -37,20 +37,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
-                    {
+                        @if (Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
 
-                        <tr>
-                            <td>@(i)</td>
-                            <td>@item.Name</td>
-                            <td>@item.Designation</td>
-                            <td>
-                                <image src='@item.Image.PictureUrl' onerror="if (this.src != 'error.jpg') this.src = '~/Dolfd/img/user.jpg';"
-                                       style="height: 100px; width: 120px;" alt=""></image>
-                            </td>
-                            <td>@item.Email1</td>
-                        </tr>
-                    }
+                                <tr>
+                                    <td>@(i)</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Designation</td>
+                                    <td>
+                                        <image src='@item.Image.PictureUrl' onerror="if (this.src != 'error.jpg') this.src = '~/Dolfd/img/user.jpg';"
+                                               style="height: 100px; width: 120px;" alt=""></image>
+                                    </td>
+                                    <td>@item.Email1</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                        <td colspan="5">No record found.</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

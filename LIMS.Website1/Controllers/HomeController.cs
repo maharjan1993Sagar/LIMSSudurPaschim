@@ -51,8 +51,11 @@ namespace LIMS.Website1.Controllers
             var informationOfficer = employee.FirstOrDefault(m => m.Designation == "Information Officer");
 
             var pageContent = await _db.GetPageContent("Home");
-            pageContent.Image.PictureUrl = GetPath(pageContent.Image.PictureUrl);
+            if (pageContent != null)
+            {
+                pageContent.Image.PictureUrl = GetPath(pageContent.Image.PictureUrl);
 
+            }
             var newsScroll = newsEventTenders.Where(m => m.IsScroll);
             var news = newsEventTenders.Where(m => m.Type == "News");
             var events = newsEventTenders.Where(m => m.Type == "Event");
@@ -72,15 +75,15 @@ namespace LIMS.Website1.Controllers
                 .ForEach(n => n.PictureUrl = GetPath(n.PictureUrl)));
 
 
-            var gallery = galleryVideo.OrderByDescending(m => m.CreatedDate).FirstOrDefault(m => m.Type == "Photo");
-            var video = galleryVideo.OrderByDescending(m => m.CreatedDate).FirstOrDefault(m => m.Type == "Video");
+            var gallery = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Photo");
+            var video = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Video");
 
             var homeVM = new HomeModel {
                 NewsScroll = newsScroll.ToList(),
                 Banner = banner,
                 Employee = employee,
                 PageContent = pageContent,
-                Notices = notices.Take(notices.ToList().Count>4?4:notices.ToList().Count).ToList(),
+                Notices = notices.Take(notices.ToList().Count > 4 ? 4 : notices.ToList().Count).ToList(),
                 News = news.Take(news.ToList().Count > 4 ? 4 : news.ToList().Count).ToList(),
                 Tenders = tenders.Take(tenders.ToList().Count > 4 ? 4 : tenders.ToList().Count).ToList(),
                 Events = events.Take(events.ToList().Count > 4 ? 4 : events.ToList().Count).ToList(),
@@ -93,8 +96,10 @@ namespace LIMS.Website1.Controllers
                 OtherFiles = otherFiles.Take(otherFiles.ToList().Count > 4 ? 4 : otherFiles.ToList().Count).ToList(),
                 Reports = reports.Take(reports.ToList().Count > 4 ? 4 : reports.ToList().Count).ToList(),
                 RulesRegulation = rules.Take(rules.ToList().Count > 4 ? 4 : rules.ToList().Count).ToList(),
-                Gallery = gallery,
-                Video = video
+                Gallery = gallery.FirstOrDefault(),
+                Video = video.FirstOrDefault(),
+                Galleries = gallery.Take(gallery.ToList().Count > 4 ? 4 : gallery.ToList().Count).ToList(),
+                Videos = video.Take(video.ToList().Count > 4 ? 4 : video.ToList().Count).ToList(),
             };
             return View(homeVM);
         }

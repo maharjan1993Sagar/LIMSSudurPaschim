@@ -11,10 +11,19 @@
 
         <marquee behavior="scroll" direction="left" onmouseover="this.stop();"
                  onmouseout="this.start();">
-            @foreach (var item in Model.NewsScroll)
+            @if (Model.NewsScroll.Any())
+            {
+                foreach (var item in Model.NewsScroll)
+                {
+                    <span class="news-text news-text-mar-left">
+                        <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.Type" asp-route-id="@item.Id">@(item.Title + "(" + item.Type + ")")</a>
+                    </span>
+                }
+            }
+            else
             {
                 <span class="news-text news-text-mar-left">
-                    <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.Type" asp-route-id="@item.Id">@(item.Title+"("+item.Type+")")</a>
+                    <a asp-controller="NewsEvent" asp-action="Index">No record found.</a>
                 </span>
             }
         </marquee>
@@ -27,28 +36,52 @@
 <div class="grid-container">
     <div id="myCarousel" class="carousel slide banner grid-item" data-ride="carousel">
         <ol class="carousel-indicators">
-             @for (int i = 0; i < Model.Banner.Count; i++)
-
+            @if (Model.Banner.Any())
             {
-                <li data-target="#myCarousel" data-slide-to='@(i)' class='@(i==0?"active":"")'></li>
+                @for (int i = 0; i < Model.Banner.Count; i++)
+
+                {
+                    <li data-target="#myCarousel" data-slide-to='@(i)' class='@(i == 0 ? "active" : "")'></li>
+
+                }
+            }
+            else
+            {
+                <li data-target="#myCarousel" data-slide-to='0' class='active'></li>
 
             }
 
         </ol>
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
-            @for (int i = 0; i < Model.Banner.Count; i++)
+            @if (Model.Banner.Any())
             {
-                <div class='@(i == 0 ? "item active" : "item")'>
+                @for (int i = 0; i < Model.Banner.Count; i++)
+                {
+                    <div class='@(i == 0 ? "item active" : "item")'>
+                        <a href="#">
+                            <img src='@Model.Banner[i].Image.PictureUrl' alt="" style="width: 100%; height: 500px; overflow: hidden;">
+                        </a>
+                        <div class="carousel-caption">
+                            <h2>
+                                <p>
+                                    @Model.Banner[i].Title
+                                </p>
+                            </h2>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class='item active'>
                     <a href="#">
-                        <img src='@Model.Banner[i].Image.PictureUrl' alt="" style="width: 100%; height: 500px; overflow: hidden;">
+                        <img src='~/Dolfd/img/11.jpg' alt="" style="width: 100%; height: 500px; overflow: hidden;">
                     </a>
                     <div class="carousel-caption">
-                        <h2>
-                            <p>
-                                @Model.Banner[i].Title
-                            </p>
-                        </h2>
+                        <p>
+                            Banner Caption
+                        </p>
                     </div>
                 </div>
             }
@@ -58,135 +91,72 @@
         <h5 style="text-align:center"><b>Director</b></h5>
         <div class="card" style="padding: 3px; margin-right: 5px">
 
-            <img src='@(Model.Director!=null?Model.Director.Image.PictureUrl:"")'
+            <img src='@(Model.Director!=null?Model.Director.Image.PictureUrl:"/Dolfd/img/111.png")'
+                 onerror='this.onerror=null; this.src="/Dolfd/img/111.png"'
                  height="151" alt="Director" style="width:100%">
         </div>
-        <p style="text-align:center;">@(Model.Director!=null?Model.Director.Name:"")</p>
+        <p style="text-align:center;">@(Model.Director!=null?Model.Director.Name:"Director")</p>
         <hr>
 
         <h5 style="text-align:center"><b>Information Officer</b></h5>
         <div class="card" style="padding: 3px; margin-right: 5px">
-            <img src='@(Model.InformationOfficer!=null?Model.InformationOfficer.Image.PictureUrl:"")'
+            <img src='@(Model.InformationOfficer!=null?Model.InformationOfficer.Image.PictureUrl:"/Dolfd/img/111.png")'
+                 onerror='this.onerror=null; this.src="/Dolfd/img/111.png"'
                  height="151" alt="Information officer" style="width:100%">
         </div>
-        <p style="text-align:center;">Mr./Mrs. @(Model.InformationOfficer!=null?Model.InformationOfficer.Name:"")</p>
+        <p style="text-align:center;">Mr./Mrs. @(Model.InformationOfficer!=null?Model.InformationOfficer.Name:"Information Officer")</p>
     </div>
-</div>
-<!-- end banner -->
-
-
-<!--<div class="grid-container">
-    <div class="grid-item" style="background-color: #ffffff; margin-bottom:-20px;">
-        <div id="myCarousel" class="slideshow-container">
-            @foreach (var item in Model.Banner)
-            {
-                <div class="mySlides fade">
-                    <img src='@item.Image.PictureUrl' style="width:100%;height:487px;">
-                </div>
-            }
-
-        </div>
-        <br>
-        <div style="text-align:center; margin-bottom:5px;">
-            @for (int i = 0; i < Model.Banner.Count; i++)
-            {
-                <span class="dot" data-target="" data-slide-to="@i"></span>
-                //onclick = '@("currentSlide("+(i)+")")'
-            }
-        </div>
-    </div>
-
-
-    <div class="grid-item" style="background-color: #ffffff">
-        <h5 style="text-align:center"><b>Director</b></h5>
-        <div class="card" style="padding: 3px; margin-right: 5px">
-
-            <img src='@(Model.Director!=null?Model.Director.Image.PictureUrl:"")'
-                 height="151" alt="Director" style="width:100%">
-        </div>
-        <p style="text-align:center;">@(Model.Director!=null?Model.Director.Name:"")</p>
-        <hr>
-
-        <h5 style="text-align:center"><b>Information Officer</b></h5>
-        <div class="card" style="padding: 3px; margin-right: 5px">
-            <img src='@(Model.InformationOfficer!=null?Model.InformationOfficer.Image.PictureUrl:"")'
-                 height="151" alt="Information officer" style="width:100%">
-        </div>
-        <p style="text-align:center;">Mr./Mrs. @(Model.InformationOfficer!=null?Model.InformationOfficer.Name:"")</p>
-    </div>
-
 </div>
 <div class="container">
+    <div class="row">
+        <!-- LEFT -->
+        <div class="col-lg-9 col-md-9">
+            <!--<img class="float-left" src="http://dlfd.gandaki.gov.np/assets/img/Logo_of_Gandaki_Pradesh.png" width="250" alt="" />-->
 
-    <div class="col-md-12 main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">-->
-        <!--  <div class="divider divider-dotted"></div> -->
-    <!--</div>
-</div>-->
-@*<script>
-                var slideIndex = 0;
-                showSlides();
-
-                function showSlides() {
-                    var i;
-                    var slides = document.getElementsByClassName("mySlides");
-                    var dots = document.getElementsByClassName("dot");
-                    for (i = 0; i < slides.length; i++) {
-                        slides[i].style.display = "none";
-                    }
-                    slideIndex++;
-                    if (slideIndex > slides.length) { slideIndex = 1 }
-                    for (i = 0; i < dots.length; i++) {
-                        dots[i].className = dots[i].className.replace(" activedot", "");
-                    }
-                    slides[slideIndex - 1].style.display = "block";
-                    dots[slideIndex - 1].className += " activedot";
-                    setTimeout(showSlides, 4000); // Change image every 2 seconds
-                }
-    </script>*@
-<!-- /SLIDER -->
-<!--left pane  Introduction -->
-<section>
-    <div class="container">
-        <div class="row">
-            <!-- LEFT -->
-            <div class="col-lg-9 col-md-9 main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
-                <!--<img class="float-left" src="http://dlfd.gandaki.gov.np/assets/img/Logo_of_Gandaki_Pradesh.png" width="250" alt="" />-->
-
-                <p style="text-align:justify">
+            <p style="text-align:justify">
+                @if (Model.PageContent != null)
+                {
                     @Model.PageContent.Description
-                </p>
-                <br />
-                <a asp-controller="PageContent" asp-action="Index" asp-route-pageName="Home" rel="nofollow" target="_blank" class="btn btn-primary btn-sm">Read More</a>
-                <hr>
-                <!-- LEFT -->
-                <div class="col-sm-12 main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-6 col-xs-12 main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
-                            <div class="row-left">
-                                <!--	<h3 class="chief_name"><i class="fa fa-download"></i> <span> Downloads</span></h3> -->
+                }
+                else
+                {
+                    @("No Record Found.")
+                }
+            </p>
+            <br />
+            <a asp-controller="PageContent" asp-action="Index" asp-route-pageName="Home" rel="nofollow" target="_blank" class="btn btn-primary btn-sm">Read More</a>
+            <hr>
+            <!-- LEFT -->
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-md-12 col-sm-6 col-xs-12">
+                        <div class="row-left">
+                            	<h3 class="chief_name"><i class="fa fa-newspaper"></i> <span> News/Event and Notices</span></h3>
 
-                                <ul id="myTabNews" class="nav nav-tabs nav-top-border mt-80" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active" href="#notice" data-toggle="tab">Notices</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#tender" data-toggle="tab">Tenders & calls</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#press" data-toggle="tab">Press release</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#letters" data-toggle="tab">Leters</a></li>
-                                </ul>
+                            <ul id="myTabNews" class="nav nav-tabs nav-top-border mt-80" role="tablist">
+                                <li class="nav-item"><a class="nav-link active" href="#notice" data-toggle="tab">Notices</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#tender" data-toggle="tab">Tenders & calls</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#press" data-toggle="tab">Press release</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#letters" data-toggle="tab">Leters</a></li>
+                            </ul>
 
-                                <!-- / Download tab-->
-                                <div class="tab-content pt-20">
-                                    <!-- notice -->
-                                    <div role="tabpanel" class="tab-pane active" id="notice">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="5%"></th>
-                                                        <th width="50%">Name/Title</th>
-                                                        <th width="25%">Subject</th>
-                                                        <th width="20%">Downloads</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                            <!-- / Download tab-->
+                            <div class="tab-content pt-20">
+                                <!-- notice -->
+                                <div role="tabpanel" class="tab-pane active" id="notice">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%"></th>
+                                                    <th width="50%">Name/Title</th>
+                                                    <th width="25%">Subject</th>
+                                                    <th width="20%">Downloads</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Notices.Any())
+                                                {
                                                     @foreach (var item in Model.Notices)
                                                     {
                                                         <tr>
@@ -196,26 +166,35 @@
                                                             <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
                                                         </tr>
                                                     }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!-- notice -->
-                                    <!-- tender -->
-
-
-                                    <div role="tabpanel" class="tab-pane fade" id="tender">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
+                                                }
+                                                else
+                                                {
                                                     <tr>
-                                                        <th width="5%"></th>
-                                                        <th width="50%">Name/Title</th>
-                                                        <th width="25%">Subject</th>
-                                                        <th width="20%">Downloads</th>
+                                                        <td colspan="4">No record found.</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- notice -->
+                                <!-- tender -->
+
+
+                                <div role="tabpanel" class="tab-pane fade" id="tender">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%"></th>
+                                                    <th width="50%">Name/Title</th>
+                                                    <th width="25%">Subject</th>
+                                                    <th width="20%">Downloads</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Tenders.Any())
+                                                {
                                                     @foreach (var item in Model.Tenders)
                                                     {
                                                         <tr>
@@ -225,26 +204,35 @@
                                                             <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id='@item.Id' target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
                                                         </tr>
                                                     }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <!-- tender -->
-                                    <!-- press -->
-
-                                    <div role="tabpanel" class="tab-pane fade" id="press">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
+                                                }
+                                                else
+                                                {
                                                     <tr>
-                                                        <th width="5%"></th>
-                                                        <th width="50%">Name/Title</th>
-                                                        <th width="25%">Subject</th>
-                                                        <th width="20%">Downloads</th>
+                                                        <td colspan="4">No record found.</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- tender -->
+                                <!-- press -->
+
+                                <div role="tabpanel" class="tab-pane fade" id="press">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%"></th>
+                                                    <th width="50%">Name/Title</th>
+                                                    <th width="25%">Subject</th>
+                                                    <th width="20%">Downloads</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.PressRelease.Any())
+                                                {
                                                     @foreach (var item in Model.PressRelease)
                                                     {
                                                         <tr>
@@ -253,28 +241,34 @@
                                                             <td class="hidden-sm hidden-xs">Letters</td>
                                                             <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id='@item.Id' target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
                                                         </tr>
-
-
-
                                                     }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!-- press -->
-                                    <!-- acts and policies -->
-                                    <div role="tabpanel" class="tab-pane fade" id="letters">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
+                                                }
+                                                else
+                                                {
                                                     <tr>
-                                                        <th width="5%"></th>
-                                                        <th width="50%">Name/Title</th>
-                                                        <th width="25%">Subject</th>
-                                                        <th width="20%">Downloads</th>
+                                                        <td colspan="4">No record found.</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- press -->
+                                <!-- acts and policies -->
+                                <div role="tabpanel" class="tab-pane fade" id="letters">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%"></th>
+                                                    <th width="50%">Name/Title</th>
+                                                    <th width="25%">Subject</th>
+                                                    <th width="20%">Downloads</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Letters.Any())
+                                                {
                                                     @foreach (var item in Model.Letters)
                                                     {
                                                         <tr>
@@ -287,24 +281,33 @@
 
 
                                                     }
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="4">No record found.</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <!-- acts and policies -->
                                 </div>
-                                <!-- / Download tab-->
+                                <!-- acts and policies -->
                             </div>
+                            <!-- / Download tab-->
                         </div>
                     </div>
-                    <!-- TWO COLUMNS -->
-                    <div class="row main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
-                        <!-- breaking news -->
-                        <div class="col-md-6">
-                            <div class="alert alert-mini alert-primary mb-20">
-                                <!-- DANGER -->
-                                <strong>Upcoming Events:</strong>
-                            </div>
+                </div>
+                <!-- TWO COLUMNS -->
+                <div class="row main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
+                    <!-- breaking news -->
+                    <div class="col-md-6">
+                        <div class="alert alert-mini alert-primary mb-20">
+                            <!-- DANGER -->
+                            <strong>Upcoming Events:</strong>
+                        </div>
+                        @if (Model.Events.Any())
+                        {
                             @foreach (var item in Model.Events)
                             {
                                 <div class="row">
@@ -322,17 +325,29 @@
                                 <!-- /article summary -->
                                 <hr /><!-- separator -->
                             }
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>No record found.</p>
+                                </div>
 
-
-                        </div>
-                        <div class="col-md-6">
-                            <!--<h3 class="page-header fw-300"><a href="#" data-toggle="tooltip" title="view more"><i class="fa fa-plus-square-o"></i></a>
-                            <strong>Recent</strong> News</h3> -->
-                            <div class="alert alert-mini alert-primary mb-20">
-                                <!-- DANGER -->
-                                <strong>Recent News:</strong>
                             </div>
+                            <!-- /article summary -->
+                            <hr /><!-- separator -->
+                        }
 
+                    </div>
+                    <div class="col-md-6">
+                        <!--<h3 class="page-header fw-300"><a href="#" data-toggle="tooltip" title="view more"><i class="fa fa-plus-square-o"></i></a>
+                        <strong>Recent</strong> News</h3> -->
+                        <div class="alert alert-mini alert-primary mb-20">
+                            <!-- DANGER -->
+                            <strong>Recent News:</strong>
+                        </div>
+                        @if (Model.News.Any())
+                        {
                             @foreach (var item in Model.News)
                             {
                                 <div class="row">
@@ -350,269 +365,330 @@
                                 <!-- /article summary -->
                                 <hr /><!-- separator -->
                             }
-
-                        </div>
-                    </div>
-                    <!-- /TWO COLUMNS -->
-
-                </div>
-                <!-- /LEFT -->
-            </div>
-            <!-- RIGHT -->
-            <div class="col-lg-3 col-md-3 main-el wow fadeInRight animated" data-wow-animation-name="fadeInRight" style="visibility: visible; animation-name: fadeInRight;">
-
-                <!-- BANNER ROTATOR -->
-                <div class="owl-carousel buttons-autohide controlls-over mb-60 text-center" data-plugin-options='{"singleItem": true, "autoPlay": 4000, "navigation": true, "pagination": false, "transitionStyle":"goDown"}'>
-                    <a href="#">
-                        <img class="img-fluid" src="~/Dolfd/img/left.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20">
-                    </a>
-                    <a href="#">
-                        <img class="img-fluid" src="~/Dolfd/img/right.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20">
-                    </a>
-                </div>
-                <!-- /BANNER ROTATOR -->
-                <!-- FEATURED VIDEO -->
-                <!-- JUSTIFIED TAB -->
-                <!--
-                <div class="tabs mt-0 mb-60 main-el wow fadeInRight animated" data-wow-animation-name="fadeInRight" style="visibility: visible; animation-name: fadeInRight;">
-                        <ul class="nav nav-tabs nav-bottom-border nav-justified">
-                            <li class="nav-item">
-                                <a class="nav-item active" href="#tab_1" data-toggle="tab">Notices</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-item" href="#tab_2" data-toggle="tab">Reports</a>
-                            </li>
-                        </ul>
-                    <div class="tab-content mb-60 mt-20 main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
-                            <div id="tab_1" class="tab-pane active">
-                                                                            <div class="row tab-post">
-                                    <div class="col-md-3 col-sm-3 col-3">
-                                        <a href="#">
-                                            <img src="img/pdf.png" onerror="this.onerror=null; this.src='img/38.png'" alt="" width="25" height="20">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-9 col-sm-9 col-9">
-                                        <a href="#" class="tab-post-link" style="text-align:justify">Content title goes here.</a>
-                                        <small>2021-05-02 08:46:01</small>
-                                    </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>No record found.</p>
                                 </div>
-                                                                        <div class="row tab-post">
-                                        <a href="#">
-                                            <img src="img/pdf.png" onerror="this.onerror=null; this.src='img/38.png'" alt="" width="25" height="20">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-9 col-sm-9 col-9">
-                                        <a href="h#" class="tab-post-link" style="text-align:justify">Content title goes here</a>
-                                        <small>2021-04-01 07:34:33</small>
-                                    </div>
-                                </div>
+
                             </div>
-                        <div id="tab_2" class="tab-pane">
-                        </div>
-
+                            <!-- /article summary -->
+                            <hr /><!-- separator -->
+                        }
                     </div>
+                </div>
+                <!-- /TWO COLUMNS -->
 
-                </div>		 -->
-                <div class="text-center">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading text-center">Facebook Plugin</div>
-                        <div class="panel-body" style="min-height:200px;">
-                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook&tabs=timeline&width=247&height=270&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                                    width="247" height="270"
-                                    style="border:none;overflow:hidden"
-                                    scrolling="no" frameborder="0"
-                                    allowfullscreen="true"
-                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                            </iframe>
-                        </div>
+            </div>
+            <!-- /LEFT -->
+        </div>
+        <!-- RIGHT -->
+        <div class="col-lg-3 col-md-3">
+
+            <div class="text-center">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">Facebook Plugin</div>
+                    <div class="panel-body" style="min-height:200px;">
+                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook&tabs=timeline&width=247&height=270&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                                width="247" height="270"
+                                style="border:none;overflow:hidden"
+                                scrolling="no" frameborder="0"
+                                allowfullscreen="true"
+                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                        </iframe>
                     </div>
+                </div>
+                <!--<div class="gallery">
+                    <a target="_blank" asp-controller="gallery" asp-action="index">
+                        <img src='@((Model.Gallery!=null&& Model.Gallery.Images.Any())?
+                                        Model.Gallery.Images.FirstOrDefault().PictureUrl:
+                                            "/dolfd/img/nep-gov.png")'
+                             alt="Album" width="300" height="200">
+                    </a>
+                    <div class="desc">@(Model.Gallery!=null?Model.Gallery.Title:"Gallery")</div>
+                </div>
+                <div width="280" height="200">-->
+                @*controls*@
+                <!--<iframe width="280" height="200" src='@(Model.Video!=null?Model.Video.VideoUrl:"")'
+                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+                @* <source src="" type="video/mp4">*@
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="chief_name"><i class="fa fa-photo"></i> <span> Gallery</span></h3>
+        </div>
+        @if (Model.Gallery != null)
+        {
+            @foreach (var item in Model.Galleries)
+            {
+                <div class="col-md-3">
                     <div class="gallery">
-                        <a target="_blank" asp-controller="gallery" asp-action="index"><img src="~/dolfd/img/nep-gov.png" alt="Album" width="600" height="400"> </a>
-                        <div class="desc">@(Model.Gallery!=null?Model.Gallery.Title:"Gallery")</div>
+                        <a target="_blank" asp-controller="gallery" asp-action="index">
+                            <img src='@((item != null && item.Images.Any()) ?
+                      item.Images.FirstOrDefault().PictureUrl :
+                          "/dolfd/img/nep-gov.png")'
+                                 alt="Album" width="200" height="150">
+                        </a>
+                        <div class="desc">@(item != null ? item.Title : "Gallery")</div>
                     </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <div class="col-md-12">
+                No record found.
+            </div>
+
+        }
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="chief_name"><i class="fa fa-video"></i> <span> Video</span></h3>
+        </div>
+        @if (Model.Videos.Any())
+        {
+            @foreach (var item in Model.Videos)
+            {
+                <div class="col-md-3">
                     <div width="280" height="200">
                         @*controls*@
-                        <iframe width="280" height="200" src='@(Model.Video!=null?Model.Video.VideoUrl:"")'
+                        <iframe width="280" height="200" src='@(item!=null?item.VideoUrl:"")'
                                 frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         @* <source src="" type="video/mp4">*@
                     </div>
                 </div>
+            }
+
+        }
+        else
+        {
+            <div class="col-md-12">
+                No record found.
             </div>
-        </div>
-</section>
-<!-- / -->
-<!-- / Download section-->
+        }
 
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-sm-6 col-xs-12 main-el wow fadeInLeft animated" data-wow-animation-name="fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
-                <div class="row-left">
-                    <h3 class="chief_name"><i class="fa fa-download"></i> <span> Downloads</span></h3>
+    </div>
 
-                    <ul id="myTab" class="nav nav-tabs nav-top-border mt-80" role="tablist">
-                        <li class="nav-item"><a class="nav-link active" href="#procedure" data-toggle="tab">Rule & Regulation</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#directory" data-toggle="tab">Directives</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#acts" data-toggle="tab">Acts and Policies</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#others" data-toggle="tab">Reports</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#others" data-toggle="tab">Other files</a></li>
-                    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <h3 class="chief_name"><i class="fa fa-download"></i> <span> Downloads</span></h3>
 
-                    <!-- / Download tab-->
-                    <div class="tab-content pt-20">
-                        <!-- procedure -->
-                        <div role="tabpanel" class="tab-pane active" id="procedure">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
+            <ul id="myTab" class="nav nav-tabs nav-top-border mt-80" role="tablist">
+                <li class="nav-item"><a class="nav-link active" href="#procedure" data-toggle="tab">Rule & Regulation</a></li>
+                <li class="nav-item"><a class="nav-link" href="#directory" data-toggle="tab">Directives</a></li>
+                <li class="nav-item"><a class="nav-link" href="#acts" data-toggle="tab">Acts and Policies</a></li>
+                <li class="nav-item"><a class="nav-link" href="#others" data-toggle="tab">Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#others" data-toggle="tab">Other files</a></li>
+            </ul>
+
+            <!-- / Download tab-->
+            <div class="tab-content pt-20">
+                <!-- procedure -->
+                <div role="tabpanel" class="tab-pane active" id="procedure">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%">Subject</th>
+                                    <th class="text-center">Downloads</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.RulesRegulation.Any())
+                                {
+                                    @foreach (var item in Model.RulesRegulation)
+                                    {
                                         <tr>
-                                            <th width="5%"></th>
-                                            <th width="50%">Name/Title</th>
-                                            <th width="25%">Subject</th>
-                                            <th class="text-center">Downloads</th>
+                                            <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td>@item.Title</td>
+                                            <td class="hidden-sm hidden-xs">Rule & Regulation</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id='@item.Id' target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.RulesRegulation)
-                                        {
-                                            <tr>
-                                                <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
-                                                <td>@item.Title</td>
-                                                <td class="hidden-sm hidden-xs">Rule & Regulation</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id='@item.Id' target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-                                            </tr>
-                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
 
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- procedure -->
-                        <!-- directory -->
-
-
-                        <div role="tabpanel" class="tab-pane fade" id="directory">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%"></th>
-                                            <th width="50%">Name/Title</th>
-                                            <th width="25%">Subject</th>
-                                            <th class="text-center">Downloads</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.Directives)
-                                        {
-                                            <tr>
-                                                <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
-                                                <td>@item.Title</td>
-                                                <td class="hidden-sm hidden-xs">Directives</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-                                            </tr>
-                                        }
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- directory -->
-                        <!-- circular -->
-
-                        <div role="tabpanel" class="tab-pane fade" id="circular">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%"></th>
-                                            <th width="50%">Name/Title</th>
-                                            <th width="25%">Subject</th>
-                                            <th class="text-center">Downloads</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.ActsPolices)
-                                        {
-                                            <tr>
-                                                <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
-                                                <td>@item.Title</td>
-                                                <td class="hidden-sm hidden-xs">Act & Policies</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- circular -->
-                        <!-- acts and policies -->
-                        <div role="tabpanel" class="tab-pane fade" id="acts">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%"></th>
-                                            <th width="50%">Name/Title</th>
-                                            <th width="25%">Subject</th>
-                                            <th class="text-center">Downloads</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.Reports)
-                                        {
-                                            <tr>
-                                                <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
-                                                <td>@item.Title</td>
-                                                <td class="hidden-sm hidden-xs">Reports</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-rooute-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-                                            </tr>
-                                        }
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- acts and policies -->
-                        <!-- Other files-->
-
-                        <div role="tabpanel" class="tab-pane fade" id="others">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%"></th>
-                                            <th width="50%">Name/Title</th>
-                                            <th width="25%">Subject</th>
-                                            <th class="text-center">Downloads</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.OtherFiles)
-                                        {
-                                            <tr>
-                                                <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
-                                                <td>@item.Title</td>
-                                                <td class="hidden-sm hidden-xs">Other files</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Other files-->
-
+                            </tbody>
+                        </table>
                     </div>
-                    <!-- / Download tab-->
                 </div>
+                <!-- procedure -->
+                <!-- directory -->
+
+
+                <div role="tabpanel" class="tab-pane fade" id="directory">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%">Subject</th>
+                                    <th class="text-center">Downloads</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Directives.Any())
+                                {
+                                    @foreach (var item in Model.Directives)
+                                    {
+                                        <tr>
+                                            <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td>@item.Title</td>
+                                            <td class="hidden-sm hidden-xs">Directives</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- directory -->
+                <!-- circular -->
+
+                <div role="tabpanel" class="tab-pane fade" id="circular">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%">Subject</th>
+                                    <th class="text-center">Downloads</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.ActsPolices.Any())
+                                {
+                                    @foreach (var item in Model.ActsPolices)
+                                    {
+                                        <tr>
+                                            <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td>@item.Title</td>
+                                            <td class="hidden-sm hidden-xs">Act & Policies</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- circular -->
+                <!-- acts and policies -->
+                <div role="tabpanel" class="tab-pane fade" id="acts">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%">Subject</th>
+                                    <th class="text-center">Downloads</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Reports.Any())
+                                {
+                                    @foreach (var item in Model.Reports)
+                                    {
+                                        <tr>
+                                            <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td>@item.Title</td>
+                                            <td class="hidden-sm hidden-xs">Reports</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-rooute-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- acts and policies -->
+                <!-- Other files-->
+
+                <div role="tabpanel" class="tab-pane fade" id="others">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%">Subject</th>
+                                    <th class="text-center">Downloads</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.OtherFiles.Any())
+                                {
+                                    @foreach (var item in Model.OtherFiles)
+                                    {
+                                        <tr>
+                                            <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td>@item.Title</td>
+                                            <td class="hidden-sm hidden-xs">Other files</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Other files-->
+
             </div>
+            <!-- / Download tab-->
         </div>
     </div>
-</section>
+</div>

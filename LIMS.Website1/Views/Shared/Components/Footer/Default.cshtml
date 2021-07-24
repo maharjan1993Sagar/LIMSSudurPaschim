@@ -10,7 +10,9 @@
                     <ul class="list-unstyled">
                         <li class="footer-sprite ">
                             Ministry of Land Mangement, Agriculture and Cooperative<br>
-                            <b>@Model.ContactUs.Department</b><br>
+                            <b>
+                            
+                            @(Model.ContactUs!=null?Model.ContactUs.Department:"Department Name")</b><br>
                         </li>
                         <li class="footer-sprite address">
 
@@ -18,10 +20,10 @@
                             <b>Nepal</b><br>
                         </li>
                         <li class="footer-sprite phone">
-                            Phone:@Model.ContactUs.Phone1
+                            Phone:@(Model.ContactUs!=null?Model.ContactUs.Phone1:"Phone")
                         </li>
                         <li class="footer-sprite email">
-                            <a>@Model.ContactUs.Email1</a>
+                            <a>@(Model.ContactUs!=null?Model.ContactUs.Email1:"officeEmail@email.com")</a>
                         </li>
                         <li>
                             <!-- Social Icons -->
@@ -41,29 +43,50 @@
                 <!-- Latest Blog Post -->
                 <h4 class="letter-spacing-1">Related Links</h4>
                 <ul class="footer-posts list-unstyled">
-                   @foreach (var item in Model.ImportantLinks)
-                   {
-                    <li>
-                        <a href="@item.URL">@item.LinkName</a>
-                    </li>
-                   }
-                    
-                    @*<li>
-                        <a href="http://moeap.sudurpaschim.gov.np">Ministry of Economic Affairs and Planning,Sudurpaschim Province</a>
+                    @if (Model.ImportantLinks.Any())
+                    {
+                        @foreach (var item in Model.ImportantLinks)
+                        {
+                            <li>
+                                <a href="@item.URL">@item.LinkName</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="http://moeap.sudurpaschim.gov.np">Ministry of Economic Affairs and Planning,Sudurpaschim Province</a>
 
-                    </li>
-                    <li>
-                        <a href="http://molmac.sudurpaschim.gov.np">Ministry of Land Management,Agriculture & Cooperative,Sudurpaschim Province </a>
-                    </li>
-                    <li>
-                        <a href="http://www.dls.gov.np/">Department of Livestock Services</a>
-                    </li>
-                    <li>
-                        <a href="http://www.doad.gov.np/">Department of Agriculture Development</a>
-                    </li>
-                    <li>
-                        <a href="http://moitfe.sudurpaschim.gov.np">Ministry of Industry, Tourism, Forest and Environment,Sudurpaschim Province</a>
-                    </li>*@
+                        </li>
+                        <li>
+                            <a href="http://molmac.sudurpaschim.gov.np">Ministry of Land Management,Agriculture & Cooperative,Sudurpaschim Province </a>
+                        </li>
+                        <li>
+                            <a href="http://www.dls.gov.np/">Department of Livestock Services</a>
+                        </li>
+                        <li>
+                            <a href="http://www.doad.gov.np/">Department of Agriculture Development</a>
+                        </li>
+                        <li>
+                            <a href="http://moitfe.sudurpaschim.gov.np">Ministry of Industry, Tourism, Forest and Environment,Sudurpaschim Province</a>
+                        </li>
+                    }
+                    @*<li>
+            <a href="http://moeap.sudurpaschim.gov.np">Ministry of Economic Affairs and Planning,Sudurpaschim Province</a>
+
+        </li>
+        <li>
+            <a href="http://molmac.sudurpaschim.gov.np">Ministry of Land Management,Agriculture & Cooperative,Sudurpaschim Province </a>
+        </li>
+        <li>
+            <a href="http://www.dls.gov.np/">Department of Livestock Services</a>
+        </li>
+        <li>
+            <a href="http://www.doad.gov.np/">Department of Agriculture Development</a>
+        </li>
+        <li>
+            <a href="http://moitfe.sudurpaschim.gov.np">Ministry of Industry, Tourism, Forest and Environment,Sudurpaschim Province</a>
+        </li>*@
                 </ul>
                 <!-- /Latest Blog Post -->
             </div>
@@ -102,7 +125,7 @@
     <div class="copyright">
         <div class="container text-center">
 
-            &copy; 2021 Copyright Ministry of Land Management, Agriculture and Cooperative :: @Model.ContactUs.OfficeName :: Sudurpaschim Province, Nepal
+            &copy; 2021 Copyright Ministry of Land Management, Agriculture and Cooperative :: @(Model.ContactUs!=null?Model.ContactUs.OfficeName:"Office Name") :: Sudurpaschim Province, Nepal
 
         </div>
     </div>

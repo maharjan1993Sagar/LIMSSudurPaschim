@@ -9,6 +9,8 @@ namespace LIMS.Website1.Models
     public class HomeModel {
         public GalleryModel Gallery { get; set; }
         public GalleryModel Video { get; set; }
+        public List<GalleryModel> Galleries { get; set; }
+        public List<GalleryModel> Videos{ get; set; }
         public List<NewsEventTenderModel> News { get; set; }
         public List<NewsEventTenderModel> NewsScroll { get; set; }
         public List<NewsEventTenderModel> Events { get; set; }

@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group text-center">
-                            <input type="submit" value="Submit" />
+                            <input type="submit" value="Submit" class="btn btn-primary"/>
 
                         </div>
                     </div>
@@ -55,43 +55,89 @@
                                     <i class="fa fa-book"></i>Contact Details
                                 </h4>
                             </div>
-                            <div class="panel-body">
 
-                                <h3>
-                                    @Model.OfficeName
-                                </h3>
-                                <p>
-                                    @Model.Address
+                            @if (Model != null)
+                            {
 
-                                </p>
-                                <p>
-                                    <i class="fa fa-phone"></i>
-                                    <abbr title="Phone">
-                                        P
-                                    </abbr>: (+977) @Model.Phone1,@Model.Phone2
-                                </p>
-                                <p>
-                                    <i class="fa fa-envelope-o"></i>
-                                    <abbr title="Email">
-                                        E
-                                    </abbr>: <a href='@Model.Email1'>@Model.Email1</a><!--,  <a href="spsc.bagamati@gmail.com">spsc.bagamati@gmail.com</a>-->
-                                </p>
-                                <p>
-                                    <i class="fa fa-external-link"></i>
-                                    <abbr title="Url">
-                                        U
-                                    </abbr>: <a href='@Model.WebsiteUrl'>@Model.WebsiteUrl</a>
-                                </p>
-                                <p>
-                                    <i class="fa fa-clock-o"></i>
-                                    <abbr title="Hours">
-                                        H
-                                    </abbr>:
-                                    @Model.OpeningHours
+                                <div class="panel-body">
 
-                                </p>
+                                    <h3>
+                                        @Model.OfficeName
+                                    </h3>
+                                    <p>
+                                        @Model.Address
 
-                            </div>
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-phone"></i>
+                                        <abbr title="Phone">
+                                            P
+                                        </abbr>: (+977) @Model.Phone1,@Model.Phone2
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-envelope-o"></i>
+                                        <abbr title="Email">
+                                            E
+                                        </abbr>: <a href='@Model.Email1'>@Model.Email1</a><!--,  <a href="spsc.bagamati@gmail.com">spsc.bagamati@gmail.com</a>-->
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-external-link"></i>
+                                        <abbr title="Url">
+                                            U
+                                        </abbr>: <a href='@Model.WebsiteUrl'>@Model.WebsiteUrl</a>
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-clock-o"></i>
+                                        <abbr title="Hours">
+                                            H
+                                        </abbr>:
+                                        @Model.OpeningHours
+
+                                    </p>
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="panel-body">
+
+                                    <h3>
+                                       Office Name
+                                    </h3>
+                                    <p>
+                                       Office Address
+
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-phone"></i>
+                                        <abbr title="Phone">
+                                            P
+                                        </abbr>: (+977) Phone1, Phone2
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-envelope-o"></i>
+                                        <abbr title="Email">
+                                            E
+                                        </abbr>: <a href='#'>office@email.com</a><!--,  <a href="spsc.bagamati@gmail.com">spsc.bagamati@gmail.com</a>-->
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-external-link"></i>
+                                        <abbr title="Url">
+                                            U
+                                        </abbr>: <a href='#'>www.officeurl.com</a>
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-clock-o"></i>
+                                        <abbr title="Hours">
+                                            H
+                                        </abbr>:
+                                        Opening Hours of office
+
+                                    </p>
+
+                                </div>
+                            }
+
                         </div>
                     </div>
                 </div>

@@ -5168,7 +5168,7 @@ section.dark .btn-default {
 
 
 /* BOOTSTRAP REWRITE */
-.btn,
+
 .form-control:not(textarea) {
 	height:1px; /*40px*/
 }
@@ -5190,14 +5190,6 @@ a.btn.btn-sm {
 .btn-3d.btn-xlg {
 	line-height:inherit;
 }
-
-
-
-
-
-
-
-
 /*
  * Social Buttons for Bootstrap
  * https://github.com/lipis/bootstrap-social
