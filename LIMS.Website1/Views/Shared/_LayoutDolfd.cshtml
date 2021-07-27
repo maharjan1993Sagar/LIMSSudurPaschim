@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>@ViewData["Title"] DoLFD-DoAD,Template, Sudurpaschim Province</title>
+    <meta name="description" content="" />
+    <meta name="Author" content="Debugsoft, Sudurpaschim, Agriculture" />
+
+    <!-- mobile settings -->
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <!-- WEB FONTS : use %7C instead of | (pipe) -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
+
+    <!-- CORE CSS -->
+    <!-- SWIPER SLIDER -->
+
+    <link href="~/Dolfd/css/swiper.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- THEME CSS -->
+    <link href="~/Dolfd/css/essentials.css " rel="stylesheet" type="text/css" />
+    <link href="~/Dolfd/css/layout.css " rel="stylesheet" type="text/css" />
+
+    <!-- PAGE LEVEL SCRIPTS -->
+    <link href="~/Dolfd/css/header-1.css " rel="stylesheet" type="text/css" />
+    <link href="~/Dolfd/css/red.css " rel="stylesheet" type="text/css" id="color_scheme" />
+
+
+    <link rel="stylesheet" href="~/Dolfd/css/bootstrap.css">
+
+    <link rel="stylesheet" href="~/Dolfd/css/w3.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/Dolfd/css/layoutCss.css">
+
+</head>
+
+
+
+<body class="smoothscroll enable-animation">
+    <!-- wrapper -->
+    <div id="wrapper">
+        @await Component.InvokeAsync("Header")
+
+        @* <partial name="_headerPartial"/>*@
+
+        <div id="header" class="navbar-toggleable-md sticky header-sm clearfix">
+            <!-- TOP NAV -->
+            <header id="topNav">
+                <div class="container">
+                    <!-- Mobile Menu Button -->
+                    <button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- BUTTONS -->
+                    <ul class="float-right nav nav-pills nav-second-main">
+                        <!-- SEARCH -->
+                        <li class="search">
+                            <a href="javascript:;">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <div class="search-box">
+                                <form action="page-search-result-1.html" method="get">
+                                    <div class="input-group">
+                                        <input type="text" name="src" placeholder="Search" class="form-control" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="submit">Search</button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <!-- /SEARCH -->
+                    </ul>
+                    <!-- /BUTTONS -->
+                    <!--
+                        Top Nav
+
+                        AVAILABLE CLASSES:
+                        submenu-dark = dark sub menu
+                    -->
+                    <div class="navbar-collapse collapse float-left nav-main-collapse">
+                        @await Component.InvokeAsync("Menu")
+
+                        @*<partial name="_menuPartial" />*@
+                    </div>
+                </div>
+            </header>
+            <!-- /Top Nav -->
+        </div>
+        @RenderBody()
+        @await Component.InvokeAsync("Footer")
+        @*<partial name="_footerPartial" />*@
+    </div>
+    <!-- /wrapper -->
+    <!-- SCROLL TO TOP -->
+    <a href="#" id="toTop"></a>
+
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="inner">
+            <span class="loader"></span>
+        </div>
+    </div><!-- /PRELOADER -->
+    <!-- JAVASCRIPT FILES -->
+
+    <script src="~/Dolfd/js/jquery-3.3.1.min.js"></script>
+   @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
+    <script src="~/Dolfd/js/bootstrap.min.js"></script>
+    <script src="~/Dolfd/js/scripts.js "></script>
+    <!-- SWIPER SLIDER -->
+    <script src="~/Dolfd/js/swiper.min.js "></script>
+    <script src="~/Dolfd/js/demo.swiper_slider.js "></script>
+    @*<script src="~/Dolfd/js/sliders.js"></script>*@
+    <script src="~/Dolfd/js/fontSize.js"></script>
+    @RenderSection("Scripts", required: false)
+    <script src="~/Dolfd/js/nepali.datepicker.v2.2.min.js">
+    </script>
+    <script src="~/Dolfd/js/EngToNep.js">s</script>
+    <script src="~/Dolfd/js/site.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,88 @@
+﻿@model ContactUsModel
+@using LIMS.Website1.Data
+@using System.Globalization
+@inject IGetResource getResource
+@{
+    var aboutUs = getResource.GetByName("AboutUs");
+
+    var culture = CultureInfo.CurrentCulture.ToString();
+
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
+<div class="web__topbar">
+    <div class="ui container">
+        <div class="topbar__frame">
+            <div role="list" class="ui horizontal list">
+                <div role="listitem" class="item">
+                    <a class="btn-link" target="_blank" href="https://mail.nepal.gov.np/mail/"><i class="fas fa-envelope-open-text"></i><span>Centralized email system</span></a>
+                </div><div role="listitem" class="item">
+                    <a class="btn-link" target="_blank" href='@("http://fas.dibugsoft.com/@dmin/login.aspx")'><i class="fas fa-network-wired"></i><span>Office automation</span></a>
+                </div>
+            </div>
+            <div>
+                <ul class="list-inline font_choice web-accesibility" style="margin-left: 150px !important;">
+                    <!-- <li class="list-inline-item seaarch"><a href="https://mail.moic.gov.np/login.html" target="_blank">  <i class="mocit-newsletter" style="font-size: 16px;"></i></a></li> -->
+
+                    <li class="list-inline-item" style="float:left;">
+                        <span class="font_choice pull-right">
+                            <div id="rvfs-controllers" class="fontsize-controllers group" style='float:left;'>
+                                <div class="btn-group">
+                                    <a id="btnDecFont" style="color:#fff;" href="#" class="rvfs-decrease btn" title="Decrease font size">A-</a>
+                                    <a id="btnNorFont" style="color:#fff;" href="#" class="rvfs-reset btn" title="Default font size">A</a>
+                                    <a id="btnIncFont" style="color:#fff;" href="#" class="rvfs-increase btn" title="Increase font size">A+</a>
+                                </div>
+                            </div>
+                            <a style="color:#fff;" id="contrast"><i class="fas fa-low-vision"></i></a>
+                        </span>
+                    </li>
+                    <li class="list-inline-item"><a style="color:#fff;" href="#" class="lowBandwidth">Low Bandwidth</a></li>
+                    <li class="list-inline-item">
+                        <div class="dateandtime">
+                            <span style="color:#fff;"></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="language">
+                <span class='@(culture=="en-US"?"lang active":"lang")'>
+                    <a asp-controller="Home" asp-action="SetLanguage"
+                        asp-route-returnUrl="@returnUrl" asp-route-culture="en-US">EN</a>
+                </span>
+                <span class='@(culture=="ne-NP"?"lang active":"lang")'>
+                    <a asp-controller="Home" asp-action="SetLanguage" 
+                       asp-route-returnUrl="@returnUrl" asp-route-culture="ne-NP">NP</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top Bar -->
+<div class="border-top block clearfix">
+    <div class="container">
+        <!-- Logo -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class=" float-left">
+                    <a class="logo has-banner float-left text-center-md" href="#"><img height="90" width="90" src="~/Dolfd/img/nep-gov.png" alt="" /></a>
+                </div>
+                <div style="Margin-top:8px;">
+                    <p style="margin:0px; font-family:serif; font-size:13px;">
+                        Provincial Government of Nepal
+                    </p>
+                    <p style="margin:0px;font-family:serif; font-size:13px;">Minsitry of Land Management, Agriculture and Cooperative</p>
+                    <strong style="font-family:serif; color:red;">Directorate of Livestock and Fisheries Development</strong>
+                    <p style="margin:0px; font-family:serif; color:red; font-size:12px;">Sudurpaschim Province, Kailali</p>
+                </div>
+                
+            </div>
+            <div class="col-md-4 text-right">
+                <a class="hidden-sm hidden-xs-down"><img class="flag float-right" src="~/Dolfd/img/nepal-flag.gif" li=""></a>
+            </div>
+        </div>
+    </div>
+</div>
+@{ 
+
+
+}

@@ -142,53 +142,56 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var m = model.ToEntity(pageContent);
-                if (model.ImageModel.PictureId != null)
+
+                if (pageContent.PageContentFile.PictureId != model.ImageModel.PictureId)
                 {
                     var pic = await _pictureService.GetPictureById(pageContent.PageContentFile.PictureId);
 
-                    await _pictureService.DeletePicture(pic);
+                    if (pic != null)
+                    {
+                        await _pictureService.DeletePicture(pic);
+                    }
+
+                    //update the new picture
+                    var picture = await _pictureService.GetPictureById(model.ImageModel.PictureId);
+                    await _pictureService.UpdatePicture(picture.Id,
+                    await _pictureService.LoadPictureBinary(picture),
+                    picture.MimeType,
+                    picture.SeoFilename,
+                    model.ImageModel.OverrideAltAttribute,
+                    model.ImageModel.OverrideTitleAttribute);
+
+                    await _pictureService.SetSeoFilename(picture.Id, _pictureService.GetPictureSeName(picture.TitleAttribute));
+                    string pictureUrl = await _pictureService.GetPictureUrl(model.ImageModel.PictureId);
+                    if (pageContent.PageContentFile != null)
+                    {
+                        pageContent.PageContentFile.PictureId = picture.Id;
+                        pageContent.PageContentFile.CMSEntityId = pageContent.Id;
+                        pageContent.PageContentFile.DisplayOrder = 0;
+                        pageContent.PageContentFile.AltAttribute = model.ImageModel.OverrideAltAttribute;
+                        pageContent.PageContentFile.MimeType = picture.MimeType;
+                        pageContent.PageContentFile.SeoFilename = picture.SeoFilename;
+                        pageContent.PageContentFile.TitleAttribute = model.ImageModel.OverrideTitleAttribute;
+                        pageContent.PageContentFile.PictureUrl = pictureUrl;
+                    }
+                    else
+                    {
+                        pageContent.PageContentFile = new NewsEventFile {
+                            PictureId = picture.Id,
+                            CMSEntityId = pageContent.Id,
+                            DisplayOrder = 0,
+                            AltAttribute = model.ImageModel.OverrideAltAttribute,
+                            MimeType = picture.MimeType,
+                            SeoFilename = picture.SeoFilename,
+                            TitleAttribute = model.ImageModel.OverrideTitleAttribute,
+                            PictureUrl = pictureUrl
+                        };
+                    }
                 }
 
-                var picture = await _pictureService.GetPictureById(model.ImageModel.PictureId);
-                await _pictureService.UpdatePicture(model.ImageModel.PictureId,
-                await _pictureService.LoadPictureBinary(picture),
-                picture.MimeType,
-                picture.SeoFilename,
-                model.ImageModel.OverrideAltAttribute,
-                model.ImageModel.OverrideTitleAttribute);
+               // string pictureUrl = await _pictureService.GetPictureUrl(picture.Id);
 
-                await _pictureService.SetSeoFilename(picture.Id, _pictureService.GetPictureSeName(m.PageName));
-                string pictureUrl = await _pictureService.GetPictureUrl(picture.Id);
-
-                if (pageContent.PageContentFile == null)
-                {
-                    var contentFile = new NewsEventFile {
-                        PictureId = picture.Id,
-                        CMSEntityId = m.PageContentId.ToString(),
-                        DisplayOrder = 1,
-                        AltAttribute = model.ImageModel.OverrideAltAttribute,
-                        OverrideTitleAttribute = model.ImageModel.OverrideTitleAttribute,
-                        MimeType = picture.MimeType,
-                        SeoFilename = picture.SeoFilename,
-                        TitleAttribute = picture.TitleAttribute,
-                        PictureUrl=pictureUrl
-                    };
-                    m.PageContentFile = contentFile;
-
-                }
-                else
-                {
-                    m.PageContentFile.DisplayOrder = 1;
-                    m.PageContentFile.AltAttribute = model.ImageModel.OverrideAltAttribute;
-                    m.PageContentFile.OverrideTitleAttribute = model.ImageModel.OverrideTitleAttribute;
-                    m.PageContentFile.MimeType = picture.MimeType;
-                    m.PageContentFile.SeoFilename = picture.SeoFilename;
-                    m.PageContentFile.TitleAttribute = picture.TitleAttribute;
-                    m.PageContentFile.PictureId = model.ImageModel.PictureId;
-                    m.PageContentFile.PictureUrl = pictureUrl;
-                    
-                }
-              
+               
               await _pageContentService.UpdatePageContent(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.PageContent.Updated"));

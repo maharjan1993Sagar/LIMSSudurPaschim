@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using LIMS.Api.Extensions;
 using LIMS.Services.NewsEvent;
+using System.IO;
 
 namespace LIMS.Api.Queries.Handlers.GeneralCMS
 {
@@ -38,6 +39,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                                         Where(m => m.UserId == request.UserId).
                                         Select(m => m.ToModel()).ToList();
 
+               
                 return newsEventDto;
 
             }

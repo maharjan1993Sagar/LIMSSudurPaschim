@@ -195,6 +195,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 picture.SeoFilename,
                 overrideAltAttribute,
                 overrideTitleAttribute);
+            await _pictureService.SetSeoFilename(pictureId, _pictureService.GetPictureSeName(picture.TitleAttribute));
+
+            string url = await _pictureService.GetPictureUrl(pictureId);
 
             await _galleryService.InsertPicture(new NewsEventFile {
                 PictureId = pictureId,
@@ -204,10 +207,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 MimeType = picture.MimeType,
                 SeoFilename = picture.SeoFilename,
                 TitleAttribute = overrideTitleAttribute,
-                PictureUrl=(await _pictureService.GetPictureUrl(pictureId))
+                PictureUrl=url
             });
 
-            await _pictureService.SetSeoFilename(pictureId, _pictureService.GetPictureSeName(gallery.Title));
 
             return Json(new { Result = true });
         }
@@ -267,6 +269,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 picture.SeoFilename = pic.SeoFilename;
                 picture.AltAttribute = model.OverrideAltAttribute;
                 picture.TitleAttribute = model.OverrideTitleAttribute;
+                picture.PictureUrl = await _pictureService.GetPictureUrl(picture.PictureId);
 
                 await _galleryService.UpdatePicture(picture);
 
