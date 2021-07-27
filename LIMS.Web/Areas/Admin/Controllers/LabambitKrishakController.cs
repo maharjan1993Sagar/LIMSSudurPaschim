@@ -98,18 +98,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Sex = sex;
-            //var ethinicGroup = new List<SelectListItem>() {
-            //    new SelectListItem {
-            //        Text="Male",
-            //        Value="Male"
-            //    },
-            //      new SelectListItem {
-            //        Text="Female",
-            //        Value="Female"
-            //    },
-            //};
-            //sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            //ViewBag.Sex = sex;
+           
 
             LabambitKrishakModel model = new LabambitKrishakModel();
 
@@ -133,6 +122,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         animalRegistration.PictureId = model.PictureId;
                     }
                 }
+                animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
+                animalRegistration.PujigatKharchaKharakram= await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
+                animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
                 await _animalRegistrationService.InsertLabambitKrishakHaru(animalRegistration);
 
                 SuccessNotification(_localizationService.GetResource("Admin.AnimalRegistration.Added"));
@@ -176,6 +168,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;
+            var sex = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Male",
+                    Value="Male"
+                },
+                  new SelectListItem {
+                    Text="Female",
+                    Value="Female"
+                },
+            };
+            sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Sex = sex;
+
+
             return View(model);
         }
 
@@ -191,16 +197,24 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var m = model.ToEntity(animalRegistration);
+                animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
+                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
+
+
+
+                //  var farmPicture =await _pictureService.GetPictureById(farm.PictureId);
+                //if (farmPicture == null)
+                //    throw new ArgumentException("No farm picture found with the specified id");
+
                 if (!string.IsNullOrEmpty(model.PictureId))
                 {
                     var picture = await _pictureService.GetPictureById(model.PictureId);
                     if (picture != null)
                     {
-                        animalRegistration.Picture = picture;
-                        animalRegistration.PictureId = model.PictureId;
+                        m.Picture = picture;
+                        m.PictureId = model.PictureId;
                     }
                 }
-
                 await _animalRegistrationService.UpdateLabambitKrishakHaru(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.AnimalRegistration.Updated"));
@@ -213,6 +227,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            var sex = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Male",
+                    Value="Male"
+                },
+                  new SelectListItem {
+                    Text="Female",
+                    Value="Female"
+                },
+            };
+            sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Sex = sex;
+
+
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;

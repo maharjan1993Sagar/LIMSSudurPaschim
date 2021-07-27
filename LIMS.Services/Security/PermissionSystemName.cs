@@ -106,7 +106,7 @@
         public const string AccessDynamicMenu = "AccessDynamicMenu";
         public const string AccessNewsEventTender = "AccessNewsEventTender";
        public const string AccessCDS = "AccessCDS";
-       public const string AccessCMS= "AccessCMS";
+       public const string AccessMolmacRegister = "AccessMolmacRegister";
 
         public const string AccessGeneralCMS = "AccessGeneralCMS";
 

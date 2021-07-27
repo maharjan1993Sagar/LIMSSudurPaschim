@@ -16,6 +16,9 @@ namespace LIMS.Web.Areas.Admin.Helper
         public static string DolfdUser = "DolfdUser";
         public static string DolfdAdmin = "DolfdAdmin";
         public static string OrganizationAdmin = "OrganizationAdmin";
-        public static string Technician = "Technician";    
+        public static string Technician = "Technician";
+        public static string MolmacAdmin = "MolmacAdmin";
+        public static string MolmacUser="MolmacUser";
+
     }
 }

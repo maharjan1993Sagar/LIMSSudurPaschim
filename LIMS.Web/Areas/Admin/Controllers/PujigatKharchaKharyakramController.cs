@@ -115,11 +115,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     Value="pujigat"
 
                 },
-                 new SelectListItem {
-                    Text="kha si na.",
-                    Value="kha si na."
+                // new SelectListItem {
+                //    Text="kha si na.",
+                //    Value="kha si na."
 
-                }
+                //}
             };
 
         }

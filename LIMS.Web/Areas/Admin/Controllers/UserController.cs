@@ -186,9 +186,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     ErrorNotification(customerRolesError, false);
                 }
             }
-            if (customerRoles.Contains(RoleHelper.LssAdmin))
+            if (customerRoles.Contains(RoleHelper.MolmacAdmin))
             {
-                role = allCustomerRoles.Where(m => m.Name == "LssUser").FirstOrDefault();
+                role = allCustomerRoles.Where(m => m.Name == "MolmacUser").FirstOrDefault();
 
                 newCustomerRoles.Add(role);
                 newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());

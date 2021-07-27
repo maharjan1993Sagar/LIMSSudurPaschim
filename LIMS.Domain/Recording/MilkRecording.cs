@@ -22,7 +22,12 @@ namespace LIMS.Domain.Recording
         public string RecordingPeriod { get; set; }
         public string MilkVolume { get; set; }
         public string SampleBoxNo { get; set; }
+        public string Fat { get; set; }
+        public string SNF { get; set; }
+        public string Prot { get; set; }
+        public string Conductivity { get; set; }
         public string CreatedBy { get; set; }
+        public string CreatedAt { get; set; }
         public AnimalRegistration AnimalRegistration { get; set; }
         public string AnimalRegistrationId { get; set; }
         public string Source { get; set; }
