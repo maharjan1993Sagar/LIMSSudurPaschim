@@ -6,7 +6,7 @@
 
             <div class="form-group">
                 <admin-label asp-for="Name" />
-                <admin-input asp-for="Name" />
+                <input asp-for="Name" class="form-control"  required="required"/>
                 <span asp-validation-for="Name"></span>
 
             </div>
@@ -62,7 +62,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="TalimId" />
-                <admin-select asp-for="TalimId" asp-items="ViewBag.Talim" />
+                <admin-select asp-for="TalimId" asp-items="ViewBag.Talim" class="form-control"  required="required" />
                 <span asp-validation-for="TalimId"></span>
             </div>
         </div>

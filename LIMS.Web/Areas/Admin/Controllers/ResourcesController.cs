@@ -81,7 +81,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var month = new MonthHelper();
             var months = month.GetMonths();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitNameNepali").ToList();
+            var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitNameEnglish").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.UnitId = unit;
 

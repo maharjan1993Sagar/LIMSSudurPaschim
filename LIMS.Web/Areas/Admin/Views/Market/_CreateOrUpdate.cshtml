@@ -6,7 +6,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="SpeciesId" />
-                    <admin-select asp-for="SpeciesId" data-val="@Model.SpeciesId" asp-items="@ViewBag.SpeciesId"></admin-select>
+                    <admin-select asp-for="SpeciesId" data-val="@Model.SpeciesId" asp-items="@ViewBag.SpeciesId" required="required"></admin-select>
                     <span asp-validation-for="SpeciesId"></span>
 
                 </div>
@@ -15,7 +15,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="BreedId" />
-                    <admin-select asp-for="BreedId" data-val="@Model.BreedId">
+                    <admin-select asp-for="BreedId" data-val="@Model.BreedId" required="required">
                         <option value="">Select</option>
 
                     </admin-select>
@@ -27,7 +27,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="MinPrice" />
-                    <admin-input asp-for="MinPrice" />
+                    <admin-input asp-for="MinPrice" required="required" />
                     <span asp-validation-for="MinPrice"></span>
 
                 </div>
@@ -36,7 +36,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="MaxPrice" />
-                    <admin-input asp-for="MaxPrice" />
+                    <admin-input asp-for="MaxPrice"  required="required"/>
                     <span asp-validation-for="MaxPrice"></span>
 
                 </div>
@@ -66,7 +66,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="NameOfMarket" />
-                    <admin-input asp-for="NameOfMarket" />
+                    <admin-input asp-for="NameOfMarket" required="required"/>
                     <span asp-validation-for="NameOfMarket"></span>
                 </div>
             </div>
@@ -80,14 +80,14 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="Month" />
-                    <admin-select asp-for="Month" asp-items="ViewBag.Month" />
+                    <admin-select asp-for="Month" asp-items="ViewBag.Month" required="required" />
                     <span asp-validation-for="Month"></span>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="FiscalYearId" />
-                    <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalyearId" />
+                    <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalyearId" required="required"/>
                     <span asp-validation-for="FiscalYearId"></span>
                 </div>
             </div>

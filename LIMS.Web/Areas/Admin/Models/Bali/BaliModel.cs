@@ -26,7 +26,10 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("Lims.Bali.FiscalYear")]
 
         public string FiscalYearId { get; set; }
+        [LIMSResourceDisplayName("Lims.Bali.Unit")]
 
-      
+        public string UnitId { get; set; }
+
+
     }
 }

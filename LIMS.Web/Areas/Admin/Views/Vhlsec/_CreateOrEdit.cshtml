@@ -31,7 +31,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
 
             <div class="form-group">
                 <admin-label asp-for="NameNepali" />
@@ -40,7 +40,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
 
             <div class="form-group">
                 <admin-label asp-for="NameEnglish" />
@@ -53,10 +53,12 @@
 
             <div class="form-group">
                 <admin-label asp-for="Provience" />
-                <admin-select asp-for="Provience" id="country" data-val="@Model.Provience" />
-                <span asp-validation-for="Provience"></span>
+                <admin-select asp-for="Provience" id="country" data-val="@Model.Provience">
+                    <option value=""> select</option>
+                    </admin-select>
+                    <span asp-validation-for="Provience"></span>
 
-            </div>
+</div>
         </div>
         <div class="col-md-2">
 
@@ -156,10 +158,12 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="UserProvince" />
-                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry" />
-                                <span asp-validation-for="UserProvince"></span>
+                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry">
+                                    <option value=""> select</option>
+</admin-select>
+                                    <span asp-validation-for="UserProvince"></span>
 
-                            </div>
+</div>
                         </div>
                         <div class="col-md-2">
 

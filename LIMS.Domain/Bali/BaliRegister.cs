@@ -1,4 +1,5 @@
-﻿using LIMS.Domain.BesicSetup;
+﻿using LIMS.Domain.BasicSetup;
+using LIMS.Domain.BesicSetup;
 using LIMS.Domain.Breed;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace LIMS.Domain.Bali
         public string Production { get; set; }
         public FiscalYear FiscalYear { get; set; }
         public string FiscalYearId { get; set; }
+        public Unit Unit { get; set; }
+        public string UnitId { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
     }

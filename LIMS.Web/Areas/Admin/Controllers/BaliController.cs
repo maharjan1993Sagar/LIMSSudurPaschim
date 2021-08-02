@@ -27,14 +27,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILanguageService _languageService;
         private readonly IWorkContext _workContext;
         private readonly IFiscalYearService _fiscalYearService;
-
+        private readonly IUnitService _unitService;
         public BaliController(ILocalizationService localizationService, 
             IBaliRegisterService animalRegistrationService,
             ILanguageService languageService,
             ISpeciesService speciesService,
             IBreedService breedService, 
             IWorkContext workContext,
-            IFiscalYearService fiscalYearService
+            IFiscalYearService fiscalYearService,
+            IUnitService unitService
             )
         {
             _localizationService = localizationService;
@@ -44,6 +45,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _breedService = breedService;
             _workContext = workContext;
             _fiscalYearService = fiscalYearService;
+            _unitService = unitService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -72,6 +74,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
+            unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Unit = unit;
             BaliModel model = new BaliModel();
            
             return View(model);
@@ -87,6 +92,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.Species = await _speciesService.GetSpeciesById(model.SpeciesId);
                 animalRegistration.BreedReg = await _breedService.GetBreedById(model.BreedId);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
+                animalRegistration.Unit = await _unitService.GetUnitById(model.UnitId);
 
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
                 await _animalRegistrationService.InsertbaliRegister(animalRegistration);
@@ -94,6 +100,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 SuccessNotification(_localizationService.GetResource("Admin.AnimalRegistration.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Index");
             }
+            var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
+            unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Unit = unit;
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
@@ -117,6 +126,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
+            unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Unit = unit;
             return View(model);
         }
 
@@ -135,6 +147,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.Species = await _speciesService.GetSpeciesById(model.SpeciesId);
                 animalRegistration.BreedReg = await _breedService.GetBreedById(model.BreedId);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
+                animalRegistration.Unit = await _unitService.GetUnitById(model.UnitId);
 
                 await _animalRegistrationService.UpdatebaliRegister(m);
 
@@ -148,6 +161,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
+            unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Unit = unit;
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;

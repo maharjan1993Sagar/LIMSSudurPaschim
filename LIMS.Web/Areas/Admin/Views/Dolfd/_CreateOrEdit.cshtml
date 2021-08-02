@@ -19,7 +19,7 @@
             <div class="form-group">
                 <admin-label asp-for="Type" />
                 <admin-select asp-for="Type">
-                    <option value="">Option</option>
+                    <option value="">Select</option>
                     <option value="DoLFD">DoLFD</option>
                     <option value="DoLFD">ADD</option>
                 </admin-select>
@@ -27,7 +27,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
 
             <div class="form-group">
                 <admin-label asp-for="NameNepali" />
@@ -36,7 +36,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
 
             <div class="form-group">
                 <admin-label asp-for="NameEnglish" />
@@ -54,10 +54,12 @@
 
             <div class="form-group">
                 <admin-label asp-for="Provience" />
-                <admin-select asp-for="Provience" id="country" data-val="@Model.Provience" />
-                <span asp-validation-for="Provience"></span>
+                <admin-select asp-for="Provience" id="country" data-val="@Model.Provience">
+                    <option value=""> select</option>
+                    </admin-select>
+                    <span asp-validation-for="Provience"></span>
 
-            </div>
+</div>
         </div>
         <div class="col-md-3">
 

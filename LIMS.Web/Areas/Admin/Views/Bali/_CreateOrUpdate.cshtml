@@ -7,7 +7,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="SpeciesId" />
-                    <admin-select asp-for="SpeciesId" asp-items="@ViewBag.SpeciesId"></admin-select>
+                    <admin-select asp-for="SpeciesId" asp-items="@ViewBag.SpeciesId" required="required"></admin-select>
                     <span asp-validation-for="SpeciesId"></span>
 
                 </div>
@@ -16,7 +16,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="BreedId" />
-                    <admin-select asp-for="BreedId">
+                    <admin-select asp-for="BreedId" required="required">
                         <option value="">Select</option>
 
                     </admin-select>
@@ -46,8 +46,15 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="Production" />
-                    <admin-input asp-for="Production" />
+                    <admin-input asp-for="Production" required="required" />
                     <span asp-validation-for="Production"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="UnitId" />
+                    <admin-select asp-for="UnitId" asp-items="ViewBag.Unit" />
+                    <span asp-validation-for="UnitId"></span>
                 </div>
             </div>
             <div class="col-md-3">

@@ -6,7 +6,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="NameEnglish" />
-                    <admin-input asp-for="NameEnglish" />
+                    <input asp-for="NameEnglish" class="form-control" required="required" />
                     <span asp-validation-for="NameEnglish"></span>
 
                 </div>
@@ -25,7 +25,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="StartDate" />
-                    <admin-input asp-for="StartDate" />
+                    <admin-input asp-for="StartDate" required="required" />
                     <span asp-validation-for="StartDate"></span>
 
                 </div>
@@ -34,7 +34,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="EndDate" />
-                    <admin-input asp-for="EndDate" />
+                    <admin-input asp-for="EndDate" required="required"/>
                     <span asp-validation-for="EndDate"></span>
 
                 </div>
@@ -55,7 +55,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="FiscalYearId" />
-                    <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId">
+                    <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required">
 
                     </admin-select>
                     <span asp-validation-for="FiscalYearId"></span>
