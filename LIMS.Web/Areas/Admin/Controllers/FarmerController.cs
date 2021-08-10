@@ -69,6 +69,26 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             return Json(gridModel);
         }
+        public async Task<IActionResult> KirshakReport()
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+            var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
+            incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.IncuvationCenter = incuvationCenter;
+            return View();
+        }
+        [PermissionAuthorizeAction(PermissionActionName.List)]
+        [HttpPost]
+        public async Task<IActionResult> KirshakReport(DataSourceRequest command,string keyword)
+        {
+            var id = _workContext.CurrentCustomer.Id;
+            var bali = await _animalRegistrationService.GetfarmerByIncuvationCenter(id,keyword, command.Page - 1, command.PageSize);
+            var gridModel = new DataSourceResult {
+                Data = bali,
+                Total = bali.TotalCount
+            };
+            return Json(gridModel);
+        }
 
 
         public async Task<IActionResult> Create()

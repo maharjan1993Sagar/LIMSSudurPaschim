@@ -139,23 +139,30 @@ namespace LIMS.Website1.Controllers
 
             if (newsById != null)
             {
-                string filePathById = newsById.Image.FilePath.Substring(2, newsById.Image.FilePath.Length - 2);
-                string filePath = _config.GetValue<string>("Constants:PhysicalPath") + newsById.Image.FilePath.Substring(2, newsById.Image.FilePath.Length - 2);
-
-                // filePath = "http:/localhost:16595/uploads/newsEvent/2c26dd24-07a8-4200-8724-67ca8d3b520b/logo.png";
-                int idx = filePathById.LastIndexOf('/');
-                string fileName = "Download.jpg";
-
-                if (idx != -1)
+                if (!string.IsNullOrEmpty(newsById.Image.FilePath))
                 {
-                    fileName = filePathById.Substring(idx + 1);
+                    string filePathById = newsById.Image.FilePath.Substring(2, newsById.Image.FilePath.Length - 2);
+                    string filePath = _config.GetValue<string>("Constants:PhysicalPath") + newsById.Image.FilePath.Substring(2, newsById.Image.FilePath.Length - 2);
+
+                    // filePath = "http:/localhost:16595/uploads/newsEvent/2c26dd24-07a8-4200-8724-67ca8d3b520b/logo.png";
+                    int idx = filePathById.LastIndexOf('/');
+                    string fileName = "Download.jpg";
+
+                    if (idx != -1)
+                    {
+                        fileName = filePathById.Substring(idx + 1);
+                    }
+
+
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+                    return File(fileBytes, "application/octet-stream", fileName);
                 }
-
-
-                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-
-                return File(fileBytes, "application/octet-stream", fileName);
-
+                else
+                {
+                    TempData["ErrorMessage"] = "Error downloading file.";
+                    return RedirectToAction("Index");
+                }
 
                 //var content = new System.IO.MemoryStream(data);
                 //var contentType = "APPLICATION/octet-stream";

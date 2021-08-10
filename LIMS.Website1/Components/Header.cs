@@ -4,6 +4,7 @@ using LIMS.Domain.Knowledgebase;
 using LIMS.Domain.News;
 using LIMS.Domain.Stores;
 using LIMS.Framework.Components;
+using LIMS.Services.Customers;
 using LIMS.Services.Localization;
 using LIMS.Services.Security;
 using LIMS.Services.Seo;
@@ -21,8 +22,7 @@ namespace LIMS.Web.ViewComponents
     public class HeaderViewComponent : BaseViewComponent
     {
         private readonly IConfiguration _config;
-        private readonly DataContext _db;      
-
+        private readonly DataContext _db;
         public HeaderViewComponent(IConfiguration config)
         {
             _config = config;
@@ -32,7 +32,12 @@ namespace LIMS.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {   
             var model = await PrepareFooter();
-            return View(model);
+            
+            HeaderViewModel head = new HeaderViewModel();
+            var customer = _db.GetCustomer();
+            head.customer = await customer;
+            head.ContactUsModel = model;
+            return View(head);
         }
         private async Task<ContactUsModel> PrepareFooter()
         {

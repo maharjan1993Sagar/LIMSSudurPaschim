@@ -129,13 +129,33 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     role = allCustomerRoles.Where(m => m.Name == "LivestockAdmin").FirstOrDefault();
                 }
-                else if (model.Type == "VHLSEC")
+                else if (model.Type == "Soil and fertilizer testing laboratory")
                 {
-                    role = allCustomerRoles.Where(m => m.Name == "VHLSECAdmin").FirstOrDefault();
+                    role = allCustomerRoles.Where(m => m.Name == "SoilAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "Plant protection laboratory")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "seed testing laboratory")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
                 }
                 else if (model.Type == "AKC")
                 {
                     role = allCustomerRoles.Where(m => m.Name == "AKCAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "Dry fruits development center")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "DryAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "Vegetable jarmaplajm enhancement and seed production center")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "VegitableAdmin").FirstOrDefault();
+                }
+                else if (model.Type == "Agri business promotion support and training center")
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "AgriAdmin").FirstOrDefault();
                 }
                 newCustomerRoles.Add(role);
                 newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());

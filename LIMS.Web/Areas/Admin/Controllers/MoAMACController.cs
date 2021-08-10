@@ -229,7 +229,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             customerModel.NameEnglish = model.UserNameEnglish;
             customerModel.PhoneNo = model.PhoneNo;
             customerModel.CreatedBy = _workContext.CurrentCustomer.Email;
-            customerModel.OrgAddress = model.LocalLevel + model.District;
+            customerModel.OrgAddress = model.LocalLevel+" " + model.District;
             var Vhlsec = await _molmacService.GetMoAMACById(model.Id);
             if (Vhlsec == null)
                 //No blog post found with the specified id

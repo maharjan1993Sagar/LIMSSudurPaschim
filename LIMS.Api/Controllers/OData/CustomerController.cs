@@ -6,6 +6,7 @@ using LIMS.Services.Customers;
 using LIMS.Services.Security;
 using MediatR;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace LIMS.Api.Controllers.OData
 {
+    [AllowAnonymous]
     public partial class CustomerController : BaseODataController
     {
         private readonly IMediator _mediator;
@@ -37,10 +39,10 @@ namespace LIMS.Api.Controllers.OData
         [HttpGet("{key}")]
         public async Task<IActionResult> Get(string key)
         {
-            if (!await _permissionService.Authorize(PermissionSystemName.Customers))
-                return Forbid();
+            //if (!await _permissionService.Authorize(PermissionSystemName.Customers))
+            //    return Forbid();
 
-            var customer = await _mediator.Send(new GetCustomerQuery() { Email = key });
+            var customer = await _mediator.Send(new GetCustomerQuery() { Id = key });
             if (customer == null)
                 return NotFound();
 
@@ -84,7 +86,7 @@ namespace LIMS.Api.Controllers.OData
             if (!await _permissionService.Authorize(PermissionSystemName.Customers))
                 return Forbid();
 
-            var customer = await _mediator.Send(new GetCustomerQuery() { Email = key });
+            var customer = await _mediator.Send(new GetCustomerQuery() { Id = key });
             if (customer == null)
             {
                 return NotFound();
@@ -108,7 +110,7 @@ namespace LIMS.Api.Controllers.OData
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var customer = await _mediator.Send(new GetCustomerQuery() { Email = key });
+            var customer = await _mediator.Send(new GetCustomerQuery() { Id = key });
             if (customer == null)
                 return NotFound();
 
@@ -128,7 +130,7 @@ namespace LIMS.Api.Controllers.OData
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var customer = await _mediator.Send(new GetCustomerQuery() { Email = key });
+            var customer = await _mediator.Send(new GetCustomerQuery() { Id = key });
             if (customer == null)
                 return NotFound();
 
@@ -151,7 +153,7 @@ namespace LIMS.Api.Controllers.OData
             if (addressId == null)
                 return NotFound();
 
-            var customer = await _mediator.Send(new GetCustomerQuery() { Email = key });
+            var customer = await _mediator.Send(new GetCustomerQuery() { Id = key });
             if (customer == null)
                 return NotFound();
 

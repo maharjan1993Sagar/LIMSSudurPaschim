@@ -43,5 +43,7 @@ namespace LIMS.Api.DTOs.Customers
         public string Signature { get; set; }
         public IList<string> CustomerRoles { get; set; }
         public IList<AddressDto> Addresses { get; set; }
+        public string OrgName { get; set; }
+        public string OrgAddress { get; set; }
     }
 }

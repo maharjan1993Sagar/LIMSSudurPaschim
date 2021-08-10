@@ -12,7 +12,9 @@ namespace LIMS.Services.Bali
         Task<MonthlyPragati> GetMonthlyPragatiById(string id);
         Task<IPagedList<MonthlyPragati>> GetMonthlyPragati(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
         Task<IPagedList<MonthlyPragati>> GetMonthlyPragati(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<MonthlyPragati>> GetMonthlyPragati(string createdby, string type, string programType, string fiscalYear,string month, int pageIndex = 0, int pageSize = int.MaxValue);
 
+        Task<IPagedList<MonthlyPragati>> GetyearlyPragati(string createdby, string type, string programType, string fiscalYear, int pageIndex = 0, int pageSize = int.MaxValue);
         Task DeleteMonthlyPragati(MonthlyPragati MonthlyPragati);
 
         Task InsertMonthlyPragati(MonthlyPragati MonthlyPragati);

@@ -42,7 +42,13 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 
         public string FiscalYearId { get; set; }
 
-        
+        [LIMSResourceDisplayName("LIMS.Market.UnitId")]
+
+        public string UnitId { get; set; }
+        [LIMSResourceDisplayName("LIMS.Market.RecordingDate")]
+        [UIHint("date")]
+        public string RecordingDate { get; set; }
+
 
     }
 }

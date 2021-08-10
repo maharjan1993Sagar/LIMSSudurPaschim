@@ -9,14 +9,15 @@
                 <address>
                     <ul class="list-unstyled">
                         <li class="footer-sprite ">
-                            Ministry of Land Mangement, Agriculture and Cooperative<br>
-                            <b>
                             
-                            @(Model.ContactUs!=null?Model.ContactUs.Department:"Department Name")</b><br>
+                            <b>
+                                @Model.Customer.OrgName<br>
+                            </b>
+                            @*@(Model.ContactUs!=null?Model.ContactUs.Department:"Department Name")</b><br>*@
                         </li>
                         <li class="footer-sprite address">
 
-                            <b>Gandaki Province</b><br>
+                            <b>@Model.Customer.OrgAddress</b><br>
                             <b>Nepal</b><br>
                         </li>
                         <li class="footer-sprite phone">

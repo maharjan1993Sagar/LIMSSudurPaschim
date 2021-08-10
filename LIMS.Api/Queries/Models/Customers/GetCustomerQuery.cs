@@ -5,6 +5,6 @@ namespace LIMS.Api.Queries.Models.Customers
 {
     public class GetCustomerQuery : IRequest<CustomerDto>
     {
-        public string Email { get; set; }
+        public string Id { get; set; }
     }
 }

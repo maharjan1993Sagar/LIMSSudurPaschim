@@ -1,7 +1,7 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @{
     //page title
-    ViewBag.Title = "Soil";
+    ViewBag.Title = "Market";
 }
 
 <div class="row">
@@ -10,7 +10,7 @@
             <div class="x_title">
                 <div class="caption">
                     <i class="fa fa-comment"></i>
-                    @T("Admin.Soil.LIST")
+                    @T("Admin.Market.LIST")
                 </div>
                 <div class="actions btn-group btn-group-devided">
                     <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
@@ -35,7 +35,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@Html.Raw(Url.Action("List", "Soil"))",
+                        url: "@Html.Raw(Url.Action("List", "Market"))",
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
@@ -67,74 +67,50 @@
             scrollable: false,
             columns: [
                 {
-                    field: "SampleNo",
-                    title: "@T("Admin.Soil.SampleNo")",
+                    field: "Species.EnglishName",
+                    title: "@T("Admin.Market.CropCategory")",
                     width: 400,
-                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=SampleNo#</a>',
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((Species.EnglishName == null) ? " ": Species.EnglishName)#</a>',
+
+                },
+
+                {
+                field: "Breed.EnglishName",
+                title: "@T("Admin.Market.CropName")",
+                width: 400,
+                },
+
+
+                    {
+                        field: "MinPrice",
+                        title: "@T("Admin.Market.MinPrice")",
+                        width: 400,
 
                 },
                       {
-                          field: "FarmerName",
-                        title: "@T("Admin.Soil.FarmerName")",
-                          width: 400
+                          field: "MaxPrice",
+                        title: "@T("Admin.Market.MaxPrice")",
+                        width: 400,
+
                     },
                        {
-                          field: "District",
-                        title: "@T("Admin.Soil.District")",
-                           width: 400,
-
-
-                },
-                       {
-                          field: "LocalLevel",
-                        title: "@T("Admin.Soil.LocalLevel")",
+                           field: "District",
+                        title: "@T("Admin.Common.District")",
                         width: 400,
 
                 },
                        {
-                          field: "Ward",
-                        title: "@T("Admin.Soil.Ward")",
-                        width: 400,
-
-                },
-
-                       {
-                          field: "Tole",
-                        title: "@T("Admin.Soil.Tole")",
-                        width: 400,
-
-                },
-                       {
-                           field: "Latitude",
-                        title: "@T("Admin.Soil.Latitude")",
+                           field: "NameOfMarket",
+                        title: "@T("Admin.Market.NameOfMarket")",
                         width: 400,
 
                 },
                          {
-                             field: "Longitude",
-                        title: "@T("Admin.Soil.Longitude")",
+                          field: "FiscalYear.NepaliFiscalYear",
+                        title: "@T("Admin.Market.FicalYear")",
                         width: 400,
 
-                },
-                            {
-                                field: "SoilStructure",
-                        title: "@T("Admin.Soil.SoilStructure")",
-                        width: 400,
-
-                },
-                            {
-                                field: "Ph",
-                        title: "@T("Admin.Soil.Ph")",
-                        width: 400,
-
-                },
-                             {
-                                 field: "PrangricPadartha",
-                        title: "@T("Admin.Soil.PrangricPadartha")",
-                        width: 400,
-
-                },
-
+                    },
 
 
             ]

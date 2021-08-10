@@ -13,6 +13,8 @@ namespace LIMS.Domain.GeneralCMS
         }
         public Guid ImportantLinkId { get; set; }
         public string LinkName { get; set; }
+        public string LinkNameNepali { get; set; }
+
         public int SerialNo { get; set; }
         public string URL { get; set; }       
         public string UserId {get; set; }

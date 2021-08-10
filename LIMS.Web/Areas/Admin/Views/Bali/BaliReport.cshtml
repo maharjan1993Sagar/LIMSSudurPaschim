@@ -1,4 +1,5 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
+@model FarmListModel
 @{
     //page title
     ViewBag.Title = "Bali";
@@ -17,8 +18,29 @@
                 </div>
             </div>
             <div class="x_content form">
-                <div class="form-horizontal">
+                <div class="form-inline">
                     <div class="form-body">
+                        <div class="form-body col-md-12">
+                            <div class="form-group">
+                                <label class="col-2 col-sm-2 col-md-2 control-label">@T("Admin.common.FiscalYear") </label>
+                                <div class="col-2 col-md-3 col-sm-3">
+                                    <admin-select asp-for="Fiscalyear" asp-items="ViewBag.fiscalyear">
+
+
+                                    </admin-select>
+
+                                    @*<input id="dropdownlist" />*@
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <button class="btn btn-success filter-submit" id="search-bali" style="font-size: 13px!important;">
+                                        <i class="fa fa-search"></i> @T("admin.common.search")
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                        </div>
                         <div class="x_content">
                             <div id="bali-grid"></div>
                         </div>
@@ -31,14 +53,23 @@
 
 <script>
     $(document).ready(function () {
+
+        $('#search-bali').click(function () {
+            //search
+            var grid = $('#bali-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
         $("#bali-grid").kendoGrid({
             dataSource: {
                 transport: {
                     read: {
-                        url: "@Html.Raw(Url.Action("List", "Bali"))",
+                        url: "@Html.Raw(Url.Action("BaliReport", "Bali"))",
                         type: "POST",
                         dataType: "json",
-                        data: addAntiForgeryToken
+                        data: additionalData
                     }
                 },
                 schema: {
@@ -66,13 +97,7 @@
             },
             scrollable: false,
             columns: [
-                {
-                    field: "Species.EnglishName",
-                    title: "@T("Admin.Bali.CropCategory")",
-                    width: 400,
-                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((Species.EnglishName == null) ? " ": Species.EnglishName)#</a>',
-
-                },
+             
 
                 {
                 field: "Breed.EnglishName",
@@ -99,17 +124,18 @@
                         title: "@T("Admin.Bali.Production")",
                         width: 400,
 
-                },
-                         {
-                          field: "FiscalYear.NepaliFiscalYear",
-                        title: "@T("Admin.Bali.FicalYear")",
-                        width: 400,
-
-                    },
-
+                }
+                        
 
             ]
 
         });
+        function additionalData() {
+            var data = {
+                Keyword: $("#Fiscalyear").val()
+            };
+            addAntiForgeryToken(data);
+            return data;
+        }
     });
 </script>

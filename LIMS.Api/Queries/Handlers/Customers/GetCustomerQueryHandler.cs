@@ -19,7 +19,7 @@ namespace LIMS.Api.Queries.Handlers.Customers
 
         public async Task<CustomerDto> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
         {
-            return (await _customerService.GetCustomerByEmail(request.Email)).ToModel();
+            return (await _customerService.GetCustomerById(request.Id)).ToModel();
         }
     }
 }

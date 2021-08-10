@@ -44,6 +44,17 @@ namespace LIMS.Services.Bali
 
             return await PagedList<Farmer>.Create(query, pageIndex, pageSize);
         }
+        public async Task<IPagedList<Farmer>> GetfarmerByIncuvationCenter(string createdby, string keyword="", int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _farmerRepository.Table;
+            query = query.Where(m => createdby==m.CreatedBy);
+            if(!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.Incubation.Id == keyword);
+            }
+            return await PagedList<Farmer>.Create(query, pageIndex, pageSize);
+
+        }
 
         public async Task<IPagedList<Farmer>> Getfarmer(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {

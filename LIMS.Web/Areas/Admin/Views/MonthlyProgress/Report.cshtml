@@ -1,0 +1,138 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+
+@{ //page title
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+
+                <div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
+
+
+
+                    <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
+                </div>
+            </div>
+
+            <div class="x_content">
+                <div id="categories-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#categories-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("Report", "MonthlyProgress"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                 {
+                    field: "PujigatKaryakram.Limbis_Code",
+                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                },
+                {
+                    field: "PujigatKaryakram.kharchaCode",
+                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                },
+                {
+                field: "Program",
+                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                },
+                 {
+                     field: "BarsikBajet",
+                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                 },
+
+
+           ]
+        });
+    });
+</script>
+<script>$(document).ready(function () {
+        //search button
+        $('#search-categories').click(function () {
+            //search
+            var grid = $('#categories-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+
+    });</script>
+@*import categories form*@
+<script>
+    $(document).ready(function () {
+        $.get("/Admin/PujigatKharchaKharyakram/GetFiscalYear", (result) => {
+            $.each(result, function (i, item) {
+                $("#Fiscalyear").append(`<option value="${item.Id}" selected>${item.NepaliFiscalYear}</option>`);
+
+
+
+            });
+        });
+        $.get("/Admin/PujigatKharchaKharyakram/PujigatType", (result) => {
+            $.each(result, function (i, item) {
+                $("#Type").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
+
+
+
+            });
+        });
+        $.get("/Admin/PujigatKharchaKharyakram/ProgramType", (result) => {
+            $.each(result, function (i, item) {
+                $("#Program").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
+
+
+
+            });
+        });
+            $("#importexcel").click(function (e) {
+                e.preventDefault();
+                var window = $("#importexcel-window");
+                if (!window.data("kendoWindow")) {
+                    window.kendoWindow({
+                        modal: true,
+                        title: "@T("Admin.Common.ImportFromExcel")",
+                        actions: ["Close"]
+                    });
+                }
+                window.data('kendoWindow').center().open();
+            });
+
+        });
+</script>

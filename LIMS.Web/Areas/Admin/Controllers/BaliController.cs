@@ -9,6 +9,7 @@ using LIMS.Services.Localization;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Models.Bali;
+using LIMS.Web.Areas.Admin.Models.Livestock;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -36,6 +37,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IWorkContext workContext,
             IFiscalYearService fiscalYearService,
             IUnitService unitService
+            
             )
         {
             _localizationService = localizationService;
@@ -65,7 +67,48 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return Json(gridModel);
         }
 
-      
+
+
+        public async Task<IActionResult> BaliReport()
+        {
+            FarmListModel currentfiscal = new FarmListModel();
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            currentfiscal.CurrentFiscalYear = fiscalyear.Id;
+            var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
+
+            ViewBag.fiscalyear = dropdownitem;
+            return View(currentfiscal);
+        }
+
+        [PermissionAuthorizeAction(PermissionActionName.List)]
+        [HttpPost]
+        public async Task<IActionResult> BaliReport(DataSourceRequest command, string Keyword)
+        {
+            var id = _workContext.CurrentCustomer.Id;
+            var bali = (dynamic)null;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            if (!string.IsNullOrEmpty(Keyword))
+            {
+                 bali= await _animalRegistrationService.GetbaliRegister(id, command.Page - 1, command.PageSize, Keyword);
+
+            }
+            else
+            {
+
+                bali = await _animalRegistrationService.GetbaliRegister(id, command.Page - 1, command.PageSize, fiscalyear.Id);
+            }
+            var gridModel = new DataSourceResult {
+                Data = bali,
+                Total = bali.TotalCount
+            };
+            return Json(gridModel);
+        }
+
+
+
         public async Task<IActionResult> Create()
         {
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();

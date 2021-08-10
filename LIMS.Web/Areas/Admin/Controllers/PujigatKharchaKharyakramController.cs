@@ -60,7 +60,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public IActionResult List() => View();
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest  command) {
-            var categories = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(command.Page, command.PageSize);
+            var createdby = _workContext.CurrentCustomer.Id;
+            var categories = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby,command.Page-1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = categories,
                 Total = categories.TotalCount

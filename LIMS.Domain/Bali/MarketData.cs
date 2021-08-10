@@ -1,4 +1,5 @@
-﻿using LIMS.Domain.BesicSetup;
+﻿using LIMS.Domain.BasicSetup;
+using LIMS.Domain.BesicSetup;
 using LIMS.Domain.Breed;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace LIMS.Domain.Bali
         public BreedReg Breed { get; set; }
         public string SpeciesId { get; set; }
         public Species   Species { get; set; }
+        public string UnitId { get; set; }
+        public Unit Unit { get; set; }
         public string Month { get; set; }
         public string MinPrice { get; set; }
         public string MaxPrice { get; set; }
@@ -24,6 +27,7 @@ namespace LIMS.Domain.Bali
         public string FiscalYearId { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
+        public string RecordingDate { get; set; }
 
     }
 }
