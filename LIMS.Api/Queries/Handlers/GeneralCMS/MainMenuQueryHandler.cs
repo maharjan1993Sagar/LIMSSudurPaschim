@@ -57,7 +57,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                         UserId = item.UserId
                     };
 
-                    var filSubMenu = subMenus.Where(m => m.MainMenuId == item.Id && m.UserId == request.UserId);
+                    var filSubMenu = subMenus.Where(m => m.MainMenuId == item.Id && m.UserId == request.UserId && m.IsActive).OrderBy(m=>m.SerialNo);
 
                     if (filSubMenu.Any())
                     {
@@ -71,7 +71,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                                 SerialNo = itemSub.SerialNo,
                                 Url = itemSub.Url
                             };
-                            var filSubSubMenus = subSubMenus.Where(m => m.SubMenuId == itemSub.Id && m.UserId == request.UserId);
+                            var filSubSubMenus = subSubMenus.Where(m => m.SubMenuId == itemSub.Id && m.UserId == request.UserId && m.IsActive).OrderBy(m=>m.SerialNo);
                             if (filSubSubMenus.Any())
                             {
                                 objSubMenu.SubSubMenus = filSubSubMenus
@@ -92,6 +92,9 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                     listMainMenu.Add(objMainMenu);
 
                 }
+                listMainMenu = listMainMenu.Where(m => m.IsActive).ToList();
+                listMainMenu = listMainMenu.OrderBy(m => m.SerialNo).ToList();
+              
                 return listMainMenu;
             }
             else

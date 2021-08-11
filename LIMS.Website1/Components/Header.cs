@@ -32,12 +32,19 @@ namespace LIMS.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {   
             var model = await PrepareFooter();
-            
-            HeaderViewModel head = new HeaderViewModel();
-            var customer = _db.GetCustomer();
-            head.customer = await customer;
-            head.ContactUsModel = model;
-            return View(head);
+            try
+            {
+                HeaderViewModel head = new HeaderViewModel();
+                var customer = await _db.GetCustomer();
+                head.customer = customer;
+                head.ContactUsModel = model;
+                return View(head);
+            }
+            catch            
+            {
+                return View(new HeaderViewModel());
+
+            }
         }
         private async Task<ContactUsModel> PrepareFooter()
         {

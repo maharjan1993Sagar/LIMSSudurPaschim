@@ -1,40 +1,47 @@
 ﻿@model List<MainMenuModel>
-
-@if (Model.Any())
-{
-    <ul>
-        @foreach (var item in Model)
-        {
-                <li>
-                    <a href="@item.Url">@item.MainMenuName</a>
-                    @if (item.HasSubMenu)
+@{ 
+    var curCulture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+    }
+    <nav class="nav-main">
+            @if (Model.Any())
+            {
+                <ul id="topMain" class="nav nav-pills nav-main">
+                    @foreach (var item in Model)
                     {
-                    <ul>
-                        @foreach (var itemSub in item.SubMenus)
+                        @if (item.HasSubMenu && item.SubMenus.Any())
                         {
-
-                                <li>
-                                 <a href="@itemSub.Url">@itemSub.Name</a> 
-                                    @if (itemSub.HasSubSubMenu)
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#">@item.MainMenuName</a>
+                                <ul class="dropdown-menu">
+                                    @foreach (var subItem in item.SubMenus)
                                     {
-                                        <ul>
-                                            @foreach (var itemSubSub in itemSub.SubSubMenus)
-                                            {
-                                                <li>
-                                                    <a href="@itemSubSub.Url">@itemSubSub.SubSubMenuName</a>
-                                                </li>
-                                            }
-                                        </ul>
+                                        if (subItem.HasSubSubMenu && subItem.SubSubMenus.Any())
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="#">@subItem.Name </a>
+                                                <ul class="submenu dropdown-menu">
+                                                    @foreach (var subSubItem in subItem.SubSubMenus)
+                                                    {
+                                                        <li><a class="dropdown-item" href="@subSubItem.Url">@subSubItem.SubSubMenuName</a></li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="dropdown-item"><a href="@subItem.Url">@subItem.Name</a></li>
+                                        }
                                     }
-                                </li>
-
+                                </ul>
+                            </li>
                         }
-                    </ul>
+                        else
+                        {
+                            <li>
+                                <a href="@item.Url">@item.MainMenuName</a>
+                            </li>
+                        }
                     }
-                </li>
-            
-
-
-        }
-    </ul>
-}
+                </ul>
+            }
+</nav>
