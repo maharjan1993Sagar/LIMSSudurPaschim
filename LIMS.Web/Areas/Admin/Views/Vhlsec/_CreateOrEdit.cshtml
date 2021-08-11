@@ -6,7 +6,7 @@
 
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="CustomerId" />
-        <div class="col-md-2">
+        <div class="col-md-3">
 
             <div class="form-group">
                 <admin-label asp-for="DolfdId" />
@@ -15,7 +15,19 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Type" />
+                <admin-select asp-for="Type">
+                    <option value="">Select</option>
+
+                </admin-select>
+                <span asp-validation-for="Type"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
 
             <div class="form-group">
                 <admin-label asp-for="NameNepali" />
@@ -24,7 +36,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
 
             <div class="form-group">
                 <admin-label asp-for="NameEnglish" />
@@ -37,7 +49,9 @@
 
             <div class="form-group">
                 <admin-label asp-for="Provience" />
-                <admin-select asp-for="Provience" id="country" data-val="@Model.Provience" />
+                <admin-select asp-for="Provience" id="country" data-val="@Model.Provience">
+                    <option value=""> select</option>
+                </admin-select>
                 <span asp-validation-for="Provience"></span>
 
             </div>
@@ -53,7 +67,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
 
             <div class="form-group">
                 <admin-label asp-for="LocalLevel" />
@@ -140,7 +154,9 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="UserProvince" />
-                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry" />
+                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry">
+                                    <option value=""> select</option>
+                                </admin-select>
                                 <span asp-validation-for="UserProvince"></span>
 
                             </div>
@@ -368,21 +384,48 @@
 
 
 
+        $('#@Html.IdFor(m=>m.DolfdId)').change(function () {
+            
+            var province = $("#@Html.IdFor(m=>m.DolfdId) option:selected").text();
+            if (province) {
+                $("#Type").empty();
+                $("#Type").append('<option value="">Select</option>')
+
+                if (province == "Directorate of Livestock and Fisheries Development") {
+                    $("#Type").append(`<option value="Fisheries development center">Fisheries development center</option>`);
+                    $("#Type").append(`<option value="Livestock service training center">Livestock service training center</option>`);
+                    $("#Type").append(`<option value="VHLSEC">VHLSEC</option>`);
+
+                }
+                else {
+
+                    $("#Type").append(`<option value="AKC">AKC</option>`);
+                    $("#Type").append(`<option value="Plant protection laboratory">Plant protection laboratory</option>`);
+                    $("#Type").append(`<option value="Soil and fertilizer testing laboratory">Soil and fertilizer testing laboratory</option>`);
+                    $("#Type").append(`<option value="Seed testing laboratory">Seed testing laboratory</option>`);
+                    $("#Type").append(`<option value="Dry fruits development center">Dry fruits development center</option>`);
+                    $("#Type").append(`<option value="Vegetable jarmaplajm enhancement and seed production center">Vegetable jarmaplajm enhancement and seed production center</option>`);
+                    $("#Type").append(`<option value="Agri business promotion support and training center">Agri business promotion support and training center</option>`);
+
+
+                }
+            }
+            });
+        });
+
+
+
+
+
+    
 
 
 
 
 
 
-    });
 
 
 
-   
-
-   
-
-
-      
 
 </script>

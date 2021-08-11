@@ -320,12 +320,14 @@ p {
 
 a {
     color: #4183c4;
-    text-decoration: none
+    text-decoration: none;
+    color: white;
 }
 
     a:hover {
         color: #1e70bf;
-        text-decoration: none
+        text-decoration: none;
+
     }
 
 ::-webkit-selection {
@@ -31498,7 +31500,7 @@ body.pushable > .pusher {
 .grid-container {
     display: grid;
     grid-template-columns: 85% 15%;
-    padding: 10px;
+    padding:10px 0px;
 }
 
 .grid-item {
@@ -31581,8 +31583,8 @@ body.pushable > .pusher {
     display: grid;
     grid-template-columns: 85% 15%;
     padding-top: 0px !important;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 #topMain.nav-pills > li > a.dropdown-toggle:after {

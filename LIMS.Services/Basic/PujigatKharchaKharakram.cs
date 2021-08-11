@@ -5,6 +5,7 @@ using LIMS.Domain.BesicSetup;
 using LIMS.Domain.Data;
 using LIMS.Services.Events;
 using MediatR;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,6 +37,38 @@ namespace LIMS.Services.Basic
         {
             var query = _pujigatKharchaKharakramRepository.Table;
 
+
+            return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        }
+
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _pujigatKharchaKharakramRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby);
+
+            return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        }
+
+        public async  Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _pujigatKharchaKharakramRepository.Table;
+            query = query.Where(m =>createdby.Contains(m.CreatedBy));
+
+            return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        }
+
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby, string programtype, string type,string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _pujigatKharchaKharakramRepository.Table;
+            query = query.Where(m => createdby.Contains(m.CreatedBy)&&m.FiscalYear.Id==fiscalyear&&m.ProgramType==programtype&&m.Type==type);
+
+            return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        }
+
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby, string programtype, string type,string fiscalYear, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _pujigatKharchaKharakramRepository.Table;
+            query = query.Where(m => m.CreatedBy== createdby && m.FiscalYear.Id == fiscalYear && m.ProgramType == programtype && m.Type == type);
 
             return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
         }

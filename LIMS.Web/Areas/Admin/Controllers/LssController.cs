@@ -102,7 +102,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrWhiteSpace(model.Email))
+                if (!string.IsNullOrWhiteSpace(model.UserEmail))
                 {
                     var cust2 = await _customerService.GetCustomerByEmail(model.UserEmail);
                     if (cust2 != null)

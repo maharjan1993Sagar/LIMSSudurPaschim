@@ -76,6 +76,6 @@ namespace LIMS.Web.Areas.Admin.Models.MoAMAC
         [LIMSResourceDisplayName("Admin.vhlsec.UserPosition")]
         public string Position { get; set; }
         public string CustomerId { get; set; }
-
+        public string Type { get; set; }
     }
 }

@@ -1,0 +1,167 @@
+﻿@model SoilModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SampleNo" />
+                    <input asp-for="SampleNo" class="form-control"  required="required"/>
+                    <span asp-validation-for="SampleNo"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="FarmerName" />
+                    <input asp-for="FarmerName" class="form-control" required="required" />
+                    <span asp-validation-for="FarmerName"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Province" />
+                    <select name="Provience" id="country" data-val="Sudurpashchim Province" class="form-control">
+                        <option value="">select</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="District" />
+                    <select name="district" id="district" data-val="@Model.District" class="form-control">
+                        <option value="">select</option>
+                    </select>
+                    <span asp-validation-for="District"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="LocalLevel" />
+                    <select name="LocalLevel" id="locallevel" data-val="@Model.LocalLevel" class="form-control">
+                        <option value="">select</option>
+                    </select>
+                    <span asp-validation-for="LocalLevel"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Ward" />
+                    <admin-input asp-for="Ward" />
+
+                    <span asp-validation-for="Ward"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Tole" />
+                    <admin-input asp-for="Tole" />
+
+                    <span asp-validation-for="Tole"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Latitude" />
+                    <admin-input asp-for="Latitude"  required="required"/>
+
+                    <span asp-validation-for="Latitude"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Longitude" />
+                    <admin-input asp-for="Longitude"  required="required" />
+
+                    <span asp-validation-for="Longitude"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="SoilStructure" />
+                    <admin-input asp-for="SoilStructure"   required="required"/>
+
+                    <span asp-validation-for="SoilStructure"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Ph" />
+                    <admin-input asp-for="Ph"  required="required" />
+
+                    <span asp-validation-for="Ph"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="PrangricPadartha" />
+                    <admin-input asp-for="PrangricPadartha"  required="required" />
+
+                    <span asp-validation-for="PrangricPadartha"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Nitrogen" />
+                    <admin-input asp-for="Nitrogen"  required="required"/>
+
+                    <span asp-validation-for="Nitrogen"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Phosporus" />
+                    <admin-input asp-for="Phosporus" required="required" />
+
+                    <span asp-validation-for="Phosporus"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Potas" />
+                    <admin-input asp-for="Potas" required="required"/>
+
+                    <span asp-validation-for="Potas"></span>
+
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

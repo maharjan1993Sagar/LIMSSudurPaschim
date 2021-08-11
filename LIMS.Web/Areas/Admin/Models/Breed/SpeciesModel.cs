@@ -9,16 +9,16 @@ namespace LIMS.Web.Areas.Admin.Models.Breed
 {
     public class SpeciesModel:BaseEntity
     {
-        [LIMSResourceDisplayName("Admin.Species.NepaliName")]
+        [LIMSResourceDisplayName("Admin.Category.NepaliName")]
         public string NepaliName { get; set; }
-        [LIMSResourceDisplayName("Admin.Species.EnglishName")]
+        [LIMSResourceDisplayName("Admin.Category.EnglishName")]
 
         public string EnglishName { get; set; }
-        [LIMSResourceDisplayName("Admin.Species.Detail")]
+        [LIMSResourceDisplayName("Admin.Category.Detail")]
 
 
         public string Detail { get; set; }
-        [LIMSResourceDisplayName("Admin.Species.Purposes")]
+        [LIMSResourceDisplayName("Admin.Category.Purposes")]
 
         public List<string> Purposes { get; set; }
     }

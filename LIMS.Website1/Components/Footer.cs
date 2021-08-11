@@ -39,10 +39,12 @@ namespace LIMS.Web.ViewComponents
             var model =await _db.GetImportantLinks();
 
             var contactUs = await _db.GetContactUsModel();
-
+            var customer =await _db.GetCustomer();
+           
             var footerVM = new FooterViewModel {
                 ContactUs = contactUs,
-                ImportantLinks = model
+                ImportantLinks = model,
+                Customer=customer
             };
 
             return footerVM;

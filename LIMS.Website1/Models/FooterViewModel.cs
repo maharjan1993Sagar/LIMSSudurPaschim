@@ -9,6 +9,7 @@ namespace LIMS.Website1.Models
     {
         public List<ImportantLinks> ImportantLinks { get; set; }
         public ContactUsModel ContactUs { get; set; }
+        public CustomerModel Customer { get; set; }
 
     }
 }

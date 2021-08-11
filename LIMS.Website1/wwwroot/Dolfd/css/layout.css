@@ -74,7 +74,7 @@ img.flag.float-right {
 .trending {
     padding-top: 0px;
     padding-bottom: 0px;
-    padding-left: 15px;
+   /* padding-left: 15px;*/
     padding-right: 95px;
     overflow: hidden;
     white-space: nowrap;
@@ -126,15 +126,15 @@ img.flag.float-right {
 .news p {
     margin: 0;
 }
-.contain {
+/*.contain {
     padding-left: 192px;
-}
+}*/
 
 
 .trending {
     padding-top: 0px;
     padding-bottom: 0px;
-    padding-left: 15px;
+  /*  padding-left: 15px;*/
     padding-right: 95px;
     overflow: hidden;
     white-space: nowrap;
@@ -186,9 +186,9 @@ img.flag.float-right {
 .news p {
     margin: 0;
 }
-.contain {
+/*.contain {
     padding-left: 10px;
-}
+}*/
 
 
 

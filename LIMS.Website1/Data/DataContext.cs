@@ -14,11 +14,14 @@ namespace LIMS.Website1.Data
     {
         private readonly IConfiguration _config;
         string BaseURL="" ;
+        string BaseURL1 = "";
         string userId="";
         public DataContext(IConfiguration config)
         {
             _config = config;
             BaseURL = _config.GetValue<string>("Constants:BaseURL");
+            BaseURL1 = _config.GetValue<string>("Constants:BaseURL1");
+
             userId = _config.GetValue<string>("Constants:UserId");
         }
         public async Task<List<BannerModel>> GetBanner()
@@ -74,6 +77,21 @@ namespace LIMS.Website1.Data
             {
                 lst = lst.Where(m => m.UserId == userId).ToList();
             }
+            return lst;
+        }
+        public async Task<CustomerModel> GetCustomer()
+        {
+            var lst = new CustomerModel();
+            string url = "Odata/Customer/" + userId;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(BaseURL1 + url))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lst = JsonConvert.DeserializeObject<CustomerModel>(apiResponse);
+                }
+            }
+            
             return lst;
         }
         public async Task<List<NewsEventTenderModel>> GetNewsEventTender(string type)

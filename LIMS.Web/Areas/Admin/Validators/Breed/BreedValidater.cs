@@ -17,7 +17,6 @@ namespace LIMS.Web.Areas.Admin.Validators.Breed
         {
             RuleFor(x => x.EnglishName).NotEmpty().WithMessage(localizationService.GetResource("Admin.Breed.EnglishName.Required"));
             RuleFor(x => x.SpeciesId).NotEmpty().WithMessage(localizationService.GetResource("Admin.Breed.SpeciesId.Required"));
-            RuleFor(x => x.Type).NotEmpty().WithMessage(localizationService.GetResource("Admin.Breed.Type.Required"));
         }
     }
 }

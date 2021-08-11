@@ -1,0 +1,144 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "Soil";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    <i class="fa fa-comment"></i>
+                    @T("Admin.Soil.LIST")
+                </div>
+                <div class="actions btn-group btn-group-devided">
+                    <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                </div>
+            </div>
+            <div class="x_content form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="x_content">
+                            <div id="bali-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#bali-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "Soil"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "SampleNo",
+                    title: "@T("Admin.Soil.SampleNo")",
+                    width: 400,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=SampleNo#</a>',
+
+                },
+                      {
+                          field: "FarmerName",
+                        title: "@T("Admin.Soil.FarmerName")",
+                          width: 400
+                    },
+                       {
+                          field: "District",
+                        title: "@T("Admin.Soil.District")",
+                           width: 400,
+
+
+                },
+                       {
+                          field: "LocalLevel",
+                        title: "@T("Admin.Soil.LocalLevel")",
+                        width: 400,
+
+                },
+                       {
+                          field: "Ward",
+                        title: "@T("Admin.Soil.Ward")",
+                        width: 400,
+
+                },
+
+                       {
+                          field: "Tole",
+                        title: "@T("Admin.Soil.Tole")",
+                        width: 400,
+
+                },
+                       {
+                           field: "Latitude",
+                        title: "@T("Admin.Soil.Latitude")",
+                        width: 400,
+
+                },
+                         {
+                             field: "Longitude",
+                        title: "@T("Admin.Soil.Longitude")",
+                        width: 400,
+
+                },
+                            {
+                                field: "SoilStructure",
+                        title: "@T("Admin.Soil.SoilStructure")",
+                        width: 400,
+
+                },
+                            {
+                                field: "Ph",
+                        title: "@T("Admin.Soil.Ph")",
+                        width: 400,
+
+                },
+                             {
+                                 field: "PrangricPadartha",
+                        title: "@T("Admin.Soil.PrangricPadartha")",
+                        width: 400,
+
+                },
+
+
+
+            ]
+
+        });
+    });
+</script>

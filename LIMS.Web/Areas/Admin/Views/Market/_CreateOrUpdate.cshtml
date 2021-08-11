@@ -1,0 +1,160 @@
+﻿@model MarketModel
+<div class="x_content form">
+    <div class="form-row">
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="SpeciesId" />
+                <admin-select asp-for="SpeciesId" data-val="@Model.SpeciesId" asp-items="@ViewBag.SpeciesId" required="required"></admin-select>
+                <span asp-validation-for="SpeciesId"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="BreedId" />
+                <admin-select asp-for="BreedId" data-val="@Model.BreedId" required="required">
+                    <option value="">Select</option>
+
+                </admin-select>
+                <span asp-validation-for="BreedId"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-3">
+
+            <div class="form-group">
+                <admin-label asp-for="UnitId" />
+                <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" required="required" />
+                <span asp-validation-for="UnitId"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-3">
+
+            <div class="form-group">
+                <admin-label asp-for="MinPrice" />
+                <admin-input asp-for="MinPrice" required="required" />
+                <span asp-validation-for="MinPrice"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="MaxPrice" />
+                <admin-input asp-for="MaxPrice" required="required" />
+                <span asp-validation-for="MaxPrice"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Province" />
+                <select name="Provience" id="country" data-val="Sudurpashchim Province" class="form-control">
+                    <option value="">select</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select name="district" id="district" data-val="@Model.District" class="form-control">
+                    <option value="">select</option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="NameOfMarket" />
+                <admin-input asp-for="NameOfMarket" required="required" />
+                <span asp-validation-for="NameOfMarket"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="AddressBazar" />
+                <admin-input asp-for="AddressBazar" />
+                <span asp-validation-for="AddressBazar"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="Month" />
+                <admin-select asp-for="Month" asp-items="ViewBag.Month" required="required" />
+                <span asp-validation-for="Month"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="FiscalYearId" />
+                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalyearId" required="required" />
+                <span asp-validation-for="FiscalYearId"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="RecordingDate" />
+                <admin-input asp-for="RecordingDate" required="required" />
+                <span asp-validation-for="RecordingDate"></span>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var species = $("#@Html.IdFor(m => m.SpeciesId)").data("val");
+           var breed = $("#@Html.IdFor(m => m.BreedId)").data("val");
+
+        if (species) {
+             $("#@Html.IdFor(m => m.BreedId)").empty();
+            $("#@Html.IdFor(m => m.BreedId)").append("<option value=''>Select</option>");
+            url = "@Url.Action("GetBreed", "Bali")";
+            var data = {
+                species: species
+            }
+            addAntiForgeryToken(data);
+            $.getJSON(url, data, (result) => {
+                $.each(result, function (i, item) {
+                    if (item.Id == breed) {
+                        $("#@Html.IdFor(m => m.BreedId)").append(`<option value="${item.Id}" selected>${item.EnglishName}</option>`);
+                    }
+                    else {
+           $("#@Html.IdFor(m => m.BreedId)").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+
+                    }
+                    });
+            });
+        }
+        $("#@Html.IdFor(m => m.SpeciesId)").on("change", function () {
+            var species = $(this).val();
+            //var breedtype = $(this).val();
+
+            $("#@Html.IdFor(m => m.BreedId)").empty();
+            $("#@Html.IdFor(m => m.BreedId)").append("<option value=''>Select</option>");
+            url = "@Url.Action("GetBreed", "Bali")";
+            var data = {
+                species: species
+            }
+            addAntiForgeryToken(data);
+            $.getJSON(url, data, (result) => {
+                $.each(result, function (i, item) {
+                    $("#@Html.IdFor(m => m.BreedId)").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        });
+    });
+
+
+
+</script>

@@ -167,7 +167,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     customerModel.Position = model.Position;
                     customerModel.IDCardNo = model.IDCardNo;
                     customerModel.Active = true;
-                    customerModel.OrgAddress = model.District + model.Address;
+                    customerModel.OrgAddress = model.Address+" " +model.District ;
                     customerModel.OrgName = model.NameEnglish;
                     customerModel.NameNepali = model.UserNameNepali;
                     customerModel.NameEnglish = model.UserNameEnglish;

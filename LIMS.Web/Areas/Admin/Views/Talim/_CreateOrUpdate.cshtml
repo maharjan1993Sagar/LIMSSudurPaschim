@@ -1,0 +1,78 @@
+﻿@model TalimModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="NameEnglish" />
+                    <input asp-for="NameEnglish" class="form-control" required="required" />
+                    <span asp-validation-for="NameEnglish"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="NameNepali" />
+                    <admin-input asp-for="NameNepali" />
+                    <span asp-validation-for="NameNepali"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="StartDate" />
+                    <admin-input asp-for="StartDate" required="required" />
+                    <span asp-validation-for="StartDate"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="EndDate" />
+                    <admin-input asp-for="EndDate" required="required"/>
+                    <span asp-validation-for="EndDate"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Duration" />
+                    <admin-input asp-for="Duration" />
+
+                    <span asp-validation-for="Duration"></span>
+
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="FiscalYearId" />
+                    <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required">
+
+                    </admin-select>
+                    <span asp-validation-for="FiscalYearId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-8">
+
+                <div class="form-group">
+                    <admin-label asp-for="Description" />
+                    <admin-input asp-for="Description" />
+
+                    <span asp-validation-for="Description"></span>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

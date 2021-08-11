@@ -11,15 +11,6 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="Type" />
-                    <admin-select asp-for="Type" asp-items="ViewBag.Type" />
-                    <span asp-validation-for="Type"></span>
-
-                </div>
-            </div>
             <div class="col-md-3 col-sm-3">
 
                 <div class="form-group">
@@ -41,9 +32,23 @@
 
             <div class="col-md-3">
                 <div class="form-group">
-                    <admin-label asp-for="OriginForm" />
-                    <admin-input asp-for="OriginForm" />
-                    <span asp-validation-for="OriginForm"></span>
+                    <admin-label asp-for="ScientificName" />
+                    <admin-input asp-for="ScientificName" />
+                    <span asp-validation-for="ScientificName"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="GrowingSeason" />
+                    <admin-input asp-for="GrowingSeason" />
+                    <span asp-validation-for="GrowingSeason"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="GrowingDuration" />
+                    <admin-input asp-for="GrowingDuration" />
+                    <span asp-validation-for="GrowingDuration"></span>
                 </div>
             </div>
 

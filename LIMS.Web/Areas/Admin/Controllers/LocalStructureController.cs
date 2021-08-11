@@ -20,6 +20,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> GetProvince()
         {
             var province = await _localLevelService.GetProvience();
+            province=province.Where(m => m.StartsWith("S")).ToList();
             return Json(province);
         }
         [HttpGet]

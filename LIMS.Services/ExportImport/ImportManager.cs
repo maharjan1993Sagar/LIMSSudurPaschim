@@ -30,6 +30,9 @@ namespace LIMS.Services.ExportImport
         private readonly ICountryService _countryService;
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
+        private readonly IFiscalYearService _fiscalYearService;
+        private readonly IWorkContext _workContext;
+
 
         #endregion
 
@@ -39,12 +42,17 @@ namespace LIMS.Services.ExportImport
             IPictureService pictureService,
             ICountryService countryService,
             IStateProvinceService stateProvinceService,
-            IPujigatKharchaKharakramService pujigatKharchaKharakramService)
+            IPujigatKharchaKharakramService pujigatKharchaKharakramService,
+            IFiscalYearService fiscalYearService,
+             IWorkContext workContext
+            )
         {
             _pictureService = pictureService;
             _countryService = countryService;
             _stateProvinceService = stateProvinceService;
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
+            _fiscalYearService = fiscalYearService;
+            _workContext = workContext;
         }
 
         #endregion
@@ -215,7 +223,7 @@ namespace LIMS.Services.ExportImport
                     case "crathamchaumasikbadjet":
                         category.PrathamChaumasikBadjet = property.StringValue;
                         break;
-                    case "prathamchaumasikparimam":
+                    case "prathamchaumasikpariman":
                         category.PrathamChaumasikParimam = property.StringValue;
                         break;
                     case "prathamchaumasikvar":
@@ -224,7 +232,7 @@ namespace LIMS.Services.ExportImport
                     case "dosrochaumasikvar":
                         category.DosroChaumasikVar = property.StringValue;
                         break;
-                    case "dosroChaumasikparimam":
+                    case "dosroChaumasikpariman":
                         category.DorsoChaumasikParimam = property.StringValue;
                         break;
                     case "dosroChaumasikbadjet":
@@ -234,7 +242,7 @@ namespace LIMS.Services.ExportImport
                     case "tesrochaumasikvar":
                         category.TesroChaumasikVar = property.StringValue;
                         break;
-                    case "tesrochaumasikparimam":
+                    case "tesrochaumasikpariman":
                         category.TesroChaumasikParimam = property.StringValue;
                         break;
                     case "tesrochaumasikbadjet":
@@ -372,7 +380,7 @@ namespace LIMS.Services.ExportImport
 
             //}
         }
-        public virtual async Task ImportCategoryFromXlsx(Stream stream)
+        public virtual async Task ImportCategoryFromXlsx(Stream stream,string Type, string FiscalYear,string ProgramType)
         {
             var workbook = new XSSFWorkbook(stream);
             var worksheet = workbook.GetSheetAt(0);
@@ -393,13 +401,18 @@ namespace LIMS.Services.ExportImport
                 //category ??= new Category();
 
                 var pujigatKharcha = new PujigatKharchaKharakram();
-                    pujigatKharcha.CreatedAt = DateTime.UtcNow;
-                    
-                
+                 pujigatKharcha.CreatedAt = DateTime.UtcNow;
+                pujigatKharcha.CreatedBy = _workContext.CurrentCustomer.Id;
+                pujigatKharcha.Type = Type;
+                pujigatKharcha.FiscalYearId = FiscalYear;
+                pujigatKharcha.FiscalYear =await _fiscalYearService.GetFiscalYearById(FiscalYear);
+                pujigatKharcha.ProgramType = ProgramType;
 
                 PrepareCategoryMapping(pujigatKharcha, manager);
-              
-                 await _pujigatKharchaKharakramService.InsertPujigatKharchaKharakram(pujigatKharcha);
+                if (!string.IsNullOrEmpty(pujigatKharcha.Limbis_Code))
+                {
+                    await _pujigatKharchaKharakramService.InsertPujigatKharchaKharakram(pujigatKharcha);
+                }
                
                 
             }

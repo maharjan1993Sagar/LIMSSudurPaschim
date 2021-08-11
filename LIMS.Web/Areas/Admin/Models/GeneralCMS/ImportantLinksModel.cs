@@ -13,6 +13,8 @@ namespace LIMS.Web.Areas.Admin.Models.GeneralCMS
         public string LinkName { get; set; }
         [LIMSResourceDisplayName("Admin.ImportantLinks.SerialNo")]
         public int SerialNo { get; set; }
+        [LIMSResourceDisplayName("Admin.ImportantLinks.LinkNameNepali")]
+        public string LinkNameNepali { get; set; }
         [LIMSResourceDisplayName("Admin.ImportantLinks.URL")]
         public string URL { get; set; }  
       

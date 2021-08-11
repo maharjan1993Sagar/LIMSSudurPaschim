@@ -1,4 +1,4 @@
-﻿@model ContactUsModel
+﻿@model HeaderViewModel
 @using LIMS.Website1.Data
 @using System.Globalization
 @inject IGetResource getResource
@@ -33,10 +33,11 @@
                                     <a id="btnIncFont" style="color:#fff;" href="#" class="rvfs-increase btn" title="Increase font size">A+</a>
                                 </div>
                             </div>
-                            <a style="color:#fff;" id="contrast"><i class="fas fa-low-vision"></i></a>
+                            @*<a style="color:#fff;" id="contrast"><i class="fas fa-low-vision"></i></a>*@
                         </span>
                     </li>
-                    <li class="list-inline-item"><a style="color:#fff;" href="#" class="lowBandwidth">Low Bandwidth</a></li>
+                    @*<li class="list-inline-item"><a style="color:#fff;" href="#" 
+                        >Low Bandwidth</a></li>*@
                     <li class="list-inline-item">
                         <div class="dateandtime">
                             <span style="color:#fff;"></span>
@@ -71,8 +72,8 @@
                         Provincial Government of Nepal
                     </p>
                     <p style="margin:0px;font-family:serif; font-size:13px;">Minsitry of Land Management, Agriculture and Cooperative</p>
-                    <strong style="font-family:serif; color:red;">Directorate of Livestock and Fisheries Development</strong>
-                    <p style="margin:0px; font-family:serif; color:red; font-size:12px;">Sudurpaschim Province, Kailali</p>
+                    <strong style="font-family:serif; color:red;">@Model.customer.OrgName</strong>
+                    <p style="margin:0px; font-family:serif; color:red; font-size:12px;">@Model.customer.OrgAddress</p>
                 </div>
                 
             </div>

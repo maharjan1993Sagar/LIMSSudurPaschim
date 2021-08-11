@@ -1,0 +1,164 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "Farmer";
+}
+@model FarmListModel
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    <i class="fa fa-comment"></i>
+                    @T("Admin.Farmer.LIST")
+                </div>
+                <div class="actions btn-group btn-group-devided">
+                    <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                </div>
+            </div>
+            <div class="x_content form">
+                <div class="form-inline">
+                    <div class="form-body">
+                        <div class="form-body col-md-12">
+                            <div class="form-group">
+                                <label class="col-2 col-sm-2 col-md-2 control-label">@T("Admin.common.IncuvationCenter") </label>
+                                <div class="col-2 col-md-3 col-sm-3">
+                                    <admin-select asp-for="Fiscalyear" asp-items="ViewBag.IncuvationCenter">
+
+
+                                    </admin-select>
+
+                                    @*<input id="dropdownlist" />*@
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <button class="btn btn-success filter-submit" id="search-bali" style="font-size: 13px!important;">
+                                        <i class="fa fa-search"></i> @T("admin.common.search")
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+
+                        <div class="x_content">
+                            <div id="bali-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#search-bali').click(function () {
+            //search
+            var grid = $('#bali-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#bali-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("kirshakReport", "Farmer"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "Name",
+                    title: "@T("Admin.Farmer.Name")",
+                    width: 400,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=Name#</a>',
+
+                },
+
+
+
+
+                    {
+                        field: "Phone",
+                        title: "@T("Admin.Farmer.Phone")",
+                        width: 400,
+
+
+                },
+                      {
+                          field: "Talim.NameEnglish",
+                        title: "@T("Admin.Farmer.TalimName")",
+                        width: 400,
+
+                },
+                       {
+                          field: "Talim.StartDate",
+                        title: "@T("Admin.Farmer.StartDate")",
+                        width: 400,
+
+                },
+                        {
+                          field: "Talim.EndDate",
+                        title: "@T("Admin.Farmer.EndDate")",
+                        width: 400,
+
+                },
+                         {
+                          field: "Remarks",
+                        title: "@T("Admin.Farmer.Remarks")",
+                        width: 400,
+
+                },
+                            {
+                             field: "Duration",
+                        title: "@T("Admin.Farmer.Duration")",
+                        width: 400,
+
+                },
+                         {
+                             field: "Lagat",
+                        title: "@T("Admin.Farmer.Lagat")",
+                        width: 400,
+
+                },
+
+
+
+
+
+
+
+            ]
+
+        });
+    });
+</script>

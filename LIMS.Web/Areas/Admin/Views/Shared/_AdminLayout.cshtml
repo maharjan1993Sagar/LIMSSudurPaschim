@@ -190,8 +190,8 @@
 
                                 @*<vc:admin-widget widget-zone="header_toggle_after" additional-data="null" />*@
                                 <div class="col-md-5 text-center">
-                                    <h2>@T("Software.Name") (LIMS)</h2>
-                                    <h5>Developed and supported by NLSIP</h5>
+                                    <h2>@T("Software.Name") (CDMS)</h2>
+                                    
                                 </div>
                                 <div class="col-md-3">
                                     <ul class="nav navbar-nav navbar-right">
@@ -303,7 +303,7 @@
 
             <div class="page-footer">
                 <div class="page-footer-inner">
-                    <a href="https://LIMS.com/" target="_blank">@DateTime.UtcNow.Year Powered by LIMS ®</a>
+                    <a href="#" target="_blank">@DateTime.UtcNow.Year @*Powered by  ®*@</a>
                 </div>
                 <div class="scroll-to-top">
                     <i class="icon-arrow-up"></i>
@@ -330,7 +330,8 @@
         var province = $("#country").data("val");
             url = "@Url.Action("GetProvince", "LocalStructure")";
             $.getJSON(url, (result) => {
-                $("#country").append(`<option value="">select</option>`);
+                $("#country").empty();
+                $("#country").append(`<option value="">Select</option>`);
                 $.each(result, function (item, value) {
                     var selectedAttr = "";
                     if (province == value)
@@ -340,11 +341,11 @@
             });
 
             if (province) {
-            // $(`#country option[value="`+province+`"]`).prop('selected', true);
+                // $(`#country option[value="`+province+`"]`).prop('selected', true);
 
-            var dis = $("#district").attr('data-val');
-             $("#district").empty();
-                $("#district").append('<option value="">select</option>')
+                var dis = $("#district").data('val');
+                $("#district").empty();
+                $("#district").append('<option value="">Select</option>')
                 url = "@Url.Action("GetDistrict", "LocalStructure")";
                 var data = {
                     province: province
@@ -359,30 +360,10 @@
                             $("#district").append(`<option value="${value1}">${value1}</option>`);
 
                         }
-                        });
+                    });
                 });
-                //  $("#district").val(dis);
-                if (dis) {
-                $("#locallevel").empty();
-                $("#localLevel").append('<option value="">select</option>');
-                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
-                var data = {
-                    district: dis
-                }
-                $.getJSON(url, data, (result) => {
-                    $.each(result, function (item, value) {
-                        var local = $("#locallevel").attr('data-val');
-                        if (value == local) {
-                            $("#locallevel").append(`<option value="${value}" selected>${value}</option>`);
-                        }
-                        else {
-                            $("#locallevel").append(`<option value="${value}">${value}</option>`);
-
-                        }
-                        });
-
-                })
             }
+                //  $("#district").val(dis);
             else {
                 $("#district").empty();
                 $("#district").append('<option value="">select</option>')
@@ -398,7 +379,7 @@
                     });
                 });
             }
-        }
+        
             $('#country').change(function () {
                 var province = $(this).val();
                 $("#district").empty();
