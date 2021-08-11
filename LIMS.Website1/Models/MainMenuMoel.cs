@@ -14,6 +14,7 @@ namespace LIMS.Website1.Models
         public Guid MainMenuId { get; set; }
         public int SerialNo { get; set; }
         public string MainMenuName { get; set; }
+        public string MainMenuNameNepali { get; set; }
         public string Url { get; set; }
         public bool HasSubMenu { get; set; }
         public bool IsActive { get; set; }
@@ -30,6 +31,7 @@ namespace LIMS.Website1.Models
         public Guid SubMenuId { get; set; }
         public int SerialNo { get; set; }
         public string Name { get; set; }
+        public string NameNepali { get; set; }
         public string Url { get; set; }
         public bool IsActive { get; set; }
         public bool HasSubSubMenu { get; set; }
@@ -41,6 +43,7 @@ namespace LIMS.Website1.Models
         public Guid SubSubMenuId { get; set; }
         public int SerialNo { get; set; }
         public string SubSubMenuName { get; set; }
+        public string SubSubMenuNameNepali { get; set; }
         public string Url { get; set; }
         public bool IsActive { get; set; }
         public string UserId { get; set; }

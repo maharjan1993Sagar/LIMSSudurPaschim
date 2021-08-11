@@ -51,6 +51,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                         HasSubMenu = item.HasSubMenu,
                         IsActive = item.IsActive,
                         MainMenuName = item.MainMenuName,
+                        MainMenuNameNepali = item.MainMenuNameNepali,                        
                         MainMenuId = item.MainMenuId,
                         SerialNo = item.SerialNo,
                         Url = item.Url,
@@ -68,6 +69,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                                 HasSubSubMenu = itemSub.HasSubSubMenu,
                                 IsActive = itemSub.IsActive,
                                 Name = itemSub.Name,
+                                NameNepali = itemSub.NameNepali,
                                 SerialNo = itemSub.SerialNo,
                                 Url = itemSub.Url
                             };
@@ -79,6 +81,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                                                                             IsActive = m.IsActive,
                                                                             SerialNo = m.SerialNo,
                                                                             SubSubMenuName = m.SubSubMenuName,
+                                                                            SubSubMenuNameNepali = m.SubSubMenuNameNepali,
                                                                             Url = m.Url,
                                                                             UserId = m.UserId
                                                                         }).ToList();

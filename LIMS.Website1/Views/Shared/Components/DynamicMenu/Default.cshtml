@@ -1,35 +1,43 @@
 ﻿@model List<MainMenuModel>
 @{ 
     var curCulture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
-    }
+    string menuName = "";
+    string subMenuName ="";
+    string subSubMenuName = "";
+ }
     <nav class="nav-main">
             @if (Model.Any())
             {
                 <ul id="topMain" class="nav nav-pills nav-main">
                     @foreach (var item in Model)
                     {
+                        {menuName = curCulture == "en-US" ? item.MainMenuName : item.MainMenuNameNepali; }
                         @if (item.HasSubMenu && item.SubMenus.Any())
                         {
                             <li class="dropdown">
-                                <a class="dropdown-toggle" href="#">@item.MainMenuName</a>
+                                <a class="dropdown-toggle" href="#">@menuName</a>
                                 <ul class="dropdown-menu">
                                     @foreach (var subItem in item.SubMenus)
                                     {
+                                        { subMenuName = curCulture == "en-US" ? subItem.Name : subItem.NameNepali; }
+
                                         if (subItem.HasSubSubMenu && subItem.SubSubMenus.Any())
                                         {
                                             <li>
-                                                <a class="dropdown-item" href="#">@subItem.Name </a>
+                                                <a class="dropdown-item" href="#">@subMenuName </a>
                                                 <ul class="submenu dropdown-menu">
                                                     @foreach (var subSubItem in subItem.SubSubMenus)
                                                     {
-                                                        <li><a class="dropdown-item" href="@subSubItem.Url">@subSubItem.SubSubMenuName</a></li>
+                                                        { subSubMenuName = curCulture == "en-US" ? subSubItem.SubSubMenuName :subSubItem.SubSubMenuNameNepali ; }
+
+                                                        <li><a class="dropdown-item" href="@subSubItem.Url">@subSubMenuName</a></li>
                                                     }
                                                 </ul>
                                             </li>
                                         }
                                         else
                                         {
-                                            <li class="dropdown-item"><a href="@subItem.Url">@subItem.Name</a></li>
+                                            <li class="dropdown-item"><a href="@subItem.Url">@subMenuName</a></li>
                                         }
                                     }
                                 </ul>
@@ -38,7 +46,7 @@
                         else
                         {
                             <li>
-                                <a href="@item.Url">@item.MainMenuName</a>
+                                <a href="@item.Url">@menuName</a>
                             </li>
                         }
                     }
