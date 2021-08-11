@@ -112,7 +112,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.Source = _workContext.CurrentCustomer.OrgName;
                 await _animalRegistrationService.InsertAnimalRegistration(animalRegistration);
 
-                SuccessNotification(_localizationService.GetResource("Admin.AnimalRegistration.Added"));
+                SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
                 return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Create", new { farmid = model.FarmId });
             }
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
@@ -176,7 +176,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
                 await _animalRegistrationService.UpdateAnimalRegistration(m);
 
-                SuccessNotification(_localizationService.GetResource("Admin.AnimalRegistration.Updated"));
+                SuccessNotification(_localizationService.GetResource("Admin.Update.Successful"));
                 if (continueEditing)
                 {
                     //selected tab

@@ -24,6 +24,8 @@ namespace LIMS.Domain.Bali
         public Picture Picture { get; set; }
         public string PictureId { get; set; }
         public string Remarks { get; set; }
+        public string WorkDone { get; set; }
+
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
     }

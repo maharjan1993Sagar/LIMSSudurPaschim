@@ -1,4 +1,4 @@
-﻿@model LabambitKrishakModel
+﻿@model AanudanModel
 <div class="x_content form">
     <div class="form-row">
         <div class="form-body">
@@ -15,7 +15,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
-                    <admin-select asp-for="PujigatKharchaKaryakramId"  asp-items="ViewBag.pujigatKaryakram"/>
+                    <admin-select asp-for="PujigatKharchaKaryakramId" asp-items=" ViewBag.pujigatKaryakram"/>
                     <span asp-validation-for="PujigatKharchaKaryakramId"></span>
 
                 </div>
@@ -23,9 +23,9 @@
             <div class="col-md-3">
 
                 <div class="form-group">
-                    <admin-label asp-for="LabambitKrishakKoNam" />
-                    <admin-input asp-for="LabambitKrishakKoNam" />
-                    <span asp-validation-for="LabambitKrishakKoNam"></span>
+                    <admin-label asp-for="KrishakKoName" />
+                    <admin-input asp-for="KrishakKoName" />
+                    <span asp-validation-for="KrishakKoName"></span>
 
                 </div>
             </div>
@@ -66,10 +66,10 @@
             <div class="col-md-2">
 
                 <div class="form-group">
-                    <admin-label asp-for="WardNo" />
-                    <admin-input asp-for="WardNo" />
+                    <admin-label asp-for="Ward" />
+                    <admin-input asp-for="Ward" />
 
-                    <span asp-validation-for="WardNo"></span>
+                    <span asp-validation-for="Ward"></span>
 
                 </div>
             </div>
@@ -108,7 +108,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="EthinicGroup" />
-                    <admin-select asp-for="EthinicGroup" asp-items="ViewBag.EthnicGroup"/>
+                    <admin-input asp-for="EthinicGroup" />
 
                     <span asp-validation-for="EthinicGroup"></span>
 
@@ -118,20 +118,20 @@
             <div class="col-md-2">
 
                 <div class="form-group">
-                    <admin-label asp-for="WorkDone" />
-                    <admin-input asp-for="WorkDone" />
+                    <admin-label asp-for="AanudanKokisim" />
+                    <admin-input asp-for="AanudanKokisim" />
 
-                    <span asp-validation-for="WorkDone"></span>
+                    <span asp-validation-for="AanudanKokisim"></span>
 
                 </div>
             </div>
             <div class="col-md-2">
 
                 <div class="form-group">
-                    <admin-label asp-for="PictureId" />
-                    <admin-input asp-for="PictureId" />
+                    <admin-label asp-for="AanudanRakam" />
+                    <admin-input asp-for="AanudanRakam" />
 
-                    <span asp-validation-for="PictureId"></span>
+                    <span asp-validation-for="AanudanRakam"></span>
 
                 </div>
             </div>

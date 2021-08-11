@@ -23,6 +23,7 @@ namespace LIMS.Domain.Bali
         public string AanudanKokisim { get; set; }
         public string AanudanRakam { get; set; }
         public string Remaks { get; set; }
-
+        public string CreatedBy { get; set; }
+        public string CreatedAt { get; set; }
     }
 }

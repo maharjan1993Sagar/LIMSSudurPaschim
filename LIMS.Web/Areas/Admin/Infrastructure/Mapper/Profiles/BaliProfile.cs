@@ -2,6 +2,7 @@
 using LIMS.Core.Infrastructure.Mapper;
 using LIMS.Domain.Bali;
 using LIMS.Web.Areas.Admin.Models.Bali;
+using LIMS.Web.Areas.Admin.Models.Bali.Aanudan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure.Mapper.Profiles
             CreateMap<Talim, TalimModel>().ReverseMap();
             CreateMap<FarmLabResources, FarmLabResourcesModel>().ReverseMap();
             CreateMap<LabambitKrishakHaru, LabambitKrishakModel>().ReverseMap();
+            CreateMap<AanudanKokaryakram, AanudanModel>().ReverseMap();
 
 
 

@@ -34,18 +34,11 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                   
 
-                        <div class="form-group">
-                            <admin-label asp-for="Month" />
-                            <admin-select asp-for="Month" asp-items="ViewBag.Month" required="required" />
-                            <span asp-validation-for="Month"></span>
-                        </div>
-                       
-                    </div>
-
-                    <div class="col-md-5 col-sm-5">
-                        <button class="btn btn-success filter-submit" id="search-categories" style="font-size: 13px!important;">
+                    <div class="col-md-2 col-sm-2" style="padding-top:19px!important">
+                        
+                        <button  class="btn btn-success filter-submit" id="search-categories" style="font-size: 13px!important;">
                             <i class="fa fa-search"></i> @T("admin.common.search")
                         </button>
                     </div>
@@ -73,7 +66,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@Html.Raw(Url.Action("Report", "MonthlyProgress"))",
+                        url: "@Html.Raw(Url.Action("Report", "AanudanKaryakram"))",
                         type: "POST",
                         dataType: "json",
                         data: additionalData
@@ -118,34 +111,29 @@
                 title: "@T("Admin.PujigatKaryakram.Fields.Program")",
                 },
                  {
+                field: "Program",
+                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                },
+                 {
                      field: "BarsikBajet",
                 title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
                 },
-                 {
-                     field: "BitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.BitiyaPragati")",
-                },
-                 {
-                     field: "VautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.VautikPragati")",
-                },
-                  {
-                      field: "PreviousMonthBitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.PreviousMonthBitiyaPragati")",
-                },
-                  {
-                      field: "PreviousMonthVautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.PreviousMonthVautikPragati")",
+                   {
+                     field: "Name",
+                title: "@T("Admin.PujigatKaryakram.Fields.Name")",
                 },
                    {
-                       field: "TotalBitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthBitiyaPragati")",
+                     field: "Address",
+                title: "@T("Admin.PujigatKaryakram.Fields.Address")",
                 },
                    {
-                       field: "TotalVautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthVautikPragati")",
-                 },
-
+                       field: "PhoneNo",
+                title: "@T("Admin.PujigatKaryakram.Fields.PhoneNo")",
+                },
+                    {
+                        field: "Rakam",
+                title: "@T("Admin.PujigatKaryakram.Fields.Rakam")",
+                },
 
            ]
         });
@@ -157,7 +145,6 @@
             type: $('#@Html.FieldIdFor(model => model.Type)').val(),
             programType: $('#@Html.FieldIdFor(model => model.ProgramType)').val(),
             fiscalYear: $('#@Html.FieldIdFor(model => model.FiscalYearId)').val(),
-           month: $('#@Html.FieldIdFor(model => model.Month)').val()
 
         };
         addAntiForgeryToken(data);

@@ -11,6 +11,7 @@ using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Bali;
+using LIMS.Web.Areas.Admin.Models.Bali.Aanudan;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -20,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
-    public class LabambitKrishakController:BaseAdminController
+    public class AanudanKaryakramController : BaseAdminController
     {
         private readonly ILabambitKrishakService _animalRegistrationService;
         private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
@@ -34,8 +35,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ITalimService _talimService;
         private readonly IIncuvationCenterService _incuvationCenterService;
         private readonly IPictureService _pictureService;
+        private readonly IAnudanService _anudanService;
 
-        public LabambitKrishakController(ILocalizationService localizationService,
+        public AanudanKaryakramController(ILocalizationService localizationService,
             ILabambitKrishakService animalRegistrationService,
             ILanguageService languageService,
             ISpeciesService speciesService,
@@ -45,7 +47,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ITalimService talimService,
             IIncuvationCenterService incuvationCenterService,
             IPujigatKharchaKharakramService pujigatKharchaKharakramService,
-            IPictureService pictureService
+            IPictureService pictureService,
+            IAnudanService anudanService
+
 
             )
         {
@@ -60,6 +64,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _incuvationCenterService = incuvationCenterService;
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
             _pictureService = pictureService;
+            _anudanService = anudanService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -71,7 +76,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> List(DataSourceRequest command)
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _animalRegistrationService.GetLabambitKrishakHaru(id, command.Page - 1, command.PageSize);
+            var bali = await _anudanService.GetbaliRegister(id, command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount
@@ -105,16 +110,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Report(DataSourceRequest command, string type, string programType, string fiscalYear)
         {
-            if (type != null )
+            if (type != null)
             {
                 var id = _workContext.CurrentCustomer.Id;
-                var krishak = await _animalRegistrationService.GetFilteredLabambitKrishak(id, fiscalYear, programType, type);
+                var krishak = await _anudanService.GetFilteredLabambitKrishak(id, fiscalYear, programType, type);
                 List<LabambitReport> report = new List<LabambitReport>();
                 foreach (var item in krishak)
                 {
-                    var labambit = new LabambitReport();
+                    var labambit = new AanudanReport();
                     labambit.pujigatKharchaKharakram = item.PujigatKharchaKharakram;
-                    labambit.WorkDone = item.WorkDone;
+                    labambit.Rakam = item.AanudanRakam;
+                    labambit.PhoneNo = item.PhoneNo;
+                    labambit.Name = item.KrishakKoName;
+                    labambit.Address = item.District + " " + item.LocalLevel;
+
                     //labambit.Male=.
 
                 }
@@ -141,10 +150,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             var createdby = _workContext.CurrentCustomer.Id;
-           
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
+            pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                        ViewBag.pujigatKaryakram = pujigatKaryakram;
 
             var sex = new List<SelectListItem>() {
                 new SelectListItem {
@@ -158,85 +169,40 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Sex = sex;
-            var EthnicGroup = new List<SelectListItem>() {
-                new SelectListItem {
-                    Text="Dalit",
-                    Value="Dalit"
-                },
-                  new SelectListItem {
-                    Text="Janajati",
-                    Value="Janajati"
-                },
-                  new SelectListItem {
-                    Text="Aanya",
-                    Value="Aanya"
-                },
-            };
-            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.EthnicGroup = EthnicGroup;
 
-            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
-            pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.pujigatKaryakram = pujigatKaryakram;
 
-            LabambitKrishakModel model = new LabambitKrishakModel();
+            AanudanModel model = new AanudanModel();
 
             return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        public async Task<IActionResult> Create(LabambitKrishakModel model, bool continueEditing)
+        public async Task<IActionResult> Create(AanudanModel model, bool continueEditing)
         {
             if (ModelState.IsValid)
             {
                 var animalRegistration = model.ToEntity();
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
-                if(!string.IsNullOrEmpty(model.PictureId))
-                {
-                    var picture = await _pictureService.GetPictureById(model.PictureId);
-                    if(picture!=null)
-                    {
-                        animalRegistration.Picture = picture;
-                        animalRegistration.PictureId = model.PictureId;
-                    }
-                }
+               
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
-                animalRegistration.PujigatKharchaKharakram= await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
+                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
-                await _animalRegistrationService.InsertLabambitKrishakHaru(animalRegistration);
+                await _anudanService.InsertbaliRegister(animalRegistration);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
                 return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Index");
             }
-         
             var createdby = _workContext.CurrentCustomer.Id;
-            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
-            pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.pujigatKaryakram = pujigatKaryakram;
-
-            var EthnicGroup = new List<SelectListItem>() {
-                new SelectListItem {
-                    Text="Dalit",
-                    Value="Dalit"
-                },
-                  new SelectListItem {
-                    Text="Janajati",
-                    Value="Janajati"
-                },
-                  new SelectListItem {
-                    Text="Aanya",
-                    Value="Aanya"
-                },
-            };
-            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.EthnicGroup = EthnicGroup;
             var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
             incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.IncuvationCenter = incuvationCenter;
             var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;
+            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
+            pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.pujigatKaryakram = pujigatKaryakram;
 
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -280,34 +246,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Sex = sex;
-            var EthnicGroup = new List<SelectListItem>() {
-                new SelectListItem {
-                    Text="Dalit",
-                    Value="Dalit"
-                },
-                  new SelectListItem {
-                    Text="Janajati",
-                    Value="Janajati"
-                },
-                  new SelectListItem {
-                    Text="Aanya",
-                    Value="Aanya"
-                },
-            };
-            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.EthnicGroup = EthnicGroup;
             var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
             pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.pujigatKaryakram = pujigatKaryakram;
+                        ViewBag.pujigatKaryakram = pujigatKaryakram;
+
 
             return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        public async Task<IActionResult> Edit(LabambitKrishakModel model, bool continueEditing)
+        public async Task<IActionResult> Edit(AanudanModel model, bool continueEditing)
         {
-            var animalRegistration = await _animalRegistrationService.GetLabambitKrishakHaruById(model.Id);
+            var animalRegistration = await _anudanService.GetbaliRegisterById(model.Id);
             if (animalRegistration == null)
                 //No blog post found with the specified id
                 return RedirectToAction("List");
@@ -324,16 +275,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 //if (farmPicture == null)
                 //    throw new ArgumentException("No farm picture found with the specified id");
 
-                if (!string.IsNullOrEmpty(model.PictureId))
-                {
-                    var picture = await _pictureService.GetPictureById(model.PictureId);
-                    if (picture != null)
-                    {
-                        m.Picture = picture;
-                        m.PictureId = model.PictureId;
-                    }
-                }
-                await _animalRegistrationService.UpdateLabambitKrishakHaru(m);
+                
+                await _anudanService.UpdatebaliRegister(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Update.Successful"));
                 if (continueEditing)
@@ -355,22 +298,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     Value="Female"
                 },
             };
-            var EthnicGroup = new List<SelectListItem>() {
-                new SelectListItem {
-                    Text="Dalit",
-                    Value="Dalit"
-                },
-                  new SelectListItem {
-                    Text="Janajati",
-                    Value="Janajati"
-                },
-                  new SelectListItem {
-                    Text="Aanya",
-                    Value="Aanya"
-                },
-            };
-            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.EthnicGroup = EthnicGroup;
             sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Sex = sex;
 
@@ -392,7 +319,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
             pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.pujigatKaryakram = pujigatKaryakram;
+                        ViewBag.pujigatKaryakram = pujigatKaryakram;
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

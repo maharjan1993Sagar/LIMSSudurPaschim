@@ -12,6 +12,7 @@ namespace LIMS.Services.Bali
         Task<LabambitKrishakHaru> GetLabambitKrishakHaruById(string id);
         Task<IPagedList<LabambitKrishakHaru>> GetLabambitKrishakHaru(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
         Task<IPagedList<LabambitKrishakHaru>> GetLabambitKrishakHaru(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<LabambitKrishakHaru>> GetFilteredLabambitKrishak(string id,string fiscalYear,string programType, string type, int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task DeleteLabambitKrishakHaru(LabambitKrishakHaru LabambitKrishakHaru);
 

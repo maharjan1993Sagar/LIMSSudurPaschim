@@ -123,7 +123,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
                 await _animalRegistrationService.Insertfarmer(animalRegistration);
 
-                SuccessNotification(_localizationService.GetResource("Admin.AnimalRegistration.Added"));
+                SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
                 return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Index");
             }
             var createdby = _workContext.CurrentCustomer.Id;
@@ -183,7 +183,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 m.Talim = await _talimService.GettalimById(m.TalimId);
                 await _animalRegistrationService.Updatefarmer(m);
 
-                SuccessNotification(_localizationService.GetResource("Admin.AnimalRegistration.Updated"));
+                SuccessNotification(_localizationService.GetResource("Admin.Update.Successful"));
                 if (continueEditing)
                 {
                     //selected tab

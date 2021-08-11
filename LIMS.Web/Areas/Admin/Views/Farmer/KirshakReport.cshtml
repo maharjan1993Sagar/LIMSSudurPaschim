@@ -68,7 +68,7 @@
                         url: "@Html.Raw(Url.Action("kirshakReport", "Farmer"))",
                         type: "POST",
                         dataType: "json",
-                        data: addAntiForgeryToken
+                        data: additionalData
                     }
                 },
                 schema: {
@@ -161,4 +161,12 @@
 
         });
     });
+
+    function additionalData() {
+        var data = {
+            keyword: $('#@Html.FieldIdFor(model => model.Fiscalyear)').val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
 </script>

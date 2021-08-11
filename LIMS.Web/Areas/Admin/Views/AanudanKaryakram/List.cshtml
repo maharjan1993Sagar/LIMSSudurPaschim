@@ -1,0 +1,141 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = T("Admin.CDMS.LabambitKrishak").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="LabambitKrishak" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                        @T("Admin.LabambitKrishak.List")
+                    </div>
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content form">
+                    <div class="form-horizontal">
+
+                        <div class="form-body col-md-6">
+
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="LabambitKrishak-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#search-LabambitKrishak').click(function () {
+            //search
+            var grid = $('#LabambitKrishak-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#LabambitKrishak-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "AanudanKaryakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "FiscalYear.NepaliFiscalYear",
+                title: "@T("Admin.LabambitKrishak.Fiscalyear")",
+                width: 200,
+            },
+                {
+                    field: "PujigatKharchaKharakram.Program",
+                    title: "@T("Admin.PujigatKharchaKharakram.ProgramName")",
+                    width: 200,
+                },
+               {
+                   field: "KrishakKoName",
+                    title: "@T("Admin.LabambitKrishak.LabambitKrishakKoNam")",
+                    width: 200,
+                },
+
+
+                {
+                    field: "District",
+                    title: "@T("Admin.Common.District")",
+                    width: 200,
+                },
+                {
+                    field: "LocalLevel",
+                    title:"@T("Admin.Common.LocalLevel")",
+                    width: 200,
+                },
+                {
+                    field: "AanudanKokisim",
+                    title:"@T("Admin.Common.AanudanKokisim")",
+                    width: 200,
+                },
+                {
+                    field: "AanudanRakam",
+                    title:"@T("Admin.Common.AanudanRakam")",
+                    width: 200,
+                },
+
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+            Keyword:$("#Keyword").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>

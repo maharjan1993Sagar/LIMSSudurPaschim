@@ -125,6 +125,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<PujigatKharchaKharakramService>().As<IPujigatKharchaKharakramService>().InstancePerLifetimeScope();
             builder.RegisterType<MonthlyPragatiService>().As<IMonthlyPragatiService>().InstancePerLifetimeScope();
             builder.RegisterType<LabambitKrishakService>().As<ILabambitKrishakService>().InstancePerLifetimeScope();
+            builder.RegisterType<AanudanService>().As<IAnudanService>().InstancePerLifetimeScope();
 
 
             builder.RegisterType<NewsEventService>().As<INewsEventService>().InstancePerLifetimeScope();

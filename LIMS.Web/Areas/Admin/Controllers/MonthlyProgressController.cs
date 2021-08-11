@@ -183,48 +183,83 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var id = _workContext.CurrentCustomer.Id;
             var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.SpeciesId = species;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+            var type = PujigatType();
+            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Type = type;
+            var programType = ProgramType();
+            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.ProgramType = programType;
+            var month = new MonthHelper();
+            var months = month.GetMonths();
 
+            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Month = months;
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Report(DataSourceRequest command, string type, string programType, string fiscalYear, string month)
         {
-            var id = _workContext.CurrentCustomer.Id;
-            var monthHelper = new MonthHelper();
-            var months = monthHelper.GetMonths();
-            SelectListItem listindex = months.Where(m => m.Value == month).Single<SelectListItem>();
-            int index = months.IndexOf(listindex);
-            index = index + 1;
-            string previousMonth = null;
-            if (index != 1)
+            if (type != null && month != null)
             {
-                previousMonth = months.ElementAt(index - 2).Value.ToString();
+                var id = _workContext.CurrentCustomer.Id;
+                string previousMonth = null;
+                if (!string.IsNullOrEmpty(month))
+                {
+                    var monthHelper = new MonthHelper();
+                    var months = monthHelper.GetMonths();
+                    SelectListItem listindex = months.Where(m => m.Value == month).Single<SelectListItem>();
+                    int index = months.IndexOf(listindex);
+                    index = index + 1;
+
+                    if (index != 1)
+                    {
+                        previousMonth = months.ElementAt(index - 2).Value.ToString();
+                    }
+                    else
+                    {
+                        previousMonth = "no";
+                    }
+                }
+                var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(id, fiscalYear, programType, type, month, command.Page - 1, command.PageSize);
+                var PreviousMonthPragati = await _animalRegistrationService.GetMonthlyPragati(id, fiscalYear, programType, type, previousMonth, command.Page - 1, command.PageSize);
+                var FiscalYearPragati = await _animalRegistrationService.GetyearlyPragati(id, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+                List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
+                foreach (var item in MonthlyPragati)
+                {
+                    var progress = new MonthlyProgressReport();
+                    progress.pujigatKharchaKharakram = item.pujigatKharchaKharakram;
+                    progress.BitiyaPragati = item.BitiyaPragati;
+                    progress.VautikPragati = item.VautikPragati;
+                    progress.PreviousMonthBitiyaPragati = (PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).FirstOrDefault().BitiyaPragati : "";
+                    progress.PreviousMonthVautikPragati = (PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).FirstOrDefault().VautikPragati : "";
+                    progress.TotalMonthBitiyaPragati = (FiscalYearPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.BitiyaPragati) ? "0" : m.BitiyaPragati)).ToString() : "";
+                    progress.TotalMonthVautikPragati = (FiscalYearPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.VautikPragati) ? "0" : m.VautikPragati)).ToString() : "";
+                    report.Add(progress);
+                }
+                var gridModel = new DataSourceResult {
+                    Data = report,
+                    Total = MonthlyPragati.TotalCount
+                };
+                return Json(gridModel);
             }
             else
             {
-                previousMonth = "no";
+                List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
+
+                var gridModel = new DataSourceResult {
+                    Data = report,
+                    Total = report.Count
+                };
+                return Json(gridModel);
+
             }
-            var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(id,fiscalYear,programType,type,month, command.Page - 1, command.PageSize);
-            var PreviousMonthPragati = await _animalRegistrationService.GetMonthlyPragati(id, fiscalYear, programType, type, month, command.Page - 1, command.PageSize);
-            var FiscalYearPragati = await _animalRegistrationService.GetyearlyPragati(id, fiscalYear, programType, type, command.Page - 1, command.PageSize);
-            List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-            foreach(var item in MonthlyPragati)
-            {
-                var progress=new MonthlyProgressReport();
-                progress.pujigatKharchaKharakram = item.pujigatKharchaKharakram;
-                progress.BitiyaPragati = item.BitiyaPragati;
-                progress.VautikPragati = item.VautikPragati;
-                progress.PreviousMonthBitiyaPragati = (PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).FirstOrDefault().BitiyaPragati : "";
-                progress.PreviousMonthVautikPragati = (PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).FirstOrDefault().VautikPragati : "";
-                progress.TotalMonthBitiyaPragati = (FiscalYearPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.BitiyaPragati) ? "0" : m.BitiyaPragati)).ToString() : "";
-                progress.TotalMonthVautikPragati = (FiscalYearPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id) != null) ? PreviousMonthPragati.Where(m => m.pujigatKharchaKharakram.Id == item.pujigatKharchaKharakram.Id).Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.VautikPragati) ? "0" : m.VautikPragati)).ToString() : "";
-                report.Add(progress);
-            }
-            var gridModel = new DataSourceResult {
-                Data = report,
-                Total = MonthlyPragati.TotalCount
-            };
-            return Json(gridModel);
         }
 
         public async Task<ActionResult> GetPujigatKharcha(string type, string programType, string fiscalYear)

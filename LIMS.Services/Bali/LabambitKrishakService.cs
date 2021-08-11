@@ -44,6 +44,15 @@ namespace LIMS.Services.Bali
 
             return await PagedList<LabambitKrishakHaru>.Create(query, pageIndex, pageSize);
         }
+        public async Task<IPagedList<LabambitKrishakHaru>> GetFilteredLabambitKrishak(string id, string fiscalYear, string programType, string type, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _LabambitKrishakHaruRepository.Table;
+            query = query.Where(m => m.CreatedBy==id &&m.PujigatKharchaKharakram.Type==type&&m.PujigatKharchaKharakram.ProgramType==programType&&m.FiscalYear.Id==fiscalYear);
+           
+
+            return await PagedList<LabambitKrishakHaru>.Create(query, pageIndex, pageSize);
+
+        }
 
         public async Task<IPagedList<LabambitKrishakHaru>> GetLabambitKrishakHaru(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
