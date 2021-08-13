@@ -39,6 +39,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string Remarks { get; set; }
         [LIMSResourceDisplayName("Lims.Farmer.EnglishName")]
         public string NameNepali { get; set; }
-
+        [LIMSResourceDisplayName("Lims.Farmer.EnglishName")]
+        public string Gender { get; set; }
     }
 }

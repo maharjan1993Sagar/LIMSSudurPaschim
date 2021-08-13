@@ -2,6 +2,7 @@
 using LIMS.Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,6 +51,9 @@ namespace LIMS.Web.Areas.Admin.Models.Bali.Aanudan
         [LIMSResourceDisplayName("Lims.Aanudan.Remarks")]
 
         public string Remarks { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.DateOfSubsidy")]
+        [UIHint("date")]
+        public string DateOfSubsidy { get; set; }
 
     }
 }

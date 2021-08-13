@@ -82,21 +82,21 @@
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="NatureOfWork" />
-                <admin-input asp-for="NatureOfWork" />
+                <admin-select asp-for="NatureOfWork" asp-items="ViewBag.NatureOfWork" />
                 <span asp-validation-for="NatureOfWork"></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="ValueChain" />
-                <admin-input asp-for="ValueChain" />
+                <admin-select asp-for="ValueChain"  asp-items="ViewBag.ValueChain" />
                 <span asp-validation-for="ValueChain"></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <admin-label asp-for="OrganizationStatus" />
-                <admin-input asp-for="OrganizationStatus" />
+                <admin-label asp-for="OrganizationStatus" /><br/>
+                <admin-input asp-for="OrganizationStatus" />&nbsp; Active
                 <span asp-validation-for="OrganizationStatus"></span>
             </div>
         </div>

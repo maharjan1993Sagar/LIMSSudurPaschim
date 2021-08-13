@@ -6,7 +6,7 @@
 
             <div class="form-group">
                 <admin-label asp-for="Name" />
-                <input asp-for="Name" class="form-control"  required="required"/>
+                <input asp-for="Name" class="form-control" required="required" />
                 <span asp-validation-for="Name"></span>
 
             </div>
@@ -19,6 +19,26 @@
 
                 <span asp-validation-for="NameNepali"></span>
 
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Phone" />
+                <admin-input asp-for="Phone" />
+                <span asp-validation-for="Phone"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Gender" >@T("Admin.Farmer.gender")</label><br/>
+                <input type="radio" name="Gender" value="Male" />
+                <label asp-for="Gender">Male</label>
+                <input type="radio" name="Gender" value="Female" />
+                <label asp-for="Gender">female</label>
+                <input type="radio" name="Gender" value="Others" />
+                <label asp-for="Gender">Others</label>
+                <span asp-validation-for="Gender"></span>
             </div>
         </div>
 
@@ -51,18 +71,12 @@
                 <span asp-validation-for="Address"></span>
             </div>
         </div>
-       
-        <div class="col-md-3">
-            <div class="form-group">
-                <admin-label asp-for="Phone" />
-                <admin-input asp-for="Phone" />
-                <span asp-validation-for="Phone"></span>
-            </div>
-        </div>
+
+
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="TalimId" />
-                <admin-select asp-for="TalimId" asp-items="ViewBag.Talim" class="form-control"  required="required" />
+                <admin-select asp-for="TalimId" asp-items="ViewBag.Talim" class="form-control" required="required" />
                 <span asp-validation-for="TalimId"></span>
             </div>
         </div>
@@ -73,7 +87,7 @@
                 <span asp-validation-for="IncuvationCenterId"></span>
             </div>
         </div>
-        
+
 
     </div>
 </div>

@@ -19,7 +19,7 @@ namespace LIMS.Domain.Bali
         public string Email { get; set; }
         public string NatureOfWork { get; set; }
         public string ValueChain { get; set; }
-        public string OrganizationStatus { get; set; }
+        public bool OrganizationStatus { get; set; }
         
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

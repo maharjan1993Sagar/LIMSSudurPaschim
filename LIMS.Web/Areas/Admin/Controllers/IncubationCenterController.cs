@@ -76,6 +76,65 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var ValueChain = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Diary",
+                    Value="Diary"
+                },
+                  new SelectListItem {
+                    Text="Meat",
+                    Value="Meat"
+                },
+                  new SelectListItem {
+                    Text="Milk",
+                    Value="Milk"
+                },
+                   new SelectListItem {
+                    Text="Egg",
+                    Value="Egg"
+                },
+                    new SelectListItem {
+                    Text="Vegitable",
+                    Value="Vegitable"
+                },
+                      new SelectListItem {
+                    Text="Production",
+                    Value="Production"
+                },
+                       new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+            };
+            ValueChain.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.ValueChain = ValueChain;
+            var NatureOfWork = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Livestock farm",
+                    Value="Livestock farm"
+                },
+                  new SelectListItem {
+                    Text="Poultry farm",
+                    Value="Poultry farm"
+                },
+                  new SelectListItem {
+                    Text="Fish farm",
+                    Value="Fish farm"
+                },
+                  
+                    new SelectListItem {
+                    Text="Vegitable production",
+                    Value="Vegitable production"
+                },
+                      new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+                      
+            };
+            NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+              ViewBag.NatureOfWork =NatureOfWork;
+
             IncubationCenterModel model = new IncubationCenterModel();
 
             return View(model);
@@ -102,6 +161,65 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var ValueChain = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Diary",
+                    Value="Diary"
+                },
+                  new SelectListItem {
+                    Text="Meat",
+                    Value="Meat"
+                },
+                  new SelectListItem {
+                    Text="Milk",
+                    Value="Milk"
+                },
+                   new SelectListItem {
+                    Text="Egg",
+                    Value="Egg"
+                },
+                    new SelectListItem {
+                    Text="Vegitable",
+                    Value="Vegitable"
+                },
+                      new SelectListItem {
+                    Text="Production",
+                    Value="Production"
+                },
+                       new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+            };
+            ValueChain.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.ValueChain = ValueChain;
+            var NatureOfWork = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Livestock farm",
+                    Value="Livestock farm"
+                },
+                  new SelectListItem {
+                    Text="Poultry farm",
+                    Value="Poultry farm"
+                },
+                  new SelectListItem {
+                    Text="Fish farm",
+                    Value="Fish farm"
+                },
+
+                    new SelectListItem {
+                    Text="Vegitable production",
+                    Value="Vegitable production"
+                },
+                      new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+
+            };
+            NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+              ViewBag.NatureOfWork =NatureOfWork;
+
             return View(model);
         }
 
@@ -118,6 +236,65 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var ValueChain = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Diary",
+                    Value="Diary"
+                },
+                  new SelectListItem {
+                    Text="Meat",
+                    Value="Meat"
+                },
+                  new SelectListItem {
+                    Text="Milk",
+                    Value="Milk"
+                },
+                   new SelectListItem {
+                    Text="Egg",
+                    Value="Egg"
+                },
+                    new SelectListItem {
+                    Text="Vegitable",
+                    Value="Vegitable"
+                },
+                      new SelectListItem {
+                    Text="Production",
+                    Value="Production"
+                },
+                       new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+            };
+            ValueChain.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.ValueChain = ValueChain;
+            var NatureOfWork = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Livestock farm",
+                    Value="Livestock farm"
+                },
+                  new SelectListItem {
+                    Text="Poultry farm",
+                    Value="Poultry farm"
+                },
+                  new SelectListItem {
+                    Text="Fish farm",
+                    Value="Fish farm"
+                },
+
+                    new SelectListItem {
+                    Text="Vegitable production",
+                    Value="Vegitable production"
+                },
+                      new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+
+            };
+            NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+              ViewBag.NatureOfWork =NatureOfWork;
+
             return View(model);
         }
 
@@ -152,6 +329,64 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+            var ValueChain = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Diary",
+                    Value="Diary"
+                },
+                  new SelectListItem {
+                    Text="Meat",
+                    Value="Meat"
+                },
+                  new SelectListItem {
+                    Text="Milk",
+                    Value="Milk"
+                },
+                   new SelectListItem {
+                    Text="Egg",
+                    Value="Egg"
+                },
+                    new SelectListItem {
+                    Text="Vegitable",
+                    Value="Vegitable"
+                },
+                      new SelectListItem {
+                    Text="Production",
+                    Value="Production"
+                },
+                       new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+            };
+            ValueChain.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.ValueChain = ValueChain;
+            var NatureOfWork = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Livestock farm",
+                    Value="Livestock farm"
+                },
+                  new SelectListItem {
+                    Text="Poultry farm",
+                    Value="Poultry farm"
+                },
+                  new SelectListItem {
+                    Text="Fish farm",
+                    Value="Fish farm"
+                },
+
+                    new SelectListItem {
+                    Text="Vegitable production",
+                    Value="Vegitable production"
+                },
+                      new SelectListItem {
+                    Text="Others",
+                    Value="Others"
+                },
+
+            };
+            NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+              ViewBag.NatureOfWork =NatureOfWork;
 
 
 

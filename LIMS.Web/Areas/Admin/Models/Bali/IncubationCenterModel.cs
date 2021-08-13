@@ -47,7 +47,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string ValueChain { get; set; }
         [LIMSResourceDisplayName("LIMS.IncubationCenter.OrganizationStatus")]
 
-        public string OrganizationStatus { get; set; }
+        public bool OrganizationStatus { get; set; }
        
 
     }

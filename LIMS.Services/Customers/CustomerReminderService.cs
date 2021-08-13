@@ -95,7 +95,6 @@ namespace LIMS.Services.Customers
             LiquidObject liquidObject = new LiquidObject();
             await _messageTokenProvider.AddStoreTokens(liquidObject, null, language, emailAccount);
             await _messageTokenProvider.AddCustomerTokens(liquidObject, customer, null, language);
-            await _messageTokenProvider.AddShoppingCartTokens(liquidObject, customer, null, language);
 
 
             //limit name length

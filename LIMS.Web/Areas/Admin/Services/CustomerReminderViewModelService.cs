@@ -398,7 +398,7 @@ namespace LIMS.Web.Areas.Admin.Services
                 });
             }
             var messageTokenProvider = _serviceProvider.GetRequiredService<IMessageTokenProvider>();
-            model.AllowedTokens = messageTokenProvider.GetListOfCustomerReminderAllowedTokens(customerReminder.ReminderRule);
+           // model.AllowedTokens = messageTokenProvider.GetListOfCustomerReminderAllowedTokens(customerReminder.ReminderRule);
         }
         public virtual async Task<CustomerReminder.ReminderLevel> InsertReminderLevel(CustomerReminder customerReminder, CustomerReminderModel.ReminderLevelModel model)
         {

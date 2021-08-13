@@ -236,10 +236,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return RedirectToAction("List");
             if (ModelState.IsValid)
             {
-                if (customer.EntityId == null)
-                {
+               
                     customerModel.EntityId = Vhlsec.Id;
-                }
+                
                 customer = await _customerViewModelService.UpdateCustomerModel(customer, customerModel);
 
                 var molmac = model.ToEntity(Vhlsec);

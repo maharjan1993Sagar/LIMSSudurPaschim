@@ -31,20 +31,96 @@ namespace LIMS.Services.Bali
             await _mediator.EntityDeleted(MonthlyPragati);
         }
 
-        public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(List<string> createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
-        {
-            var query = _MonthlyPragatiRepository.Table;
-            query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYear.Id == fiscalyear && m.Month == month && m.pujigatKharchaKharakram.ProgramType == programtype && m.pujigatKharchaKharakram.Type == type);
-            return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
-        }
+        //public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(List<string> createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        //{
+        //    var query = _MonthlyPragatiRepository.Table;
+        //    query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYear.Id == fiscalyear && m.Month == month && m.pujigatKharchaKharakram.ProgramType == programtype && m.pujigatKharchaKharakram.Type == type);
+        //    return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
+        //}
 
         public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _MonthlyPragatiRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.FiscalYear.Id == fiscalYear && m.Month == month && m.pujigatKharchaKharakram.ProgramType == programtype && m.pujigatKharchaKharakram.Type == type);
+            query = query.Where(m => m.CreatedBy == createdby && m.FiscalYear.Id == fiscalYear && m.Month == month );
+            if(!string.IsNullOrEmpty(programtype))
+            {
+               query= query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
+                
+            }
+            if(!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.Type == type);
+            }
+
+
             return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
 
         }
+        public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(List<string> createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        {
+            var query = _MonthlyPragatiRepository.Table;
+            query = query.Where(m => createdby.Contains(m.CreatedBy)  && m.FiscalYear.Id == fiscalYear && m.Month == month);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
+
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.Type == type);
+            }
+
+
+            return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
+
+        }
+
+
+
+        public async Task<IPagedList<MonthlyPragati>> GetFilteredYearlyPragati(string createdby, string fiscalYear, string programtype, string type,  int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        {
+            var query = _MonthlyPragatiRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby && m.FiscalYear.Id == fiscalYear);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
+
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.Type == type);
+            }
+
+
+            return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
+
+        }
+        public async Task<IPagedList<MonthlyPragati>> GetFilteredYearlyPragati(List<string> createdby, string fiscalYear, string programtype, string type,  int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        {
+            var query = _MonthlyPragatiRepository.Table;
+            query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYear.Id == fiscalYear);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
+
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.Type == type);
+            }
+
+
+            return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
+
+        }
+
+
+
+
+
+
+
+
 
         public async Task<IPagedList<MonthlyPragati>> GetMonthlyPragati(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
@@ -77,6 +153,15 @@ namespace LIMS.Services.Bali
         {
             var query = _MonthlyPragatiRepository.Table;
             query = query.Where(m => m.CreatedBy == createdby && m.pujigatKharchaKharakram.Type == type && m.pujigatKharchaKharakram.ProgramType == programType && m.FiscalYear.Id == fiscalYear );
+
+
+            return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
+
+        }
+        public async Task<IPagedList<MonthlyPragati>> GetyearlyPragati(List<string> createdby, string type, string programType, string fiscalYear, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _MonthlyPragatiRepository.Table;
+            query = query.Where(m => createdby.Contains(m.CreatedBy) && m.pujigatKharchaKharakram.Type == type && m.pujigatKharchaKharakram.ProgramType == programType && m.FiscalYear.Id == fiscalYear);
 
 
             return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);

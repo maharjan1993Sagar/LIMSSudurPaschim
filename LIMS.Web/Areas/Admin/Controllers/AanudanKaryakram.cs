@@ -167,9 +167,25 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     Value="Female"
                 },
             };
+
             sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Sex = sex;
-
+            var EthnicGroup = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Dalit",
+                    Value="Dalit"
+                },
+                  new SelectListItem {
+                    Text="Janajati",
+                    Value="Janajati"
+                },
+                  new SelectListItem {
+                    Text="Aanya",
+                    Value="Aanya"
+                },
+            };
+            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.EthnicGroup = EthnicGroup;
 
             AanudanModel model = new AanudanModel();
 
@@ -211,6 +227,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var EthnicGroup = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Dalit",
+                    Value="Dalit"
+                },
+                  new SelectListItem {
+                    Text="Janajati",
+                    Value="Janajati"
+                },
+                  new SelectListItem {
+                    Text="Aanya",
+                    Value="Aanya"
+                },
+            };
+            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.EthnicGroup = EthnicGroup;
             return View(model);
         }
 
@@ -248,7 +280,23 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Sex = sex;
             var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
             pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                        ViewBag.pujigatKaryakram = pujigatKaryakram;
+            var EthnicGroup = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Dalit",
+                    Value="Dalit"
+                },
+                  new SelectListItem {
+                    Text="Janajati",
+                    Value="Janajati"
+                },
+                  new SelectListItem {
+                    Text="Aanya",
+                    Value="Aanya"
+                },
+            };
+            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.EthnicGroup = EthnicGroup;
+            ViewBag.pujigatKaryakram = pujigatKaryakram;
 
 
             return View(model);
@@ -288,6 +336,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            var EthnicGroup = new List<SelectListItem>() {
+                new SelectListItem {
+                    Text="Dalit",
+                    Value="Dalit"
+                },
+                  new SelectListItem {
+                    Text="Janajati",
+                    Value="Janajati"
+                },
+                  new SelectListItem {
+                    Text="Aanya",
+                    Value="Aanya"
+                },
+            };
+            EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.EthnicGroup = EthnicGroup;
             var sex = new List<SelectListItem>() {
                 new SelectListItem {
                     Text="Male",

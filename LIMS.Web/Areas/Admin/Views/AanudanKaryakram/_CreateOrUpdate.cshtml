@@ -15,7 +15,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
-                    <admin-select asp-for="PujigatKharchaKaryakramId" asp-items=" ViewBag.pujigatKaryakram"/>
+                    <admin-select asp-for="PujigatKharchaKaryakramId" asp-items=" ViewBag.pujigatKaryakram" />
                     <span asp-validation-for="PujigatKharchaKaryakramId"></span>
 
                 </div>
@@ -108,7 +108,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="EthinicGroup" />
-                    <admin-input asp-for="EthinicGroup" />
+                    <admin-select asp-for="EthinicGroup" asp-items="ViewBag.EthnicGroup" />
 
                     <span asp-validation-for="EthinicGroup"></span>
 
@@ -119,7 +119,14 @@
 
                 <div class="form-group">
                     <admin-label asp-for="AanudanKokisim" />
-                    <admin-input asp-for="AanudanKokisim" />
+                    <admin-select asp-for="AanudanKokisim">
+                        <option value="">Select</option>
+
+                        <option value="Equipment">Equipment</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Others">Others</option>
+
+                    </admin-select>
 
                     <span asp-validation-for="AanudanKokisim"></span>
 
@@ -132,6 +139,16 @@
                     <admin-input asp-for="AanudanRakam" />
 
                     <span asp-validation-for="AanudanRakam"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="DateOfSubsidy" style="display:inline-block" />
+                    <admin-input asp-for="DateOfSubsidy" />
+
+                    <span asp-validation-for="DateOfSubsidy"></span>
 
                 </div>
             </div>

@@ -2,7 +2,7 @@
 <div class="x_content form">
     <div class="form-row">
         <div class="form-body">
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-2 col-sm-2">
 
                 <div class="form-group">
                     <admin-label asp-for="FiscalyearId" />
@@ -11,24 +11,16 @@
 
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-4 col-sm-4">
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
-                    <admin-select asp-for="PujigatKharchaKaryakramId"  asp-items="ViewBag.pujigatKaryakram"/>
+                    <admin-select asp-for="PujigatKharchaKaryakramId" asp-items="ViewBag.pujigatKaryakram" />
                     <span asp-validation-for="PujigatKharchaKaryakramId"></span>
 
                 </div>
             </div>
-            <div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="LabambitKrishakKoNam" />
-                    <admin-input asp-for="LabambitKrishakKoNam" />
-                    <span asp-validation-for="LabambitKrishakKoNam"></span>
-
-                </div>
-            </div>
 
             <div class="col-md-2">
 
@@ -63,7 +55,7 @@
 
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
 
                 <div class="form-group">
                     <admin-label asp-for="WardNo" />
@@ -73,13 +65,32 @@
 
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
 
                 <div class="form-group">
                     <admin-label asp-for="Tole" />
                     <admin-input asp-for="Tole" />
 
                     <span asp-validation-for="Tole"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="LabambitKrishakKoNam" />
+                    <admin-input asp-for="LabambitKrishakKoNam" />
+                    <span asp-validation-for="LabambitKrishakKoNam"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Sex" />
+                    <admin-input asp-for="Sex"  />
+
+                    <span asp-validation-for="Sex"></span>
 
                 </div>
             </div>
@@ -96,32 +107,21 @@
             <div class="col-md-2">
 
                 <div class="form-group">
-                    <admin-label asp-for="Sex" />
-                    <admin-select asp-for="Sex" asp-items="ViewBag.Sex" />
-
-                    <span asp-validation-for="Sex"></span>
-
-                </div>
-            </div>
-
-            <div class="col-md-2">
-
-                <div class="form-group">
                     <admin-label asp-for="EthinicGroup" />
-                    <admin-select asp-for="EthinicGroup" asp-items="ViewBag.EthnicGroup"/>
+                    <admin-input asp-for="EthinicGroup" />
 
                     <span asp-validation-for="EthinicGroup"></span>
 
                 </div>
             </div>
-
+            <div class="clearfix"></div>
             <div class="col-md-2">
 
                 <div class="form-group">
-                    <admin-label asp-for="WorkDone" />
-                    <admin-input asp-for="WorkDone" />
+                    <admin-label asp-for="Remarks" />
+                    <admin-input asp-for="Remarks" />
 
-                    <span asp-validation-for="WorkDone"></span>
+                    <span asp-validation-for="Remarks"></span>
 
                 </div>
             </div>
@@ -135,17 +135,19 @@
 
                 </div>
             </div>
-
             <div class="col-md-12">
 
                 <div class="form-group">
-                    <admin-label asp-for="Remarks" />
-                    <admin-input asp-for="Remarks" />
+                    <admin-label asp-for="WorkDone" />
+                    <admin-textarea asp-for="WorkDone" />
 
-                    <span asp-validation-for="Remarks"></span>
+                    <span asp-validation-for="WorkDone"></span>
 
                 </div>
             </div>
+
+
+
 
 
 

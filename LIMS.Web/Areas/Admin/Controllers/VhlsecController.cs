@@ -310,10 +310,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                if(customer.EntityId==null)
-                {
+                
                     customerModel.EntityId = Vhlsec.Id;
-                }
+                
                 customer = await _customerViewModelService.UpdateCustomerModel(customer, customerModel);
                 
                 foreach (var customerRole in newCustomerRoles)

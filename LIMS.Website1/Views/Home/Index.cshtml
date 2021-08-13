@@ -369,6 +369,7 @@
                                 <div class="row">
                                     <div class="col-md-3 text-center">
                                         <!-- carousel -->
+
                                         <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20">
                                     </div>
                                     <div class="col-md-9">
@@ -529,12 +530,13 @@
                                 {
                                     @foreach (var item in Model.RulesRegulation)
                                     {
-                                        <tr>
-                                            <td><img src="/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
-                                            <td>@item.Title</td>
-                                            <td class="hidden-sm hidden-xs">Rule & Regulation</td>
-                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id='@item.Id' target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-                                        </tr>
+                                <tr>
+
+                                    <td><img src="/Dolfd/img/38.png" onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                    <td>@item.Title</td>
+                                    <td class="hidden-sm hidden-xs">Rule & Regulation</td>
+                                    <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id='@item.Id' target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+                                </tr>
                                     }
                                 }
                                 else
@@ -569,7 +571,7 @@
                                     @foreach (var item in Model.Directives)
                                     {
                                         <tr>
-                                            <td><img src="~/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td><img src="/Dolfd/img/38.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
                                             <td>@item.Title</td>
                                             <td class="hidden-sm hidden-xs">Directives</td>
                                             <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
@@ -608,7 +610,7 @@
                                     @foreach (var item in Model.ActsPolices)
                                     {
                                         <tr>
-                                            <td><img src="/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td><img src="/Dolfd/img/38.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
                                             <td>@item.Title</td>
                                             <td class="hidden-sm hidden-xs">Act & Policies</td>
                                             <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
@@ -644,7 +646,7 @@
                                     @foreach (var item in Model.Reports)
                                     {
                                         <tr>
-                                            <td><img src="/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td><img src="/Dolfd/img/38.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
                                             <td>@item.Title</td>
                                             <td class="hidden-sm hidden-xs">Reports</td>
                                             <td align="center"><a asp-controller="Home" asp-action="Download" asp-rooute-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
@@ -683,7 +685,7 @@
                                     @foreach (var item in Model.OtherFiles)
                                     {
                                         <tr>
-                                            <td><img src="/Dolfd/img/pdf.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
+                                            <td><img src="/Dolfd/img/38.png" onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20"></td>
                                             <td>@item.Title</td>
                                             <td class="hidden-sm hidden-xs">Other files</td>
                                             <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>

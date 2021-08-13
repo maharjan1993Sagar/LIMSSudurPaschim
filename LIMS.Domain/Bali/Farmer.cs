@@ -20,6 +20,7 @@ namespace LIMS.Domain.Bali
         public IncubationCenter Incubation { get; set; }
         public string IncuvationCenterId { get; set; }
         public string Remarks { get; set; }
+        public string Gender { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
     }

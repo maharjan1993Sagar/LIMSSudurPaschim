@@ -69,6 +69,33 @@
                             </tr>
                         </thead>
                         <tbody id="tabularEntry">
+                            
+                            @if(Model.pujigatKharchaKharakram.Count()>0)
+                            {
+                                foreach(var item in Model.pujigatKharchaKharakram)
+                                {
+                                    <tr id="@item.Id">
+                                    <td>
+                                   @item.Limbis_Code 
+                                   <input type="hidden" name="PujigatKharchaId" value="@item.Id"/><input type="hidden" name="ProgressDataId" value="" />
+                                    </td>
+                                    
+                                    <td></td>
+
+                                  <td>@item.kharchaCode </td>
+                                   <td>
+                                        @item.Program
+                                       </td>
+                                    <td> @item.Program </td>;
+                                    <td> item.BarsikBajet </td>
+
+                                   <td><input type="text" name="BhautikPragati" class="form-control"/></td>
+                                    <td><input type="text" name="BitiyaPragati" class="form-control"/></td>
+
+
+                                  </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                     <center>
@@ -77,7 +104,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 </form>
 
 
@@ -115,7 +142,7 @@
         fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
                 month= $('#@Html.IdFor(m => m.Month)').val();
 
-            if (programType != "" && type != "" && fiscalYear != null) {
+            if (fiscalYear != null) {
                 var data = {
                     programType: programType,
                     type: type,
@@ -167,7 +194,7 @@
         fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
         month= $('#@Html.IdFor(m => m.Month)').val();
 
-        if (programType != "" && type != "" && fiscalYear != "" && month!="") {
+        if ( fiscalYear != "" && month!="") {
 
             var data = {
                 programType: $('#@Html.IdFor(m=>m.ProgramType)').val(),

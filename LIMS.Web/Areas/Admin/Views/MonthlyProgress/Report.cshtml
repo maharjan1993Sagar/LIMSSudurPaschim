@@ -1,8 +1,11 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @model MonthlyProgressModel
-
+@inject IWorkContext workContext
 @{ //page title
-    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text;
+var role=workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+
+}
 
 <div class="row">
     <div class="col-md-12">
@@ -10,6 +13,35 @@
 
             <div class="form-row">
                 <div class=" col-md-12">
+                    @if(role.Contains("MolmacAdmin"))
+                    {
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="DolfdId" />
+                            <admin-select asp-for="DolfdId" asp-items="ViewBag.dolfd" />
+                            <span asp-validation-for="DolfdId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="VhlsecId" />
+                            <admin-select asp-for="VhlsecId">
+                                <option value=''>Select</option>
+                            </admin-select>
+                            <span asp-validation-for="VhlsecId"></span>
+                        </div>
+                    </div>
+                    }
+                    @if(role.Contains("DolfdAdmin") || role.Contains("DolfdUser")|| role.Contains("AddAdmin")|| role.Contains("AddUser"))
+                    {
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="VhlsecId" />
+                            <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
+                            <span asp-validation-for="VhlsecId"></span>
+                        </div>
+                    </div>
+                    }
 
                     <div class="col-md-2">
                         <div class="form-group">
@@ -41,7 +73,7 @@
                             <admin-select asp-for="Month" asp-items="ViewBag.Month" required="required" />
                             <span asp-validation-for="Month"></span>
                         </div>
-                       
+
                     </div>
 
                     <div class="col-md-5 col-sm-5">
@@ -60,6 +92,17 @@
 </div>
 <script>
     $(document).ready(function () {
+          $("#@Html.IdFor(m=>m.DolfdId)").change(function () {
+              var categoryId = $(this).val();
+              $("#VhlsecId").empty();
+              $("#VhlsecId").append("<option value=''>Select</option>");
+              url = "/Admin/MonthlyProgress/GetVhlsecByDolfdId";
+              $.getJSON(url, { dolfdId: categoryId }, (data) => {
+                  $.each(data, function (i, item) {
+                      $("#VhlsecId").append(`<option value="${item.Value}">${item.Text}</option>`);
+                  });
+              });
+    });
         $('#search-categories').click(function (e) {
             e.preventDefault();
             //search
@@ -106,46 +149,49 @@
             scrollable: false,
             columns: [
                  {
-                    field: "PujigatKaryakram.Limbis_Code",
+                    field: "pujigatKharchaKharakram.Limbis_Code",
+                title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
+                },
+                {
+                    field: "pujigatKharchaKharakram.kharchaCode",
                 title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
                 },
                 {
-                    field: "PujigatKaryakram.kharchaCode",
-                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
-                },
-                {
-                field: "Program",
+                    field: "pujigatKharchaKharakram.Program",
                 title: "@T("Admin.PujigatKaryakram.Fields.Program")",
                 },
                  {
-                     field: "BarsikBajet",
+                     field: "pujigatKharchaKharakram.BarsikBajet",
                 title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
                 },
                  {
-                     field: "BitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.BitiyaPragati")",
-                },
-                 {
-                     field: "VautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.VautikPragati")",
+                      field: "PreviousMonthVautikPragati",
+                title: "@T("Admin.PujigatKaryakram.Fields.PreviousMonthVautikPragati")",
                 },
                   {
                       field: "PreviousMonthBitiyaPragati",
                 title: "@T("Admin.PujigatKaryakram.Fields.PreviousMonthBitiyaPragati")",
                 },
                   {
-                      field: "PreviousMonthVautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.PreviousMonthVautikPragati")",
+                     field: "VautikPragati",
+                title: "@T("Admin.PujigatKaryakram.Fields.VautikPragati")",
                 },
-                   {
-                       field: "TotalBitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthBitiyaPragati")",
+                 {
+                     field: "BitiyaPragati",
+                title: "@T("Admin.PujigatKaryakram.Fields.BitiyaPragati")",
                 },
-                   {
-                       field: "TotalVautikPragati",
+
+                  {
+                       field: "TotalMonthVautikPragati",
                 title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthVautikPragati")",
                  },
 
+
+
+                   {
+                       field: "TotalMonthBitiyaPragati",
+                title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthBitiyaPragati")",
+                },
 
            ]
         });
@@ -157,11 +203,15 @@
             type: $('#@Html.FieldIdFor(model => model.Type)').val(),
             programType: $('#@Html.FieldIdFor(model => model.ProgramType)').val(),
             fiscalYear: $('#@Html.FieldIdFor(model => model.FiscalYearId)').val(),
-           month: $('#@Html.FieldIdFor(model => model.Month)').val()
-
+           month: $('#@Html.FieldIdFor(model => model.Month)').val(),
+            dolfdid: $('#@Html.FieldIdFor(model => model.DolfdId)').val(),
+            vhlsecid: $('#@Html.FieldIdFor(m=>m.VhlsecId)').val()
+   
         };
         addAntiForgeryToken(data);
         return data;
     }
+
+
 </script>
 

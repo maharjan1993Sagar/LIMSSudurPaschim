@@ -20,13 +20,19 @@ namespace LIMS.Services.Basic
 
         Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby,
           int pageIndex = 0, int pageSize = int.MaxValue);
-        Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby,string programtype,
-            string type,
-            string fiscalyear,
+        Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby,
+              string fiscalyear,
+            string programtype = "",
+
+            string type = "",
+
         int pageIndex = 0, int pageSize = int.MaxValue);
-        Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby, string programtype,
-            string type,
-            string fiscalyear,
+        Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby,
+              string fiscalyear,
+            string programtype="",
+          
+            string type="",
+            
         int pageIndex = 0, int pageSize = int.MaxValue);
         Task DeletePujigatKharchaKharakram(PujigatKharchaKharakram pujigatKharchaKharakram);
 

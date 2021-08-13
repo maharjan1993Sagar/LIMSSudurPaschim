@@ -57,18 +57,54 @@ namespace LIMS.Services.Basic
             return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
         }
 
-        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby, string programtype, string type,string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
+        //public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby, string programtype, string type,string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
+        //{
+        //    var query = _pujigatKharchaKharakramRepository.Table;
+        //    query = query.Where(m => createdby.Contains(m.CreatedBy)&&m.FiscalYear.Id==fiscalyear&&m.ProgramType==programtype&&m.Type==type);
+
+        //    return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        //}
+
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(
+            string createdby,
+           string fiscalYear,
+            string programtype="", 
+            string type="",
+            
+            int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => createdby.Contains(m.CreatedBy)&&m.FiscalYear.Id==fiscalyear&&m.ProgramType==programtype&&m.Type==type);
+            query = query.Where(m => m.CreatedBy== createdby && m.FiscalYear.Id == fiscalYear );
+            if(!string.IsNullOrEmpty(programtype))
+            {
+                query=query.Where(m => m.ProgramType == programtype);
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query= query.Where(m => m.Type == type);
+            }
 
             return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
         }
 
-        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby, string programtype, string type,string fiscalYear, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(
+           List<string> createdby,
+          string fiscalYear,
+           string programtype = "",
+           string type = "",
+
+           int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy== createdby && m.FiscalYear.Id == fiscalYear && m.ProgramType == programtype && m.Type == type);
+            query = query.Where(m => createdby.Contains(m.CreatedBy)  && m.FiscalYear.Id == fiscalYear);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.ProgramType == programtype);
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.Type == type);
+            }
 
             return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
         }

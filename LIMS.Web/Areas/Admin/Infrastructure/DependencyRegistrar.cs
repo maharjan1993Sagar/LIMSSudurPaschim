@@ -10,6 +10,8 @@ using LIMS.Services.AnimalHealth;
 using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
+using LIMS.Services.Customers;
+using LIMS.Services.Directory;
 using LIMS.Services.DynamicMenu;
 using LIMS.Services.FeedBack;
 using LIMS.Services.GeneralCMS;
@@ -135,7 +137,16 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<GalleryService>().As<IGalleryService>().InstancePerLifetimeScope();
             builder.RegisterType<PageContentService>().As<IPageContentService>().InstancePerLifetimeScope();
             builder.RegisterType<BannerService>().As<IBannerService>().InstancePerLifetimeScope();
-         
+
+            builder.RegisterType<CustomerReminderService>().As<ICustomerReminderService>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerService>().As<ICustomerService>().InstancePerLifetimeScope();
+            builder.RegisterType<CurrencyService>().As<ICurrencyService>().InstancePerLifetimeScope();
+            builder.RegisterType<LIMS.Services.Messages.QueuedEmailService > ().As<LIMS.Services.Messages.IQueuedEmailService>().InstancePerLifetimeScope();
+            builder.RegisterType<LIMS.Services.Messages.WorkflowMessageService>().As<LIMS.Services.Messages.IWorkflowMessageService>().InstancePerLifetimeScope();
+            builder.RegisterType<LIMS.Services.Messages.MessageTemplateService>().As<LIMS.Services.Messages.IMessageTemplateService>().InstancePerLifetimeScope();
+            builder.RegisterType<Grand.Services.Messages.MessageTokenProvider>().As<LIMS.Services.Messages.IMessageTokenProvider>().InstancePerLifetimeScope();
+
+
         }
 
         public int Order {
