@@ -167,7 +167,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",model.FiscalYearId).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
             var type = PujigatType();
@@ -182,28 +182,230 @@ namespace LIMS.Web.Areas.Admin.Controllers
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
 
+            var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, model.FiscalYearId, "", "");
 
-            return View(model);
+            MonthlyProgressModel models = new MonthlyProgressModel();
+            models.pujigatKharchaKharakram = pujigatKaryakram.ToList();
+
+            return View(models);
         }
 
 
         public async Task<IActionResult> Summery() {
-            var id =  _workContext.CurrentCustomer.Id;
+
+            var id = _workContext.CurrentCustomer.Id;
             var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
-           
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.SpeciesId = species;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var CurrentFiscalYear = fiscalyear.Id;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+            var type = PujigatType();
+            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Type = type;
+            var programType = ProgramType();
+            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.ProgramType = programType;
+            var month = new MonthHelper();
+            var months = month.GetMonths();
+
+            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Month = months;
+
+            if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
+            {
+                string entityId = _workContext.CurrentCustomer.EntityId;
+                List<Dolfd> dolfdid = _dolfdService.GetDolfdByMolmacId(entityId).Result.ToList();
+
+                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                ViewBag.dolfd = lss;
+            }
+            else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+            {
+                string entityId = _workContext.CurrentCustomer.EntityId;
+                List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
+
+                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                ViewBag.vhlsec = lss;
+            }
+
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Summery(DataSourceRequest command)
+        public async Task<IActionResult> Summery(DataSourceRequest command, string type, string programType, string fiscalYear, string month, string vhlsecid, string dolfdid)
         {
-            var id = _workContext.CurrentCustomer.Id;
-            var MonthlyPragati = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, command.Page - 1, command.PageSize);
-            var gridModel = new DataSourceResult {
-                Data = MonthlyPragati,
-                Total = MonthlyPragati.TotalCount
-            };
-            return Json(gridModel);
-        }
+            if (!string.IsNullOrEmpty(dolfdid) && string.IsNullOrEmpty(vhlsecid))
+            {
+                if (fiscalYear != null)
+                {
+                    var id = _workContext.CurrentCustomer.Id;
+
+                    string entity = _workContext.CurrentCustomer.EntityId;
+                    List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
+                    var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
+                    List<string> customerid = customers.Select(x => x.Id).ToList();
+
+
+
+
+
+                    var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+
+                    var gridModel = new DataSourceResult {
+                        Data = pujigatKaryakram,
+                        Total = pujigatKaryakram.TotalCount
+                    };
+                    return Json(gridModel);
+                }
+                else
+                {
+                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
+
+                    var gridModel = new DataSourceResult {
+                        Data = report,
+                        Total = report.Count
+                    };
+                    return Json(gridModel);
+
+                }
+            }
+            else if (!string.IsNullOrEmpty(vhlsecid))
+            {
+                if (fiscalYear != null)
+                {
+                    var id = _workContext.CurrentCustomer.Id;
+
+                    string entity = _workContext.CurrentCustomer.EntityId;
+                    var customers = _customerService.GetCustomerByLssId(null, vhlsecid);
+                    List<string> customerid = customers.Select(x => x.Id).ToList();
+
+
+                    var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+
+                    var gridModel = new DataSourceResult {
+                        Data = pujigatKaryakram,
+                        Total = pujigatKaryakram.TotalCount
+                    };
+                    return Json(gridModel);
+                }
+                else
+                {
+                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
+
+                    var gridModel = new DataSourceResult {
+                        Data = report,
+                        Total = report.Count
+                    };
+                    return Json(gridModel);
+
+                }
+            }
+            else
+            {
+                var id = _workContext.CurrentCustomer.Id;
+
+                var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+
+                if (fiscalYear != null)
+                {
+                    var pujigatKaryakram = (dynamic)null;
+                    if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
+                    {
+                        string entity = _workContext.CurrentCustomer.EntityId;
+                        List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
+                        List<string> lss = new List<string>();
+                        foreach (var item in entities)
+                        {
+                            lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
+                        }
+                        var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
+                        List<string> customerid = customers.Select(x => x.Id).ToList();
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+                    }
+                    else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                    {
+                        string entity = _workContext.CurrentCustomer.EntityId;
+                        List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
+                        var customers = _customerService.GetCustomerByLssId(entities, entity);
+                        List<string> customerid = customers.Select(x => x.Id).ToList();
+
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+                    }
+                    else
+                    {
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+                    }
+                    //var id = _workContext.CurrentCustomer.Id;
+
+
+
+                    var gridModel = new DataSourceResult {
+                        Data = pujigatKaryakram,
+                        Total = pujigatKaryakram.TotalCount
+                    };
+                    return Json(gridModel);
+                }
+                else
+                {
+
+
+                    var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+                    var CurrentFiscalYear = fiscalyear.Id;
+
+                    var pujigatKaryakram = (dynamic)null;
+                    if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
+                    {
+                        string entity = _workContext.CurrentCustomer.EntityId;
+                        List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
+                        List<string> lss = new List<string>();
+                        foreach (var item in entities)
+                        {
+                            lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
+                        }
+                        var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
+                        List<string> customerid = customers.Select(x => x.Id).ToList();
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, CurrentFiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+                    }
+                    else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                    {
+                        string entity = _workContext.CurrentCustomer.EntityId;
+                        List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
+                        var customers = _customerService.GetCustomerByLssId(entities, entity);
+                        List<string> customerid = customers.Select(x => x.Id).ToList();
+
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, CurrentFiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+                    }
+                    else
+                    {
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, CurrentFiscalYear, programType, type, command.Page - 1, command.PageSize);
+
+                    }
+                    //var id = _workContext.CurrentCustomer.Id;
+
+
+
+                    var gridModel = new DataSourceResult {
+                        Data = pujigatKaryakram,
+                        Total = pujigatKaryakram.TotalCount
+                    };
+                    return Json(gridModel);
+
+
+                }
+            }
+            }
         public async Task<IActionResult> Report()
         {
             var id = _workContext.CurrentCustomer.Id;
@@ -252,6 +454,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Report(DataSourceRequest command, string type, string programType, string fiscalYear, string month,string vhlsecid,string dolfdid)
         {
+            var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+
             if (!string.IsNullOrEmpty(dolfdid)&&string.IsNullOrEmpty(vhlsecid))
             {
                 if (fiscalYear != null && month != null)
@@ -278,15 +482,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
                     string entity = _workContext.CurrentCustomer.EntityId;
                     List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
-                    var customers = _customerService.GetCustomerByLssId(entities, vhlsecid);
+                    var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
                     List<string> customerid = customers.Select(x => x.Id).ToList();
 
 
 
 
-                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month, command.Page - 1, command.PageSize);
-                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, previousMonth, command.Page - 1, command.PageSize);
-                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month);
+                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type,previousMonth);
+                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear, programType, type);
 
                     var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, fiscalYear, programType, type);
 
@@ -393,9 +597,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     List<string> customerid = customers.Select(x => x.Id).ToList();
 
 
-                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month, command.Page - 1, command.PageSize);
-                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, previousMonth, command.Page - 1, command.PageSize);
-                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear,programType, type,  command.Page - 1, command.PageSize);
+                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month);
+                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, previousMonth);
+                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear,programType, type);
 
                     var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, fiscalYear, programType, type);
 
@@ -498,11 +702,39 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         }
                     }
 
-                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(id, fiscalYear, programType, type, month, command.Page - 1, command.PageSize);
-                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(id, fiscalYear, programType, type, previousMonth, command.Page - 1, command.PageSize);
-                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(id, fiscalYear,  programType, type, command.Page - 1, command.PageSize);
+                    List<string> customerid = (dynamic)null;
+                    if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
+                    {
+                        string entity = _workContext.CurrentCustomer.EntityId;
+                        List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
+                        List<string> lss = new List<string>();
+                        foreach (var item in entities)
+                        {
+                            lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
+                        }
+                        var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
+                         customerid = customers.Select(x => x.Id).ToList();
 
-                    var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, fiscalYear, programType, type);
+                    }
+                    else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                    {
+                        string entity = _workContext.CurrentCustomer.EntityId;
+                        List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
+                        var customers = _customerService.GetCustomerByLssId(entities, entity);
+                        customerid = customers.Select(x => x.Id).ToList();
+
+
+                    }
+                    else
+                    {
+                        customerid.Add(_workContext.CurrentCustomer.Id);
+
+                    }
+                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month);
+                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, previousMonth);
+                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear,  programType, type);
+
+                    var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(customerid, fiscalYear, programType, type);
 
                     List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
                     foreach (var item in pujigatKaryakram)

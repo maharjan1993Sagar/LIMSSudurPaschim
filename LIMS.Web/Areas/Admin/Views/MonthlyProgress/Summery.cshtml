@@ -1,20 +1,80 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
-
+@model MonthlyProgressModel
+@inject IWorkContext workContext
 @{ //page title
-    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text;
+    var role = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList(); }
 
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel light form-fit">
-            <div class="x_title">
+            <div class="form-row">
+                <div class=" col-md-12">
+                    @if (role.Contains("MolmacAdmin"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="DolfdId" />
+                <admin-select asp-for="DolfdId" asp-items="ViewBag.dolfd" />
+                <span asp-validation-for="DolfdId"></span>
+            </div>
+        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="VhlsecId" />
+                                <admin-select asp-for="VhlsecId">
+                                    <option value=''>Select</option>
+                                </admin-select>
+                                <span asp-validation-for="VhlsecId"></span>
+                            </div>
+                        </div>}
+                    @if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="VhlsecId" />
+                <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
+                <span asp-validation-for="VhlsecId"></span>
+            </div>
+        </div>}
 
-                <div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="FiscalYearId" />
+                            <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                            <span asp-validation-for="FiscalYearId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="ProgramType" />
+                            <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required" />
+                            <span asp-validation-for="ProgramType"></span>
+                        </div>
+                    </div>
 
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="Type" />
+                            <admin-select asp-for="Type" asp-items="ViewBag.Type" required="required" />
+                            <span asp-validation-for="Type"></span>
+                        </div>
+                    </div>
 
-                    
-                    <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
+                   
+
+                    <div class="col-md-5 col-sm-5">
+                        <button class="btn btn-success filter-submit" id="search-categories" style="font-size: 13px!important;">
+                            <i class="fa fa-search"></i> @T("admin.common.search")
+                        </button>
+                    </div>
+
+                    <div class="x_content">
+                        <div id="categories-grid"></div>
+                    </div>
                 </div>
             </div>
+
 
             <div class="x_content">
                 <div id="categories-grid"></div>
@@ -31,7 +91,7 @@
                         url: "@Html.Raw(Url.Action("Summery", "MonthlyProgress"))",
                         type: "POST",
                         dataType: "json",
-                        data: addAntiForgeryToken
+                        data: additionalData
                     }
                 },
                 schema: {
@@ -78,7 +138,20 @@
         });
     });
 </script>
-<script>$(document).ready(function () {
+<script>
+    $(document).ready(function () {
+                  $("#@Html.IdFor(m=>m.DolfdId)").change(function () {
+              var categoryId = $(this).val();
+              $("#VhlsecId").empty();
+              //$("#VhlsecId").append("<option value=''>Select</option>");
+              url = "/Admin/MonthlyProgress/GetVhlsecByDolfdId";
+              $.getJSON(url, { dolfdId: categoryId }, (data) => {
+                  $.each(data, function (i, item) {
+                      $("#VhlsecId").append(`<option value="${item.Value}">${item.Text}</option>`);
+                  });
+              });
+    });
+
         //search button
         $('#search-categories').click(function () {
             //search
@@ -91,94 +164,20 @@
 
     });</script>
 @*import categories form*@
-<div class="modal-dialog" id="importexcel-window" style="display:none; padding: 0 10px;">
-    <form asp-area="@Constants.AreaAdmin" asp-controller="PujigatKharchaKharyakram" asp-action="ImportFromXlsx" method="post" enctype="multipart/form-data">
-
-        @*<em>@T("Admin.Catalog.Category.List.ImportFromExcelTip")</em>*@
-        <div class="form-group">
-            &nbsp;
-        </div>
-        <div class="form-group">
-            @*<div class="col-md-3" style="margin-top: 2px; height: 34px; padding-left: 25px;">
-                    <label class="control-label">
-                        @T("Admin.Common.ExcelFile"):
-                    </label>
-                </div>*@
-            <div class="col-md-3">
-                <label>@T("Admin.Common.ExcelFile")</label>
-
-                <input class="form-control" type="file" id="importexcelfile" name="importexcelfile" required />
-            </div>
-            <div class="col-md-3">
-                <label>@T("Admin.Common.FiscalYear")</label>
-                <select id="Fiscalyear" name="FiscalYear" class="form-control" required>
-                    <option value="">Select</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label>@T("Admin.Common.Type")</label>
-                <select id="Type" name="Type" class="form-control" required>
-                    <option value="">Select</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label>@T("Admin.Common.ProgramType")</label>
-                <select id="Program" name="ProgramType" class="form-control" required>
-                    <option value="">Select</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            &nbsp;
-        </div>
-        <div class="form-group">
-            <div class="col-md-2">
-
-            </div>
-            <div class="col-md-10 text-right mt-10">
-                <input type="submit" class="k-button" value="@T("Admin.Common.ImportFromExcel")" />
-            </div>
-        </div>
-    </form>
-</div>
 <script>
-    $(document).ready(function () {
-        $.get("/Admin/PujigatKharchaKharyakram/GetFiscalYear", (result) => {
-            $.each(result, function (i, item) {
-                $("#Fiscalyear").append(`<option value="${item.Id}" selected>${item.NepaliFiscalYear}</option>`);
+    function additionalData() {
+        var data = {
+            type: $('#@Html.FieldIdFor(model => model.Type)').val(),
+            programType: $('#@Html.FieldIdFor(model => model.ProgramType)').val(),
+            fiscalYear: $('#@Html.FieldIdFor(model => model.FiscalYearId)').val(),
+           month: $('#@Html.FieldIdFor(model => model.Month)').val(),
+            dolfdid: $('#@Html.FieldIdFor(model => model.DolfdId)').val(),
+            vhlsecid: $('#@Html.FieldIdFor(m=>m.VhlsecId)').val()
+
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
 
 
-
-            });
-        });
-        $.get("/Admin/PujigatKharchaKharyakram/PujigatType", (result) => {
-            $.each(result, function (i, item) {
-                $("#Type").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
-
-
-
-            });
-        });
-        $.get("/Admin/PujigatKharchaKharyakram/ProgramType", (result) => {
-            $.each(result, function (i, item) {
-                $("#Program").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
-
-
-
-            });
-        });
-            $("#importexcel").click(function (e) {
-                e.preventDefault();
-                var window = $("#importexcel-window");
-                if (!window.data("kendoWindow")) {
-                    window.kendoWindow({
-                        modal: true,
-                        title: "@T("Admin.Common.ImportFromExcel")",
-                        actions: ["Close"]
-                    });
-                }
-                window.data('kendoWindow').center().open();
-            });
-
-        });
 </script>

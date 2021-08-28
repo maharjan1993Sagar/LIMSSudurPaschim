@@ -52,7 +52,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                         IsActive = item.IsActive,
                         MainMenuName = item.MainMenuName,
                         MainMenuNameNepali = item.MainMenuNameNepali,                        
-                        MainMenuId = item.MainMenuId,
+                        //MainMenuId = item.MainMenuId,
                         SerialNo = item.SerialNo,
                         Url = item.Url,
                         UserId = item.UserId

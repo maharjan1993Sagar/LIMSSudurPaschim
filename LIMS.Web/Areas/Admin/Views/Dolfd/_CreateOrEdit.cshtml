@@ -126,7 +126,10 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="UserProvince" />
-                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry" />
+                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry" >
+                                <option value="">Select</option>    
+                                </admin-select>
+                               
                                 <span asp-validation-for="UserProvince"></span>
 
                             </div>

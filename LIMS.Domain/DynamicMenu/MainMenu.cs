@@ -8,9 +8,9 @@ namespace LIMS.Domain.DynamicMenu
     {
         public MainMenu()
         {
-            this.MainMenuId = Guid.NewGuid();
+            //this.MainMenuId = Guid.NewGuid();
         }
-        public Guid MainMenuId { get; set; }
+     //   public Guid MainMenuId { get; set; }
         public int SerialNo { get; set; }
         public string  MainMenuName { get; set; }
         public string  MainMenuNameNepali { get; set; }

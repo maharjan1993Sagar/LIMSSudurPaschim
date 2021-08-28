@@ -44,7 +44,7 @@
                                 @item.UploadedDate.ToShortDateString()
                             </td>
                             <td>
-                                @if (String.IsNullOrEmpty(item.Image.FileName))
+                                @if (!String.IsNullOrEmpty(item.Image.FileName))
                                 {
                                 <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
                                 <i class="fa fa-download"></i>

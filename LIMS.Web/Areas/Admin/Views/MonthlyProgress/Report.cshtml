@@ -95,7 +95,7 @@ var role=workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
           $("#@Html.IdFor(m=>m.DolfdId)").change(function () {
               var categoryId = $(this).val();
               $("#VhlsecId").empty();
-              $("#VhlsecId").append("<option value=''>Select</option>");
+              //$("#VhlsecId").append("<option value=''>Select</option>");
               url = "/Admin/MonthlyProgress/GetVhlsecByDolfdId";
               $.getJSON(url, { dolfdId: categoryId }, (data) => {
                   $.each(data, function (i, item) {

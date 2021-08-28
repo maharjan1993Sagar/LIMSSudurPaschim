@@ -44,7 +44,7 @@ namespace LIMS.Web.Components
                     HasSubMenu = item.HasSubMenu,
                     IsActive = item.IsActive,
                     MainMenuName = item.MainMenuName,
-                    MainMenuId = item.MainMenuId,
+                   // MainMenuId = item.MainMenuId,
                     SerialNo = item.SerialNo,
                     Url = item.Url,
                     UserId = item.UserId

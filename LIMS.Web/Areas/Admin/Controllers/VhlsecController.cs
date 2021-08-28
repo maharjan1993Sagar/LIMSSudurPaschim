@@ -179,7 +179,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     customerModel.Ward = model.UserWard;
                     customerModel.Tole = model.UserTole;
                     customerModel.Position = model.Position;
-                    customerModel.OrgAddress = model.District +" "+ model.LocalLevel;
+                    customerModel.OrgAddress = model.LocalLevel + " " + model.District  ;
                     customerModel.OrgName = model.NameEnglish;
                     customerModel.Active = true;
                     customerModel.IDCardNo = model.IDCardNo;
@@ -296,7 +296,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             customerModel.Tole = model.UserTole;
             customerModel.Position = model.Position;
             customerModel.Active = true;
-            customerModel.OrgAddress = model.District +" "+ model.LocalLevel;
+            customerModel.OrgAddress = model.LocalLevel+" "+ model.District ;
             customerModel.OrgName = model.NameEnglish;
             customerModel.IDCardNo = model.IDCardNo;
             customerModel.NameNepali = model.UserNameNepali;

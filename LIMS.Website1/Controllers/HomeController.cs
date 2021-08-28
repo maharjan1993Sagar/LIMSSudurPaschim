@@ -61,7 +61,7 @@ namespace LIMS.Website1.Controllers
             var events = newsEventTenders.Where(m => m.Type == "Event");
             var tenders = newsEventTenders.Where(m => m.Type == "Tender");
             var notices = newsEventTenders.Where(m => m.Type == "Notice");
-            var rules = newsEventTenders.Where(m => m.Type == "Rules");
+            var rules = newsEventTenders.Where(m => m.Type == "Rules & Regulation");
             var directives = newsEventTenders.Where(m => m.Type == "Directives");
             var acts = newsEventTenders.Where(m => m.Type == "Act");
             var reports = newsEventTenders.Where(m => m.Type == "Report");
