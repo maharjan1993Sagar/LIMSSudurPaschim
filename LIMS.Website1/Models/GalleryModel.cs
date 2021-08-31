@@ -1,6 +1,7 @@
 ﻿using LIMS.Core.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,8 +9,8 @@ namespace LIMS.Website1.Models
 {
     public class GalleryModel
     {
-        public string Id { get; set; }
-        public Guid GalleryId { get; set; }
+         public string Id { get; set; }
+         public Guid GalleryId { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
         public string VideoUrl { get; set; }

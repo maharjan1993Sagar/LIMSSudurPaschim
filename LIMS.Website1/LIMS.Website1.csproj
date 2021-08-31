@@ -238,6 +238,11 @@
     <None Include="wwwroot\Dolfd\js\sliders.js" />
     <None Include="wwwroot\Dolfd\js\scripts.js" />
     <None Include="wwwroot\Dolfd\js\swiper.min.js" />
+    <None Include="wwwroot\XML\Labels.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
   </ItemGroup>
 
   <ItemGroup>

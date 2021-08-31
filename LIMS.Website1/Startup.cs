@@ -9,6 +9,7 @@ using Serilog;
 using System;
 using Microsoft.AspNetCore.Mvc.Razor;
 using LIMS.Website1.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LIMS.Website1
 {
@@ -95,6 +96,7 @@ namespace LIMS.Website1
 
             ////Configuration for database context as well as services
             services.AddScoped<IGetResource, GetResource>();
+            services.AddScoped<IGetLabel, GetLabel>();
             
             //// services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -180,6 +182,8 @@ namespace LIMS.Website1
 
 
             //Authentication Configuration
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(x => x.LoginPath = "/account/login");
             //services.Configure<CookieTempDataProviderOptions>(options =>
             //{
             //    options.Cookie.IsEssential = true;
@@ -298,6 +302,7 @@ namespace LIMS.Website1
             app.UseCors();
 
             app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             #region For wangkanai detection

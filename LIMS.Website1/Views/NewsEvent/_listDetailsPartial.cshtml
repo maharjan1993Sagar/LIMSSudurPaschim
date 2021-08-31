@@ -1,5 +1,6 @@
 ﻿@model NewsEventViewModel
-
+@using LIMS.Website1.Data
+@inject IGetLabel _lbl
 
 <div class="container">
     <div class="row">
@@ -8,7 +9,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="text-primary">
-                        <i class="fa fa-newspaper-o"></i>@(Model.ObjNews!=null?Model.ObjNews.Type:"News/Event")
+                        <i class="fa fa-newspaper-o"></i>
+                        @{ 
+                            string type = Model.ObjNews != null ? Model.ObjNews.Type : "News/Event";
+                        }
+                        @_lbl.GetByName("News."+type.Trim(),"")
+                      @*  @(Model.ObjNews!=null?Model.ObjNews.Type:"News/Event")*@
                     </h4>
                 </div>
                 <div class="panel-body">

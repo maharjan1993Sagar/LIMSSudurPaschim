@@ -1,5 +1,6 @@
 ﻿@model GalleryViewModel
-
+@using LIMS.Website1.Data
+@inject IGetLabel _lbl
 @*<link href="~/Dolfd/css/photoViewer/photoviewer.css" rel="stylesheet" type="text/css" />*@
 
 <style>
@@ -15,7 +16,7 @@
             <div class="col-md-12">
                 <h3 class="text-primary">
                     <i class="fa fa-picture-o"></i>
-                    Gallery
+                    @{_lbl.GetByName("Gallery.Gallery", "");}
                 </h3>
             </div>
 
@@ -46,7 +47,8 @@
             <div class="col-md-12">
                 <h3 class="text-primary">
                     <i class="fa fa-video"></i>
-                    Videos
+                    @{_lbl.GetByName("Gallery.Videos", "");}
+                 
                 </h3>
             </div>
             @if (Model.Videos.Any())
