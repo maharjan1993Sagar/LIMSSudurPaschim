@@ -1,4 +1,5 @@
-﻿using LIMS.Domain.StatisticalData;
+﻿using LIMS.Domain.Breed;
+using LIMS.Domain.StatisticalData;
 using LIMS.Web.Areas.Admin.Models.StatisticalData;
 using System;
 using System.Collections.Generic;

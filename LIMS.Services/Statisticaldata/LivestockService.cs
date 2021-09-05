@@ -1,4 +1,5 @@
 ﻿using LIMS.Domain;
+using LIMS.Domain.Breed;
 using LIMS.Domain.Data;
 using LIMS.Domain.StatisticalData;
 using LIMS.Services.Events;
