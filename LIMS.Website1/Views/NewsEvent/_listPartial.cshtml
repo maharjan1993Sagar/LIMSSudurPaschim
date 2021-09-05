@@ -1,64 +1,71 @@
 ﻿@model NewsEventViewModel
-
+@using LIMS.Website1.Data
+@inject IGetLabel _lbl
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h3 class="text-primary">
                 <i class="fa fa-book"></i>@Model.Type
             </h3>
-            </div>
+        </div>
         <form method="get">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label>Type</label>
+                    <label>
+                        @_lbl.GetByName("News.Type", "")
+                       
+                    </label>
                     <select onchange="this.form.submit()" name="type" class="form-control" asp-items='@(new SelectList(ViewBag.Types,"Value","Text",Model.Type))'>
                     </select>
                 </div>
             </div>
         </form>
-                 <div class="col-md-12">
+        <div class="col-md-12">
             <table id="tblPublication" class="table table-responsive table-bordered">
                 <thead>
                     <tr style="background: #fefefe;">
                         <th>
-                            Title
+                            @_lbl.GetByName("News.Title", "")
+                            
                         </th>
                         <th>
-                            Published Date
+                            @_lbl.GetByName("News.PublishedDate", "")
+
                         </th>
                         <th>
-                            Download
+                            @_lbl.GetByName("News.Download", "")
+                            
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Model.News.Any())
                     {
-                    @foreach (var item in Model.News)
-                    {
-                        <tr>
-                            <td>
-                                @item.Title
-                            </td>
-                            <td>
-                                @item.UploadedDate.ToShortDateString()
-                            </td>
-                            <td>
-                                @if (!String.IsNullOrEmpty(item.Image.FileName))
-                                {
-                                <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
-                                <i class="fa fa-download"></i>
-                                </a>
-                                }
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var item in Model.News)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Title
+                                </td>
+                                <td>
+                                    @item.UploadedDate.ToShortDateString()
+                                </td>
+                                <td>
+                                    @if (!String.IsNullOrEmpty(item.Image.FileName))
+                                    {
+                                        <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
+                                            <i class="fa fa-download"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
                     else
-                    { 
-                    <tr>
-                        <td colspan="3">No record found.</td>
-                    </tr>
+                    {
+                        <tr>
+                            <td colspan="3">No record found.</td>
+                        </tr>
                     }
                 </tbody>
             </table>

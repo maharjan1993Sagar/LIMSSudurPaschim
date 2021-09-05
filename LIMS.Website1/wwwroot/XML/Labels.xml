@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Labels>
+  <Label>
+    <Id>124</Id>
+    <Title>Gallery</Title>
+    <EnglishName>Gallery</EnglishName>
+    <NepaliName>परिचय</NepaliName>
+  </Label>
+  <Label>
+    <Id>125</Id>
+    <Title>News</Title>
+    <EnglishName>News</EnglishName>
+    <NepaliName>समाचार</NepaliName>
+  </Label>
+  <Label>
+    <Id>126</Id>
+    <Title>Event</Title>
+    <EnglishName>Event</EnglishName>
+    <NepaliName>कार्यक्रम</NepaliName>
+  </Label>
+  <Label>
+    <Id>127</Id>
+    <Title>ContactUs</Title>
+    <EnglishName>Contact Us</EnglishName>
+    <NepaliName>सम्पर्क</NepaliName>
+  </Label>
+  <Label>
+    <Id>128</Id>
+    <Title>Video</Title>
+    <EnglishName>Video</EnglishName>
+    <NepaliName>भिडियो</NepaliName>
+  </Label>
+  <Label>
+    <Id>123</Id>
+    <Title>Introduction</Title>
+    <EnglishName>Introduction</EnglishName>
+    <NepaliName>परिचय</NepaliName>
+  </Label>
+  <Label>
+    <Id>ecdf64a4-cfe1-4744-8fb1-5726d19797ee</Id>
+    <Title>Login.Email</Title>
+    <EnglishName>Email</EnglishName>
+    <NepaliName>इमेल</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7ae9</Id>
+    <Title>Labels.Labels</Title>
+    <EnglishName>Labels</EnglishName>
+    <NepaliName>टेस्ट</NepaliName>
+  </Label>
+</Labels>

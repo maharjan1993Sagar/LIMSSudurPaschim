@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using LIMS.Website1.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -200,6 +202,44 @@ namespace LIMS.Website1.Data
                 lst = lst.Where(m => m.UserId == userId).ToList();
             }
             return lst;
+        }
+
+        public async Task<string> GetToken(LoginVM model)
+        {
+            string token = "";
+            string url = "Token/Create";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+               var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(model.Password);
+                model.Password = System.Convert.ToBase64String(plainTextBytes);
+
+                var result =client.PostAsJsonAsync(url, model);
+                 if (result.Result.IsSuccessStatusCode)
+                {
+                    string apiResponse = await result.Result.Content.ReadAsStringAsync();
+                    var objToken = JsonConvert.DeserializeObject<LoginToken>(apiResponse);
+                    token = objToken.token;
+
+                }
+              //  Console.WriteLine(token);
+            }
+
+
+
+            //using (var httpClient = new HttpClient())
+            //{
+            //    using (var response = await httpClient.GetAsync(BaseURL + url))
+            //    {
+            //        string apiResponse = await response.Content.ReadAsStringAsync();
+            //        token = JsonConvert.DeserializeObject<string>(apiResponse);
+            //    }
+            //}
+            if (!String.IsNullOrEmpty(token))
+            {
+                return token;
+            }
+            return null;
         }
     }
 }

@@ -1,15 +1,20 @@
 ﻿@model FooterViewModel
+@using LIMS.Website1.Data
+@inject IGetLabel _lbl
 
 <footer id="footer">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <h4 class="letter-spacing-1">Contact Information</h4>
+                <h4 class="letter-spacing-1">
+                    @_lbl.GetByName("Footer.ContactInformation", "")
+
+                </h4>
                 <!-- Contact Address -->
                 <address>
                     <ul class="list-unstyled">
                         <li class="footer-sprite ">
-                            
+
                             <b>
                                 @Model.Customer.OrgName<br>
                             </b>
@@ -42,7 +47,10 @@
             </div>
             <div class="col-md-6">
                 <!-- Latest Blog Post -->
-                <h4 class="letter-spacing-1">Related Links</h4>
+                <h4 class="letter-spacing-1">
+                    @_lbl.GetByName("Footer.RelatedLinks", "")
+
+                </h4>
                 <ul class="footer-posts list-unstyled">
                     @if (Model.ImportantLinks.Any())
                     {
@@ -73,27 +81,30 @@
                         </li>
                     }
                     @*<li>
-            <a href="http://moeap.sudurpaschim.gov.np">Ministry of Economic Affairs and Planning,Sudurpaschim Province</a>
+                            <a href="http://moeap.sudurpaschim.gov.np">Ministry of Economic Affairs and Planning,Sudurpaschim Province</a>
 
-        </li>
-        <li>
-            <a href="http://molmac.sudurpaschim.gov.np">Ministry of Land Management,Agriculture & Cooperative,Sudurpaschim Province </a>
-        </li>
-        <li>
-            <a href="http://www.dls.gov.np/">Department of Livestock Services</a>
-        </li>
-        <li>
-            <a href="http://www.doad.gov.np/">Department of Agriculture Development</a>
-        </li>
-        <li>
-            <a href="http://moitfe.sudurpaschim.gov.np">Ministry of Industry, Tourism, Forest and Environment,Sudurpaschim Province</a>
-        </li>*@
+                        </li>
+                        <li>
+                            <a href="http://molmac.sudurpaschim.gov.np">Ministry of Land Management,Agriculture & Cooperative,Sudurpaschim Province </a>
+                        </li>
+                        <li>
+                            <a href="http://www.dls.gov.np/">Department of Livestock Services</a>
+                        </li>
+                        <li>
+                            <a href="http://www.doad.gov.np/">Department of Agriculture Development</a>
+                        </li>
+                        <li>
+                            <a href="http://moitfe.sudurpaschim.gov.np">Ministry of Industry, Tourism, Forest and Environment,Sudurpaschim Province</a>
+                        </li>*@
                 </ul>
                 <!-- /Latest Blog Post -->
             </div>
             <div class="col-md-3">
                 <!-- Newsletter Form -->
-                <h4 class="letter-spacing-1">Find us in map</h4>
+                <h4 class="letter-spacing-1">
+                    @_lbl.GetByName("Footer.FindUsInMap", "")
+
+                </h4>
                 <div class="mapouter">
                     <div class="gmap_canvas"><iframe width="283" height="199" id="gmap_canvas" src="https://maps.google.com/maps?q=Ministry%20of%20Land%20Management%20and%20Agriculture,%20Dhangadi&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net"></a></div>
                     <style>

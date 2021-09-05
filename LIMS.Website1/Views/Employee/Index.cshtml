@@ -1,4 +1,6 @@
 ﻿@model List<EmployeeModel>
+@using LIMS.Website1.Data 
+@inject IGetLabel _lbl
 @{
 
     int i = 1;
@@ -8,30 +10,30 @@
         <div class="row">
 
             <div class="col-md-12">
-                <h2>Employee</h2>
+                <h2>
+                    @{_lbl.GetByName("Employee.Employee", "");}
+                </h2>
                 <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>
                             <th>
-                                S.N.
-                                @*सि.नं.*@
+                                @{_lbl.GetByName("Employee.SN", "");}
                             </th>
                             <th>
-                                Name
-                                @*नाम, थर*@
+                                @{_lbl.GetByName("Employee.Name", "");}
                             </th>
                             <th>
-                                Designation
-                                @*पद*@
+                                @{_lbl.GetByName("Employee.Designation", "");}
+
                             </th>
                             <th>
-                                Photo
-                                @*फोटो*@
+                                @{_lbl.GetByName("Employee.Photo", "");}
+
                             </th>
 
                             <th>
-                                Email
-                                @*इमेल*@
+                                @{_lbl.GetByName("Employee.Email", "");}
+
                             </th>
 
                         </tr>

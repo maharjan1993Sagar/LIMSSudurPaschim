@@ -1,4 +1,6 @@
 ﻿@model EmployeeModel
+@using LIMS.Website1.Data
+@inject IGetLabel _lbl 
     <section>
         <div class="container">
             <div class="row">
@@ -9,7 +11,7 @@
                                style="height: 200px; width: 220px;" alt=""></image>
                         <br style="height: 1px;" />
                         <label>
-                            Designation @Model.Designation
+                            @{_lbl.GetByName("Employee.Designation", ""); } @Model.Designation
                         </label>
                         <br />
                         <label>

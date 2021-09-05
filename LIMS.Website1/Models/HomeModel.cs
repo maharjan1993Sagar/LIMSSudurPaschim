@@ -1,14 +1,15 @@
 ﻿using LIMS.Core.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace LIMS.Website1.Models
 {
     public class HomeModel {
-        public GalleryModel Gallery { get; set; }
-        public GalleryModel Video { get; set; }
+         public GalleryModel Gallery { get; set; }
+         public GalleryModel Video { get; set; }
         public List<GalleryModel> Galleries { get; set; }
         public List<GalleryModel> Videos{ get; set; }
         public List<NewsEventTenderModel> News { get; set; }
@@ -17,19 +18,19 @@ namespace LIMS.Website1.Models
         public List<NewsEventTenderModel> Notices { get; set; }
         public List<NewsEventTenderModel> Tenders { get; set; }
         public List<NewsEventTenderModel> PressRelease { get; set; }
-        public List<NewsEventTenderModel> Letters { get; set; }
+         public List<NewsEventTenderModel> Letters { get; set; }
         public List<NewsEventTenderModel> RulesRegulation { get; set; }
         public List<NewsEventTenderModel> Directives { get; set; }
         public List<NewsEventTenderModel> ActsPolices { get; set; }
         public List<NewsEventTenderModel> Reports { get; set; }
         public List<NewsEventTenderModel> OtherFiles { get; set; }
         public List<EmployeeModel> Employee { get; set; }
-        public EmployeeModel Director { get; set; }
-        public EmployeeModel InformationOfficer { get; set; }
+         public EmployeeModel Director { get; set; }
+         public EmployeeModel InformationOfficer { get; set; }
         public PageContentModel PageContent { get; set; }
         public List<BannerModel> Banner { get; set; }
         public ContactUsModel ContactUs { get; set; }
-        public List<ImportantLinks> ImportantLinks { get; set; } 
+         public List<ImportantLinks> ImportantLinks { get; set; } 
         
     }
     public class EmployeeModel
@@ -101,24 +102,16 @@ namespace LIMS.Website1.Models
     }
     public class NewsEventFileModel 
     {
+        [DisplayName("News.Title")]
         public string Id { get; set; }
         public string CMSEntityId { get; set; }
 
-       [LIMSResourceDisplayName("LIMS.File.Fields.Picture")]
-        public string PictureId { get; set; }
+       public string PictureId { get; set; }
 
-        [LIMSResourceDisplayName("LIMS.File.Fields.Picture")]
         public string PictureUrl { get; set; }
 
-        [LIMSResourceDisplayName("LIMS.File.Fields.DisplayOrder")]
-        public int DisplayOrder { get; set; }
-
-        [LIMSResourceDisplayName("LIMS.File.Fields.OverrideAltAttribute")]
-
+         public int DisplayOrder { get; set; }     
         public string OverrideAltAttribute { get; set; }
-
-        [LIMSResourceDisplayName("LIMS.File.Fields.OverrideTitleAttribute")]
-
         public string OverrideTitleAttribute { get; set; }
         public string Pic { get; set; }
         public string Type { get; set; }
@@ -129,6 +122,7 @@ namespace LIMS.Website1.Models
     }
     public class BannerModel
     {
+        [DisplayName("Banner.Title")]
         public string Id { get; set; }
 
         public string BannerId { get; set; }
@@ -162,7 +156,7 @@ namespace LIMS.Website1.Models
     }
     public class ImportantLinks
     {
-        public string Id { get; set; }
+       public string Id { get; set; }
         public Guid ImportantLinkId { get; set; }
         public string LinkName { get; set; }
         public int SerialNo { get; set; }
