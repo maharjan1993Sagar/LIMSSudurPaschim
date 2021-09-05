@@ -1,0 +1,233 @@
+﻿@model ContactUsModel
+
+<div class="content-area gallery-list">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            @Html.ValidationSummary()
+            <div class="col-sm-6">
+                <h3 class="text-primary">
+                    <i class="fa fa-envelope"></i>Comment/Feedback
+                </h3>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>
+                            Email
+                        </label>
+                        <input name="Email" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>
+                            Phone
+                        </label>
+                        <input name="phone" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>
+                            Subject
+                        </label>
+                        <input class="form-control" name="subject" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>
+                            Comment Detail
+                        </label>
+                        <textarea name="Details" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group text-center">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <!-- Address -->
+                    <div class="panel panel-default" style="height: 300px;">
+                        <div class="panel-heading">
+                            <h4 class="text-primary">
+                                <i class="fa fa-book"></i>Contact Details
+                            </h4>
+                        </div>
+
+                        @if (Model != null)
+                        {
+
+                            <div class="panel-body">
+
+                                <h3>
+                                    @Model.OfficeName
+                                </h3>
+                                <p>
+                                    @Model.Address
+
+                                </p>
+                                <p>
+                                    <i class="fa fa-phone"></i>
+                                    <abbr title="Phone">
+                                        P
+                                    </abbr>: (+977) @Model.Phone1,@Model.Phone2
+                                </p>
+                                <p>
+                                    <i class="fa fa-envelope-o"></i>
+                                    <abbr title="Email">
+                                        E
+                                    </abbr>: <a href='@Model.Email1' style="color:blue !important;">@Model.Email1</a><!--,  <a href="spsc.bagamati@gmail.com">spsc.bagamati@gmail.com</a>-->
+                                </p>
+                                <p>
+                                    <i class="fa fa-external-link"></i>
+                                    <abbr title="Url">
+                                        U
+                                    </abbr>: <a style="color:blue !important;" href='@Model.WebsiteUrl'>@Model.WebsiteUrl</a>
+                                </p>
+                                <p>
+                                    <i class="fa fa-clock-o"></i>
+                                    <abbr title="Hours">
+                                        H
+                                    </abbr>:
+                                    @Model.OpeningHours
+
+                                </p>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="panel-body">
+
+                                <h3>
+                                    Office Name
+                                </h3>
+                                <p>
+                                    Office Address
+
+                                </p>
+                                <p>
+                                    <i class="fa fa-phone"></i>
+                                    <abbr title="Phone">
+                                        P
+                                    </abbr>: (+977) Phone1, Phone2
+                                </p>
+                                <p>
+                                    <i class="fa fa-envelope-o"></i>
+                                    <abbr title="Email">
+                                        E
+                                    </abbr>: <a href='#' style="color:blue!important">office@email.com</a><!--,  <a href="spsc.bagamati@gmail.com">spsc.bagamati@gmail.com</a>-->
+                                </p>
+                                <p>
+                                    <i class="fa fa-external-link"></i>
+                                    <abbr title="Url">
+                                        U
+                                    </abbr>: <a href='#' style="color:blue!important">www.officeurl.com</a>
+                                </p>
+                                <p>
+                                    <i class="fa fa-clock-o"></i>
+                                    <abbr title="Hours">
+                                        H
+                                    </abbr>:
+                                    Opening Hours of office
+
+                                </p>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="text-primary">
+                            <i class="fa fa-map-marker"></i>Find Us
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <iframe width="400" height="557" id="gmap_canvas" src="https://maps.google.com/maps?q=Ministry%20of%20Land%20Management%20and%20Agriculture,%20Dhangadi&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                        @*<iframe width="550" height="557" id="gmap_canvas" src="https://maps.google.com/maps?q=State%20Public%20Service%20Commission%2C%20Hetauda&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>*@
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="highlight-section">
+                <div class="highlight-header text-center" style="background-color:#0a75b9;">
+                    <h6>Hilight</h6>
+                </div>
+                <ul>
+                    <li class="d-flex mb-4 news-highlight">
+                        <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                        <a href="#" target="_blank">
+                            Higlight title goes here. The title redirect to the content.
+                            <br /><span class="date d-block ml-0 mt-1">
+                                <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                            </span>
+                        </a>
+                    </li>
+                    <div class="clearfix"></div>
+                    <li class="d-flex mb-4 news-highlight">
+                        <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                        <a href="#" target="_blank">
+                            Higlight title goes here. The title redirect to the content.
+                            <br /><span class="date d-block ml-0 mt-1">
+                                <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                            </span>
+                        </a>
+                    </li>
+                    <div class="clearfix"></div>
+                    <li class="d-flex mb-4 news-highlight">
+                        <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                        <a href="#" target="_blank">
+                            Higlight title goes here. The title redirect to the content.
+                            <br /><span class="date d-block ml-0 mt-1">
+                                <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                            </span>
+                        </a>
+                    </li>
+                    <div class="clearfix"></div>
+                    <li class="d-flex mb-4 news-highlight">
+                        <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                        <a href="#" target="_blank">
+                            Higlight title goes here. The title redirect to the content.
+                            <br /><span class="date d-block ml-0 mt-1">
+                                <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                            </span>
+                        </a>
+                    </li>
+                    <div class="clearfix"></div>
+                    <li class="d-flex mb-4 news-highlight">
+                        <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                        <a href="#" target="_blank">
+                            Higlight title goes here. The title redirect to the content.
+                            <br /><span class="date d-block ml-0 mt-1">
+                                <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                            </span>
+                        </a>
+                    </li>
+                    <div class="clearfix"></div>
+
+
+                    <!--
+                    <div class="clearfix"></div>
+                    <li class="d-flex mb-4 news-highlight">
+                                                                    <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
+
+                        <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
+                            वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
+                            <i class="fa fa-calendar"></i>
+                            &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
+                        </a>
+                    </li>		-->
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    </div>

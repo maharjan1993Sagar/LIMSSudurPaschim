@@ -21,6 +21,10 @@ namespace LIMS.Domain.Bali
         public string Nitrogen { get; set; }
         public string Phosporus { get; set; }
         public string Potas { get; set; }
+        public string phoneNo { get; set; }
+        public string Zinc { get; set; }
+        public string Boron { get; set; }
+        public string Othermicronutrients { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
     }

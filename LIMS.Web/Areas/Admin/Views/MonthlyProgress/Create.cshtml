@@ -61,9 +61,8 @@
                                 <th>@T("Admin.PujigatKharcha.BudgetSirshakNo")</th>
                                 <th>@T("Admin.PujigatKharcha.KharchaSrishakNo")</th>
                                 <th>@T("Admin.PujigatKharcha.ProgramName")</th>
-                                <th>@T("Admin.PujigatKharcha.ProgramName")</th>
                                 <th>@T("Admin.PujigatKharcha.Budget")</th>
-                                <th>@T("Admin.PujigatKharcha.BhautikPragati")</th>
+                                @*<th>@T("Admin.PujigatKharcha.BhautikPragati")</th>*@
                                 <th>@T("Admin.PujigatKharcha.BitiyaPragati")</th>
 
                             </tr>
@@ -79,17 +78,15 @@
                                    @item.Limbis_Code 
                                    <input type="hidden" name="PujigatKharchaId" value="@item.Id"/><input type="hidden" name="ProgressDataId" value="" />
                                     </td>
-                                    
                                     <td></td>
 
                                   <td>@item.kharchaCode </td>
                                    <td>
                                         @item.Program
                                        </td>
-                                    <td> @item.Program </td>;
                                     <td> item.BarsikBajet </td>
 
-                                   <td><input type="text" name="BhautikPragati" class="form-control"/></td>
+                                   @*<td><input type="text" name="BhautikPragati" class="form-control"/></td>*@
                                     <td><input type="text" name="BitiyaPragati" class="form-control"/></td>
 
 
@@ -161,9 +158,8 @@
                             tableRow += '<td></td>';
                             tableRow += '<td>' + item.kharchaCode + '</td>';
                             tableRow += '<td>' + item.Program + '</td>';
-                            tableRow += '<td>' + item.Program + '</td>';
                             tableRow += '<td>' + item.BarsikBajet + '</td>';
-                            tableRow += '<td><input type="text" name="BhautikPragati" class="form-control"/></td>';
+                            //tableRow += '<td><input type="text" name="BhautikPragati" class="form-control"/></td>';
                             tableRow += '<td><input type="text" name="BitiyaPragati" class="form-control"/></td>';
 
 
@@ -207,7 +203,7 @@
                 $("input[type=text]").val('');
                 $.each(result, function (index, item) {
                     $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="ProgressDataId"]').val(item.Id);
-                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
+                    //$('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
                     $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BitiyaPragati"]').val(item.BitiyaPragati);
                 });
             });

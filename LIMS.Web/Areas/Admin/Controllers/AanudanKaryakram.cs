@@ -119,7 +119,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     var labambit = new AanudanReport();
                     labambit.pujigatKharchaKharakram = item.PujigatKharchaKharakram;
-                    labambit.Rakam = item.AanudanRakam;
+                    labambit.Rakam = Convert.ToString(item.AanudanRakam);
                     labambit.PhoneNo = item.PhoneNo;
                     labambit.Name = item.KrishakKoName;
                     labambit.Address = item.District + " " + item.LocalLevel;
@@ -248,7 +248,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
-            var animalRegistration = await _animalRegistrationService.GetLabambitKrishakHaruById(id);
+            var animalRegistration = await _anudanService.GetbaliRegisterById(id);
             if (animalRegistration == null)
                 return RedirectToAction("List");
             var model = animalRegistration.ToModel();

@@ -136,7 +136,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.BreedReg = await _breedService.GetBreedById(model.BreedId);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
                 animalRegistration.Unit = await _unitService.GetUnitById(model.UnitId);
-
+                animalRegistration.Production =Convert.ToString(Convert.ToDecimal(model.Area) * Convert.ToDecimal(model.Productivity));
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
                 await _animalRegistrationService.InsertbaliRegister(animalRegistration);
 
@@ -191,6 +191,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.BreedReg = await _breedService.GetBreedById(model.BreedId);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
                 animalRegistration.Unit = await _unitService.GetUnitById(model.UnitId);
+                animalRegistration.Production = Convert.ToString(Convert.ToDecimal(model.Area) * Convert.ToDecimal(model.Productivity));
 
                 await _animalRegistrationService.UpdatebaliRegister(m);
 

@@ -46,14 +46,42 @@ namespace LIMS.Web.Areas.Admin.Models.Bali.Aanudan
 
         public string AanudanKokisim { get; set; }
         [LIMSResourceDisplayName("Lims.Aanudan.AanudanRakam")]
-
-        public string AanudanRakam { get; set; }
+        [UIHint("Decimal")]
+        public decimal AanudanRakam { get; set; }
         [LIMSResourceDisplayName("Lims.Aanudan.Remarks")]
 
         public string Remarks { get; set; }
         [LIMSResourceDisplayName("Lims.Aanudan.DateOfSubsidy")]
         [UIHint("date")]
-        public string DateOfSubsidy { get; set; }
+        public DateTime DateOfSubsidy { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.MaleMember")]
+        [UIHint("int32")]
+        public int? MaleMember { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.FemaleMember")]
+        [UIHint("int32")]
+        public int? FemaleMember { get; set; }
+        [UIHint("int32")]
+        [LIMSResourceDisplayName("Lims.Aanudan.DalitMember")]
+        public int? DalitMember { get; set; }
+        [UIHint("int32")]
+        [LIMSResourceDisplayName("Lims.Aanudan.JanajatiMember")]
+        public int? JanajatiMember { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.ExpectedOutput")]
+        public string ExpectedOutput { get; set; }
+        [UIHint("Decimal")]
+        [LIMSResourceDisplayName("Lims.Aanudan.FarmerContribution")]
+        public decimal FarmerContribution { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.SubsidyCategory")]
+        public string SubsidyCategory { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.NameOfCategory")]
+
+        public string NameOfCategory { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.ProposeOfSubsidy")]
+
+        public string ProposeOfSubsidy { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.Area")]
+
+        public string Area { get; set; }
 
     }
 }

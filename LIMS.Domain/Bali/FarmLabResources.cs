@@ -8,6 +8,8 @@ namespace LIMS.Domain.Bali
     public class FarmLabResources:BaseEntity
     {
         public string Type { get; set; }
+        public string SubType { get; set; }
+        public string ItemName { get; set; }
         public string UnitId { get; set; }
         public Unit Unit { get; set; }
         public string AvailableQuantity { get; set; }

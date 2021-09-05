@@ -2,6 +2,7 @@
 using LIMS.Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,9 +16,11 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 
         public string BreedId { get; set; }
         [LIMSResourceDisplayName("Lims.Bali.Area")]
+        [UIHint("nullabledecimal")]
 
         public string Area { get; set; }
         [LIMSResourceDisplayName("Lims.Bali.Productivity")]
+        [UIHint("nullabledecimal")]
 
         public string Productivity { get; set; }
         [LIMSResourceDisplayName("Lims.Bali.Production")]

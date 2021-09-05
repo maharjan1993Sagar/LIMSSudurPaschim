@@ -1,48 +1,73 @@
 ﻿@model FarmLabResourcesModel
 <div class="x_content form">
     <div class="form-row">
-        <div class="form-body">
 
-            <div class="col-md-3">
+        <div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="Type" />
-                    <admin-select asp-for="Type" asp-items="@ViewBag.Type" required="required"></admin-select>
-                    <span asp-validation-for="Type"></span>
+            <div class="form-group">
+                <admin-label asp-for="Type" />
+                <admin-select asp-for="Type" asp-items="@ViewBag.Type" required="required"></admin-select>
+                <span asp-validation-for="Type"></span>
 
-                </div>
             </div>
-            <div class="col-md-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="UnitId" />
-                    <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" required="required">
-
-                    </admin-select>
-                    <span asp-validation-for="UnitId"></span>
-
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="AvailableQuantity" />
-                    <input asp-for="AvailableQuantity" class="form-control"  required="required"/>
-                    <span asp-validation-for="AvailableQuantity"></span>
-
-                </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="UnitPrice" />
-                    <input asp-for="UnitPrice" class="form-control"  required="required"/>
-                    <span asp-validation-for="UnitPrice"></span>
-
-                </div>
-            </div>
-
-           
         </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="SubType" />
+                <admin-select asp-for="SubType">
+
+                    <option value="">Select</option>
+
+                    <option value="Main seed">Main seed</option>
+                    <option value="Hybrid seed">Hybrid seed</option>
+                    <option value="Biju">Biju </option>
+                    <option value="Kalami">Kalami</option>
+
+                </admin-select>
+                <span asp-validation-for="SubType"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="ItemName" />
+                <admin-input asp-for="ItemName"/>
+                <span asp-validation-for="ItemName"></span>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="UnitId" />
+                <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" required="required">
+
+                </admin-select>
+                <span asp-validation-for="UnitId"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2">
+
+            <div class="form-group">
+                <admin-label asp-for="AvailableQuantity" />
+                <input asp-for="AvailableQuantity" class="form-control" required="required" />
+                <span asp-validation-for="AvailableQuantity"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="UnitPrice" />
+                <input asp-for="UnitPrice" class="form-control" required="required" />
+                <span asp-validation-for="UnitPrice"></span>
+
+            </div>
+        </div>
+
+
     </div>
-</div>
+    </div>

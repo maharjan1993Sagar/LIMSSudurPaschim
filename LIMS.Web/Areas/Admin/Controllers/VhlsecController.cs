@@ -157,6 +157,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     role = allCustomerRoles.Where(m => m.Name == "AgriAdmin").FirstOrDefault();
                 }
+                else
+                {
+                    role = allCustomerRoles.Where(m => m.Name == "VhlsecAdmin").FirstOrDefault();
+
+                }
                 newCustomerRoles.Add(role);
                 newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
                 var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);

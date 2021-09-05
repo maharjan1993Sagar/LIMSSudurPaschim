@@ -1,0 +1,84 @@
+﻿@model GalleryViewModel
+
+@*<link href="~/Dolfd/css/photoViewer/photoviewer.css" rel="stylesheet" type="text/css" />*@
+
+<style>
+    .header {
+        background-color: #f1f1f1;
+        background-image: none;
+    }
+</style>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-primary">
+                    <i class="fa fa-picture-o"></i>
+                    Gallery
+                </h3>
+            </div>
+
+
+            @if (Model.Galleries.Any())
+            {
+                @foreach (var item in Model.Galleries)
+                {
+                    <div class="col-md-3">
+                        <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id">
+                            <div class="thumbnail text-center">
+                                <image src='@item.Images.FirstOrDefault().PictureUrl' style="height:200px;width:200px;" alt=""></image>
+                                <font style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp:2;">@item.Title</font>
+                            </div>
+                        </a>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-md-12">
+                    No record found.
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-primary">
+                    <i class="fa fa-video"></i>
+                    Videos
+                </h3>
+            </div>
+            @if (Model.Videos.Any())
+            {
+            @foreach (var item in Model.Videos)
+            {
+                <div class="col-md-3">
+
+                    <iframe width="280" height="200" src='@(item.VideoUrl)'
+                            frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <a asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id">@item.Title</a>
+                </div>
+            }
+            }
+            else
+            { 
+            <div class="col-md-12">
+                No record found.
+            </div>
+            }
+        </div>
+    </div>
+</section>
+@section Scripts{
+    @*<script src="~/Dolfd/js/photoViewer.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-gallery=bookGallery]').photoviewer({
+                minimize: `min`,
+                maximize: `max`
+            });
+        });
+    </script>*@
+}
+

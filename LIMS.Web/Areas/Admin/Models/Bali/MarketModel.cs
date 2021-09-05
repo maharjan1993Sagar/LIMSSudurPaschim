@@ -24,6 +24,12 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Market.MaxPrice")]
         [UIHint("nullabledecimal")]
         public string MaxPrice { get; set; }
+        [LIMSResourceDisplayName("LIMS.Market.WholesalePrice")]
+        [UIHint("nullabledecimal")]
+        public string WholesalePrice { get; set; }
+        [LIMSResourceDisplayName("LIMS.Market.FarmGetPrice")]
+        [UIHint("nullabledecimal")]
+        public string FarmGetPrice { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.Province")]
 
         public string Province { get; set; }
@@ -47,7 +53,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string UnitId { get; set; }
         [LIMSResourceDisplayName("LIMS.Market.RecordingDate")]
         [UIHint("date")]
-        public string RecordingDate { get; set; }
+        public DateTime RecordingDate { get; set; }
 
 
     }

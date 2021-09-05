@@ -1,0 +1,28 @@
+﻿@model GalleryModel
+<link href="~/Dolfd/css/photoViewer/photoviewer.css" rel="stylesheet" type="text/css" />
+<section>
+    @if (Model.Type == "Photo")
+    {
+        <partial name="_galleryDetailsPartial.cshtml" model="@Model" />
+    }
+    else if (Model.Type == "Video")
+    {
+        <partial name="_videoDetailsPartial.cshtml" model="@Model" />
+    }
+    else
+    {
+        <partial name="_RecordNotFound.cshtml" />
+    }
+</section>
+@section Scripts{
+    <script src="~/Dolfd/js/photoViewer.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-gallery=bookGallery]').photoviewer({
+                minimize: `min`,
+                maximize: `max`
+            });
+        });
+    </script>
+
+}

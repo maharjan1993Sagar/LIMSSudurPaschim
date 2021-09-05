@@ -54,6 +54,14 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Soil.Potas")]
 
         public string Potas { get; set; }
-       
+        [LIMSResourceDisplayName("LIMS.Soil.phoneNo")]
+
+        public string phoneNo { get; set; }
+        [LIMSResourceDisplayName("LIMS.Soil.Zinc")]
+        public string Zinc { get; set; }
+        [LIMSResourceDisplayName("LIMS.Soil.Boron")]
+        public string Boron { get; set; }
+        [LIMSResourceDisplayName("LIMS.Soil.Othermicronutrients")]
+        public string Othermicronutrients { get; set; }
     }
 }

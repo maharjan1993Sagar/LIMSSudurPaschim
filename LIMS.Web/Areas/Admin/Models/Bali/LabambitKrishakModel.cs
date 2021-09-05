@@ -16,25 +16,25 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 
         public string PujigatKharchaKaryakramId { get; set; }
         [LIMSResourceDisplayName("LIMS.LabambitKrishak.NoOfMale")]
-        [UIHint("int32")]
+        [UIHint("int32nullable")]
 
-        public string LabambitKrishakKoNam { get; set; }
+        public int? LabambitKrishakKoNam { get; set; }
         [LIMSResourceDisplayName("LIMS.LabambitKrishak.NoFemale")]
-        [UIHint("int32")]
-        public string Sex { get; set; }
+        [UIHint("int32nullable")]
+        public int? Sex { get; set; }
         [LIMSResourceDisplayName("LIMS.LabambitKrishak.Dalit")]
-        [UIHint("int32")]
+        [UIHint("int32nullable")]
 
-        public string PhoneNo { get; set; }
+        public int? PhoneNo { get; set; }
       
         [LIMSResourceDisplayName("LIMS.LabambitKrishak.Janajati")]
-        [UIHint("int32")]
+        [UIHint("int32nullable")]
 
-        public string EthinicGroup { get; set; }
-        [LIMSResourceDisplayName("LIMS.LabambitKrishak.Aanya")]
-        [UIHint("int32")]
+        public int? EthinicGroup { get; set; }
+        [LIMSResourceDisplayName("LIMS.LabambitKrishak.YouthMember")]
+        [UIHint("int32nullable")]
 
-        public string Remarks { get; set; }
+        public int? Remarks { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.Province")]
 
         public string Province { get; set; }
@@ -57,7 +57,11 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Common.Workdone")]
 
         public string WorkDone { get; set; }
-        
-       
+        [LIMSResourceDisplayName("LIMS.Common.BeneficiaryType")]
+
+        public string BeneficiaryType { get; set; }
+
+
+
     }
 }

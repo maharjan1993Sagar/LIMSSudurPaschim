@@ -411,7 +411,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var createdby = _workContext.CurrentCustomer.Id;
             var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.kharchaCode == "22522");
+            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Training");
+            return Json(karyakram.ToList());
+        }
+        public async Task<ActionResult> GetSubsidyProgram(string fiscalyear)
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
+            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
             return Json(karyakram.ToList());
         }
         public List<SelectListItem> PujigatType()

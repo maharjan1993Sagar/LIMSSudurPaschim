@@ -6,7 +6,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="SampleNo" />
-                    <input asp-for="SampleNo" class="form-control"  required="required"/>
+                    <input asp-for="SampleNo" class="form-control" required="required" />
                     <span asp-validation-for="SampleNo"></span>
 
                 </div>
@@ -17,6 +17,15 @@
                     <admin-label asp-for="FarmerName" />
                     <input asp-for="FarmerName" class="form-control" required="required" />
                     <span asp-validation-for="FarmerName"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="phoneNo" />
+                    <input asp-for="phoneNo" class="form-control" />
+                    <span asp-validation-for="phoneNo"></span>
 
                 </div>
             </div>
@@ -78,7 +87,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Latitude" />
-                    <admin-input asp-for="Latitude"  required="required"/>
+                    <admin-input asp-for="Latitude" required="required" />
 
                     <span asp-validation-for="Latitude"></span>
 
@@ -88,7 +97,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Longitude" />
-                    <admin-input asp-for="Longitude"  required="required" />
+                    <admin-input asp-for="Longitude" required="required" />
 
                     <span asp-validation-for="Longitude"></span>
 
@@ -99,7 +108,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="SoilStructure" />
-                    <admin-input asp-for="SoilStructure"   required="required"/>
+                    <admin-input asp-for="SoilStructure" required="required" />
 
                     <span asp-validation-for="SoilStructure"></span>
 
@@ -109,7 +118,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Ph" />
-                    <admin-input asp-for="Ph"  required="required" />
+                    <admin-input asp-for="Ph" required="required" />
 
                     <span asp-validation-for="Ph"></span>
 
@@ -120,7 +129,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="PrangricPadartha" />
-                    <admin-input asp-for="PrangricPadartha"  required="required" />
+                    <admin-input asp-for="PrangricPadartha" required="required" />
 
                     <span asp-validation-for="PrangricPadartha"></span>
 
@@ -130,7 +139,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Nitrogen" />
-                    <admin-input asp-for="Nitrogen"  required="required"/>
+                    <admin-input asp-for="Nitrogen" required="required" />
 
                     <span asp-validation-for="Nitrogen"></span>
 
@@ -150,14 +159,43 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Potas" />
-                    <admin-input asp-for="Potas" required="required"/>
+                    <admin-input asp-for="Potas" required="required" />
 
                     <span asp-validation-for="Potas"></span>
 
                 </div>
             </div>
 
+            <div class="col-md-2">
 
+                <div class="form-group">
+                    <admin-label asp-for="Boron" />
+                    <admin-input asp-for="Boron"  />
+
+                    <span asp-validation-for="Boron"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="Zinc" />
+                    <admin-input asp-for="Zinc" />
+
+                    <span asp-validation-for="Zinc"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Othermicronutrients" />
+                    <admin-input asp-for="Othermicronutrients"  />
+
+                    <span asp-validation-for="Othermicronutrients"></span>
+
+                </div>
+            </div>
 
 
 

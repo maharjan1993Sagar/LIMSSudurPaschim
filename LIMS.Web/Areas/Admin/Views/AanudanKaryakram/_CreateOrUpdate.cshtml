@@ -6,7 +6,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="FiscalyearId" />
-                    <admin-select asp-for="FiscalyearId" asp-items="@ViewBag.FiscalYearId" />
+                    <admin-select asp-for="FiscalyearId" asp-items="@ViewBag.FiscalYearId" required="required" />
                     <span asp-validation-for="FiscalyearId"></span>
 
                 </div>
@@ -15,7 +15,11 @@
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
-                    <admin-select asp-for="PujigatKharchaKaryakramId" asp-items=" ViewBag.pujigatKaryakram" />
+                    <admin-select asp-for="PujigatKharchaKaryakramId" required="required">
+                        <option value="">Select</option>
+
+                    </admin-select>
+
                     <span asp-validation-for="PujigatKharchaKaryakramId"></span>
 
                 </div>
@@ -93,13 +97,55 @@
 
                 </div>
             </div>
+            @*<div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Sex" />
+                <admin-select asp-for="Sex" asp-items="ViewBag.Sex" />
+
+                <span asp-validation-for="Sex"></span>
+
+            </div>
+        </div>*@
+
+            @*<div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="EthinicGroup" />
+                <admin-select asp-for="EthinicGroup" asp-items="ViewBag.EthnicGroup" />
+
+                <span asp-validation-for="EthinicGroup"></span>
+
+            </div>
+        </div>*@
             <div class="col-md-2">
 
                 <div class="form-group">
-                    <admin-label asp-for="Sex" />
-                    <admin-select asp-for="Sex" asp-items="ViewBag.Sex" />
+                    <admin-label asp-for="SubsidyCategory" />
+                    <admin-select asp-for="SubsidyCategory">
+                        <option value="">Select</option>
 
-                    <span asp-validation-for="Sex"></span>
+                        <option value="Livestock">Livestock</option>
+                        <option value="Crops">Crops</option>
+                        <option value="Livestock/crops">Livestock/crops</option>
+                        <option value="Fisheries">Fisheries</option>
+
+                        <option value="Others">Others</option>
+                    </admin-select>
+
+                    <span asp-validation-for="SubsidyCategory"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="NameOfCategory" />
+                    <admin-input asp-for="NameOfCategory" />
+
+
+
+                    <span asp-validation-for="NameOfCategory"></span>
 
                 </div>
             </div>
@@ -107,10 +153,10 @@
             <div class="col-md-2">
 
                 <div class="form-group">
-                    <admin-label asp-for="EthinicGroup" />
-                    <admin-select asp-for="EthinicGroup" asp-items="ViewBag.EthnicGroup" />
+                    <admin-label asp-for="Area" />
+                    <admin-input asp-for="Area" />
 
-                    <span asp-validation-for="EthinicGroup"></span>
+                    <span asp-validation-for="Area"></span>
 
                 </div>
             </div>
@@ -145,6 +191,57 @@
             <div class="col-md-2">
 
                 <div class="form-group">
+                    <admin-label asp-for="FarmerContribution" />
+                    <admin-input asp-for="FarmerContribution" />
+
+                    <span asp-validation-for="FarmerContribution"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="MaleMember" />
+                    <admin-input asp-for="MaleMember" />
+
+                    <span asp-validation-for="MaleMember"></span>
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="FemaleMember" />
+                    <admin-input asp-for="FemaleMember" />
+
+                    <span asp-validation-for="FemaleMember"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="DalitMember" />
+                    <admin-input asp-for="DalitMember" />
+
+                    <span asp-validation-for="DalitMember"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    <admin-label asp-for="JanajatiMember" />
+                    <admin-input asp-for="JanajatiMember" />
+
+                    <span asp-validation-for="JanajatiMember"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
                     <admin-label asp-for="DateOfSubsidy" style="display:inline-block" />
                     <admin-input asp-for="DateOfSubsidy" />
 
@@ -152,7 +249,30 @@
 
                 </div>
             </div>
+            <div class="col-md-12">
 
+                <div class="form-group">
+                    <admin-label asp-for="ProposeOfSubsidy" />
+                    <admin-input asp-for="ProposeOfSubsidy" />
+
+
+
+                    <span asp-validation-for="ProposeOfSubsidy"></span>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <admin-label asp-for="ExpectedOutput" />
+                    <admin-input asp-for="ExpectedOutput" />
+
+
+
+                    <span asp-validation-for="ExpectedOutput"></span>
+
+                </div>
+            </div>
             <div class="col-md-12">
 
                 <div class="form-group">
@@ -178,7 +298,7 @@
                  fiscalyear: fiscalyear
              }
              if (fiscalyear) {
-                 url = "/Admin/LabambitKrishak/GetProgram";
+                 url = "/Admin/LabambitKrishak/GetSubsidyProgram";
                  $.getJSON(url, data, function (result) {
                      $.each(result, function (i, item) {
                          $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);

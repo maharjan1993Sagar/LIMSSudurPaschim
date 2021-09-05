@@ -220,92 +220,45 @@ namespace LIMS.Services.ExportImport
                     case "kharchacode":
                         category.kharchaCode = property.StringValue;
                         break;
-                    case "crathamchaumasikbadjet":
+                    case "1stquart_budget":
                         category.PrathamChaumasikBadjet = property.StringValue;
                         break;
-                    case "prathamchaumasikpariman":
+                    case "1stquad_qty":
                         category.PrathamChaumasikParimam = property.StringValue;
                         break;
-                    case "prathamchaumasikvar":
-                        category.PrathamChaumasikVar = property.StringValue;
-                        break;
-                    case "dosrochaumasikvar":
-                        category.DosroChaumasikVar = property.StringValue;
-                        break;
-                    case "dosroChaumasikpariman":
+
+
+                    case "2ndQuater_qty":
                         category.DorsoChaumasikParimam = property.StringValue;
                         break;
-                    case "dosroChaumasikbadjet":
+                    case "2nd_quater_budget":
                         category.DosroChaumasikBadjet = property.StringValue;
                         break;
 
-                    case "tesrochaumasikvar":
-                        category.TesroChaumasikVar = property.StringValue;
-                        break;
-                    case "tesrochaumasikpariman":
+
+                    case "3rd_quarter_qty":
                         category.TesroChaumasikParimam = property.StringValue;
                         break;
-                    case "tesrochaumasikbadjet":
+                    case "3rd_quarter_budget":
                         category.TesroChaumasikBadjet = property.StringValue;
                         break;
-                    case "barshikbadjet":
+                    case "yearly_budget":
                         category.BarsikBajet = property.StringValue;
                         break;
-                    case "barshikbhar":
-                        category.BarshikBhar = property.StringValue;
-                        break;
-                    case "barshikparinam":
+
+                    case "yearly_qty":
                         category.BarshikParinam = property.StringValue;
                         break;
 
                     case "unit":
                         category.Unit = property.StringValue;
                         break;
-                        //    case "pagesize":
-                        //        category.PageSize = property.IntValue > 0 ? property.IntValue : 10;
-                        //        break;
-                        //    case "allowcustomerstoselectpageSize":
-                        //        category.AllowCustomersToSelectPageSize = property.BooleanValue;
-                        //        break;
-                        //    case "pagesizeoptions":
-                        //        category.PageSizeOptions = property.StringValue;
-                        //        break;
-                        //    case "priceranges":
-                        //        category.PriceRanges = property.StringValue;
-                        //        break;
-                        //    case "published":
-                        //        category.Published = property.BooleanValue;
-                        //        break;
-                        //    case "displayorder":
-                        //        category.DisplayOrder = property.IntValue;
-                        //        break;
-                        //    case "showonhomepage":
-                        //        category.ShowOnHomePage = property.BooleanValue;
-                        //        break;
-                        //    case "includeintopmenu":
-                        //        category.IncludeInTopMenu = property.BooleanValue;
-                        //        break;
-                        //    case "showonsearchbox":
-                        //        category.ShowOnSearchBox = property.BooleanValue;
-                        //        break;
-                        //    case "searchboxdisplayorder":
-                        //        category.SearchBoxDisplayOrder = property.IntValue;
-                        //        break;
-                        //    case "flag":
-                        //        category.Flag = property.StringValue;
-                        //        break;
-                        //    case "flagstyle":
-                        //        category.FlagStyle = property.StringValue;
-                        //        break;
-                        //    case "icon":
-                        //        category.Icon = property.StringValue;
-                        //        break;
-                        //    case "parentcategoryid":
-                        //        if (!string.IsNullOrEmpty(property.StringValue) && property.StringValue != "0")
-                        //            category.ParentCategoryId = property.StringValue;
-                        //        break;
-                        //}
+
+                    case "expenses_category":
+                        category.Expenses_category = property.StringValue;
+                        break;
                 }
+
             }
 
 

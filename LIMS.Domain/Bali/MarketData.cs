@@ -16,6 +16,8 @@ namespace LIMS.Domain.Bali
         public string UnitId { get; set; }
         public Unit Unit { get; set; }
         public string Month { get; set; }
+        public string WholesalePrice { get; set; }
+        public string FarmGetPrice { get; set; }
         public string MinPrice { get; set; }
         public string MaxPrice { get; set; }
         public string Province { get; set; }
@@ -27,7 +29,7 @@ namespace LIMS.Domain.Bali
         public string FiscalYearId { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
-        public string RecordingDate { get; set; }
+        public DateTime RecordingDate { get; set; }
 
     }
 }

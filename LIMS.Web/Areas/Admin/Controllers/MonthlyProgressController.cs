@@ -133,13 +133,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
            
             for (int i = 0; i < pujigatKharchaId.Count(); i++)
             {
-                if (string.IsNullOrEmpty(bitiyaPragati[i])|| string.IsNullOrEmpty(bhautikpragati[i]))
+                if (string.IsNullOrEmpty(bitiyaPragati[i]))
                     continue;
 
                 var livestock = new MonthlyPragati {
                     pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaId[i]),
                     BitiyaPragati = bitiyaPragati[i],
-                    VautikPragati = bhautikpragati[i],
+                 //   VautikPragati = bhautikpragati[i],
                     PujigatKharchaId=pujigatKharchaId[i],
                     FiscalYearId = model.FiscalYearId,
                     FiscalYear=await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),

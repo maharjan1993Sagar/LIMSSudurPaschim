@@ -192,6 +192,10 @@ var role=workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
                        field: "TotalMonthBitiyaPragati",
                 title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthBitiyaPragati")",
                 },
+                     {
+                       field: "TotalMonthBitiyaPragati",
+                title: "@T("Admin.PujigatKaryakram.Fields.BalanceBudget")",
+                },
 
            ]
         });
@@ -206,7 +210,7 @@ var role=workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
            month: $('#@Html.FieldIdFor(model => model.Month)').val(),
             dolfdid: $('#@Html.FieldIdFor(model => model.DolfdId)').val(),
             vhlsecid: $('#@Html.FieldIdFor(m=>m.VhlsecId)').val()
-   
+
         };
         addAntiForgeryToken(data);
         return data;

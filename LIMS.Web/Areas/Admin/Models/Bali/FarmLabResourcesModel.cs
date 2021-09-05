@@ -11,6 +11,13 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
     {
         [LIMSResourceDisplayName("LIMS.FarmLab.Type")]
         public string Type { get; set; }
+        [LIMSResourceDisplayName("LIMS.FarmLab.SubType")]
+
+        public string SubType { get; set; }
+        [LIMSResourceDisplayName("LIMS.FarmLab.ItemName")]
+
+        public string ItemName { get; set; }
+
         [LIMSResourceDisplayName("LIMS.FarmLab.Unit")]
 
         public string UnitId { get; set; }

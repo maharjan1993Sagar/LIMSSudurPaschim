@@ -21,10 +21,19 @@ namespace LIMS.Domain.Bali
         public string Ward { get; set; }
         public string Tole { get; set; }
         public string AanudanKokisim { get; set; }
-        public string AanudanRakam { get; set; }
+        public decimal AanudanRakam { get; set; }
         public string Remaks { get; set; }
-        public string DateOfSubsidy { get; set; }
-
+        public DateTime DateOfSubsidy { get; set; }
+        public int? MaleMember { get; set; }
+        public int? FemaleMember { get; set; }
+        public int? DalitMember { get; set; }
+        public int? JanajatiMember { get; set; }
+        public string ExpectedOutput { get; set; }
+        public decimal FarmerContribution { get; set; }
+        public string SubsidyCategory { get; set; }
+        public string NameOfCategory { get; set; }
+        public string ProposeOfSubsidy { get; set; }
+        public string Area { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
     }

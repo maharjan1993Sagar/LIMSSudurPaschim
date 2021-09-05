@@ -27,6 +27,7 @@ namespace LIMS.Domain.Bali
         public string TesroChaumasikParimam { get; set; }
         public string TesroChaumasikVar { get; set; }
         public string TesroChaumasikBadjet { get; set; }
+        public string Expenses_category { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public string FiscalYearId { get; set; }

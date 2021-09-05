@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LIMS.Domain.StatisticalData
+namespace LIMS.Domain.Breed
 {
     public class Livestock:BaseEntity
     {

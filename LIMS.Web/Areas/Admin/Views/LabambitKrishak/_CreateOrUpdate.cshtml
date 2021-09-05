@@ -11,18 +11,40 @@
 
                 </div>
             </div>
-            <div class="col-md-4 col-sm-4">
+            <div class="col-md-5 col-sm-5">
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
-                    <admin-select asp-for="PujigatKharchaKaryakramId" asp-items="ViewBag.pujigatKaryakram" />
+                    <admin-select asp-for="PujigatKharchaKaryakramId"  required="required">
+                        <option value="">select</option>
+
+                        </admin-select>
                     <span asp-validation-for="PujigatKharchaKaryakramId"></span>
 
                 </div>
             </div>
+            <div class="col-md-3 col-sm-3">
 
+                <div class="form-group">
+                    <admin-label asp-for="BeneficiaryType" />
+                    <admin-select asp-for="BeneficiaryType">
+                        <option value="">Select</option>
 
-            <div class="col-md-2">
+                        <option value="Farmer">Farmer</option>
+                        <option value="Farmer groups">Farmer groups</option>
+                        <option value="Private farm">Private farm</option>
+                        <option value="Cooperative">Cooperative</option>
+
+                        <option value="Industry">Industry</option>
+                        <option value="Others">Others</option>
+
+                    </admin-select>
+                    <span asp-validation-for="BeneficiaryType"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
 
                 <div class="form-group">
                     <admin-label asp-for="Province" />
@@ -33,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3">
 
                 <div class="form-group">
                     <admin-label asp-for="District" />
@@ -44,7 +66,7 @@
 
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
 
                 <div class="form-group">
                     <admin-label asp-for="LocalLevel" />
@@ -65,7 +87,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
 
                 <div class="form-group">
                     <admin-label asp-for="Tole" />
@@ -88,7 +110,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Sex" />
-                    <admin-input asp-for="Sex"  />
+                    <admin-input asp-for="Sex" />
 
                     <span asp-validation-for="Sex"></span>
 
@@ -114,7 +136,6 @@
 
                 </div>
             </div>
-            <div class="clearfix"></div>
             <div class="col-md-2">
 
                 <div class="form-group">
@@ -125,16 +146,7 @@
 
                 </div>
             </div>
-            <div class="col-md-2">
 
-                <div class="form-group">
-                    <admin-label asp-for="PictureId" />
-                    <admin-input asp-for="PictureId" />
-
-                    <span asp-validation-for="PictureId"></span>
-
-                </div>
-            </div>
             <div class="col-md-12">
 
                 <div class="form-group">
@@ -149,7 +161,16 @@
 
 
 
+            <div class="col-md-2">
 
+                <div class="form-group">
+                    <admin-label asp-for="PictureId" />
+                    <admin-input asp-for="PictureId" />
+
+                    <span asp-validation-for="PictureId"></span>
+
+                </div>
+            </div>
 
 
         </div>

@@ -20,6 +20,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string PreviousMonthBitiyaPragati { get; set; }
         public string TotalMonthVautikPragati { get; set; }
         public string TotalMonthBitiyaPragati { get; set; }
+        public string BalanceBudget { get; set; }
 
     }
 }
