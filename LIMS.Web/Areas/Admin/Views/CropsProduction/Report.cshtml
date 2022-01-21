@@ -1,0 +1,145 @@
+﻿@model FarmListModel
+<form method="post" id="livestock">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_content form">
+                    <div class="form-horizontal">
+
+                        <div class="form-body col-md-12">
+
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Fiscalyear" />
+                                        <admin-select asp-for="Fiscalyear" asp-items="@ViewBag.FiscalYear"/>
+
+                                        <span asp-validation-for="Fiscalyear"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Province" />
+                                        <admin-select asp-for="Province" id="country" />
+                                        <span asp-validation-for="Province"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="District" />
+                                        <select id="district" name="District"   class="form-control">
+                                            <option value="">Select </option>
+                                        </select>
+                                        <span asp-validation-for="District"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <admin-label asp-for="LocalLevel" />
+                                        <select id="locallevel" name="LocalLevel"  class="form-control">
+                                            <option value="">Select</option>
+                                        </select>
+                                        <span asp-validation-for="LocalLevel"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <br />
+                                        <input type="submit"  class="btn-sm btn-success" style="margin-top:10px;" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="form-actions d-flex flex-column w-100">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="x_content">
+                                @*<table>
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                Product
+                                                    </td>
+                                                <td>
+                                                    Area
+                                                </td>
+                                                <td>
+                                                    Production
+                                                </td>
+                                                <td>
+                                                    Yiald
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+<div style="display:inline-block !important;">
+
+    <div id="result"></div>
+</div>
+<script>
+    $(document).ready(function () {
+        var data = {
+            fiscalYear: $("#@Html.IdFor(m => m.Fiscalyear)").val(),
+            //type: $("#@Html.IdFor(m => m.Type)").val(),
+            district:$("#district").val(),
+            locallevel:$("#locallevel").val()
+        }
+        addAntiForgeryToken(data);
+        $.ajax({
+            cache: false,
+            url: '/Admin/CropsProduction/ReportHtml',
+            data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+            type: "POST",
+            success: function (response) {
+                if (response.success) {
+                    $('#result').html(response.livestockWardWiseReportHtml);
+                }
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+    $('#livestock').submit(function (e) {
+        var data = {
+            fiscalYear: $("#@Html.IdFor(m => m.Fiscalyear)").val(),
+            //type: $("#@Html.IdFor(m => m.Type)").val(),
+            district:$("#district").val(),
+            locallevel:$("#locallevel").val()
+        }
+        addAntiForgeryToken(data);
+        e.preventDefault();
+        $.ajax({
+            cache: false,
+            url: '/Admin/CropsProduction/ReportHtml',
+            data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+            type: "POST",
+            success: function (response) {
+                if (response.success) {
+                    $('#result').html(response.livestockWardWiseReportHtml);
+                }
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+</script>

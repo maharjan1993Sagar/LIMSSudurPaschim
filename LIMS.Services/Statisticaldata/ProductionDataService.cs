@@ -108,14 +108,46 @@ namespace LIMS.Services.Statisticaldata
 
 
         }
-         
-        public async Task<IPagedList<Production>> GetFilteredProduction(string fiscalyearId,string Quater,string productiontype,string createdBy, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Production>> GetFilteredProduction(string createdby, string type, string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _productionRepository.Table;
+            if (createdby != "molmac")
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            if (fiscalYearId != null && (type == null && string.IsNullOrEmpty(district)))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
+
+            }
+            if (fiscalYearId != null && type != null && string.IsNullOrEmpty(district))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type);
+
+            }
+            if (fiscalYearId != null && type != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.District == district);
+
+            }
+            if (fiscalYearId != null && type != null && district != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.LocalLevel == LocalLevel);
+
+            }
+            return await PagedList<Production>.Create(query, pageIndex, pageSize);
+
+        }
+
+        public async Task<IPagedList<Production>> GetFilteredProduction(string fiscalyearId,string productiontype,string createdBy,string district,string locallevel,string ward, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
             query = query.Where(m =>
-              m.Quater == Quater &&
+              m.LocalLevel == locallevel &&
+              m.District==district&&
               m.ProductionType == productiontype &&
               m.FiscalYear.Id==fiscalyearId &&
+              m.Ward==ward&&
               m.CreatedBy == createdBy
             );
             return await PagedList<Production>.Create(query, pageIndex, pageSize);

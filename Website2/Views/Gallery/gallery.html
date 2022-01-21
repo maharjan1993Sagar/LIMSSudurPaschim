@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+     		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>MoALD</title>
+		<link type="image/png" rel="icon" href="https://mocit.gov.np/application/resources/site/img/logo.png">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/font/css/font-awesome.css">
+		<link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/icon-fonts/style.css">
+		<link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/lightbox/css/lightgallery.css">
+		<link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/timeline/css/style.css">
+		<link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/timeline/slick.min.css">
+		<link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/marquee/ticker.css">
+		<link rel="stylesheet" href="css/custom_style.css">
+
+
+<!-- <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e2e7576663d2500122cabdd&product=inline-share-buttons" async="async"></script> -->
+  </head>
+  <body class="np">
+    <div class="wrapper">
+
+      <header>
+        <div class="container-fluid">
+	<div class="header-top">
+		<div class="row">
+			<div class="col-12 col-md-5">
+				<div class="logo-area">
+						<a href="#"><img src="img/nep-gov.png" height="60px" width="80px"></a>
+					</div>
+					<div class="business-desc" style="margin-left:6px;">
+						<p style="font-size: 11px;">Governmane of Nepal	<br/>				
+						<span style="font-size: 14px; font-family: serif; font-weight:bold;">Ministy of Land Management, Agriculatural & Cooperative</span><br/>	
+						<span style="font-size: 12px;">Sudurpaschim province, Dhangadhi, Kailali, Nepal</span>
+						</p>
+					</div>
+			</div>
+			<div class="col-12 col-md-7 top-list" >
+				<div class="row">
+					<div class="col-11 col-lg-11">
+						<ul class="list-inline font_choice web-accesibility">
+							<!-- <li class="list-inline-item seaarch"><a href="https://mail.moic.gov.np/login.html" target="_blank">  <i class="mocit-newsletter" style="font-size: 16px;"></i></a></li> -->
+							
+							<li class="list-inline-item">
+								<span class="font_choice pull-left">
+									<div id="rvfs-controllers" class="fontsize-controllers group"></div>
+									<a href="#" id="contrast"><i class="mocit-eye-crossed"></i></a>
+								</span>
+							</li>
+							<li class="list-inline-item seaarch">
+																<a href="#" onclick="changeBandwidth()">Low Bandwith</a>
+															</li>
+							<li class="list-inline-item">
+								<div class="dateandtime">
+									<span>
+										आइतबार, &#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2415;										
+									</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-1 col-lg-1">
+						<div class="pull-right npflag">
+							<img src="img/nepalflag.gif">
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	.business-desc {
+width: 65%;
+float: left;
+}
+.web-accesibility .list-inline-item:not(:last-child) {
+margin-right: 0.4rem;
+}
+.web-accesibility .list-inline-item .dateandtime {
+    /*font-weight: bold;*/
+    color: #4075c5;
+    margin: -15px 0 0 !important;
+    float: left;
+}
+</style>        <div class="header-bottom">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-md-10">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<!-- Brand -->
+					
+					<!-- Toggler/collapsibe Button -->
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+					<!-- Navbar links -->
+					<div class="collapse navbar-collapse" id="collapsibleNavbar">
+						<ul class="navbar-nav">
+																					<li class="active nav-item"><a class="nav-link" href="#">
+							Home</a></li>
+														<!-- top level -->
+														
+																					<!-- top level -->
+														<li class="nav-item dropdown">
+								<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">About us</a>
+								<div class="dropdown-menu">
+																											<a class="dropdown-item" href="#">Introduction</a>
+																										<a class="dropdown-item" href="#">Departments</a>
+																										<a class="dropdown-item" href="#organizationchart">Chart</a>
+																										<a class="dropdown-item" href="#staffdetail">Employee detail</a>
+																	
+								
+																</div>
+								
+							</li>
+														
+																					<!-- top level -->
+														<li class="nav-item dropdown">
+								<a href="#citizen-charter" class="dropdown-toggle nav-link" data-toggle="dropdown">Division</a>
+								<div class="dropdown-menu">
+																											<a class="dropdown-item" href="#">Administration</a>
+																										<a class="dropdown-item" href="#">Livestock development</a>
+																										<a class="dropdown-item" href="#discount">Land Management</a>
+								
+																</div>
+								
+							</li>
+														
+																					<!-- top level -->
+														<li class="nav-item dropdown">
+								<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Publications</a>
+								<div class="dropdown-menu">
+																											<a class="dropdown-item" href="#">Tender & Notices</a>
+																	
+								
+																										<a class="dropdown-item" href="#">Letter</a>
+																	
+								
+																										<a class="dropdown-item" href="#">Reports</a>
+																	
+								
+																										<a class="dropdown-item" href="#">Press release</a>
+																</div>
+								
+							</li>
+														
+																					<!-- top level -->
+														<li class="nav-item dropdown">
+								<a href="##" class="dropdown-toggle nav-link" data-toggle="dropdown">Directives </a>
+								<div class="dropdown-menu">
+																											<a class="dropdown-item" href="#newslist">Act & Policy</a>
+																	
+								
+																										<a class="dropdown-item" href="#presslist">Circular</a>
+																	
+								
+																										<a class="dropdown-item" href="#notice">Procedures</a>
+																	
+								
+																</div>
+								
+							</li>
+														
+														<li class="nav-item dropdown">
+								<a href="#0" class="dropdown-toggle nav-link" data-toggle="dropdown">Technology </a>
+								<div class="dropdown-menu">
+																											<a class="dropdown-item" href="#policy">Technology 1</a>
+																	
+								
+																										<a class="dropdown-item" href="#regulations">Technology 2 </a>
+																	
+								
+																										<a class="dropdown-item" href="#guidelines">Technology 3 </a>
+																																	
+								
+																</div>
+								
+							</li>
+														
+																					<li class="activh nav-item"><a class="nav-link" href="gallery.html">
+							Gallery </a></li>
+							<li class="activj nav-item"><a class="nav-link" href="#">
+							Grievance</a></li>
+														<!-- top level -->
+														
+																					<li class="activi nav-item"><a class="nav-link" href="#contact-us">
+							Contact</a></li>
+														<!-- top level -->
+														
+																					
+														<!-- top level -->
+														
+													</ul>
+					</div>
+				</nav>
+				</div>
+				
+				<div class="col-12 col-md-2">
+					<div class="">
+						<ul class="list-inline font_choice web-accesibility">
+							<li class="list-inline-item" style="display: none;">
+								<span class="font_choice pull-left">
+									<div id="rvfs-controllers" class="fontsize-controllers group"></div>
+									<a href="#" id="contrast"><i class="mocit-eye-crossed"></i></a>
+								</span>
+							</li>
+							<li class="list-inline-item seaarch" style="display: none;">
+																<a href="#" onclick="changeBandwidth()">लो ब्यान्डविड्थ</a>
+														</li>
+							<!-- <li class="list-inline-item old-site" ><a href="http://202.45.147.23" target="_blank" ></a></li> -->
+
+							<li class="list-inline-item seaarch-icon"><a href="#" onclick="searchs()"><i class="mocit-magnifying-glass"></i></a></li>
+							<li class="list-inline-item lang" onclick="changeLanguage()"><a href="#">ENGLISH<i class="mocit-worldwide"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="search-area" style="display: none;">
+	  <form method="post" action = "https://mocit.gov.np/Welcome/search" id="srch">
+	    <input type="hidden" name="ci_csrf_token" value="">
+	    <input type="text" name="search"  class="form-control" placeholder="Type and Enter">
+	  </form>
+	</div>
+	<form id="langfrm" name="langfrm" method="post" action="#">
+		<input type="hidden" name="previous_url" value="/gallery">
+		<input type="hidden" name="ci_csrf_token" value="">
+		<div class="clearfix"></div>
+	</form>
+	<script type="text/javascript">
+		function changeLanguage() {
+			$("#langfrm").attr("action", ""); /*"https://mocit.gov.np/welcome/ChangeLanguage"*/
+			$('#langfrm').submit();
+		}
+		function changeBandwidth(){
+			$("#langfrm").attr("action", ""); /*"https://mocit.gov.np/change-bandwidth"*/
+			$('#langfrm').submit();
+		}
+	</script>
+	<script>
+	function searchs(){
+		$(".search-area").toggle();
+	}
+	</script>      </header>
+      <div class="clearfix"></div>
+      
+      <!-- <section class="breadcrumb-area">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+					</ul>
+	</div>	
+</section> -->            <section class="inner-page">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <div class="main-abt-area">
+          <div class="main-comon-title">
+            <h4>Photo Gallery</h4>
+          </div>
+          <div class="clearfix"></div>
+          <div class="common-title">
+          </div>
+          <div class="clearfix"></div>
+          <div class="content-area gallery-list">
+            <div class="row">
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+					<div class="col-12 col-xs-6 col-sm-8 col-lg-3">
+					  <div class="card">
+						<img class="card-img-top" src="img/nep-gov.png" width="120px" alt="123">
+						<div class="card-body">
+						  <h5 class="card-title">Government logo</h5>
+						  <a href="#" class="btn btn-primary">View All </a>
+						</div>
+					  </div>
+					</div>
+									 
+					<div class="col-12 col-xs-6 col-sm-8 col-lg-3">
+					  <div class="card">
+						<img class="card-img-top" src="img/nep-gov.png" width="120px" alt="123">
+						<div class="card-body">
+						  <h5 class="card-title">Government logo</h5>
+						  <a href="#" class="btn btn-primary">View All </a>
+						</div>
+					  </div>
+					</div>					
+					<div class="col-12 col-xs-6 col-sm-8 col-lg-3">
+					  <div class="card">
+						<img class="card-img-top" src="img/nep-gov.png" width="120px" alt="123">
+						<div class="card-body">
+						  <h5 class="card-title">Government logo</h5>
+						  <a href="#" class="btn btn-primary">View All </a>
+						</div>
+					  </div>
+					</div>					
+					<div class="col-12 col-xs-6 col-sm-8 col-lg-3">
+					  <div class="card">
+						<img class="card-img-top" src="img/nep-gov.png" width="120px" alt="123">
+						<div class="card-body">
+						  <h5 class="card-title">Government logo</h5>
+						  <a href="#" class="btn btn-primary">View All </a>
+						</div>
+					  </div>
+					</div>
+					
+					<div class="col-12 col-xs-6 col-sm-8 col-lg-3">
+					  <div class="card">
+						<img class="card-img-top" src="img/nep-gov.png" width="120px" alt="123">
+						<div class="card-body">
+						  <h5 class="card-title">Government logo</h5>
+						  <a href="#" class="btn btn-primary">View All </a>
+						</div>
+					  </div>
+					</div>
+				
+					<div class="col-12 col-xs-6 col-sm-8 col-lg-3">
+					  <div class="card">
+						<img class="card-img-top" src="img/nep-gov.png" width="120px" alt="123">
+						<div class="card-body">
+						  <h5 class="card-title">Government logo</h5>
+						  <a href="#" class="btn btn-primary">View All </a>
+						</div>
+					  </div>
+					</div>
+					
+					<div class="col-12 col-xs-6 col-sm-8 col-lg-3">
+					  <div class="card">
+						<img class="card-img-top" src="img/nep-gov.png" width="120px" alt="123">
+						<div class="card-body">
+						  <h5 class="card-title">Government logo</h5>
+						  <a href="#" class="btn btn-primary">View All </a>
+						</div>
+					  </div>
+					</div>
+				</div>
+				
+				<!-- higlight -->
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<div class="highlight-section">
+					<div class="highlight-header text-center">
+						<h6>Hilight</h6>
+					</div>
+					<ul>
+						<li class="d-flex mb-4 news-highlight"><img src="img/nep-gov.png" width="60px" class="hilight-img">
+							<a href="#" target="_blank">Higlight title goes here. The title redirect to the content link bounded dynamically.
+								<br/><span class="date d-block ml-0 mt-1">
+								<i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</span> 										
+							</a>		
+						</li>
+						<div class="clearfix"></div>
+						<li class="d-flex mb-4 news-highlight"><img src="img/nep-gov.png" width="60px" class="hilight-img">
+							<a href="#" target="_blank">Higlight title goes here. The title redirect to the content link bounded dynamically.
+								<br/><span class="date d-block ml-0 mt-1">
+								<i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</span> 										
+							</a>		
+						</li>
+						<div class="clearfix"></div>
+						<li class="d-flex mb-4 news-highlight"><img src="img/nep-gov.png" width="60px" class="hilight-img">
+							<a href="#" target="_blank">Higlight title goes here. The title redirect to the content link bounded dynamically.
+								<br/><span class="date d-block ml-0 mt-1">
+								<i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</span> 										
+							</a>		
+						</li>
+						<div class="clearfix"></div>
+						<li class="d-flex mb-4 news-highlight"><img src="img/nep-gov.png" width="60px" class="hilight-img">
+							<a href="#" target="_blank">Higlight title goes here. The title redirect to the content link bounded dynamically.
+								<br/><span class="date d-block ml-0 mt-1">
+								<i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</span> 										
+							</a>		
+						</li>
+						<div class="clearfix"></div>
+						<li class="d-flex mb-4 news-highlight"><img src="img/nep-gov.png" width="60px" class="hilight-img">
+							<a href="#" target="_blank">Higlight title goes here. The title redirect to the content link bounded dynamically.
+								<br/><span class="date d-block ml-0 mt-1">
+								<i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</span> 										
+							</a>		
+						</li>
+						<div class="clearfix"></div>
+						<li class="d-flex mb-4 news-highlight"><img src="img/nep-gov.png" width="60px" class="hilight-img">
+							<a href="#" target="_blank">Higlight title goes here. The title redirect to the content link bounded dynamically.
+								<br/><span class="date d-block ml-0 mt-1">
+								<i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</span> 										
+							</a>		
+						</li>
+						<div class="clearfix"></div>
+						<li class="d-flex mb-4 news-highlight"><img src="img/nep-gov.png" width="60px" class="hilight-img">
+							<a href="#" target="_blank">Higlight title goes here. The title redirect to the content link bounded dynamically.
+								<br/><span class="date d-block ml-0 mt-1">
+								<i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</span> 										
+							</a>		
+						</li>
+						<div class="clearfix"></div>
+							
+								
+							<!--
+								<div class="clearfix"></div>							
+								<li class="d-flex mb-4 news-highlight">
+																				<img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
+																		
+									<a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">										
+										वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
+										<i class="fa fa-calendar"></i>
+										&#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span> 										
+									</a>
+								</li>		-->	
+						</ul>
+					</div>
+				</div>
+				<!--
+                           <div class="col-12 col-sm-6 col-lg-3">
+              <div class="card">
+                <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/hhW8AvPdHp200728113544.jpg" alt="सञ्चार तथा सूचना प्रविधि मन्त्रालयका पदाधिकारीहरुको कार्यसम्पादन करार सम्झौता">
+                <div class="card-body">
+                  <h5 class="card-title">सञ्चार तथा सूचना प्रविधि मन्त्रालयका पदाधिकारीहरुको कार्यसम्पादन करार सम्झौता</h5>
+                  <a href="https://mocit.gov.np/gallerydetail/64" class="btn btn-primary">View All </a>
+                </div>
+              </div>
+            </div>
+                          <div class="col-12 col-sm-6 col-lg-3">
+              <div class="card">
+                <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/z1GwDNRnBJ200727113832.jpg" alt="श्रीमान् सचिव हरिप्रसाद बस्यालज्यूको स्वागत एवं पदबहालि तथा महानिर्देशक श्री कृष्णमुरारी न्यौपाने र श्री लेखनाथ शर्माज्यूको बिदाई कार्यक्रम">
+                <div class="card-body">
+                  <h5 class="card-title">श्रीमान् सचिव हरिप्रसाद बस्यालज्यूको स्वागत एवं पदबहालि तथा महानिर्देशक श्री कृष्णमुरारी न्यौपाने र श्री लेखनाथ शर्माज्यूको बिदाई कार्यक्रम</h5>
+                  <a href="https://mocit.gov.np/gallerydetail/62" class="btn btn-primary">View All </a>
+                </div>
+              </div>
+            </div>
+                          <div class="col-12 col-sm-6 col-lg-3">
+              <div class="card">
+                <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/VMNAaGBx9l200724032930.jpg" alt="सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाद्वारा चलचित्र विकास वोर्डको अनुगमन निरिक्षण मिति २०७७।०४।०९">
+                <div class="card-body">
+                  <h5 class="card-title">सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाद्वारा चलचित्र विकास वोर्डको अनुगमन निरिक्षण मिति २०७७।०४।०९</h5>
+                  <a href="https://mocit.gov.np/gallerydetail/61" class="btn btn-primary">View All </a>
+                </div>
+              </div>
+            </div>
+                          <div class="col-12 col-sm-6 col-lg-3">
+              <div class="card">
+                <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/3Syf5iWbFM200720031513.jpg" alt="माननीय सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाज्यू बाट सूचना तथा प्रसारण विभागबाट प्रकाशित पुस्तक बिमोचन कार्यक्रम">
+                <div class="card-body">
+                  <h5 class="card-title">माननीय सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाज्यू बाट सूचना तथा प्रसारण विभागबाट प्रकाशित पुस्तक बिमोचन कार्यक्रम</h5>
+                  <a href="https://mocit.gov.np/gallerydetail/60" class="btn btn-primary">View All </a>
+                </div>
+              </div>
+            </div>
+			-->
+                          
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+</section>            <div class="clearfix"></div>
+        <section class="footer-top">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-xs-12">
+				<a class="garte-pass" href="http://10.1.15.10" target="_blank">
+					<div class="ic-holder">
+						<img src="https://mocit.gov.np/application/resources/site/img/metal-detector-gate.svg" class="nohover">
+						<img src="https://mocit.gov.np/application/resources/site/img/gatewhite.svg" class="onhover">
+					</div>
+					<div class="tptotle">
+						गेटपास
+						<span>Gatepass</span>
+					</div>
+					
+				</a>
+			</div>
+			<div class="col-lg-4 col-xs-12">
+				<a class="garte-pass" href="https://mail.moic.gov.np/login.html" target="_blank">
+					
+					<div class="ic-holder">
+						<img src="https://mocit.gov.np/application/resources/site/img/message.svg" class="nohover">
+						<img src="https://mocit.gov.np/application/resources/site/img/messagewhite.svg" class="onhover">
+					</div>
+					<div class="tptotle">
+						इमेल <small>( कर्मचारीको लागि मात्र )</small>
+						<span>E-Mail <small>( Employee Only )</small></span>
+					</div>
+					
+				</a>
+			</div>
+			<div class="col-lg-4 col-xs-12">
+				<a class="garte-pass" href="http://103.69.125.17/" target="_blank">
+					<div class="ic-holder">
+						<img src="https://mocit.gov.np/application/resources/site/img/event.svg" class="nohover">
+						<img src="https://mocit.gov.np/application/resources/site/img/eventwhite.svg" class="onhover">
+					</div>
+					<div class="tptotle">
+						विद्युतीय हाजिरी 
+						<span>E Attendance</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+-->
+<footer>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-sm-6 col-md-2">
+				<div class="footer-c-title">
+					<span>Spokeperson</span>
+				</div>
+				<div class="s-area">
+					<div class="spoke-person-area">
+						<div class="member-area">
+							<div class="member-img"><img class="" src="img/111.png" height="120px" width="100px"  alt="">
+							</div>
+							<div class="member-desc">
+								<div class="member-name">Name of Employee</div>
+									<div class="member-postion">Position (9851148425)</div> 
+									<div class="member-postion">+977-9851148425</div>
+									<div class="member-postion">dibugsoft{at}gmail.com</div>
+								</div>
+						</div>
+					</div>
+				</div>
+				<!--
+				<div class="f-content f-others">
+					<ul class="list-unstyled">
+												<li><a href="https://mocit.gov.np/detail/acts-and-regulations">ऐन तथा नियमावलीहरु</a></li>
+												<li><a href="https://mocit.gov.np/detail/annual-program">आर्थिक वर्ष </a></li>
+												<li><a href="https://mocit.gov.np/detail/application-forms">फारामहरु</a></li>
+												<li><a href="https://mocit.gov.np/detail/ict-award-form">National ICT Award Form, 2019</a></li>
+												<li><a href="https://mocit.gov.np/detail/tatkal">तत्काल सुधार कार्ययोजना</a></li>
+											</ul>
+				</div>
+				-->
+			</div>
+			<div class="col-12 col-sm-3 col-md-2">
+				<div class="footer-c-title">Information officer</div>
+							
+					<div class="member-area">
+						<div class="member-img"><img class="" src="img/111.png" height="120px" width="100px"  alt="">
+						</div>
+						<div class="member-desc">
+							<div class="member-name">Name of Employee</div>
+							<div class="member-postion">Position</div>
+							<div class="member-postion">01254842</div>
+							<div class="member-postion">dibugsoft{at}gmail.com</div>
+						</div>
+					</div>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="footer-c-title">
+					Importance Links</div>
+				<div class="f-content f-others">
+					<ul class="list-unstyled">
+						<li><a href="http://nepal.gov.np/">Government portal</a></li>
+						<li><a href="https://www.opmcm.gov.np/en/">Office of the Prime Minister and Council of the Ministries</a></li>
+						<li><a href="https://www.npc.gov.np/np/">National Planning Commission</a></li>
+						<li><a href="https://mofaga.gov.np/">The Ministry of Federal Affairs and General Administration</a></li>
+						<li><a href="https://donidcr.gov.np/">Department of National ID and Civil Registration</a></li> 
+						<li><a href="http://www.pis.gov.np/welcome">PIS</a></li>
+						<li><a href="https://www.plgsp.gov.np/">Provincial and Local Government Support Program</a></li>
+					</ul>
+				</div>
+				
+			</div>
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="footer-c-title">
+					Contact <span>Information</span>
+				</div>
+				<div class="f-content f-contact">
+					<ul class="list-unstyled">
+						<li>Ministry of Land Management, Agricultural and Cooperative</li>
+						<li>Sudurpaschim Province, Dhangadhi, Kailali, Nepal</li>
+						<li class="c-phone"><a href="tel:+९७७-१-४२११५५६">Phone: + ०९१-४१७२२५</a></li>
+						<li class="c-fax">Fax:  +०९१-४१७४०६</li>
+						<li class="c-audio">अडियो नोटिस बोर्डः&#2407;&#2412;&#2407;&#2414;&#2406;&#2407;&#2410;&#2408;&#2406;&#2406;&#2410;&#2409;&#2415;</li>
+						<li class="c-email"><a href="mailto:info@mocit.gov.np" >Email: molmac7@gmail.com</a></li>
+						<!-- <li>Ministy of Comunication and Information Technology</li>
+						<li>Singha Durbar, Kathmandu</li>
+						<li class="c-phone"><a href="tel:+97714211556">Telephone: 977-01-451585</a></li>
+						<li class="c-fax"><a href="#">Fax: 977-01-451585</a></li>
+						<li class="c-email"><a href="mailto:info@mocit.gov.np" >Email: info@mocit.gov.np</a></li>
+						<li class="c-website"><a href="#">Website: www.mocit.gov.np</a></li>
+						<li class="c-audio"><a href="#">Audio Notice Board: 977-01-451585</a></li> -->
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="copyright">
+	<div class="container-fluid">
+		<div class="row">
+		<!--
+			<div class="col-12 col-md-5">
+				<div class="">
+					Visitor Counter: <span>
+						<img src="https://www.reliablecounter.com/count.php?page=https://mocit.gov.np&digit=style/plain/14/&reloads=0" alt="counter" title="counter" border="0">
+					</span>
+					<span style="margin-left: 20px;">
+					 अन्तिम अद्यावधिक गरिएको मिति:  <span>
+						&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2413;							
+						</span>
+					</span>
+					
+				</div>
+			</div>
+			-->
+			<div class="col-12 col-md-12">
+				<div class="c-c" style="text-align: center;">
+					© Copyright 2018.  MoLMAC, Sudurpaschim Province, All Right Reserved.
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<input type="hidden" name="baseurl" id="baseurl" value="https://mocit.gov.np/">
+</footer>
+        
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>  -->
+<script src="https://mocit.gov.np/application/resources/site//js/jquery2.1.4.min.js" ></script>
+<script src="https://mocit.gov.np/application/resources/site//js/jquery-3.3.1.slim.min.js"  ></script>
+<script src="https://mocit.gov.np/application/resources/site//js/popper.min.js" ></script>
+<script src="https://mocit.gov.np/application/resources/site//js/bootstrap.min.js"  ></script>
+<script type="text/javascript" src="https://mocit.gov.np/application/resources/site/plugins/marquee/ticker.js" rel="javascript"></script>
+<script type="text/javascript" src="https://mocit.gov.np/application/resources/site//js/plugins/store.min.js"></script>
+<script type="text/javascript" src="https://mocit.gov.np/application/resources/site//js/plugins/rv-jquery-fontsize-2.0.3.min.js"></script>
+<script type="text/javascript" src="https://mocit.gov.np/application/resources/site//js/plugins/easyview.js"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6xiZa9UcSy2YlfTZyeLXuc1beOr544Ak&callback=initMap"></script> 
+<!-- <script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/maps.googleapis.js"></script> -->
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+$.rvFontsize({
+targetSection: 'body',
+store: true, // store.min.js required!
+controllers: {
+appendTo: '#rvfs-controllers',
+showResetButton: true
+}
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#lightgallery').lightGallery();
+});
+</script>
+<script src="https://mocit.gov.np/application/resources/site//plugins/lightbox/js/picturefill.min.js"></script>
+<script src="https://mocit.gov.np/application/resources/site//plugins/lightbox/js/lightgallery-all.min.js"></script>
+<script src="https://mocit.gov.np/application/resources/site//plugins/lightbox/js/jquery.mousewheel.min.js"></script>
+<script src="https://mocit.gov.np/application/resources/site//plugins/timeline/js/jquery.mobile.custom.min.js"></script>
+<script src="https://mocit.gov.np/application/resources/site//plugins/timeline/js/main.js"></script> <!-- Resource jQuery -->
+<script src="https://mocit.gov.np/application/resources/site/js/scroll.js"></script> <!-- Resource jQuery -->
+<script src="https://mocit.gov.np/application/resources/site/js/scrollhelper.js"></script> <!-- Resource jQuery -->
+<script type="text/javascript">
+	$(function(){
+$('.timeline-nav').slick({
+slidesToShow: 12,
+slidesToScroll: 1,
+asNavFor: '.timeline-slider',
+centerMode: false,
+focusOnSelect: true,
+mobileFirst: true,
+arrows: false,
+infinite:false,
+responsive: [
+{
+breakpoint: 768,
+settings: {
+slidesToShow: 8,
+}
+},
+{
+breakpoint: 0,
+settings: {
+slidesToShow: 4,
+slidesToScroll: 2,
+}
+}
+]
+});
+
+$('.timeline-slider').slick({
+slidesToShow: 1,
+slidesToScroll: 1,
+arrows: false,
+asNavFor: '.timeline-nav',
+centerMode: true,
+cssEase: 'ease',
+edgeFriction: 0.5,
+mobileFirst: true,
+speed: 500,
+responsive: [
+{
+breakpoint: 0,
+settings: {
+centerMode: false
+}
+},
+{
+breakpoint: 768,
+settings: {
+centerMode: true
+}
+}
+]
+});
+
+});
+	
+	$(function() {
+	  // $('#example').vTicker();
+	});
+</script>
+<script type="text/javascript" src="https://mocit.gov.np/application/resources/site/plugins/timeline/slick.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#contentdetail table").addClass("table table-bordered table-condensed table-hover table-striped");
+		$("body").addClass("high");
+		var baseurl = $('#baseurl').val();
+		$("#btnfrmcontactussubmit").click(function(e) {    
+		    $('#loading').removeClass('d-none');
+		    var formdata = $("#frmcontactus").serialize();
+		    e.preventDefault();
+		    $(".fullname-error").html("");
+		    $(".email-error").html("");
+		    $(".telephone-error").html("");
+		    $(".fax-error").html("");
+		    $(".subject-error").html("");
+		    $(".message-error").html("");
+
+		    $.ajax({
+		    	url: baseurl+'ajaxcontactusform',
+		    	type: 'POST',
+		    	data: formdata,
+		    })
+		    .done(function(resp) {
+		    	console.log(resp);
+				$('#loading').addClass('d-none');
+				response = jQuery.parseJSON(resp);
+				if(response.status=='error'){
+				  if(response.data.fullname){
+				  $('.fullname-error').html(response.data.fullname);
+				  }
+				  if(response.data.email){
+				  $('.email-error').html(response.data.email);
+				  }
+				  if(response.data.telephone){
+				  $('.telephone-error').html(response.data.telephone);
+				  }
+				  if(response.data.fax){
+				  $('.fax-error').html(response.data.fax);
+				  }
+				  if(response.data.subject){
+				  $('.subject-error').html(response.data.subject);
+				  }
+				  if(response.data.message){
+				  $('.message-error').html(response.data.message);
+				  }
+				}
+				if(response.status=='success'){
+				  $('.loading').addClass('hidden');
+				  alert(response.messagedata);
+				  window.location.href = baseurl+'contact-us';
+				}
+		    })
+		    .fail(function(resp) {
+		    	console.log(resp);
+		    	console.log("error");
+		    });
+  		});
+		});
+		// for 
+		$(".s-ss").click(function() {
+			$('.nav-link').parent().removeClass("act-ve");
+			$(this).parent().addClass("act-ve");
+	});
+
+	$(".sublist > .nav-link").click(function() {
+			$('.nav-link').removeClass("active show");
+			$(this).addClass("active show");
+			
+			$('.sub-area').removeClass("active show");			
+			var attid = $(this).attr('href');
+			$('.sub-child').removeClass("active show");
+			$(attid).addClass("active show");			
+	});
+		$(".main-tab").click(function() {
+			$('.nav-item').removeClass("act-ve");
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		  var baseurl = 'https://mocit.gov.np/';
+		  $(".give-feedback").click(function() {  
+		  	var modelId=$(this).val();
+			$("#econsultation-"+modelId).click(function(e) {   
+			    $('.loading').removeClass('hidden');
+			    var formdata = $("#frmeconsultation-"+modelId).serialize();
+			    e.preventDefault();
+			    $(".fullname-error").html("");
+			    $(".telephone-error").html("");
+			    $(".message-error").html("");
+			    $.ajax({
+			    	url: baseurl+'econsultations/ajaxConsultationsForm',
+			    	type: 'POST',
+			    	data: formdata,
+			    })
+			    .done(function(resp) {
+			    	console.log(resp);
+					$('.loading').addClass('hidden');
+					response = jQuery.parseJSON(resp);
+					if(response.status=='error'){
+					  if(response.data.fullname){
+					  $('.fullname-error').html(response.data.fullname);
+					  }
+					  if(response.data.telephone){
+					  $('.telephone-error').html(response.data.telephone);
+					  }
+					  if(response.data.message){
+					  $('.message-error').html(response.data.message);
+					  }
+					}
+					if(response.status=='success'){
+					  $('.loading').addClass('hidden');
+					  alert(response.messagedata);
+					  window.location.href = baseurl+'econsultations';
+					}
+			    })
+			    .fail(function(resp) {
+			    	console.log(resp);
+			    	console.log("error");
+			    });
+	  		});
+	  		 });
+  		});
+</script>
+<script>
+      function initMap() {
+        var chicago = new google.maps.LatLng(27.695494, 85.327474);
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: chicago,
+          zoom: 18
+        });
+
+        var coordInfoWindow = new google.maps.InfoWindow();
+        coordInfoWindow.setContent(createInfoWindowContent(chicago, map.getZoom()));
+        coordInfoWindow.setPosition(chicago);
+        coordInfoWindow.open(map);
+
+        map.addListener('zoom_changed', function() {
+          coordInfoWindow.setContent(createInfoWindowContent(chicago, map.getZoom()));
+          coordInfoWindow.open(map);
+        });
+      }
+
+      var TILE_SIZE = 256;
+
+      function createInfoWindowContent(latLng, zoom) {
+        var scale = 1 << zoom;
+
+        var worldCoordinate = project(latLng);
+
+        var pixelCoordinate = new google.maps.Point(
+            Math.floor(worldCoordinate.x * scale),
+            Math.floor(worldCoordinate.y * scale));
+
+        var tileCoordinate = new google.maps.Point(
+            Math.floor(worldCoordinate.x * scale / TILE_SIZE),
+            Math.floor(worldCoordinate.y * scale / TILE_SIZE));
+
+        return [
+          '<h3 class="sharp" style="width:300px;">Ministry of Communication and Information Technology</h3><p class="c-address">													Singha Durbar, Kathmandu</p><ul class="list-unstyled"><li class="c-phone">Phone: +977-1-4211556</li><li class="c-fax">Fax: +977-1-4211729</li>													<li class="c-audio">Audio Notice Board :1618014200439 </li><li class="c-email">Email : info@mocit.gov.np</li>													<li class="c-website">Website : http://www.mocit.gov.np</li><li class="c-schedule">Working Hour : 9:00 AM - 17:00 PM</li>												</ul> '
+        ].join('<br>');
+      }
+
+      // The mapping between latitude, longitude and pixels is defined by the web
+      // mercator projection.
+      function project(latLng) {
+        var siny = Math.sin(latLng.lat() * Math.PI / 180);
+
+        // Truncating to 0.9999 effectively limits latitude to 89.189. This is
+        // about a third of a tile past the edge of the world tile.
+        siny = Math.min(Math.max(siny, -0.9999), 0.9999);
+
+        return new google.maps.Point(
+            TILE_SIZE * (0.5 + latLng.lng() / 360),
+            TILE_SIZE * (0.5 - Math.log((1 + siny) / (1 - siny)) / (4 * Math.PI)));
+      }
+</script>
+<script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/velocity.min.js"></script>
+<script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/velocity.ui.min.js"></script>
+
+<style type="text/css">
+	.error{
+		color: red;
+	}
+</style>
+
+<script type="text/javascript">
+  // Opening animation
+
+$.Velocity.RegisterEffect('fadeInPanels', {
+  defaultDuration: 500,
+  calls: [
+    [{
+      opacity: [1, 0.3],
+      scale: [1, 0.5]
+    }]
+  ]
+});
+
+$('.panel').velocity('fadeInPanels', {
+  stagger: 250,
+})
+
+// Accordions
+
+$('.accordion-link').click(function(e) {
+
+  e.preventDefault();
+
+  var accordionWrapper = $(this).closest('.accordion'),
+    accordionActivePanel = $(this).closest('.panel'),
+    accordionActiveLink = accordionWrapper.find('.active');
+
+  if ($(this).closest('.panel').find('.content-collapse').hasClass('velocity-animating')) {
+    return false;
+  } else if (e.handled !== true) {
+    accordionActiveLink.closest('.panel').find('.content-collapse').attr('aria-expanded', false).velocity('slideUp', {
+      easing: 'easeOutQuad'
+    });
+    if ($(this).hasClass('active')) {
+      $(this).attr('aria-expanded', false).removeClass('active');
+    } else {
+      accordionActivePanel.find('.content-collapse').attr('aria-expanded', true).velocity('slideDown', {
+        easing: 'easeOutQuad'
+      });
+      accordionWrapper.find('.accordion-link').removeClass('active').attr('aria-expanded', false);
+      $(this).attr('aria-expanded', true).addClass('active');
+    }
+    e.handled = true;
+  } else {
+    return false;
+  }
+});
+
+// Toggles
+
+$('.toggle-link').click(function(e) {
+
+  e.preventDefault();
+
+  var toggleActivePanel = $(this).closest('.panel');
+
+  if (toggleActivePanel.find('.content-collapse').hasClass('velocity-animating')) {
+    return false;
+  } else if (e.handled !== true) {
+    if ($(this).hasClass('active')) {
+      toggleActivePanel.find('.content-collapse').attr('aria-expanded', false).velocity('slideUp', {
+        easing: 'easeOutQuad'
+      });
+      $(this).attr('aria-expanded', false).removeClass('active');
+    } else {
+      toggleActivePanel.find('.content-collapse').attr('aria-expanded', true).velocity('slideDown', {
+        easing: 'easeOutQuad'
+      });
+      $(this).attr('aria-expanded', true).addClass('active');
+    }
+    e.handled = true;
+  } else {
+    return false;
+  }
+});
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".fa-download").html(" ");
+});
+</script>    </div>
+  </body>
+</html>

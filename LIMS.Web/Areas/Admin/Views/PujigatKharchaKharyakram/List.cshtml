@@ -35,15 +35,28 @@
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
+                    },
+                    update: {
+                        url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
                     }
                 },
                 schema: {
                     data: "Data",
                     total: "Total",
                     errors: "Errors",
+                    model: {
+                        id: "Id",
+                        fields: {
+
+                            Id: { editable: false, type: "string" }
+                        }
+                    },
 
                 },
-                error: function(e) {
+                error: function (e) {
                     display_kendoui_grid_error(e);
                     // Cancel the changes
                     this.cancelChanges();
@@ -67,41 +80,56 @@
                 title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
             },
-                {
+            {
                 field: "Program",
                 title: "@T("Admin.PujigatKaryakram.Fields.Program")",
-                 },
-            {
-                field: "ProgramSummery",
-                title: "@T("Admin.PujigatKaryakram.Fields.ProgramSummery")",
-                 },
+            },
+            
             {
                 field: "kharchaCode",
                 title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
-                },
-             {
-                 field: "BarsikBajet",
+            },
+            {
+                field: "BarsikBajet",
                 title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
-                },
-             {
-                 field: "PrathamChaumasikBadjet",
+            },
+            {
+                field: "PrathamChaumasikBadjet",
                 title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
-                },
-               {
-                   field: "DosroChaumasikBadjet",
+            },
+            {
+                field: "DosroChaumasikBadjet",
                 title: "@T("Admin.PujigatKaryakram.Fields.DosroChaumasikBadjet")",
-                },
-               {
-                   field: "TesroChaumasikBadjet",
+            },
+            {
+                field: "TesroChaumasikBadjet",
                 title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
                 },
-               {
-                   field: "Remarks",
-                title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
-                },
+            {
+                field: "Expenses_category",
+                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
+            },
+            {
+                field: "Unit",
+                title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
+            },
+            {
+                command: [
+                    {
+                        name: "edit",
+                        text: {
+                            edit: "@T("Admin.Common.Edit")",
+                            update: "@T("Admin.Common.Update")",
+                            cancel: "@T("Admin.Common.Cancel")"
+                        },
 
-           ]
+                    }],
+                width: 200
+            }
+            ]
+
         });
+
     });
 </script>
 <script>

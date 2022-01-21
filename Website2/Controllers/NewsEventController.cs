@@ -46,6 +46,8 @@ namespace LIMS.Website1.Controllers
                 .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
 
             var newsEventVM = new NewsEventViewModel();
+            newsEventVM.NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList();
+
             if (!String.IsNullOrEmpty(type))
             {
                 newsEventTenders = newsEventTenders.Where(m => m.Type == type).ToList();

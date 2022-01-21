@@ -169,6 +169,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                       new SelectListItem {
                         Text="Video",
                         Value="Video",
+                    },
+                      new SelectListItem {
+                        Text="Facebook",
+                        Value="Facebook",
                     }
             };
             types.Insert(0, new SelectListItem { Text = _localizationService.GetResource("Admin.Common.Select"), Value = "" });

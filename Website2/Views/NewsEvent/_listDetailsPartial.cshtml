@@ -1,7 +1,6 @@
 ﻿@model NewsEventViewModel
 
 
-<div class="container">
     <div class="row">
         <br />
         <div class="col-md-3">
@@ -34,14 +33,14 @@
         </div>
         @if (Model.ObjNews != null)
         {
-            <div class="col-md-9">
+            <div class="col-md-6">
 
                 <h4 class="text-primary">
                     <i class="fa fa-newspaper-o"></i>
                     @Model.ObjNews.Title
                 </h4>
                 <font style="color: rgb(159,159,159);">
-                    <i class="fa fa-calendar">&nbsp;@Model.ObjNews.UploadedDate.ToShortDateString() &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
+                    <i class="fa fa-calendar">&nbsp;@Model.ObjNews.UploadedDate.ToString("dd MMMM yy") &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
                 </font><br />
 
                 <div class="text-center">
@@ -54,7 +53,7 @@
         }
         else
         {
-            <div class="col-md-9">
+            <div class="col-md-6">
                 <h4 class="text-primary">
                     <i class="fa fa-newspaper-o"></i>
                     News/Event Title
@@ -65,6 +64,57 @@
                 No record found.
             </div>
         }
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="highlight-section">
+                <div class="highlight-header text-center">
+                    <h6>Hilight</h6>
+                </div>
+                <ul>
+                    @if (Model.NewsAndEvent.Count() > 0)
+                    {
+                        @foreach (var item in Model.NewsAndEvent)
+                        {
+                            <li class="d-flex mb-4 news-highlight">
+                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"~/Dolfd/img/nep-gov.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov.png'" alt="" width="25" height="20">
+
+                                <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.Type">
+                                    @item.Title
+                                    <br /><span class="date d-block ml-0 mt-1">
+                                        <i class="fa fa-calendar">   @item.UploadedDate.ToString("dd MMM yyyy")</i>
+                                    </span>
+                                </a>
+                            </li>
+                            <div class="clearfix"></div>
+                        }
+                    }
+                    else
+                    {
+                        <li class="d-flex mb-4 news-highlight">
+                            <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                            <a href="#" target="_blank">
+                                No records found
+                                <br /><span class="date d-block ml-0 mt-1">
+                                    <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                                </span>
+                            </a>
+                        </li>
+                    }
+
+                    <!--
+                <div class="clearfix"></div>
+                <li class="d-flex mb-4 news-highlight">
+                                                                <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
+
+                    <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
+                        वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
+                        <i class="fa fa-calendar"></i>
+                        &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
+                    </a>
+                </li>		-->
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 @section Scripts

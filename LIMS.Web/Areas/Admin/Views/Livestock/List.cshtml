@@ -62,22 +62,46 @@
                         type: "POST",
                         dataType: "json",
                         data: additionalData
-                    }
+                    },
+                    update: {
+                        url: "@Html.Raw(Url.Action("UpdateLivestock", "Livestock"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken,
+                        complete: function (response) {
+                            $("livestock-grid").data("kendoGrid").dataSource.read();
+                        }
+                    },
                 },
                 schema: {
                     data: "Data",
                     total: "Total",
-                    errors: "Errors"
+                    errors: "Errors",
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            Native: { editable: true },
+                            Improved: { editable: true },
+                            "Species.EnglishName":{ editable: false },
+                            "AnimalType.Name": { editable: false },
+                            District: { editable: false },
+                            LocalLevel: { editable: false },
+                            Ward: { editable: false },
+
+                            }
+
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+
+                        this.cancelChanges();
+                    },
+                    pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
                 },
-                error: function(e) {
-                    display_kendoui_grid_error(e);
-                    
-                    this.cancelChanges();
-                },
-                pageSize: @(adminAreaSettings.DefaultGridPageSize),
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true
             },
             pageable: {
                 refresh: true,
@@ -91,16 +115,12 @@
             columns: [
                 {
                     field: "Species.EnglishName",
-                title: "@T("Admin.Livestock.SpeciesName")",
-                width: 200,
-            },
-                {
-                    field: "BreedType",
-                    title: "@T("Admin.Livestock.Type")",
+                    title: "@T("Admin.Livestock.SpeciesName")",
                     width: 200,
                 },
-               {
-                   field: "AnimalType.Name",
+
+                {
+                    field: "AnimalType.Name",
                     title: "@T("Admin.Livestock.AgeCategory")",
                     width: 200,
                 },
@@ -113,14 +133,36 @@
                 },
                 {
                     field: "LocalLevel",
-                    title:"@T("Admin.Common.LocalLevel")",
+                    title: "@T("Admin.Common.LocalLevel")",
                     width: 200,
                 },
                  {
-                    field: "NoOfLivestock",
-                    title:"@T("Admin.Livestock.NoOfLivestock")",
+                    field: "Ward",
+                    title: "@T("Admin.Common.Ward")",
                     width: 200,
                 },
+                {
+                    field: "Local",
+                    title: "@T("Admin.Livestock.Native")",
+                    width: 200,
+                },
+                {
+                    field: "Improved",
+                    title: "@T("Admin.Livestock.Improved")",
+                    width: 200,
+                },
+                {
+                    command: [{
+                        name: "edit",
+                        text: {
+                            edit: " ",
+                            update: " ",
+                            cancel: " "
+                        }
+                    }
+                    ],
+                    width: 200
+                }
             ]
         });
     });

@@ -24,7 +24,7 @@
     <div class="col-md-3 videoOnly">
 
         <div class="form-group">
-            <admin-label asp-for="VideoUrl" />
+            <label class="abc">@T("Admin.Gallery.VideoOrFacebookUrl")</label>
             <admin-input asp-for="VideoUrl" />
             <span asp-validation-for="VideoUrl"></span>
 
@@ -36,7 +36,7 @@
     <div class="actions">
         <div class="btn-group btn-group-devided">
             <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
-            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+            
         </div>
     </div>
 </center>
@@ -44,10 +44,14 @@
 
 <script>
     $(document).ready(function () {
-
+        $(".videoOnly").hide();
+        if ($("#type").val() != "Photo" && $("#type").val() != "") {
+            $(".videoOnly").show();
+        }
         $("#type").change(function () {
-            if ($(this).val() == "Video") {
+            if ($(this).val() != "Photo") {
                 $(".videoOnly").show();
+               
             }
             else {
                 $(".videoOnly").hide();

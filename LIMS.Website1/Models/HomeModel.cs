@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace LIMS.Website1.Models
 {
     public class HomeModel {
-         public GalleryModel Gallery { get; set; }
+        public GalleryModel Facebook { get; set; }
+        public GalleryModel Gallery { get; set; }
          public GalleryModel Video { get; set; }
         public List<GalleryModel> Galleries { get; set; }
         public List<GalleryModel> Videos{ get; set; }

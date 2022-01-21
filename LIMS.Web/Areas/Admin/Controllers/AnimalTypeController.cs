@@ -28,7 +28,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IStoreService _storeService;
         private readonly IWorkContext _workContext;
         private readonly SeoSettings _seoSettings;
-        private readonly ISpeciesService _speciesService;
+        private readonly ILivestockSpeciesService _speciesService;
         public AnimalTypeController(
             IAnimalTypeService animalTypeService,
             ILanguageService languageService,
@@ -36,7 +36,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IStoreService storeService,
             IWorkContext workContext,
             SeoSettings seoSettings,
-            ISpeciesService speciesService
+            ILivestockSpeciesService speciesService
             )
         {
             _animalTypeService = animalTypeService;
@@ -67,7 +67,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
 
@@ -81,12 +81,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
 
                 var animalType = model.ToEntity();
-                animalType.Species = await _speciesService.GetSpeciesById(model.SpeciesId);
+                animalType.Species = await _speciesService.GetBreedById(model.SpeciesId);
                 await _animalTypeService.InsertAnimalType(animalType);
                 SuccessNotification(_localizationService.GetResource("Admin.AnimalType.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = animalType.Id }) : RedirectToAction("List");
             }
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             //If we got this far, something failed, redisplay form
@@ -104,7 +104,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             AnimalTypeModel model = animalType.ToModel();
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             return View(model);
@@ -122,7 +122,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var m = model.ToEntity(animalType);
-                animalType.Species = await _speciesService.GetSpeciesById(model.SpeciesId);
+                animalType.Species = await _speciesService.GetBreedById(model.SpeciesId);
                 await _animalTypeService.UpdateAnimalType(m);
               
                 SuccessNotification(_localizationService.GetResource("Admin.AnimalType.Updated"));
@@ -138,7 +138,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             return View(model);

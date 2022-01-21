@@ -109,6 +109,8 @@
        public const string AccessMolmacRegister = "AccessMolmacRegister";
 
         public const string AccessGeneralCMS = "AccessGeneralCMS";
+        public const string AccessCropsProduction = "AccessCropsProduction";
+
 
     }
 }

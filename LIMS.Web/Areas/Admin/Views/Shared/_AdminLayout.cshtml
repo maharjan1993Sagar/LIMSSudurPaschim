@@ -166,7 +166,7 @@
                                 </a>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <div class="column">
                                         <div>
                                             <a href="~/Admin"><img src="~/administration/build/images/LIMSLogo.png" width="90px" height="90px" /></a>
@@ -189,8 +189,8 @@
                                 </div>
 
                                 @*<vc:admin-widget widget-zone="header_toggle_after" additional-data="null" />*@
-                                <div class="col-md-5 text-center">
-                                    <h2>@T("Software.Name") (CDMS)</h2>
+                                <div class="col-md-4 text-center">
+                                    @*<h2>@T("Software.Name") (CDMS)</h2>*@
                                     
                                 </div>
                                 <div class="col-md-3">
@@ -215,12 +215,18 @@
                                                             <i class="icon-user"></i> @T("Admin.Header.Profile")
                                                         </a>
                                                     </li>
+                                                    
                                                     <li>
                                                         <a href="@Url.Action("FiscalYearGraph", "FiscalYear", new {area = Constants.AreaAdmin })">
                                                             <i class="icon-settings"></i> @T("Admin.Header.SetFiscalYear")
                                                         </a>
                                                     </li>
                                                 }
+                                                <li>
+                                                    <a href="@Url.Action("ChangePassword", "Customer")">
+                                                        <i class="icon-user"></i> @T("Admin.Header.PasswordChange")
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)">
                                                         <i class="icon-logout"></i> @T("Admin.Header.Logout")

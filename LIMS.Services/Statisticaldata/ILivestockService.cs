@@ -12,7 +12,7 @@ namespace LIMS.Services.Statisticaldata
     {
         Task<Livestock> GetLivestockById(string id);
         Task<IPagedList<Livestock>> GetLivestock(string createdby ,int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear="");
-        Task<IPagedList<Livestock>> GetFilteredLivestock(string createdby,string speciesId,string breedType,string fiscalYearId,string quater,string month,int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Livestock>> GetFilteredLivestock(string createdby,string speciesId,string fiscalYearId,string LocalLevel,string district,int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<Livestock>> GetFilteredLivestock(string createdby, string speciesId, string breedType, string fiscalYearId, string quater,string ward,string month, int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task DeleteLivestock(Livestock livestock);

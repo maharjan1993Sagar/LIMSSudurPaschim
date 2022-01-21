@@ -169,7 +169,7 @@ body {
 }
 
 .left_col {
-    background: #428bca;
+    background:#585f64;
 }
 
 .nav-sm .container.body .col-md-3.left_col {
@@ -622,7 +622,7 @@ body .container.body .right_col {
 
 body {
     color: #333333;
-    background: #428bca;
+    background: #585f64;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.471;

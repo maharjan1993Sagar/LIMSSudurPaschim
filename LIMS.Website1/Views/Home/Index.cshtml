@@ -95,7 +95,7 @@
         </div>
     </div>
     <div class="grid-item" style="background-color: #ffffff">
-        <h5 style="text-align:center"><b>Director</b></h5>
+        @*<h5 style="text-align:center"><b>Director</b></h5>*@
         <div class="card" style="padding: 3px; margin-left: 5px;margin-right: 5px">
 
             <img src='@((Model.Director!=null&&(!String.IsNullOrEmpty(Model.Director.Image.PictureUrl)))?Model.Director.Image.PictureUrl:"/Dolfd/img/111.png")'
@@ -105,13 +105,15 @@
         <p style="text-align:center;">@(Model.Director!=null?Model.Director.Name:"Director")</p>
         <hr>
 
-        <h5 style="text-align:center"><b>Information Officer</b></h5>
         <div class="card" style="padding: 3px; margin-right: 5px;margin-left: 5px;">
             <img src='@((Model.InformationOfficer!=null&&(!String.IsNullOrEmpty(Model.InformationOfficer.Image.PictureUrl)))?Model.InformationOfficer.Image.PictureUrl:"/Dolfd/img/111.png")'
                  onerror='this.onerror=null; this.src="/Dolfd/img/111.png"'
                  height="151" alt="Information officer" style="width:100%">
+
         </div>
         <p style="text-align:center;">Mr./Mrs. @(Model.InformationOfficer!=null?Model.InformationOfficer.Name:"Information Officer")</p>
+        <p style="text-align:center"><b>Information Officer</b></p>
+
     </div>
 </div>
 <div class="container">
@@ -329,7 +331,8 @@
                                 <div class="row">
                                     <div class="col-md-3 text-center">
                                         <!-- carousel -->
-                                        <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                        @item.Title
+                                        @*<img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20">*@
                                     </div>
                                     <div class="col-md-9">
                                         <p style="margin: 0 0 .21em; line-height: 1.4285em;"> <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="News" target="_blank">@item.Title</a></p>
@@ -369,13 +372,13 @@
                                 <div class="row">
                                     <div class="col-md-3 text-center">
                                         <!-- carousel -->
-
-                                        <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                        @item.Title
+                                        @*<img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='~/Dolfd/img/38.png'" alt="" width="25" height="20">*@
                                     </div>
                                     <div class="col-md-9">
                                         <p style="margin: 0 0 .21em; line-height: 1.4285em;"> <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Event" target="_blank">@item.Title </a></p>
                                         <p>
-                                            <small class="block">@item.ActiveDate </small>
+                                            <small class="block">@item.ActiveDate.ToShortDateString() </small>
                                         </p>
                                     </div>
                                 </div>
@@ -408,13 +411,26 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading text-center">Facebook Plugin</div>
                     <div class="panel-body" style="min-height:200px;">
-                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook&tabs=timeline&width=247&height=270&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                                width="247" height="270"
-                                style="border:none;overflow:hidden"
-                                scrolling="no" frameborder="0"
-                                allowfullscreen="true"
-                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                        </iframe>
+                        @if (Model.Facebook != null)
+                        {
+                            <iframe src="@Model.Facebook.VideoUrl"
+                                    width="247" height="270"
+                                    style="border:none;overflow:hidden"
+                                    scrolling="no" frameborder="0"
+                                    allowfullscreen="true"
+                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                            </iframe>
+                        }
+                        else
+                        {
+                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook&tabs=timeline&width=247&height=270&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                                    width="247" height="270"
+                                    style="border:none;overflow:hidden"
+                                    scrolling="no" frameborder="0"
+                                    allowfullscreen="true"
+                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                            </iframe>
+                        }
                     </div>
                 </div>
                 <!--<div class="gallery">

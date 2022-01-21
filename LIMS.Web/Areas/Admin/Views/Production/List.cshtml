@@ -73,12 +73,35 @@
                         type: "POST",
                         dataType: "json",
                         data: additionalData
+                    },
+                          update: {
+                        url: "@Html.Raw(Url.Action("UpdateProduction", "Production"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken,
+                        complete: function (response) {
+                            $("production-grid").data("kendoGrid").dataSource.read();
+                        }
                     }
+
                 },
                 schema: {
                     data: "Data",
                     total: "Total",
-                    errors: "Errors"
+                    errors: "Errors",
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            "Species.EnglishName": { editable: false },
+                            ProductionType: { editable: false },
+                            District: { editable: false },
+                            LocalLevel: { editable: false },
+                            Quantity: { editable: true },
+                            Ward: { editable: false },
+
+                        }
+                    }
                 },
                 error: function(e) {
                     display_kendoui_grid_error(e);
@@ -105,7 +128,7 @@
                 title: "@T("Admin.Production.SpeciesName")",
                 width: 200,
             },
-                
+
                 {
                     field: "ProductionType",
                     title:"@T("Admin.Production.ProdictionType")",
@@ -122,11 +145,28 @@
                     title:"@T("Admin.Common.LocalLevel")",
                     width: 200,
                 },
+                {
+                    field: "Ward",
+                    title:"@T("Admin.Common.Ward")",
+                    width: 200,
+                },
                  {
                     field: "Quantity",
                     title:"@T("Admin.Common.Quantity")",
                     width: 200,
                 },
+                {
+                    command: [{
+                        name: "edit",
+                        text: {
+                            edit: " ",
+                            update: " ",
+                            cancel: " "
+                        }
+                    }
+                    ],
+                    width: 200
+                }
             ]
         });
     });

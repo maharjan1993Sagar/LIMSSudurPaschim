@@ -28,7 +28,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
     public class ProductionController : BaseAdminController
     {
         private readonly ILocalizationService _localizationService;
-        private readonly ISpeciesService _speciesService;
+        private readonly ILivestockSpeciesService _speciesService;
         private readonly IUnitService _unitService;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly IProductionionDataService _productionionDataService;
@@ -37,7 +37,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILssService _lssService;
         private readonly ICustomerService _customerService;
         private readonly IFarmService _farmService;
-        public ProductionController(ILocalizationService localizationService, ISpeciesService speciesService, IUnitService unitService, IFiscalYearService fiscalYearService, IProductionionDataService productionionDataService, IWorkContext workContxt,
+        public ProductionController(ILocalizationService localizationService, ILivestockSpeciesService speciesService, IUnitService unitService, IFiscalYearService fiscalYearService, IProductionionDataService productionionDataService, IWorkContext workContxt,
            IBreedService breedService,
              ILssService lssService,
              ICustomerService customerService,
@@ -67,17 +67,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
 
             string createdby = null;
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
+           
                 createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
-
+           
             var production = await _productionionDataService.GetProduction(createdby,command.Page - 1,command.PageSize);
 
             var gridModel = new DataSourceResult {
@@ -86,9 +78,97 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             return Json(gridModel);
         }
+
+
+
+        public async Task<IActionResult> Report()
+        {
+            var provience = ProvinceHelper.GetProvince();
+            provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.provience = provience;
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m=>m.Name).ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var productionType = new List<SelectListItem>() {
+                new SelectListItem{
+                    Text="Milk",
+                    Value="Milk"
+                },
+                new SelectListItem{
+                    Text="Meat",
+                    Value="Meat"
+                },
+                  new SelectListItem{
+                    Text="Wool",
+                    Value="Wool"
+                },
+                   new SelectListItem{
+                    Text="Egg",
+                    Value="Egg"
+                },
+                    new SelectListItem{
+                    Text="Pasmina",
+                    Value="Pasmina"
+                },
+            };
+            productionType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Type = productionType;
+            var getfiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var CurrentFiscalYear = getfiscalyear.Id;
+
+            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",CurrentFiscalYear).ToList();
+            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Fiscalyear = fiscalyear;
+            return View();
+        }
+
+        [PermissionAuthorizeAction(PermissionActionName.List)]
+        [HttpPost]
+        public async Task<IActionResult> Report(string type , string fiscalYear, string district , string locallevel)
+        {
+            string user = _workContext.CurrentCustomer.Id;
+            List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+
+            string createdby = null;
+            if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacAdmin"))
+            {
+                createdby = "molmac";
+            }
+            else
+            {
+                createdby = _workContext.CurrentCustomer.Id;
+            }
+         
+
+            var production = await _productionionDataService.GetFilteredProduction(createdby,type,fiscalYear,locallevel,district);
+           // var prod=production.GroupBy(m=>m.ProductionType)
+            var gridModel = new DataSourceResult {
+                Data = production,
+                Total = production.TotalCount
+            };
+            return Json(gridModel);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<IActionResult> GetSpeciesProductionType(string productionType)
         {
-            var species = await _speciesService.GetSpecies();
+            var species = await _speciesService.GetBreed();
             var speciesist = species.ToList();
             if (productionType.ToLower() == "meat")
             {
@@ -123,7 +203,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             var productionType = new List<SelectListItem>() {
@@ -161,8 +241,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             ViewBag.UnitId = unit;
             ViewBag.ProductionTypeId = productionType;
+            WardHelper wardHelper = new WardHelper();
+
+            var ward = wardHelper.GetWard();
+            ward.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            ViewBag.Ward = ward;
             ProductionModel model = new ProductionModel();
-            model.Species = await _speciesService.GetSpecies();
+            model.Species = await _speciesService.GetBreed();
             return View(model);
         }
 
@@ -174,42 +260,29 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var speciesIds = form["SpeciesId"].ToList();
             var quantities = form["Quantity"].ToList();
-            var units = form["Unit"].ToList();
-            var wards = form["Ward"].ToList();
-            var toles = form["Tole"].ToList();
-            var productionDates = form["ProductionDate"].ToList();
+           
             var existingProductionDataIds = form["ProductionDataId"].ToList();
             var updateproductions = new List<Production>();
             var addproduction = new List<Production>();
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
+            
                 createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+           
             for (int i = 0; i < speciesIds.Count(); i++)
             {
                 if (string.IsNullOrEmpty(quantities[i])) continue;
                 var production = new Production {
                     Quantity = quantities[i],
-                    Unit = await _unitService.GetUnitById(units[i]),
-                    Ward = wards[i],
-                    Tole = toles[i],
-                    Date = productionDates[i],
+                
                     FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYear),
-                    Species = await _speciesService.GetSpeciesById(speciesIds[i]),
+                    Species = await _speciesService.GetBreedById(speciesIds[i]),
                     ProductionType = model.ProductionType,
                     Provience = model.Provience,
                     District = model.District,
                     LocalLevel = model.LocalLevel,
-                    Quater = model.Quater,
                     CreatedBy = createdby,
+                    Ward=model.Ward,
                     Farm = await _farmService.GetFarmById(model.FarmId),
                     FarmId=model.FarmId
                 };
@@ -236,22 +309,26 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+        public async Task<ActionResult> UpdateProduction(string Id,string Quantity) {
+            var production = await _productionionDataService.GetProductionById(Id);
+            if(production!=null)
+            {
+                production.Quantity =Quantity;
+               await _productionionDataService.UpdateProduction(production);
+                return Json(true);
+            }
+            return Json(false);
+        }
         [HttpPost]
-        public async Task<IActionResult> GetProductionData(string fiscalyearId, string quarter, string productionType)
+        public async Task<IActionResult> GetProductionData(string fiscalyearId, string district,string locallevel,string ward, string productionType)
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
+           
                 createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
-            var productiondata = await _productionionDataService.GetFilteredProduction(fiscalyearId, quarter, productionType, createdby);
+            var productiondata = await _productionionDataService.GetFilteredProduction(fiscalyearId, productionType, createdby, district, locallevel,ward);
             return Json(productiondata);
         }
 

@@ -8,14 +8,20 @@ namespace LIMS.Website1.Models
 {
     public class HomeModel {
         public GalleryModel Gallery { get; set; }
+        public GalleryModel Facebook { get; set; }
+
         public GalleryModel Video { get; set; }
         public List<GalleryModel> Galleries { get; set; }
         public List<GalleryModel> Videos{ get; set; }
         public List<NewsEventTenderModel> News { get; set; }
+        public List<NewsEventTenderModel> NewsAndEvent { get; set; }
+
         public List<NewsEventTenderModel> NewsScroll { get; set; }
         public List<NewsEventTenderModel> Events { get; set; }
         public List<NewsEventTenderModel> Notices { get; set; }
         public List<NewsEventTenderModel> Tenders { get; set; }
+        public List<NewsEventTenderModel> PressReleaseAndLetter { get; set; }
+
         public List<NewsEventTenderModel> PressRelease { get; set; }
         public List<NewsEventTenderModel> Letters { get; set; }
         public List<NewsEventTenderModel> RulesRegulation { get; set; }

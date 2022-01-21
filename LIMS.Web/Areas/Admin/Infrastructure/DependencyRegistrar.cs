@@ -123,6 +123,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<TalimService>().As<ITalimService>().InstancePerLifetimeScope();
             builder.RegisterType<SoilService>().As<ISoilService>().InstancePerLifetimeScope();
             builder.RegisterType<MarketDataService>().As<IMarketDataService>().InstancePerLifetimeScope();
+            builder.RegisterType<LivestockService>().As<ILivestockService>().InstancePerLifetimeScope();
 
             builder.RegisterType<PujigatKharchaKharakramService>().As<IPujigatKharchaKharakramService>().InstancePerLifetimeScope();
             builder.RegisterType<MonthlyPragatiService>().As<IMonthlyPragatiService>().InstancePerLifetimeScope();
@@ -145,6 +146,11 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<LIMS.Services.Messages.WorkflowMessageService>().As<LIMS.Services.Messages.IWorkflowMessageService>().InstancePerLifetimeScope();
             builder.RegisterType<LIMS.Services.Messages.MessageTemplateService>().As<LIMS.Services.Messages.IMessageTemplateService>().InstancePerLifetimeScope();
             builder.RegisterType<Grand.Services.Messages.MessageTokenProvider>().As<LIMS.Services.Messages.IMessageTokenProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<LivestockBreedService>().As<ILivestockBreedService>().InstancePerLifetimeScope();
+            builder.RegisterType<LivestockSpeciesService>().As<ILivestockSpeciesService>().InstancePerLifetimeScope();
+            builder.RegisterType<VarietyService>().As<IVarietyService>().InstancePerLifetimeScope();
+            builder.RegisterType<SubsidyTypeService>().As<ISubsidyTypeService>().InstancePerLifetimeScope();
+            builder.RegisterType<GrowingSeasonService>().As<ICropsSeason>().InstancePerLifetimeScope();
 
 
         }

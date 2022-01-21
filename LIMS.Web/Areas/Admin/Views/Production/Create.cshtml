@@ -14,14 +14,7 @@
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
                 <div class="x_content form">
                     <div class="form-row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <admin-label asp-for="FarmId" />
-                                <select class="form-control" name="FarmId" id="farm"></select>
-                                <span asp-validation-for="FarmId"></span>
-                            </div>
-                        </div>
-                      
+
 
                         <div class="col-md-2">
                             <div class="form-group">
@@ -57,31 +50,29 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <admin-label asp-for="FiscalYear" />
-                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId"  required="required" onchange="getProductionData()" />
-                                <span asp-validation-for="FiscalYear"></span>
+                                <admin-label asp-for="Ward" />
+                                <admin-select asp-for="Ward" asp-items="ViewBag.Ward" required="required" onchange="getProductionData()" />
+                                <span asp-validation-for="Ward"></span>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <admin-label asp-for="Quater" />
-                                <admin-select asp-for="Quater" asp-items="ViewBag.QuaterId"  required="required" onchange="getProductionData()" />
-                                <span asp-validation-for="Quater"></span>
+                                <admin-label asp-for="FiscalYear" />
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" required="required" onchange="getProductionData()" />
+                                <span asp-validation-for="FiscalYear"></span>
                             </div>
                         </div>
+
                     </div>
                 </div>
-                <div >
-                    <table class="table table-bordered" id="showTable">
+                <div id="showTable" >
+                    <table class="table table-bordered" style="width:50%" >
                         <thead>
                             <tr>
                                 <td>@T("Admin.Production.SpeciesName")</td>
                                 <td>@T("Admin.Production.Quantity")</td>
                                 <td>@T("Admin.Production.Unit")</td>
-                                <td>@T("Admin.Common.Ward")</td>
-                                <td>@T("Admin.Common.Tole")</td>
-                                <td>@T("Admin.Production.ProductionDate")</td>
-                            </tr>
+                                                           </tr>
                         </thead>
                         <tbody id="tabularEntry">
                             @*@foreach(var item in Model.Species) {
@@ -112,30 +103,26 @@
                             }*@
                         </tbody>
                     </table>
-                    <center>
-                        <input type="submit" id="subumtform" class="btn btn-success" />
-                    </center>
-                    
+                    <div class="col-md-6">
+                        <center>
+                            <input type="submit" id="subumtform" class="btn btn-success" />
+                        </center>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
 <div style="display: none;" id="select-units">
-    <select name="Unit" class="form-control"></select>
+    <select name="Unit" class="form-control" disabled="disabled"></select>
 </div>
 
 
 
 <script>
     $(document).ready(function () {
-        $.get('/Admin/Production/GetFarm', function (data) {
-            $.each(data, function (i, item) {
-                $("#farm").append($("<option></option>").val(this['Value']).html(this['Text']));
-            });
-        });
         //for unit dropdown
-     
+
         $("#showTable").hide();
         console.log($('#select-units').html());
 
@@ -147,9 +134,9 @@
                     .find('option')
                     .remove();
                 $.each(data, function (i, item) {
-                   
+
                     if (production == "Milk") {
-                      
+
                         if (item.Text == "Lt.") {
                             $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
                         }
@@ -160,8 +147,8 @@
                     }
                     else if (production == "Meat")
                     {
-                       
-                            if (item.Text == "Kg.") {
+
+                            if (item.Text == "MT.") {
                                 $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
                             }
                             else {
@@ -220,12 +207,9 @@
                 $.each(result, function (i, item) {
                     var tableRow = '<tr id="' + item.Id + '">';
                     tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="'+item.Id+'"/><input type="hidden" name="ProductionDataId" value="" /></td>';
-                    tableRow += '<td><input type="number" name="Quantity" class="form-control" min="0" step="0.01" /></td>';
+                    tableRow += '<td><input type="number" name="Quantity"  class="form-control" min="0" step="0.01" /></td>';
                     tableRow += '<td>' + $('#select-units').html() + '</td>';
-                    tableRow += '<td><input type="text" name="Ward" class="form-control" /></td>';
-                    tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
-                    tableRow += '<td><input type="date" name="ProductionDate"  class="form-control"></td>';
-                    tableRow += '</tr>';
+                     tableRow += '</tr>';
                     $("#tabularEntry").append(tableRow);
                 });
             });
@@ -235,9 +219,9 @@
 
 
             );
-        
 
-      
+
+
         var list = [];
         $("#subumtform").click(function () {
 
@@ -247,7 +231,9 @@
         var data = {
 
             fiscalYearId: $('#@Html.IdFor(m => m.FiscalYear)').val(),
-            quarter: $('#@Html.IdFor(m => m.Quater)').val(),
+            district: $('#district').val(),
+            locallevel: $('#locallevel').val(),
+            ward: $('#@Html.IdFor(m=>m.Ward)').val(),
             productionType: $('#@Html.IdFor(m => m.ProductionType)').val()
         };
         addAntiForgeryToken(data);
@@ -255,11 +241,7 @@
             $.each(result, function (index, item) {
                 $('tr#' + item.Species.Id + ' input[name="ProductionDataId"]').val(item.Id);
                 $('tr#' + item.Species.Id + ' input[name="Quantity"]').val(item.Quantity);
-                $('tr#' + item.Species.Id + ' select[name="Unit"]').val(item.Unit.Id);
-                $('tr#' + item.Species.Id + ' input[name="Ward"]').val(item.Ward);
-                $('tr#' + item.Species.Id + ' input[name="Tole"]').val(item.Tole);
-                $('tr#' + item.Species.Id + ' input[name="ProductionDate"]').val(item.Date);
-                console.log(item);
+                 console.log(item);
             });
         });
     }

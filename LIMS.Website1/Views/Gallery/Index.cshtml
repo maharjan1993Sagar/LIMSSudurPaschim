@@ -25,18 +25,23 @@
             {
                 @foreach (var item in Model.Galleries)
                 {
-                    <div class="col-md-3">
-                        <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id">
-                            <div class="thumbnail text-center">
-                                <image src='@item.Images.FirstOrDefault().PictureUrl' style="height:200px;width:200px;" alt=""></image>
-                                <font style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp:2;">@item.Title</font>
-                            </div>
-                        </a>
+                    @if (@item.Images.FirstOrDefault() != null)
+                    {
+                        <div class="col-md-3">
+                            <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id">
+                                <div class="thumbnail text-center">
 
-                    </div>
+                                    <image src='@item.Images.FirstOrDefault().PictureUrl' style="height:200px;width:200px;" alt=""></image>
+                                    <font style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp:2;">@item.Title</font>
+                                    
+                                </div>
+                            </a>
+
+                        </div>
+                        }
+                    }
                 }
-            }
-            else
+        else
             {
                 <div class="col-md-12">
                     No record found.

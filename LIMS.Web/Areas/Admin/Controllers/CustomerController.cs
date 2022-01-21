@@ -13,6 +13,7 @@ using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions;
 using LIMS.Web.Areas.Admin.Interfaces;
 using LIMS.Web.Areas.Admin.Models.Customers;
+using LIMS.Web.Models.Customer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -217,6 +218,36 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
 
+        public async Task<IActionResult> ChangePassword()
+        {
+            PasswordRecoveryConfirmModel model = new PasswordRecoveryConfirmModel();
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(PasswordRecoveryConfirmModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var email = _workContext.CurrentCustomer.Email;
+                var customer = await _customerService.GetCustomerByEmail(email);
+
+                var response = await _customerRegistrationService.ChangePassword(new ChangePasswordRequest(email,
+                         false, _customerSettings.DefaultPasswordFormat, model.NewPassword));
+                if (response.Success)
+                {
+                    await _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.PasswordRecoveryToken, "");
+
+                    model.DisablePasswordChanging = true;
+                    model.Result = _localizationService.GetResource("Account.PasswordRecovery.PasswordHasBeenChanged");
+                    return RedirectToAction("Logout", "Customer", new { area = "" });
+                }
+                else
+                {
+                    model.Result = response.Errors.FirstOrDefault();
+                }
+            }
+            return View(model);
+        }
 
 
 

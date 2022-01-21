@@ -31587,7 +31587,7 @@ body.pushable > .pusher {
     padding-right: 0px;
 }
 
-#topMain.nav-pills > li > a.dropdown-toggle:after {
+/*#topMain.nav-pills > li > a.dropdown-toggle:after {
     display: block;
     content: "\f107";
     position: absolute;
@@ -31605,7 +31605,7 @@ body.pushable > .pusher {
     -o-transition: -o-transform .2s ease-in;
     transition: transform .2s ease-in;
 }
-
+*/
 .mt-80 {
     margin-top: 10px !important;
 }
@@ -31691,7 +31691,6 @@ div.gallery {
 
     div.gallery img {
         width: 100%;
-        height: auto;
     }
 
 div.desc {

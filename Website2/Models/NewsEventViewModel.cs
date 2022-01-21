@@ -9,6 +9,8 @@ namespace LIMS.Website1.Models
     {
         public List<NewsEventTenderModel> News { get; set; }
         public NewsEventTenderModel ObjNews { get; set; }
+        public List<NewsEventTenderModel> NewsAndEvent { get; set; }
+
         public string Type { get; set; }
     }
 }

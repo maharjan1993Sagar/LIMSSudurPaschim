@@ -71,6 +71,8 @@ namespace LIMS.Website1.Controllers
             var reports = newsEventTenders.Where(m => m.Type == "Report");
             var otherFiles = newsEventTenders.Where(m => m.Type == "OtherFiles");
             var pressRelease = newsEventTenders.Where(m => m.Type == "PressRelease");
+            var pressandLetter = newsEventTenders.Where(m => m.Type == "PressRelease"|| m.Type == "Letter");
+
             var letters = newsEventTenders.Where(m => m.Type == "Letter");
             var publication= newsEventTenders.Where(m => m.Type == "Publication");
 
@@ -82,6 +84,7 @@ namespace LIMS.Website1.Controllers
 
             var gallery = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Photo");
             var video = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Video");
+            var Facebook = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Facebook").FirstOrDefault();
 
             var homeVM = new HomeModel {
                 NewsScroll = newsScroll.ToList(),
@@ -92,6 +95,9 @@ namespace LIMS.Website1.Controllers
                 News = news.Take(news.ToList().Count > 4 ? 4 : news.ToList().Count).ToList(),
                 Tenders = tenders.Take(tenders.ToList().Count > 4 ? 4 : tenders.ToList().Count).ToList(),
                 Events = events.Take(events.ToList().Count > 4 ? 4 : events.ToList().Count).ToList(),
+                NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList(),
+                PressReleaseAndLetter = pressandLetter.Take(pressandLetter.ToList().Count > 10 ? 10 : pressandLetter.ToList().Count).ToList(),
+                Facebook = Facebook,
                 InformationOfficer = informationOfficer,
                 Director = director,
                 SpokePerson=speaker,
@@ -101,10 +107,11 @@ namespace LIMS.Website1.Controllers
                 Directives = directives.Take(directives.ToList().Count > 4 ? 4 : directives.ToList().Count).ToList(),
                 Letters = letters.Take(letters.ToList().Count > 4 ? 4 : letters.ToList().Count).ToList(),
                 PressRelease = pressRelease.Take(pressRelease.ToList().Count > 4 ? 4 : pressRelease.ToList().Count).ToList(),
+               
                 OtherFiles = otherFiles.Take(otherFiles.ToList().Count > 4 ? 4 : otherFiles.ToList().Count).ToList(),
                 Reports = reports.Take(reports.ToList().Count > 4 ? 4 : reports.ToList().Count).ToList(),
                 RulesRegulation = rules.Take(rules.ToList().Count > 4 ? 4 : rules.ToList().Count).ToList(),
-                Publication = publication.Take(rules.ToList().Count > 4 ? 4 : publication.ToList().Count).ToList(),
+                Publication = publication.Take(publication.ToList().Count > 4 ? 4 : publication.ToList().Count).ToList(),
 
                 Gallery = gallery.FirstOrDefault(),
                 Video = video.FirstOrDefault(),

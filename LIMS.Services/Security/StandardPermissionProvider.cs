@@ -125,6 +125,7 @@ namespace LIMS.Services.Security
         public static readonly PermissionRecord AccessGeneralCMS = new PermissionRecord { Name = "Admin area. Manage CMS for Website. Access CMS for Website.", SystemName = PermissionSystemName.AccessGeneralCMS, Category = "Configuration" };
        public static readonly PermissionRecord AccessMolmacRegister = new PermissionRecord { Name = "Admin area. Manage MolmacRegister", SystemName = PermissionSystemName.AccessMolmacRegister };
        public static readonly PermissionRecord AccessCMS = new PermissionRecord { Name = "Admin area. Manage CDS", SystemName = PermissionSystemName.AccessCDS};
+        public static readonly PermissionRecord AccessCropProduction = new PermissionRecord { Name = "Admin area. AccessCropsProduction", SystemName = PermissionSystemName.AccessCropsProduction };
 
         public virtual IEnumerable<PermissionRecord> GetPermissions()
         {
@@ -224,7 +225,10 @@ namespace LIMS.Services.Security
                 AccessNewsEventTender,
                 AccessGeneralCMS,
                 AccessCMS,
-                    AccessMolmacRegister
+                    AccessMolmacRegister,
+                    AccessCropProduction
+
+
             };
         }
 
@@ -450,6 +454,7 @@ namespace LIMS.Services.Security
             //            ManageShipments,
             //            ManageReturnRequests,
             //            ManageReports
+
             //        }
             //    }
             //};

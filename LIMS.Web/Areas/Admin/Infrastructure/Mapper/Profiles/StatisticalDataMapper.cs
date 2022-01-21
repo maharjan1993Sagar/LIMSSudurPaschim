@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using LIMS.Core.Infrastructure.Mapper;
+using LIMS.Domain.Breed;
 using LIMS.Domain.StatisticalData;
+using LIMS.Web.Areas.Admin.Models.Breed;
 using LIMS.Web.Areas.Admin.Models.StatisticalData;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure.Mapper.Profiles
         {
             CreateMap<Production, ProductionModel>().ReverseMap();
             CreateMap<ServicesData, ServicesModel>().ReverseMap();
-            CreateMap<Livestock, LivestockModel>().ReverseMap();
+            CreateMap<Livestock, LivestocksModel>().ReverseMap();
         }
         public int Order => 0;
     }

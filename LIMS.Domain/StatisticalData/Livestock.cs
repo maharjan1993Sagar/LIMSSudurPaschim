@@ -7,22 +7,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LIMS.Domain.Breed
+namespace LIMS.Domain.StatisticalData
 {
     public class Livestock:BaseEntity
     {
         public Livestock()
         {
-            Species = new Species();
-            Breed = new BreedReg();
+            Species = new LivestockSpecies();
+            Breed = new LivestockBreed();
             FiscalYear = new FiscalYear();
             Unit = new Unit();
             AnimalType = new AnimalType();
             Farm = new Farm();
         }
-        public Species Species { get; set; }
+        public LivestockSpecies Species { get; set; }
 
-        public BreedReg Breed { get; set; }
+        public LivestockBreed Breed { get; set; }
         public AnimalType AnimalType { get; set; }
         public string NoOfLivestock { get; set; }
        
@@ -49,8 +49,14 @@ namespace LIMS.Domain.Breed
         public string Date { get; set; }
 
         public string Quater { get; set; }
+        public string Local { get; set; }
+        public string Improved { get; set; }
         public string CreatedBy { get; set; }
         public string BreedType { get; set; }
         public string Month { get; set; }
+        //to be added
+        public string NoOfHouseHold { get; set; }
+        public string PopulationInHouseHold { get; set; }
+        public string FarmerInHousehold { get; set; }
     }
 }

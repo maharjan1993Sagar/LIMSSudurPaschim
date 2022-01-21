@@ -1,0 +1,175 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Breed.CropsProductionModel
+@{
+
+    ViewBag.Title = "Livestock";
+}
+@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+<style>
+    .table td, .table th {
+        padding: 0.2rem !important; 
+      
+    }
+</style>
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getLivestockData()" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="Provience" />
+                                <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
+                                <span asp-validation-for="Provience"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select id="district" name="District" data-val="@Model.District" onchange="getLivestockData()" class="form-control">
+                                    <option value="">Select </option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" onchange="getLivestockData()" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                                <span asp-validation-for="LocalLevel"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Ward" />
+                                <admin-select asp-for="Ward" asp-items="ViewBag.Ward" onchange="getLivestockData()" required="required" />
+                                <span asp-validation-for="Ward"></span>
+                            </div>
+                        </div>
+                        @*@if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
+                            {
+
+                            }
+                            else
+                            {
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Ward" />
+                                        <admin-select asp-for="Ward" asp-items="ViewBag.Ward" />
+                                        <span asp-validation-for="Ward"></span>
+                                    </div>
+                                </div>
+                            }*@
+
+
+                        @*<div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Month" />
+                                    <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getLivestockData()" required="required" />
+                                    <span asp-validation-for="Month"></span>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+                <div>
+                    <table class="table table-bordered" style="width:300px">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th id="c">@T("Admin.Livestock.Product")</th>
+                                <th>@T("Admin.Livestock.Area")</th>
+                                <th>@T("Admin.Livestock.Production")</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{string a = "";}
+                            @foreach (var item in Model.CropSeason)
+                            {
+                                @if (a != item.Species.EnglishName)
+                                {
+                                    <tr id="@item.Id">
+
+                                        <td colspan="4">
+                                            <b> @item.Species.EnglishName</b>
+
+                                        </td>
+
+                                    </tr>
+                                    a = item.Species.EnglishName;
+                                }
+
+                                <tr id="@item.Id">
+                                    <td>
+                                        @item.GrowingSeason
+                                        <input type="hidden" name="LivestockDataId" value="" />
+                                        <input type="hidden" name="GrowingSeasonId" value="@item.Id" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="Area" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="Production" />
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" class="btn btn-success" />
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<script>
+
+    function getLivestockData() {
+        var data = {
+            fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            district: $('#district').val(),
+            locallevel: $('#locallevel').val(),
+            ward: $('#@Html.IdFor(m=>m.Ward)').val(),
+
+        };
+        addAntiForgeryToken(data);
+        $.post("@Url.Action("GetLivestockData", "CropsProduction")", data, function (result) {
+            $.each(result, function (index, item) {
+                $('tr#' + item.GrowingSeasonId+ ' input[name="LivestockDataId"]').val(item.Id);
+                $('tr#' + item.GrowingSeasonId + ' input[name="Production"]').val(item.Production);
+                $('tr#' + item.GrowingSeasonId + ' input[name="Area"]').val(item.Area);
+                console.log(item);
+            });
+        });
+    }
+
+</script>

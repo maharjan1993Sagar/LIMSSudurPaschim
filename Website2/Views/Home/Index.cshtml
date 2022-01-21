@@ -1,80 +1,125 @@
 ﻿@model HomeModel
-
-<div class="row pos-rel">
-    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12 p-0">
-        <div class="slider-area">
-            <div id="demo" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-
-                    @if (Model.Banner.Any())
+    <style>
+        img {
+            max-width: 100% !important;
+            
+        }
+    </style>
+    <div class=" row">
+        <div class="ticker-container">
+            <div class="label-area highlight-label">Trendings</div>
+            <ul>
+                <div>
+                    @if (Model.NewsScroll.Any())
                     {
-                        @for (int i = 0; i < Model.Banner.Count; i++)
+                        foreach (var item in Model.NewsScroll)
                         {
-                            <div class='@(i == 0 ? "carousel-item active" : "carousel-item")'>
-                                <a href="#">
-                                    <img src='@Model.Banner[i].Image.PictureUrl' alt="" style="width: 100%; height: 500px; overflow: hidden;">
-                                </a>
-                                <div class="carousel-caption">
-                                    <h3></h3>
-                                    <a href="#">
-                                        <p style="color:white;"> @Model.Banner[i].Title</p>
-                                    </a>
-                                </div>
+                            <li>
+                                <span class="date">
+                                    <i class="fa fa-calendar"></i>
+                                    @item.UploadedDate
+                                </span>
 
-                            </div>
+                                <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.Type" asp-route-id="@item.Id">@(item.Title + "(" + item.Type + ")")</a>
+
+                            </li>
                         }
                     }
                     else
                     {
-                        <div class='carousel-item active'>
-                            <a href="#">
-                                <img src='/Dolfd/img/11.jpg' alt="" style="width: 100%; height: 500px; overflow: hidden;">
-                            </a>
-                            <div class="carousel-caption">
-                                <h3></h3>
-                                <a href="#">
-                                    <p style="color:white;"> Banner title</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class='carousel-item'>
-                            <a href="#">
-                                <img src='/Dolfd/img/11.jpg' alt="" style="width: 100%; height: 500px; overflow: hidden;">
-                            </a>
-                            <div class="carousel-caption">
-                                <h3></h3>
-                                <a href="#">
-                                    <p style="color:white;"> Banner title</p>
-                                </a>
-                            </div>
-                        </div>
+                        <li>
+                            <span class="date">
+                                <i class="fa fa-calendar"></i>
+                                &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;
+                            </span>
+
+                            <a target="_blank">No record found.</a>
+
+                        </li>
                     }
 
-                    @*<div class="carousel-item activf">
-            <a href="#b">
-                <img src="img/slider2.JPG" alt="" width="" height="">
-            </a>
-            <div class="carousel-caption">
-                <h3></h3>
-                <a href="#">
-                    <p style="color:white;">Banner detail goes here for second banner</p>
-                </a>
-            </div>
-        </div>
-
-        <div class="carousel-item activp">
-            <a href="#">
-                <img src="img/slider3.jpg" alt="" width="" height="">
-            </a>
-            <div class="carousel-caption">
-                <h3></h3>
-                <a href="#">
-                    <p style="color:white;">Banner third detail goes here</p>
-                </a>
-            </div>
-        </div>*@
 
                 </div>
+
+            </ul>
+        </div>
+    </div>
+  
+    <div class="row pos-rel">
+        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 p-0">
+            <div class="slider-area">
+                <div id="demo" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                        @if (Model.Banner.Any())
+                        {
+                            @for (int i = 0; i < Model.Banner.Count; i++)
+                            {
+                                <div class='@(i == 0 ? "carousel-item active" : "carousel-item")'>
+                                    <a href="#">
+                                        <img src='@Model.Banner[i].Image.PictureUrl' alt="" style="width: 100%; height: 500px; overflow: hidden;">
+                                    </a>
+                                    <div class="carousel-caption">
+                                        <h3></h3>
+                                        <a href="#">
+                                            <p style="color:white;"> @Model.Banner[i].Title</p>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class='carousel-item active'>
+                                <a href="#">
+                                    <img src='/Dolfd/img/11.jpg' alt="" style="width: 100%; height: 500px; overflow: hidden;">
+                                </a>
+                                <div class="carousel-caption">
+                                    <h3></h3>
+                                    <a href="#">
+                                        <p style="color:white;"> Banner title</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class='carousel-item'>
+                                <a href="#">
+                                    <img src='/Dolfd/img/11.jpg' alt="" style="width: 100%; height: 500px; overflow: hidden;">
+                                </a>
+                                <div class="carousel-caption">
+                                    <h3></h3>
+                                    <a href="#">
+                                        <p style="color:white;"> Banner title</p>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+                        @*<div class="carousel-item activf">
+                                <a href="#b">
+                                    <img src="img/slider2.JPG" alt="" width="" height="">
+                                </a>
+                                <div class="carousel-caption">
+                                    <h3></h3>
+                                    <a href="#">
+                                        <p style="color:white;">Banner detail goes here for second banner</p>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item activp">
+                                <a href="#">
+                                    <img src="img/slider3.jpg" alt="" width="" height="">
+                                </a>
+                                <div class="carousel-caption">
+                                    <h3></h3>
+                                    <a href="#">
+                                        <p style="color:white;">Banner third detail goes here</p>
+                                    </a>
+                                </div>
+                            </div>*@
+
+                    </div>
                     <a class="carousel-control-prev" href="#demo" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
@@ -85,46 +130,46 @@
                     </a>
                 </div>
             </div>
-            </div>
-    <div class="col-2 col-lg-2 col-md-2 col-sm-4 col-xs-6 pos-abs">
+        </div>
+        <div class="col-2 col-lg-3 col-md-3 col-sm-4 col-xs-6 pos-abs">
 
-        <div class="member-area">
-            <div class="member-img">
-                <img src='@((Model.Minister!=null&&(!String.IsNullOrEmpty(Model.Minister.Image.PictureUrl)))?Model.Minister.Image.PictureUrl:"/Dolfd/img/111.png")' height="120px" width="100px" />
-            </div>
-            <div class="member-desc">
-                <div class="member-name">
-                    @(Model.Minister!=null?Model.Minister.Name: "Hon. Ministry name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+            <div class="member-area">
+                <div class="member-img">
+                    <img src='@((Model.Minister != null && (!String.IsNullOrEmpty(Model.Minister.Image.PictureUrl))) ? Model.Minister.Image.PictureUrl : "/Dolfd/img/111.png")' height="120px" width="100px" />
                 </div>
-                <div class="member-postion">Honorable Ministry‍</div>
-            </div>
-        </div>
-        <div class="member-area">
-            <div class="member-img">
-                <img src='@((Model.StateMinister!=null&&(!String.IsNullOrEmpty(Model.StateMinister.Image.PictureUrl)))?Model.StateMinister.Image.PictureUrl:"/Dolfd/img/111.png")' height="120px" width="100px"/>
-            </div>
-            <div class="member-desc">
-                <div class="member-name">
-                    @(Model.StateMinister!=null?Model.StateMinister.Name: "Hon. State Ministry name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                <div class="member-desc">
+                    <div class="member-name">
+                        @(Model.Minister != null ? Model.Minister.Name : "Hon. Ministry name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                    <div class="member-postion">Honorable Ministry‍</div>
                 </div>
-                <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                <div class="member-postion">Honorable State Ministry‍</div>
             </div>
-        </div>
-        <div class="member-area">
-            <div class="member-img">
-                <img src='@((Model.Secratory!=null&&(!String.IsNullOrEmpty(Model.Secratory.Image.PictureUrl)))?Model.Secratory.Image.PictureUrl:"/Dolfd/img/111.png")' height="120px" width="100px"/>
-            </div>
-            <div class="member-desc">
-                <div class="member-name">
-                    @(Model.Secratory!=null?Model.Secratory.Name: "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+            <div class="member-area">
+                <div class="member-img">
+                    <img src='@((Model.StateMinister != null && (!String.IsNullOrEmpty(Model.StateMinister.Image.PictureUrl))) ? Model.StateMinister.Image.PictureUrl : "/Dolfd/img/111.png")' height="120px" width="100px" />
                 </div>
-                <div class="member-postion">Secretary</div>
+                <div class="member-desc">
+                    <div class="member-name">
+                        @(Model.StateMinister != null ? Model.StateMinister.Name : "Hon. State Ministry name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    <div class="member-postion">Honorable State Ministry‍</div>
+                </div>
             </div>
-        </div>
+            <div class="member-area">
+                <div class="member-img">
+                    <img src='@((Model.Secratory != null && (!String.IsNullOrEmpty(Model.Secratory.Image.PictureUrl))) ? Model.Secratory.Image.PictureUrl : "/Dolfd/img/111.png")' height="120px" width="100px" />
+                </div>
+                <div class="member-desc">
+                    <div class="member-name">
+                        @(Model.Secratory != null ? Model.Secratory.Name : "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                    <div class="member-postion">Secretary</div>
+                </div>
+            </div>
 
-        
-    </div>
+
+        </div>
 
     </div>
 
@@ -149,6 +194,10 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        {
+            font-weight: 500
         }
 
         .ticker-container ul div {
@@ -291,734 +340,529 @@
             }, 300);
         }
 
-                        // commented by nivaj
-                        // $(document).ready(function(){
-                        //     setTimeout(function(){
-                        //     if(!Cookies.get('modalShown')) {
-                        //         $("#myModal").modal('show');
-                        //       Cookies.set('modalShown', true);
-                        //     } else {
-                        //         alert('Your modal won\'t show again as it\'s shown before.');
-                        //     }
-                        //     },3000);
-                        //  });
+        // commented by nivaj
+        // $(document).ready(function(){
+        //     setTimeout(function(){
+        //     if(!Cookies.get('modalShown')) {
+        //         $("#myModal").modal('show');
+        //       Cookies.set('modalShown', true);
+        //     } else {
+        //         alert('Your modal won\'t show again as it\'s shown before.');
+        //     }
+        //     },3000);
+        //  });
 
     </script>
     <!-- end of about us -->
     <section class="newsevents">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-5">
-                    <div class="common-title no-word-break has-border-s">
-                        Tender & Notice and <span> News </span>
+
+        <div class="row">
+
+            <div class="col-12 col-md-7">
+                @*<div class="common-title word-break has-border-s">
+                        News,event and Tender<i class="fa fa-newspaper"></i>
+                    </div>*@
+                <ul class="nav nav-pills">
+                    <li class="active" style="font-weight: 500"><a data-toggle="pill" href="#home">News</a></li>
+                    <li style="font-weight: 500"><a data-toggle="pill" href="#menu1">Event</a></li>
+                    <li style="font-weight: 500"><a data-toggle="pill" href="#menu3">Letters</a></li>
+
+                </ul>
+
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.News.Any())
+                                {
+                                    @foreach (var item in Model.News)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Publication">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">News</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="n-content">
-                        <div id="scroll" class="scroll">
-                            <div class="scrollDiv">
-                                <div class="scrollContent">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Tender & Noticve</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">
-                                                    The notice title goes here
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Tender & Notice</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for another notice goes here</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">News</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">News title goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">News</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The anotehr news title goes here						</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Tender & Notice</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for another notice goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Tender & Notice</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for another notice goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Tender & Notice</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for another notice goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Tender & Notice</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for another notice goes here							</div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.Tenders.Any())
+                                {
+                                    @foreach (var item in Model.Tenders)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Letter">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">Tender</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="btn-area">
-                        <div class="pull-right">
-                            <a class="btn btn-primary c-btn" href="#newslist">View All</a>
-                        </div>
+                    <div id="menu3" class="tab-pane fade">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.Notices.Any())
+                                {
+                                    @foreach (var item in Model.Notices)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Directives">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">Notice</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
                     </div>
+
                 </div>
-
-                <div class="col-12 col-md-4">
-                    <div class="common-title no-word-break has-border-s">
-                        Press release and <span> Letters</span>
+            </div>
+            <div class="col-md-5 col-sm-6 col-xs-12">
+                <div class="highlight-section">
+                    <div class="highlight-header text-center">
+                        <h6>Hilight</h6>
                     </div>
-                    <div class="n-content">
-                        <div id="scroll" class="scroll">
-                            <div class="scrollDiv">
-                                <div class="scrollContent">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Press release</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for the press release goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Press release</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for the press release goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Press release</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for the press release goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Press release</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title for the press release goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Press release</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The another title for press release goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Letters</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title of the letter goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Press release</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title of the press release goes here							</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="">&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2407;&#2410;</div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="pull-right">
-                                                            <label class="label label-primary">Letters</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="n-title-area">The title of the letter goes here							</div>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn-area">
-                        <div class="pull-right">
-                            <a class="btn btn-primary c-btn" href="#presslist">View All</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- higlight -->
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="highlight-section">
-                        <div class="highlight-header text-center" style="background-color:#0a75b9;">
-                            <h6>Hilight</h6>
-                        </div>
-                        <ul>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-
-
-                            <!--
-                                <div class="clearfix"></div>
+                    <ul>
+                        @if (Model.NewsAndEvent.Count() > 0)
+                        {
+                            @foreach (var item in Model.NewsAndEvent)
+                            {
                                 <li class="d-flex mb-4 news-highlight">
-                                                                                <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
+                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"~/Dolfd/img/nep-gov.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov.png'" alt="" width="25" height="20">
 
-                                    <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
-                                        वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>
-                                        &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
+                                    <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.Type">
+                                        @item.Title
+                                        <br /><span class="date d-block ml-0 mt-1">
+                                            <i class="fa fa-calendar">   @item.UploadedDate.ToString("dd MMM yyyy")</i>
+                                        </span>
                                     </a>
-                                </li>		-->
-                        </ul>
-                    </div>
-                </div>
+                                </li>
+                                <div class="clearfix"></div>
+                            }
+                        }
+                        else
+                        {
+                            <li class="d-flex mb-4 news-highlight">
+                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                                <a href="#" target="_blank">
+                                    No records found
+                                    <br /><span class="date d-block ml-0 mt-1">
+                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                                    </span>
+                                </a>
+                            </li>
+                        }
 
-            </div>
-        </div>
-    </section>
-    <section class="gallery">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-7">
-                    <div class="common-title word-break has-border-s f-white">
-                        Downloads<i class="fa fa-download"></i>
-                    </div>
-                    <ul class="nav nav-pills">
-                        <li class="active"><a data-toggle="pill" href="#home">Publications</a></li>
-                        <li><a style="color:#fff;" data-toggle="pill" href="#menu1">Letters</a></li>
-                        <li><a style="color:#fff;" data-toggle="pill" href="#menu3">Directives</a></li>
-                        <li><a style="color:#fff;" data-toggle="pill" href="#menu5">Act & Policies</a></li>
-                        <li><a style="color:#fff;" data-toggle="pill" href="#menu6">Other files</a></li>
-                    </ul>
+                        <!--
+                        <div class="clearfix"></div>
+                        <li class="d-flex mb-4 news-highlight">
+                                                                        <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
 
-                    <div class="tab-content">
-                        <div id="home" class="tab-pane fade in active">
-                            <table class="table table-responsive table-striped downloadtable">
-                                <thead>
-                                    <tr>
-                                        <th width="5%" style="color:#fff;"></th>
-                                        <th width="50%" style="color:#fff;">Name/Title</th>
-                                        <th width="25%" style="color:#fff;" class="hidden-sm hidden-xs">Subject</th>
-                                        <th class="text-center" style="color:#fff;">Download</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (Model.Publication.Any())
-                                    {
-                                        @foreach (var item in Model.Publication)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
-                                                </td>
-                                                <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Publication">@item.Title</a> </td>
-                                                <td class="hidden-sm hidden-xs">Publication</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="4">No record found.</td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="menu1" class="tab-pane fade">
-                            <table class="table table-responsive table-striped downloadtable">
-                                <thead>
-                                    <tr>
-                                        <th width="5%" style="color:#fff;"></th>
-                                        <th width="50%" style="color:#fff;">Name/Title</th>
-                                        <th width="25%" style="color:#fff;" class="hidden-sm hidden-xs">Subject</th>
-                                        <th class="text-center" style="color:#fff;">Download</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (Model.Letters.Any())
-                                    {
-                                        @foreach (var item in Model.Letters)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
-                                                </td>
-                                                <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Letter">@item.Title</a> </td>
-                                                <td class="hidden-sm hidden-xs">Letters</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="4">No record found.</td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="menu3" class="tab-pane fade">
-                            <table class="table table-responsive table-striped downloadtable">
-                                <thead>
-                                    <tr>
-                                        <th width="5%" style="color:#fff;"></th>
-                                        <th width="50%" style="color:#fff;">Name/Title</th>
-                                        <th width="25%" style="color:#fff;" class="hidden-sm hidden-xs">Subject</th>
-                                        <th class="text-center" style="color:#fff;">Download</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (Model.Directives.Any())
-                                    {
-                                        @foreach (var item in Model.Directives)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
-                                                </td>
-                                                <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Directives">@item.Title</a> </td>
-                                                <td class="hidden-sm hidden-xs">Directories</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="4">No record found.</td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="menu5" class="tab-pane fade">
-                            <table class="table table-responsive table-striped downloadtable">
-                                <thead>
-                                    <tr>
-                                        <th width="5%" style="color:#fff;"></th>
-                                        <th width="50%" style="color:#fff;">Name/Title</th>
-                                        <th width="25%" style="color:#fff;" class="hidden-sm hidden-xs">Subject</th>
-                                        <th class="text-center" style="color:#fff;">Download</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (Model.ActsPolices.Any())
-                                    {
-                                        @foreach (var item in Model.ActsPolices)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
-                                                </td>
-                                                <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="ActsPolices">@item.Title</a> </td>
-                                                <td class="hidden-sm hidden-xs">Acts and Polices</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="4">No record found.</td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="menu6" class="tab-pane fade">
-                            <table class="table table-responsive table-striped downloadtable">
-                                <thead>
-                                    <tr>
-                                        <th width="5%" style="color:#fff;"></th>
-                                        <th width="50%" style="color:#fff;">Name/Title</th>
-                                        <th width="25%" style="color:#fff;" class="hidden-sm hidden-xs">Subject</th>
-                                        <th class="text-center" style="color:#fff;">Download</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (Model.OtherFiles.Any())
-                                    {
-                                        @foreach (var item in Model.OtherFiles)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
-                                                </td>
-                                                <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="OtherFiles">@item.Title</a> </td>
-                                                <td class="hidden-sm hidden-xs">Other files</td>
-                                                <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
-
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="4">No record found.</td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="common-title word-break has-border-s f-white">
-                        Photo Gallery
-                    </div>
-                    <div class="g-content">
-                        <div class="card">
-                            <a href="gallery.html">
-                                <img class="card-img-top" src="img/nep-gov.png" alt="Link to gallery">
-                                <div class="card-body">
-                                    <h5 class="card-title">Our gallery</h5>
-                                </div>
+                            <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
+                                वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
+                                <i class="fa fa-calendar"></i>
+                                &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
                             </a>
+                        </li>		-->
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <section class="newsevents">
+        <div class="row">
+            <div class=" col-md-6">
+                <div class="col-md-12">
+                    <div class="common-title word-break has-border-s">
+                        <h3><i class="fa fa-photo"> Gallery</i></h3>
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="margin-top:5px;">
+                    @if (Model.Gallery != null)
+                    {
+                        @foreach (var item in Model.Galleries)
+                        {
+                            <div class="col-md-4">
+                                <div>
+                                    <a target="_blank" asp-controller="gallery" asp-action="index">
+                                        <img src='@((item != null && item.Images.Any()) ?
+                      item.Images.FirstOrDefault().PictureUrl :
+                          "/dolfd/img/nep-gov.png")'
+                                             alt="Album" width="150" height="150">
+                                    </a>
+                                    @*<font style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp:2;">@item.Title</font>*@
+
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            No record found.
                         </div>
+
+                    }
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+
+                <div class="col-md-12">
+                    <div class="common-title word-break has-border-s">
+                        <h3> <i class="fa fa-video"> </i>Video</h3>
                     </div>
                 </div>
-                <div class="col-12 col-md-3">
-                    <div class="common-title word-break has-border-s f-white">Video Gallery</div>
-                    <div class="g-content">
-                        <video width="300" height="220" controls>
-                            <source src="video/movie.mp4" type="video/mp4">
-                            <source src="video/movie.ogg" type="video/ogg">
-                            browser does not support the video tag.
-                        </video>
-                    </div>
+                <div class="col-md-6" style="margin-top:5px;">
+
+                    @if (Model.Videos.Any())
+                    {
+                        @foreach (var item in Model.Videos)
+                        {
+                            <div width="280" height="200">
+                                @*controls*@
+                                <iframe width="280" height="200" src='@(item!=null?item.VideoUrl:"")'
+                                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                @* <source src="" type="video/mp4">*@
+                            </div>
+
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            No record found.
+                        </div>
+                    }
                 </div>
-                <!--
-                <div class="col-12 col-md-2 twitter-feed">
-                    <div class="twitter-feed">
-                    <a class="twitter-timeline"  data-dnt="true" href="https://twitter.com/debugsoft?lang=en"></a>
-
-                    </div>
-                </div> -->
-
             </div>
         </div>
     </section>
-    <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-sm-3 col-md-2">
+    <section class="newsevents">
 
-                    <div class="footer-c-title">
-                        <span>Spokeperson</span>
-                    </div>
-                    <div class="s-area">
-                        <div class="spoke-person-area">
-                            <div class="member-area">
-                                <div class="member-img">
-                                    <img src='@((Model.SpokePerson!=null&&(!String.IsNullOrEmpty(Model.SpokePerson.Image.PictureUrl)))?Model.SpokePerson.Image.PictureUrl:"/Dolfd/img/111.png")' height="120px" width="100px" />
-                                </div>
-                                <div class="member-desc">
-                                    <div class="member-name">
-                                        @(Model.SpokePerson!=null?Model.SpokePerson.Name: "Name of SpokePerson")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                                    </div>
-                                    <div class="member-postion">SpokePerson</div>
-                                    <div class="member-postion">
-                                        @(Model.SpokePerson!=null?Model.SpokePerson.OfficePhone: "+977-123456789")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                                    </div>
-                                    <div class="member-postion">
-                                        @(Model.SpokePerson!=null?Model.SpokePerson.Email1: "abc@gmail.com")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+        <div class="row">
+            <div class="col-12 col-md-7">
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--
-                    <div class="f-content f-others">
-                        <ul class="list-unstyled">
-                                                    <li><a href="https://mocit.gov.np/detail/acts-and-regulations">ऐन तथा नियमावलीहरु</a></li>
-                                                    <li><a href="https://mocit.gov.np/detail/annual-program">आर्थिक वर्ष </a></li>
-                                                    <li><a href="https://mocit.gov.np/detail/application-forms">फारामहरु</a></li>
-                                                    <li><a href="https://mocit.gov.np/detail/ict-award-form">National ICT Award Form, 2019</a></li>
-                                                    <li><a href="https://mocit.gov.np/detail/tatkal">तत्काल सुधार कार्ययोजना</a></li>
-                                                </ul>
-                    </div>
-                    -->
-                </div>
-                <div class="col-12 col-sm-3 col-md-2">
-                    <div class="footer-c-title">Information officer</div>
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="pill" href="#home1">Publications</a></li>
+                    <li><a data-toggle="pill" href="#menu4">Letters</a></li>
+                    <li><a data-toggle="pill" href="#menu5">Directives</a></li>
+                    <li><a data-toggle="pill" href="#menu6">Act & Policies</a></li>
+                    <li><a data-toggle="pill" href="#menu7">Other files</a></li>
+                </ul>
 
-                    <div class="spoke-person-area">
-                        <div class="member-area">
-                            <div class="member-img">
-                                <img src='@((Model.InformationOfficer!=null&&(!String.IsNullOrEmpty(Model.SpokePerson.Image.PictureUrl)))?Model.InformationOfficer.Image.PictureUrl:"/Dolfd/img/111.png")' height="120px" width="100px" />
-                            </div>
-                            <div class="member-desc">
-                                <div class="member-name">
-                                    @(Model.InformationOfficer!=null?Model.InformationOfficer.Name: "Name of SpokePerson")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                                </div>
-                                <div class="member-postion">Information officer</div>
-                                <div class="member-postion">
-                                    @(Model.InformationOfficer!=null?Model.InformationOfficer.OfficePhone: "+977-123456789")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                                </div>
-                                <div class="member-postion">
-                                    @(Model.InformationOfficer!=null?Model.InformationOfficer.Email1: "abc@gmail.com")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                </div>
-                            </div>
-                        </div>
+                                @if (Model.Publication.Any())
+                                {
+                                    @foreach (var item in Model.Publication)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Publication">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">Publication</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="footer-c-title">
-                        Importance Links
+                    <div id="menu1" class="tab-pane fade">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.Letters.Any())
+                                {
+                                    @foreach (var item in Model.Letters)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Letter">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">Letters</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="f-content f-others">
-                        <ul class="list-unstyled">
-                            <li><a href="http://nepal.gov.np/">Government portal</a></li>
-                            <li><a href="https://www.opmcm.gov.np/en/">Office of the Prime Minister and Council of the Ministries</a></li>
-                            <li><a href="https://www.npc.gov.np/np/">National Planning Commission</a></li>
-                            <li><a href="https://mofaga.gov.np/">The Ministry of Federal Affairs and General Administration</a></li>
-                            <li><a href="https://donidcr.gov.np/">Department of National ID and Civil Registration</a></li>
-                            <li><a href="http://www.pis.gov.np/welcome">PIS</a></li>
-                            <li><a href="https://www.plgsp.gov.np/">Provincial and Local Government Support Program</a></li>
-                        </ul>
+                    <div id="menu3" class="tab-pane fade">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.Directives.Any())
+                                {
+                                    @foreach (var item in Model.Directives)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Directives">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">Directories</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="menu5" class="tab-pane fade">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.ActsPolices.Any())
+                                {
+                                    @foreach (var item in Model.ActsPolices)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="ActsPolices">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">Acts and Polices</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="menu6" class="tab-pane fade">
+                        <table class="table table-responsive table-striped downloadtable">
+                            <thead>
+                                <tr>
+                                    <th width="5%"></th>
+                                    <th width="50%">Name/Title</th>
+                                    <th width="25%" class="hidden-sm hidden-xs">Subject</th>
+                                    <th class="text-center">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.OtherFiles.Any())
+                                {
+                                    @foreach (var item in Model.OtherFiles)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
+                                            </td>
+                                            <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="OtherFiles">@item.Title</a> </td>
+                                            <td class="hidden-sm hidden-xs">Other files</td>
+                                            <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">No record found.</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
                     </div>
 
-                </div>
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="footer-c-title">
-                        Contact <span>Information</span>
-                    </div>
-                    <div class="f-content f-contact">
-                        <ul class="list-unstyled">
-                            <li>Ministry of Land Management, Agricultural and Cooperative</li>
-                            <li>Sudurpaschim Province, Dhangadhi, Kailali, Nepal</li>
-                            <li class="c-phone"><a href="tel:+९७७-१-४२११५५६">Phone: + ०९१-४१७२२५</a></li>
-                            <li class="c-fax">Fax:  +०९१-४१७४०६</li>
-                            <li class="c-audio">अडियो नोटिस बोर्डः&#2407;&#2412;&#2407;&#2414;&#2406;&#2407;&#2410;&#2408;&#2406;&#2406;&#2410;&#2409;&#2415;</li>
-                            <li class="c-email"><a href="mailto:info@mocit.gov.np">Email: molmac7@gmail.com</a></li>
-                            <!-- <li>Ministy of Comunication and Information Technology</li>
-                            <li>Singha Durbar, Kathmandu</li>
-                            <li class="c-phone"><a href="tel:+97714211556">Telephone: 977-01-451585</a></li>
-                            <li class="c-fax"><a href="#">Fax: 977-01-451585</a></li>
-                            <li class="c-email"><a href="mailto:info@mocit.gov.np" >Email: info@mocit.gov.np</a></li>
-                            <li class="c-website"><a href="#">Website: www.mocit.gov.np</a></li>
-                            <li class="c-audio"><a href="#">Audio Notice Board: 977-01-451585</a></li> -->
 
-                        </ul>
-                    </div>
                 </div>
             </div>
+            <div class="col-lg-3 col-md-3">
+
+                <div class="text-center">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading text-center">Facebook Plugin</div>
+                        <div class="panel-body" style="min-height:200px;">
+                            @if (Model.Facebook != null)
+                            {
+                                <iframe src="@Model.Facebook.VideoUrl"
+                                        width="247" height="270"
+                                        style="border:none;overflow:hidden"
+                                        scrolling="no" frameborder="0"
+                                        allowfullscreen="true"
+                                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                                </iframe>
+                            }
+                            else
+                            {
+                                <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook&tabs=timeline&width=247&height=270&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                                        width="247" height="270"
+                                        style="border:none;overflow:hidden"
+                                        scrolling="no" frameborder="0"
+                                        allowfullscreen="true"
+                                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                                </iframe>
+                            }
+                        </div>
+                    </div>
+                    <!--<div class="gallery">
+                        <a target="_blank" asp-controller="gallery" asp-action="index">
+                            <img src='@((Model.Gallery!=null&& Model.Gallery.Images.Any())?
+                                            Model.Gallery.Images.FirstOrDefault().PictureUrl:
+                                                "/dolfd/img/nep-gov.png")'
+                                 alt="Album" width="300" height="200">
+                        </a>
+                        <div class="desc">@(Model.Gallery!=null?Model.Gallery.Title:"Gallery")</div>
+                    </div>
+                    <div width="280" height="200">-->
+                    @*controls*@
+                    <!--<iframe width="280" height="200" src='@(Model.Video!=null?Model.Video.VideoUrl:"")'
+                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+                    @* <source src="" type="video/mp4">*@
+                    <!--</div>-->
+                </div>
+            </div>
+
         </div>
-</div>
+
+    </section>
 
 
 

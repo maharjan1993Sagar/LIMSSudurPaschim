@@ -23,7 +23,7 @@
 	   -moz-border-radius: 0;
 			border-radius: 0;
 }
-#topMain.nav-pills>li>a.dropdown-toggle:after {
+/*#topMain.nav-pills>li>a.dropdown-toggle:after {
 	display: block;
 	content: "\f107";
 	position: absolute;
@@ -42,6 +42,7 @@
 	-o-transition: -o-transform .2s ease-in;
 	transition: transform .2s ease-in;
 }
+*/
 #header.bottom.dropup #topMain.nav-pills>li>a.dropdown-toggle:after {
 	content: "\f106";
 }

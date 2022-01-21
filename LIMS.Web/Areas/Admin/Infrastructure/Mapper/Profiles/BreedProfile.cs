@@ -14,6 +14,10 @@ namespace LIMS.Web.Areas.Admin.Infrastructure.Mapper.Profiles
         public BreedProfile()
         {
             CreateMap<BreedReg, BreedModel>().ReverseMap();
+            CreateMap<LivestockBreed, LivestockBreedModel>().ReverseMap();
+            CreateMap<LivestockSpecies, LivestockSpeciesModel>().ReverseMap();
+            CreateMap<CropsSeason, CropsSeasonModel>().ReverseMap();
+
 
         }
         public int Order => 0; 

@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                   
+
 
                     <div class="col-md-5 col-sm-5">
                         <button class="btn btn-success filter-submit" id="search-categories" style="font-size: 13px!important;">
@@ -82,9 +82,15 @@
         </div>
     </div>
 </div>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $("#categories-grid").kendoGrid({
+            toolbar:"[excel]",
             dataSource: {
                 transport: {
                     read: {

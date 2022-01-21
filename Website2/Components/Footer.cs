@@ -40,14 +40,40 @@ namespace LIMS.Web.ViewComponents
 
             var contactUs = await _db.GetContactUsModel();
             var customer =await _db.GetCustomer();
-           
+            var employee = await _db.GetEmployee();
+            employee.ForEach(m => m.Image.PictureUrl = GetPath(m.Image.PictureUrl));
+            var informationOfficer = employee.FirstOrDefault(m => m.Designation == "Information Officer");
+            var speaker = employee.FirstOrDefault(m => m.Designation == "Speaker");
+
             var footerVM = new FooterViewModel {
                 ContactUs = contactUs,
                 ImportantLinks = model,
-                Customer=customer
+                Customer=customer,
+                SpokePerson=speaker,
+                InformationOfficer=informationOfficer
             };
 
             return footerVM;
         }
+        public string GetPath(string path)
+        {
+            string basePath = _config.GetValue<string>("Constants:FileBaseUrl");
+            if (!string.IsNullOrEmpty(path))
+            {
+                if (path.Contains("~"))
+                {
+                    return basePath + path.Substring(2, path.Length - 2);
+                }
+                else
+                {
+                    return basePath + path.Substring(1, path.Length - 1);
+                }
+            }
+            else
+            {
+                return path;
+            }
+        }
+
     }
 }

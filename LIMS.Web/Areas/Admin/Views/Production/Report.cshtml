@@ -1,0 +1,174 @@
+﻿
+@inject AdminAreaSettings adminAreaSettings
+@model FarmListModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Livestock.Production").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="Production" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption text-center">
+                        <!-- <i class="fa fa-comment"></i>-->
+                        @T("Admin.Production.List")
+                    </div>
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content form">
+                    <div class="form-horizontal">
+
+                        <div class="form-body col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Fiscalyear" />
+                                        <admin-select asp-for="Fiscalyear" asp-items="ViewBag.FiscalYear" />
+                                        <span asp-validation-for="Fiscalyear"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Type" />
+                                        <admin-select asp-for="Type" asp-items="ViewBag.Type" />
+                                        <span asp-validation-for="Type"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Province" />
+                                        <admin-select asp-for="Province" id="country" />
+                                        <span asp-validation-for="Province"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="District" />
+                                        <select id="district" name="District" class="form-control">
+                                            <option value="">Select </option>
+                                        </select>
+                                        <span asp-validation-for="District"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="LocalLevel" />
+                                        <select id="locallevel" name="LocalLevel" class="form-control">
+                                            <option value="">Select</option>
+                                        </select>
+                                        <span asp-validation-for="LocalLevel"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <button class="btn btn-sm btn-success" id="search-production">
+                                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-actions d-flex flex-column w-100">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div id="production-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#search-production').click(function () {
+            //search
+            var grid = $('#production-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#production-grid").kendoGrid({
+            toolbar: ["excel"],
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("Report", "Production"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "Species.EnglishName",
+                title: "@T("Admin.Production.SpeciesName")",
+                width: 200,
+            },
+
+
+
+
+
+                 {
+                    field: "Quantity",
+                    title:"@T("Admin.Common.Quantity")",
+                    width: 200,
+                },
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+            fiscalYear: $("#@Html.IdFor(m => m.Fiscalyear)").val(),
+            type: $("#@Html.IdFor(m => m.Type)").val(),
+            district:$("#district").val(),
+            locallevel:$("#locallevel").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>

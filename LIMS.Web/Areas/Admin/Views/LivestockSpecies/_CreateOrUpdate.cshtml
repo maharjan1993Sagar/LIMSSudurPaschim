@@ -1,0 +1,159 @@
+﻿@model LivestockSpeciesModel
+<div class="x_content form">
+    <div class="form-row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-3 col-sm-3">
+
+            <div class="form-group">
+                <admin-label asp-for="EnglishName"></admin-label>
+                <admin-input asp-for="EnglishName" type="text" class="form-control" />
+                <span asp-validation-for="EnglishName"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+
+            <div class="form-group">
+                <admin-label asp-for="NepaliName" />
+                <admin-input asp-for="NepaliName" />
+                <span asp-validation-for="NepaliName"></span>
+
+
+            </div>
+        </div>
+        <div class="form-group">
+            @if (Model.Purposes != null)
+            {
+
+                <label class="control-label" for="Purposes">Purpose</label><br>
+                if (Model.Purposes.Contains("Milk"))
+                {
+                    <input type="checkbox" name="Purposes" value="Milk" checked>
+                    <label class="control-label">Milk</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="Milk">
+                    <label class="control-label">Milk</label>
+                }
+                if (Model.Purposes.Contains("Meat"))
+                {
+                    <input type="checkbox" name="Purposes" value="Meat" checked>
+                    <label class="control-label">Meat</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="Meat">
+                    <label class="control-label">Meat</label>
+                }
+                if (Model.Purposes.Contains("Egg"))
+                {
+                    <input type="checkbox" name="Purposes" value="Egg" checked>
+                    <label class="control-label">Egg</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="Egg">
+                    <label class="control-label">Egg</label>
+                }
+                if (Model.Purposes.Contains("Pasmina"))
+                {
+                    <input type="checkbox" name="Purposes" value="Pasmina" checked>
+                    <label class="control-label">Pasmina</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="Pasmina">
+                    <label class="control-label">Pasmina</label>
+                }
+                if (Model.Purposes.Contains("Wool"))
+                {
+                    <input type="checkbox" name="Purposes" value="Wool" checked>
+
+                    <label class="control-label">Wool</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="Wool">
+
+                    <label class="control-label">Wool</label>
+                }
+                if (Model.Purposes.Contains("Skin"))
+                {
+                    <input type="checkbox" name="Purposes" value="Skin" checked>
+
+                    <label class="control-label">Skin</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="Skin">
+
+                    <label class="control-label">Skin</label>
+                }
+                if (Model.Purposes.Contains("AI"))
+                {
+                    <input type="checkbox" name="Purposes" value="AI" checked>
+
+                    <label class="control-label">AI</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="AI">
+
+                    <label class="control-label">AI</label>
+                }
+                if (Model.Purposes.Contains("Vaccination"))
+                {
+                    <input type="checkbox" name="Purposes" value="Vaccination" checked>
+
+                    <label class="control-label">Vaccination</label>
+                }
+                else
+                {
+                    <input type="checkbox" name="Purposes" value="Vaccination">
+
+                    <label class="control-label">Vaccination</label>
+                }
+
+                <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+            }
+            else
+            {
+                <label class="control-label" for="Purposes">Purposes</label><br>
+                <input type="checkbox" name="Purposes" value="Milk">
+                <label class="control-label">Milk</label>
+                <input type="checkbox" name="Purposes" value="Meat">
+                <label class="control-label">Meat</label>
+                <input type="checkbox" name="Purposes" value="Egg">
+                <label class="control-label">Egg</label>
+                <input type="checkbox" name="Purposes" value="Pasmina">
+                <label class="control-label">Pasmina</label>
+                <input type="checkbox" name="Purposes" value="Wool">
+
+                <label class="control-label">Wool</label>
+                <input type="checkbox" name="Purposes" value="Skin">
+
+                <label class="control-label">Skin</label>
+                <input type="checkbox" name="Purposes" value="AI">
+
+                <label class="control-label">AI</label>
+                <input type="checkbox" name="Purposes" value="Vaccination">
+
+                <label class="control-label">Vaccination</label>
+                <span class="text-danger field-validation-valid" data-valmsg-for="Purposes" data-valmsg-replace="true"></span>
+
+            }
+        </div>
+
+
+
+    </div>
+</div>
+
+
+@*<script language="javascript">
+        $(document).ready(function () {
+            var ele1 = $("#@Html.IdFor(m=>m.NepaliName)");
+            AddUnicode(ele1);
+        })
+</script>*@

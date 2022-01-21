@@ -36,12 +36,7 @@ namespace LIMS.Services.Statisticaldata
         {
             var query = _livestockRepository.Table;
             query=query.Where(m => m.CreatedBy == createdby);
-            if (!string.IsNullOrEmpty(fiscalyear))
-            {
-                query = query.Where(
-                  m=> m.FiscalYear.Id==fiscalyear
-                );
-            }
+            
            
             return await PagedList<Livestock>.Create(query, pageIndex, pageSize);
         }
@@ -93,33 +88,43 @@ namespace LIMS.Services.Statisticaldata
 
         }
 
-        public async Task<IPagedList<Livestock>> GetFilteredLivestock(string createdBy, string speciesId, string breedType, string fiscalYearId, string quater,string month, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Livestock>> GetFilteredLivestock(string createdby, string speciesId, string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _livestockRepository.Table;
-            query = query.Where(m =>
-             m.Species.Id==speciesId&&
-              m.Quater == quater &&
-              m.BreedType == breedType &&
-              m.FiscalYear.Id==fiscalYearId &&
-              m.CreatedBy == createdBy&&
-              m.Month==month
-            );
+            if (createdby != "molmac")
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            if(fiscalYearId!=null&&(speciesId==null&&string.IsNullOrEmpty(district)))
+            {
+                query = query.Where(m => m.FiscalYear.Id==fiscalYearId);
+
+            }
+            if (fiscalYearId != null && speciesId != null && string.IsNullOrEmpty(district))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId&&m.Species.Id==speciesId);
+
+            }
+            if (fiscalYearId != null && speciesId != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel) )
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId&&m.District==district);
+
+            }
+            if (fiscalYearId != null && speciesId != null && district != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId && m.LocalLevel == LocalLevel);
+
+            }
             return await PagedList<Livestock>.Create(query, pageIndex, pageSize);
         
         }
-        public async Task<IPagedList<Livestock>> GetFilteredLivestock(string createdBy, string speciesId, string breedType, string fiscalYearId, string quater,string ward,string month, int pageIndex = 0, int pageSize = int.MaxValue)
+        //used for filtering
+        public async Task<IPagedList<Livestock>> GetFilteredLivestock(string createdBy, string speciesId, string district, string fiscalYearId, string quater,string locallevel,string month, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _livestockRepository.Table;
-            query = query.Where(m =>
-             m.Species.Id == speciesId &&
-              m.Quater == quater &&
-              m.BreedType == breedType &&
-              m.FiscalYear.Id == fiscalYearId &&
-              m.CreatedBy == createdBy &&
-              m.Ward==ward &&
-              m.Month==month
-            );
-            return await PagedList<Livestock>.Create(query, pageIndex, pageSize);
+            query = query.Where(m => m.District == district && m.FiscalYear.Id == fiscalYearId && m.LocalLevel == locallevel && m.Species.Id == speciesId && m.CreatedBy == createdBy&&m.Ward==month);
+
+                return await PagedList<Livestock>.Create(query, pageIndex, pageSize);
 
         }
     }

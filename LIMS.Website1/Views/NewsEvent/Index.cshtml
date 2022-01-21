@@ -1,12 +1,15 @@
 ﻿@model NewsEventViewModel
 
 <section>
-    @if (Model.Type == "News" || Model.Type == "Event" || Model.Type=="Notice")
-{
-    <partial name="_listDetailsPartial.cshtml" model="@Model" />
-}
-else {
-    <partial name="_listPartial.cshtml" model="@Model" />
-}
+    @if (Model.Type == "News" || Model.Type == "Event" || Model.Type == "Notice")
+    {
+        @*<partial name="_listPartial.cshtml" model="@Model" />*@
+
+        <partial name="_listDetailsPartial.cshtml" model="@Model" />
+    }
+    else
+    {
+        <partial name="_listPartial.cshtml" model="@Model" />
+    }
 
 </section>

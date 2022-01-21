@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMS.Web", "LIMS.Web\LIMS.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMS.Website1", "LIMS.Website1\LIMS.Website1.csproj", "{48ACDCD7-3A7B-4CEE-A800-6EE1D0B800A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website2", "Website2\Website2.csproj", "{BD551E11-E0BD-44AC-8585-E9381DDFC984}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website2", "Website2\Website2.csproj", "{BD551E11-E0BD-44AC-8585-E9381DDFC984}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agriculture", "..\Agriculture\Agriculture\Agriculture.csproj", "{D2275245-42DD-405C-AC9F-FF20C98786F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +90,10 @@ Global
 		{BD551E11-E0BD-44AC-8585-E9381DDFC984}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD551E11-E0BD-44AC-8585-E9381DDFC984}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD551E11-E0BD-44AC-8585-E9381DDFC984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2275245-42DD-405C-AC9F-FF20C98786F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2275245-42DD-405C-AC9F-FF20C98786F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2275245-42DD-405C-AC9F-FF20C98786F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2275245-42DD-405C-AC9F-FF20C98786F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

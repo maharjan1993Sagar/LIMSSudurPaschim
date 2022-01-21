@@ -42,7 +42,7 @@ namespace LIMS.Services.Breed
         }
         public async Task<List<AnimalType>> GetAnimalTypeBySpeciesId(string id)
         {
-            var filter = Builders<AnimalType>.Filter.Eq(x => x.Species.Id, id);
+            var filter = Builders<AnimalType>.Filter.Eq(x => x.SpeciesId, id);
             return  _animalTypeRepository.Collection.Find(filter).ToList();
         }
 

@@ -1,5 +1,7 @@
 ﻿using LIMS.Core;
+using LIMS.Domain.Bali;
 using LIMS.Framework.Kendoui;
+using LIMS.Framework.Mvc;
 using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Basic;
 using LIMS.Services.Customers;
@@ -145,6 +147,33 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         }
 
+
+         [HttpPost]
+        public async Task<IActionResult> Edit(PujigatKharchaKharakram pujigatKharchaKharakram)
+        {
+            var userapi = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaKharakram.Id);
+            if (userapi == null)
+                throw new ArgumentException("No program found with the specified id ");
+            if (ModelState.IsValid)
+            {
+                await _pujigatKharchaKharakramService.UpdatePujigatKharchaKharakram(pujigatKharchaKharakram);
+                return new NullJsonResult();
+            }
+            return ErrorForKendoGridJson(ModelState);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var userapi = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(id);
+            if (userapi == null)
+                throw new ArgumentException("No program found with the specified id ");
+            if (ModelState.IsValid)
+            {
+                await _pujigatKharchaKharakramService.DeletePujigatKharchaKharakram(userapi);
+                return new NullJsonResult();
+            }
+            return ErrorForKendoGridJson(ModelState);
+        }
 
     }
 }

@@ -59,7 +59,7 @@ namespace LIMS.Web.Areas.Admin.Models.StatisticalData
         public Farm Farm { get; set; }
         public IList<Statistic> Statistics { get; set; }
 
-        public IList<Species> Species { get; set; }
+        public IList<LivestockSpecies> Species { get; set; }
         #region nested class
         public partial class Statistic : BaseModel
         {

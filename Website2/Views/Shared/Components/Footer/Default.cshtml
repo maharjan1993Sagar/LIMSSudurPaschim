@@ -1,49 +1,76 @@
 ﻿@model FooterViewModel
 
-<footer id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <h4 class="letter-spacing-1">Contact Information</h4>
-                <!-- Contact Address -->
-                <address>
-                    <ul class="list-unstyled">
-                        <li class="footer-sprite ">
-                            
-                            <b>
-                                @Model.Customer.OrgName<br>
-                            </b>
-                            @*@(Model.ContactUs!=null?Model.ContactUs.Department:"Department Name")</b><br>*@
-                        </li>
-                        <li class="footer-sprite address">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-3 col-md-2">
 
-                            <b>@Model.Customer.OrgAddress</b><br>
-                            <b>Nepal</b><br>
-                        </li>
-                        <li class="footer-sprite phone">
-                            Phone:@(Model.ContactUs!=null?Model.ContactUs.Phone1:"Phone")
-                        </li>
-                        <li class="footer-sprite email">
-                            <a>@(Model.ContactUs!=null?Model.ContactUs.Email1:"officeEmail@email.com")</a>
-                        </li>
-                        <li>
-                            <!-- Social Icons -->
-                            <div class="mt-20">
-                                <a href="https://www.facebook.com/" class="social-icon social-icon-border social-facebook float-left" data-toggle="tooltip" data-placement="top" title="Facebook">
-
-                                    <i class="fa fa-facebook-square"></i>
-                                </a>
-                            </div>
-                            <!-- /Social Icons -->
-                        </li>
-                    </ul>
-                </address>
-                <!-- /Contact Address -->
+            <div class="footer-c-title">
+                <span>Spokeperson</span>
             </div>
-            <div class="col-md-6">
-                <!-- Latest Blog Post -->
-                <h4 class="letter-spacing-1">Related Links</h4>
-                <ul class="footer-posts list-unstyled">
+            <div class="s-area">
+                <div class="spoke-person-area">
+                    <div class="member-area">
+                        <div class="member-img">
+                            <img src='@((Model.SpokePerson!=null&&(!String.IsNullOrEmpty(Model.SpokePerson.Image.PictureUrl)))?Model.SpokePerson.Image.PictureUrl:"/Dolfd/img/111.png")' height="120px" width="100px" />
+                        </div>
+                        <div class="member-desc">
+                            <div class="member-name">
+                                @(Model.SpokePerson!=null?Model.SpokePerson.Name: "Name of SpokePerson")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                            </div>
+                            <div class="member-postion">SpokePerson</div>
+                            <div class="member-postion">
+                                @(Model.SpokePerson!=null?Model.SpokePerson.OfficePhone: "+977-123456789")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                            </div>
+                            <div class="member-postion">
+                                @(Model.SpokePerson!=null?Model.SpokePerson.Email1: "abc@gmail.com")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="f-content f-others">
+                <ul class="list-unstyled">
+                                            <li><a href="https://mocit.gov.np/detail/acts-and-regulations">ऐन तथा नियमावलीहरु</a></li>
+                                            <li><a href="https://mocit.gov.np/detail/annual-program">आर्थिक वर्ष </a></li>
+                                            <li><a href="https://mocit.gov.np/detail/application-forms">फारामहरु</a></li>
+                                            <li><a href="https://mocit.gov.np/detail/ict-award-form">National ICT Award Form, 2019</a></li>
+                                            <li><a href="https://mocit.gov.np/detail/tatkal">तत्काल सुधार कार्ययोजना</a></li>
+                                        </ul>
+            </div>
+            -->
+        </div>
+        <div class="col-12 col-sm-3 col-md-2">
+            <div class="footer-c-title">Information officer</div>
+
+            <div class="spoke-person-area">
+                <div class="member-area">
+                    <div class="member-img">
+                        <img src='@((Model.InformationOfficer!=null&&(!String.IsNullOrEmpty(Model.SpokePerson.Image.PictureUrl)))?Model.InformationOfficer.Image.PictureUrl:"/Dolfd/img/111.png")' height="120px" width="100px" />
+                    </div>
+                    <div class="member-desc">
+                        <div class="member-name">
+                            @(Model.InformationOfficer!=null?Model.InformationOfficer.Name: "Name of SpokePerson")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                        </div>
+                        <div class="member-postion">Information officer</div>
+                        <div class="member-postion">
+                            @(Model.InformationOfficer!=null?Model.InformationOfficer.OfficePhone: "+977-123456789")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                        </div>
+                        <div class="member-postion">
+                            @(Model.InformationOfficer!=null?Model.InformationOfficer.Email1: "abc@gmail.com")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="footer-c-title">
+                Importance Links
+            </div>
+            <div class="f-content f-others">
+                <ul class="list-unstyled">
                     @if (Model.ImportantLinks.Any())
                     {
                         @foreach (var item in Model.ImportantLinks)
@@ -55,80 +82,41 @@
                     }
                     else
                     {
-                        <li>
-                            <a href="http://moeap.sudurpaschim.gov.np">Ministry of Economic Affairs and Planning,Sudurpaschim Province</a>
-
-                        </li>
-                        <li>
-                            <a href="http://molmac.sudurpaschim.gov.np">Ministry of Land Management,Agriculture & Cooperative,Sudurpaschim Province </a>
-                        </li>
-                        <li>
-                            <a href="http://www.dls.gov.np/">Department of Livestock Services</a>
-                        </li>
-                        <li>
-                            <a href="http://www.doad.gov.np/">Department of Agriculture Development</a>
-                        </li>
-                        <li>
-                            <a href="http://moitfe.sudurpaschim.gov.np">Ministry of Industry, Tourism, Forest and Environment,Sudurpaschim Province</a>
-                        </li>
+                        <li><a href="http://nepal.gov.np/">Government portal</a></li>
+                        <li><a href="https://www.opmcm.gov.np/en/">Office of the Prime Minister and Council of the Ministries</a></li>
+                        <li><a href="https://www.npc.gov.np/np/">National Planning Commission</a></li>
+                        <li><a href="https://mofaga.gov.np/">The Ministry of Federal Affairs and General Administration</a></li>
+                        <li><a href="https://donidcr.gov.np/">Department of National ID and Civil Registration</a></li>
+                        <li><a href="http://www.pis.gov.np/welcome">PIS</a></li>
+                        <li><a href="https://www.plgsp.gov.np/">Provincial and Local Government Support Program</a></li>
                     }
-                    @*<li>
-            <a href="http://moeap.sudurpaschim.gov.np">Ministry of Economic Affairs and Planning,Sudurpaschim Province</a>
-
-        </li>
-        <li>
-            <a href="http://molmac.sudurpaschim.gov.np">Ministry of Land Management,Agriculture & Cooperative,Sudurpaschim Province </a>
-        </li>
-        <li>
-            <a href="http://www.dls.gov.np/">Department of Livestock Services</a>
-        </li>
-        <li>
-            <a href="http://www.doad.gov.np/">Department of Agriculture Development</a>
-        </li>
-        <li>
-            <a href="http://moitfe.sudurpaschim.gov.np">Ministry of Industry, Tourism, Forest and Environment,Sudurpaschim Province</a>
-        </li>*@
                 </ul>
-                <!-- /Latest Blog Post -->
-            </div>
-            <div class="col-md-3">
-                <!-- Newsletter Form -->
-                <h4 class="letter-spacing-1">Find us in map</h4>
-                <div class="mapouter">
-                    <div class="gmap_canvas"><iframe width="283" height="199" id="gmap_canvas" src="https://maps.google.com/maps?q=Ministry%20of%20Land%20Management%20and%20Agriculture,%20Dhangadi&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net"></a></div>
-                    <style>
-                        .mapouter {
-                            text-align: right;
-                            height: 299px;
-                            width: 383px;
-                        }
-
-                        .gmap_canvas {
-                            overflow: hidden;
-                            background: none !important;
-                            height: 220px;
-                            width: 360px;
-                        }
-                    </style>
-                </div>
-
-
-
-
-
-
+                    
             </div>
 
         </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="footer-c-title">
+                Contact <span>Information</span>
+            </div>
+            <div class="f-content f-contact">
+                <ul class="list-unstyled">
+                    <li>   @Model.Customer.OrgName</li>
+                    <li>   @Model.Customer.OrgAddress</li>
+                    <li class="c-phone"><a href="tel: @(Model.ContactUs!=null?Model.ContactUs.Phone1:"Phone")">Phone: @(Model.ContactUs!=null?Model.ContactUs.Phone1:"Phone")</a></li>
+                    @*<li class="c-fax">Fax:  +०९१-४१७४०६</li>
+                    <li class="c-audio">अडियो नोटिस बोर्डः&#2407;&#2412;&#2407;&#2414;&#2406;&#2407;&#2410;&#2408;&#2406;&#2406;&#2410;&#2409;&#2415;</li>*@
+                    <li class="c-email"><a href="@(Model.ContactUs!=null?Model.ContactUs.Email1:"officeEmail@email.com")">Email:@(Model.ContactUs!=null?Model.ContactUs.Email1:"officeEmail@email.com")</a></li>
+                    <!-- <li>Ministy of Comunication and Information Technology</li>
+                    <li>Singha Durbar, Kathmandu</li>
+                    <li class="c-phone"><a href="tel:+97714211556">Telephone: 977-01-451585</a></li>
+                    <li class="c-fax"><a href="#">Fax: 977-01-451585</a></li>
+                    <li class="c-email"><a href="mailto:info@mocit.gov.np" >Email: info@mocit.gov.np</a></li>
+                    <li class="c-website"><a href="#">Website: www.mocit.gov.np</a></li>
+                    <li class="c-audio"><a href="#">Audio Notice Board: 977-01-451585</a></li> -->
 
-    </div>
-
-    <div class="copyright">
-        <div class="container text-center">
-
-            &copy; 2021 Copyright @Model.Customer.OrgName ,  @Model.Customer.OrgAddress, Sudurpaschim Province, Nepal
-
+                </ul>
+            </div>
         </div>
     </div>
-
-</footer>
+</div>

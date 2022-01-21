@@ -20,13 +20,7 @@
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
                 <div class="x_content form">
                     <div class="form-row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <admin-label asp-for="FarmId" />
-                                <select class="form-control" name="FarmId" id="farm"></select>
-                                <span asp-validation-for="FarmId"></span>
-                            </div>
-                        </div>
+
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="SpeciesName" />
@@ -34,15 +28,9 @@
                                 <span asp-validation-for="SpeciesName"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="BreedType" />
-                                <admin-select asp-for="BreedType" asp-items="ViewBag.Type" onchange="getLivestockData()" required="required" />
-                                <span asp-validation-for="BreedType"></span>
-                            </div>
-                        </div>
 
-                        <div class="col-md-2">
+
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="Provience" />
                                 <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
@@ -67,26 +55,27 @@
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>
                         </div>
-                        @if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
-                        {
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <admin-label asp-for="Ward" />
-                                    <admin-select asp-for="Ward" asp-items="ViewBag.Ward" onchange="getLivestockData()" required="required" />
-                                    <span asp-validation-for="Ward"></span>
-                                </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Ward" />
+                                <admin-select asp-for="Ward" asp-items="ViewBag.Ward" onchange="getLivestockData()" required="required" />
+                                <span asp-validation-for="Ward"></span>
                             </div>
-                        }
-                        else
-                        {
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <admin-label asp-for="Ward" />
-                                    <admin-select asp-for="Ward" asp-items="ViewBag.Ward" />
-                                    <span asp-validation-for="Ward"></span>
-                                </div>
-                            </div>
-                        }
+                        </div>
+                        @*@if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
+        {
+
+        }
+        else
+        {
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="Ward" />
+                    <admin-select asp-for="Ward" asp-items="ViewBag.Ward" />
+                    <span asp-validation-for="Ward"></span>
+                </div>
+            </div>
+        }*@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYear" />
@@ -94,20 +83,14 @@
                                 <span asp-validation-for="FiscalYear"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="Quater" />
-                                <admin-select asp-for="Quater" asp-items="ViewBag.QuaterId" onchange="getLivestockData()" required="required" />
-                                <span asp-validation-for="Quater"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="Month" />
-                                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getLivestockData()" required="required" />
-                                <span asp-validation-for="Month"></span>
-                            </div>
-                        </div>
+
+                        @*<div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="Month" />
+                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getLivestockData()" required="required" />
+                <span asp-validation-for="Month"></span>
+            </div>
+        </div>*@
                     </div>
                 </div>
                 <div id="showTable">
@@ -115,9 +98,8 @@
                         <thead>
                             <tr style="text-align:center">
                                 <th id="c">@T("Admin.Livestock.AgeCategory")</th>
-                                <th>@T("Admin.Livestock.NoOfLivestock")</th>
-                                <th>@T("Admin.Livestock.Unit")</th>
-                                <th>@T("Admin.Common.Tole")</th>
+                                <th>@T("Admin.Livestock.Local")</th>
+                                <th>@T("Admin.Livestock.Improved")</th>
 
                             </tr>
                         </thead>
@@ -135,23 +117,12 @@
 
 
 
-<div style="display: none;" id="select-units">
-    <select name="Unit" class="form-control"></select>
-</div>
+
 
 <script>
     $(document).ready(function () {
-        $.get('/Admin/Production/GetFarm', function (data) {
-            $.each(data, function (i, item) {
-                $("#farm").append($("<option></option>").val(this['Value']).html(this['Text']));
-            });
-        });
-        //for unit dropdown
-        $.get('/Admin/Production/GetUnit', function (data) {
-            $.each(data, function (i, item) {
-                $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
-            });
-        });
+
+
         $("#showTable").hide();
 
         $("#speciesid").on("change", function () {
@@ -159,25 +130,22 @@
             var speciesId = $(this).val();
 
             if (speciesId != "" || speciesId != undefined) {
-                $("#showTable").show();
-                var value = $("#speciesid option:selected").text();
-                if (value == "Fish") {
-                    $("#c").html("Breed name");
-                }
+
 
                 url = "/Admin/AnimalType/GetAnimalType";
                 $.getJSON(url, { id: speciesId }, (data) => {
                     $.each(data, function (i, item) {
                         var tableRow = '<tr id="' + item.Id + '">';
                         tableRow += '<td>' + item.Name + '<input type="hidden" name="TypeId" value="' + item.Id + '"/><input type="hidden" name="LivestockDataId" value="" /></td>';
-                        tableRow += '<td><input type="number" name="NoOfLivestock" class="form-control" min="1" step="1" /></td>';
-                        tableRow += '<td>' + $('#select-units').html() + '</td>';
+                        tableRow += '<td><input type="number" name="Native" class="form-control" min="1" step="1" /></td>';
+                        tableRow += '<td><input type="number" name="Improved" class="form-control" min="1" step="1" /></td>';
 
-                        tableRow += '<td><input type="text" name="Tole" class="form-control" /></td>';
 
                         tableRow += '</tr>';
                         $("#tabularEntry").append(tableRow);
                     });
+                    $("#showTable").show();
+
                 });
             }
             else {
@@ -185,25 +153,24 @@
             }
         });
 
-      
+
 
     })
     function getLivestockData() {
         var data = {
             species: $('#speciesid').val(),
             fiscalYearId: $('#@Html.IdFor(m => m.FiscalYear)').val(),
-            quater: $('#@Html.IdFor(m => m.Quater)').val(),
-            breedType: $('#@Html.IdFor(m => m.BreedType)').val(),
-            ward: $('#@Html.IdFor(m => m.Ward)').val(),
-            month: $('#@Html.IdFor(m => m.Month)').val(),
+            district: $('#district').val(),
+            locallevel: $('#locallevel').val(),
+            ward: $('#@Html.IdFor(m=>m.Ward)').val(),
+
         };
         addAntiForgeryToken(data);
         $.post("@Url.Action("GetLivestockData", "Livestock")", data, function (result) {
             $.each(result, function (index, item) {
                 $('tr#' + item.AnimalType.Id + ' input[name="LivestockDataId"]').val(item.Id);
-                $('tr#' + item.AnimalType.Id + ' input[name="NoOfLivestock"]').val(item.NoOfLivestock);
-                $('tr#' + item.AnimalType.Id + ' select[name="Unit"]').val(item.Unit.Id);
-                $('tr#' + item.AnimalType.Id + ' input[name="Tole"]').val(item.Tole);
+                $('tr#' + item.AnimalType.Id + ' input[name="Native"]').val(item.Local);
+                $('tr#' + item.AnimalType.Id + ' input[name="Improved"]').val(item.Improved);
                 console.log(item);
             });
         });

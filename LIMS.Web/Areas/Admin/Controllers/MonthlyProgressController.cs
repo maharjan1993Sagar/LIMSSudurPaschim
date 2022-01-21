@@ -592,7 +592,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                             previousMonth = "no";
                         }
                     }
-                    string entity = _workContext.CurrentCustomer.EntityId;
+                    string entity = vhlsecid;
                     var customers = _customerService.GetCustomerByLssId(null, entity);
                     List<string> customerid = customers.Select(x => x.Id).ToList();
 

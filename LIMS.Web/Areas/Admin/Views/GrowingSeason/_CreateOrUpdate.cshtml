@@ -1,0 +1,65 @@
+﻿@model CropsSeasonModel
+<div class="x_content form">
+    <div class="form-row">
+
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="SpeciesId" />
+                    <admin-select asp-for="SpeciesId" asp-items="@ViewBag.SpeciesId"></admin-select>
+                    <span asp-validation-for="SpeciesId"></span>
+
+                </div>
+            </div>
+            @*<div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Type" />
+                    <admin-select asp-for="Type" asp-items="ViewBag.Type" />
+                    <span asp-validation-for="Type"></span>
+
+                </div>
+            </div>*@
+            @*<div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="CreatedFor" />
+                    <admin-select asp-for="CreatedFor" asp-items="ViewBag.CreatedFor" />
+                    <span asp-validation-for="CreatedFor"></span>
+
+                </div>
+            </div>*@
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="GrowingSeason" />
+                    <admin-input asp-for="GrowingSeason" />
+                    <span asp-validation-for="GrowingSeason"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="NepaliName" />
+                    <admin-input asp-for="NepaliName" />
+                    <span asp-validation-for="NepaliName"></span>
+
+                </div>
+            </div>
+
+            @*<div class="col-md-3 col-sm-3" id="NlboOnly">
+
+            <div class="form-group">
+                <admin-label asp-for="Genotype" />
+                <admin-input asp-for="Genotype" />
+                <span asp-validation-for="Genotype"></span>
+
+            </div>
+        </div>*@
+           
+
+        
+    </div>
+</div>
+

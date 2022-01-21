@@ -23,6 +23,7 @@ namespace LIMS.Services.Statisticaldata
         Task UpdateProduction(Production production);
         Task InsertProductionList(List<Production> production);
         Task UpdateProductionList(List<Production> production);
-        Task<IPagedList<Production>> GetFilteredProduction( string fiscalyearId, string Quater, string productiontype, string createdBy, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Production>> GetFilteredProduction( string fiscalyearId, string productiontype, string createdBy,string district,string locallevel,string ward, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Production>> GetFilteredProduction(string createdby, string type, string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }

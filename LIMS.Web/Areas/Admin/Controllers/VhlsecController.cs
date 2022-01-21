@@ -178,8 +178,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     await _vhlsecService.InsertVhlsec(Vhlsec);
                     CustomerModel customerModel = new CustomerModel();
                     customerModel.Email = model.UserEmail;
-                    customerModel.District = model.UserDistrict;
-                    customerModel.Province = model.UserProvince;
+                    customerModel.District = model.District;
+                    customerModel.Province = model.Provience;
                     customerModel.LocalLevel = model.UserLocalLevel;
                     customerModel.Ward = model.UserWard;
                     customerModel.Tole = model.UserTole;
@@ -282,9 +282,55 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var allCustomerRoles = await _customerService.GetAllCustomerRoles(showHidden: true);
             var newCustomerRoles = new List<CustomerRole>();
-            CustomerRole role = allCustomerRoles.Where(m => m.Name == "VhlsecAdmin").FirstOrDefault();
+            CustomerRole role = new CustomerRole();
+            if (model.Type == "VHLSEC")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "VhlsecAdmin").FirstOrDefault();
 
+            }
+            else if (model.Type == "Fisheries development center")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "FisheriesAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "Livestock service training center")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "LivestockAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "Soil and fertilizer testing laboratory")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "SoilAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "Plant protection laboratory")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "seed testing laboratory")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "AKC")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "AKCAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "Dry fruits development center")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "DryAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "Vegetable jarmaplajm enhancement and seed production center")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "VegitableAdmin").FirstOrDefault();
+            }
+            else if (model.Type == "Agri business promotion support and training center")
+            {
+                role = allCustomerRoles.Where(m => m.Name == "AgriAdmin").FirstOrDefault();
+            }
+            else
+            {
+                role = allCustomerRoles.Where(m => m.Name == "VhlsecAdmin").FirstOrDefault();
+
+            }
             newCustomerRoles.Add(role);
+
             newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
             var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
             if (!string.IsNullOrEmpty(customerRolesError))
@@ -294,8 +340,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             }
             CustomerModel customerModel = new CustomerModel();
             customerModel.Email = model.UserEmail;
-            customerModel.District = model.UserDistrict;
-            customerModel.Province = model.UserProvince;
+            customerModel.District = model.District;
+            customerModel.Province = model.Provience;
             customerModel.LocalLevel = model.UserLocalLevel;
             customerModel.Ward = model.UserWard;
             customerModel.Tole = model.UserTole;

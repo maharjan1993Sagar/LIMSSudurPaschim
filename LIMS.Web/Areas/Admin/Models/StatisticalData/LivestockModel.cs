@@ -49,5 +49,17 @@ namespace LIMS.Web.Areas.Admin.Models.StatisticalData
         [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.Month")]
 
         public string Month { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.Agecategory")]
+
+        public string AgeCategory { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.Total")]
+
+        public string Total { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.Native")]
+
+        public string Native { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.Improved")]
+
+        public string Improved { get; set; }
     }
 }

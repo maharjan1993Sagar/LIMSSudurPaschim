@@ -17,7 +17,7 @@
                     <div class="actions">
                         <div class="btn-group btn-group-devided">
                             <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
-                            <button class="btn btn-success" type="submit" name="save-continue"><i class="fa fa-check-circle"></i> @T("Admin.Common.SaveContinue") </button>
+                            
                             <a href="@Url.Action("ExportXml", new { id = Model.Id })" class="btn blue">@T("Admin.Configuration.Languages.Export")</a>
                             <input type="button" id="importxml" class="btn yellow" value="@T("Admin.Configuration.Languages.Import")" />
                             <span id="language-delete" class="btn red"><i class="fa fa-trash-o"></i> @T("Admin.Common.Delete")</span>

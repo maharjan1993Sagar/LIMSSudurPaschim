@@ -27,7 +27,7 @@ namespace LIMS.Api.Controllers.OData
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetLinks(string userId)
         {
-            return Ok(await _mediator.Send(new GetQueryCMS<ImportantLinksDto>()));
+            return Ok(await _mediator.Send(new GetQueryCMS<ImportantLinksDto>(){UserId=userId } ));
         }
     }
 }

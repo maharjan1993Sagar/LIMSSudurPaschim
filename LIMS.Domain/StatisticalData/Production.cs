@@ -15,12 +15,12 @@ namespace LIMS.Domain.StatisticalData
     {
         public Production()
         {
-            Species = new Species();
+            Species = new LivestockSpecies();
             Breed = new BreedReg();
             FiscalYear = new FiscalYear();
             Unit = new Unit();
         }
-        public Species Species { get; set; }
+        public LivestockSpecies Species { get; set; }
     
 
         public BreedReg Breed { get; set; }

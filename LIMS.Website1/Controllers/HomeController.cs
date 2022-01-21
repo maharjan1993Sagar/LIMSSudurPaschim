@@ -77,9 +77,11 @@ namespace LIMS.Website1.Controllers
 
             var gallery = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Photo");
             var video = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Video");
+            var Facebook = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Facebook").FirstOrDefault();
 
             var homeVM = new HomeModel {
                 NewsScroll = newsScroll.ToList(),
+                Facebook = Facebook,
                 Banner = banner,
                 Employee = employee,
                 PageContent = pageContent,

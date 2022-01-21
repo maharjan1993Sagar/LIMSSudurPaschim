@@ -9,11 +9,11 @@ namespace LIMS.Domain.Breed
         public AnimalType()
         {
             this.AnimalTypeId = AnimalTypeId;
-            this.Species = new Species();
+            this.Species = new LivestockSpecies();
         }
         public Guid AnimalTypeId { get; set; }
         public string Name { get; set; }
-        public Species Species { get; set; }
+        public LivestockSpecies Species { get; set; }
         public string SpeciesId { get; set; }
         public string NepaliName { get; set; }
     }

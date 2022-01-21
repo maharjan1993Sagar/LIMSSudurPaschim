@@ -1,0 +1,71 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Breed.CropsProductionModel>
+    <div id="Printcontent">
+        <table class="table table-bordered">
+            <thead>
+                @if (Model.Count() > 0)
+        {
+                <tr style="text-align:center">
+                    <th id="c">@T("Admin.Livestock.Product")</th>
+                    <th>@T("Admin.Livestock.Area")</th>
+                    <th>@T("Admin.Livestock.Production")</th>
+                    <th>@T("Admin.Livestock.Yeald")</th>
+
+                </tr>
+        }
+            </thead>
+            <tbody>
+                @{string a = "";}
+                @foreach (var item in Model)
+        {
+
+                @if (a != item.CropName)
+            {
+                <tr>
+
+                    <td colspan="4">
+                        <b>  @item.CropName</b>
+
+                    </td>
+                </tr>
+
+                a = item.CropName;
+            }
+
+                <tr>
+                    <td>
+                        @item.Season
+                    </td>
+
+                    <td>
+                        @item.Area
+                    </td>
+                    <td>
+                        @item.Production
+                    </td>
+                    <td>
+                        @item.Yeald
+                    </td>
+                </tr>
+
+
+
+
+        }
+
+
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.Count() > 0)
+        {
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+}
+    <script src="~/scripts/jquery.table2excel.js"></script>
+    <script>
+        function Export() {
+            $("#Printcontent").table2excel({
+                filename: "CropProduction.xls"
+            });
+        }
+    </script>

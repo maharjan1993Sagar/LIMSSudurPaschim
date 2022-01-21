@@ -72,6 +72,9 @@
   <ItemGroup>
     <Folder Include="wwwroot\content\fonts\Mukta\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\Customer\ChangePassword.cshtml" />
+  </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>Preserve</TypeScriptJSXEmit>
