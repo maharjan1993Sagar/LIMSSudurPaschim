@@ -25,7 +25,7 @@ namespace LIMS.Website1.Controllers
             _config = config;
             _db = new DataContext(_config);
         }
-        public async Task<IActionResult> Index(string type, string id)
+        public async Task<IActionResult> Index(string type,string submenu,string subsubmenu, string id)
         {
             ViewBag.Types = new List<SelectListItem>() {
                             new SelectListItem{Text="--Select--",Value="" },
@@ -38,7 +38,7 @@ namespace LIMS.Website1.Controllers
                             new SelectListItem{Text="Reports",Value="Reports" },
                             new SelectListItem{Text="Other Files",Value="Other Files" },
                             };
-            type = String.IsNullOrEmpty(type) ? "News" : type;
+            
 
             var newsEventTenders = await _db.GetNewsEventTender("");
 
@@ -46,12 +46,19 @@ namespace LIMS.Website1.Controllers
                 .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
 
             var newsEventVM = new NewsEventViewModel();
-            if (!String.IsNullOrEmpty(type))
+            if (!string.IsNullOrEmpty(type))
             {
                 newsEventTenders = newsEventTenders.Where(m => m.Type == type).ToList();
-                newsEventVM.News = newsEventTenders;
-                if (type == "News" || type == "Event" || type=="Notice")
+                if (newsEventTenders.FirstOrDefault() != null)
                 {
+                    newsEventVM.TypeName = newsEventTenders.FirstOrDefault().TypeName;
+                }
+                else
+                {
+                    newsEventVM.TypeName = "";
+                }
+                newsEventVM.News = newsEventTenders;
+               
                     if (!String.IsNullOrEmpty(id))
                     {
                         var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
@@ -61,11 +68,64 @@ namespace LIMS.Website1.Controllers
                     {
                         newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
                     }
-                }
+                
             }
-            ViewBag.Type = type;
-            newsEventVM.Type = type;
-            return View(newsEventVM);
+            if (!string.IsNullOrEmpty(submenu))
+            {
+                newsEventTenders = newsEventTenders.Where(m => m.SubMenu == submenu).ToList();
+                newsEventVM.News = newsEventTenders;
+                try
+                {
+                    newsEventVM.TypeName = newsEventTenders.FirstOrDefault().TypeName;
+                }
+                catch
+                {
+                    newsEventVM.TypeName = "";
+                }
+                if (!String.IsNullOrEmpty(id))
+                {
+                    var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
+                    newsEventVM.ObjNews = objNews;
+                }
+                else
+                {
+                    newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
+                }
+
+            }
+            if (!string.IsNullOrEmpty(subsubmenu))
+            {
+                newsEventTenders = newsEventTenders.Where(m => m.SubSubMenu == subsubmenu).ToList();
+
+                newsEventVM.News = newsEventTenders;
+                try
+                {
+                    newsEventVM.TypeName = newsEventTenders.FirstOrDefault().TypeName;
+                }
+                catch
+                {
+                    newsEventVM.TypeName = "";
+                }
+                if (!String.IsNullOrEmpty(id))
+                {
+                    var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
+                    newsEventVM.ObjNews = objNews;
+                }
+                else
+                {
+                    newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
+                }
+
+            }
+            if (newsEventVM != null)
+            {
+                //newsEventVM.Type = ViewBag.type;
+                return View(newsEventVM);
+            }
+            else
+            {
+                return View(new NewsEventViewModel());
+            }
         }
         public async Task<IActionResult> Download(string id)
         {
@@ -98,7 +158,14 @@ namespace LIMS.Website1.Controllers
             }
 
         }
+        public async Task<IActionResult> Details(string id)
+        {
+            var newsEvent = await _db.GetNewsEventTender("");
+            var newsById = newsEvent.FirstOrDefault(m => m.Id == id);
+            return View(newsById);
+        
 
+        }
         public string GetPath(string path)
         {
             string basePath = _config.GetValue<string>("Constants:FileBaseUrl");

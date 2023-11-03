@@ -4,7 +4,8 @@
 {
     <li class="dropdown" id="header_inbox_bar" role="presentation">
         <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-language"></i>
+            <img src="/content/images/flags/@(Model.CurrentLanguage.FlagImageFileName)" alt="@Model.CurrentLanguage.Name">
+
         </a>
         <ul id="menu1" class="dropdown-menu dropdown-menu-right list-unstyled msg_list overflow-h" role="menu">
             @foreach (var lang in Model.AvailableLanguages)

@@ -33,7 +33,7 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
             {
                 var banner =await _bannerService.GetAll();
 
-                var bannerDto = banner.Where(m => m.UserId == request.UserId).Select(m => new BannerDto {
+                var bannerDto = banner.Where(m => m.UserId == request.UserId&&m.IsActive==true).Select(m => new BannerDto {
                     BannerId = m.BannerId.ToString(),
                     Title = m.Title,
                     UserId = m.UserId,

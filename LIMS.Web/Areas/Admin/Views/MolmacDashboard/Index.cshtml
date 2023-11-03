@@ -1,0 +1,286 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Dashboard.DashboardOffice
+@inject LIMS.Core.IWorkContext workContext
+@{
+    //page title
+    ViewBag.Title = T("Admin.OtherOrganization.Hatchery").Text;
+    var organizationName = workContext.CurrentCustomer.OrgName;
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+
+
+}
+<style>
+
+    #printContent{        
+        height: 550px;
+        overflow-y: scroll;
+
+    }
+
+    .textside {
+        margin-left: 25px;
+    }
+
+
+
+
+
+
+    .inforide {
+        box-shadow: 1px 2px 8px 0px #f1f1f1;
+        border-radius: 8px;
+        height: 110px;
+    }
+
+    canvas {
+    }
+
+    .chart-container {
+        height: 400px !important;
+    }
+
+
+    .rideone {
+        /*        padding-top: 25px;
+    */ border-radius: 8px 0px 0px 8px;
+        
+        margin-left: 2px;
+        text-align: center;
+    }
+
+    .fontsty {
+        margin-right: -15px;
+    }
+
+        .fontsty h2 {
+            color: #6E6E6E;
+            font-size: 35px;
+            margin-top: 15px;
+            text-align: right;
+            margin-right: 30px;
+        }
+
+        .fontsty h5 {
+            color: #6E6E6E;
+            font-size: 15px;
+            margin-top: 20px;
+            text-align: right;
+            margin-right: 30px;
+        }
+
+        .fontsty h4 {
+            color: #6E6E6E;
+            font-size: 15px;
+            margin-top: 20px;
+            text-align: right;
+            margin-right: 30px;
+        }
+    .mt-4, .my-4 {
+        margin-top: 1rem !important;
+    }
+</style>
+<div style="display: inline-block !important;">
+    <form method="post">
+        <div class="col-md-12">
+            <div class="col-md-2 col-sm-2" style="padding-top:25px;float:right">
+                <button class="btn btn-success filter-submit" style="font-size: 13px!important;">
+                    <i class="fa fa-search"></i> @T("admin.common.search")
+                </button>
+            </div>
+            <div class="col-md-2" style="float:right">
+                <div class="form-group">
+                    <admin-label asp-for="Fiscalyear" />
+                    <admin-select asp-for="Fiscalyear" asp-items="ViewBag.FiscalYearId" required="required" />
+                    <span asp-validation-for="Fiscalyear"></span>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    @*// Financial progress for the  fiscal year @Model.Fiscalyear: @Model.FinencialPercent%<br />*@
+    @*<div class="progress">
+
+            <div class="progress-bar" role="progressbar" aria-valuenow="@Model.FinencialPercent" aria-valuemin="0" aria-valuemax="100" style="width:@Model.FinencialPercent%">
+                <span class="sr-only">@Model.FinencialPercent Complete</span>
+            </div>
+        </div>*@
+    @*<div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: @Model.FinencialPercent%;" aria-valuenow="@Model.FinencialPercent" aria-valuemin="0" aria-valuemax="100">@Model.FinencialPercent%</div>
+        </div>*@
+    @*<div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="@Model.FinencialPercent" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>*@
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+        <div class="inforide" style="background-color:#5b9db6">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 rideone" style="margin-top:10px;color:#fff!important">
+                <u>@T("Admin.Progress.Title")  @Model.Fy:</u><br />
+                <center>@T("Admin.PlannedBudget"): @Model.Budget</center>
+                <center>@T("Admin.Expences"): @Model.Progress</center>
+                <center>@T("Admin.Progress"): @Model.FinencialPercent</center>
+
+            </div>
+            @*<div class="col-lg-3 col-md-3 col-sm-3 col-3 fontsty" style="margin-top: 20px;">
+                    <h4 style="color:white!important"></h4>
+                </div>*@
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+        <div class="inforide" style="background-color:#42b1ca;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 rideone" style="margin-top:20px;color:#fff!important">
+                <u>  @T("Admin.banifeciaries")  @Model.Fy</u><br />
+                <center>@T("Admin.Male") : @Model.NoOfMaleBenifiries </center>
+                <center>@T("Admin.Female") : @Model.NoOfFeMaleBenifiries</center>
+            </div>
+            @*<div class="col-lg-3 col-md-3 col-sm-3 col-3 fontsty" style="margin-top: 20px;">
+                    <h4 style="color:white!important"></h4>
+                </div>*@
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+        <div class="inforide" style="background-color: #1abb9c">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 rideone" style="margin-top:20px;color:#fff!important">
+                <u> @T("Admin.subsidies.title")  @Model.Fy</u>
+                <center>NRS @Model.TotalSubsidiesAmount</center>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+        <div class="inforide" style="background-color: #5e98d4">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 rideone" style="margin-top:20px;color:#fff!important">
+                <u>  @T("Admin.Trained.Title")  @Model.Fy</u>
+                <center> @T("Admin.Male"): @Model.MaleTraining</center>
+                <center> @T("Admin.FeMale"): @Model.FemaleTraining</center>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    @if (!roles.Contains("MolmacAdmin") && !roles.Contains("AddAdmin") && !roles.Contains("DolfdAdmin"))
+    {
+<div class="col-md-12" id="printContent">
+    <center> <b>@T("Admin.Dashboard.FiscalYear"): @Model.Fy</b></center>
+    <table class="table table-bordered">
+        <tr style="background-color:#4d5b5c; color:white;text-align:center">
+            <th>
+                @T("Lims.Aanudan.KrishakKoName")
+            </th>
+            <th>
+                @T("Lims.Aanudan.PujigatKharchaKaryakramId")
+            </th>
+            <th>
+                @T("Lims.common.District")
+            </th>
+            <th>
+                @T("Lims.common.LocalLevel")
+            </th>
+            <th>
+                @T("Lims.Aanudan.AanudanKokisim")
+            </th>
+            <th>
+                @T("Lims.Aanudan.AanudanRakam")
+            </th>
+            <th>
+                @T("Lims.Aanudan.MaleMember")
+            </th>
+            <th>
+                @T("Lims.Aanudan.FeMaleMember")
+            </th>
+            <th>
+                @T("Lims.Aanudan.DalitMember")
+            </th>
+            <th>
+                @T("Lims.Aanudan.JanajatiMember")
+            </th>
+            <th>
+                @T("Lims.Aanudan.FarmerContribution")
+            </th>
+        </tr>
+        @foreach (var item in Model.Aanudans)
+        {
+            <tr>
+                <td>
+                    @item.KrishakKoName
+                </td>
+                <td>
+                    @item.PujigatKharchaKharakram.Program
+                </td>
+                <td>
+                    @item.District
+
+                </td>
+                <td>
+                    @item.LocalLevel
+                </td>
+                <td>
+                    @item.AanudanKokisim
+                </td>
+                <td style="text-align:right">
+                    @item.AanudanRakam
+                </td>
+                <td style="text-align:right">
+                    @item.MaleMember
+                </td>
+                <td style="text-align:right">
+                    @item.FemaleMember
+                </td>
+                <td style="text-align:right">
+                    @item.DalitMember
+                </td>
+                <td style="text-align:right">
+                    @item.JanajatiMember
+                </td>
+                <td style="text-align:right">
+                    @item.FarmerContribution
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+    }
+    else
+    {
+        <div class="col-md-12" id="printContent">
+            <center> <b>@T("Admin.Plannedbudget.Offices"): @Model.Fy</b></center>
+            <table class="table table-bordered">
+                <tr style="background-color: #4d5b5c; color: white; text-align: center">
+                    <th>
+                        @T("Admin.Officename")
+                    </th>
+                    <th>
+                        @T("Admin.YearlyBudget")
+                    </th>
+                    <th>
+                        @T("Admin.ExpancesTillDate")
+                    </th>
+                    <th>
+                        @T("Admin.Progress")
+                    </th>
+                </tr>
+                @foreach (var item in Model.MolmacDatas)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td style="text-align:right">
+                            @item.YearlyBudget
+                        </td>
+                        <td style="text-align:right">
+                            @item.ExpancesTillDate
+
+                        </td>
+                        <td style="text-align:right">
+                            @item.FinencialProgress
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+</div>
+

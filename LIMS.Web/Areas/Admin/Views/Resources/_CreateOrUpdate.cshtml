@@ -11,7 +11,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" id="subtype">
 
             <div class="form-group">
                 <admin-label asp-for="SubType" />
@@ -21,23 +21,114 @@
 
                     <option value="Main seed">Main seed</option>
                     <option value="Hybrid seed">Hybrid seed</option>
-                    <option value="Biju">Biju </option>
-                    <option value="Kalami">Kalami</option>
+                  
 
                 </admin-select>
                 <span asp-validation-for="SubType"></span>
 
             </div>
         </div>
+
+        <div class="col-md-2" id="Fishsubtype">
+
+            <div class="form-group">
+                <admin-label asp-for="SubType" />
+                <admin-select asp-for="SubType">
+
+                    <option value="">Select</option>
+
+                    <option value="Hatchling">Hatchling</option>
+                    <option value="Fry">Fry</option>
+                    <option value="Fingerling">Fingerling </option>
+
+                </admin-select>
+                <span asp-validation-for="SubType"></span>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-2" id="BiruwaSubType">
+
+            <div class="form-group">
+                <admin-label asp-for="PlantType" />
+                <admin-select asp-for="PlantType">
+
+                    <option value="">Select</option>
+
+                    <option value="Admin.BijuBiruwaUtpadan">@T("Admin.BijuBiruwaUtpadan")</option>
+                    <option value="Admin.KamamiBiruwaUtapadan">@T("Admin.KamamiBiruwaUtapadan")</option>
+                    <option value="Admin.TissueCultureBiruwaUtpadan">@T("Admin.TissueCultureBiruwaUtpadan") </option>
+                    <option value="Kalami">@T("Admin.FalfulBiruwaUtpadan")</option>
+
+                </admin-select>
+                <span asp-validation-for="PlantType"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2" id="BernaSubType">
+
+            <div class="form-group">
+                <admin-label asp-for="PlantType" />
+                <admin-select asp-for="PlantType">
+
+                    <option value="">Select</option>
+
+                    <option value="Admin.TarkariBerna">@T("Admin.TarkariBerna")</option>
+                    <option value="Admin.AluKoPBSdAna">@T("Admin.AluKoPBSdAna")</option>
+
+                </admin-select>
+                <span asp-validation-for="PlantType"></span>
+
+            </div>
+        </div>
+
+        <div class="col-md-2" id="BewSubType">
+
+            <div class="form-group">
+                <admin-label asp-for="PlantType" />
+                <admin-select asp-for="PlantType">
+
+                    <option value="">Select</option>
+
+                    <option value="Admin.ChauBew">@T("Admin.ChauBew")</option>
+                    <option value="Admin.AanyaBew">@T("Admin.AanyaBew")</option>
+
+                </admin-select>
+                <span asp-validation-for="PlantType"></span>
+
+            </div>
+        </div>
+
+
         <div class="col-md-3">
 
             <div class="form-group">
                 <admin-label asp-for="ItemName" />
-                <admin-input asp-for="ItemName"/>
+                <admin-input asp-for="ItemName" />
                 <span asp-validation-for="ItemName"></span>
 
             </div>
         </div>
+        <div class="col-md-2">
+
+            <div class="form-group">
+                <admin-label asp-for="Sector" />
+                <admin-select asp-for="Sector">
+
+                    <option value="">Select</option>
+
+                    <option value="Public">Public</option>
+                    <option value="Hybrid seed">Private</option>
+
+
+                </admin-select>
+                <span asp-validation-for="Sector"></span>
+
+            </div>
+        </div>
+
         <div class="col-md-2">
 
             <div class="form-group">
@@ -67,7 +158,100 @@
 
             </div>
         </div>
+        <div class="col-md-12">
 
+            <div class="form-group">
+                <admin-label asp-for="Remarks" />
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks"></span>
+
+            </div>
+        </div>
 
     </div>
     </div>
+<script>
+
+    $(document).ready(function () {
+        $("#subtype").hide();
+        $("#Fishsubtype").hide();
+        $("#BewSubType").hide();
+        $("#BernaSubType").hide();
+        $("#BiruwaSubType").hide();
+        var types = $("#Type").val();
+        if (types) {
+            if (types == "Admin.Resource.Seed") {
+                $("#subtype").show();
+                $("#BewSubType").show();
+                $("#BernaSubType").hide();
+                $("#BiruwaSubType").hide();
+                $("#Fishsubtype").hide();
+            }
+            else if (types == "Admin.Resource.Berna") {
+                $("#subtype").show();
+                $("#BewSubType").hide();
+
+                $("#BernaSubType").show();
+
+                $("#Fishsubtype").hide();
+            }
+            else if (types == "Admin.Resource.Fish") 
+                {
+                $("#Fishsubtype").show();
+                $("#subtype").hide();
+                $("#BewSubType").hide();
+
+
+                   $("#BernaSubType").hide();
+                $("#BiruwaSubType").hide();
+
+                }
+            else {
+                $("#Fishsubtype").show();
+                $("#subtype").show();
+                $("#BewSubType").hide();
+
+
+                $("#BernaSubType").hide();
+                $("#BiruwaSubType").show();
+            }
+        }
+        $("#Type").change(function () {
+            var type = $(this).val();
+            if (type == "Admin.Resource.Seed") {
+                $("#subtype").show();
+                $("#BewSubType").show();
+                $("#BernaSubType").hide();
+                $("#BiruwaSubType").hide();
+                $("#Fishsubtype").hide();
+            }
+            else if (type== "Admin.Resource.Berna") {
+                $("#subtype").show();
+                $("#BewSubType").hide();
+
+                $("#BernaSubType").show();
+
+                $("#Fishsubtype").hide();
+            }
+            else if (type == "Admin.Resource.Fish") {
+                $("#Fishsubtype").show();
+                $("#subtype").hide();
+                $("#BewSubType").hide();
+
+
+                $("#BernaSubType").hide();
+                $("#BiruwaSubType").hide();
+
+            }
+            else {
+                $("#Fishsubtype").hide();
+                $("#subtype").show();
+                $("#BewSubType").hide();
+
+
+                $("#BernaSubType").hide();
+                $("#BiruwaSubType").show();
+            }
+        });
+    })
+</script>

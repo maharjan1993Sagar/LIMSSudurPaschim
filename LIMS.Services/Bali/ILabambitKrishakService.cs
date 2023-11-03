@@ -21,5 +21,6 @@ namespace LIMS.Services.Bali
 
         Task UpdateLabambitKrishakHaru(LabambitKrishakHaru LabambitKrishakHaru);
         Task UpdateLabambitKrishakHaruList(List<LabambitKrishakHaru> livestocks);
+        Task<IPagedList<LabambitKrishakHaru>> GetFilteredLabambitKrishak(string id, string fiscalYear, string programType, int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }

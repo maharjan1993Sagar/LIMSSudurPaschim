@@ -16,6 +16,12 @@ namespace LIMS.Web.Areas.Admin.Models.NewsEvent
         [LIMSResourceDisplayName("Admin.NewsEvent.Type")]
 
         public string Type { get; set; }
+        [LIMSResourceDisplayName("Admin.NewsEvent.SubMenu")]
+
+        public string SubMenu { get; set; }
+        [LIMSResourceDisplayName("Admin.NewsEvent.SubSubMenu")]
+
+        public string SubSubMenu { get; set; }
         [LIMSResourceDisplayName("Admin.NewsEvent.HasTitle")]
 
         public bool HasTitle { get; set; }

@@ -162,73 +162,7 @@
             });*@
 
 
-            $(".farmonly").hide();
-            $(".farmeronly").hide();
-            $(".cooperativeOnly").hide();
-            $(".nocooperative").hide();
-            var category = $("#category").val();
-            if (category == "farmer") {
-                $(".cooperativeOnly").hide();
-                $(".farmonly").hide();
-                $(".farmeronly").show();
-            }
-            if (category == "farm") {
-                $(".cooperativeOnly").hide();
-                $(".farmeronly").hide();
-                $(".farmonly").show();
-
-            }
-            if (category == "co-operative" || category == "groups") {
-                $(".farmonly").hide();
-                $(".farmeronly").hide();
-                $(".nocooperative").hide();
-                $(".cooperativeOnly").show();
-
-            }
-            if (category == "") {
-                $('.farmeronly input[type="text"]').val('');
-                $('.farmonly input[type="text"]').val('');
-                $('.cooperativeOnly input[type="text"]').val('');
-                $(".farmonly").hide();
-                $(".farmeronly").hide();
-                $(".cooperativeOnly").hide();
-                $(".nocooperative").hide();
-            }
-
-            $("#category").change(function () {
-                var category = $(this).val();
-                if (category == "farmer") {
-                    $('.farmonly input[type="text"]').val('');
-                    $('.farmonly').find("select").prop('selectedIndex', 0);
-                    $('.farmonly').find("radio").prop('checked', false);
-                    $(".farmonly").hide();
-                    $(".farmeronly").show();
-                    $(".nocooperative").show();
-                }
-                if (category == "farm") {
-                    $('.farmeronly input[type="text"]').val('');
-                    $('.farmeronly').find("select").prop('selectedIndex', 0);
-                    $(".farmeronly").hide();
-                    $(".farmonly").show();
-                    $(".nocooperative").show();
-
-                }
-                if (category == "co-operative" || category == "groups") {
-                    $('.farmeronly input[type="text"]').val('');
-                    $('.farmeronly').find("select").prop('selectedIndex', 0);
-                    $('.farmonly input[type="text"]').val('');
-                    $('.farmonly').find("select").prop('selectedIndex', 0);
-                    $(".farmonly").hide();
-                    $(".farmeronly").hide();
-                    $(".nocooperative").hide();
-                    $(".cooperativeOnly").show();
-                }
-                if (category == "") {
-                    $(".farmonly").hide();
-                    $(".farmeronly").hide();
-                    $(".cooperativeOnly").hide();
-                    $(".nocooperative").hide();
-                }
+          
             })
 
 

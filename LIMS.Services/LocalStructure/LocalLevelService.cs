@@ -25,6 +25,7 @@ namespace LIMS.Services.LocalStructure
         {
             var query = _localLevelsRepositoty.Table;
             var district = query.Where(m=>m.Province==province).Select(m => m.District).Distinct().ToList();
+            district.ForEach(m => m = m.Trim());
             return district;
         }
 
@@ -50,6 +51,18 @@ namespace LIMS.Services.LocalStructure
             var provience = query.ToList();
 
             return provience; 
+        }
+        public string GetNepaliDistrict(string district)
+        {
+            var query = _localLevelsRepositoty.Table;
+            var provience = query.Where(m => m.District == district).FirstOrDefault();
+            if(provience!=null)
+            {
+                return provience.DistrictNepali;
+            }
+            
+
+            return district;
         }
     }
 }

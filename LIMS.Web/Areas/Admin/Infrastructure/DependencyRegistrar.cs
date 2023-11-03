@@ -151,6 +151,10 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<VarietyService>().As<IVarietyService>().InstancePerLifetimeScope();
             builder.RegisterType<SubsidyTypeService>().As<ISubsidyTypeService>().InstancePerLifetimeScope();
             builder.RegisterType<GrowingSeasonService>().As<ICropsSeason>().InstancePerLifetimeScope();
+            builder.RegisterType<PlantSoilManagementService>().As<IPlantSoilManagementService>().InstancePerLifetimeScope();
+            builder.RegisterType<FishProductionService>().As<IFishProductionService>().InstancePerLifetimeScope();
+            builder.RegisterType<DolfdAstaiPadService>().As<IDolfdAstaiPadService>().InstancePerLifetimeScope();
+            builder.RegisterType<TahaDarbandiService>().As<ITahaDarbandiService>().InstancePerLifetimeScope();
 
 
         }

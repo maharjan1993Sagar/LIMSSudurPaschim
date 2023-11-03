@@ -57,11 +57,23 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Common.Workdone")]
 
         public string WorkDone { get; set; }
-        [LIMSResourceDisplayName("LIMS.Common.BeneficiaryType")]
+        [LIMSResourceDisplayName("LIMS.Common.Group")]
 
-        public string BeneficiaryType { get; set; }
+        public string Group { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.CoOperative")]
 
+        public string CoOperative { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.Farm")]
 
+        public string Farm { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.Farmer")]
+
+        public string Farmer { get; set; }
+
+        [LIMSResourceDisplayName("LIMS.Common.Others")]
+
+        public string Others { get; set; }
+        public string Aanya { get; set; }
 
     }
 }

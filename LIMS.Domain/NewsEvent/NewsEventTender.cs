@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LIMS.Domain.DynamicMenu;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,7 +14,14 @@ namespace LIMS.Domain.NewsEvent
         }            
         public Guid NewsEventTenderId { get; set; }
         public string  Title { get; set; }
+        public MainMenu Mainmenu { get; set; }
+        public SubMenu subMenus { get; set; }
+        public SubSubMenu subSubMenus { get; set; }
         public string Type { get; set; }
+        public string TypeName { get; set; }
+        public string SubMenu { get; set; }
+
+        public string SubSubMenu { get; set; }
         public bool HasTitle { get; set; }
         public string Description { get; set; }
         public string UploadedBy { get; set; }

@@ -8,6 +8,7 @@ using LIMS.Services.Breed;
 using LIMS.Services.Localization;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
+using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Bali;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -52,14 +53,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public IActionResult Index() => RedirectToAction("List");
 
-        public IActionResult List() => View();
+        public IActionResult List() {
+
+            var provience = ProvinceHelper.GetProvince();
+            provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.provience = provience;
+            return View();
+                
+                
+                }
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command)
+        public async Task<IActionResult> List(DataSourceRequest command,  string fiscalYear = "", string district = "", string locallevel = "")
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _animalRegistrationService.Getsoil(id, command.Page - 1, command.PageSize);
+            var bali = await _animalRegistrationService.Getsoil(id,"",district,locallevel, command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount

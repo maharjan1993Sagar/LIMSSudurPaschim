@@ -27,12 +27,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILanguageService _languageService;
         private readonly IWorkContext _workContext;
         private readonly IFiscalYearService _fiscalYearService;
+        private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
 
         public TalimController(ILocalizationService localizationService,
             ITalimService animalRegistrationService,
             ILanguageService languageService,
             ISpeciesService speciesService,
             IBreedService breedService,
+            IPujigatKharchaKharakramService pujigatKharchaKharakramService,
             IWorkContext workContext,
             IFiscalYearService fiscalYearService
             )
@@ -44,6 +46,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _breedService = breedService;
             _workContext = workContext;
             _fiscalYearService = fiscalYearService;
+            _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -85,12 +88,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 var animalRegistration = model.ToEntity();
                     animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
+                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
 
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
                 await _animalRegistrationService.Inserttalim(animalRegistration);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
-                return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Index");
+                return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) :RedirectToAction("TabView", "AanudanKaryakram");
+                
             }
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -131,6 +136,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 var m = model.ToEntity(animalRegistration);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
+                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
 
                 await _animalRegistrationService.Updatetalim(m);
 
@@ -139,10 +145,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     //selected tab
                     await SaveSelectedTabIndex();
-
+                  
                     return RedirectToAction("Edit", new { id = model.Id });
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("TabView","AanudanKaryakram");
             }
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));

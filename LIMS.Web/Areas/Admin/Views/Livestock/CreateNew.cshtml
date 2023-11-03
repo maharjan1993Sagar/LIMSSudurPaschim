@@ -1,0 +1,151 @@
+﻿@model LIMS.Web.Areas.Admin.Models.StatisticalData.LivestockModel
+@{
+
+    ViewBag.Title = "Livestock";
+}
+@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+<style>
+    #printContent {
+        height: 550px;
+        overflow-y: scroll;
+    }
+</style>
+<form method="post">
+    <div class="container" id="printContent">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYear" />
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" onchange="getLivestockData()" required="required" />
+                                <span asp-validation-for="FiscalYear"></span>
+                            </div>
+                        </div>
+
+                        @Html.HiddenFor(m => m.Provience)
+
+                        @Html.HiddenFor(m => m.District)
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <admin-select asp-for="LocalLevel" onchange="getLivestockData()" required />
+                                <span asp-validation-for="LocalLevel"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Ward" />
+                                <admin-select asp-for="Ward" asp-items="ViewBag.Ward" onchange="getLivestockData()" required />
+                                <span asp-validation-for="Ward"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @foreach (var item in Model.SpeciesWithAnimals)
+                {
+                    <center> <b>@item.Species.NepaliName</b></center>
+                    <input type="hidden" name="Species" value="@item.Species.Id" />
+
+                    <div class="toggle-text">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr style="text-align:center">
+                                    <th></th>
+                                    @foreach (var items in item.AgeCategory)
+                                    {
+
+                                        <th>
+                                            @items.NepaliName
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody id="tabularEntry">
+                                @foreach (var items in item.AnimalType)
+                                {
+                                    <tr style="text-align:center">
+
+                                        <th>
+                                            @items
+                                        </th>
+                                        @foreach (var ite in item.AgeCategory)
+                                        {
+                                            <td>
+                                                <input type="hidden" value="@item.Species.Id" name="SpeciesId" class="form-control" />
+
+                                                <input type="hidden" value="@ite.Id" name="AgeCategoryId" class="form-control" />
+                                                <input type="hidden" value="@items" name="AnimalType" class="form-control" />
+
+                                                <input type="number" name="LivestockQuantity" class="form-control" onkeyup="if(this.value<0){this.value= this.value * -1}" />
+                                            </td>
+                                        }
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                }
+                <center>
+                    <input type="submit" value="@T("Admin.common.submit")" class="btn btn-success" />
+                </center>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+<script>
+$(document).ready(function () {
+        
+
+
+     
+
+     
+
+    
+    function getLivestockData() {
+            var data = {
+                fiscalYearId: $('#@Html.IdFor(m => m.FiscalYear)').val(),
+                district: $('#district').val(),
+                locallevel: $('#@Html.IdFor(m=>m.LocalLevel)').val(),
+                ward: $('#@Html.IdFor(m => m.Ward)').val(),
+        };
+                   
+        $('input[name="LivestockDataId"]').val('');
+        $('input[name="NoOfLivestock"]').val('');
+            addAntiForgeryToken(data);
+            $.post("@Url.Action("GetLivestocksData", "Livestock")", data, function (result) {
+                $.each(result, function (index, item) {
+
+                    $('tr#' + item.AnimalType.Id + ' input[name="LivestockDataId"]').val(item.Id);
+                    $('tr#' + item.AnimalType.Id + ' input[name="NoOfLivestock"]').val(item.NoOfLivestock);
+                   
+                    console.log(item);
+                });
+            });
+       // }
+    }
+
+</script>
+</script>

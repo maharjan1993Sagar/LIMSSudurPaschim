@@ -19,7 +19,6 @@ namespace LIMS.Web.Areas.Admin.Validators.Molmac
             RuleFor(x => x.Address).NotEmpty().WithMessage(localizationService.GetResource("Admin.Dolfd.Fields.Address.Required"));
             RuleFor(x => x.UserEmail).NotEmpty().WithMessage(localizationService.GetResource("Admin.Dolfd.Fields.Email.Required"));
             RuleFor(x => x.UserNameEnglish).NotEmpty().WithMessage(localizationService.GetResource("Admin.Dolfd.Fields.UserName.Required"));
-            RuleFor(x => x.Password).NotEmpty().WithMessage(localizationService.GetResource("Admin.Dolfd.Fields.Password.Required"));
         }
     }
 }

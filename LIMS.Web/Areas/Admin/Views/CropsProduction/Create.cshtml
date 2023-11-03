@@ -8,11 +8,12 @@
 
 @{
     var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+    var district = workContext.CurrentCustomer.OrgAddress;
 }
+
 <style>
     .table td, .table th {
-        padding: 0.2rem !important; 
-      
+        padding: 0.2rem !important;
     }
 </style>
 <form method="post">
@@ -39,14 +40,14 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="Provience" />
-                                <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
+                                <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
                                 <span asp-validation-for="Provience"></span>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="District" />
-                                <select id="district" name="District" data-val="@Model.District" onchange="getLivestockData()" class="form-control">
+                                <select id="district" name="District" data-val="@district" onchange="getLivestockData()" class="form-control">
                                     <option value="">Select </option>
                                 </select>
                                 <span asp-validation-for="District"></span>

@@ -44,6 +44,36 @@ namespace LIMS.Services.Bali
 
             return await PagedList<MarketData>.Create(query, pageIndex, pageSize);
         }
+        public async Task<IPagedList<MarketData>> GetmarketData(string createdby, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _marketDataRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(fiscalyear))
+            {
+                query = query.Where(
+                  m => m.FiscalYear.NepaliFiscalYear.Contains(fiscalyear)
+                  ||
+                  m.Species.EnglishName.ToLower().Contains(fiscalyear.ToLower())
+                  ||
+                  m.Breed.EnglishName.ToLower().Contains(fiscalyear.ToLower())
+                );
+            }
+
+            return await PagedList<MarketData>.Create(query, pageIndex, pageSize);
+        }
+
+        public async Task<IPagedList<MarketData>> GetmarketData( int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        {
+            var query = _marketDataRepository.Table;
+            if (!string.IsNullOrEmpty(fiscalyear))
+            {
+                query = query.Where(
+                  m => m.FiscalYear.Id == fiscalyear
+                );
+            }
+
+            return await PagedList<MarketData>.Create(query, pageIndex, pageSize);
+        }
 
         public async Task<IPagedList<MarketData>> GetmarketData(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace LIMS.Services.Basic
 {
-    public class PujigatKharchaKharakramService:IPujigatKharchaKharakramService
+    public class PujigatKharchaKharakramService : IPujigatKharchaKharakramService
     {
         private readonly IRepository<PujigatKharchaKharakram> _pujigatKharchaKharakramRepository;
         private readonly IMediator _mediator;
@@ -41,13 +41,31 @@ namespace LIMS.Services.Basic
             return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
         }
 
-        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
             query = query.Where(m => m.CreatedBy == createdby);
-
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(m => m.Limbis_Code.Contains(keyword) || m.kharchaCode.Contains(keyword) || m.Program.Contains(keyword));
+            }
             return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
         }
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakramSelect(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _pujigatKharchaKharakramRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby && (m.kharchaCode == "22522" || m.kharchaCode == "26413" || m.kharchaCode == "26423" || m.kharchaCode == "31159"
+            || m.kharchaCode == "22512"
+            ));
+          
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(m => m.Limbis_Code.Contains(keyword) || m.kharchaCode.Contains(keyword) || m.Program.Contains(keyword));
+            }
+            return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        }
+
+
 
         public async  Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue)
         {
@@ -87,6 +105,48 @@ namespace LIMS.Services.Basic
             return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
         }
 
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetNitigatKharakram(
+          string createdby,
+         string fiscalYear,
+          string programtype = "",
+          string type = "",
+
+          int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _pujigatKharchaKharakramRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby && !string.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.FiscalYear.Id == fiscalYear);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.ProgramType == programtype);
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.Type == type);
+            }
+
+            return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        }
+        public async Task<IPagedList<PujigatKharchaKharakram>> GetMainKharakram(
+          string createdby,
+         string fiscalYear,
+          string programtype = "",
+          string type = "",
+
+          int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _pujigatKharchaKharakramRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby &&(m.kharchaCode== "22512" || m.kharchaCode=="22522" || m.kharchaCode=="26413"||m.kharchaCode== "26423") && m.FiscalYear.Id == fiscalYear);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.ProgramType == programtype);
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.Type == type);
+            }
+
+            return await PagedList<PujigatKharchaKharakram>.Create(query, pageIndex, pageSize);
+        }
         public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(
            List<string> createdby,
           string fiscalYear,
@@ -114,6 +174,18 @@ namespace LIMS.Services.Basic
             return _pujigatKharchaKharakramRepository.GetByIdAsync(Id);
 
         }
+        public async Task<bool> GetPujigatKharchaKharakramByLmBIsCode(string Id)
+        {
+            var query= _pujigatKharchaKharakramRepository.Table;
+            query =  query.Where(m => m.Limbis_Code == Id);
+           if(await query.CountAsync()>0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
 
         public async Task InsertPujigatKharchaKharakram(PujigatKharchaKharakram pujigatKharchaKharakram)
         {

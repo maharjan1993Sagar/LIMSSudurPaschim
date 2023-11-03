@@ -1,8 +1,8 @@
-﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS    
-@model BreedModel
+﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS
+@model PageContentModel
 @{
-    //page title
-    ViewBag.Title = "";
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 <form asp-area="@Constants.AreaAdmin" asp-controller="PageContent" asp-action="Create" method="post">
 
@@ -27,7 +27,7 @@
 
                 <div class="x_content form">
                     <partial name="_CreateOrUpdate" model="Model" />
-                    <partial name="_Create.Picture" model="Model"/>
+                    <partial name="_Create.Picture" model="Model" />
                 </div>
 
 
@@ -35,5 +35,5 @@
 
             </div>
         </div>
-        </div>
+    </div>
 </form>

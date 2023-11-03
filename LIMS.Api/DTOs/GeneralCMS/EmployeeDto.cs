@@ -27,6 +27,9 @@ namespace LIMS.Api.DTOs.GeneralCMS
         public int SerialNo { get; set; }
         public bool IsActive { get; set; }
         public string Status { get; set; }
+        public bool IsInformationOfficer { get; set; }
+
+        public bool IsOfficeChief { get; set; }
         public NewsEventFileDto Image { get; set; }
     }
 }

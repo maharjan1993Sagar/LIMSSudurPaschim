@@ -12,6 +12,10 @@ namespace LIMS.Web.Areas.Admin.Helper
         {
             return new List<SelectListItem> {
                 new SelectListItem {
+                    Text="All ward",
+                    Value="All ward"
+                },
+                new SelectListItem {
                     Text="1",
                     Value="1"
                 },

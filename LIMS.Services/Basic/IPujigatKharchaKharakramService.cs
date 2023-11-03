@@ -12,11 +12,13 @@ namespace LIMS.Services.Basic
     public interface IPujigatKharchaKharakramService
     {
         Task<PujigatKharchaKharakram> GetPujigatKharchaKharakramById(string Id);
+        Task<bool> GetPujigatKharchaKharakramByLmBIsCode(string Id);
+
         Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(
            int pageIndex = 0, int pageSize = int.MaxValue);
-
+        Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakramSelect(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby,
-           int pageIndex = 0, int pageSize = int.MaxValue);
+          string keyword="", int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(List<string> createdby,
           int pageIndex = 0, int pageSize = int.MaxValue);
@@ -34,6 +36,20 @@ namespace LIMS.Services.Basic
             string type="",
             
         int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<PujigatKharchaKharakram>> GetNitigatKharakram(string createdby,
+            string fiscalyear,
+          string programtype = "",
+
+          string type = "",
+
+      int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<PujigatKharchaKharakram>> GetMainKharakram(string createdby,
+         string fiscalyear,
+       string programtype = "",
+
+       string type = "",
+
+   int pageIndex = 0, int pageSize = int.MaxValue);
         Task DeletePujigatKharchaKharakram(PujigatKharchaKharakram pujigatKharchaKharakram);
 
 

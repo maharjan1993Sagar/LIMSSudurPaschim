@@ -1,8 +1,8 @@
-﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS 
+﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS
 @model ContactUsModel
 @{
-    //page title
-    ViewBag.Title = "";
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 <form asp-area="@Constants.AreaAdmin" asp-controller="ContactUs" asp-action="Edit" method="post">
 
@@ -19,7 +19,7 @@
                     <div class="actions">
                         <div class="btn-group btn-group-devided">
                             <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -34,5 +34,5 @@
 
             </div>
         </div>
-        </div>
+    </div>
 </form>

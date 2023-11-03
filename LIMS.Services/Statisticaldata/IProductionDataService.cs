@@ -11,6 +11,8 @@ namespace LIMS.Services.Statisticaldata
 
         Task<IPagedList<Production>> GetProduction(int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<Production>> GetProduction(string createdby,int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Production>> GetProductionByKeyword(string createdby,string keyword, int pageIndex = 0, int pageSize = int.MaxValue);
+
         Task<IPagedList<Production>> GetProduction(List<string> createdby,string type, int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task<IPagedList<Production>> GetProduction(string createdBy,string fiscalyear,int pageIndex = 0, int pageSize = int.MaxValue);

@@ -72,8 +72,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.MainMenuId = mainMenus;          
-            return View();
+            ViewBag.MainMenuId = mainMenus;
+            SubMenuModel model=new SubMenuModel();
+            return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
@@ -86,6 +87,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 subMenu.UserId = _workContext.CurrentCustomer.Id;
                 subMenu.MainMenu = await _mainMenuService.GetMainMenuById(model.MainMenuId);
                 await _subMenuService.InsertSubMenu(subMenu);
+                if (subMenu.HasSubSubMenu)
+                {
+                    subMenu.Url = "";
+                }
+                else
+                {
+                    if (subMenu.Name.ToLower().Contains("employee") || (subMenu.Name.ToLower().Contains("staff")))
+                        {
+                        subMenu.Url = "/Employee/Index";
+                    }
+                    else
+                    {
+                        subMenu.Url = "/NewsEvent/Index?subMenu=" + subMenu.Id;
+                    }
+                    await _subMenuService.UpdateSubMenu(subMenu);
+                }
                 SuccessNotification(_localizationService.GetResource("Admin.SubMenu.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = subMenu.Id }) : RedirectToAction("List");
             }
@@ -129,6 +146,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 var m = model.ToEntity(subMenu);
                 m.MainMenu = await _mainMenuService.GetMainMenuById(model.MainMenuId);
+                if (m.HasSubSubMenu)
+                {
+                    m.Url = "";
+                }
+                else
+                {
+                    if (m.Name.ToLower().Contains("employee")|| (m.Name.ToLower().Contains("staff"))|| (m.Name.ToLower().Contains("organ"))  )
+                        {
+                        m.Url = "/Employee/Index";
+                    }
+                    else
+                    {
+                        m.Url = "/NewsEvent/Index?subMenu=" + subMenu.Id;
+                    }
+                    
+                }
                 await _subMenuService.UpdateSubMenu(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.SubMenu.Updated"));

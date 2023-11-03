@@ -23,6 +23,11 @@
     line-height: 0.75em;
     vertical-align: -0.0667em;
 }
+btn-link:focus, .btn-link:hover {
+    color: #FFF!important;
+    text-decoration: underline;
+    background-color: transparent;
+}
 .fa-xs {
     font-size: 0.75em;
 }

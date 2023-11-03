@@ -46,6 +46,26 @@ namespace LIMS.Services.Statisticaldata
 
             return await PagedList<Production>.Create(query, pageIndex, pageSize);
         }
+        public async Task<IPagedList<Production>> GetProductionByKeyword(string createdby, string keyword, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _productionRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(m => m.ProductionType.ToLower().Contains(keyword.ToLower())
+                  ||
+                  m.LocalLevel.ToLower().Contains(keyword.ToLower())
+                ||
+                 m.District.ToLower().Contains(keyword.ToLower())
+                 ||
+                                   m.Ward.Contains(keyword)
+
+                );
+            }
+
+
+            return await PagedList<Production>.Create(query, pageIndex, pageSize);
+        }
         public async Task<IPagedList<Production>> GetProduction(List<string> createdby, string type,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
@@ -61,6 +81,7 @@ namespace LIMS.Services.Statisticaldata
             query = query.Where(m => m.CreatedBy == createdby&& m.FiscalYear.Id==fiscalyear);
             return await PagedList<Production>.Create(query, pageIndex, pageSize);
         }
+
 
         public Task<Production> GetProductionById(string Id)
         {
@@ -130,7 +151,8 @@ namespace LIMS.Services.Statisticaldata
                 query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.District == district);
 
             }
-            if (fiscalYearId != null && type != null && district != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
+            
+            if (fiscalYearId != null && type != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
             {
                 query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.LocalLevel == LocalLevel);
 

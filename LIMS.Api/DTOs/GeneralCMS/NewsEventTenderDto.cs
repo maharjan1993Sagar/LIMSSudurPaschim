@@ -10,6 +10,11 @@ namespace LIMS.Api.DTOs.GeneralCMS
         public Guid NewsEventTenderId { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
+        public string SubMenu { get; set; }
+        public string SubSubMenu { get; set; }
+        public string TypeName { get; set; }
+        public string SubMenuName { get; set; }
+        public string SubSubMenuName { get; set; }
         public bool HasTitle { get; set; }
         public string Description { get; set; }
         public string UploadedBy { get; set; }

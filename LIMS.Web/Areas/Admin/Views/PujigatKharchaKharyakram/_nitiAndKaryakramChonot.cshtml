@@ -1,0 +1,204 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model FarmListModel
+@{ //page title
+    ViewBag.Title = T("Admin.Catalog.niti.Manage").Text; }
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Filter" />
+                </div>
+                @*<div class="col-md-4 col-sm-4">
+                        <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                            <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                        </button>
+                    </div>*@
+            </div>
+            <div class="x_title">
+
+                <div class="form-group">
+
+
+                </div>
+
+                @*<div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
+
+
+                    <button type="button" name="importexcel" id="importexcel" class="btn blue">
+                        <i class="fa fa-upload"></i>
+                        @T("Admin.Common.ImportFromExcel")
+                    </button>
+                    <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
+                </div>*@
+            </div>
+
+            <div class="x_content">
+                <div id="niti-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#niti-grid").kendoGrid({
+            
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    },
+                    update: {
+                        url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+                    model: {
+                        id: "Id",
+                        fields: {
+
+                            Id: { editable: false, type: "string" },
+                            IsNitiTathaKaryaKram: { editable: true, type: "string" }
+
+                        }
+                    },
+
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [{
+                field: "Limbis_Code",
+                title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
+                //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
+            },
+            {
+                field: "Program",
+                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+            },
+
+            {
+                field: "kharchaCode",
+                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                },
+            {
+                field: "Unit",
+                title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
+            },
+            {
+                field: "BarsikBajet",
+                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+            },
+            {
+                field: "PrathamChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
+            },
+            {
+                field: "DosroChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.DosroChaumasikBadjet")",
+            },
+            {
+                field: "TesroChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
+                },
+            {
+                field: "IsNitiTathaKaryaKram",
+                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
+                editor: ExpancesDropDownEditor
+                },
+            {
+                field: "Remarks",
+                title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
+            },
+
+            {
+                command: [
+                    {
+                        name: "edit",
+                        text: {
+                            edit: "@T("Admin.Common.Edit")",
+                            update: "@T("Admin.Common.Update")",
+                            cancel: "@T("Admin.Common.Cancel")"
+                        },
+
+                    }],
+                width: 200
+            }
+            ]
+
+        });
+
+    });
+    function additionalData() {
+        var data = {
+            Keyword: $("#Keyword").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+    function ExpancesDropDownEditor(container, options) {
+        $('<input name="IsNitiTathaKaryaKram"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                valuePrimitive: true,
+
+                autoBind: true,
+                dataTextField: "name",
+                dataValueField: "value",
+                dataSource: [
+
+                    { name: "Select", value: "" },
+                   
+                    { name: "Yes", value: "Yes" },
+               
+       ]
+
+            });
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#Keyword').keyup(function () {
+            //search
+            var grid = $('#niti-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+
+    });
+</script>
+@*import niti form*@

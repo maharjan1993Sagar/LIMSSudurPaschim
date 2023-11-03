@@ -7,7 +7,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Directory;
 using LIMS.Services.ExportImport.Help;
 using LIMS.Services.Media;
-
+using LIMS.Web.Areas.Admin.Helper;
 using Microsoft.AspNetCore.StaticFiles;
 using NPOI.XSSF.UserModel;
 using Org.BouncyCastle.Cms;
@@ -215,39 +215,41 @@ namespace LIMS.Services.ExportImport
                         category.Remarks = property.StringValue;
                         break;
                     case "limbis_code":
-                        category.Limbis_Code = property.StringValue;
+                        category.Limbis_Code = NumberHelper.EnglishToNepaliNumber(property.StringValue);
+                        
                         break;
                     case "kharchacode":
-                        category.kharchaCode = property.StringValue;
+                        category.kharchaCode = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
-                    case "1stquart_budget":
-                        category.PrathamChaumasikBadjet = property.StringValue;
+                    case "1st_quarter_budget":
+                        category.PrathamChaumasikBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
-                    case "1stquad_qty":
-                        category.PrathamChaumasikParimam = property.StringValue;
+                    case "1st_quarter_qty":
+                        category.PrathamChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
 
+                        
 
-                    case "2ndQuater_qty":
-                        category.DorsoChaumasikParimam = property.StringValue;
+                    case "2nd_quarter_qty":
+                        category.DorsoChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
                     case "2nd_quater_budget":
-                        category.DosroChaumasikBadjet = property.StringValue;
+                        category.DosroChaumasikBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
 
 
                     case "3rd_quarter_qty":
-                        category.TesroChaumasikParimam = property.StringValue;
+                        category.TesroChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
                     case "3rd_quarter_budget":
-                        category.TesroChaumasikBadjet = property.StringValue;
+                        category.TesroChaumasikBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
                     case "yearly_budget":
-                        category.BarsikBajet = property.StringValue;
+                        category.BarsikBajet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
 
                     case "yearly_qty":
-                        category.BarshikParinam = property.StringValue;
+                        category.BarshikParinam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
 
                     case "unit":
@@ -275,63 +277,7 @@ namespace LIMS.Services.ExportImport
 
 
 
-            //public virtual async Task ImportFeedFromXlsx(Stream stream)
-            //{
-            //    var workbook = new XSSFWorkbook(stream);
-            //    var worksheet = workbook.GetSheetAt(0);
-            //    if (worksheet == null)
-            //        throw new LIMSException("No worksheet found");
-
-            //    var manager = GetPropertyManager<FeedLibrary>(worksheet);
-
-            //    var templates = await _manufacturerTemplateService.GetAllManufacturerTemplates();
-
-            //    for (var iRow = 1; iRow < worksheet.PhysicalNumberOfRows; iRow++)
-            //    {
-
-            //        manager.ReadFromXlsx(worksheet, iRow);
-            //        var manufacturerid = manager.GetProperty("id") != null ? manager.GetProperty("id").StringValue : string.Empty;
-            //        var manufacturer = string.IsNullOrEmpty(manufacturerid) ? null : await _manufacturerService.GetManufacturerById(manufacturerid);
-
-            //        var isNew = manufacturer == null;
-
-            //        manufacturer ??= new Manufacturer();
-
-            //        if (isNew)
-            //        {
-            //            manufacturer.CreatedOnUtc = DateTime.UtcNow;
-            //            manufacturer.ManufacturerTemplateId = templates.FirstOrDefault()?.Id;
-            //            if (!string.IsNullOrEmpty(manufacturerid))
-            //                manufacturer.Id = manufacturerid;
-            //        }
-
-            //        PrepareManufacturerMapping(manufacturer, manager, templates);
-
-
-            //        var picture = manager.GetProperty("picture") != null ? manager.GetProperty("sename").StringValue : "";
-            //        if (!string.IsNullOrEmpty(picture))
-            //        {
-            //            var _picture = await LoadPicture(picture, manufacturer.Name,
-            //                isNew ? "" : manufacturer.PictureId);
-            //            if (_picture != null)
-            //                manufacturer.PictureId = _picture.Id;
-            //        }
-            //        manufacturer.UpdatedOnUtc = DateTime.UtcNow;
-
-            //        if (isNew)
-            //            await _manufacturerService.InsertManufacturer(manufacturer);
-            //        else
-            //            await _manufacturerService.UpdateManufacturer(manufacturer);
-
-            //        var sename = manager.GetProperty("sename") != null ? manager.GetProperty("sename").StringValue : manufacturer.Name;
-            //        sename = await manufacturer.ValidateSeName(sename, manufacturer.Name, true, _seoSetting, _urlRecordService, _languageService);
-            //        manufacturer.SeName = sename;
-            //        await _manufacturerService.UpdateManufacturer(manufacturer);
-            //        await _urlRecordService.SaveSlug(manufacturer, manufacturer.SeName, "");
-
-            //    }
-
-            //}
+            
         }
         public virtual async Task ImportCategoryFromXlsx(Stream stream,string Type, string FiscalYear,string ProgramType)
         {
@@ -364,7 +310,16 @@ namespace LIMS.Services.ExportImport
                 PrepareCategoryMapping(pujigatKharcha, manager);
                 if (!string.IsNullOrEmpty(pujigatKharcha.Limbis_Code))
                 {
-                    await _pujigatKharchaKharakramService.InsertPujigatKharchaKharakram(pujigatKharcha);
+                    if(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramByLmBIsCode(pujigatKharcha.Limbis_Code))
+                    {
+                        await _pujigatKharchaKharakramService.UpdatePujigatKharchaKharakram(pujigatKharcha);
+
+                    }
+                    else
+                    {
+                        await _pujigatKharchaKharakramService.InsertPujigatKharchaKharakram(pujigatKharcha);
+
+                    }
                 }
                
                 

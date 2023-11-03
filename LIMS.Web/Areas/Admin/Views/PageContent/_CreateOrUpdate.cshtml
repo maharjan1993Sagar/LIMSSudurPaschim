@@ -4,42 +4,43 @@
     <div>
         <div class="form-body">
 
-            <div class="col-md-3">
+            @*<div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="PageName" />
-                    <admin-input asp-for="PageName"/>
-                    <span asp-validation-for="PageName"></span>
+            <div class="form-group">
+                <admin-label asp-for="PageName" />
+                <admin-input asp-for="PageName"/>
+                <span asp-validation-for="PageName"></span>
 
-                </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <admin-label asp-for="ShowImage" />
-                    <admin-input asp-for="ShowImage"/>
-                    <span asp-validation-for="ShowImage"></span>
-                </div>
-            </div>
-            <div class="col-md-12">
+        </div>*@
+            @*<div class="col-md-12">
 
-                <div class="form-group">
-                    <admin-label asp-for="Title" />
-                    <admin-input asp-for="Title"/>
-                    <span asp-validation-for="Title"></span>
+            <div class="form-group">
+                <admin-label asp-for="Title" />
+                <admin-input asp-for="Title" />
+                <span asp-validation-for="Title"></span>
 
-                </div>
             </div>
+        </div>*@
+
+
             <div class="col-md-12">
 
                 <div class="form-group">
                     <admin-label asp-for="Description" />
-                    <admin-textarea asp-for="Description"/>
+                    <admin-textarea asp-for="Description" />
                     <span asp-validation-for="Description"></span>
 
                 </div>
             </div>
-           
-           
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="ShowImage" /><br />
+                    <admin-input asp-for="ShowImage" />
+                    <span asp-validation-for="ShowImage"></span>
+                </div>
+            </div>
 
         </div>
     </div>

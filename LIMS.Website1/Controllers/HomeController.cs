@@ -32,6 +32,8 @@ namespace LIMS.Website1.Controllers
         {
             string baseUrl = _config.GetValue<string>("Constants:FileBaseUrl");
 
+
+
             var newsEventTenders = await _db.GetNewsEventTender("");
 
             newsEventTenders
@@ -44,11 +46,12 @@ namespace LIMS.Website1.Controllers
                 .ForEach(m => m.Image.PictureUrl = GetPath(m.Image.PictureUrl));
 
             var employee = await _db.GetEmployee();
+            var customer = await _db.GetCustomer();
             employee.ForEach(m => m.Image.PictureUrl = GetPath(m.Image.PictureUrl));
 
 
-            var director = employee.FirstOrDefault(m => m.Designation == "Director");
-            var informationOfficer = employee.FirstOrDefault(m => m.Designation == "Information Officer");
+            var director = employee.FirstOrDefault(m => m.IsOfficeChief);
+            var informationOfficer = employee.FirstOrDefault(m => m.IsInformationOfficer);
            
             var pageContent = await _db.GetPageContent("Home");
             if (pageContent != null)
@@ -57,17 +60,18 @@ namespace LIMS.Website1.Controllers
 
             }
             var newsScroll = newsEventTenders.Where(m => m.IsScroll);
-            var news = newsEventTenders.Where(m => m.Type == "News");
-            var events = newsEventTenders.Where(m => m.Type == "Event");
-            var tenders = newsEventTenders.Where(m => m.Type == "Tender");
-            var notices = newsEventTenders.Where(m => m.Type == "Notice");
-            var rules = newsEventTenders.Where(m => m.Type == "Rules & Regulation");
-            var directives = newsEventTenders.Where(m => m.Type == "Directives");
-            var acts = newsEventTenders.Where(m => m.Type == "Act");
-            var reports = newsEventTenders.Where(m => m.Type == "Report");
-            var otherFiles = newsEventTenders.Where(m => m.Type == "OtherFiles");
-            var pressRelease = newsEventTenders.Where(m => m.Type == "PressRelease");
-            var letters = newsEventTenders.Where(m => m.Type == "Letter");
+            var news = newsEventTenders.Where(m => m.TypeName == "News");
+            var events = newsEventTenders.Where(m => m.TypeName == "Event");
+            var tenders = newsEventTenders.Where(m => m.TypeName == "Tender");
+            var notices = newsEventTenders.Where(m => m.TypeName == "Notice" ||m.TypeName == "Notices" );
+            var rules = newsEventTenders.Where(m => m.TypeName == "Rules & Regulation");
+            var directives = newsEventTenders.Where(m => m.TypeName == "Directives");
+            var acts = newsEventTenders.Where(m => m.TypeName == "Act");
+            var reports = newsEventTenders.Where(m => m.TypeName == "Report");
+            var otherFiles = newsEventTenders.Where(m => m.TypeName == "OtherFiles");
+            var pressRelease = newsEventTenders.Where(m => m.TypeName == "PressRelease");
+            var letters = newsEventTenders.Where(m => m.TypeName == "Letter");
+            var publication = newsEventTenders.Where(m => m.TypeName.ToLower() == "publication");
 
             var galleryVideo = await _db.GetGallery();
             galleryVideo
@@ -78,7 +82,6 @@ namespace LIMS.Website1.Controllers
             var gallery = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Photo");
             var video = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Video");
             var Facebook = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Facebook").FirstOrDefault();
-
             var homeVM = new HomeModel {
                 NewsScroll = newsScroll.ToList(),
                 Facebook = Facebook,
@@ -86,6 +89,8 @@ namespace LIMS.Website1.Controllers
                 Employee = employee,
                 PageContent = pageContent,
                 Notices = notices.Take(notices.ToList().Count > 4 ? 4 : notices.ToList().Count).ToList(),
+                Publications = publication.Take(publication.ToList().Count > 4 ? 4 : publication.ToList().Count).ToList(),
+
                 News = news.Take(news.ToList().Count > 4 ? 4 : news.ToList().Count).ToList(),
                 Tenders = tenders.Take(tenders.ToList().Count > 4 ? 4 : tenders.ToList().Count).ToList(),
                 Events = events.Take(events.ToList().Count > 4 ? 4 : events.ToList().Count).ToList(),
@@ -102,6 +107,7 @@ namespace LIMS.Website1.Controllers
                 Video = video.FirstOrDefault(),
                 Galleries = gallery.Take(gallery.ToList().Count > 4 ? 4 : gallery.ToList().Count).ToList(),
                 Videos = video.Take(video.ToList().Count > 4 ? 4 : video.ToList().Count).ToList(),
+            OrgName=customer.OrgName
             };
             return View(homeVM);
         }
@@ -114,7 +120,15 @@ namespace LIMS.Website1.Controllers
         public async Task<IActionResult> ContactUs()
         {
             var contactUs = await _db.GetContactUsModel();
+            var galleryVideo = await _db.GetGallery();
 
+            string map = "";
+            var Facebook = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Map").FirstOrDefault();
+            if (Facebook != null)
+            {
+                map = Facebook.VideoUrl;
+            }
+            ViewBag.Map = map;
             return View(contactUs);
         }
         public List<string> Menus()

@@ -1,0 +1,180 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "Soil";
+}
+@model FarmListModel
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    <i class="fa fa-comment"></i>
+                    @T("Admin.PlantSoil.LIST")
+                </div>
+                <div class="actions btn-group btn-group-devided">
+                    <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                </div>
+            </div>
+            <div class="x_content form">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                       
+                    
+                        @*<div class="col-md-2">
+                            <div class="form-group">
+                                <br />
+                                <input type="submit" id="search" class="btn-sm btn-success" style="margin-top:10px;" />
+                            </div>
+                        </div>*@
+
+
+                    </div>
+                    <div class="form-body">
+                        <div class="x_content">
+                            <div id="bali-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#search').click(function () {
+            //search
+            var grid = $('#bali-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#bali-grid").kendoGrid({
+            toolbar:["excel"],
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "PlantSoil"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "Breed.EnglishName",
+                    title: "@T("Admin.Soil.PlantName")",
+                    width: 400,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=Breed.EnglishName#</a>',
+
+                },
+                 {
+                           field: "Temperature",
+                        title: "@T("Admin.Soil.Temperature")",
+                        width: 400,
+
+                },
+                 {
+                     field: "AnualRainfall",
+                        title: "@T("Admin.Soil.AnualRainfall")",
+                        width: 400,
+
+                },
+                       {
+                           field: "Latitude",
+                        title: "@T("Admin.Soil.Latitude")",
+                        width: 400,
+
+                },
+                         {
+                             field: "Longitude",
+                        title: "@T("Admin.Soil.Longitude")",
+                        width: 400,
+
+                },
+                            {
+                                field: "SoilStructure",
+                        title: "@T("Admin.Soil.SoilStructure")",
+                        width: 400,
+
+                },
+                            {
+                                field: "Ph",
+                        title: "@T("Admin.Soil.Ph")",
+                        width: 400,
+
+                },
+                             {
+                                field: "Zinc",
+                        title: "@T("Admin.Soil.Zinc")",
+                        width: 400,
+
+                },
+                             {
+                                field: "Boron",
+                        title: "@T("Admin.Soil.Boron")",
+                        width: 400,
+
+                },
+                             {
+                                 field: "Othermicronutrients",
+                        title: "@T("Admin.Soil.Othermicronutrients")",
+                        width: 400,
+
+                },
+                             {
+                                 field: "PrangricPadartha",
+                        title: "@T("Admin.Soil.PrangricPadartha")",
+                        width: 400,
+
+                },
+
+
+
+            ]
+
+        });
+
+        function additionalData() {
+        var data = {
+
+              district:$("#district").val(),
+            locallevel:$("#locallevel").val()
+
+
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+    });
+</script>

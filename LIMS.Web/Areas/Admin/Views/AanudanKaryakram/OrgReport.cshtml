@@ -1,0 +1,205 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model MonthlyProgressModel
+@inject IWorkContext workContext
+
+@{ //page title
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text;
+    var role = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList(); }
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <div class="form-row">
+                <div class=" col-md-12">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="FiscalYearId" />
+                            <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                            <span asp-validation-for="FiscalYearId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="ProgramType" />
+                            <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required" />
+                            <span asp-validation-for="ProgramType"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="Type" />
+                            <admin-select asp-for="Type" asp-items="ViewBag.Type" required="required" />
+                            <span asp-validation-for="Type"></span>
+                        </div>
+                    </div>
+                    @if (role.Contains("MolmacAdmin"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="DolfdId" />
+                <admin-select asp-for="DolfdId" asp-items="ViewBag.dolfd" />
+                <span asp-validation-for="DolfdId"></span>
+            </div>
+        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="VhlsecId" />
+                                <admin-select asp-for="VhlsecId">
+                                    <option value=''>Select</option>
+                                </admin-select>
+                                <span asp-validation-for="VhlsecId"></span>
+                            </div>
+                        </div>}
+                    @if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="VhlsecId" />
+                <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
+                <span asp-validation-for="VhlsecId"></span>
+            </div>
+        </div>}
+
+
+
+                    <div class="col-md-2 col-sm-2" style="padding-top:19px!important">
+
+                        <button class="btn btn-success filter-submit" id="search-categories" style="font-size: 13px!important;">
+                            <i class="fa fa-search"></i> @T("admin.common.search")
+                        </button>
+                    </div>
+
+                    <div class="x_content">
+                        <div id="categories-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+         $("#@Html.IdFor(m=>m.DolfdId)").change(function () {
+              var categoryId = $(this).val();
+              $("#VhlsecId").empty();
+              //$("#VhlsecId").append("<option value=''>Select</option>");
+              url = "/Admin/MonthlyProgress/GetVhlsecByDolfdId";
+              $.getJSON(url, { dolfdId: categoryId }, (data) => {
+                  $.each(data, function (i, item) {
+                      $("#VhlsecId").append(`<option value="${item.Value}">${item.Text}</option>`);
+                  });
+              });
+    });
+        $('#search-categories').click(function (e) {
+            e.preventDefault();
+            //search
+            var grid = $('#categories-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#categories-grid").kendoGrid({
+            toolbar:["excel"],
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("OrgReport", "AanudanKaryakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                 field: "OrgName",
+                title: "@T("Admin.Report.OrgName")",
+                },
+                 {
+                    field: "pujigatKharchaKharakram.Limbis_Code",
+                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                },
+                {
+                    field: "pujigatKharchaKharakram.kharchaCode",
+                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                },
+                {
+                    field: "pujigatKharchaKharakram.Program",
+                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                },
+
+                 {
+                     field: "pujigatKharchaKharakram.BarsikBajet",
+                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                },
+                   {
+                     field: "Name",
+                title: "@T("Admin.PujigatKaryakram.Fields.Name")",
+                },
+                   {
+                     field: "Address",
+                title: "@T("Admin.PujigatKaryakram.Fields.Address")",
+                },
+                   {
+                       field: "PhoneNo",
+                title: "@T("Admin.PujigatKaryakram.Fields.PhoneNo")",
+                },
+                    {
+                        field: "Rakam",
+                title: "@T("Admin.PujigatKaryakram.Fields.Rakam")",
+                },
+
+           ]
+        });
+
+    });
+
+    function additionalData() {
+        var data = {
+            type: $('#@Html.FieldIdFor(model => model.Type)').val(),
+            programType: $('#@Html.FieldIdFor(model => model.ProgramType)').val(),
+            fiscalYear: $('#@Html.FieldIdFor(model => model.FiscalYearId)').val(),
+            dolfdid: $('#@Html.FieldIdFor(model => model.DolfdId)').val(),
+            vhlsecid: $('#@Html.FieldIdFor(m=>m.VhlsecId)').val()
+
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+</script>
+

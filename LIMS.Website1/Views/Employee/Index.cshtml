@@ -1,10 +1,7 @@
 ﻿@model List<EmployeeModel>
 @using LIMS.Website1.Data 
 @inject IGetLabel _lbl
-@{
 
-    int i = 1;
-}
 <section>
     <div class="container">
         <div class="row">
@@ -17,22 +14,22 @@
                     <thead>
                         <tr>
                             <th>
-                                @{_lbl.GetByName("Employee.SN", "");}
+                                Sn
                             </th>
                             <th>
-                                @{_lbl.GetByName("Employee.Name", "");}
+                              Name
                             </th>
                             <th>
-                                @{_lbl.GetByName("Employee.Designation", "");}
+                             Designation
 
                             </th>
                             <th>
-                                @{_lbl.GetByName("Employee.Photo", "");}
+                              Image
 
                             </th>
 
                             <th>
-                                @{_lbl.GetByName("Employee.Email", "");}
+                            Email
 
                             </th>
 
@@ -41,19 +38,28 @@
                     <tbody>
                         @if (Model.Any())
                         {
+                            int i = 1;
                             @foreach (var item in Model)
                             {
+                                
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.Name</td>
+                            <td>@item.Designation</td>
+                            <td>
 
-                                <tr>
-                                    <td>@(i)</td>
-                                    <td>@item.Name</td>
-                                    <td>@item.Designation</td>
-                                    <td>
-                                        <image src='@item.Image.PictureUrl' onerror="if (this.src != 'error.jpg') this.src = '~/Dolfd/img/user.jpg';"
-                                               style="height: 100px; width: 120px;" alt=""></image>
-                                    </td>
-                                    <td>@item.Email1</td>
-                                </tr>
+                                <image src='@(!String.IsNullOrEmpty(item.Image.PictureUrl) ? @item.Image.PictureUrl : "/Dolfd/img/111.png")'
+                                       style="height: 100px; width: 120px;" alt=""></image>
+                            </td>
+                            <td>@item.Email1</td>
+                            @{i++;
+                            }
+                        </tr>
+
+                               
+                                  
+                               
+
                             }
                         }
                         else

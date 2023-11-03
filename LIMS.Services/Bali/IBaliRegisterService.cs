@@ -12,6 +12,7 @@ namespace LIMS.Services.Bali
         Task<BaliRegister> GetbaliRegisterById(string id);
         Task<IPagedList<BaliRegister>> GetbaliRegister(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
         Task<IPagedList<BaliRegister>> GetbaliRegister(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<BaliRegister>> GetbaliRegister(string createdby, string keyword , int pageIndex = 0, int pageSize = int.MaxValue );
 
         Task DeletebaliRegister(BaliRegister baliRegister);
 

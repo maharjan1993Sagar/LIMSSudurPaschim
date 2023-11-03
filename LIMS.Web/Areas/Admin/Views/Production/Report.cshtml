@@ -39,7 +39,7 @@
                                         <span asp-validation-for="Type"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <admin-label asp-for="Province" />
                                         <admin-select asp-for="Province" id="country" />
@@ -64,7 +64,7 @@
                                         <span asp-validation-for="LocalLevel"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-2 col-sm-2">
+                                <div class="col-md-2 col-sm-2" style="padding-top:15px;">
                                     <button class="btn btn-sm btn-success" id="search-production">
                                         <i class="fa fa-search"></i> @T("Admin.Common.Search")
                                     </button>
@@ -142,8 +142,13 @@
             },
             scrollable: false,
             columns: [
+                 {
+                    field: "Ward",
+                title: "@T("Admin.Production.Ward")",
+                width: 200,
+            },
                 {
-                    field: "Species.EnglishName",
+                    field: "Species.NepaliName",
                 title: "@T("Admin.Production.SpeciesName")",
                 width: 200,
             },
@@ -154,9 +159,14 @@
 
                  {
                     field: "Quantity",
-                    title:"@T("Admin.Common.Quantity")",
+                    title:"@T("Admin.Production.Quantity")",
                     width: 200,
                 },
+                    //{
+                        @*field: "Unit.UnitNameEnglish",
+                    title:"@T("Admin.Common.Unit")",
+                    width: 200,
+                },*@
             ]
         });
     });

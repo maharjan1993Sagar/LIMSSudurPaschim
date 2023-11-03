@@ -45,5 +45,7 @@ namespace LIMS.Api.DTOs.Customers
         public IList<AddressDto> Addresses { get; set; }
         public string OrgName { get; set; }
         public string OrgAddress { get; set; }
+        public string OrgNameNepali { get; set; }
+        public string OrgAddressNepali { get; set; }
     }
 }

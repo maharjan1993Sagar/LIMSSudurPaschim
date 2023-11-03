@@ -3,6 +3,14 @@
     //page title
     ViewBag.Title = "Livestock";
 }
+@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+    var district = workContext.CurrentCustomer.OrgAddress;
+
+}
 <form method="post">
     <div class="row">
         <div class="col-md-12">
@@ -26,19 +34,39 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Provience" />
-                                <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
+                                <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
                                 <span asp-validation-for="Provience"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="District" />
-                                <select id="district" name="District" data-val="@Model.District" class="form-control">
-                                    <option value="">Select </option>
-                                </select>
-                                <span asp-validation-for="District"></span>
+                        @if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
+                        {
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="District" />
+                                    <select name="district" id="district" data-val="@Model.District" class="form-control" required="required">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="District"></span>
+
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="District" />
+                                    <select id="district" data-val="@Model.District" class="form-control" disabled required="required">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="District"></span>
+
+                                </div>
+                            </div>
+                            <input type="hidden" name="district" value="@Model.District" />
+                        }
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
@@ -65,42 +93,42 @@
 
                     </div>
                 </div>
-                <div id="showTable" >
-                    <table class="table table-bordered" style="width:50%" >
+                <div id="showTable">
+                    <table class="table table-bordered" style="width:50%">
                         <thead>
                             <tr>
                                 <td>@T("Admin.Production.SpeciesName")</td>
                                 <td>@T("Admin.Production.Quantity")</td>
                                 <td>@T("Admin.Production.Unit")</td>
-                                                           </tr>
+                            </tr>
                         </thead>
                         <tbody id="tabularEntry">
                             @*@foreach(var item in Model.Species) {
-                            <tr id="@item.Id">
-                                <td>
-                                    @item.EnglishName
-                                    <input type="hidden" name="SpeciesId" value=@item.Id />
-                                    <input type="hidden" name="ProductionDataId" value="" />
-                                </td>
-                                <td>
-                                    <input type="number" name="Quantity" class="form-control" />
-                                </td>
-                                <td class="unit">
-                                   
+                                <tr id="@item.Id">
+                                    <td>
+                                        @item.EnglishName
+                                        <input type="hidden" name="SpeciesId" value=@item.Id />
+                                        <input type="hidden" name="ProductionDataId" value="" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="Quantity" class="form-control" />
+                                    </td>
+                                    <td class="unit">
 
-                                </td>
-                                <td>
-                                    <input type="text" name="Ward" class="form-control" />
-                                </td>
-                                <td>
-                                    <input type="text" name="Tole" class="form-control" />
-                                </td>
-                                <td>
-                                    <input type="date" name="ProductionDate" class="form-control">
-                                </td>
-                            </tr>
-                                
-                            }*@
+
+                                    </td>
+                                    <td>
+                                        <input type="text" name="Ward" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="Tole" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="date" name="ProductionDate" class="form-control">
+                                    </td>
+                                </tr>
+
+                                }*@
                         </tbody>
                     </table>
                     <div class="col-md-6">
@@ -176,7 +204,7 @@
                         }
                     }
                     else if (production == "Egg") {
-                        if (item.Text == "No.") {
+                        if (item.Text == "No") {
                             $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
                         }
                         else {

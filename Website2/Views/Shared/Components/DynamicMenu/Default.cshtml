@@ -5,8 +5,17 @@
         string subMenuName ="";
         string subSubMenuName = "";
      }
+<style>
+    ul{
+        list-style-type:none
+    }
+    .dropdown-item{
+        display:block!important;
+    }
+</style>
 <div>
     <ul class="navbar-nav">
+
         @if (Model.Any())
         {
             @foreach (var item in Model)
@@ -15,52 +24,68 @@
 
                 @if (item.HasSubMenu && item.SubMenus.Any())
                 {
+        <li class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">@menuName </a>
+            <div class="dropdown-menu">
 
-                    @foreach (var subItem in item.SubMenus)
+
+                @foreach (var subItem in item.SubMenus)
+                {
                     {
-                        {
-                            subMenuName = curCulture == "en-US" ? subItem.Name : subItem.NameNepali;
-                        }
-                        if (subItem.HasSubSubMenu && subItem.SubSubMenus.Any())
-                        {
-                            <li class="nav-item dropdown">
-                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">@subMenuName </a>
-
-                                <a class="dropdown-item" href="#"></a>
-                                <div class="dropdown-menu">
-                                    @foreach (var subSubItem in subItem.SubSubMenus)
-                                    {
-                                        { subSubMenuName = curCulture == "en-US" ? subSubItem.SubSubMenuName : subSubItem.SubSubMenuNameNepali; }
-
-                                        <a class="dropdown-item" href="@subSubItem.Url">@subSubMenuName</a>
-                                    }
-                                </div>
-                            </li>
-                        }
-
-                        else
-                        {
-                            <a class="nav-link" href="@item.Url">@menuName</a>
-                        }
+                        subMenuName = curCulture == "en-US" ? subItem.Name : subItem.NameNepali;
                     }
-                }
-                else if (item.HasSubMenu)
-                {
-                    <a class="nav-link" href="#">
-                        @menuName
-                    </a>
-                }
-                else
-                {
-                    <a class="nav-link" href="@item.Url">@menuName</a>
+                    if (subItem.HasSubSubMenu && subItem.SubSubMenus.Any())
+                    {
+                        @*<li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">@subMenuName </a>
+
+                    <a class="dropdown-item" href="#"></a>*@
+
+                        @foreach (var subSubItem in subItem.SubSubMenus)
+                        {
+                            { subSubMenuName = curCulture == "en-US" ? subSubItem.SubSubMenuName : subSubItem.SubSubMenuNameNepali; }
+
+                            <a class="dropdown-item" href="@subSubItem.Url">@subSubMenuName</a>
+                        }
+
+                        @*</li>*@
+                    }
+
+                    else
+                    {
+
+                        @*<a class="dropdown-item" href="#"></a>*@
+                      
+                            <a class="dropdown-item" href="@subItem.Url">@subMenuName</a>
+                       
+
+                    }
 
 
                 }
-                <!-- top level -->
-                <!-- top level -->
-            }
-        }
-    </ul>
+                </div>
+        </li>
+                            }
+                            else if (item.HasSubMenu)
+                            {
+    <li>
+        <a class="nav-link" href="#">
+            @menuName
+        </a>
+    </li>
+                            }
+                            else
+                            {
+                    <li class="nav-item">
+                            <a class="nav-link" href="@item.Url">@menuName</a>
+</li>
+
+                            }
+                            <!-- top level -->
+                            <!-- top level -->
+                            }
+                            }
+                        </ul>
 </div>
 
 

@@ -1,4 +1,6 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
+@model MonthlyProgressModel
+
 @{
     //page title
     ViewBag.Title = T("Admin.CDMS.LabambitKrishak").Text;
@@ -19,13 +21,25 @@
                     </div>
                 </div>
                 <div class="x_content form">
-                    <div class="form-horizontal">
+                    <div class="form-row">
 
-                        <div class="form-body col-md-6">
+                        <div class="form-body col-md-12">
 
-                            <div class="form-group">
 
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <admin-label asp-for="FiscalYearId" />
+                                    <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                    <span asp-validation-for="FiscalYearId"></span>
+                                </div>
                             </div>
+                            <div class="col-md-2 col-sm-2" style="padding-top:19px!important">
+
+                                <button class="btn btn-success filter-submit" id="search-LabambitKrishak" style="font-size: 13px!important;">
+                                    <i class="fa fa-search"></i> @T("admin.common.search")
+                                </button>
+                            </div>
+
                         </div>
                         <div class="clearfix"></div>
                         <div class="form-actions d-flex flex-column w-100">
@@ -43,6 +57,11 @@
     </div>
 </form>
 
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
 <script>
     $(document).ready(function () {
         //search button
@@ -55,6 +74,7 @@
         });
 
         $("#LabambitKrishak-grid").kendoGrid({
+            toolbar:["excel"],
             dataSource: {
                 transport: {
                     read: {
@@ -89,16 +109,41 @@
             },
             scrollable: false,
             columns: [
-                {
-                    field: "FiscalYear.NepaliFiscalYear",
-                title: "@T("Admin.LabambitKrishak.Fiscalyear")",
-                width: 200,
-            },
+
+
                 {
                     field: "PujigatKharchaKharakram.Program",
                     title: "@T("Admin.PujigatKharchaKharakram.ProgramName")",
                     width: 200,
                 },
+                {
+                    field: "Group",
+                    title: "@T("Admin.Common.Group")",
+                    width: 200,
+                },
+                {
+                    field: "Group",
+                    title: "@T("Admin.Common.CoOperative")",
+                    width: 200,
+                },
+                 {
+                     field: "Farm",
+                    title: "@T("Admin.Common.Farm")",
+                    width: 200,
+                },
+                  {
+                      field: "Farmer",
+                    title: "@T("Admin.Common.Farmer")",
+                    width: 200,
+                },
+                  {
+                      field: "Others",
+                    title: "@T("Admin.Common.Others")",
+                    width: 200,
+                },
+
+
+
                {
                    field: "LabambitKrishakKoNam",
                     title: "@T("Admin.LabambitKrishak.Male")",
@@ -121,6 +166,11 @@
                     title:"@T("Admin.LabambitKrishak.Janajati")",
                     width: 200,
                 },
+                 {
+                      field: "Aanya",
+                    title: "@T("Admin.Common.Aanya")",
+                    width: 200,
+                },
                 {
                     field: "Remarks",
                     title:"@T("Admin.LabambitKrishak.YouthMember")",
@@ -133,7 +183,7 @@
 
     function additionalData() {
         var data = {
-            Keyword:$("#Keyword").val()
+            fiscalyear: $("#FiscalYearId").val()
         };
         addAntiForgeryToken(data);
         return data;

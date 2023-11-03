@@ -1,9 +1,9 @@
-﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS 
+﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS
 @model GalleryModel
 @inject AdminAreaSettings adminAreaSettings
 @{
-    //page title
-    ViewBag.Title = T("Admin.Gallery.List").Text;
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 
 <form asp-area="@Constants.AreaAdmin" asp-controller="Gallery" asp-action="List" method="post">
@@ -24,25 +24,25 @@
                     <div class="form-inline">
 
                         @*<div class="form-body col-md-12">
-                            <div class="form-group">
-                                <admin-label asp-for="Keyword" class="col-2 col-sm-4 col-md-2 control-label" />
-                                <div class="col-4 col-md-6 col-sm-6">
-                                    <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Search farm/farmer by name and district" />
+                                <div class="form-group">
+                                    <admin-label asp-for="Keyword" class="col-2 col-sm-4 col-md-2 control-label" />
+                                    <div class="col-4 col-md-6 col-sm-6">
+                                        <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Search farm/farmer by name and district" />
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                                            <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
-                                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
-                                    </button>
+                                <div class="form-group">
+
                                 </div>
-                            </div>
-                            <div class="form-group">
-                               
-                            </div>
-                        </div>*@
+                            </div>*@
                         <div class="clearfix"></div>
                         <div class="form-actions d-flex flex-column w-100">
                             <div class="row">
-                               
+
                             </div>
                         </div>
                         <div class="x_content">

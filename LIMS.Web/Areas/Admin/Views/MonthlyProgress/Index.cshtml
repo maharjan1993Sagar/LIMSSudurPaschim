@@ -1,0 +1,96 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Dashboard.DashboardOffice
+<style>
+
+
+
+    .textside {
+        margin-left: 25px;
+    }
+
+
+
+
+
+
+    .inforide {
+        box-shadow: 1px 2px 8px 0px #f1f1f1;
+        border-radius: 8px;
+        height: 100px;
+    }
+
+    canvas {
+    }
+
+    .chart-container {
+        height: 400px !important;
+    }
+
+
+    .rideone {
+        /*        padding-top: 25px;
+    */ border-radius: 8px 0px 0px 8px;
+        height: 125px;
+        margin-left: 2px;
+        text-align: center;
+    }
+
+    .fontsty {
+        margin-right: -15px;
+    }
+
+        .fontsty h2 {
+            color: #6E6E6E;
+            font-size: 35px;
+            margin-top: 15px;
+            text-align: right;
+            margin-right: 30px;
+        }
+
+        .fontsty h5 {
+            color: #6E6E6E;
+            font-size: 15px;
+            margin-top: 20px;
+            text-align: right;
+            margin-right: 30px;
+        }
+
+        .fontsty h4 {
+            color: #6E6E6E;
+            font-size: 15px;
+            margin-top: 20px;
+            text-align: right;
+            margin-right: 30px;
+        }
+</style>
+<div style="display: inline-block !important;">
+         
+        Financial progress for the current fiscal year<br />
+        <div class="progress">
+
+            <div class="progress-bar" role="progressbar" aria-valuenow="@Model.FinencialPercent" aria-valuemin="0" aria-valuemax="100" style="width:@Model.FinencialPercent%">
+                <span class="sr-only">@Model.FinencialPercent Complete</span>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide" style="background-color:#42b1ca;">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-8 rideone" style="margin-top:20px;color:#fff!important">
+                    Number of total banifeciaries for the fiscal year (2078/79):
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-3 fontsty" style="margin-top: 20px;">
+                    <h4 style="color:white!important">Male:@Model.NoOfMaleBenifiries Female:@Model.NoOfFeMaleBenifiries</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+            <div class="inforide" style="background-color: #1abb9c">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-9 rideone" style="margin-top:20px;color:#fff!important">
+                    Total subsidies amount for the fiscal year
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-3 fontsty" style="margin-top: 20px;">
+                    <h4 style="color:white!important">@Model.TotalSubsidiesAmount</h4>
+                </div>
+            </div>
+        </div>
+</div>
+

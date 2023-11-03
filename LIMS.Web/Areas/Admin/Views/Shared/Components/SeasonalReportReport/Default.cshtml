@@ -1,0 +1,169 @@
+﻿@model IEnumerable<LIMS.Web.Areas.Admin.Models.Bali.MonthlySummerizedReport>
+<style>
+    .custom-td {
+        padding: 0 !important;
+        padding-top: 10px !important;
+    }
+</style>
+@inject IWorkContext workContext
+@using LIMS.Domain.Customers
+@{
+    List<string> roles = workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+
+
+    string createdby = null;
+    @*if (roles.Contains("VhlsecAdmin") || roles.Contains("VhlsecUser"))
+    {
+
+        <div class="col-md-12">
+            <center>
+                <b>@workContext.CurrentCustomer.OrgName</b><br />
+                <b>Yearly progress report -animal production</b><br />
+            </center>
+        </div>
+    }
+    else
+    {
+
+        <div class="col-md-12">
+            <center>
+                <b>@workContext.CurrentCustomer.OrgName</b><br />
+                <b>Office of the Rural Municipality</b><br />
+                <b>Livestock Service section</b><br />
+                <b>Yearly progress report -animal production</b><br />
+            </center>
+        </div>
+    }*@
+
+}
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="text-align:center" rowspan="2">
+                @T("Admin.Sn")
+            </th>
+            <th style="text-align:center" rowspan="2">
+                @T("Admin.Samayabadi")
+            </th>
+            <th style="text-align:center" colspan="3">
+                @T("Admin.BiniyojitBudget")
+            </th>
+            <th style="text-align:center" colspan="3">
+                @T("Admin.kharchaRakam")
+            </th>
+            <th style="text-align:center" colspan="3">
+                @T("Admin.PragatiVar")
+            </th>
+            <th style="text-align:center" colspan="3">
+                @T("Admin.VaritPragati")
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @T("Admin.TotalBudget")
+            </td>
+            <td>
+                @T("Admin.PugigatBudget")
+            </td>
+            <td>
+                @T("Admin.ChaluBudget")
+            </td>
+            <td>
+                @T("Admin.Kharcha")
+            </td>
+            <td>
+                @T("Admin.PUgigatKharcha")
+            </td>
+            <td>
+                @T("Admin.ChaluKharcha")
+            </td>
+            <td>
+                @T("Admin.KulBudgetTarfa")
+            </td>
+            <td>
+                @T("Admin.PugigatBudgetTarfa")
+            </td>
+            <td>
+                @T("Admin.ChaluBudgetTarfa")
+            </td>
+            <td>
+                @T("Admin.KulBudgetTarfa")
+            </td>
+            <td>
+                @T("Admin.PugigatBudgetTarfa")
+            </td>
+            <td>
+                @T("Admin.ChaluBudgetTarfa")
+            </td>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{int i = 1;}
+        @foreach (var item in Model)
+        {
+
+
+        <tr>
+            <td>
+                @i
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.TotalBudget
+            </td>
+            <td>
+                @item.PugigatBudget
+            </td>
+            <td>
+                @item.ChaluBudget
+            </td>
+            <td>
+                @item.TotalBudgetKharcha
+            </td>
+            <td>
+                @item.PugigatBudgetKharcha
+            </td>
+            <td>
+                @item.ChaluBudgetKharcha
+            </td>
+            
+            <td>
+                @item.PragratiVar
+            </td>
+            <td>
+                @item.PugigatPragratiVar
+            </td>
+            <td>
+                @item.ChaluPragatiVar
+            </td>
+            <td>
+                @item.BharitPragati
+            </td>
+            <td>
+                @item.PugigatBharitPragati
+            </td>
+            <td>
+                @item.ChaluBharitPragati
+            </td>
+
+
+        </tr>
+
+            i++;
+
+
+        }
+
+    </tbody>
+</table>
+
+
+
+
+@*<h3>Fiscal Year:@Model.FirstOrDefault().Year </h3>*@
+

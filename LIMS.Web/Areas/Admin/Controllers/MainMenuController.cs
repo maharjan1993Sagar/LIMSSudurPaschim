@@ -65,7 +65,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [PermissionAuthorizeAction(PermissionActionName.Create)]
         public async Task<IActionResult> Create()
         {
-            ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);           
+            ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
             return View();
         }
 
@@ -79,11 +80,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 mainMenu.UserId = _workContext.CurrentCustomer.Id;
                 mainMenu.CreatedBy = _workContext.CurrentCustomer.NameEnglish;
                 mainMenu.CreatedDate = DateTime.Now;
+             
                 await _mainMenuService.InsertMainMenu(mainMenu);
+               
                 SuccessNotification(_localizationService.GetResource("Admin.MainMenu.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = mainMenu.Id }) : RedirectToAction("List");
             }
-           
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
+
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -93,6 +97,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [PermissionAuthorizeAction(PermissionActionName.Preview)]
         public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
+
             var mainMenu = await _mainMenuService.GetMainMenuById(id);
             if (mainMenu == null)
                 //No blog post found with the specified id
@@ -117,6 +123,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 m.UserId = _workContext.CurrentCustomer.Id;
                 m.EditedBy = _workContext.CurrentCustomer.NameEnglish;
                 m.EditedDate = DateTime.Now;
+               
                 await _mainMenuService.UpdateMainMenu(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.MainMenu.Updated"));
@@ -128,7 +135,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction("List");
             }
-            
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
+
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -152,6 +160,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ErrorNotification(ModelState);
             return RedirectToAction("Edit", new { id = id });
         }
+
+
+
+        public List<SelectListItem> GetSubmenu(string mainmenu) {
+           return SubMenuHelper.GetBreedType(mainmenu);
         
+        }
     }
 }

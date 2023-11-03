@@ -1,0 +1,407 @@
+﻿@model LIMS.Web.Areas.Admin.Models.StatisticalData.FishProductionModel
+@{
+
+    ViewBag.Title = "Livestock";
+}
+@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="FarmId" />
+                <select class="form-control" name="FarmId" id="farm" onchange="getLivestockData()"></select>
+                <span asp-validation-for="FarmId"></span>
+            </div>
+        </div>*@
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+                        @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="NatureOfProduction" />
+                <admin-select asp-for="NatureOfProduction" asp-items="ViewBag.natureofprod" class="form-control" onchange="getLivestockData()"></admin-select>
+                <span asp-validation-for="NatureOfProduction"></span>
+            </div>
+        </div>*@
+                        @*@Html.HiddenFor(m => m.LocalLevel)
+        @Html.HiddenFor(m => m.District)*@
+                        @*<div class="col-md-2">
+            <div class="form-group">
+                .<admin-label asp-for="SpeciesName" />
+                <admin-select asp-for="SpeciesName" asp-items="ViewBag.SpeciesId" id="speciesid" onchange="getLivestockData()" required="required" />
+                <span asp-validation-for="SpeciesName"></span>
+            </div>
+        </div>*@
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Province" />
+                                <select asp-for="Province" data-val="Sudurpashchim Province" id="country" class="form-control" readonly="readonly" required>
+                                    <option value="">Select</option>
+                                </select>
+
+                                <span asp-validation-for="Province"></span>
+                            </div>
+                        </div>
+                        @if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
+                        {
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="District" />
+                                    <select name="district" id="district" data-val="@Model.District" class="form-control" required="required">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="District"></span>
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                    <div class="col-md-2">
+
+                        <div class="form-group">
+                            <admin-label asp-for="District" />
+                            <select  id="district" data-val="@Model.District" class="form-control" disabled required="required">
+                                <option value="">select</option>
+                            </select>
+                            <span asp-validation-for="District"></span>
+
+                        </div>
+                    </div>
+                    <input type="hidden" name="district" value="@Model.District" />
+                        }
+
+                        @*@if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
+        {*@
+
+
+                        @*<div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="Trimister" />
+                <admin-select asp-for="Trimister" asp-items="ViewBag.QuaterId" onchange="getLivestockData()" required="required" />
+                <span asp-validation-for="Trimister"></span>
+            </div>
+        </div>*@
+
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th>@T("Admin.common.LocalLevel")</th>
+                                <th id="c">@T("Admin.Common.Ward")</th>
+                                <th id="d">@T("Admin.StatisticalData.FishProduction.NatureOfProduction")</th>
+                                <th>@T("Admin.StatisticalData.FishProduction.Area")</th>
+                                <th>@T("Admin.StatisticalData.FishProduction.FishProduction")</th>
+                                <th>@T("Admin.StatisticalData.FishProduction.Remarks")</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tabularEntry">
+                        </tbody>
+                    </table>
+                    <center>
+                        <input type="submit" value="@T("Admin.common.submit")" id="subumtform" class="btn btn-success" />
+                        <input type="button" class="btn btn-primary" id="add" value="Add row" />;
+
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="p">
+    <admin-select asp-for="NatureOfProduction" asp-items="ViewBag.natureofprod" class="form-control"></admin-select>
+</div>
+<div id="q">
+    <admin-select asp-for="Ward" asp-items="ViewBag.Ward"></admin-select>
+</div>
+<div id="r">
+    <select id="locallevel" name="LocalLevel"  class="form-control locallevel" required>
+        <option value="">Select</option>
+    </select>
+    <span asp-validation-for="LocalLevel"></span>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#p").hide();
+        $("#q").hide();
+        $("#r").hide();
+        $("#showTable").hide();
+        var data = {
+            fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            district: $('#district').data('val'),
+
+
+            };
+            addAntiForgeryToken(data);
+            $('input[name = "LivestockDataId"]').val('');
+            $('input[name = "NumberOfFish"]').val('');
+            $('input[name = "Area"]').val('');
+            $('input[name = "NatureOfProduction"]').val('');
+            $('input[name = "Remarks"]').val('');
+            $('input[name = "LocalLevel"]').val('');
+        $(tabularEntry).html("");
+        if (data.district && data.fiscalYearId) {
+            $.post("@Url.Action("GetFishProductionData", "FishProduction")", data, function (result) {
+                $.post("@Url.Action("GetFishProductionData", "FishProduction")", data, function (result) {
+                    if (result.length > 0) {
+                        $.each(result, function (index, item) {
+                            var a = $("#p").html();
+                            var b = $("#q").html();
+                            var c = $("#r").html();
+
+                            //$(b).val(item.Ward);
+
+                            var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/>';
+                            tableRow += c + '</td><td>';
+                            tableRow += b;
+                            tableRow += '</td><td>';
+                            tableRow += a;
+                            tableRow += '<td><input type="number" name="Area" class="form-control" value="' + item.Area + '"/></td>';
+                            tableRow += '</td><td><input type="number" name="NumberOfFish" class="form-control" value="' + item.NumberOfFish + '" /> </td>';
+                            tableRow += '<td><input type="text" name="Remarks" class="form-control" value="' + item.Remarks + '"/></td>';
+                            $(tabularEntry).append(tableRow);
+                            $('tr#' + item.Id + ' select[name="Ward"]').val(item.Ward);
+                            $('tr#' + item.Id + ' select[name="NatureOfProduction"]').val(item.NatureOfProduction);
+                            $('tr#' + item.Id + ' select[name="LocalLevel"]').val(item.LocalLevel);
+
+                        });
+                    }
+                    else {
+                        var a = $("#p").html();
+                        var b = $("#q").html();
+                        var c = $("#r").html();
+
+                        var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
+                        tableRow += c + '</td><td>';
+                        tableRow += b;
+                        tableRow += '</td><td>';
+                        tableRow += a;
+                        tableRow += '<td><input type="number" name="Area" class="form-control" /></td>';
+                        tableRow += '</td><td><input type="number" name="NumberOfFish" class="form-control" /> </td>';
+                        tableRow += '<td><input type="text" name="Remarks" class="form-control" /></td>';
+                        $(tabularEntry).append(tableRow);
+                        var district = $("#district").val();
+                        $(".locallevel").empty();
+                        url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                        var data = {
+                            district: district
+                        }
+                        $.getJSON(url, data, (result) => {
+                            $(".locallevel").append('<option value="">select</option>');
+                            $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
+                            $.each(result, function (item, value) {
+                                $(".locallevel").append(`<option value="${value}">${value}</option>`);
+                            });
+
+                        });
+                    }
+                })
+
+                $("#showTable").show();
+
+
+            });
+        }
+
+
+    })
+    $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
+        var data = {
+            fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            district: $('#district').val(),
+
+
+        };
+        console.log(data);
+        addAntiForgeryToken(data);
+        $('input[name = "LivestockDataId"]').val('');
+        $('input[name = "NumberOfFish"]').val('');
+        $('input[name = "Area"]').val('');
+        $('input[name = "NatureOfProduction"]').val('');
+        $('input[name = "Remarks"]').val('');
+        $('input[name = "LocalLevel"]').val('');
+        $(tabularEntry).html("");
+        $.post("@Url.Action("GetFishProductionData", "FishProduction")", data, function (result) {
+            if (result.length>0) {
+                $.each(result, function (index, item) {
+                    var a = $("#p").html();
+                    var b = $("#q").html();
+                    var c = $("#r").html();
+
+                    //$(b).val(item.Ward);
+
+                    var tableRow = '<tr id="'+item.Id+'"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/>';
+                    tableRow += c+'</td><td>';
+                    tableRow += b;
+                    tableRow += '</td><td>';
+                    tableRow += a;
+                    tableRow += '<td><input type="number" name="Area" class="form-control" value="' + item.Area + '"/></td>';
+                    tableRow += '</td><td><input type="number" name="NumberOfFish" class="form-control" value="' + item.NumberOfFish + '" /> </td>';
+                    tableRow += '<td><input type="text" name="Remarks" class="form-control" value="' + item.Remarks + '"/></td>';
+                    $(tabularEntry).append(tableRow);
+                    $('tr#' + item.Id + ' select[name="Ward"]').val(item.Ward);
+                    $('tr#' + item.Id + ' select[name="NatureOfProduction"]').val(item.NatureOfProduction);
+                    $('tr#' + item.Id + ' select[name="LocalLevel"]').val(item.LocalLevel);
+
+                });
+            }
+            else {
+                var a = $("#p").html();
+                var b = $("#q").html();
+                var c = $("#r").html();
+
+                var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
+                tableRow += c + '</td><td>';
+                tableRow += b;
+                tableRow += '</td><td>';
+                tableRow += a;
+                tableRow += '<td><input type="number" name="Area" class="form-control" /></td>';
+                tableRow += '</td><td><input type="number" name="NumberOfFish" class="form-control" /> </td>';
+                tableRow += '<td><input type="text" name="Remarks" class="form-control" /></td>';
+                $(tabularEntry).append(tableRow);
+                var district = $("#district").val();
+                $(".locallevel").empty();
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: district
+                }
+        $.getJSON(url, data, (result) => {
+            $(".locallevel").append('<option value="">select</option>');
+            $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
+            $.each(result, function (item, value) {
+                $(".locallevel").append(`<option value="${value}">${value}</option>`);
+            });
+
+        });
+            }
+        })
+        $("#showTable").show();
+    });
+
+    $("#district").change(function () {
+        var data = {
+            fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+            district: $('#district').val(),
+
+
+        };
+        console.log(data);
+        addAntiForgeryToken(data);
+        $('input[name = "LivestockDataId"]').val('');
+        $('input[name = "NumberOfFish"]').val('');
+        $('input[name = "Area"]').val('');
+        $('input[name = "NatureOfProduction"]').val('');
+        $('input[name = "Remarks"]').val('');
+        $('input[name = "LocalLevel"]').val('');
+        $(tabularEntry).html("");
+        $.post("@Url.Action("GetFishProductionData", "FishProduction")", data, function (result) {
+            if (result.length>0) {
+                $.each(result, function (index, item) {
+                    var a = $("#p").html();
+                    var b = $("#q").html();
+                    var c = $("#r").html();
+
+                    //$(b).val(item.Ward);
+
+                    var tableRow = '<tr id="'+item.Id+'"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/>';
+                    tableRow += c+'</td><td>';
+                    tableRow += b;
+                    tableRow += '</td><td>';
+                    tableRow += a;
+                    tableRow += '<td><input type="number" name="Area" class="form-control" value="' + item.Area + '"/></td>';
+                    tableRow += '</td><td><input type="number" name="NumberOfFish" class="form-control" value="' + item.NumberOfFish + '" /> </td>';
+                    tableRow += '<td><input type="text" name="Remarks" class="form-control" value="' + item.Remarks + '"/></td>';
+                    $(tabularEntry).append(tableRow);
+                    $('tr#' + item.Id + ' select[name="Ward"]').val(item.Ward);
+                    $('tr#' + item.Id + ' select[name="NatureOfProduction"]').val(item.NatureOfProduction);
+                    $('tr#' + item.Id + ' select[name="LocalLevel"]').val(item.LocalLevel);
+
+                });
+            }
+            else {
+                var a = $("#p").html();
+                var b = $("#q").html();
+                var c = $("#r").html();
+
+                var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
+                tableRow += c + '</td><td>';
+                tableRow += b;
+                tableRow += '</td><td>';
+                tableRow += a;
+                tableRow += '<td><input type="number" name="Area" class="form-control" /></td>';
+                tableRow += '</td><td><input type="number" name="NumberOfFish" class="form-control" /> </td>';
+                tableRow += '<td><input type="text" name="Remarks" class="form-control" /></td>';
+                $(tabularEntry).append(tableRow);
+                var district = $("#district").val();
+                $(".locallevel").empty();
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: district
+                }
+        $.getJSON(url, data, (result) => {
+            $(".locallevel").append('<option value="">select</option>');
+            $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
+            $.each(result, function (item, value) {
+                $(".locallevel").append(`<option value="${value}">${value}</option>`);
+            });
+
+        });
+            }
+        })
+        $("#showTable").show();
+    });
+    $('#add').click(function () {
+        var a = $("#p").html();
+        var b = $("#q").html();
+        var c = $("#r").html();
+
+        var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
+        tableRow += c + '</td><td>';
+        tableRow += b + '</td><td>';
+        tableRow += a+'</td>';
+        tableRow += '<td><input type="number" name="Area" class="form-control" /></td>';
+        tableRow += '</td><td><input type="number" name="NumberOfFish" class="form-control" /> </td>';
+        tableRow += '<td><input type="text" name="Remarks" class="form-control" /></td>';
+        $(tabularEntry).append(tableRow);
+        @*var district = $("#district").val();
+                $(".locallevel").empty();
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: district
+                }
+        $.getJSON(url, data, (result) => {
+            $(".locallevel").append('<option value="">select</option>');
+            $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
+            $.each(result, function (item, value) {
+                $(".locallevel").append(`<option value="${value}">${value}</option>`);
+            });
+
+        });*@
+    });
+
+
+</script>

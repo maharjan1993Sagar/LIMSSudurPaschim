@@ -74,7 +74,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             ViewBag.Type = new SelectList(GetTypes(), "Value", "Text");
-            return View();
+            EmployeeModel model = new EmployeeModel();
+            model.IsActive = true;
+            return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]

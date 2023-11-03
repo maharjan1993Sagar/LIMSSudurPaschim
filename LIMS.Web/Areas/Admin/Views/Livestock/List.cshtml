@@ -1,8 +1,10 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
+@model FarmListModel
 @{
     //page title
     ViewBag.Title = T("Admin.StatisticalData.Livestock").Text;
 }
+
 
 <form asp-area="@Constants.AreaAdmin" asp-controller="Livestock" asp-action="List" method="post">
 
@@ -10,9 +12,9 @@
         <div class="col-md-12">
             <div class="x_panel light form-fit">
                 <div class="x_title">
-                    <div class="caption text-center">
-                        <!-- <i class="fa fa-comment"></i>-->
-                        @T("Admin.Livestock.List")
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.Livestock.LIST")
                     </div>
                     <div class="actions btn-group btn-group-devided">
                         <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
@@ -21,39 +23,95 @@
                 <div class="x_content form">
                     <div class="form-horizontal">
 
-                        <div class="form-body col-md-6">
-                            
-                            <div class="form-group">
+                        <div class="form-body col-md-12">
 
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="form-actions d-flex flex-column w-100">
-                            <div class="row">
 
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Fiscalyear" />
+                                    <admin-select asp-for="Fiscalyear" asp-items="ViewBag.FiscalYear" required="required" />
+                                    <span asp-validation-for="Fiscalyear"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="x_content">
-                            <div id="livestock-grid"></div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Species" />
+                                    <admin-select asp-for="Species" asp-items="ViewBag.Species" required="required" />
+                                    <span asp-validation-for="Species"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Province" />
+                                    <admin-select asp-for="Province" id="country" />
+                                    <span asp-validation-for="Province"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="District" />
+                                    <select id="district" name="District" data-val="@Model.District" class="form-control">
+                                        <option value="">Select </option>
+                                    </select>
+                                    <span asp-validation-for="District"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="LocalLevel" />
+                                    <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" class="form-control">
+                                        <option value="">Select</option>
+                                    </select>
+                                    <span asp-validation-for="LocalLevel"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Ward" />
+                                    <select asp-for="Ward" asp-items="ViewBag.Ward"  class="form-control">
+                                       
+                                    </select>
+                                    <span asp-validation-for="Ward"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <br />
+                                    <input type="submit" id="search" class="btn-sm btn-success" style="margin-top:15px;" />
+                                </div>
+                            </div>
+
+
+
+                            <div class="clearfix"></div>
+                            <div class="form-actions d-flex flex-column w-100">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <div class="x_content">
+                                <div id="livestock-grid"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </form>
 
 <script>
     $(document).ready(function () {
         //search button
-        $('#search-livestock').click(function () {
+
+        $("#search").click( function () {
             //search
             var grid = $('#livestock-grid').data('kendoGrid');
             grid.dataSource.page(1); //new search. Set page size to 1
             //grid.dataSource.read(); we already loaded the grid above using "page" function
             return false;
         });
-
         $("#livestock-grid").kendoGrid({
             dataSource: {
                 transport: {
@@ -83,13 +141,14 @@
                             Id: { editable: false, nullable: true },
                             Native: { editable: true },
                             Improved: { editable: true },
-                            "Species.EnglishName":{ editable: false },
+                            "Species.NepaliName": { editable: false },
                             "AnimalType.Name": { editable: false },
                             District: { editable: false },
                             LocalLevel: { editable: false },
                             Ward: { editable: false },
 
-                            }
+                        }
+                    }
 
                     },
                     error: function (e) {
@@ -101,7 +160,7 @@
                     serverPaging: true,
                     serverFiltering: true,
                     serverSorting: true
-                },
+               
             },
             pageable: {
                 refresh: true,
@@ -114,7 +173,7 @@
             scrollable: false,
             columns: [
                 {
-                    field: "Species.EnglishName",
+                    field: "Species.NepaliName",
                     title: "@T("Admin.Livestock.SpeciesName")",
                     width: 200,
                 },
@@ -165,13 +224,19 @@
                 }
             ]
         });
-    });
 
-    function additionalData() {
+    });
+     function additionalData() {
         var data = {
-            Keyword:$("#Keyword").val()
+             fiscalYear: $("#@Html.IdFor(m => m.Fiscalyear)").val(),
+            speciesId: $("#@Html.IdFor(m => m.Species)").val(),
+              district:$("#district").val(),
+            locallevel:$("#locallevel").val(),
+             Ward: $("#Ward").val()
+
         };
         addAntiForgeryToken(data);
         return data;
     }
+
 </script>

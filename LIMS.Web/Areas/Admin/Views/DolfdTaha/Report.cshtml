@@ -1,0 +1,278 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model MonthlyProgressModel
+@inject IWorkContext workContext
+@{ //page title
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text;
+    var role = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList(); }
+<style>
+    #printContent {
+        height: 550px;
+        overflow-y: scroll;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <div class="row">
+                <div class=" col-md-12">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="FiscalYearId" />
+                            <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                            <span asp-validation-for="FiscalYearId"></span>
+                        </div>
+                    </div>
+
+
+
+                    @if (role.Contains("MolmacAdmin"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="DolfdId" />
+                <admin-select asp-for="DolfdId" asp-items="ViewBag.dolfd" />
+                <span asp-validation-for="DolfdId"></span>
+            </div>
+        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="VhlsecId" />
+                                <admin-select asp-for="VhlsecId">
+                                    <option value=''>Select</option>
+                                </admin-select>
+                                <span asp-validation-for="VhlsecId"></span>
+                            </div>
+                        </div>}
+                    @if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="VhlsecId" />
+                <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
+                <span asp-validation-for="VhlsecId"></span>
+            </div>
+        </div>}
+
+
+
+
+                <div class="x_content" id="printContent">
+
+                    <div id="showTable">
+                        @if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser"))
+                        {
+                    <div class="col-md-12">
+
+
+                        <center>
+                            सुदूरपश्चिम प्रदेश सरकार
+
+                            <br />
+                            भूमि व्यवस्था, कृषि तथा सहकारी मन्त्रालय<br />
+                            <b>
+                                पशुपन्छी तथा मत्स्य विकास निर्देशनालय
+                            </b><br />
+
+
+
+
+
+                            <br />
+
+
+                        </center>
+                    </div>}
+                        @if (role.Contains("VhlsecAdmin") || role.Contains("VhlsecUser"))
+                        {
+                    <div class="col-md-12">
+
+
+                        <center>
+                            सुदूरपश्चिम प्रदेश सरकार
+
+                            <br />
+                            भूमि व्यवस्था, कृषि तथा सहकारी मन्त्रालय<br />
+                            पशुपन्छी तथा मत्स्य विकास निर्देशनालय<br />
+                            <b>भेटेरिनरी अस्पताल तथा पशु सेवा केन्द्र</b><br />
+
+
+
+
+
+                            <br />
+
+
+                        </center>
+                    </div>}
+                        @if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
+                        {
+                    <div class="col-md-12">
+
+
+                        <center>
+                            सुदूरपश्चिम प्रदेश सरकार
+
+                            <br />
+                            <b>
+                                भूमि व्यवस्था, कृषि तथा सहकारी मन्त्रालय
+
+                            </b><br />
+
+
+
+
+
+                            <br />
+
+
+                        </center>
+                    </div>}
+                        <center><b>आ व <span id="fYear"></span> मा कार्यालयको दरवन्दी तथा पद पूर्तीको विवरण</b></center>
+
+                        <table id="Printcontent" class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+
+                                    <td style="text-align:center" colspan="2">@T("Admin.Taha.adrikit7")</td>
+                                    <td style="text-align:center" colspan="2">@T("Admin.Taha.pras5")</td>
+                                    <td style="text-align:center" colspan="2">@T("Admin.Taha.NaPras5")</td>
+                                    <td style="text-align:center" colspan="2">@T("Admin.Taha.computer")</td>
+                                    <td style="text-align:center" colspan="2">@T("Admin.Taha.babarshar")</td>
+                                    <td style="text-align:center" colspan="2">@T("Admin.Taha.TahaBihin")</td>
+                                    <td style="text-align:center" colspan="2">@T("Admin.Taha.TahaBihinKas")</td>
+
+                                    <td style="text-align:center" rowspan="2">@T("Admin.Taha.Remarks")</td>
+
+                                </tr>
+                                <tr>
+                                    <td>@T("Admin.Taha.Darta")</td>
+                                    <td>@T("Admin.Taha.padPurti")</td>
+                                    <td>@T("Admin.Taha.Darta")</td>
+                                    <td>@T("Admin.Taha.padPurti")</td>
+                                    <td>@T("Admin.Taha.Darta")</td>
+                                    <td>@T("Admin.Taha.padPurti")</td>
+                                    <td>@T("Admin.Taha.Darta")</td>
+                                    <td>@T("Admin.Taha.padPurti")</td>
+                                    <td>@T("Admin.Taha.Darta")</td>
+                                    <td>@T("Admin.Taha.padPurti")</td>
+                                    <td>@T("Admin.Taha.Darta")</td>
+                                    <td>@T("Admin.Taha.padPurti")</td>
+                                    <td>@T("Admin.Taha.Darta")</td>
+                                    <td>@T("Admin.Taha.padPurti")</td>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody id="tabularEntry">
+                            </tbody>
+                        </table>
+                        <div class="col-md-6">
+                            <center>
+                                <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/jquery.table2excel.js"></script>
+
+<script>
+    $(document).ready(function () {
+        abc();
+        $("#showTable").hide();
+          $("#@Html.IdFor(m=>m.DolfdId)").change(function () {
+              var categoryId = $(this).val();
+              $("#VhlsecId").empty();
+              //$("#VhlsecId").append("<option value=''>Select</option>");
+              url = "/Admin/MonthlyProgress/GetVhlsecByDolfdId";
+              $.getJSON(url, { dolfdId: categoryId }, (data) => {
+                  $.each(data, function (i, item) {
+                      $("#VhlsecId").append(`<option value="${item.Value}">${item.Text}</option>`);
+                  });
+              });
+              abc();
+    });
+         $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
+         abc();
+    });
+         $("#@Html.IdFor(m=>m.VhlsecId)").change(function () {
+         abc();
+    });
+    });
+
+
+    function abc() {
+        $("#showTable").hide();
+         $("#fYear").html($('#@Html.IdFor(m => m.FiscalYearId) :selected').text());
+        var data = {
+            fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+                       dolfdid: $('#@Html.FieldIdFor(model => model.DolfdId)').val(),
+            vhlsecid: $('#@Html.FieldIdFor(m=>m.VhlsecId)').val()
+        };
+        addAntiForgeryToken(data);
+
+
+
+        $(tabularEntry).html("");
+        if (data.fiscalyear) {
+            $.post("@Url.Action("GetTaha", "DolfdTaha")", data, function (result) {
+                if (result.length > 0) {
+                    $.each(result, function (index, item) {
+
+
+                        var tableRow = '<tr id="' + item.Id + '"> <td>';
+
+
+
+                        tableRow += item.twelvethpadD;
+                        tableRow += '</td><td>' + item.twelvethpadPurti;
+                        tableRow += '<td>' + item.eleventhpad + '</td>';
+                        tableRow += '<td>' + item.eleventhpadPurti + '</td>';
+                        tableRow += '<td>' + item.tenthpad + '</td>';
+                        tableRow += '<td>' + item.tenthpadPurti + '</td>';
+                        tableRow += '<td>' + item.eightthpad + '</td>';
+                        tableRow += '<td>' + item.eightthpadPurti + '</td>';
+                        tableRow += '<td>' + item.sixthpad + '</td>';
+                        tableRow += '<td>' + item.sixthpadPurti + '</td>';
+                        tableRow += '<td>' + item.fourthpad + '</td>';
+                        tableRow += '<td>' + item.TahaBihin + '</td>';
+                        tableRow += '<td>' + item.TahaBihinpadPurti + '</td>';
+                        tableRow += '<td>' + item.TahaBihinNas + '</td>';
+                        tableRow += '<td>' + item.TahaBihinNaspadPurti + '</td>';
+                        tableRow += '<td>' + item.Remarks + '</td>';
+
+
+                        $(tabularEntry).append(tableRow);
+
+                    });
+                    $("#showTable").show();
+                }
+                else {
+                    $("#showTable").hide();
+                }
+
+
+
+            });
+
+
+
+        }
+
+    }
+
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "PadPurti.xls"
+        });
+    }
+</script>
+

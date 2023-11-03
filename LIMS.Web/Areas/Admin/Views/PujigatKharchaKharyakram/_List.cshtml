@@ -1,16 +1,33 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
-
+@model FarmListModel
 @{ //page title
                 ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
 
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel light form-fit">
-            <div class="x_title">
+
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Filter" />
+                </div>
                
+            </div>
+            <div class="x_title">
+
+                <div class="form-group">
+
+
+                </div>
+
                 <div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
-                    
-                 
+                    <button type="button" class="btn ">
+                        <a href="@Url.Action("Create")" class="btn green">
+                            @T("Admin.Common.AddNew")
+                        </a>
+                    </button>
+
                     <button type="button" name="importexcel" id="importexcel" class="btn blue">
                         <i class="fa fa-upload"></i>
                         @T("Admin.Common.ImportFromExcel")
@@ -18,26 +35,41 @@
                     <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
                 </div>
             </div>
-     
+
             <div class="x_content">
                 <div id="categories-grid"></div>
             </div>
         </div>
     </div>
 </div>
+
+
 <script>
     $(document).ready(function () {
         $("#categories-grid").kendoGrid({
+            //toolbar: ["search"],
+            //search: {
+            //    fields: [
+            //        { name: "Program", operator: "eq" },
+            //        { name: "kharchaCode", operator: "eq" },
+            //    ]
+            //},
             dataSource: {
                 transport: {
                     read: {
                         url: "@Html.Raw(Url.Action("List", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: addAntiForgeryToken
+                        data: additionalData
                     },
                     update: {
                         url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    },
+                    destroy: {
+                        url: "@Html.Raw(Url.Action("Delete", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
@@ -49,11 +81,9 @@
                     errors: "Errors",
                     model: {
                         id: "Id",
-                        fields: {
 
-                            Id: { editable: false, type: "string" }
-                        }
-                    },
+                    }
+
 
                 },
                 error: function (e) {
@@ -71,11 +101,12 @@
                 pageSizes: [@(adminAreaSettings.GridPageSizes)]
             },
             editable: {
-                confirmation: false,
+                confirmation: true,
                 mode: "inline"
             },
             scrollable: false,
-            columns: [{
+            columns: [
+                {
                 field: "Limbis_Code",
                 title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
@@ -84,36 +115,57 @@
                 field: "Program",
                 title: "@T("Admin.PujigatKaryakram.Fields.Program")",
             },
-            
+
             {
                 field: "kharchaCode",
                 title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
-            },
-            {
-                field: "BarsikBajet",
-                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
-            },
-            {
-                field: "PrathamChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
-            },
-            {
-                field: "DosroChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.DosroChaumasikBadjet")",
-            },
-            {
-                field: "TesroChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
                 },
-            {
-                field: "Expenses_category",
-                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
-            },
+
+
             {
                 field: "Unit",
                 title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
             },
             {
+                field: "BarsikBajet",
+                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                },
+             {
+                 field: "BarshikParinam",
+                title: "@T("Admin.PujigatKaryakram.Fields.BarshikParinam")",
+                },
+              
+            {
+                field: "PrathamChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
+                },
+             {
+                  field: "PrathamChaumasikParimam",
+                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikParimam")",
+                },
+            {
+                field: "DosroChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.DosroChaumasikBadjet")",
+                },
+             {
+                 field: "DorsoChaumasikParimam",
+                title: "@T("Admin.PujigatKaryakram.Fields.DorsoChaumasikParimam")",
+                },
+
+            {
+                field: "TesroChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
+                },
+             {
+                 field: "TesroChaumasikParimam",
+                title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikParimam")",
+                },
+
+            {
+                field: "Remarks",
+                title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
+            },
+             {
                 command: [
                     {
                         name: "edit",
@@ -123,7 +175,15 @@
                             cancel: "@T("Admin.Common.Cancel")"
                         },
 
-                    }],
+                     },
+                    {
+                        name: "destroy",
+                        text: "@T("Admin.Common.Delete")"
+                           }
+
+
+
+                 ],
                 width: 200
             }
             ]
@@ -131,11 +191,19 @@
         });
 
     });
+    function additionalData() {
+        var data = {
+            Keyword: $("#Keyword").val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+
 </script>
 <script>
     $(document).ready(function () {
         //search button
-        $('#search-categories').click(function () {
+        $('#Keyword').keyup(function () {
             //search
             var grid = $('#categories-grid').data('kendoGrid');
             grid.dataSource.page(1); //new search. Set page size to 1
@@ -143,29 +211,35 @@
             return false;
         });
 
-      
+
     });
 
- 
+
 </script>
 @*import categories form*@
 <div class="modal-dialog" id="importexcel-window" style="display:none; padding: 0 10px;">
+    <script type="text/javascript">
+        // don't remove <script> tag
+    </script>
     <form asp-area="@Constants.AreaAdmin" asp-controller="PujigatKharchaKharyakram" asp-action="ImportFromXlsx" method="post" enctype="multipart/form-data">
-
+        
         @*<em>@T("Admin.Catalog.Category.List.ImportFromExcelTip")</em>*@
         <div class="form-group">
+            <label><b>xlsx Format of excel file required  </b></label>  &nbsp; &nbsp; &nbsp;
+            <a class="btn btn-sm btn-primary" href="@Url.Action("Download","PujigatKharchaKharyakram")">Download sample</a>
             &nbsp;
         </div>
         <div class="form-group">
             @*<div class="col-md-3" style="margin-top: 2px; height: 34px; padding-left: 25px;">
-            <label class="control-label">
-                @T("Admin.Common.ExcelFile"):
-            </label>
-        </div>*@
-            <div class="col-md-3">
-                <label>@T("Admin.Common.ExcelFile")</label>
+                <label class="control-label">
+                    @T("Admin.Common.ExcelFile"):
+                </label>
+            </div>*@
 
-                <input class="form-control" type="file" id="importexcelfile" name="importexcelfile" required/>
+            <div class="col-md-3">
+                <label>@T("Admin.Common.ExcelFile") </label>
+
+                <input class="form-control" type="file" id="importexcelfile" name="importexcelfile" required />
             </div>
             <div class="col-md-3">
                 <label>@T("Admin.Common.FiscalYear")</label>
@@ -191,7 +265,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-2">
-                
+
             </div>
             <div class="col-md-10 text-right mt-10">
                 <input type="submit" class="k-button" value="@T("Admin.Common.ImportFromExcel")" />

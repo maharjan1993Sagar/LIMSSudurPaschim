@@ -25,7 +25,8 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Name" />
-                    <admin-input asp-for="Name" />
+                    <admin-input asp-for="Name"/>
+                        
                     <span asp-validation-for="Name"></span>
 
                 </div>
@@ -39,15 +40,16 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            @*<div class="col-md-3">
 
                 <div class="form-group">
                     <admin-label asp-for="Url" />
-                    <admin-input asp-for="Url" />
+                    <admin-select asp-for="Url" data-val="@Model.Url" >
+                        </admin-select>
                     <span asp-validation-for="Url"></span>
 
                 </div>
-            </div>
+            </div>*@
             <div class="col-md-3 col-sm-3">
 
                 <div class="form-group">
@@ -72,3 +74,51 @@
 </div>
 
 
+<script>
+    $(document).ready(function () {
+
+
+        var province = $("#MainMenuId :selected").text();
+        var urls = $("#Url").data('val');
+
+        if (province) {
+            $("#Url").empty();
+            $("#Url").append('<option value="">select</option>')
+            url = "@Url.Action("GetSubmenu", "MainMenu")";
+            var data = {
+                mainmenu: province
+            }
+            $.getJSON(url, data, (result) => {
+
+                $.each(result, function (item, value) {
+                    console.log(item);
+                    if (value.Value == urls) {
+                        $("#Url").append(`<option value="${value.Value}" selected>${value.Text}</option>`);
+                    }
+                    else {
+                        $("#Url").append(`<option value="${value.Value}">${value.Text}</option>`);
+
+                    }
+                });
+            });
+        }
+            
+    $('#@Html.IdFor(m=>m.MainMenuId)').change(function () {
+        var provinces= $("#MainMenuId :selected").text();
+
+                $("#Url").empty();
+                $("#Url").append('<option value="">select</option>')
+                url = "@Url.Action("GetSubmenu", "MainMenu")";
+                var data = {
+                    mainmenu: provinces
+                }
+        $.getJSON(url, data, (result) => {
+
+            $.each(result, function (item, value) {
+                console.log(item);
+                        $("#Url").append(`<option value="${value.Value}">${value.Text}</option>`);
+                    });
+                });
+            });
+    })
+</script>

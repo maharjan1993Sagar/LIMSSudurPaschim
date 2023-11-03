@@ -63,5 +63,10 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string Boron { get; set; }
         [LIMSResourceDisplayName("LIMS.Soil.Othermicronutrients")]
         public string Othermicronutrients { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.Unit")]
+        public string Unit { get; set; }
+
+
+
     }
 }

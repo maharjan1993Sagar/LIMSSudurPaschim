@@ -1,0 +1,252 @@
+﻿@model DolfdTahaEntryModel
+@inject IWorkContext workContext
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+    var district = workContext.CurrentCustomer.OrgAddress;
+
+}
+<div class="x_content form">
+    <div class="form-row">
+        <div class="col-md-2 col-sm-2">
+
+            <div class="form-group">
+                <admin-label asp-for="FiscalYearId" />
+                <admin-select asp-for="FiscalYearId" asp-items="@ViewBag.FiscalYearId" />
+                <span asp-validation-for="FiscalYearId"></span>
+
+            </div>
+        </div>
+
+
+        <div id="showTable">
+            <table class="table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+
+                        <td style="text-align:center" colspan="2">@T("Admin.Taha.adrikit7")</td>
+                        <td style="text-align:center" colspan="2">@T("Admin.Taha.pras5")</td>
+                        <td style="text-align:center" colspan="2">@T("Admin.Taha.NaPras5")</td>
+                        <td style="text-align:center" colspan="2">@T("Admin.Taha.computer")</td>
+                        <td style="text-align:center" colspan="2">@T("Admin.Taha.babarshar")</td>
+                        <td style="text-align:center" colspan="2">@T("Admin.Taha.TahaBihin")</td>
+                        <td style="text-align:center" colspan="2">@T("Admin.Taha.TahaBihinKas")</td>
+
+                        <td style="text-align:center" rowspan="2">@T("Admin.Taha.Remarks")</td>
+
+                    </tr>
+                    <tr>
+                        <td>@T("Admin.Taha.Darta")</td>
+                        <td>@T("Admin.Taha.padPurti")</td>
+                        <td>@T("Admin.Taha.Darta")</td>
+                        <td>@T("Admin.Taha.padPurti")</td>
+                        <td>@T("Admin.Taha.Darta")</td>
+                        <td>@T("Admin.Taha.padPurti")</td>
+                        <td>@T("Admin.Taha.Darta")</td>
+                        <td>@T("Admin.Taha.padPurti")</td>
+                        <td>@T("Admin.Taha.Darta")</td>
+                        <td>@T("Admin.Taha.padPurti")</td>
+                        <td>@T("Admin.Taha.Darta")</td>
+                        <td>@T("Admin.Taha.padPurti")</td>
+                        <td>@T("Admin.Taha.Darta")</td>
+                        <td>@T("Admin.Taha.padPurti")</td>
+
+
+
+                    </tr>
+                </thead>
+                <tbody id="tabularEntry">
+                </tbody>
+            </table>
+            <div class="col-md-6">
+                <center>
+                    <input type="submit" id="subumtform" class="btn btn-success" />
+                </center>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+
+<script>
+    $("document").ready(function () {
+
+        $("#showTable").hide();
+        var fis = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+        if (fis) {
+
+             var data = {
+            fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+
+
+        };
+
+        addAntiForgeryToken(data);
+
+
+            $(tabularEntry).html("");
+            if (data.fiscalyear) {
+            $.post("@Url.Action("GetTahaDarbandiByFiscalyear", "DolfdTaha")", data, function (result) {
+                        if (result.length > 0) {
+                            $.each(result, function (index, item) {
+
+
+
+                                var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
+
+
+
+                                tableRow += '<input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="twelvethpadD" class="form-control" value="' + item.twelvethpadD + '"/></td>';
+                                tableRow += '</td><td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="twelvethpadPurti" class="form-control" value="' + item.twelvethpadPurti + '" /> </td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="eleventhpad" class="form-control" value="' + item.eleventhpad + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="eleventhpadPurti" class="form-control" value="' + item.eleventhpadPurti + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="tenthpad" class="form-control" value="' + item.tenthpad + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="tenthpadPurti" class="form-control" value="' + item.tenthpadPurti + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="eightthpad" class="form-control" value="' + item.eightthpad + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="eightthpadPurti" class="form-control" value="' + item.eightthpadPurti + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="sixthpad" class="form-control" value="' + item.sixthpad + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="sixthpadPurti" class="form-control" value="' + item.sixthpadPurti + '"/></td>';
+                            //tableRow += '<td><input type="number" name="fourthpad" class="form-control" value="' + item.fourthpad + '"/></td>';
+                            //tableRow += '<td><input type="number" name="fourththpadPurti" class="form-control" value="' + item.fourththpadPurti + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="TahaBihin" class="form-control" value="' + item.TahaBihin + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="TahaBihinpadPurti" class="form-control" value="' + item.TahaBihinpadPurti + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="TahaBihinNas" class="form-control" value="' + item.TahaBihinNas + '"/></td>';
+
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="TahaBihinNaspadPurti" class="form-control" value="' + item.TahaBihinNaspadPurti + '"/></td>';
+                                tableRow += '<td><input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="Remarks" class="form-control" value="' + item.Remarks + '"/></td>';
+
+                                $(tabularEntry).append(tableRow);
+
+                            });
+                        }
+
+                        else {
+
+
+                            var tableRow = '<tr > <td><input type="hidden" name="LivestockDataId" /> ';
+
+                            tableRow += '<input type="number" name="twelvethpadD" class="form-control" value=""/></td>';
+                            tableRow += '</td><td><input type="number" name="twelvethpadPurti" class="form-control" value="" /> </td>';
+                            tableRow += '<td><input type="number" name="eleventhpad" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="eleventhpadPurti" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="tenthpad" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="tenthpadPurti" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="eightthpad" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="eightthpadPurti" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="sixthpad" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="sixthpadPurti" class="form-control" value=""/></td>';
+                            //tableRow += '<td><input type="number" name="fourthpad" class="form-control" value=""/></td>';
+                            //tableRow += '<td><input type="number" name="fourththpadPurti" class="form-control" value=""/></td>';
+                           tableRow += '<td><input type="number" name="TahaBihin" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="TahaBihinpadPurti" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="TahaBihinNas" class="form-control" value=""/></td>';
+
+                            tableRow += '<td><input type="number" name="TahaBihinNaspadPurti" class="form-control" value=""/></td>';
+                            tableRow += '<td><input type="number" name="Remarks" class="form-control" value=""/></td>';
+
+                            $(tabularEntry).append(tableRow);
+
+                        }
+
+
+                    });
+                    $("#showTable").show();
+                }
+
+
+        }
+
+     });
+    $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
+        $("#showTable").hide();
+        var data = {
+            fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
+
+
+        };
+        addAntiForgeryToken(data);
+
+
+
+        $(tabularEntry).html("");
+        if (data.fiscalyear) {
+            $.post("@Url.Action("GetTahaDarbandiByFiscalyear", "DolfdTaha")", data, function (result) {
+                if (result.length > 0) {
+                    $.each(result, function (index, item) {
+
+
+                        var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
+
+
+
+                        tableRow += '<input type="number" min="0" oninput="validity.valid||(value=' + 0 +' );" name="twelvethpadD" class="form-control" value="' + item.twelvethpadD + '"/></td>';
+                        tableRow += '</td><td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="twelvethpadPurti" class="form-control" value="' + item.twelvethpadPurti + '" /> </td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eleventhpad" class="form-control" value="' + item.eleventhpad + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eleventhpadPurti" class="form-control" value="' + item.eleventhpadPurti + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="tenthpad" class="form-control" value="' + item.tenthpad + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="tenthpadPurti" class="form-control" value="' + item.tenthpadPurti + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eightthpad" class="form-control" value="' + item.eightthpad + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eightthpadPurti" class="form-control" value="' + item.eightthpadPurti + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="sixthpad" class="form-control" value="' + item.sixthpad + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="sixthpadPurti" class="form-control" value="' + item.sixthpadPurti + '"/></td>';
+                        //tableRow += '<td><input type="number" name="fourthpad" class="form-control" value="' + item.fourthpad + '"/></td>';
+                        //tableRow += '<td><input type="number" name="fourththpadPurti" class="form-control" value="' + item.fourththpadPurti + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihin" class="form-control" value="' + item.TahaBihin + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihinpadPurti" class="form-control" value="' + item.TahaBihinpadPurti + '"/></td>';
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihinNas" class="form-control" value="' + item.TahaBihinNas + '"/></td>';
+
+                        tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihinNaspadPurti" class="form-control" value="' + item.TahaBihinNaspadPurti + '"/></td>';
+                        tableRow += '<td><input  type="text" name="Remarks" class="form-control" value="' + item.Remarks + '"/></td>';
+
+                        $(tabularEntry).append(tableRow);
+
+                    });
+                }
+
+                    else {
+
+
+                    var tableRow = '<tr > <td><input type="hidden" name="LivestockDataId" /> ';
+
+                    tableRow += '<input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="twelvethpadD" class="form-control" value=""/></td>';
+                    tableRow += '</td><td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="twelvethpadPurti" class="form-control" value="" /> </td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eleventhpad" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eleventhpadPurti" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="tenthpad" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="tenthpadPurti" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eightthpad" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="eightthpadPurti" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="sixthpad" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="sixthpadPurti" class="form-control" value=""/></td>';
+                    //tableRow += '<td><input type="number" name="fourthpad" class="form-control" value=""/></td>';
+                    //tableRow += '<td><input type="number" name="fourththpadPurti" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihin" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihinpadPurti" class="form-control" value=""/></td>';
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihinNas" class="form-control" value=""/></td>';
+
+                    tableRow += '<td><input min="0" oninput="validity.valid||(value=' + 0 +' );" type="number" name="TahaBihinNaspadPurti" class="form-control" value=""/></td>';
+                    tableRow += '<td><input type="text" name="Remarks" class="form-control" value=""/></td>';
+
+                    $(tabularEntry).append(tableRow);
+
+                    }
+
+
+            });
+            $("#showTable").show();
+
+
+        }
+    });
+
+
+</script>

@@ -12,25 +12,34 @@
                     <i class="fa fa-comment"></i>
                     @T("Admin.Farmer.LIST")
                 </div>
-                <div class="actions btn-group btn-group-devided">
+                @*<div class="actions btn-group btn-group-devided">
                     <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
-                </div>
+                </div>*@
             </div>
             <div class="x_content form">
                 <div class="form-inline">
                     <div class="form-body">
                         <div class="form-body col-md-12">
                             <div class="form-group">
-                                <label class="col-2 col-sm-2 col-md-2 control-label">@T("Admin.common.IncuvationCenter") </label>
-                                <div class="col-2 col-md-3 col-sm-3">
+                                <!--<div class="col-2 col-md-2 col-sm-3">
                                     <admin-select asp-for="Fiscalyear" asp-items="ViewBag.IncuvationCenter">
+
+
+                                    </admin-select>-->
+
+
+                                    @*<input id="dropdownlist" />*@
+                                <!--</div>-->
+                                <div class="col-2 col-md-2 col-sm-3">
+                                    <admin-select asp-for="District" asp-items="ViewBag.FiscalYearId">
 
 
                                     </admin-select>
 
+
                                     @*<input id="dropdownlist" />*@
                                 </div>
-                                <div class="col-md-5 col-sm-5">
+                                <div class="col-md-2 col-sm-2">
                                     <button class="btn btn-success filter-submit" id="search-bali" style="font-size: 13px!important;">
                                         <i class="fa fa-search"></i> @T("admin.common.search")
                                     </button>
@@ -105,23 +114,31 @@
                     field: "Name",
                     title: "@T("Admin.Farmer.Name")",
                     width: 400,
-                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=Name#</a>',
 
                 },
-
-
-
-
-                    {
-                        field: "Phone",
-                        title: "@T("Admin.Farmer.Phone")",
-                        width: 400,
-
+                 {
+                    field: "District",
+                    title: "@T("Admin.Farmer.District")",
+                    width: 400,
 
                 },
                      {
                         field: "Address",
                         title: "@T("Admin.Farmer.Address")",
+                        width: 400,
+
+
+                },
+                      {
+                        field: "WardNo",
+                        title: "@T("Admin.Common.WardNo")",
+                        width: 400,
+
+
+                },
+                       {
+                        field: "Phone",
+                        title: "@T("Admin.Farmer.Phone")",
                         width: 400,
 
 
@@ -135,18 +152,53 @@
                        {
                           field: "Talim.StartDate",
                         title: "@T("Admin.Farmer.StartDate")",
-                        width: 400,
+                           width: 400,
+                           template: "#= kendo.toString(kendo.parseDate(Talim.StartDate), 'dd/MM/yyyy') #"
+
 
                 },
                         {
                           field: "Talim.EndDate",
                         title: "@T("Admin.Farmer.EndDate")",
-                        width: 400,
+                            width: 400,
+                            template: "#= kendo.toString(kendo.parseDate(Talim.EndDate), 'dd/MM/yyyy') #"
+
 
                 },
                          {
                              field: "Duration",
                         title: "@T("Admin.Farmer.Duration")",
+                        width: 400,
+
+                },
+                          {
+                             field: "Male",
+                        title: "@T("Admin.Common.Male")",
+                        width: 400,
+
+                },
+                           {
+                             field: "FeMale",
+                        title: "@T("Admin.Common.Female")",
+                        width: 400,
+
+                },
+                             {
+                             field: "Dalit",
+                        title: "@T("Admin.Common.Dalit")",
+                        width: 400,
+
+                },
+
+                             {
+                             field: "Janajati",
+                        title: "@T("Admin.Common.Janajati")",
+                        width: 400,
+
+                },
+                              {
+                             field: "Others",
+                        title: "@T("Admin.Common.Others")",
                         width: 400,
 
                 },
@@ -177,7 +229,9 @@
 
     function additionalData() {
         var data = {
-            keyword: $('#@Html.FieldIdFor(model => model.Fiscalyear)').val()
+            keyword: $('#@Html.FieldIdFor(model => model.Fiscalyear)').val(),
+            fiscalyear: $('#@Html.FieldIdFor(model => model.District)').val()
+
         };
         addAntiForgeryToken(data);
         return data;

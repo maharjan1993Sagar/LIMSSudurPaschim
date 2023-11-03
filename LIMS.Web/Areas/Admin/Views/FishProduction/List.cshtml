@@ -1,10 +1,10 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @{
     //page title
-    ViewBag.Title = T("Admin.CDMS.LabambitKrishak").Text;
+    ViewBag.Title = T("Admin.StatisticalData.Livestock").Text;
 }
 
-<form asp-area="@Constants.AreaAdmin" asp-controller="LabambitKrishak" asp-action="List" method="post">
+<form asp-area="@Constants.AreaAdmin" asp-controller="FishProduction" asp-action="List" method="post">
 
     <div class="row">
         <div class="col-md-12">
@@ -12,7 +12,7 @@
                 <div class="x_title">
                     <div class="caption text-center">
                         <!-- <i class="fa fa-comment"></i>-->
-                        @T("Admin.LabambitKrishak.List")
+                        @T("Admin.Livestock.List")
                     </div>
                     <div class="actions btn-group btn-group-devided">
                         <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class="x_content">
-                            <div id="LabambitKrishak-grid"></div>
+                            <div id="livestock-grid"></div>
                         </div>
                     </div>
                 </div>
@@ -43,22 +43,27 @@
     </div>
 </form>
 
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
 <script>
     $(document).ready(function () {
         //search button
-        $('#search-LabambitKrishak').click(function () {
+        $('#search-livestock').click(function () {
             //search
-            var grid = $('#LabambitKrishak-grid').data('kendoGrid');
+            var grid = $('#livestock-grid').data('kendoGrid');
             grid.dataSource.page(1); //new search. Set page size to 1
             //grid.dataSource.read(); we already loaded the grid above using "page" function
             return false;
         });
 
-        $("#LabambitKrishak-grid").kendoGrid({
+        $("#livestock-grid").kendoGrid({
+            toolbar:["excel"],
             dataSource: {
                 transport: {
                     read: {
-                        url: "@Html.Raw(Url.Action("List", "AanudanKaryakram"))",
+                        url: "@Html.Raw(Url.Action("List", "Fishproduction"))",
                         type: "POST",
                         dataType: "json",
                         data: additionalData
@@ -90,21 +95,26 @@
             scrollable: false,
             columns: [
                 {
-                    field: "FiscalYear.NepaliFiscalYear",
-                title: "@T("Admin.LabambitKrishak.Fiscalyear")",
+                    field: "Breed.NepaliName",
+                title: "@T("Admin.StatisticalData.FishProduction.Breed")",
                 width: 200,
-            },
+                },
                 {
-                    field: "PujigatKharchaKharakram.Program",
-                    title: "@T("Admin.PujigatKharchaKharakram.ProgramName")",
+                   field: "NatureOfProduction",
+                    title: "@T("Admin.StatisticalData.FishProduction.NatureOfProduction")",
                     width: 200,
                 },
-               {
-                   field: "KrishakKoName",
-                    title: "@T("Admin.LabambitKrishak.LabambitKrishakKoNam")",
+                {
+                    field: "NumberOfFish",
+                    title: "@T("Admin.StatisticalData.FishProduction.NumberOfFish")",
                     width: 200,
                 },
 
+                {
+                    field: "Quantity",
+                    title:"@T("Admin.StatisticalData.FishProduction.Quantity")",
+                    width: 200,
+                },
 
                 {
                     field: "District",
@@ -116,41 +126,12 @@
                     title:"@T("Admin.Common.LocalLevel")",
                     width: 200,
                 },
-                {
-                    field: "AanudanKokisim",
-                    title:"@T("Admin.Common.AanudanKokisim")",
-                    width: 200,
-                },
-                {
-                    field: "AanudanRakam",
-                    title:"@T("Admin.Common.AanudanRakam")",
-                    width: 200,
-                },
-                {
-                    field: "MaleMember",
-                    title:"@T("Admin.Common.MaleMember")",
-                    width: 200,
-                },
                  {
-                     field: "FemaleMember",
-                    title:"@T("Admin.Common.FemaleMember")",
+                    field: "Area",
+                    title:"@T("Admin.StatisticalData.FishProduction.Area")",
                     width: 200,
                 },
-                  {
-                      field: "DalitMember",
-                    title:"@T("Admin.Common.DalitMember")",
-                    width: 200,
-                },
-                   {
-                       field: "JanajatiMember",
-                    title:"@T("Admin.Common.JanajatiMember")",
-                    width: 200,
-                },
-                    {
-                        field: "FarmerContribution",
-                    title:"@T("Admin.Common.FarmerContribution")",
-                    width: 200,
-                },
+
             ]
         });
     });

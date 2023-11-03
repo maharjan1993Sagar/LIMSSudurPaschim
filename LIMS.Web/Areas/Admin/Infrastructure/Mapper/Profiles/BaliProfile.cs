@@ -30,7 +30,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure.Mapper.Profiles
             //CreateMap<LivestockSpecies, LivestockSpeciesModel>().ReverseMap();
             CreateMap<SubsidyType, SubsidyModel>().ReverseMap();
             CreateMap<CropsProduction, CropsProductionModel>().ReverseMap();
-
+            CreateMap<PujigatKharchaKharakram, PugigatKharchaKaryakramModel>().ReverseMap();
 
 
         }

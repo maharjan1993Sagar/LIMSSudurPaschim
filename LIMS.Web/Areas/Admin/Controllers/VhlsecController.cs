@@ -137,7 +137,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
                 }
-                else if (model.Type == "seed testing laboratory")
+                else if (model.Type == "Seed testing laboratory")
                 {
                     role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
                 }
@@ -304,7 +304,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
             }
-            else if (model.Type == "seed testing laboratory")
+            else if (model.Type == "Seed testing laboratory")
             {
                 role = allCustomerRoles.Where(m => m.Name == "PlantAdmin").FirstOrDefault();
             }
@@ -381,31 +381,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 Vhlsec m = model.ToEntity(Vhlsec);
                 m.Dolfd = await _dolfdService.GetDolfdById(model.DolfdId);
                 await _vhlsecService.UpdateVhlsec(m);
-                if (!string.IsNullOrWhiteSpace(model.Password))
-                {
-                    var changePassRequest = new ChangePasswordRequest(model.UserEmail, false, _customerSettings.DefaultPasswordFormat, model.Password);
-                    var changePassResult = await _customerRegistrationService.ChangePassword(changePassRequest);
-                    if (!changePassResult.Success)
-                    {
-                        foreach (var changePassError in changePassResult.Errors)
-                            ErrorNotification(changePassError);
-                    }
-                }
-                UserApiModel user = new UserApiModel();
-                var userapi = await _userApiService.GetUserByEmail(model.UserEmail);
-                user.Email = model.UserEmail;
-                user.Password = model.Password;
-                if (!string.IsNullOrEmpty(user.Password))
-                {
-                    userapi = user.ToEntity(userapi);
-                    var keys = HashPassword(model.Password);
-                    userapi.Password = keys.hashpassword;
-                    userapi.PrivateKey = keys.privatekey;
-                    userapi.IsActive = true;
-                    await _userApiService.UpdateUserApi(userapi);
-
-
-                }
+                //if (!string.IsNullOrWhiteSpace(model.Password))
+                //{
+                //    var changePassRequest = new ChangePasswordRequest(model.UserEmail, false, _customerSettings.DefaultPasswordFormat, model.Password);
+                //    var changePassResult = await _customerRegistrationService.ChangePassword(changePassRequest);
+                //    if (!changePassResult.Success)
+                //    {
+                //        foreach (var changePassError in changePassResult.Errors)
+                //            ErrorNotification(changePassError);
+                //    }
+                //}
+               
                 SuccessNotification("Vhlsec updated");
                 if (continueEditing)
                 {

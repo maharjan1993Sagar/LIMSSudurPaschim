@@ -38,6 +38,9 @@ namespace LIMS.Domain.GeneralCMS
         public int SerialNo { get; set; }
         public bool IsActive { get; set; }
         public string Status { get; set; }
+        public bool IsInformationOfficer { get; set; }
+
+        public bool IsOfficeChief { get; set; }
         public NewsEventFile Image {
             get { return _image ?? (_image = new NewsEventFile()); }
             set { _image = value; }

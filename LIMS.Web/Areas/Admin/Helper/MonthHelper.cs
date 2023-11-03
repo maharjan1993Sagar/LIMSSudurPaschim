@@ -10,19 +10,7 @@ namespace LIMS.Web.Areas.Admin.Helper
     {
         public List<SelectListItem> GetMonths() {
             return new List<SelectListItem> {
-                new SelectListItem {
-                    Text="Baishakh",
-                    Value="Baishakh"
-                },
-                new SelectListItem {
-                    Text="Jestha",
-                    Value="Jestha"
-
-                },
-                new SelectListItem {
-                    Text="Asar",
-                    Value="Asar"
-                 },
+               
                  new SelectListItem {
                     Text="Shrawan",
                     Value="Shrawan"
@@ -58,8 +46,20 @@ namespace LIMS.Web.Areas.Admin.Helper
                new SelectListItem {
                     Text="Chaitra",
                     Value="Chaitra"
-                 }
-                        
+                 },
+                      new SelectListItem {
+                    Text="Baishakh",
+                    Value="Baishakh"
+                },
+                new SelectListItem {
+                    Text="Jestha",
+                    Value="Jestha"
+
+                },
+                new SelectListItem {
+                    Text="Asar",
+                    Value="Asar"
+                 },
 
             };
 

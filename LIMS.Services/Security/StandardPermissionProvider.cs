@@ -67,6 +67,10 @@ namespace LIMS.Services.Security
 
 
         public static readonly PermissionRecord AccessMasterSetup = new PermissionRecord { Name = "Access Master Setup", SystemName = PermissionSystemName.MasterSetup };
+        public static readonly PermissionRecord AccessSubsidyRegister = new PermissionRecord { Name = "Access Subsidy Setup", SystemName = PermissionSystemName.AccessSubsidyRegister };
+        public static readonly PermissionRecord AccessResourceRegister = new PermissionRecord { Name = "Access AccessResourceRegister Setup", SystemName = PermissionSystemName.AccessResourceRegister };
+
+        
 
         //new permissions
         public static readonly PermissionRecord AnimalRegistration = new PermissionRecord { Name = "Access Animal Registration", SystemName = PermissionSystemName.AnimalRegistration };
@@ -226,7 +230,9 @@ namespace LIMS.Services.Security
                 AccessGeneralCMS,
                 AccessCMS,
                     AccessMolmacRegister,
-                    AccessCropProduction
+                    AccessCropProduction,
+                    AccessSubsidyRegister,
+                    AccessResourceRegister
 
 
             };

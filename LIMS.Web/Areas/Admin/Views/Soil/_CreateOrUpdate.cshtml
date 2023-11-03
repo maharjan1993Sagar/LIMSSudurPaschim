@@ -138,6 +138,16 @@
             <div class="col-md-2">
 
                 <div class="form-group">
+                    <admin-label asp-for="Unit" />
+                    <admin-input asp-for="Unit" />
+
+                    <span asp-validation-for="Unit"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <div class="form-group">
                     <admin-label asp-for="Nitrogen" />
                     <admin-input asp-for="Nitrogen" required="required" />
 
@@ -170,7 +180,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Boron" />
-                    <admin-input asp-for="Boron"  />
+                    <admin-input asp-for="Boron" />
 
                     <span asp-validation-for="Boron"></span>
 
@@ -190,7 +200,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Othermicronutrients" />
-                    <admin-input asp-for="Othermicronutrients"  />
+                    <admin-input asp-for="Othermicronutrients" />
 
                     <span asp-validation-for="Othermicronutrients"></span>
 

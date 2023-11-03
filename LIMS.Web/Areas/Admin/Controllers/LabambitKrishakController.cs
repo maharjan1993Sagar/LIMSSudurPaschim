@@ -1,4 +1,5 @@
 ﻿using LIMS.Core;
+using LIMS.Domain.Bali;
 using LIMS.Framework.Kendoui;
 using LIMS.Framework.Mvc.Filters;
 using LIMS.Framework.Security.Authorization;
@@ -11,6 +12,7 @@ using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Bali;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -64,14 +66,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public IActionResult Index() => RedirectToAction("List");
 
-        public IActionResult List() => View();
+        public async Task<IActionResult> List()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var CurrentFiscalYear = fiscalyear.Id;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+            return View();
+        }
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command)
+        public async Task<IActionResult> List(DataSourceRequest command,string fiscalyear)
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _animalRegistrationService.GetLabambitKrishakHaru(id, command.Page - 1, command.PageSize);
+            var bali = await _animalRegistrationService.GetLabambitKrishakHaru(id, command.Page - 1, command.PageSize,fiscalyear);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount
@@ -141,8 +151,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             var createdby = _workContext.CurrentCustomer.Id;
-           
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscal = await _fiscalYearService.GetCurrentFiscalYear();
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",fiscal.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
@@ -180,35 +190,70 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.pujigatKaryakram = pujigatKaryakram;
 
             LabambitKrishakModel model = new LabambitKrishakModel();
-
+            model.District = _workContext.CurrentCustomer.OrgAddress;
+            
             return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        public async Task<IActionResult> Create(LabambitKrishakModel model, bool continueEditing)
+        public async Task<IActionResult> Create(LabambitKrishakModel model,IFormCollection col)
         {
-            if (ModelState.IsValid)
+           
+           var animalRegistration = model.ToEntity();
+              
+            var Aanya = col["Aanya"].ToList();
+            var CoOperative = col["CoOperative"].ToList();
+            var Farm = col["Farm"].ToList();
+            var Group = col["Group"].ToList();
+
+            var Farmer = col["Farmers"].ToList();
+            var LabambitKrishakKoNam = col["LabambitKrishakKoNam"].ToList();
+
+            var Sex = col["Sex"].ToList();
+           var Remarks = col["Remarks"].ToList();
+            var Others = col["Remarks"].ToList();
+            var LocalLevel = col["LocalLevel"].ToList();
+          // var WardNo = col["WardNo"].ToList();
+            var EthinicGroup = col["EthinicGroup"].ToList();
+            var PhoneNo = col["PhoneNo"].ToList();
+
+            var LivestockDataId = col["LivestockDataId"].ToList();
+            for (int i=0; i<PhoneNo.Count;i++)
             {
-                var animalRegistration = model.ToEntity();
-                animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
-                if(!string.IsNullOrEmpty(model.PictureId))
+                LabambitKrishakHaru l = new LabambitKrishakHaru();
+              //  l.WardNo = WardNo[i];
+                l.CreatedBy = _workContext.CurrentCustomer.Id;
+                l.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
+                l.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
+                l.CreatedBy = _workContext.CurrentCustomer.Id;
+                l.Sex = Convert.ToString(Sex[i]);
+                l.PhoneNo = Convert.ToString(PhoneNo[i]); 
+                l.Remarks = Convert.ToString(Remarks[i]); 
+                l.EthinicGroup = Convert.ToString(EthinicGroup[i]);
+                l.LabambitKrishakKoNam = Convert.ToString(LabambitKrishakKoNam[i]);
+                l.Group =Group[i];
+                l.CoOperative = CoOperative[i];
+                l.Farm = Farm[i];
+                l.Farmer = Farmer[i];
+                l.Others = Others[i];
+                l.Aanya = Aanya[i];
+               // l.LocalLevel = LocalLevel[i];
+                if(string.IsNullOrEmpty(LivestockDataId[i]))
                 {
-                    var picture = await _pictureService.GetPictureById(model.PictureId);
-                    if(picture!=null)
-                    {
-                        animalRegistration.Picture = picture;
-                        animalRegistration.PictureId = model.PictureId;
-                    }
+                    await _animalRegistrationService.InsertLabambitKrishakHaru(l);
                 }
-                animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
-                animalRegistration.PujigatKharchaKharakram= await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
-                animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
-                await _animalRegistrationService.InsertLabambitKrishakHaru(animalRegistration);
+                else
+                {
+                    l.Id = LivestockDataId[i];
+                    await _animalRegistrationService.UpdateLabambitKrishakHaru(l);
+
+                }
+
+            }
 
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
-                return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Index");
-            }
+            
          
             var createdby = _workContext.CurrentCustomer.Id;
             var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
@@ -407,11 +452,18 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             return Json(breed.ToList());
         }
+        public async Task<ActionResult> GetSubsidy(string fiscalyear,string programtype)
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+            var pugigatkaryakram = await _animalRegistrationService.GetFilteredLabambitKrishak(createdby,fiscalyear, programtype);
+            return Json(pugigatkaryakram.ToList());
+        }
+
         public async Task<ActionResult> GetProgram(string fiscalyear)
         {
             var createdby = _workContext.CurrentCustomer.Id;
             var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Training");
+            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
             return Json(karyakram.ToList());
         }
         public async Task<ActionResult> GetSubsidyProgram(string fiscalyear)
@@ -421,6 +473,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
             return Json(karyakram.ToList());
         }
+        public async Task<ActionResult> GetTrainingProgram(string fiscalyear)
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
+            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.IsTrainingKaryaKram == "Training");
+            return Json(karyakram.ToList());
+        }
+
         public List<SelectListItem> PujigatType()
         {
 

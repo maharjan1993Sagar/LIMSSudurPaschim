@@ -1,11 +1,42 @@
 ﻿@model NewsEventViewModel
 
 <section>
-    @if (Model.Type == "News" || Model.Type == "Event" || Model.Type == "Notice")
+    @if (Model.TypeName == "News" || Model.TypeName == "Event" || Model.TypeName == "Notice")
     {
-        @*<partial name="_listPartial.cshtml" model="@Model" />*@
+       
 
         <partial name="_listDetailsPartial.cshtml" model="@Model" />
+    }
+    else if (Model.TypeName == "About Us")
+    {
+        <section>
+            @if (Model != null)
+            {
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <label class="text-primary">
+                                        <i class="fa fa-align-left"></i>
+                                        @Model.News.FirstOrDefault().Title
+                                    </label>
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        @Model.News.FirstOrDefault().Description
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <partial name="~/views/shared/_RecordNotFound.cshtml" />
+            }
+        </section>
     }
     else
     {

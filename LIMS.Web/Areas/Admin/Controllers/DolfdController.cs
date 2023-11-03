@@ -305,31 +305,31 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 var m = model.ToEntity(dolfd);
                 m.MoAMAC = await _MolmacService.GetMoAMACById(model.MoamacId);
                 await _dolfdService.UpdateDolfd(m);
-                if (!string.IsNullOrWhiteSpace(model.Password))
-                {
-                    var changePassRequest = new ChangePasswordRequest(model.UserEmail, false, _customerSettings.DefaultPasswordFormat, model.Password);
-                    var changePassResult = await _customerRegistrationService.ChangePassword(changePassRequest);
-                    if (!changePassResult.Success)
-                    {
-                        foreach (var changePassError in changePassResult.Errors)
-                            ErrorNotification(changePassError);
-                    }
-                }
-                UserApiModel user = new UserApiModel();
-                var userapi = await _userApiService.GetUserByEmail(model.UserEmail);
-                user.Email = model.UserEmail;
-                user.Password = model.Password;
-                if (!string.IsNullOrEmpty(user.Password))
-                {
-                     userapi = user.ToEntity(userapi);
-                    var keys = HashPassword(model.Password);
-                    userapi.Password = keys.hashpassword;
-                    userapi.PrivateKey = keys.privatekey;
-                    userapi.IsActive = true;
-                    await _userApiService.UpdateUserApi(userapi);
+                //if (!string.IsNullOrWhiteSpace(model.Password))
+                //{
+                //    var changePassRequest = new ChangePasswordRequest(model.UserEmail, false, _customerSettings.DefaultPasswordFormat, model.Password);
+                //    var changePassResult = await _customerRegistrationService.ChangePassword(changePassRequest);
+                //    if (!changePassResult.Success)
+                //    {
+                //        foreach (var changePassError in changePassResult.Errors)
+                //            ErrorNotification(changePassError);
+                //    }
+                //}
+                //UserApiModel user = new UserApiModel();
+                //var userapi = await _userApiService.GetUserByEmail(model.UserEmail);
+                //user.Email = model.UserEmail;
+                //user.Password = model.Password;
+                //if (!string.IsNullOrEmpty(user.Password))
+                //{
+                //     userapi = user.ToEntity(userapi);
+                //    var keys = HashPassword(model.Password);
+                //    userapi.Password = keys.hashpassword;
+                //    userapi.PrivateKey = keys.privatekey;
+                //    userapi.IsActive = true;
+                //    await _userApiService.UpdateUserApi(userapi);
                    
                    
-                }
+                //}
                 SuccessNotification(_localizationService.GetResource("Admin.Dolfd.Updated"));
                 if (continueEditing)
                 {

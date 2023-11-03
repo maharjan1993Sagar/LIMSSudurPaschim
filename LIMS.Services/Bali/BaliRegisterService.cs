@@ -44,6 +44,24 @@ namespace LIMS.Services.Bali
 
             return await PagedList<BaliRegister>.Create(query, pageIndex, pageSize);
         }
+        public async Task<IPagedList<BaliRegister>> GetbaliRegister(string createdby, string keyword, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _baliRegisterRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(
+                  m => m.FiscalYear.NepaliFiscalYear.Contains(keyword)
+                  ||
+                  m.BreedReg.EnglishName.Contains(keyword)
+                  ||
+                   m.Species.EnglishName.Contains(keyword)
+
+                );
+            }
+
+            return await PagedList<BaliRegister>.Create(query, pageIndex, pageSize);
+        }
 
         public async Task<IPagedList<BaliRegister>> GetbaliRegister(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {

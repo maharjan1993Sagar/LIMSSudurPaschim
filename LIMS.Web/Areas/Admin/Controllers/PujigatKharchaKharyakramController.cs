@@ -16,6 +16,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using LIMS.Web.Areas.Admin.Models.Bali;
+using LIMS.Web.Areas.Admin.Extensions.Mapping;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
@@ -31,7 +35,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly IImportManager _importManager;
         private readonly IFiscalYearService _fiscalYearService;
-
+        private IHostingEnvironment _environment;
         #endregion
         #region ctor
         public PujigatKharchaKharyakramController(
@@ -43,7 +47,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
               IExportManager exportManager,
               IWorkContext workContext,
               IImportManager importManager,
-              IFiscalYearService fiscalYearService
+              IFiscalYearService fiscalYearService,
+              IHostingEnvironment environment
 
             )
         {
@@ -53,17 +58,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _localizationService = localizationService;
             _storeService = storeService;
             _exportManager = exportManager;
+
             _workContext = workContext;
             _importManager = importManager;
             _fiscalYearService = fiscalYearService;
+            _environment = environment;
         }
         #endregion
         public IActionResult Index() =>RedirectToAction("List");
-        public IActionResult List() => View();
+        public IActionResult TabEntry() => View();
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest  command) {
+        public async Task<IActionResult> List(DataSourceRequest  command,string keyword) {
             var createdby = _workContext.CurrentCustomer.Id;
-            var categories = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby,command.Page-1, command.PageSize);
+            var categories = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby,keyword,command.Page-1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = categories,
                 Total = categories.TotalCount
@@ -72,7 +79,61 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
         }
-//        [PermissionAuthorizeAction(PermissionActionName.Import)]
+
+        [HttpPost]
+        public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword)
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+            var categories = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramSelect(createdby, keyword, command.Page - 1, command.PageSize);
+            
+            var gridModel = new DataSourceResult {
+                Data = categories,
+                Total = categories.TotalCount
+            };
+            return Json(gridModel);
+
+
+        }
+
+
+        public async Task<IActionResult> Create() {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+            var type = PujigatType();
+            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Type = type;
+            var programType = ProgramType();
+            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.ProgramType = programType;
+
+            return View();
+        
+        
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(PugigatKharchaKaryakramModel pujigatKharchaKharakram)
+        {
+            var p = pujigatKharchaKharakram.ToEntity();
+            p.CreatedAt = DateTime.Now;
+            p.CreatedBy = _workContext.CurrentCustomer.Id;
+            await _pujigatKharchaKharakramService.InsertPujigatKharchaKharakram(p);
+            return RedirectToAction("TabEntry");
+        }
+
+            public FileResult Download() {
+
+            string filePath= _environment.WebRootPath +"/Import_format.xlsx";
+            byte[] bytes = System.IO.File.ReadAllBytes(filePath);
+
+            //Send the File to Download.
+            return File(bytes, "application/octet-stream", "Import_format.xlsx");
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> ImportFromXlsx(IFormFile importexcelfile,string Type,string FiscalYear,string ProgramType)
         {
@@ -87,15 +148,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 else
                 {
                     ErrorNotification(_localizationService.GetResource("Admin.Common.UploadFile"));
-                    return RedirectToAction("List");
+                    return RedirectToAction("TabEntry");
                 }
                 SuccessNotification(_localizationService.GetResource("Admin.Catalog.Category.Imported"));
-                return RedirectToAction("List");
+                return RedirectToAction("TabEntry");
             }
             catch (Exception exc)
             {
                 ErrorNotification(exc);
-                return RedirectToAction("List");
+                return RedirectToAction("TabEntry");
             }
         }
 
@@ -156,6 +217,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 throw new ArgumentException("No program found with the specified id ");
             if (ModelState.IsValid)
             {
+                
                 await _pujigatKharchaKharakramService.UpdatePujigatKharchaKharakram(pujigatKharchaKharakram);
                 return new NullJsonResult();
             }

@@ -23,6 +23,7 @@ using LIMS.Api.DTOs.GeneralCMS;
 using LIMS.Domain.GeneralCMS;
 using LIMS.Domain.DynamicMenu;
 using LIMS.Domain.NewsEvent;
+using LIMS.Domain.Bali;
 
 namespace LIMS.Api.Extensions
 {
@@ -312,7 +313,30 @@ namespace LIMS.Api.Extensions
         {
             return model.MapTo<BannerDto, Banner>();
         }
-        
+        public static Resources ToModel(this FarmLabResources entity)
+        {
+            return entity.MapTo<FarmLabResources, Resources>();
+        }
+        public static FarmLabResources ToEntity(this Resources model)
+        {
+            return model.MapTo<Resources, FarmLabResources>();
+        }
+        public static SoilDto ToModel(this Soil entity)
+        {
+            return entity.MapTo<Soil, SoilDto>();
+        }
+        public static Soil ToEntity(this SoilDto model)
+        {
+            return model.MapTo<SoilDto, Soil>();
+        }
+        public static MarketDto ToModel(this MarketData entity)
+        {
+            return entity.MapTo<MarketData, MarketDto>();
+        }
+        public static MarketData ToEntity(this MarketDto model)
+        {
+            return model.MapTo<MarketDto, MarketData>();
+        }
         public static ContactUsDto ToModel(this ContactUs entity)
         {
             return entity.MapTo<ContactUs, ContactUsDto>();

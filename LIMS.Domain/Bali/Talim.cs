@@ -16,6 +16,8 @@ namespace LIMS.Domain.Bali
         public string FiscalYearId { get; set; }
         public FiscalYear FiscalYear { get; set; }
         public string Description { get; set; }
+        public PujigatKharchaKharakram PujigatKharchaKharakram { get; set; }
+        public string PujigatKharchaKharakramId { get; set; }
 
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -1,0 +1,66 @@
+﻿@using LIMS.Services.Security;
+
+@inject IPermissionService permissionService
+
+@{
+
+    var subsidy = await permissionService.Authorize(StandardPermissionProvider.AccessSubsidyRegister);
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+            <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+            <admin-tabstrip name="farm-edit">
+                <items>
+                    @if (subsidy)
+                    {
+                        <tabstrip-item text="@T("Admin.TalimName")" tab-index="0">
+                            <content>
+                                <div>
+                                    <partial name="_TalimNameEntry" />
+
+
+                                </div>
+
+                            </content>
+                        </tabstrip-item>
+
+                        <tabstrip-item text="@T("Admin.IncubationCenter")" tab-index="1">
+                            <content>
+                                <div>
+                                    <partial name="_IncubationCenterEntry" />
+
+
+                                </div>
+
+                            </content>
+                        </tabstrip-item>
+                    }
+                    <tabstrip-item text="@T("Admin.Subsidy")" tab-index="2">
+                        <content>
+                            <div>
+                                <partial name="_list" />
+
+
+                            </div>
+
+                        </content>
+                    </tabstrip-item>
+
+                    <tabstrip-item text="@T("Admin.Training")" tab-index="3">
+                        <content>
+                            <div>
+                                <partial name="_trainingList" />
+
+
+                            </div>
+
+                        </content>
+                    </tabstrip-item>
+                </items>
+            </admin-tabstrip>
+        </div>
+    </div>
+</div>
+

@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
+    [PermissionAuthorize(PermissionSystemName.AccessResourceRegister)]
+
     public class ResourcesController : BaseAdminController
     {
         private readonly IFarmLabResourceService _animalRegistrationService;
@@ -241,8 +243,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     Value="Admin.Resource.Berna"
                 },
                    new SelectListItem {
-                    Text=_localizationService.GetResource("Admin.Resource.Bisadi"),
-                    Value="Admin.Resource.Bisadi"
+                    Text=_localizationService.GetResource("Admin.Resource.Biruwa"),
+                    Value="Admin.Resource.Biruwa"
                 },
 
             };

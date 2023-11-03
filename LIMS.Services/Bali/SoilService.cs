@@ -30,7 +30,6 @@ namespace LIMS.Services.Bali
             //event notification
             await _mediator.EntityDeleted(soil);
         }
-
         public async Task<IPagedList<Soil>> Getsoil(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _soilRepository.Table;
@@ -41,6 +40,26 @@ namespace LIMS.Services.Bali
             //      m => m.fis.Id == fiscalyear
             //    );
             //}
+
+            return await PagedList<Soil>.Create(query, pageIndex, pageSize);
+        }
+
+        public async Task<IPagedList<Soil>> Getsoil(string createdby, string fiscalYear = "", string district = "", string locallevel = "", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        {
+            var query = _soilRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(district))
+            {
+                query = query.Where(
+                  m => m.District == district
+                );
+            }
+            if (!string.IsNullOrEmpty(locallevel))
+            {
+                query = query.Where(
+                  m => m.LocalLevel == locallevel
+                );
+            }
 
             return await PagedList<Soil>.Create(query, pageIndex, pageSize);
         }

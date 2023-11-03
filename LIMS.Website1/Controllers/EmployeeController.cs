@@ -33,6 +33,17 @@ namespace LIMS.Website1.Controllers
 
             return View(employee);
         }
+        public async Task<IActionResult> Download(string filename)
+        {
+            if (filename!=null)
+            {
+              
+                  
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public async Task<IActionResult> Details(string id)
         {
             if (!String.IsNullOrEmpty(id))

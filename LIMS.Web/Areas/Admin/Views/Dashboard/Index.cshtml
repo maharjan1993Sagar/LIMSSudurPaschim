@@ -73,160 +73,153 @@
 <div style=" display: inline-block !important;">
     @if (roles.Contains("Administrators")) { }
     @*else if (roles.Contains("NlboAdmin") || roles.Contains("NlboUser"))
-    {<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/cow.png" height="120px" />
+        {<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/cow.png" height="120px" />
 
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Total cow:@Model.Cow</h4>
-                    <h4>Milking  cow:@Model.MilkingCow</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/goat.png" height="120px" />
-
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Total goat:@Model.Goat</h4>
-                    <h4>Male:@Model.MaleGoat Female:@Model.FemaleGoat</h4>
-
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Total cow:@Model.Cow</h4>
+                        <h4>Milking  cow:@Model.MilkingCow</h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/Buffalo.png" height="120px" />
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/goat.png" height="120px" />
 
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Total buffalo:@Model.Buffalo</h4>
-                    <h4>Milking buffalo:@Model.MilkingBuffalo</h4>
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Total goat:@Model.Goat</h4>
+                        <h4>Male:@Model.MaleGoat Female:@Model.FemaleGoat</h4>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/farm.png" height="120px" />
-
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Total farm/farmer:@Model.Farm</h4>
-                    <h4>Private:@Model.PrivateFarm Public:@Model.PublicFarm</h4>
-
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/Vaccination.png" height="120px" />
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/Buffalo.png" height="120px" />
 
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Total Vaccination:@Model.Vaccination</h4>
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Total buffalo:@Model.Buffalo</h4>
+                        <h4>Milking buffalo:@Model.MilkingBuffalo</h4>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/Ai.png" height="120px" />
-
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Total AI:@Model.Ai</h4>
-
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/farm.png" height="120px" />
 
-    }
-    else
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/cow.png" style="height:140px;width:85px;" />
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Total farm/farmer:@Model.Farm</h4>
+                        <h4>Private:@Model.PrivateFarm Public:@Model.PublicFarm</h4>
 
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h5>Milking  cow:@Model.MilkingCow</h5>
-
-                    <h5>Total cow:@Model.Cow</h5>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/goat.png" style="height:140px;width:85px;" />
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/Vaccination.png" height="120px" />
 
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Total goat:@Model.Goat</h4>
-                    <h4>Male:@Model.MaleGoat Female:@Model.FemaleGoat</h4>
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Total Vaccination:@Model.Vaccination</h4>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img src="~/Images/Buffalo.png" height="120px" width="85px" />
-
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4>Milking buffalo:@Model.MilkingBuffalo</h4>
-
-                    <h4>Total buffalo:@Model.Buffalo</h4>
-
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
-            <div class="inforide">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
-                    <img style="height:140px; width:85px; object-fit: cover;" src="/Images/farm.png">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/Ai.png" height="120px" />
 
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Total AI:@Model.Ai</h4>
 
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
-                    <h4> farm/farmer:@Model.Farm</h4>
-                    <h4>Private:@Model.PrivateFarm Public:@Model.PublicFarm</h4>
-
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="myChart" class="col-md-6" style="height:400px; " >
-            <canvas id="canvas"></canvas>
-        </div>
-        <br />
-        <div id="myChart2" class="col-md-6" style="position: relative;height:400px; ">
-            <canvas id="canvas1"></canvas>
-        </div>
-        <div id="myChart3" class="col-md-6" style="position: relative;height:400px; ">
-            <canvas id="canvas2"></canvas>
-        </div>
-        <div id="myChart4" class="col-md-6" style="position: relative;height:400px;">
-            <canvas id="canvas3"></canvas>
-        </div>
-        <div id="myChart5" class="col-md-6" style="position: relative;height:400px; ">
-            <canvas id="canvas4"></canvas>
-        </div>
-        <div id="myChart6" class="col-md-6" style="position: relative; height:400px;">
-            <canvas id="canvas5"></canvas>
-        </div>
 
-    }*@
+        }
+        else
+        {
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/cow.png" style="height:140px;width:85px;" />
+
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h5>Milking  cow:@Model.MilkingCow</h5>
+
+                        <h5>Total cow:@Model.Cow</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/goat.png" style="height:140px;width:85px;" />
+
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Total goat:@Model.Goat</h4>
+                        <h4>Male:@Model.MaleGoat Female:@Model.FemaleGoat</h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img src="~/Images/Buffalo.png" height="120px" width="85px" />
+
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4>Milking buffalo:@Model.MilkingBuffalo</h4>
+
+                        <h4>Total buffalo:@Model.Buffalo</h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2 mt-4">
+                <div class="inforide">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                        <img style="height:140px; width:85px; object-fit: cover;" src="/Images/farm.png">
+
+
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                        <h4> farm/farmer:@Model.Farm</h4>
+                        <h4>Private:@Model.PrivateFarm Public:@Model.PublicFarm</h4>
+
+                    </div>
+                </div>
+            </div>
+
+
+        }*@
+   
+    
+    <div id="myChart4" class="col-md-6" style="position: relative;height:400px;">
+        <canvas id="canvas3"></canvas>
+    </div>
+    <div id="myChart5" class="col-md-6" style="position: relative;height:400px; ">
+        <canvas id="canvas4"></canvas>
+    </div>
+    <div id="myChart6" class="col-md-6" style="position: relative; height:400px;">
+        <canvas id="canvas5"></canvas>
+    </div>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
 

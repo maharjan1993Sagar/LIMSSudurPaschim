@@ -16,6 +16,7 @@ namespace LIMS.Domain.MoAMAC
         public string NameEnglish { get; set; }
         public string Provience { get; set; }
         public string Address { get; set; }
+        public string AddressNepali { get; set; }
         public string District { get; set; }
         public string LocalLevel { get; set; }
         public string Municipility { get; set; }

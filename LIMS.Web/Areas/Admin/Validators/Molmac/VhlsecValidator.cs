@@ -20,7 +20,6 @@ namespace LIMS.Web.Areas.Admin.Validators.Molmac
             RuleFor(x => x.District).NotEmpty().WithMessage(localizationService.GetResource("Admin.Vhlsec.Fields.District.Required"));
             RuleFor(x => x.UserEmail).NotEmpty().WithMessage(localizationService.GetResource("Admin.Vhlsec.Fields.Email.Required"));
             RuleFor(x => x.UserNameEnglish).NotEmpty().WithMessage(localizationService.GetResource("Admin.Vhlsec.Fields.UserName.Required"));
-            RuleFor(x => x.Password).NotEmpty().WithMessage(localizationService.GetResource("Admin.Vhlsec.Fields.Password.Required"));
         }
     }
 }

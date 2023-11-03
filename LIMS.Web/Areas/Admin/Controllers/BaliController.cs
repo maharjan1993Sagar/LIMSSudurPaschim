@@ -56,10 +56,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command)
+        public async Task<IActionResult> List(DataSourceRequest command,string keyword)
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _animalRegistrationService.GetbaliRegister(id, command.Page - 1, command.PageSize);
+            var bali = await _animalRegistrationService.GetbaliRegister(id,keyword, command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount

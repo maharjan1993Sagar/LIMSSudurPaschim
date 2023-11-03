@@ -1,5 +1,6 @@
 ﻿using LIMS.Core.ModelBinding;
 using LIMS.Domain;
+using LIMS.Domain.Breed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,5 +62,19 @@ namespace LIMS.Web.Areas.Admin.Models.StatisticalData
         [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.Improved")]
 
         public string Improved { get; set; }
+        public List<SpeciesWithAnimal> SpeciesWithAnimals { get; set; }
+        public List<LIMS.Domain.StatisticalData.Livestock> Livestocks { get; set; }
+    }
+    public class SpeciesWithAnimal
+    {
+        public SpeciesWithAnimal()
+        {
+            AnimalType = new List<string>();
+        }
+        public LivestockSpecies Species { get; set; }
+        public List<string> AnimalType { get; set; }
+        public List<AnimalType> AgeCategory { get; set; }
+
+
     }
 }

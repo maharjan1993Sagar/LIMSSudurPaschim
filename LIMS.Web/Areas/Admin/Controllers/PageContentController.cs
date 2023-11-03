@@ -78,10 +78,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Create(PageContentModel model, bool continueEditing)
         {
-            if (ModelState.IsValid)
-            {
+           
                 var PageContent = model.ToEntity();
-
+                PageContent.PageName = "Home";
+                PageContent.Title = "हाम्रो बारे";
                 var picture = await _pictureService.GetPictureById(model.ImageModel.PictureId);
                 await _pictureService.UpdatePicture(picture.Id,
                 await _pictureService.LoadPictureBinary(picture),
@@ -108,16 +108,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 await _pageContentService.InsertPageContent(PageContent);
                 SuccessNotification(_localizationService.GetResource("Admin.PageContent.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = PageContent.Id }) : RedirectToAction("List");
-            }
-           ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            return View(model);
+            
+          
         }
 
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         public async Task<IActionResult> Edit(string id)
         {
-            var pageContent = await _pageContentService.GetPageContentById(id);            
+            var pageContent = await _pageContentService.GetPageContentById(id);
+           
             if (pageContent == null)
                 //No blog post found with the specified id
                 return RedirectToAction("List");
@@ -138,9 +138,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (pageContent == null)
                
                 return RedirectToAction("List");
-
-            if (ModelState.IsValid)
-            {
+            model.PageName = "Home";
+            model.Title = "हाम्रो बारे";
+            
                 var m = model.ToEntity(pageContent);
 
                 if (pageContent.PageContentFile.PictureId != model.ImageModel.PictureId)
@@ -202,8 +202,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     return RedirectToAction("Edit", new { id = model.Id });
                 }
                 return RedirectToAction("List");
-            }
-           return View(model);
+           
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Delete)]

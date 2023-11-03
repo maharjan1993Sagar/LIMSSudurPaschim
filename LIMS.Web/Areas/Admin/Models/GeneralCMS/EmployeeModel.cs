@@ -61,10 +61,16 @@ namespace LIMS.Web.Areas.Admin.Models.GeneralCMS
         public int SerialNo { get; set; }
         [LIMSResourceDisplayName("Admin.Employee.IsActive")]
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         [LIMSResourceDisplayName("Admin.Employee.Status")]
 
         public string Status { get; set; }
+        [LIMSResourceDisplayName("Admin.Employee.IsInformationOfficer")]
+
+        public bool IsInformationOfficer { get; set; }
+        [LIMSResourceDisplayName("Admin.Employee.IsOfficeChief/Director")]
+
+        public bool IsOfficeChief { get; set; }
         public NewsEventFileModel ImageModel { get; set; }
     }
 }

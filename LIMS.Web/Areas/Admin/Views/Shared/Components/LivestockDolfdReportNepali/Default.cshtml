@@ -1,0 +1,212 @@
+﻿@inject IWorkContext workContext
+@using LIMS.Domain.Customers
+@{
+    List<string> roles = workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+
+    string orgname = workContext.CurrentCustomer.OrgName;
+
+
+}
+@model IEnumerable<LIMS.Web.Areas.Admin.Models.Reports.LivestockReport>
+<style>
+    #printContent {
+        height: 550px;
+        overflow-y: scroll;
+        width:100%;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.Any(m => m.Rows.Count() > 0))
+            {
+
+
+                <div id="printContent">
+                    @if (roles.Contains("DolfdAdmin") || roles.Contains("DolfdUser"))
+                    {
+                        <div class="col-md-12">
+
+
+                            <center>
+                                सुदूरपश्चिम प्रदेश सरकार
+
+                                <br />
+                                भूमि व्यवस्था, कृषि तथा सहकारी मन्त्रालय<br />
+                                <b> @Model.FirstOrDefault().Month</b><br />
+
+
+
+
+
+                                <br />
+
+
+                            </center>
+                        </div>
+
+                    }
+                    @if (roles.Contains("VhlsecAdmin") || roles.Contains("VhlsecUser"))
+                    {
+                        <div class="col-md-12">
+
+
+                            <center>
+                                सुदूरपश्चिम प्रदेश सरकार
+
+                                <br />
+                                भूमि व्यवस्था, कृषि तथा सहकारी मन्त्रालय<br />
+                                पशुपन्छी तथा मत्स्य विकास निर्देशनालय<br />
+                                <b> @Model.FirstOrDefault().Month</b><br />
+
+
+
+
+
+                                <br />
+
+
+                            </center>
+                        </div>
+
+                    }
+                    @if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacUser"))
+                    {
+                        <div class="col-md-12">
+
+
+                            <center>
+                                सुदूरपश्चिम प्रदेश सरकार
+
+                                <br />
+                                <b> @Model.FirstOrDefault().Month</b><br />
+
+
+
+
+
+                                <br />
+
+
+                            </center>
+                        </div>
+
+                    }
+                    @foreach (var item in Model)
+                    {
+
+                        @if (item.Rows != null && item.Rows.Count() > 0)
+                        {
+                            <div class="col-md-12">
+                                <center><b>     आ. व.  @Model.FirstOrDefault().FiscalYear मा  @item.Species को संख्या</b></center>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr style="text-align:center">
+                                        <th>
+                                            @item.Species
+                                        </th>
+
+                                        @foreach (var items in item.AnimalTypes)
+                                        {
+
+
+                                            <th>
+                                                @items
+                                            </th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (item.Rows != null)
+                                    {
+
+                                        @foreach (var row in item.Rows)
+                                        {
+                                            <tr>
+                                                @{int i = 0;}
+                                                <td>
+                                                    @row.BreedType
+                                                </td>
+
+                                                @foreach (var animal in row.AnimalTypeNo)
+                                                {
+                                                    <td style="text-align:right">
+                                                        @animal
+                                                    </td>
+
+                                                    i++;
+
+                                                }
+
+                                            </tr>
+
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        }
+                    }
+                </div>
+                <div class="col-md-12" style="display:inline-block">
+                    <br />
+                    <center>
+                        <button class="btn btn-success" onclick="PrintElem()">@T("Admin.Button.Print")</button>
+                        <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+
+                    </center>
+                </div>
+
+            }
+            else
+            {
+                <div class="col-md-12"><P style="font-weight:bold"><center>No data found</center></P></div>
+
+            }
+        </div>
+    </div>
+    </div>
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#printContent").table2excel({
+            filename: "Livestock.xls"
+        });
+    }
+    function PrintElem() {
+
+
+        if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+            var printContents = document.getElementById('Printcontent').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents; /*+ "<footer><div class='footer-copyright text-center py-3' >© 2018 </div ></footer >";*/
+            window.print();
+            document.body.innerHTML = originalContents;
+            document.title = "Print page title";
+            mywindow.print();
+            mywindow.close();
+            return true;
+            //4988a2
+        }
+
+    }
+</script>
+<script src="~/Transliteration/digit.js"></script>
+<script src="~/Transliteration/prototypes.js"></script>
+<script>
+    function replace() {
+        var matches = document.querySelectorAll("td");
+        for (var index in matches) {
+            var a = matches[index].textContent;
+            if (!isNaN(a)) {
+                matches[index].textContent = convertToNepaliNumber(a);
+            }
+
+        }
+    }
+    $(document).ready(function () {
+        replace();
+    });
+</script>

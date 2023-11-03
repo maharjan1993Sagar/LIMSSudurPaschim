@@ -81,19 +81,25 @@
     }
     adminPageTitle += T("Admin.PageTitle").Text;
 
-    //has "Manage Maintenance" permission?
+    //has "Manage enance" permission?
     var canManageMaintenance = await permissionService.Authorize(StandardPermissionProvider.ManageMaintenance);
-
+    var crop = await permissionService.Authorize(StandardPermissionProvider.AccessCropProduction);
+    var livestock = await permissionService.Authorize(StandardPermissionProvider.LivestockData);
+    var mastersetup = await permissionService.Authorize(StandardPermissionProvider.AccessMasterSetup);
+    var subsidy = await permissionService.Authorize(StandardPermissionProvider.AccessSubsidyRegister);
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 }
+
+
 <!DOCTYPE html>
-<html @if (supportRtl) { <text> dir="rtl" </text> } onloadstart="myFunction()">
+<html @if (supportRtl) {<text> dir="rtl" </text> } onloadstart="myFunction()">
 <head>
     <title>@adminPageTitle</title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <head-custom>
-    <css-files asp-location="Head" bundle-files="false">
-    <script-files asp-location="Head" bundle-files="false">
+        <css-files asp-location="Head" bundle-files="false">
+            <script-files asp-location="Head" bundle-files="false">
 </head>
 <body>
     @Html.AntiForgeryToken()
@@ -124,23 +130,98 @@
             padding: .929em 1.286em;
             font-weight: 500;
             white-space: normal;
-            text-align: center!important;
+            text-align: center !important;
         }
-   @@media(min-width: 1100px)
-    {
-        #menu_toggle {
-            display: none;
+        .table td, .table th {
+            padding: 0.5rem !important;
+          
         }
-        .column {
-            float: left;
-           
-            padding: 5px;
+
+        @@media(min-width: 1100px) {
+            #menu_toggle {
+                display: none;
+            }
+
+            .column {
+                float: left;
+                padding: 5px;
+            }
         }
-    }
     </style>
+
+
+
+    @*<style type="text/css">
+            ul.dropdown-ul {
+                display: none;
+                position: absolute;
+                background: #404040;
+                margin-left: -8px;
+            }
+
+                ul.dropdown-ul.active {
+                    display: block;
+                }
+
+                ul.dropdown-ul li {
+                    float: none;
+                    margin: 0;
+                }
+            ul li:hover > ul,
+            ul li ul:hover
+            {
+                visibility: visible;
+                opacity: 1;
+                display: block;
+            }
+            ul li > ul.dropdown-ul,
+            ul li ul.dropdown-ul {
+                text-align: left;
+                margin-top: 0;
+                box-shadow: none;
+                border: #eee 1px solid;
+                border-top: #eee 1px solid;
+                list-style: none;
+                background: Color:#FFF;
+                background-color: Color:#FFF;
+                -webkit-box-shadow: rgb(0 0 0 / 20%) 0 6px 12px !important;
+                box-shadow: rgb(0 0 0 / 20%) 0 6px 12px !important;
+                min-width: 200px;
+                padding: 0;
+                border-color: #1ABC9C Color:#FFF Color:#FFF;
+                -webkit-transition: top .4s ease;
+                -o-transition: top .4s ease;
+                transition: top .4s ease;
+                -webkit-border-radius: 0;
+                -moz-border-radius: 0;
+                border-radius: 0;
+                z-index:10;
+            }
+
+
+
+             ul.dropdown-ul {
+                border-color: #296BC2 Color:#FFF Color:#FFF;
+            }
+
+
+
+
+
+        </style>*@
+
+
+    @*<script type="text/javascript">
+            $('#Gen').on('mouseenter', function () {
+                $('.dropdown-ul').addClass('active');
+            });
+            $('#Gen').on('mouseleave', function () {
+                $('.dropdown-ul').removeClass('active');
+            });
+        </script>*@
     <div class="container body">
         <div class="main_container">
-         
+
             <vc:admin-widget widget-zone="admin_header_before" additional-data="null" />
             @if (IsSectionDefined("statusbar"))
             {
@@ -191,19 +272,19 @@
                                 @*<vc:admin-widget widget-zone="header_toggle_after" additional-data="null" />*@
                                 <div class="col-md-4 text-center">
                                     @*<h2>@T("Software.Name") (CDMS)</h2>*@
-                                    
+
                                 </div>
                                 <div class="col-md-3">
                                     <ul class="nav navbar-nav navbar-right">
                                         <li>
-                                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <a href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                 <img src="~/administration/build/images/avatar.png" alt="">
                                                 @if (currentCustomer != null && currentCustomer.IsRegistered())
-                                            {
-                                                <div class="username-hide-on-mobile">
-                                                    @(currentCustomer.Email)
-                                                </div>
-                                            }
+                                                {
+                                                    <div class="username-hide-on-mobile">
+                                                        @(currentCustomer.Email)
+                                                    </div>
+                                                }
                                                 <span class="fa fa-angle-down"></span>
                                             </a>
 
@@ -215,7 +296,7 @@
                                                             <i class="icon-user"></i> @T("Admin.Header.Profile")
                                                         </a>
                                                     </li>
-                                                    
+
                                                     <li>
                                                         <a href="@Url.Action("FiscalYearGraph", "FiscalYear", new {area = Constants.AreaAdmin })">
                                                             <i class="icon-settings"></i> @T("Admin.Header.SetFiscalYear")
@@ -225,6 +306,11 @@
                                                 <li>
                                                     <a href="@Url.Action("ChangePassword", "Customer")">
                                                         <i class="icon-user"></i> @T("Admin.Header.PasswordChange")
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Download", "Dashboard")">
+                                                        <i class="icon-user"></i> @T("Admin.Header.UserManual")
                                                     </a>
                                                 </li>
                                                 <li>
@@ -238,34 +324,40 @@
 
                                         @await Component.InvokeAsync("CommonLanguageSelector")
                                         @if (canManageMaintenance)
-                                    {
-                                        <li role="presentation" class="dropdown">
-                                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="icon-settings"></i>
-                                            </a>
-                                            <ul id="menu1" class="dropdown-menu dropdown-menu-right list-unstyled msg_list overflow-h" role="menu">
-                                                <li>
-                                                    <a href="@Url.Action("ClearCache", "Common", new { memory = true, returnurl = webHelper.GetRawUrl(this.Context.Request) })">
-                                                        <i class="icon-refresh"></i>
-                                                        @T("Admin.Header.ClearCacheMemory")
-                                                    </a>
-                                                </li>
+                                        {
+                                            <li role="presentation" class="dropdown">
+                                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icon-settings"></i>
+                                                </a>
+                                                <ul id="menu1" class="dropdown-menu dropdown-menu-right list-unstyled msg_list overflow-h" role="menu">
+                                                    <li>
+                                                        <a href="@Url.Action("List", "Language",new { Area="Admin"})">
+                                                            <i class="icon-refresh"></i>
+                                                            @T("Admin.Header.ChangeLanguage")
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("ClearCache", "Common", new { memory = true, returnurl = webHelper.GetRawUrl(this.Context.Request) })">
+                                                            <i class="icon-refresh"></i>
+                                                            @T("Admin.Header.ClearCacheMemory")
+                                                        </a>
+                                                    </li>
 
-                                                <li>
-                                                    <a href="@Url.Action("RestartApplication", "Common", new { returnurl = webHelper.GetRawUrl(this.Context.Request) })" id="restart-application">
-                                                        <i class="icon-reload"></i>
-                                                        @T("Admin.Header.RestartApplication")
-                                                    </a>
-                                                </li>
+                                                    <li>
+                                                        <a href="@Url.Action("RestartApplication", "Common", new { returnurl = webHelper.GetRawUrl(this.Context.Request) })" id="restart-application">
+                                                            <i class="icon-reload"></i>
+                                                            @T("Admin.Header.RestartApplication")
+                                                        </a>
+                                                    </li>
 
-                                            </ul>
-                                        </li>
-                                    }
+                                                </ul>
+                                            </li>
+                                        }
 
-                                      
+
                                     </ul>
                                 </div>
-                                </div>
+                            </div>
                         </nav>
                     </div>
                     <div class="clear"></div>
@@ -276,14 +368,131 @@
 
             <vc:admin-widget widget-zone="admin_header_after" additional-data="null" />
 
+            <ul style="list-style-type: none;margin:0;padding:0;overflow:hidden;">
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Cdms", "Dashboard", new { Area = "Admin" })">@T("Admin.GryaPristha")</a></li>
+
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "MolmacDashboard", new { Area = "Admin" })">@T("Admin.Dashboard")</a></li>
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Website", "Dashboard", new { Area = "Admin" })">@T("Admin.Website")</a></li>
+                @if (livestock)
+                            {
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "Livestock", new { Area = "Admin" })">@T("Admin.Livestock")</a></li>
+             }
+                @if(roles.Contains("SoilAdmin"))
+                {
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("List", "Soil", new { Area = "Admin" })">@T("Admin.Soil")</a></li>
+                }
+
+                @if (mastersetup)
+                {
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.User")</a>
+                    <ul class="dropdown-menu">
+
+                        <li class="dropdown-item"><a href="@Url.Action("List", "Dolfd", new { Area = "Admin" })">@T("Admin.OrganizationUnderMolmac")</a></li>
+
+                        <li class="dropdown-item"><a href="@Url.Action("List", "NLBO", new { Area = "Admin" })">@T("Admin.ORC")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("List", "Vhlsec", new { Area = "Admin" })">@T("Admin.OrganizationUnderDolfdAndAdd")</a></li>
+
+
+
+                    </ul>
+                </li>
+                }
+                @if (livestock||crop)
+                {
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.Production")</a>
+                    <ul class="dropdown-menu">
+                        @if (livestock)
+                            {
+                        <li class="dropdown-item"><a href="@Url.Action("Create", "FishProduction", new { Area = "Admin" })">@T("Admin.FishProduction")</a></li>
+
+                        <li class="dropdown-item"><a href="@Url.Action("Index", "Production", new { Area = "Admin" })">@T("Admin.LivestockProduction")</a></li>
+                            }
+                        @if (crop)
+                            {
+                        <li class="dropdown-item"><a href="@Url.Action("List", "CropsProduction", new { Area = "Admin" })">@T("Admin.CropsProduction")</a></li>
+                            }
+
+                    </ul>
+                </li>
+                }
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("tabentry", "PujigatKharchaKharyakram", new { Area = "Admin" })">@T("Admin.PujigatKharchaKharyakram")</a></li>
+
+
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                    <a style="Color:#FFF" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.BudgetProgress")</a>
+                    <ul id="GenSubMenu" class="dropdown-menu">
+                        <li class="dropdown-item"><a href="@Url.Action("Create","MonthlyProgress")">@T("Admin.Overallprogress")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("CreateNitigatKaryakram","MonthlyProgress")">@T("Admin.NitigatProgress")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("CreateMainKaryakram","MonthlyProgress")">@T("Admin.Main.Progress")</a></li>
+                    </ul>
+                </li>
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                    <a style="Color:#FFF" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.KarmachariBibarn")</a>
+                    <ul id="GenSubMenu" class="dropdown-menu">
+                        <li class="dropdown-item"><a href="@Url.Action("Create","DolfdSthai")">@T("Admin.SthaiTaha")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Create","DolfdTaha")">@T("Admin.AstaiTaha")</a></li>
+                    </ul>
+                </li>
+
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.TalimAndSubsidy")</a>
+                    <ul id="GenSubMenu" class="dropdown-menu">
+                        @if (subsidy)
+                            {
+                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 0 })">@T("Admin.TalimName")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 1 })">@T("Admin.IncuvationCenter")</a></li>
+
+                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 2 })">@T("Admin.Subsidy")</a></li>
+
+                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 3 })">@T("Admin.Training")</a></li>
+                            }
+                            else
+                            {
+
+                        <li class="dropdown-item"><a href="@Url.Action("Create", "AanudanKaryakram")">@T("Admin.Subsidy")</a></li>
+
+                        <li class="dropdown-item"><a href="@Url.Action("CreateOne", "Farmer")">@T("Admin.Training")</a></li>
+
+                         }
+                    </ul>
+                </li>
+
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.Report")</a>
+                    <ul id="GenSubMenu" class="dropdown-menu">
+                        <li class="dropdown-item"><a href="@Url.Action("KirshakReport","Farmer")">@T("Admin.Talim.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Summery","MonthlyProgress")">@T("Admin.ProgramSummery.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("OrgReport","aanudankaryakram")">@T("Admin.Aanudan.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Report","MonthlyProgress")">@T("Admin.MonthlyProgress.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("SummerizedReport","MonthlyProgress")">@T("Admin.MonthlyProgress.SummerizedReport")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Report","DolfdSthai")">@T("Admin.SthaiTaha.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Report","DolfdTaha")">@T("Admin.AstaiTaha.Report")</a></li>
+
+                        @if (crop)
+                            {
+                        <li class="dropdown-item"><a href="@Url.Action("Report", "CropsProduction")">@T("Admin.CropProduction.Report")</a></li>
+                            }
+                        @if (livestock)
+                            {
+                        <li class="dropdown-item"><a href="@Url.Action("Report", "Production")">@T("Admin.LivestockProduction.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("LivestockReportDolfdNepali", "Report", new { Area = "Admin" })">@T("Admin.LivestockReport")</a></li>
+
+                        <li class="dropdown-item"><a href="@Url.Action("Report", "Livestock")">@T("Admin.Livestock.Report")</a></li>
+                            }
+
+                    </ul>
+                </li>
+            </ul>
             @if (IsSectionDefined("headermenu"))
             {
                 @RenderSection("headermenu")
             }
-            else
-            {
-                <partial name="Menu" />
-            }
+            @*else
+                {
+                    <partial name="Menu" />
+                }*@
             <div class="right_col" role="main" style="min-height: 900px!important;">
                 <partial name="Notifications" />
                 @RenderBody()
@@ -359,7 +568,7 @@
                 $.getJSON(url, data, (result) => {
 
                     $.each(result, function (item1, value1) {
-                        if (value1 == dis) {
+                        if (value1 == dis.trim(" ")) {
                             $("#district").append(`<option value="${value1}" selected>${value1}</option>`);
                         }
                         else {
@@ -368,6 +577,28 @@
                         }
                     });
                 });
+
+                if (dis) {
+                    $("#locallevel").empty();
+                url = "@Url.Action("GetLocalLevel", "LocalStructure")";
+                var data = {
+                    district: dis.trim(" ")
+                }
+                $.getJSON(url, data, (result) => {
+                    $("#locallevel").append('<option value="">select</option>')
+                    $("#locallevel").append('<option value="All localLevel">All localLevel</option>');
+
+                    $.each(result, function (item, value) {
+
+                            $("#locallevel").append(`<option value="${value}">${value}</option>`);
+
+
+                    });
+
+                })
+
+
+                }
             }
                 //  $("#district").val(dis);
             else {
@@ -385,7 +616,7 @@
                     });
                 });
             }
-        
+
             $('#country').change(function () {
                 var province = $(this).val();
                 $("#district").empty();
@@ -410,7 +641,8 @@
                     district: district
                 }
                 $.getJSON(url, data, (result) => {
-                    $("#locallevel").append('<option value="">select</option>')
+                    $("#locallevel").append('<option value="">select</option>');
+                    $("#locallevel").append('<option value="All localLevel">All localLevel</option>');
                     $.each(result, function (item, value) {
                         $("#locallevel").append(`<option value="${value}">${value}</option>`);
                     });

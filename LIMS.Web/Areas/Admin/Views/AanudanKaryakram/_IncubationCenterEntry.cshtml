@@ -1,0 +1,140 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "IncubationCenter";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    <i class="fa fa-comment"></i>
+                    @T("Admin.IncubationCenter.LIST")
+                </div>
+                <div class="actions btn-group btn-group-devided">
+                    <a href="@Url.Action("Create","IncubationCenter")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                </div>
+            </div>
+            <div class="x_content form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="x_content">
+                            <div id="ba-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#ba-grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "IncubationCenter"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "OrganizationNameEnglish",
+                    title: "@T("Admin.IncubationCenter.OrganizationNameEnglish")",
+                    width: 400,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=OrganizationNameEnglish#</a>',
+
+                },
+
+
+
+
+                    {
+                        field: "RegisteredDate",
+                        title: "@T("Admin.IncubationCenter.RegisteredDate")",
+                        width: 400,
+                        template: "#= kendo.toString(kendo.parseDate(RegisteredDate), 'dd/MM/yyyy') #"
+
+
+                },
+                      {
+                          field: "RegisteredAddress",
+                        title: "@T("Admin.IncubationCenter.RegisteredAddress")",
+                        width: 400,
+
+                },
+                      {
+                          field: "Email",
+                        title: "@T("Admin.IncubationCenter.Email")",
+                        width: 400,
+
+                    },
+
+                      {
+                          field: "Phone",
+                        title: "@T("Admin.IncubationCenter.Phone")",
+                        width: 400,
+
+                },
+                      {
+                          field: "NatureOfWork",
+                        title: "@T("Admin.IncubationCenter.NatureOfWork")",
+                        width: 400,
+
+                    },
+
+                        {
+                          field: "ValueChain",
+                        title: "@T("Admin.IncubationCenter.ValueChain")",
+                        width: 400,
+
+                },
+                         {
+                          field: "ValueChain",
+                        title: "@T("Admin.IncubationCenter.ValueChain")",
+                        width: 400,
+
+                },
+                          @*{
+                          field: "Status",
+                        title: "@T("Admin.IncubationCenter.Status")",
+                        width: 400,
+
+                    },*@
+
+
+
+
+            ]
+
+        });
+    });
+</script>

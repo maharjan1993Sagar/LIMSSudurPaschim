@@ -33,6 +33,9 @@ namespace LIMS.Web.Areas.Admin.Models.MoAMAC
         [LIMSResourceDisplayName("Admin.Common.Address")]
 
         public string Address { get; set; }
+        [LIMSResourceDisplayName("Admin.Common.Address")]
+
+        public string AddressNepali { get; set; }
         public MoAMACModel MoAMAC { get; set; }
         [LIMSResourceDisplayName("Admin.dolfd.Molmac")]
         public string MoamacId { get; set; }

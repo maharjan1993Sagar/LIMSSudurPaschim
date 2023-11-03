@@ -17,6 +17,11 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string Name { get; set; }
         public string PhoneNo { get; set; }
         public string Rakam { get; set; }
-
+        public string OrgName { get; set; }
+        public string MaleMember { get; set; }
+        public string FemaleMember { get; set; }
+        public string DalitMember { get; set; }
+        public string JanajatiMember { get; set; }
+        public string Id { get; set; }
     }
 }

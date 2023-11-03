@@ -1,0 +1,58 @@
+﻿
+@{
+    //page title
+    ViewBag.Title = "Farm";
+}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+              
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <admin-tabstrip name="farm-edit">
+                    <items>
+                        <tabstrip-item text="@T("Admin.ImportBudget")" tab-index="0">
+                            <content>
+                                <div>
+                                    <partial name="_list" />
+
+
+                                </div>
+
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.SubsidyChonot")" tab-index="1">
+                            <content>
+                                <div>
+                                    <partial name="_subsidyEntry" />
+
+
+                                </div>
+
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Livestock.TalimChonot")" tab-index="2">
+                            <content>
+                                <div>
+                                    <partial name="_trainingChonot" />
+
+
+                                </div>
+
+                            </content>
+                        </tabstrip-item>
+                        <tabstrip-item text="@T("Admin.Livestock.NitiTathaKaryakram")" tab-index="3">
+                            <content>
+                                <div>
+                                    <partial name="_nitiAndKaryakramChonot" />
+
+
+                                </div>
+
+                            </content>
+                        </tabstrip-item>
+                    </items>
+                </admin-tabstrip>
+            </div>
+        </div>
+    </div>
+

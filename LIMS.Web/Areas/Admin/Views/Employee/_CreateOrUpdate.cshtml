@@ -20,15 +20,15 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            @*<div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="Salutation" />
-                    <admin-input asp-for="Salutation" />
-                    <span asp-validation-for="Salutation"></span>
+            <div class="form-group">
+                <admin-label asp-for="Salutation" />
+                <admin-input asp-for="Salutation" />
+                <span asp-validation-for="Salutation"></span>
 
-                </div>
             </div>
+        </div>*@
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="Name" />
@@ -53,13 +53,32 @@
                 </div>
             </div>
             <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="IsInformationOfficer"></admin-label><br />
+                    <admin-input asp-for="IsInformationOfficer" />
+                    <span asp-validation-for="IsInformationOfficer"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="IsOfficeChief"></admin-label><br />
+                    <admin-input asp-for="IsOfficeChief" />
+                    <span asp-validation-for="IsOfficeChief"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="OfficePhone" />
                     <admin-input asp-for="OfficePhone" />
                     <span asp-validation-for="OfficePhone"></span>
                 </div>
             </div>
-           
+
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="Phone2" />
@@ -103,37 +122,45 @@
             </div>
 
 
-            <div class="col-md-3">
+            @*<div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="FacebookUrl" />
-                    <admin-input asp-for="FacebookUrl" />
-                    <span asp-validation-for="FacebookUrl"></span>
+            <div class="form-group">
+                <admin-label asp-for="FacebookUrl" />
+                <admin-input asp-for="FacebookUrl" />
+                <span asp-validation-for="FacebookUrl"></span>
 
-                </div>
             </div>
-            <div class="col-md-3">
+        </div>
+        <div class="col-md-3">*@
 
-                <div class="form-group">
-                    <admin-label asp-for="TweeterUrl" />
-                    <admin-input asp-for="TweeterUrl" />
-                    <span asp-validation-for="TweeterUrl"></span>
+            @*<div class="form-group">
+                <admin-label asp-for="TweeterUrl" />
+                <admin-input asp-for="TweeterUrl" />
+                <span asp-validation-for="TweeterUrl"></span>
 
-                </div>
-            </div> <div class="col-md-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="Status" />
-                    <admin-input asp-for="Status" />
-                    <span asp-validation-for="Status"></span>
-
-                </div>
             </div>
+        </div>*@
+            @*<div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Status" />
+                <admin-input asp-for="Status" />
+                <span asp-validation-for="Status"></span>
+
+            </div>
+        </div>*@
             <div class="col-md-3">
 
                 <div class="form-group">
-                    <admin-label asp-for="IsActive" />
-                    <admin-input asp-for="IsActive" />
+                    <label asp-for="IsActive">Is active</label><br />
+                    <label>
+                        Yes
+                        <input type="radio" asp-for="IsActive" value="true" />
+                    </label>
+                    <label>
+                       No
+                        <input type="radio"  asp-for="IsActive" value="false" />
+                    </label>
                     <span asp-validation-for="IsActive"></span>
 
                 </div>

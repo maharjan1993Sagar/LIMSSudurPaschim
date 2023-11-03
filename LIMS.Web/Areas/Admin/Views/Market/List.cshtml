@@ -1,4 +1,5 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
+@model FarmListModel
 @{
     //page title
     ViewBag.Title = "Market";
@@ -19,6 +20,9 @@
             <div class="x_content form">
                 <div class="form-horizontal">
                     <div class="form-body">
+                        <div class="col-md-6">
+                            <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Filter by crop name,crop category and fiscalyear" />
+                        </div>
                         <div class="x_content">
                             <div id="bali-grid"></div>
                         </div>
@@ -38,7 +42,7 @@
                         url: "@Html.Raw(Url.Action("List", "Market"))",
                         type: "POST",
                         dataType: "json",
-                        data: addAntiForgeryToken
+                        data: additionalData
                     }
                 },
                 schema: {
@@ -128,5 +132,20 @@
             ]
 
         });
+        function additionalData() {
+            var data = {
+                keyword: $("#Keyword").val()
+            };
+            addAntiForgeryToken(data);
+            return data;
+        }
+        $('#Keyword').keyup(function () {
+            //search
+            var grid = $('#bali-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
     });
 </script>

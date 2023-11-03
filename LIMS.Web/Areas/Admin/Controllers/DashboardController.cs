@@ -11,9 +11,11 @@ using LIMS.Services.Statisticaldata;
 using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.BarGraph;
 using LIMS.Web.Areas.Admin.Models.Dashboard;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,8 +36,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IServiceData _serviceData;
         public readonly ISemenDistributionService _semenDistribution;
         public readonly IFiscalYearForGraphService _fiscalYearForGraphService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public DashboardController(IAnimalRegistrationService animalService,
+             IHostingEnvironment hostingEnvironment,
             ICustomerService customerService,
             IWorkContext workContext,
             ILssService lssService,
@@ -51,6 +55,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             )
         {
+            _hostingEnvironment = hostingEnvironment;
             _animalService = animalService;
             _customerService = customerService;
             _workContext = workContext;
@@ -319,7 +324,35 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View(model);
 
         }
-    
+
+
+        public ActionResult Website()
+        {
+            return View();
+        } 
+         public ActionResult CDMS()
+        {
+            return View();
+        } 
+        public IActionResult Download() {
+
+
+
+            var filepath = Path.Combine($"{_hostingEnvironment.WebRootPath}\\{"User.pdf"}");
+
+            var net = new System.Net.WebClient();
+            var data = net.DownloadData(filepath);
+            var content = new System.IO.MemoryStream(data);
+            var contentType = "APPLICATION/octet-stream";
+            var fileName = "User.pdf";
+            return File(content, contentType, fileName);
+
+
+
+
+
+
+        }
         public async Task<IActionResult> GetAiData()
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();

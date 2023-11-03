@@ -1,7 +1,7 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @{
-    //page title
-    ViewBag.Title = "Banner ";
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 
 <div class="row">
@@ -71,26 +71,26 @@
                     title: "@T("Admin.Banner.Title")",
                     width: 200,
                     template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((Title == null) ? " ": Title)#</a>',
-                    attributes: {
-                        style: "text-align: center;"
-                    }
+                    //attributes: {
+                    //    style: "text-align: center;"
+                    //}
                 },
                 {
                     field: "Description",
                     title: "@T("Admin.Banner.Description")",
                     width: 200,
-                    attributes: {
-                        style: "text-align: center;"
-                    }
+                    //attributes: {
+                    //    style: "text-align: center;"
+                    //}
                 },
                 {
                     field: "Id",
                     title: "@T("Admin.Banner.Action")",
                     width: 200,
                     template: '<a class="btn btn-info btn-sm" href="Detail/#=Id#">View Details</a>',
-                    attributes: {
-                        style: "text-align: center;"
-                    }
+                    //attributes: {
+                    //    style: "text-align: center;"
+                    //}
                 },
             ]
 

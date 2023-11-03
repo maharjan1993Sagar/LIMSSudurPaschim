@@ -21,9 +21,9 @@ namespace LIMS.Web.Areas.Admin.Models.Livestock
         public string District { get; set; }
         [LIMSResourceDisplayName("Admin.Livestock.LocalLevel")]
         public string LocalLevel { get; set; }
-        [LIMSResourceDisplayName("Admin.Livestock.LocalLevel")]
+        [LIMSResourceDisplayName("Admin.Livestock.Ward")]
         public string Ward { get; set; }
-        [LIMSResourceDisplayName("Admin.Livestock.LocalLevel")]
+        [LIMSResourceDisplayName("Admin.Livestock.Type")]
         public string Type { get; set; }
     }
 }

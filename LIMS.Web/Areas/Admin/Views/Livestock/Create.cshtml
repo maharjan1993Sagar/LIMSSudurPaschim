@@ -8,6 +8,8 @@
 
 @{
     var roles = workContext.CurrentCustomer.CustomerRoles.Select(m=>m.Name).ToList();
+    var district = workContext.CurrentCustomer.OrgAddress;
+
 }
 <form method="post">
     <div class="row">
@@ -30,22 +32,42 @@
                         </div>
 
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Provience" />
-                                <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
+                                <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
                                 <span asp-validation-for="Provience"></span>
                             </div>
                         </div>
+                        @if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
+                        {
                         <div class="col-md-2">
+
                             <div class="form-group">
                                 <admin-label asp-for="District" />
-                                <select id="district" name="District" data-val="@Model.District" class="form-control">
-                                    <option value="">Select </option>
+                                <select name="district" id="district" data-val="@Model.District" class="form-control" required="required">
+                                    <option value="">select</option>
                                 </select>
                                 <span asp-validation-for="District"></span>
+
                             </div>
                         </div>
+                        }
+                        else
+                        {
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select id="district" data-val="@Model.District" class="form-control" disabled required="required">
+                                    <option value="">select</option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+
+                            </div>
+                        </div>
+                        <input type="hidden" name="district" value="@Model.District" />
+                        }
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
@@ -166,14 +188,23 @@
 
         };
         addAntiForgeryToken(data);
-        $.post("@Url.Action("GetLivestockData", "Livestock")", data, function (result) {
-            $.each(result, function (index, item) {
-                $('tr#' + item.AnimalType.Id + ' input[name="LivestockDataId"]').val(item.Id);
-                $('tr#' + item.AnimalType.Id + ' input[name="Native"]').val(item.Local);
-                $('tr#' + item.AnimalType.Id + ' input[name="Improved"]').val(item.Improved);
-                console.log(item);
+        $('input[name = "LivestockDataId"]').val('');
+        $('input[name="Native"]').val('');
+        $('input[name = "Improved"]').val('');
+
+        if ($('#@Html.IdFor(m => m.FiscalYear)').val()) {
+            
+            $.post("@Url.Action("GetLivestockData", "Livestock")", data, function (result) {
+                $.each(result, function (index, item) {
+                    $('tr#' + item.AnimalType.Id + ' input[name="LivestockDataId"]').val(item.Id);
+                    $('tr#' + item.AnimalType.Id + ' input[name="Native"]').val(item.Local);
+                    $('tr#' + item.AnimalType.Id + ' input[name="Improved"]').val(item.Improved);
+                    console.log(item);
+
+                });
+
             });
-        });
+        }
     }
 
 </script>

@@ -3,7 +3,7 @@
     //page title
     ViewBag.Title = "Soil";
 }
-
+@model FarmListModel
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel light form-fit">
@@ -18,6 +18,42 @@
             </div>
             <div class="x_content form">
                 <div class="form-horizontal">
+                    <div class="form-group">
+                       
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Province" />
+                                <admin-select asp-for="Province" id="country" />
+                                <span asp-validation-for="Province"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="District" />
+                                <select id="district" name="District" class="form-control">
+                                    <option value="">Select </option>
+                                </select>
+                                <span asp-validation-for="District"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select id="locallevel" name="LocalLevel"  class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                                <span asp-validation-for="LocalLevel"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <br />
+                                <input type="submit" id="search" class="btn-sm btn-success" style="margin-top:10px;" />
+                            </div>
+                        </div>
+
+
+                    </div>
                     <div class="form-body">
                         <div class="x_content">
                             <div id="bali-grid"></div>
@@ -28,17 +64,30 @@
         </div>
     </div>
 </div>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
 
 <script>
     $(document).ready(function () {
+        $('#search').click(function () {
+            //search
+            var grid = $('#bali-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
         $("#bali-grid").kendoGrid({
+            toolbar:["excel"],
             dataSource: {
                 transport: {
                     read: {
                         url: "@Html.Raw(Url.Action("List", "Soil"))",
                         type: "POST",
                         dataType: "json",
-                        data: addAntiForgeryToken
+                        data: additionalData
                     }
                 },
                 schema: {
@@ -83,19 +132,7 @@
                         title: "@T("Admin.Soil.phoneNo")",
                           width: 400
                     },
-                       {
-                          field: "District",
-                        title: "@T("Admin.Soil.District")",
-                           width: 400,
-
-
-                },
-                       {
-                          field: "LocalLevel",
-                        title: "@T("Admin.Soil.LocalLevel")",
-                        width: 400,
-
-                },
+                       
                        {
                           field: "Ward",
                         title: "@T("Admin.Soil.Ward")",
@@ -163,5 +200,17 @@
             ]
 
         });
+
+        function additionalData() {
+        var data = {
+          
+              district:$("#district").val(),
+            locallevel:$("#locallevel").val()
+
+
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
     });
 </script>

@@ -1,0 +1,37 @@
+﻿@model DolfdTahaEntryModel
+@{
+    //page title
+    ViewBag.Title = "";
+}
+<a asp-action="Create" asp-controller="DolfdSthai"><button class="btn btn-primary">@T("Admin.SthaiTaha")</button></a>
+<a asp-action="Create"><button class="btn btn-outline-danger ">@T("Admin.AstaiTaha")</button></a>
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="DolfdTaha" asp-action="Create" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.DolfdTaha.Create")
+                        @*@T("Admin.ContentManagement.Blog.BlogPosts.AddNew")*@
+                        <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
+                    </div>
+                    <div class="actions">
+
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+
+                <div class="x_content form">
+                    <partial name="_CreateOrUpdate" model="Model" />
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</form>

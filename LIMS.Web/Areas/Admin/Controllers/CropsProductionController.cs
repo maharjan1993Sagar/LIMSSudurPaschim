@@ -110,7 +110,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command, string speciesId = "", string fiscalYear = "")
+        public async Task<IActionResult> List(DataSourceRequest command, string speciesId = "", string fiscalYear = "", string keyword = "")
         {
             if (string.IsNullOrEmpty(speciesId) && string.IsNullOrEmpty(fiscalYear))
             {
@@ -122,7 +122,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
                 var currenFiscal = await _fiscalYearService.GetCurrentFiscalYear();
 
-                var livestocks = await _livestockService.GetBreed(createdby);
+                var livestocks = await _livestockService.GetBreed(createdby,keyword);
                 var live = livestocks.Select(m => m.Ward).Distinct();
                 //List<LivestockListModel> lives = new List<LivestockListModel>();
                 //foreach (var item in live)

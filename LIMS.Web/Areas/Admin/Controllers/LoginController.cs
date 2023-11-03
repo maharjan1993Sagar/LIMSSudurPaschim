@@ -127,7 +127,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //raise event       
             await _mediator.Publish(new CustomerLoggedInEvent(customer));
 
-            return RedirectToRoute("AdminIndex", new RouteValueDictionary());
+            return RedirectToAction("CDMS","Dashboard");
         }
 
         public async Task<IActionResult> TwoFactorAuthorization([FromServices] ITwoFactorAuthenticationService twoFactorAuthenticationService)

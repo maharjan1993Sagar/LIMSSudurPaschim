@@ -15,6 +15,8 @@ namespace LIMS.Website1.Models
         public List<GalleryModel> Videos{ get; set; }
         public List<NewsEventTenderModel> News { get; set; }
         public List<NewsEventTenderModel> NewsScroll { get; set; }
+        public List<NewsEventTenderModel> Publications { get; set; }
+
         public List<NewsEventTenderModel> Events { get; set; }
         public List<NewsEventTenderModel> Notices { get; set; }
         public List<NewsEventTenderModel> Tenders { get; set; }
@@ -31,8 +33,8 @@ namespace LIMS.Website1.Models
         public PageContentModel PageContent { get; set; }
         public List<BannerModel> Banner { get; set; }
         public ContactUsModel ContactUs { get; set; }
-         public List<ImportantLinks> ImportantLinks { get; set; } 
-        
+         public List<ImportantLinks> ImportantLinks { get; set; }
+        public string OrgName { get; set; }
     }
     public class EmployeeModel
     {
@@ -57,6 +59,10 @@ namespace LIMS.Website1.Models
         public int SerialNo { get; set; }
         public bool IsActive { get; set; }
         public string Status { get; set; }
+
+        public bool IsInformationOfficer { get; set; }
+
+        public bool IsOfficeChief { get; set; }
         public NewsEventFileModel Image { get; set; }
     }
     public class NewsEventTenderModel
@@ -65,6 +71,10 @@ namespace LIMS.Website1.Models
         public Guid NewsEventTenderId { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
+        public string TypeName { get; set; }
+
+        public string SubMenu { get; set; }
+        public string SubSubMenu { get; set; }
         public bool HasTitle { get; set; }
         public string Description { get; set; }
         public string UploadedBy { get; set; }

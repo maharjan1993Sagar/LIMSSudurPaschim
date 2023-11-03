@@ -35,12 +35,12 @@ namespace LIMS.Services.Bali
         {
             var query = _LabambitKrishakHaruRepository.Table;
             query = query.Where(m => m.CreatedBy == createdby);
-            //if (!string.IsNullOrEmpty(fiscalyear))
-            //{
-            //    query = query.Where(
-            //      m => m.FiscalYear.Id == fiscalyear
-            //    );
-            //}
+            if (!string.IsNullOrEmpty(fiscalyear))
+            {
+                query = query.Where(
+                  m => m.FiscalYear.Id == fiscalyear
+                );
+            }
 
             return await PagedList<LabambitKrishakHaru>.Create(query, pageIndex, pageSize);
         }
@@ -49,6 +49,15 @@ namespace LIMS.Services.Bali
             var query = _LabambitKrishakHaruRepository.Table;
             query = query.Where(m => m.CreatedBy==id &&m.PujigatKharchaKharakram.Type==type&&m.PujigatKharchaKharakram.ProgramType==programType&&m.FiscalYear.Id==fiscalYear);
            
+
+            return await PagedList<LabambitKrishakHaru>.Create(query, pageIndex, pageSize);
+
+        }
+        public async Task<IPagedList<LabambitKrishakHaru>> GetFilteredLabambitKrishak(string id, string fiscalYear, string programType, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _LabambitKrishakHaruRepository.Table;
+            query = query.Where(m => m.CreatedBy == id  && m.PujigatKharchaKharakram.Id == programType && m.FiscalYear.Id == fiscalYear);
+
 
             return await PagedList<LabambitKrishakHaru>.Create(query, pageIndex, pageSize);
 

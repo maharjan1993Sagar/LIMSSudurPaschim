@@ -107,6 +107,9 @@
         public const string AccessNewsEventTender = "AccessNewsEventTender";
        public const string AccessCDS = "AccessCDS";
        public const string AccessMolmacRegister = "AccessMolmacRegister";
+        public const string AccessSubsidyRegister = "AccessSubsidyRegister";
+        public const string AccessResourceRegister = "AccessResourceRegister";
+
 
         public const string AccessGeneralCMS = "AccessGeneralCMS";
         public const string AccessCropsProduction = "AccessCropsProduction";

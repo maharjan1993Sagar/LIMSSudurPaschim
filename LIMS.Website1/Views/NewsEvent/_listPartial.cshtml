@@ -5,10 +5,10 @@
     <div class="row">
         <div class="col-md-12">
             <h3 class="text-primary">
-                <i class="fa fa-book"></i>@Model.Type
+                <i class="fa fa-book"></i>@Model.TypeName
             </h3>
         </div>
-        <form method="get">
+        @*<form method="get">
             <div class="col-md-3">
                 <div class="form-group">
                     <label>
@@ -19,7 +19,7 @@
                     </select>
                 </div>
             </div>
-        </form>
+        </form>*@
         <div class="col-md-12">
             <table id="tblPublication" class="table table-responsive table-bordered">
                 <thead>
@@ -55,6 +55,12 @@
                                     {
                                         <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
                                             <i class="fa fa-download"></i>
+                                        </a>
+                                    }
+                                    @if (item.ShowText)
+                                    {
+                                        <a asp-controller="NewsEvent" asp-action="Details" asp-route-id="@item.Id">
+                                         Details
                                         </a>
                                     }
                                 </td>

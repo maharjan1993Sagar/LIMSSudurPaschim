@@ -40,11 +40,19 @@ namespace LIMS.Web.ViewComponents
 
             var contactUs = await _db.GetContactUsModel();
             var customer =await _db.GetCustomer();
-           
+            var galleryVideo = await _db.GetGallery();
+
+            string map = "";
+           var Facebook = galleryVideo.OrderByDescending(m => m.CreatedDate).Where(m => m.Type == "Map").FirstOrDefault();
+            if(Facebook!=null)
+            {
+                map = Facebook.VideoUrl; 
+            }
             var footerVM = new FooterViewModel {
                 ContactUs = contactUs,
                 ImportantLinks = model,
-                Customer=customer
+                Customer=customer,
+                Map=map
             };
 
             return footerVM;

@@ -22,7 +22,11 @@
     -webkit-box-sizing: inherit;
     box-sizing: inherit
 }
-
+btn-link:focus, .btn-link:hover {
+    color: #FFF !important;
+    text-decoration: underline;
+    background-color: transparent;
+}
 html {
     -webkit-box-sizing: border-box;
     box-sizing: border-box

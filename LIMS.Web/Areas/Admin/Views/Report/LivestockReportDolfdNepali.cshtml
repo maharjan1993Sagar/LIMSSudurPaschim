@@ -1,0 +1,122 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.LivestockReport
+@inject AdminAreaSettings adminAreaSettings
+@inject IWorkContext workContext
+@{ //page title
+    var role = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList(); 
+    }
+<div class="form-horizontal">
+    <form method="get" action="LivestockReportForFiscalYear" id="livestockWardWiseReport">
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="FiscalYear" />
+                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYear" required="required" />
+                <span asp-validation-for="FiscalYear"></span>
+            </div>
+        </div>
+        @if (role.Contains("MolmacAdmin") || role.Contains("DolfdAdmin"))
+        {
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="LocalLevel" />
+                    <admin-select asp-for="LocalLevel" asp-items="ViewBag.LocalLevel" />
+                    <span asp-validation-for="LocalLevel"></span>
+                </div>
+            </div>
+        }
+            <div class="col-md-2">
+                <div class="form-group">
+                    <br />
+                    <input type="submit" value="@T("Admin.common.search")" class="btn-sm btn-success" style="margin-top:10px;" />
+                </div>
+            </div>
+        </form>
+</div>
+<div style="display:inline-block !important; width:100%">
+
+    <div class="row" id="result"><br /><br /></div>
+</div>
+<script>
+    function replace() {
+        var matches = document.querySelectorAll("td");
+        for (var index in matches) {
+            var a = matches[index].textContent;
+            if (!isNaN(a)) {
+                matches[index].textContent = convertToNepaliNumber(a);
+            }
+
+        }
+    }
+    $(document).ready(function () {
+
+        var data = {
+            FiscalYear: $('#FiscalYear').val(),
+            LocalLevel: $('#LocalLevel').val()
+        }
+        addAntiForgeryToken(data);
+       
+        $.ajax({
+            cache: false,
+            url: '/Admin/Report/LivestockDolfdReportNepaliHtml',
+            data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+            type: "POST",
+            success: function (response) {
+                if (response.success) {
+                    $('#result').html(response.livestockWardWiseReportHtml);
+                    fiscal = $("#nepali").html();
+                    if (fiscal) {
+                        last = fiscal.split("/")[1];
+                        first = fiscal.split("/")[0];
+
+                        last = convertToNepaliNumber(last);
+                        first = convertToNepaliNumber(first);
+                        z = first + "/" + last;
+                        $("#nepali").html(z);
+                    }
+
+                    replace();
+
+                }
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+    $('#livestockWardWiseReport').submit(function (e) {
+        var data = {
+            FiscalYear: $('#FiscalYear').val(),
+            LocalLevel: $('#LocalLevel').val()
+        }
+        addAntiForgeryToken(data);
+        e.preventDefault();
+        $.ajax({
+            cache: false,
+            url: '/Admin/Report/LivestockDolfdReportNepaliHtml',
+            data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+            type: "POST",
+            success: function (response) {
+                if (response.success) {
+                    $('#result').html(response.livestockWardWiseReportHtml);
+                    fiscal = $("#nepali").html();
+                    if (fiscal) {
+                        last = fiscal.split("/")[1];
+                        first = fiscal.split("/")[0];
+
+                        last = convertToNepaliNumber(last);
+                        first = convertToNepaliNumber(first);
+                        z = first + "/" + last;
+                        $("#nepali").html(z);
+                    }
+
+                    replace();
+
+                }
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+</script>

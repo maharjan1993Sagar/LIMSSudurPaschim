@@ -1,7 +1,7 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @{
-    //page title
-    ViewBag.Title = "Sub Menu ";
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 
 <div class="row">
@@ -72,11 +72,19 @@
                     width: 400,
                     template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((MainMenu.MainMenuName == null) ? " ": MainMenu.MainMenuName)#</a>',
                 },
+
                 {
                     field: "Name",
                     title: "@T("Admin.SubMenu.Name")",
                     width: 400,
-                }, {
+                },
+                 {
+                     field: "NameNepali",
+                    title: "@T("Admin.SubMenu.NameNepali")",
+                    width: 400,
+                },
+
+                {
                 field: "Url",
                 title: "@T("Admin.SubMenu.Url")",
                 width: 400,

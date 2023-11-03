@@ -28,7 +28,7 @@ namespace LIMS.Services.GeneralCMS
         public async Task<List<Employee>> GetAll()
         {
             var employee = _employeeRepository.Table;
-            return employee.ToList();
+            return employee.Where(m=>m.IsActive==true).ToList();
         }
         public async Task DeleteEmployee(Employee employee)
         {

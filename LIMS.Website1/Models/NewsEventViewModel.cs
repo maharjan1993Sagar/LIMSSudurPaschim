@@ -11,5 +11,7 @@ namespace LIMS.Website1.Models
         public List<NewsEventTenderModel> News { get; set; }
         public NewsEventTenderModel ObjNews { get; set; }
         public string Type { get; set; }
+        public string TypeName { get; set; }
+
     }
 }

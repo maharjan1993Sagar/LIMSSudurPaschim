@@ -1,4 +1,5 @@
 ﻿@model TalimModel
+
 <div class="x_content form">
     <div class="form-row">
         <div class="form-body">
@@ -34,7 +35,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="EndDate" />
-                    <admin-input asp-for="EndDate" required="required"/>
+                    <admin-input asp-for="EndDate" required="required" />
                     <span asp-validation-for="EndDate"></span>
 
                 </div>
@@ -62,6 +63,20 @@
 
                 </div>
             </div>
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="PujigatKharchaKaryakramId" />
+                    <admin-select asp-for="PujigatKharchaKaryakramId" required="required">
+                        <option value="">Select</option>
+
+                    </admin-select>
+
+                    <span asp-validation-for="PujigatKharchaKaryakramId"></span>
+
+                </div>
+            </div>
+
             <div class="col-md-8">
 
                 <div class="form-group">
@@ -76,3 +91,21 @@
         </div>
     </div>
 </div>
+<script>
+     $("document").ready(function () {
+         $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
+             fiscalyear = $(this).val();
+             data = {
+                 fiscalyear: fiscalyear
+             }
+             if (fiscalyear) {
+                 url = "/Admin/LabambitKrishak/GetTrainingProgram";
+                 $.getJSON(url, data, function (result) {
+                     $.each(result, function (i, item) {
+                         $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);
+                     });
+                 })
+             }
+         });
+     });
+</script>

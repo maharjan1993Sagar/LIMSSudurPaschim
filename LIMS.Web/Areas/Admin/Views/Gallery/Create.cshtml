@@ -1,7 +1,7 @@
 ﻿@model FarmModel
 @{
-    //page title
-    ViewBag.Title = "Farm";
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 <form method="post" asp-action="create">
     <div class="row">
@@ -14,7 +14,7 @@
                         <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink(T("Admin.Gallery.BackToList").Text, "List")</small>
                     </div>
 
-                   
+
                 </div>
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
                 <admin-tabstrip name="farm-edit">
@@ -24,7 +24,7 @@
                                 <div>
                                     <partial name="_CreateOrUpdate" model="Model" />
                                 </div>
-                                
+
                             </content>
                         </tabstrip-item>
                     </items>

@@ -1,5 +1,4 @@
-﻿
-@inject AdminAreaSettings adminAreaSettings
+﻿@inject AdminAreaSettings adminAreaSettings
 @{
     //page title
     ViewBag.Title = T("Admin.Livestock.Production").Text;
@@ -23,17 +22,16 @@
                     <div class="form-horizontal">
 
                         <div class="form-body col-md-6">
-                            @*<div class="form-group">
-                                <admin-label name="Keyword" class="col-4 col-sm-4 col-md-4 control-label"  />
-                                <div class="col-4 col-md-4 col-sm-4">
-                                    <input type="text" name="Keyword" id="keyword" />
+                            <div class="form-group">
+                                <div class="col-4 col-md-12 col-sm-12">
+                                    <input type="text" name="Keyword" id="keyword" class="form-control" placeholder="Search by production type, district, locallevel and ward" />
                                 </div>
-                                <div class="col-md-4 col-sm-4">
+                                @*<div class="col-md-4 col-sm-4">
                                     <button class="btn btn-success filter-submit" id="search-production">
                                         <i class="fa fa-search"></i> @T("Admin.Common.Search")
                                     </button>
-                                </div>
-                            </div>*@
+                                </div>*@
+                            </div>
                             <div class="form-group">
 
                             </div>
@@ -57,14 +55,7 @@
 <script>
     $(document).ready(function () {
         //search button
-        $('#search-production').click(function () {
-            //search
-            var grid = $('#production-grid').data('kendoGrid');
-            grid.dataSource.page(1); //new search. Set page size to 1
-            //grid.dataSource.read(); we already loaded the grid above using "page" function
-            return false;
-        });
-
+      
         $("#production-grid").kendoGrid({
             dataSource: {
                 transport: {
@@ -93,7 +84,7 @@
                         id: "Id",
                         fields: {
                             Id: { editable: false, nullable: true },
-                            "Species.EnglishName": { editable: false },
+                            "Species.NepaliName": { editable: false },
                             ProductionType: { editable: false },
                             District: { editable: false },
                             LocalLevel: { editable: false },
@@ -123,8 +114,13 @@
             },
             scrollable: false,
             columns: [
+                 {
+                    field: "FiscalYear.NepaliFiscalYear",
+                    title:"@T("Admin.Common.FiscalYear")",
+                    width: 200,
+                },
                 {
-                    field: "Species.EnglishName",
+                    field: "Species.NepaliName",
                 title: "@T("Admin.Production.SpeciesName")",
                 width: 200,
             },
@@ -173,9 +169,16 @@
 
     function additionalData() {
         var data = {
-            Keyword:$("#Keyword").val()
+            Keyword:$("#keyword").val()
         };
         addAntiForgeryToken(data);
         return data;
     }
+    $('#keyword').keyup(function () {
+        //search
+        var grid = $('#production-grid').data('kendoGrid');
+        grid.dataSource.page(1); //new search. Set page size to 1
+        //grid.dataSource.read(); we already loaded the grid above using "page" function
+        return false;
+    });
 </script>

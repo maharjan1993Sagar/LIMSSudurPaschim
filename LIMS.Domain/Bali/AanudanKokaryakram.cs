@@ -28,6 +28,7 @@ namespace LIMS.Domain.Bali
         public int? FemaleMember { get; set; }
         public int? DalitMember { get; set; }
         public int? JanajatiMember { get; set; }
+        public int? Others { get; set; }
         public string ExpectedOutput { get; set; }
         public decimal FarmerContribution { get; set; }
         public string SubsidyCategory { get; set; }
@@ -36,5 +37,6 @@ namespace LIMS.Domain.Bali
         public string Area { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
+        public string AnudanReceiverType { get; set; }
     }
 }

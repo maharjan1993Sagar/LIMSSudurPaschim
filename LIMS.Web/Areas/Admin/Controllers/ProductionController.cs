@@ -61,7 +61,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command, string keyword = "")
+        public async Task<IActionResult> List(DataSourceRequest command, string Keyword = "")
         {
             string user = _workContext.CurrentCustomer.Id;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
@@ -70,7 +70,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
            
                 createdby = _workContext.CurrentCustomer.Id;
            
-            var production = await _productionionDataService.GetProduction(createdby,command.Page - 1,command.PageSize);
+            var production = await _productionionDataService.GetProductionByKeyword(createdby,Keyword,command.Page - 1,command.PageSize);
 
             var gridModel = new DataSourceResult {
                 Data = production,
@@ -93,7 +93,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var productionType = new List<SelectListItem>() {
                 new SelectListItem{
                     Text="Milk",
-                    Value="Milk"
+                    Value="Milk",
+                    Selected=true
                 },
                 new SelectListItem{
                     Text="Meat",
@@ -113,6 +114,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 },
             };
             productionType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //var selected = productionType.Where(x => x.Value == "Milk").First();
+            //selected.Selected = true;
             ViewBag.Type = productionType;
             var getfiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             var CurrentFiscalYear = getfiscalyear.Id;
@@ -249,6 +252,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Ward = ward;
             ProductionModel model = new ProductionModel();
             model.Species = await _speciesService.GetBreed();
+            model.District = _workContext.CurrentCustomer.OrgAddress;
             return View(model);
         }
 

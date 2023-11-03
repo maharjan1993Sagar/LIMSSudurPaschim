@@ -10,7 +10,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
         public void RegisterRoutes(IEndpointRouteBuilder routeBuilder)
         {
             //admin index
-            routeBuilder.MapControllerRoute("AdminIndex", $"admin/", new { controller = "Dashboard", action = "Index", area = Constants.AreaAdmin });
+            routeBuilder.MapControllerRoute("AdminIndex", $"admin/", new { controller = "Dashboard", action = "Cdms", area = Constants.AreaAdmin });
 
             //admin login
             routeBuilder.MapControllerRoute("AdminLogin", $"admin/login/", new { controller = "Login", action = "Index", area = Constants.AreaAdmin });

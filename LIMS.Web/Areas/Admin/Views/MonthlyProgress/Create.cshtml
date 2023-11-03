@@ -9,29 +9,40 @@
 @{
     var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 }
+<style>
+    .printContent {
+        height: 550px;
+        overflow-y: scroll;
+    }
+</style>
+<a asp-action="CreateMainKaryakram"><button class="btn btn-primary">@T("Admin.MainProgress")</button></a>
+<a asp-action="CreateNitigatKaryakram"><button class="btn btn-primary">@T("Admin.NitigatProgress")</button></a>
+<a asp-action="Create"><button class="btn btn-outline-danger">@T("Admin.OverallProgress")</button></a>
+
 <form method="post">
     <div class="row">
         <div class="col-md-12">
             <div class="x_panel light form-fit">
                 <div class="x_title">
                     <div class="actions">
+
                     </div>
                 </div>
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
                 <div class="x_content form">
                     <div class="form-row">
-                       
+
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYearId" />
-                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId"  onchange="getMonthlyData()" required="required" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getMonthlyData()" required="required" />
                                 <span asp-validation-for="FiscalYearId"></span>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="ProgramType" />
-                                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getMonthlyData()" required="required" />
+                                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getMonthlyData()"  />
                                 <span asp-validation-for="ProgramType"></span>
                             </div>
                         </div>
@@ -43,65 +54,71 @@
                                 <span asp-validation-for="Type"></span>
                             </div>
                         </div>
-                   
-                     
-                            <div class="form-group">
-                                <admin-label asp-for="Month" />
-                                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getMonthlyData()" required="required" />
-                                <span asp-validation-for="Month"></span>
-                            </div>
+
+
+                        <div class="form-group">
+                            <admin-label asp-for="Month" />
+                            <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getMonthlyData()" required="required" />
+                            <span asp-validation-for="Month"></span>
                         </div>
                     </div>
                 </div>
-                <div id="showTable">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr style="text-align:center">
-                                <th id="c">@T("Admin.PujigatKharcha.Lmbiscode")</th>
-                                <th>@T("Admin.PujigatKharcha.BudgetSirshakNo")</th>
-                                <th>@T("Admin.PujigatKharcha.KharchaSrishakNo")</th>
-                                <th>@T("Admin.PujigatKharcha.ProgramName")</th>
-                                <th>@T("Admin.PujigatKharcha.Budget")</th>
-                                @*<th>@T("Admin.PujigatKharcha.BhautikPragati")</th>*@
-                                <th>@T("Admin.PujigatKharcha.BitiyaPragati")</th>
+            </div>
+            <div id="showTable" class="printContent">
+                <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Filter" title="Filter name">
+                <br />
+                <table id="abc" class="table table-bordered">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th id="c">@T("Admin.PujigatKharcha.Lmbiscode")</th>
+                            <th>@T("Admin.PujigatKharcha.Type")</th>
+                            <th>@T("Admin.PujigatKharcha.BudgetSirshakNo")</th>
 
-                            </tr>
-                        </thead>
-                        <tbody id="tabularEntry">
+
+                            <th>@T("Admin.PujigatKharcha.ProgramName")</th>
+                            <th>@T("Admin.PujigatKharcha.Budget")</th>
+                            <th>@T("Admin.PujigatKharcha.BarshikParinam")</th>
                             
-                            @if(Model.pujigatKharchaKharakram.Count()>0)
+                            <th>@T("Admin.PujigatKharcha.BhautikPragati")</th>
+                            <th>@T("Admin.PujigatKharcha.BitiyaPragati")</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tabularEntry">
+
+                        @if (Model.pujigatKharchaKharakram.Count() > 0)
+                        {
+                            foreach (var item in Model.pujigatKharchaKharakram)
                             {
-                                foreach(var item in Model.pujigatKharchaKharakram)
-                                {
-                                    <tr id="@item.Id">
-                                    <td>
-                                   @item.Limbis_Code 
-                                   <input type="hidden" name="PujigatKharchaId" value="@item.Id"/><input type="hidden" name="ProgressDataId" value="" />
-                                    </td>
-                                    <td></td>
+                        <tr id="@item.Id">
+                            <td>
+                                @item.Limbis_Code
+                                <input type="hidden" name="PujigatKharchaId" value="@item.Id" /><input type="hidden" name="ProgressDataId" value="" />
+                            </td>
+                            <td></td>
 
-                                  <td>@item.kharchaCode </td>
-                                   <td>
-                                        @item.Program
-                                       </td>
-                                    <td> item.BarsikBajet </td>
+                            <td>@T(item.Type) </td>
+                            <td>
+                                @item.Program
+                            </td>
+                            <td> item.BarsikBajet </td>
 
-                                   @*<td><input type="text" name="BhautikPragati" class="form-control"/></td>*@
-                                    <td><input type="text" name="BitiyaPragati" class="form-control"/></td>
+                            <td><input type="text" name="BhautikPragati" class="form-control"/></td>
+                            <td><input type="text" name="BitiyaPragati" class="form-control" /></td>
 
 
-                                  </tr>
-                                }
+                        </tr>
                             }
-                        </tbody>
-                    </table>
-                    <center>
-                        <input type="submit" class="btn btn-success" />
-                    </center>
-                </div>
+                        }
+                    </tbody>
+                </table>
+                <center>
+                    <input type="submit" class="btn btn-success" />
+                </center>
             </div>
         </div>
-    
+    </div>
+
 </form>
 
 
@@ -155,12 +172,14 @@
                         $.each(result, function (index, item) {
                             var tableRow = '<tr id="' + item.Id + '">';
                             tableRow += '<td>' + item.Limbis_Code + '<input type="hidden" name="PujigatKharchaId" value="' + item.Id + '"/><input type="hidden" name="ProgressDataId" value="" /></td>';
-                            tableRow += '<td></td>';
+                            tableRow += '<td>' + item.Type + '</td>';
                             tableRow += '<td>' + item.kharchaCode + '</td>';
                             tableRow += '<td>' + item.Program + '</td>';
                             tableRow += '<td>' + item.BarsikBajet + '</td>';
-                            //tableRow += '<td><input type="text" name="BhautikPragati" class="form-control"/></td>';
-                            tableRow += '<td><input type="text" name="BitiyaPragati" class="form-control"/></td>';
+                            tableRow += '<td>' + item.BarshikParinam + '</td>';
+                            
+                            tableRow += '<td><input type="text" name="BhautikPragati" class="form-control"/></td>';
+                            tableRow += '<td><input type="number" name="BitiyaPragati" class="form-control"/></td>';
 
 
                             tableRow += '</tr>';
@@ -203,10 +222,32 @@
                 $("input[type=text]").val('');
                 $.each(result, function (index, item) {
                     $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="ProgressDataId"]').val(item.Id);
-                    //$('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
+                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
                     $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BitiyaPragati"]').val(item.BitiyaPragati);
                 });
             });
         }
+    }
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("abc");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            td2 = tr[i].getElementsByTagName("td")[2];
+            td3 = tr[i].getElementsByTagName("td")[3];
+
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1 || td2.innerHTML.toUpperCase().indexOf(filter) > -1 || td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[0].style.display = "";
+
+                    tr[i].style.display = "none";
+                }
+            }
         }
+    }
 </script>

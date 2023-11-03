@@ -32,10 +32,22 @@ namespace LIMS.Services.Breed
             await _mediator.EntityDeleted(CropsProduction);
         }
 
-        public async Task<IPagedList<CropsProduction>> GetBreed(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<CropsProduction>> GetBreed(string createdby,string keyword,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _VarietyRepository.Table;
             query = query.Where(m => m.CreatedBy == createdby);
+            if(!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(
+                    m => m.GrowingSeason.GrowingSeason.Contains(keyword)
+                    ||
+                    m.CropName.EnglishName.Contains(keyword)
+                    ||
+                     m.District.Contains(keyword)
+                     ||
+                     m.LocalLevel.Contains(keyword)
+                     );
+            }
             return await PagedList<CropsProduction>.Create(query, pageIndex, pageSize);
         }
 

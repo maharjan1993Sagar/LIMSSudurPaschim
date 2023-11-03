@@ -11,12 +11,21 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
     {
         [LIMSResourceDisplayName("LIMS.FarmLab.Type")]
         public string Type { get; set; }
+        [LIMSResourceDisplayName("LIMS.FarmLab.PlantType")]
+        public string PlantType { get; set; }
         [LIMSResourceDisplayName("LIMS.FarmLab.SubType")]
 
         public string SubType { get; set; }
+        [LIMSResourceDisplayName("LIMS.FarmLab.Sector")]
+
+        public string Sector { get; set; }
+
         [LIMSResourceDisplayName("LIMS.FarmLab.ItemName")]
 
         public string ItemName { get; set; }
+        [LIMSResourceDisplayName("LIMS.FarmLab.Species")]
+
+        public string Species { get; set; }
 
         [LIMSResourceDisplayName("LIMS.FarmLab.Unit")]
 
@@ -27,6 +36,9 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.FarmLab.UnitPrice")]
 
         public string UnitPrice { get; set; }
-        
+        [LIMSResourceDisplayName("LIMS.Common.Remarks")]
+
+        public string Remarks { get; set; }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @{
-    //page title
-    ViewBag.Title = "NewsEvent ";
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 
 <div class="row">
@@ -39,12 +39,23 @@
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
+                    },
+                      destroy: {
+                        url: "@Html.Raw(Url.Action("Delete", "NewsEvent"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken,
+
                     }
                 },
                 schema: {
                     data: "Data",
                     total: "Total",
-                    errors: "Errors"
+                    errors: "Errors",
+                    model: {
+                        id: "Id",
+
+                    }
                 },
                 error: function(e) {
                     display_kendoui_grid_error(e);
@@ -61,16 +72,32 @@
                 pageSizes: [@(adminAreaSettings.GridPageSizes)]
             },
             editable: {
-                confirmation: false,
+                confirmation: true,
                 mode: "inline"
             },
             scrollable: false,
             columns: [
                 {
-                    field: "Type",
+                    field: "MainMenu",
                     title: "@T("Admin.NewsEvent.Type")",
                     width: 400,
-                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((Type == null) ? " ": Type)#</a>',
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((Mainmenu == null) ? " ": Mainmenu.MainMenuName)#</a>',
+
+                },
+                 {
+                     field: "subMenus.Name",
+                    title: "@T("Admin.NewsEvent.SubMenu")",
+                     width: 400,
+                     template: '#=kendo.htmlEncode((subMenus == null) ? " ": subMenus.Name)#',
+
+
+                },
+                 {
+                     field: "subSubMenus.Name",
+                    title: "@T("Admin.NewsEvent.SubSubMenu")",
+                     width: 400,
+                     template: '#=kendo.htmlEncode((subSubMenus == null) ? " ": subSubMenus.SubSubMenuName)#',
+
 
                 },
                 {
@@ -91,10 +118,21 @@
 
                     },
 
+                     {
+                         command: [
+                             {
+                        name: "destroy",
+                        text: "@T("Admin.Common.Delete")"
+                           }
+
+
+                         ], title: "&nbsp;", width: "350px"
+                }],
 
 
 
-            ]
+
+
 
         });
     });

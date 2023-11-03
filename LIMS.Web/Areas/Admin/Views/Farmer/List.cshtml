@@ -20,7 +20,7 @@
                 <div class="form-horizontal">
                     <div class="form-body">
                         <div class="x_content">
-                            <div id="bali-grid"></div>
+                            <div id="bal-grid"></div>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#bali-grid").kendoGrid({
+        $("#bai-grid").kendoGrid({
             dataSource: {
                 transport: {
                     read: {
@@ -90,14 +90,15 @@
                         width: 400,
 
                 },
-
-                      
                       {
-                          field: "Incubation.OrganizationNameEnglish",
-                        title: "@T("Admin.Farmer.IncubationCenter")",
+                          field: "Talim.District",
+                        title: "@T("Admin.Common.District")",
                         width: 400,
 
-                    },
+                },
+
+
+
 
 
 

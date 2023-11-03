@@ -1,0 +1,130 @@
+﻿@model List<LIMS.Website1.Models.SoilViewModel>
+
+<section>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @*<h3 class="text-primary">
+                    @if (Model.Count > 0)
+                    {
+                        <i class="fa fa-book"></i>
+                        if (Model.FirstOrDefault().Type == "Admin.Resource.Fish")
+                        {
+                            <text>Fish</text>
+
+                        }
+                        else if (Model.FirstOrDefault().Type == "Admin.Resource.Seed")
+                        {
+                            <text>Seed</text>
+                        }
+                        else if (Model.FirstOrDefault().Type == "Admin.Resource.Berna")
+                        {
+                            <text>Plant Sapling/Plantlets</text>
+                        }
+                        else
+                        {
+                            <text>Fertilizer</text>
+                        }
+                    }
+                </h3>*@
+            </div>
+            @*<form method="get">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>
+                                @_lbl.GetByName("News.Type", "")
+
+                            </label>
+                            <select onchange="this.form.submit()" name="type" class="form-control" asp-items='@(new SelectList(ViewBag.Types,"Value","Text",Model.Type))'>
+                            </select>
+                        </div>
+                    </div>
+                </form>*@
+            <div class="col-md-12">
+                <table id="tblPublication" class="table table-responsive table-bordered">
+                    <thead>
+                        <tr style="background: #fefefe;">
+                            <th>
+                                Sno
+
+                            </th>
+                            <th>
+                                Farmer name
+
+                            </th>
+                            <th>
+                               District
+
+                            </th>
+                            <th>
+                                Ph
+                            </th>
+                            <th>
+                                Phosporus
+                            </th>
+                            <th>
+                                Prangric Padartha
+                            </th>
+                            <th>
+                                Boron
+                            </th>
+                            <th>
+                                Potas
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            int i = 1;
+                            @foreach (var item in Model)
+
+                            {
+                        <tr>
+                            <td>
+                                @i
+                            </td>
+                            <td>
+                                @item.FarmerName
+                            </td>
+                            <td>
+                                @item.District
+                            </td>
+                            <td>
+                                @item.Ph
+                            </td>
+                            <td>
+                                @item.Phosporus
+                            </td>
+                            <td>
+                                @item.PrangricPadartha
+                            </td>
+                            <td>
+                                @item.Boron
+                            </td>
+                            <td>
+                                @item.Potas
+                            </td>
+                        </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6">No record found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</section>

@@ -25,6 +25,7 @@ namespace LIMS.Domain.Bali
         public string Zinc { get; set; }
         public string Boron { get; set; }
         public string Othermicronutrients { get; set; }
+        public string Unit { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
     }

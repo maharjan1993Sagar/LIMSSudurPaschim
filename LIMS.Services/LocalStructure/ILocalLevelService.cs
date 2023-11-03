@@ -15,5 +15,6 @@ namespace LIMS.Services.LocalStructure
         Task<IList<string>> GetLocalLevel(string district
         );
         Task<IList<LocalLevels>> GetAllProvience();
+        string GetNepaliDistrict(string district);
     }
 }

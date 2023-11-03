@@ -56,10 +56,48 @@ namespace LIMS.Services.Bali
             return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
 
         }
+        public async Task<IPagedList<MonthlyPragati>> GetFilteredNitiMonthlyPragati(string createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        {
+            var query = _MonthlyPragatiRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby && !string.IsNullOrEmpty(m.pujigatKharchaKharakram.IsNitiTathaKaryaKram) && m.FiscalYear.Id == fiscalYear && m.Month == month);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
+
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.Type == type);
+            }
+
+
+            return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
+
+        }
+
+        public async Task<IPagedList<MonthlyPragati>> GetFilteredMainMonthlyPragati(string createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        {
+            var query = _MonthlyPragatiRepository.Table;
+            query = query.Where(m => m.CreatedBy == createdby&& (m.pujigatKharchaKharakram.kharchaCode == "22512" || m.pujigatKharchaKharakram.kharchaCode == "22522" || m.pujigatKharchaKharakram.kharchaCode == "26413" || m.pujigatKharchaKharakram.kharchaCode == "26423") && m.FiscalYear.Id == fiscalYear && m.Month == month);
+            if (!string.IsNullOrEmpty(programtype))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
+
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakram.Type == type);
+            }
+
+
+            return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
+
+        }
+
         public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(List<string> createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _MonthlyPragatiRepository.Table;
-            query = query.Where(m => createdby.Contains(m.CreatedBy)  && m.FiscalYear.Id == fiscalYear && m.Month == month);
+            query = query.Where(m => createdby.Contains(m.CreatedBy)&& string.IsNullOrEmpty(m.pujigatKharchaKharakram.IsNitiTathaKaryaKram)&& !(m.pujigatKharchaKharakram.kharchaCode == "22512" || m.pujigatKharchaKharakram.kharchaCode == "22522" || m.pujigatKharchaKharakram.kharchaCode == "26413" || m.pujigatKharchaKharakram.kharchaCode == "26423") && m.FiscalYear.Id == fiscalYear && m.Month == month);
             if (!string.IsNullOrEmpty(programtype))
             {
                 query = query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
@@ -127,7 +165,10 @@ namespace LIMS.Services.Bali
             var query = _MonthlyPragatiRepository.Table;
             query = query.Where(m => m.CreatedBy == createdby);
 
-
+            if(!string.IsNullOrEmpty(fiscalyear))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalyear);
+            }
             return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
         }
 

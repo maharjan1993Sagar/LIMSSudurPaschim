@@ -1,0 +1,87 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model MonthlyProgressModel
+@inject IWorkContext workContext
+@{ //page title
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text;
+    var role = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList(); }
+
+
+<form method="get" id="livestockWardWiseReport">
+    <div class=" col-md-12">
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="FiscalYearId" />
+                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                <span asp-validation-for="FiscalYearId"></span>
+            </div>
+        </div>
+
+        @*@if (role.Contains("MolmacAdmin"))
+                        {
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="DolfdId" />
+                    <admin-select asp-for="DolfdId" asp-items="ViewBag.dolfd" />
+                    <span asp-validation-for="DolfdId"></span>
+                </div>
+            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="VhlsecId" />
+                                    <admin-select asp-for="VhlsecId">
+                                        <option value=''>Select</option>
+                                    </admin-select>
+                                    <span asp-validation-for="VhlsecId"></span>
+                                </div>
+                            </div>}
+                        @if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                        {
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="VhlsecId" />
+                    <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
+                    <span asp-validation-for="VhlsecId"></span>
+                </div>
+            </div>}*@
+
+
+
+        <div class="col-md-2 col-sm-2" style="padding-top:25px;">
+            <input type="submit" value="@T("Admin.common.search")" class="btn-sm btn-success" style="margin-top:10px;" />
+
+        </div>
+
+
+    </div>
+    </form>
+
+    <div style="display:inline-block !important;">
+
+        <div class="row" id="result"><br /><br /></div>
+    </div>
+    <script>
+        $('#livestockWardWiseReport').submit(function (e) {
+            var data = {
+                FiscalYear: $('#FiscalYear').val(),
+
+            }
+            addAntiForgeryToken(data);
+            e.preventDefault();
+            $.ajax({
+                cache: false,
+                url: '/Admin/MonthlyProgress/SummerizedReportHtml',
+                data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                type: "POST",
+                success: function (response) {
+                    if (response.success) {
+                        $('#result').html(response.livestockWardWiseReportHtml);
+                    }
+                    console.log(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    </script>

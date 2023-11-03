@@ -10,6 +10,13 @@
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
 
+<style>
+    .btn-info {
+        color: #fff;
+        background-color: #0c9ac4;
+        border-color: #46b8da;
+    }
+</style>
 <div class="web__topbar">
     <div class="ui container">
         <div class="topbar__frame">
@@ -21,7 +28,7 @@
                     <a class="btn-link" target="_blank" href='@("http://fas.dibugsoft.com/@dmin/login.aspx")'><i class="fas fa-network-wired"></i><span>Office automation</span></a>
                 </div>
                 <div role="listitem" class="item">
-                    <a class="btn-link" target="_blank" href='http://103.69.127.42/'><i class="fas fa-network-wired"></i><span>Link to CDMS</span></a>
+                    <button class="btn btn-info" style="color: #fff; background-color: #c40c0c; border-color: #5a8f9e; "> <a class="btn-link" target="_blank" href='http://103.69.127.42/'><span>Link to SAIMS</span></a></button>
                 </div>
             </div>
             <div>
@@ -40,7 +47,7 @@
                             @*<a style="color:#fff;" id="contrast"><i class="fas fa-low-vision"></i></a>*@
                         </span>
                     </li>
-                    @*<li class="list-inline-item"><a style="color:#fff;" href="#" 
+                    @*<li class="list-inline-item"><a style="color:#fff;" href="#"
                         >Low Bandwidth</a></li>*@
                     <li class="list-inline-item">
                         <div class="dateandtime">
@@ -52,10 +59,10 @@
             <div class="language">
                 <span class='@(culture=="en-US"?"lang active":"lang")'>
                     <a asp-controller="Home" asp-action="SetLanguage"
-                        asp-route-returnUrl="@returnUrl" asp-route-culture="en-US">EN</a>
+                       asp-route-returnUrl="@returnUrl" asp-route-culture="en-US">EN</a>
                 </span>
                 <span class='@(culture=="ne-NP"?"lang active":"lang")'>
-                    <a asp-controller="Home" asp-action="SetLanguage" 
+                    <a asp-controller="Home" asp-action="SetLanguage"
                        asp-route-returnUrl="@returnUrl" asp-route-culture="ne-NP">NP</a>
                 </span>
             </div>
@@ -69,25 +76,94 @@
         <div class="row">
             <div class="col-md-8">
                 <div class=" float-left">
-                    <a cl1~ass="logo has-banner float-left text-center-md" href="#"><img height="90" width="100" src="~/Dolfd/img/nep-gov.png" alt="" /></a>
+                    <a class="logo has-banner float-left text-center-md" href="@Url.Action("Index","Home")"><img height="90" width="100" src="~/Dolfd/img/nep-gov.png" alt="" style="padding-top:5px;" /></a>
                 </div>
                 <div style="Margin-top:8px;">
                     <p style="margin:0px; font-family:serif; font-size:13px;">
-                        Provincial Government of Nepal
+                        @if (culture == "en-US")
+                        {
+                        <text> Government of Sudurpashchim Province</text>
+                        }
+                        else
+                        {
+                        <text> सुदूरपश्चिम प्रदेश सरकार</text>
+                        }
                     </p>
-                    <p style="margin:0px;font-family:serif; font-size:13px;">Minsitry of Land Management, Agriculture and Cooperative</p>
-                    <strong style="font-family:serif; color:red;">@Model.customer.OrgName</strong>
+
+
+
+
+                    @if (culture == "en-US")
+                        {
+                    <p style="margin:0px;font-family:serif; font-size:13px;">
+                        Ministry of Land Management, Agriculture and Cooperatives
+                    </p>
+                    <p style="margin:0px;font-family:serif; font-size:13px;">Directorate of Agriculture Development</p>
+
+                        }
+                        else
+                        {
+                    <p style="margin:0px;font-family:serif; font-size:13px;">
+                        भूमि व्यवस्था, कृषि तथा सहकारी मन्त्रालय
+                        </p>
+                    <p style="margin:0px;font-family:serif; font-size:13px;">
+                        कृषि विकास निर्देशनालय
+
+
+                    </p>
+                        }
+
+
+                    @*<p style="margin:0px;font-family:serif; font-size:13px;">
+            Directorate of Agriculture Development
+        </p>*@
+
+                    <strong style="font-family:serif; color:red;">
+
+                        @if (culture == "en-US")
+                        {
+                        <text> @Model.customer.OrgName</text>
+                        }
+                        else
+                        {
+                        <text> @Model.customer.OrgNameNepali</text>
+                        }
+
+
+                    </strong> @if (culture == "en-US")
+                    {
+
                     <p style="margin:0px; font-family:serif; color:red; font-size:12px;">@Model.customer.OrgAddress</p>
+                    }
+                    else
+                    {
+
+
+                    <p style="margin:0px; font-family:serif; color:red; font-size:12px;">@Model.customer.OrgAddressNepali</p>
+
+                    }
                 </div>
-                
+
             </div>
             <div class="col-md-4 text-right">
-                <a class="hidden-sm hidden-xs-down"><img class="flag float-right" src="~/Dolfd/img/nepal-flag.gif" li=""></a>
+                <a href="@Url.Action("Index","Home")" class="hidden-sm hidden-xs-down"><img class="flag float-right" src="~/Dolfd/img/nepal-flag.gif" li=""></a>
             </div>
         </div>
+
+
+        @*<div style="Margin-top:8px;">
+            <p style="margin:0px; font-family:serif; font-size:13px;">
+                Government of Sudurpashchim Province
+            </p>
+            <p style="margin:0px;font-family:serif; font-size:13px;">Minsitry of Land Management, Agriculture and Cooperatives</p>
+            <p style="margin:0px;font-family:serif; font-size:13px;">Directorate of Livestock and Fisheries Development</p>
+
+            <strong style="font-family:serif; color:red;">@Model.customer.OrgName</strong>
+            <p style="margin:0px; font-family:serif; color:red; font-size:12px;">@Model.customer.OrgAddress</p>
+        </div>*@
     </div>
 </div>
-@{ 
+@{
 
 
 }

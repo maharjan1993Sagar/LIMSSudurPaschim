@@ -1,8 +1,8 @@
 ﻿@using LIMS.Web.Areas.Admin.Models.GeneralCMS
 @model GalleryModel
 @{
-    //page title
-    ViewBag.Title = "Gallery";
+    Layout = LIMS.Web.Areas.Admin.Extensions.Constants.Layout_Website;
+
 }
 <form method="post" asp-action="Edit">
     <div class="row">
@@ -30,13 +30,13 @@
                         </tabstrip-item>
                         @if (Model.Type == "Photo")
                         {
-                        <tabstrip-item text="@T("Admin.Gallery.Images")" tab-index="1" id="tab-picture-farm">
-                            <content>
-                                <div>
-                                    <partial name="_CreateOrUpdate.Pictures" model="Model" />
-                                </div>
-                            </content>
-                        </tabstrip-item>
+                            <tabstrip-item text="@T("Admin.Gallery.Images")" tab-index="1" id="tab-picture-farm">
+                                <content>
+                                    <div>
+                                        <partial name="_CreateOrUpdate.Pictures" model="Model" />
+                                    </div>
+                                </content>
+                            </tabstrip-item>
                         }
                     </items>
                 </admin-tabstrip>

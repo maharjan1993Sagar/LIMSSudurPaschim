@@ -34,6 +34,10 @@ namespace LIMS.Domain.Bali
         public FiscalYear FiscalYear { get; set; }
         public string Type { get; set; }
         public string ProgramType { get; set; }
+        public string IsNitiTathaKaryaKram { get; set; }
+        public string IsTrainingKaryaKram { get; set; }
+
+
 
     }
 }

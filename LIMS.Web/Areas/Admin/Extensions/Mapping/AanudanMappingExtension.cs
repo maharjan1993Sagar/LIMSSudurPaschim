@@ -1,4 +1,5 @@
 ﻿using LIMS.Domain.Bali;
+using LIMS.Web.Areas.Admin.Models.Bali;
 using LIMS.Web.Areas.Admin.Models.Bali.Aanudan;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace LIMS.Web.Areas.Admin.Extensions.Mapping
         public static AanudanKokaryakram ToEntity(this AanudanModel model)
         {
             return model.MapTo<AanudanModel, AanudanKokaryakram>();
+        }
+        public static PujigatKharchaKharakram ToEntity(this PugigatKharchaKaryakramModel model)
+        {
+            return model.MapTo<PugigatKharchaKaryakramModel, PujigatKharchaKharakram>();
         }
         public static AanudanKokaryakram ToEntity(this AanudanModel model, AanudanKokaryakram destination)
         {

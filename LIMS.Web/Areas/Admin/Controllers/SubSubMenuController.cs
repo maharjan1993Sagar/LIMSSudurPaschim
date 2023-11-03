@@ -83,6 +83,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 subsubMenu.SubMenu = await _subMenuService.GetSubMenuById(model.SubMenuId);
                 subsubMenu.UserId = _workContext.CurrentCustomer.Id;
                 await _subSubMenuService.InsertSubSubMenu(subsubMenu);
+               
+                    subsubMenu.Url = "/NewsEvent/Index?subSubMenu=" + subsubMenu.Id;
+                    await _subSubMenuService.UpdateSubSubMenu(subsubMenu);
+                
                 SuccessNotification(_localizationService.GetResource("Admin.SubSubMenu.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = subsubMenu.Id }) : RedirectToAction("List");
             }
@@ -120,7 +124,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var m = model.ToEntity(subMenu);
+                m.Url = "/NewsEvent/Index?subSubMenu=" + m.Id;
+
                 m.SubMenu = await _subMenuService.GetSubMenuById(model.SubMenuId);
+
                 await _subSubMenuService.UpdateSubSubMenu(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.SubMenu.Updated"));

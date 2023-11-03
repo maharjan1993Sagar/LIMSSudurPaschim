@@ -66,6 +66,9 @@ namespace LIMS.Web.Areas.Admin.Models.Bali.Aanudan
         [UIHint("int32")]
         [LIMSResourceDisplayName("Lims.Aanudan.JanajatiMember")]
         public int? JanajatiMember { get; set; }
+        [UIHint("int32")]
+        [LIMSResourceDisplayName("Lims.Aanudan.Others")]
+        public int? Others { get; set; }
         [LIMSResourceDisplayName("Lims.Aanudan.ExpectedOutput")]
         public string ExpectedOutput { get; set; }
         [UIHint("Decimal")]
@@ -82,6 +85,8 @@ namespace LIMS.Web.Areas.Admin.Models.Bali.Aanudan
         [LIMSResourceDisplayName("Lims.Aanudan.Area")]
 
         public string Area { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.AnudanReceiverType")]
+        public string AnudanReceiverType { get; set; }
 
     }
 }

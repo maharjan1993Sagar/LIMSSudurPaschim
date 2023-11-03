@@ -21,6 +21,8 @@ using LIMS.Domain.NewsEvent;
 using MimeKit;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using LIMS.Domain.DynamicMenu;
+using LIMS.Services.DynamicMenu;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
@@ -34,6 +36,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly SeoSettings _seoSettings;
         private readonly IMediator _mediator;
+        private readonly IMainMenuService _mainMenu;
+        private readonly ISubMenuService _subMenuService;
+        private readonly ISubSubMenuService _subSubMenuService;
 
         public NewsEventController(
             IWebHostEnvironment hostEnvironment,
@@ -43,7 +48,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ILocalizationService localizationService,
             IStoreService storeService,
             IWorkContext workContext,
-            SeoSettings seoSettings
+            SeoSettings seoSettings,
+            IMainMenuService mainMenu,
+            ISubMenuService subMenuService,
+            ISubSubMenuService subSubMenuService
             )
         {
             _hostEnvironment = hostEnvironment;
@@ -54,6 +62,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _storeService = storeService;
             _workContext = workContext;
             _seoSettings = seoSettings;
+            _mainMenu = mainMenu;
+            _subMenuService = subMenuService;
+            _subSubMenuService = subSubMenuService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -77,7 +88,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var types = new SelectList(GetNewsEventType(), "Value", "Text").ToList();
+            var types = new SelectList(await GetNewsEventType(), "Value", "Text").ToList();
             ViewBag.Type = types;
             var newsModel = new NewsEventTenderModel();
             newsModel.FileModel = new NewsEventFileModel();
@@ -124,12 +135,29 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     NewsEvent.NewsEventFile = newseventFile;
                 }
                 NewsEvent.UserId = _workContext.CurrentCustomer.Id;
+                NewsEvent.subMenus = await _subMenuService.GetSubMenuById(NewsEvent.SubMenu);
+                NewsEvent.subSubMenus = await _subSubMenuService.GetSubSubMenuById(NewsEvent.SubSubMenu);
+                NewsEvent.Mainmenu = await _mainMenu.GetMainMenuById(NewsEvent.Type);
+
+                if (NewsEvent.subSubMenus!=null)
+                {
+                    NewsEvent.TypeName = NewsEvent.subSubMenus.SubSubMenuName;
+                }
+                else if (NewsEvent.subMenus!=null)
+                {
+                    NewsEvent.TypeName = NewsEvent.subMenus.Name;
+                }
+                else
+                {
+                    NewsEvent.TypeName = NewsEvent.Mainmenu.MainMenuName;
+                }
+
                 await _newsEventService.InsertNewsEvent(NewsEvent);
 
                 SuccessNotification(_localizationService.GetResource("Admin.NewsEvent.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = NewsEvent.Id }) : RedirectToAction("List");
             }
-            var types= new SelectList(GetNewsEventType(), "Value", "Text").ToList();
+            var types= new SelectList(await GetNewsEventType(), "Value", "Text").ToList();
             ViewBag.Type = types;
            ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -149,7 +177,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 FileName=newsEvent.NewsEventFile.FileName,
                 CMSEntityId=newsEvent.NewsEventFile.CMSEntityId
             };
-            ViewBag.Type = new SelectList(GetNewsEventType(),"Value","Text",model.Type);
+            ViewBag.Type = new SelectList(await GetNewsEventType(),"Value","Text",model.Type);
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
         }
@@ -165,7 +193,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
 
-                if (model.FileModel.File != null)
+                if (model.FileModel!= null&&model.FileModel.File!=null)
                 {
 
 
@@ -210,8 +238,24 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     };
                     newsEvent.NewsEventFile = newseventFile;
                 }
-
+               
                 var m = model.ToEntity(newsEvent);
+
+                m.subMenus = await _subMenuService.GetSubMenuById(m.SubMenu);
+                m.subSubMenus = await _subSubMenuService.GetSubSubMenuById(m.SubSubMenu);
+                m.Mainmenu = await _mainMenu.GetMainMenuById(m.Type);
+                if (m.subSubMenus != null)
+                {
+                    m.TypeName = m.subSubMenus.SubSubMenuName;
+                }
+                else if (m.subMenus != null)
+                {
+                    m.TypeName = m.subMenus.Name;
+                }
+                else
+                {
+                    m.TypeName = m.Mainmenu.MainMenuName;
+                }
                 await _newsEventService.UpdateNewsEvent(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.NewsEvent.Updated"));
@@ -223,7 +267,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction("List");
             }
-            ViewBag.Type = new SelectList(GetNewsEventType(), model.Type);
+            ViewBag.Type = new SelectList(await GetNewsEventType(), model.Type);
            //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -242,15 +286,33 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 await _newsEventService.DeleteNewsEvent(newsEvent);
                 SuccessNotification(_localizationService.GetResource("Admin.NewsEvent.Deleted"));
-                return RedirectToAction("List");
+                return Json(true);
             }
-            ErrorNotification(ModelState);
-            return RedirectToAction("Edit", new { id = id });
+            return Json(null);
         }
         
-        public List<SelectListItem> GetNewsEventType() {
-            var types = NoticeType.GetTypes();
-            var selectTypes = types.Select(m => new SelectListItem {Text=m,Value=m }).ToList();
+        public async Task<List<SelectListItem>> GetNewsEventType() {
+            var user = _workContext.CurrentCustomer.Id;
+            var types = await _mainMenu.GetByUser(user);
+            var selectTypes = types.ToList().Select(m => new SelectListItem {Text=m.MainMenuName,Value=m.Id }).ToList();
+            selectTypes.Insert(0, new SelectListItem { Text = _localizationService.GetResource("Admin.Common.Select"), Value = "" });
+            return selectTypes;
+        }
+        public async Task<List<SelectListItem>> GetSubmenu(string mainMenuId)
+        {
+            var user = _workContext.CurrentCustomer.Id;
+            var submenu = await _subMenuService.GetSubMenuByUser();
+            var types = submenu.Where(m => m.MainMenuId == mainMenuId);
+            var selectTypes = types.ToList().Select(m => new SelectListItem { Text = m.Name, Value = m.Id }).ToList();
+            selectTypes.Insert(0, new SelectListItem { Text = _localizationService.GetResource("Admin.Common.Select"), Value = "" });
+            return selectTypes;
+        }
+        public async Task<List<SelectListItem>> GetSubSubMenu(string subMenuId)
+        {
+            var user = _workContext.CurrentCustomer.Id;
+            var submenu = await _subSubMenuService.GetSubSubMenuByUser();
+            var types = submenu.Where(m => m.SubMenuId == subMenuId);
+            var selectTypes = types.ToList().Select(m => new SelectListItem { Text = m.SubSubMenuName, Value = m.Id }).ToList();
             selectTypes.Insert(0, new SelectListItem { Text = _localizationService.GetResource("Admin.Common.Select"), Value = "" });
             return selectTypes;
         }

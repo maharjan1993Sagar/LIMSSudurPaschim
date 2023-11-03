@@ -152,7 +152,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 await _animalRegistrationService.InsertincuvationCenter(animalRegistration);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
-                return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Index");
+                return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("TabView", "AanudanKaryakram");
             }
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -321,7 +321,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
                     return RedirectToAction("Edit", new { id = model.Id });
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("TabView", "AanudanKaryakram");
             }
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));

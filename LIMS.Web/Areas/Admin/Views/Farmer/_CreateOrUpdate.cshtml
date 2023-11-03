@@ -1,47 +1,53 @@
 ﻿@model FarmerModel
+@using LIMS.Services.Security;
+
+@inject IPermissionService permissionService
+
+@{
+  
+    var subsidy = await permissionService.Authorize(StandardPermissionProvider.AccessSubsidyRegister);
+}
 <div class="x_content form">
     <div class="form-row">
-
         <div class="col-md-3">
 
             <div class="form-group">
-                <admin-label asp-for="Name" />
-                <input asp-for="Name" class="form-control" required="required" />
-                <span asp-validation-for="Name"></span>
+                <admin-label asp-for="FiscalYearId" />
+                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required">
+
+                </admin-select>
+                <span asp-validation-for="FiscalYearId"></span>
 
             </div>
         </div>
         <div class="col-md-3">
 
             <div class="form-group">
-                <admin-label asp-for="NameNepali" />
-                <admin-input asp-for="NameNepali" />
-
-                <span asp-validation-for="NameNepali"></span>
+                <admin-label asp-for="TalimId" />
+                <admin-select asp-for="TalimId" class="form-control" required="required">
+                    <option value="">@T("Admin.Common.Select")</option>
+                </admin-select>
+                <span asp-validation-for="TalimId"></span>
 
             </div>
         </div>
+        @if (subsidy)
+        {
+            <div class="col-md-3">
 
-        <div class="col-md-3">
-            <div class="form-group">
-                <admin-label asp-for="Phone" />
-                <admin-input asp-for="Phone" />
-                <span asp-validation-for="Phone"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="Gender" >@T("Admin.Farmer.gender")</label><br/>
-                <input type="radio" name="Gender" value="Male" />
-                <label asp-for="Gender">Male</label>
-                <input type="radio" name="Gender" value="Female" />
-                <label asp-for="Gender">female</label>
-                <input type="radio" name="Gender" value="Others" />
-                <label asp-for="Gender">Others</label>
-                <span asp-validation-for="Gender"></span>
-            </div>
-        </div>
+                <div class="form-group">
+                    <admin-label asp-for="IncuvationCenterId" />
+                    <admin-select asp-for="IncuvationCenterId" asp-items="ViewBag.IncuvationCenter" />
 
+                    <span asp-validation-for="IncuvationCenterId"></span>
+
+                </div>
+            </div>
+
+
+
+
+        }
         <div class="col-md-3">
 
             <div class="form-group">
@@ -64,30 +70,221 @@
 
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <admin-label asp-for="Address" />
-                <admin-input asp-for="Address" />
-                <span asp-validation-for="Address"></span>
-            </div>
+        <div id="tal">
+        <table class="table table-bordered" >
+            <tr>
+                <th>
+                    <admin-label asp-for="Name" />
+
+                </th>
+
+                <th>
+                    <admin-label asp-for="Address" />
+                </th>
+
+                <th>
+                    <admin-label asp-for="WardNo" />
+                </th>
+                <th>
+                    <admin-label asp-for="Phone" />
+                </th>
+
+                <th>
+                    <admin-label asp-for="Male" />
+                </th>
+                <th>
+                    <admin-label asp-for="Female" />
+                </th>
+                <th>
+                    <admin-label asp-for="Dalit" />
+                </th>
+                <th>
+                    <admin-label asp-for="Janajati" />
+                </th>
+
+                <th>
+                    <admin-label asp-for="Others" />
+                </th>
+                <th>
+                    <admin-label asp-for="Remarks" />
+                </th>
+            </tr>
+            <tbody id="tabularEntry">
+            </tbody>
+
+
+
+        </table>
+        <div class="col-md-12">
+            <Center>
+                <div class="btn-group btn-group-devided">
+
+                    <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                    <input type="button" class="btn btn-primary" id="add" value="Add row" />;
+
+                </div>
+            </Center>
+
         </div>
-
-
-        <div class="col-md-3">
-            <div class="form-group">
-                <admin-label asp-for="TalimId" />
-                <admin-select asp-for="TalimId" asp-items="ViewBag.Talim" class="form-control" required="required" />
-                <span asp-validation-for="TalimId"></span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <admin-label asp-for="IncuvationCenterId" />
-                <admin-select asp-for="IncuvationCenterId" asp-items="ViewBag.IncuvationCenter" />
-                <span asp-validation-for="IncuvationCenterId"></span>
-            </div>
-        </div>
-
-
+          </div>
     </div>
 </div>
+
+<table id="hide">
+    <tbody>
+        <tr>
+            <td>
+                <input type="hidden" name="LivestockDataId" />
+                <input asp-for="Name" class="form-control" />
+            </td>
+
+            <td>
+                <admin-input asp-for="Address" />
+            </td>
+            <td>
+                <admin-input asp-for="WardNo" oninput="validity.valid||(value=' + 0 +' );" />
+            </td>
+            <td>
+                <admin-input asp-for="Phone" />
+            </td>
+            <td>
+                <admin-input asp-for="Male" oninput="validity.valid||(value=' + 0 +' );"/>
+            </td>
+            <td>
+                <admin-input asp-for="Female" oninput="validity.valid||(value=' + 0 +' );"/>
+            </td>
+            <td>
+                <admin-input asp-for="Dalit" oninput="validity.valid||(value=' + 0 +' );" />
+            </td>
+            <td>
+                <admin-input asp-for="Janajati" oninput="validity.valid||(value=' + 0 +' );"/>
+            </td>
+            <td>
+                <admin-input asp-for="Others" oninput="validity.valid||(value=' + 0 +' );"/>
+            </td>
+
+            <td>
+                <admin-input asp-for="Remarks" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#tal").hide();
+        $("#hide").hide();
+       var  fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+             data = {
+                 fiscalyear: fiscalyear
+             }
+             if (fiscalyear) {
+                 $("#@Html.IdFor(m=>m.TalimId)").empty();
+                 $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/Farmer/GetTalim";
+                 $.getJSON(url, data, function (result) {
+                     $.each(result, function (i, item) {
+                         $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameEnglish}</option>`);
+                     });
+                 })
+                 abc();
+             }
+    });
+        $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
+
+
+             fiscalyear = $(this).val();
+             data = {
+                 fiscalyear: fiscalyear
+             }
+             if (fiscalyear) {
+                 $("#@Html.IdFor(m=>m.TalimId)").empty();
+                 $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/Farmer/GetTalim";
+                 $.getJSON(url, data, function (result) {
+                     $.each(result, function (i, item) {
+                         $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameEnglish}</option>`);
+                     });
+                 })
+                 abc();
+             }
+        });
+    $("#@Html.IdFor(m=>m.TalimId)").change(function () {
+        data = {
+            fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
+            talim:$("#@Html.IdFor(m=>m.TalimId)").val(),
+            district:$("#district").val(),
+        }
+        abc(data);
+        //var tablerow = $("#hide tbody").html();
+        //$("#tabularEntry").append(tablerow);
+        //$("#tal").show();
+    });
+
+      $("#district").change(function () {
+        data = {
+            fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
+            talim:$("#@Html.IdFor(m=>m.TalimId)").val(),
+            district:$("#district").val(),
+        }
+        abc(data);
+      });
+    $("#add").click(function () {
+        var tablerow = $("#hide tbody").html();
+        $("#tabularEntry").append(tablerow);
+    })
+    function abc(data) {
+        $(tabularEntry).html("");
+        if (data.talim) {
+            $.post("@Url.Action("GetTalimData", "Farmer")", addAntiForgeryToken(data), function (result) {
+                if (result.length > 0) {
+                    $.each(result, function (index, item) {
+
+
+
+                        var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
+
+
+                        tableRow += '<input type="text" name="Name" class="form-control"  value="' + item.Name + '"/></td>';
+                        tableRow += '<td><input type="text" name="Address" class="form-control" value="' + item.Address + '"/></td>';
+                        tableRow += '<td><input type="number" name="WardNo" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.WardNo + '"/></td>';
+                        tableRow += '<td><input type="text" name="Phone" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Phone + '"/></td>';
+
+                     tableRow += '<td><input type="text" name="Male" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Male + '"/></td>';
+                        tableRow += '<td><input type="text" name="Female" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FeMale + '"/></td>';
+                        tableRow += '<td><input type="text" name="Dalit" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Dalit + '"/></td>';
+                        tableRow += '<td><input type="text" name="Janajati" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Janajati + '"/></td>';
+                        tableRow += '<td><input type="text" name="Others" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Others + '"/></td>';
+
+                        tableRow += '<td><input type="text" name="Remarks" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Remarks + '"/></td>';
+
+                        $(tabularEntry).append(tableRow);
+                        //$('tr#' + item.Id + ' select[name="Ward"]').val(item.Ward);
+                        //$('tr#' + item.Id + ' select[name="LocalLevel"]').val(item.LocalLevel);
+                    });
+                    $("#tal").show();
+                }
+
+                    else {
+
+
+
+
+                    var tablerow = $("#hide tbody").html();
+                    $("#tabularEntry").append(tablerow);
+
+                    }
+                $("#tal").show();
+
+            });
+
+
+
+        }
+
+
+
+    }
+</script>

@@ -9,6 +9,7 @@ using LIMS.Website1.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Website1.Models;
 
 namespace LIMS.Website1.Data
 {
@@ -63,6 +64,7 @@ namespace LIMS.Website1.Data
             {
                 mainMenus = mainMenus.Where(m => m.UserId == userId).ToList();
                 mainMenus.ToList().ForEach(m => m.Url = webSiteUrl + m.Url);
+               
                 if (mainMenus.SelectMany(m => m.SubMenus).Any())
                 {
                     mainMenus.SelectMany(m => m.SubMenus).ToList().ForEach(m => m.Url = webSiteUrl + m.Url);
@@ -91,6 +93,52 @@ namespace LIMS.Website1.Data
             {
                 lst = lst.Where(m => m.UserId == userId).ToList();
             }
+            return lst;
+        }
+
+        public async Task<List<MarketViewModel>> GetMarket()
+        {
+            var lst = new List<MarketViewModel>();
+            string url = "Market" ;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(BaseURL + url))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lst = JsonConvert.DeserializeObject<List<MarketViewModel>>(apiResponse);
+                }
+            }
+            
+            return lst;
+        }
+        public async Task<List<ResourcesModel>> GetResources()
+        {
+            var lst = new List<ResourcesModel>();
+            string url = "Resources/GetResources/" + userId;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(BaseURL + url))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lst = JsonConvert.DeserializeObject<List<ResourcesModel>>(apiResponse);
+                }
+            }
+            
+            return lst;
+        }
+        public async Task<List<SoilViewModel>> GetSoil()
+        {
+            var lst = new List<SoilViewModel>();
+            string url = "Soil/GetResources/" + userId;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(BaseURL + url))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lst = JsonConvert.DeserializeObject<List<SoilViewModel>>(apiResponse);
+                }
+            }
+
             return lst;
         }
         public async Task<CustomerModel> GetCustomer()

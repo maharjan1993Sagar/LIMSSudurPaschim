@@ -56,10 +56,10 @@
                 <admin-label asp-for="Provience" />
                 <admin-select asp-for="Provience" id="country" data-val="@Model.Provience">
                     <option value=""> select</option>
-                    </admin-select>
-                    <span asp-validation-for="Provience"></span>
+                </admin-select>
+                <span asp-validation-for="Provience"></span>
 
-</div>
+            </div>
         </div>
         <div class="col-md-3">
 
@@ -67,6 +67,15 @@
                 <admin-label asp-for="Address" />
                 <admin-input asp-for="Address" />
                 <span asp-validation-for="Address"></span>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="AddressNepali" />
+                <admin-input asp-for="AddressNepali" />
+                <span asp-validation-for="AddressNepali"></span>
 
             </div>
         </div>
@@ -126,10 +135,10 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="UserProvince" />
-                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry" >
-                                <option value="">Select</option>    
+                                <admin-select asp-for="UserProvince" data-val="@Model.UserProvince" id="usercountry">
+                                    <option value="">Select</option>
                                 </admin-select>
-                               
+
                                 <span asp-validation-for="UserProvince"></span>
 
                             </div>
@@ -187,6 +196,7 @@
 
                                 </div>
                             </div>
+
                         }
                         else
                         {
@@ -199,18 +209,19 @@
 
                                 </div>
                             </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="Password" />
+                                    <admin-input asp-for="Password" />
+                                    <span asp-validation-for="Password"></span>
+
+                                </div>
+                            </div>
                         }
 
 
-                        <div class="col-md-3">
 
-                            <div class="form-group">
-                                <admin-label asp-for="Password" />
-                                <admin-input asp-for="Password" />
-                                <span asp-validation-for="Password"></span>
-
-                            </div>
-                        </div>
 
                         <div class="col-md-3">
 

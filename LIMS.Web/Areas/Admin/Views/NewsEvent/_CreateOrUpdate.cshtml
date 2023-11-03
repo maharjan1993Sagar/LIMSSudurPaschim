@@ -14,7 +14,26 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" id="submenu">
+
+                <div class="form-group">
+                    <admin-label asp-for="SubMenu" />
+                    <admin-select asp-for="SubMenu" data-val="@Model.SubMenu"></admin-select>
+                    <span asp-validation-for="SubMenu"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3" id="subsubmenu">
+
+                <div class="form-group">
+                    <admin-label asp-for="SubSubMenu" />
+                    <admin-select asp-for="SubSubMenu" data-val="@Model.SubSubMenu"></admin-select>
+                    <span asp-validation-for="SubSubMenu"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
 
                 <div class="form-group">
                     <admin-label asp-for="HasTitle" /><br />
@@ -23,7 +42,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
 
                 <div class="form-group">
                     <admin-label asp-for="ShowText" /><br />
@@ -31,7 +50,7 @@
                     <span asp-validation-for="ShowText"></span>
 
                 </div>
-            </div> <div class="col-md-3">
+            </div> <div class="col-md-2">
 
                 <div class="form-group">
                     <admin-label asp-for="IsScroll" /><br />
@@ -108,5 +127,67 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        var type = $("#@Html.IdFor(m=>m.Type)").val();
+        var sub = $("#@Html.IdFor(m=>m.SubMenu)").data('val');
+        var subsub = $("#@Html.IdFor(m=>m.SubSubMenu)").data('val');
 
+        if (type) {
+
+            $("#@Html.IdFor(m=>m.SubMenu)").empty();
+            //$("#VhlsecId").append("<option value=''>Select</option>");
+            url = "/Admin/NewsEvent/GetSubMenu";
+            $.getJSON(url, { mainMenuId: type }, (data) => {
+                $.each(data, function (i, item) {
+                    if (item.Value == sub) {
+                        $("#@Html.IdFor(m=>m.SubMenu)").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
+                    }
+                    else {
+                         $("#@Html.IdFor(m=>m.SubMenu)").append(`<option value="${item.Value}">${item.Text}</option>`);
+
+                    }
+                    });
+            });
+        }
+        if (sub) {
+     $("#@Html.IdFor(m=>m.SubSubMenu)").empty();
+            //$("#VhlsecId").append("<option value=''>Select</option>");
+            url = "/Admin/NewsEvent/GetSubSubMenu";
+            $.getJSON(url, { subMenuId: sub }, (data) => {
+                $.each(data, function (i, item) {
+                    if (subsub == item.Value) {
+                        $("#@Html.IdFor(m=>m.SubSubMenu)").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
+                    }
+                    else {
+                       $("#@Html.IdFor(m=>m.SubSubMenu)").append(`<option value="${item.Value}">${item.Text}</option>`);
+
+                    }
+                    });
+            });
+        }
+        $("#@Html.IdFor(m=>m.Type)").change(function () {
+            var categoryId = $(this).val();
+            $("#@Html.IdFor(m=>m.SubMenu)").empty();
+            //$("#VhlsecId").append("<option value=''>Select</option>");
+            url = "/Admin/NewsEvent/GetSubMenu";
+            $.getJSON(url, { mainMenuId: categoryId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#@Html.IdFor(m=>m.SubMenu)").append(`<option value="${item.Value}">${item.Text}</option>`);
+                });
+            });
+        })
+          $("#@Html.IdFor(m=>m.SubMenu)").change(function () {
+            var categoryId = $(this).val();
+            $("#@Html.IdFor(m=>m.SubSubMenu)").empty();
+            //$("#VhlsecId").append("<option value=''>Select</option>");
+            url = "/Admin/NewsEvent/GetSubSubMenu";
+            $.getJSON(url, { subMenuId: categoryId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#@Html.IdFor(m=>m.SubSubMenu)").append(`<option value="${item.Value}">${item.Text}</option>`);
+                });
+            });
+        })
+    })
+</script>
 

@@ -6,11 +6,12 @@ namespace LIMS.Domain.LocalStructure
 {
     public class LocalLevels:BaseEntity
     {
-        public string ProvinceCode { get; set; }
+        public int ProvinceCode { get; set; }
         public string Province { get; set; }
-        public string DistrictCode { get; set; }
+        public int DistrictCode { get; set; }
         public string District { get; set; }
-        public string MunicipalCode { get; set; }
+        public string DistrictNepali { get; set; }
+        public int MunicipalCode { get; set; }
         public string Municipality { get; set; }
 
     }

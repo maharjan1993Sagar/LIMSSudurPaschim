@@ -11,6 +11,7 @@ using LIMS.Api.Extensions;
 using LIMS.Core.Infrastructure.Mapper;
 using LIMS.Domain.AInR;
 using LIMS.Domain.AnimalHealth;
+using LIMS.Domain.Bali;
 using LIMS.Domain.BasicSetup;
 using LIMS.Domain.BesicSetup;
 using LIMS.Domain.Breed;
@@ -48,6 +49,10 @@ namespace LIMS.Api.Infrastructure.Mapper.Profiles
             CreateMap<NewsEventTender, NewsEventTenderDto>().ForMember(dest => dest.Image,
                                                               mo => mo.MapFrom(src => src.NewsEventFile));
             CreateMap<NewsEventFile, NewsEventFileDto>().ReverseMap();
+            CreateMap<FarmLabResources, Resources>().ReverseMap();
+            CreateMap<Soil, SoilDto>().ReverseMap();
+            CreateMap<MarketData, MarketDto>().ReverseMap();
+
         }
 
 
