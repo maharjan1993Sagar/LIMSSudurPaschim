@@ -7,14 +7,19 @@
     <title>MoLMAC, Sudurpaschim Province</title>
     <link type="image/png" rel="icon" href="https://mocit.gov.np/application/resources/site/img/logo.png">
     <!-- CORE CSS -->
-    <link rel="stylesheet" href="/dolfd/css/bootstrap.css">
-    <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/font/css/font-awesome.css">
-    <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/icon-fonts/style.css">
-    <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/lightbox/css/lightgallery.css">
-    <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/timeline/css/style.css">
-    <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/timeline/slick.min.css">
-    <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/marquee/ticker.css">
-    <link rel="stylesheet" href="/dolfd/css/custom_style.css">
+    <link rel="stylesheet" href="~/dolfd/css/bootstrap.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery.min.css" integrity="sha512-F2E+YYE1gkt0T5TVajAslgDfTEUQKtlu4ralVq78ViNxhKXQLrgQLLie8u1tVdG2vWnB3ute4hcdbiBtvJQh0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @*<link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/font/css/font-awesome.css">
+        <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/icon-fonts/style.css">
+        <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/lightbox/css/lightgallery.css">
+        <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/timeline/css/style.css">
+        <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/timeline/slick.min.css">
+        <link rel="stylesheet" href="https://mocit.gov.np/application/resources/site/plugins/marquee/ticker.css">*@
+    <link rel="stylesheet" href="~/dolfd/css/custom_style.css">
+    <link href="~/Dolfd/css/layout.css" rel="stylesheet" />
 
 
     <!-- <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e2e7576663d2500122cabdd&product=inline-share-buttons" async="async"></script> -->
@@ -49,8 +54,14 @@
     </div>
 
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>  -->
-    <script src="https://mocit.gov.np/application/resources/site//js/jquery2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/cjs/popper.min.js" integrity="sha512-aVYFpZTHCqEDf+aCtROokVF2yI0TPQSn+RnpTtbCqoCWMgDYNTkptX2GzBXhCz28AS32EYUzza5xwDerTLXMtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/Dolfd/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/store.js/2.0.1/store.legacy.min.js" integrity="sha512-XbzqqqogVHe2RPEnKNxzuW+57fuEDGL4O6wdxh/W75oJjbgpwa1KHB4XpUZ2rMT/hhRUI1L1n9hNpMvSJb6DiA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/Dolfd/js/rv-jquery-fontsize-2.0.3.js"></script>
+    <script src="~/Dolfd/js/easyview.js"></script>
+    <!--<script src="https://mocit.gov.np/application/resources/site//js/jquery2.1.4.min.js"></script>
     <script src="https://mocit.gov.np/application/resources/site//js/jquery-3.3.1.slim.min.js"></script>
     <script src="https://mocit.gov.np/application/resources/site//js/popper.min.js"></script>
     <script src="https://mocit.gov.np/application/resources/site//js/bootstrap.min.js"></script>
@@ -59,7 +70,7 @@
     <script type="text/javascript" src="https://mocit.gov.np/application/resources/site//js/plugins/rv-jquery-fontsize-2.0.3.min.js"></script>
     <script type="text/javascript" src="https://mocit.gov.np/application/resources/site//js/plugins/easyview.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6xiZa9UcSy2YlfTZyeLXuc1beOr544Ak&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6xiZa9UcSy2YlfTZyeLXuc1beOr544Ak&callback=initMap"></script>-->
     <!-- <script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/maps.googleapis.js"></script> -->
 
 
@@ -82,17 +93,23 @@
             $('#lightgallery').lightGallery();
         });
     </script>
-    <script src="https://mocit.gov.np/application/resources/site//plugins/lightbox/js/picturefill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/picturefill/3.0.3/picturefill.min.js" integrity="sha512-Nh/FthCqOFq56kGp1DsNb6GKK29iIv2ZJc7Fylln1WRrWpeE5LjSBWeAp61dkBASDxZT12aL9mZyIrhsAqgRpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js" integrity="sha512-jEJ0OA9fwz5wUn6rVfGhAXiiCSGrjYCwtQRUwI/wRGEuWRZxrnxoeDoNc+Pnhx8qwKVHs2BRQrVR9RE6T4UHBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" integrity="sha512-rCjfoab9CVKOH/w/T6GbBxnAH5Azhy4+q1EXW5XEURefHbIkRbQ++ZR+GBClo3/d3q583X/gO4FKmOFuhkKrdA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css" integrity="sha512-z2AFOVKBqcloFCT+Ugs0icqTfC8fBoGq2zP60MlESnL9CdusjEyVnNvHgs3RWtdMJxGkP0FDWfNp/puIP9CctA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js" integrity="sha512-HYG9E+RmbXS7oy529Nk8byKFw5jqM3R1zzvoV2JnltsIGkK/AhZSzciYCNxDMOXEbYO9w6MJ6SpuYgm5PJPpeQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--<script src="https://mocit.gov.np/application/resources/site//plugins/lightbox/js/picturefill.min.js"></script>
     <script src="https://mocit.gov.np/application/resources/site//plugins/lightbox/js/lightgallery-all.min.js"></script>
     <script src="https://mocit.gov.np/application/resources/site//plugins/lightbox/js/jquery.mousewheel.min.js"></script>
     <script src="https://mocit.gov.np/application/resources/site//plugins/timeline/js/jquery.mobile.custom.min.js"></script>
-    <script src="https://mocit.gov.np/application/resources/site//plugins/timeline/js/main.js"></script> <!-- Resource jQuery -->
-    <script src="https://mocit.gov.np/application/resources/site/js/scroll.js"></script> <!-- Resource jQuery -->
-    <script src="https://mocit.gov.np/application/resources/site/js/scrollhelper.js"></script> <!-- Resource jQuery -->
-    <script src="/Dolfd/js/site.js"></script>
-    <script src="/Dolfd/js/fontSize.js"></script>
-    <script src="/Dolfd/js/EngToNep.js"></script>
-    <script src="/Dolfd/js/nepali.datepicker.v2.2.min.js"></script>
+    <script src="https://mocit.gov.np/application/resources/site//plugins/timeline/js/main.js"></script>-->
+    <!-- Resource jQuery -->
+    <!--<script src="https://mocit.gov.np/application/resources/site/js/scroll.js"></script>--> <!-- Resource jQuery -->
+    <!--<script src="https://mocit.gov.np/application/resources/site/js/scrollhelper.js"></script>--> <!-- Resource jQuery -->
+    <script src="~/Dolfd/js/site.js"></script>
+    <script src="~/Dolfd/js/fontSize.js"></script>
+    <script src="~/Dolfd/js/EngToNep.js"></script>
+    <script src="~/Dolfd/js/nepali.datepicker.v2.2.min.js"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -166,7 +183,7 @@
 
         })
     </script>
-    <script type="text/javascript" src="https://mocit.gov.np/application/resources/site/plugins/timeline/slick.min.js"></script>
+    @*<script type="text/javascript" src="https://mocit.gov.np/application/resources/site/plugins/timeline/slick.min.js"></script>*@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#contentdetail table").addClass("table table-bordered table-condensed table-hover table-striped");
@@ -343,12 +360,12 @@
                 TILE_SIZE * (0.5 - Math.log((1 + siny) / (1 - siny)) / (4 * Math.PI)));
         }
     </script>
-    <script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/velocity.min.js"></script>
-    <script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/velocity.ui.min.js"></script>
-    <script type="text/javascript" src="/dolfd/js/site.js"></script>
+    @*<script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/velocity.min.js"></script>
+        <script type="text/javascript" src="https://mocit.gov.np/application/resources/site/js/velocity.ui.min.js"></script>*@
+    <script type="text/javascript" src="~/dolfd/js/site.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="/Dolfd/js/bootstrap.min.js"></script>
+    <script src="~/Dolfd/js/bootstrap.min.js"></script>
 
     <style type="text/css">
         .error {
@@ -439,6 +456,5 @@
             $(".fa-download").html(" ");
         });
     </script>
-    </div>
 </body>
 </html>

@@ -178,39 +178,38 @@ li.nav-item::before {
     background: #f2f2f2;
     height: 20px;
     position: absolute;
-    top: 14px;
     z-index: 999;
 }
 
 
 .nav-item:hover,.nav-item:focus, .nav-item:active {
 
-    background: #0a75b9;
+    background: #2657BA;
     color: white;
 
 }
 .navbar-expand-lg .navbar-nav .nav-link{
     /*padding:.75rem;*/
 }
-.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover,.navbar-light .navbar-nav .nav-link:active{
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:active {
     color: #fff;
-    background: #0a75b9;
+    background: #2657BA;
 }
 .dropdown-menu {
     min-width: 14rem;
     border-radius: 0;
     border: none;
-        border-top-color: currentcolor;
-        border-top-style: none;
-        border-top-width: medium;
+    border-top-color: currentcolor;
+    border-top-style: none;
+    border-top-width: medium;
     background: #fff;
-    border-top: 3px solid #0a75b9;
+    border-top: 3px solid #2657BA;
 }
 
-.nav-item:hover>.dropdown-menu { display: block; background: #f1f1f1;}  
-.dropdown-item:hover{
-    color:#fff;
-    background: #0a75b9;
+.nav-item:hover>.dropdown-menu { display: block; background: #f1f1f1;}
+.dropdown-item:hover {
+    color: #fff;
+    background: #2657BA;
 }
 
 
@@ -448,10 +447,8 @@ margin-left:-13px;
 
 }
 .n-content li:hover a .n-title-area {
-
-    color: #0a75b9;
+    color: #2657BA;
     text-decoration: underline;
-
 }
 .c-btn {
 
@@ -533,11 +530,9 @@ margin-left:-13px;
         display: none;
     }
     .navbar.navbar-expand-lg.navbar-light.bg-light {
-
-    padding: 0 10px;
-    background: #0a75b9 !important;
-
-}
+        padding: 0 10px;
+        background: #2657BA !important;
+    }
 .navbar-light .navbar-toggler{
     border: none;
 }
@@ -660,7 +655,7 @@ footer {
 }
 .top-list .web-accesibility li a {
     font-size: 14px;
-    color: #333;
+    color: #2657BA;
 }
 
 .top-list .web-accesibility li a:hover {
@@ -796,12 +791,10 @@ footer {
     color: #696969;
 }*/
 .s-title {
-
     font-weight: 600;
     text-transform: uppercase;
     font-size: 11px;
-    color: #0a75b9;
-
+    color: #2657BA;
 }
 .s-title span{
     color: #696969;
@@ -1643,7 +1636,7 @@ position: absolute;
     text-transform: uppercase;
     color: #0a75b9;
 
-}
+}B
 .title_bar.search_bar_title h4 span.keyword {
 
     display: block;

@@ -1,50 +1,75 @@
 ﻿@model HomeModel
-    <style>
-        img {
-            max-width: 100% !important;
-            
-        }
-    </style>
-    <div class=" row">
-        <div class="ticker-container">
-            <div class="label-area highlight-label">Trendings</div>
-            <ul>
-                <div>
-                    @if (Model.NewsScroll.Any())
+<style>
+    img {
+        max-width: 100% !important;
+    }
+</style>
+<div class="row">
+    <div class="trending">
+        <div class="container">
+            <div class="trending-now">
+                <p>Trending:</p>
+            </div>
+
+            <marquee behavior="scroll" direction="left" onmouseover="this.stop();"
+                     onmouseout="this.start();">
+                @if (Model.NewsScroll.Any())
+                {
+                    foreach (var item in Model.NewsScroll)
                     {
-                        foreach (var item in Model.NewsScroll)
-                        {
-                            <li>
-                                <span class="date">
-                                    <i class="fa fa-calendar"></i>
-                                    @item.UploadedDate
-                                </span>
-
-                                <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.Type" asp-route-id="@item.Id">@(item.Title + "(" + item.Type + ")")</a>
-
-                            </li>
-                        }
+                        <span class="news-text news-text-mar-left">
+                            <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.Type" asp-route-id="@item.Id">@(item.Title + "(" + item.Type + ")")</a>
+                        </span>
                     }
-                    else
-                    {
-                        <li>
-                            <span class="date">
-                                <i class="fa fa-calendar"></i>
-                                &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;
-                            </span>
+                }
+                else
+                {
+                    <span class="news-text news-text-mar-left">
+                        <a asp-controller="NewsEvent" asp-action="Index">No record found.</a>
+                    </span>
+                }
+            </marquee>
 
-                            <a target="_blank">No record found.</a>
-
-                        </li>
-                    }
-
-
-                </div>
-
-            </ul>
+            <div class="clearfix"></div>
         </div>
     </div>
-  
+    <br />
+    @*<div class="ticker-container">
+        <div class="label-area highlight-label">Trendings</div>
+        <ul>
+            <div>
+                @if (Model.NewsScroll.Any())
+                {
+                    foreach (var item in Model.NewsScroll)
+                    {
+                    <li>
+                        <span class="date">
+                            <i class="fa fa-calendar"></i>
+                            @item.UploadedDate
+                        </span>
+
+                        <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.Type" asp-route-id="@item.Id">@(item.Title + "(" + item.Type + ")")</a>
+
+                    </li>
+                }
+            }
+            else
+            {
+                <li>
+                    <span class="date">
+                        <i class="fa fa-calendar"></i>
+                        &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;
+                    </span>
+
+                    <a target="_blank">No record found.</a>
+
+                </li>
+            }
+        
+            </div>
+        </ul>
+    </div>*@
+    </div>
     <div class="row pos-rel">
         <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 p-0">
             <div class="slider-area">
@@ -358,7 +383,7 @@
 
         <div class="row">
 
-            <div class="col-12 col-md-7">
+            <div class="col-12 col-md-8">
                 @*<div class="common-title word-break has-border-s">
                         News,event and Tender<i class="fa fa-newspaper"></i>
                     </div>*@
@@ -484,7 +509,7 @@
 
                 </div>
             </div>
-            <div class="col-md-5 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="highlight-section">
                     <div class="highlight-header text-center">
                         <h6>Hilight</h6>
@@ -495,7 +520,7 @@
                             @foreach (var item in Model.NewsAndEvent)
                             {
                                 <li class="d-flex mb-4 news-highlight">
-                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"~/Dolfd/img/nep-gov.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov.png'" alt="" width="25" height="20">
+                                    <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/nep-gov.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov.png'" alt="" width="25" height="20">
 
                                     <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.Type">
                                         @item.Title
@@ -614,7 +639,7 @@
     <section class="newsevents">
 
         <div class="row">
-            <div class="col-12 col-md-7">
+            <div class="col-12 col-md-9">
 
                 <ul class="nav nav-pills">
                     <li class="active"><a data-toggle="pill" href="#home1">Publications</a></li>
