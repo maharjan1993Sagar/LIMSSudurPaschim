@@ -1,6 +1,4 @@
 ﻿@model NewsEventViewModel
-@*<div class="container">
-    <div class="row">*@
 <div class="col-md-12">
     <h3 class="text-primary">
         <i class="fa fa-book"></i>@Model.Type
@@ -9,7 +7,6 @@
 <form method="get">
     <div class="col-md-3">
         <div class="form-group">
-            <label>Type</label>
             <select onchange="this.form.submit()" name="type" class="form-control" asp-items='@(new SelectList(ViewBag.Types,"Value","Text",Model.Type))'>
             </select>
         </div>
@@ -23,7 +20,7 @@
                     Title
                 </th>
                 <th>
-                    Published Date
+                    Active Date
                 </th>
                 <th>
                     Download
@@ -40,7 +37,7 @@
                             @item.Title
                         </td>
                         <td>
-                            @item.UploadedDate.ToShortDateString()
+                            @item.ActiveDate.ToShortDateString()
                         </td>
                         <td>
                             @if (!String.IsNullOrEmpty(item.Image.FileName))
@@ -65,7 +62,7 @@
 <div class="col-md-3 col-sm-6 col-xs-12">
     <div class="highlight-section">
         <div class="highlight-header text-center">
-            <h6>Hilight</h6>
+            <h6>Highlights</h6>
         </div>
         <ul>
             @if (Model.NewsAndEvent.Count() > 0)
@@ -73,12 +70,12 @@
                 @foreach (var item in Model.NewsAndEvent)
                 {
                     <li class="d-flex mb-4 news-highlight">
-                        <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"~/Dolfd/img/nep-gov.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov.png'" alt="" width="25" height="20">
+                        <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"~/Dolfd/img/nep-gov1.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov1.png'" alt="" width="25" height="20">
 
-                        <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.Type">
+                        <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.TypeName">
                             @item.Title
                             <br /><span class="date d-block ml-0 mt-1">
-                                <i class="fa fa-calendar">   @item.UploadedDate.ToString("dd MMM yyyy")</i>
+                                <i class="fa fa-calendar">   @item.ActiveDate.ToString("dd MMM yyyy")</i>
                             </span>
                         </a>
                     </li>
@@ -98,17 +95,6 @@
                 </li>
             }
 
-            <!--
-            <div class="clearfix"></div>
-            <li class="d-flex mb-4 news-highlight">
-                                                            <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
-
-                <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
-                    वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
-                    <i class="fa fa-calendar"></i>
-                    &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
-                </a>
-            </li>		-->
         </ul>
     </div>
 </div>

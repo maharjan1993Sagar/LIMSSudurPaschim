@@ -42,8 +42,8 @@ namespace LIMS.Web.ViewComponents
             var customer =await _db.GetCustomer();
             var employee = await _db.GetEmployee();
             employee.ForEach(m => m.Image.PictureUrl = GetPath(m.Image.PictureUrl));
-            var informationOfficer = employee.FirstOrDefault(m => m.Designation == "Information Officer");
-            var speaker = employee.FirstOrDefault(m => m.Designation == "Speaker");
+            var informationOfficer = employee.FirstOrDefault(m => m.IsInformationOfficer);
+            var speaker = employee.FirstOrDefault(m => m.Type == "Speaker");
 
             var footerVM = new FooterViewModel {
                 ContactUs = contactUs,

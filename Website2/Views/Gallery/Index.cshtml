@@ -36,7 +36,9 @@
                         {
                             <div class="col-3 col-xs-3 col-sm-3 col-lg-3">
                                 <div class="card">
-                                    <img class="card-img-top" src="@item.Images.FirstOrDefault().PictureUrl" width="120px" alt="123">
+                                    <img class="card-img-top" src='@((item != null && item.Images.Any()) ?
+                                                                  item.Images.FirstOrDefault().PictureUrl :
+                                                                      "/dolfd/img/nep-gov.png")' width="120px" alt="123">
                                     <div class="card-body">
                                         <h5 class="card-title">@item.Title</h5>
                                         <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View All </a>
@@ -47,136 +49,7 @@
                     }
                   
                 </div>
-                <!-- higlight -->
-                <!--<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="highlight-section">
-                        <div class="highlight-header text-center">
-                            <h6>Hilight</h6>
-                        </div>
-                        <ul>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>-->
-                <!--
-                    <div class="clearfix"></div>
-                    <li class="d-flex mb-4 news-highlight">
-                                                                    <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
-
-                        <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
-                            वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
-                            <i class="fa fa-calendar"></i>
-                            &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
-                        </a>
-                    </li>		-->
-                <!--</ul>
-                    </div>
-                </div>-->
-                <!--
-                               <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/hhW8AvPdHp200728113544.jpg" alt="सञ्चार तथा सूचना प्रविधि मन्त्रालयका पदाधिकारीहरुको कार्यसम्पादन करार सम्झौता">
-                    <div class="card-body">
-                      <h5 class="card-title">सञ्चार तथा सूचना प्रविधि मन्त्रालयका पदाधिकारीहरुको कार्यसम्पादन करार सम्झौता</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/64" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                              <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/z1GwDNRnBJ200727113832.jpg" alt="श्रीमान् सचिव हरिप्रसाद बस्यालज्यूको स्वागत एवं पदबहालि तथा महानिर्देशक श्री कृष्णमुरारी न्यौपाने र श्री लेखनाथ शर्माज्यूको बिदाई कार्यक्रम">
-                    <div class="card-body">
-                      <h5 class="card-title">श्रीमान् सचिव हरिप्रसाद बस्यालज्यूको स्वागत एवं पदबहालि तथा महानिर्देशक श्री कृष्णमुरारी न्यौपाने र श्री लेखनाथ शर्माज्यूको बिदाई कार्यक्रम</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/62" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                              <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/VMNAaGBx9l200724032930.jpg" alt="सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाद्वारा चलचित्र विकास वोर्डको अनुगमन निरिक्षण मिति २०७७।०४।०९">
-                    <div class="card-body">
-                      <h5 class="card-title">सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाद्वारा चलचित्र विकास वोर्डको अनुगमन निरिक्षण मिति २०७७।०४।०९</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/61" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                              <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/3Syf5iWbFM200720031513.jpg" alt="माननीय सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाज्यू बाट सूचना तथा प्रसारण विभागबाट प्रकाशित पुस्तक बिमोचन कार्यक्रम">
-                    <div class="card-body">
-                      <h5 class="card-title">माननीय सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाज्यू बाट सूचना तथा प्रसारण विभागबाट प्रकाशित पुस्तक बिमोचन कार्यक्रम</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/60" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                -->
-
+               
             </div>
         </div>
     </div>
@@ -200,7 +73,9 @@
                         {
                             <div class="col-3 col-xs-3 col-sm-3 col-lg-3">
                                 <div class="card">
-                                    <img class="card-img-top" src="@item.Images.FirstOrDefault().PictureUrl" width="120px" alt="123">
+                                    <img class="card-img-top" src='@((item != null && item.Images.Any()) ?
+                                                                  item.Images.FirstOrDefault().PictureUrl :
+                                                                      "/dolfd/img/nep-gov.png")' width="120px" alt="123">
                                     <div class="card-body">
                                         <h5 class="card-title">@item.Title</h5>
                                         <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View All </a>
@@ -211,136 +86,6 @@
                     }
                   
                 </div>
-                <!-- higlight -->
-                <!--<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="highlight-section">
-                        <div class="highlight-header text-center">
-                            <h6>Hilight</h6>
-                        </div>
-                        <ul>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
-                            <li class="d-flex mb-4 news-highlight">
-                                <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                                <a href="#" target="_blank">
-                                    Higlight title goes here. The title redirect to the content link bounded dynamically.
-                                    <br /><span class="date d-block ml-0 mt-1">
-                                        <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                                    </span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>-->
-                <!--
-                    <div class="clearfix"></div>
-                    <li class="d-flex mb-4 news-highlight">
-                                                                    <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
-
-                        <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
-                            वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
-                            <i class="fa fa-calendar"></i>
-                            &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
-                        </a>
-                    </li>		-->
-                <!--</ul>
-                    </div>
-                </div>-->
-                <!--
-                               <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/hhW8AvPdHp200728113544.jpg" alt="सञ्चार तथा सूचना प्रविधि मन्त्रालयका पदाधिकारीहरुको कार्यसम्पादन करार सम्झौता">
-                    <div class="card-body">
-                      <h5 class="card-title">सञ्चार तथा सूचना प्रविधि मन्त्रालयका पदाधिकारीहरुको कार्यसम्पादन करार सम्झौता</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/64" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                              <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/z1GwDNRnBJ200727113832.jpg" alt="श्रीमान् सचिव हरिप्रसाद बस्यालज्यूको स्वागत एवं पदबहालि तथा महानिर्देशक श्री कृष्णमुरारी न्यौपाने र श्री लेखनाथ शर्माज्यूको बिदाई कार्यक्रम">
-                    <div class="card-body">
-                      <h5 class="card-title">श्रीमान् सचिव हरिप्रसाद बस्यालज्यूको स्वागत एवं पदबहालि तथा महानिर्देशक श्री कृष्णमुरारी न्यौपाने र श्री लेखनाथ शर्माज्यूको बिदाई कार्यक्रम</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/62" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                              <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/VMNAaGBx9l200724032930.jpg" alt="सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाद्वारा चलचित्र विकास वोर्डको अनुगमन निरिक्षण मिति २०७७।०४।०९">
-                    <div class="card-body">
-                      <h5 class="card-title">सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाद्वारा चलचित्र विकास वोर्डको अनुगमन निरिक्षण मिति २०७७।०४।०९</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/61" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                              <div class="col-12 col-sm-6 col-lg-3">
-                  <div class="card">
-                    <img class="card-img-top" src="https://mocit.gov.np/uploads/gallery/3Syf5iWbFM200720031513.jpg" alt="माननीय सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाज्यू बाट सूचना तथा प्रसारण विभागबाट प्रकाशित पुस्तक बिमोचन कार्यक्रम">
-                    <div class="card-body">
-                      <h5 class="card-title">माननीय सञ्चार तथा सूचना प्रविधि मन्त्री डा. युवराज खतिवडाज्यू बाट सूचना तथा प्रसारण विभागबाट प्रकाशित पुस्तक बिमोचन कार्यक्रम</h5>
-                      <a href="https://mocit.gov.np/gallerydetail/60" class="btn btn-primary">View All </a>
-                    </div>
-                  </div>
-                </div>
-                -->
-
             </div>
         </div>
     </div>

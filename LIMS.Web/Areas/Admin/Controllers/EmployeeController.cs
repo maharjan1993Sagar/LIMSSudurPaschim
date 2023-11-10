@@ -254,9 +254,18 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Value="Hon. State Minister",
                     },
                       new SelectListItem {
+                        Text="Secretary",
+                        Value="Secretary",
+                    },
+                       new SelectListItem {
+                        Text="Speaker",
+                        Value="Speaker",
+                    },
+                      new SelectListItem {
                         Text="Employee",
                         Value="Employee",
-                    }
+                    },
+
             };
             types.Insert(0, new SelectListItem { Text = _localizationService.GetResource("Admin.Common.Select"), Value = "" });
 

@@ -69,12 +69,16 @@ namespace LIMS.Website1.Models
         public bool IsActive { get; set; }
         public string Status { get; set; }
         public NewsEventFileModel Image { get; set; }
+        public bool IsInformationOfficer { get; set; }
+
+        public bool IsOfficeChief { get; set; }
     }
     public class NewsEventTenderModel
     {
         public string Id { get; set; }
         public Guid NewsEventTenderId { get; set; }
         public string Title { get; set; }
+        public string TypeName { get; set; }
         public string Type { get; set; }
         public bool HasTitle { get; set; }
         public string Description { get; set; }

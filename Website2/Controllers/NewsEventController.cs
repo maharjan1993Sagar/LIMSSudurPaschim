@@ -30,13 +30,14 @@ namespace LIMS.Website1.Controllers
             ViewBag.Types = new List<SelectListItem>() {
                             new SelectListItem{Text="--Select--",Value="" },
                             new SelectListItem{Text="Tender",Value="Tender" },
-                            new SelectListItem{Text="Press",Value="Press" },
-                            new SelectListItem{Text="Letters",Value="Letters" },
+                            new SelectListItem{Text="Press Release",Value="PressRelease" },
+                            new SelectListItem{Text="Letters",Value="Letter" },
                             new SelectListItem{Text="Rules & Regulation",Value="Rules & Regulation" },
                             new SelectListItem{Text="Directives",Value="Directives" },
-                            new SelectListItem{Text="Act & Policies",Value="Act & Policies" },
-                            new SelectListItem{Text="Reports",Value="Reports" },
-                            new SelectListItem{Text="Other Files",Value="Other Files" },
+                            new SelectListItem{Text="Act & Policies",Value="Act" },
+                            new SelectListItem{Text="Reports",Value="Report" },
+                            new SelectListItem{Text="Other Files",Value="OtherFiles" },
+                            new SelectListItem{Text="Publication",Value="Publication" },
                             };
             type = String.IsNullOrEmpty(type) ? "News" : type;
 
@@ -50,9 +51,9 @@ namespace LIMS.Website1.Controllers
 
             if (!String.IsNullOrEmpty(type))
             {
-                newsEventTenders = newsEventTenders.Where(m => m.Type == type).ToList();
+                newsEventTenders = newsEventTenders.Where(m => m.TypeName == type).ToList();
                 newsEventVM.News = newsEventTenders;
-                if (type == "News" || type == "Event" || type=="Notice")
+                if (type == "News" || type == "Event" || type=="Notices")
                 {
                     if (!String.IsNullOrEmpty(id))
                     {
@@ -67,6 +68,7 @@ namespace LIMS.Website1.Controllers
             }
             ViewBag.Type = type;
             newsEventVM.Type = type;
+            newsEventVM.TypeName = type;
             return View(newsEventVM);
         }
         public async Task<IActionResult> Download(string id)
@@ -100,6 +102,98 @@ namespace LIMS.Website1.Controllers
             }
 
         }
+
+        //public async Task<IActionResult> MenuIndex( string submenu, string subsubmenu)
+        //{
+
+
+        //    var newsEventTenders = await _db.GetNewsEventTender("");
+
+        //    newsEventTenders
+        //        .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
+
+        //    var newsEventVM = new NewsEventViewModel();
+        //    if (!string.IsNullOrEmpty(type))
+        //    {
+        //        newsEventTenders = newsEventTenders.Where(m => m.Type == type).ToList();
+        //        if (newsEventTenders.FirstOrDefault() != null)
+        //        {
+        //            newsEventVM.TypeName = newsEventTenders.FirstOrDefault().TypeName;
+        //        }
+        //        else
+        //        {
+        //            newsEventVM.TypeName = "";
+        //        }
+        //        newsEventVM.News = newsEventTenders;
+
+        //        if (!String.IsNullOrEmpty(id))
+        //        {
+        //            var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
+        //            newsEventVM.ObjNews = objNews;
+        //        }
+        //        else
+        //        {
+        //            newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
+        //        }
+
+        //    }
+        //    if (!string.IsNullOrEmpty(submenu))
+        //    {
+        //        newsEventTenders = newsEventTenders.Where(m => m.SubMenu == submenu).ToList();
+        //        newsEventVM.News = newsEventTenders;
+        //        try
+        //        {
+        //            newsEventVM.TypeName = newsEventTenders.FirstOrDefault().TypeName;
+        //        }
+        //        catch
+        //        {
+        //            newsEventVM.TypeName = "";
+        //        }
+        //        if (!String.IsNullOrEmpty(id))
+        //        {
+        //            var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
+        //            newsEventVM.ObjNews = objNews;
+        //        }
+        //        else
+        //        {
+        //            newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
+        //        }
+
+        //    }
+        //    if (!string.IsNullOrEmpty(subsubmenu))
+        //    {
+        //        newsEventTenders = newsEventTenders.Where(m => m.SubSubMenu == subsubmenu).ToList();
+
+        //        newsEventVM.News = newsEventTenders;
+        //        try
+        //        {
+        //            newsEventVM.TypeName = newsEventTenders.FirstOrDefault().TypeName;
+        //        }
+        //        catch
+        //        {
+        //            newsEventVM.TypeName = "";
+        //        }
+        //        if (!String.IsNullOrEmpty(id))
+        //        {
+        //            var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
+        //            newsEventVM.ObjNews = objNews;
+        //        }
+        //        else
+        //        {
+        //            newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
+        //        }
+
+        //    }
+        //    if (newsEventVM != null)
+        //    {
+        //        //newsEventVM.Type = ViewBag.type;
+        //        return View(newsEventVM);
+        //    }
+        //    else
+        //    {
+        //        return View(new NewsEventViewModel());
+        //    }
+        //}
 
         public string GetPath(string path)
         {

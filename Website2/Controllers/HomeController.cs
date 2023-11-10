@@ -47,12 +47,12 @@ namespace LIMS.Website1.Controllers
             employee.ForEach(m => m.Image.PictureUrl = GetPath(m.Image.PictureUrl));
             var Minister = employee.FirstOrDefault(m => m.Type == "Hon. Minister");
             var StateMinster = employee.FirstOrDefault(m => m.Type == "Hon. State Minister");
-            var speaker = employee.FirstOrDefault(m => m.Designation == "Speaker");
+            var speaker = employee.FirstOrDefault(m => m.Type == "Speaker");
             var Secretary = employee.FirstOrDefault(m => m.Type == "Secretary");
 
 
-            var director = employee.FirstOrDefault(m => m.Designation == "Director");
-            var informationOfficer = employee.FirstOrDefault(m => m.Designation == "Information Officer");
+             var director = employee.FirstOrDefault(m => m.Designation == "Director");
+            var informationOfficer = employee.FirstOrDefault(m => m.IsInformationOfficer);
 
             var pageContent = await _db.GetPageContent("Home");
             if (pageContent != null)
@@ -61,20 +61,20 @@ namespace LIMS.Website1.Controllers
 
             }
             var newsScroll = newsEventTenders.Where(m => m.IsScroll);
-            var news = newsEventTenders.Where(m => m.Type == "News");
-            var events = newsEventTenders.Where(m => m.Type == "Event");
-            var tenders = newsEventTenders.Where(m => m.Type == "Tender");
-            var notices = newsEventTenders.Where(m => m.Type == "Notice");
-            var rules = newsEventTenders.Where(m => m.Type == "Rules & Regulation");
-            var directives = newsEventTenders.Where(m => m.Type == "Directives");
-            var acts = newsEventTenders.Where(m => m.Type == "Act");
-            var reports = newsEventTenders.Where(m => m.Type == "Report");
-            var otherFiles = newsEventTenders.Where(m => m.Type == "OtherFiles");
-            var pressRelease = newsEventTenders.Where(m => m.Type == "PressRelease");
-            var pressandLetter = newsEventTenders.Where(m => m.Type == "PressRelease"|| m.Type == "Letter");
+            var news = newsEventTenders.Where(m => m.TypeName == "News");
+            var events = newsEventTenders.Where(m => m.TypeName == "Event");
+            var tenders = newsEventTenders.Where(m => m.TypeName == "Tender");
+            var notices = newsEventTenders.Where(m => m.TypeName == "Notices");
+            var rules = newsEventTenders.Where(m => m.TypeName == "Rules & Regulation");
+            var directives = newsEventTenders.Where(m => m.TypeName == "Directives");
+            var acts = newsEventTenders.Where(m => m.TypeName == "Act");
+            var reports = newsEventTenders.Where(m => m.TypeName == "Report");
+            var otherFiles = newsEventTenders.Where(m => m.TypeName == "OtherFiles");
+            var pressRelease = newsEventTenders.Where(m => m.TypeName == "PressRelease");
+            var pressandLetter = newsEventTenders.Where(m => m.TypeName == "PressRelease"|| m.TypeName == "Letter");
 
-            var letters = newsEventTenders.Where(m => m.Type == "Letter");
-            var publication= newsEventTenders.Where(m => m.Type == "Publication");
+            var letters = newsEventTenders.Where(m => m.TypeName == "Letter");
+            var publication= newsEventTenders.Where(m => m.TypeName == "Publication");
 
             var galleryVideo = await _db.GetGallery();
             galleryVideo
@@ -102,6 +102,7 @@ namespace LIMS.Website1.Controllers
                 Director = director,
                 SpokePerson=speaker,
                 StateMinister=StateMinster,
+                Secratory =Secretary,
                 Minister=Minister,
                 ActsPolices = acts.Take(acts.ToList().Count > 4 ? 4 : acts.ToList().Count).ToList(),
                 Directives = directives.Take(directives.ToList().Count > 4 ? 4 : directives.ToList().Count).ToList(),

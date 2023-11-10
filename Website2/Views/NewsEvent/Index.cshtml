@@ -2,7 +2,7 @@
     <section class="newsevents">
         <div class="container-fluid">
             
-                @if (Model.Type == "News" || Model.Type == "Event" || Model.Type == "Notice")
+                @if (Model.TypeName == "News" || Model.TypeName == "Event" || Model.TypeName == "Notices")
                 {
                     <partial name="_listDetailsPartial.cshtml" model="@Model" />
                 }

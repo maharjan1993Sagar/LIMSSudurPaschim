@@ -8,7 +8,6 @@
         <div class="row">
 
             <div class="col-md-12">
-                <h2>Employee</h2>
                 <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>
@@ -52,6 +51,7 @@
                                     </td>
                                     <td>@item.Email1</td>
                                 </tr>
+                                 i=i+1;
                             }
                         }
                         else
@@ -66,27 +66,3 @@
         </div>
     </div>
 </section>
-@*<asp:Repeater ID="repEmployee" runat="server" OnItemCommand="repEmployee_ItemCommand">
-        <ItemTemplate>
-            <div class="col-md-2">
-
-                <div class="thumbnail text-center">
-                    <image src='images/employee/<%#Eval("id") %>.jpg' onerror="if (this.src != 'error.jpg') this.src = 'img/user.jpg';"
-                           style="height: 200px; width: 220px;" alt=""></image>
-                    <br style="height: 1px;" />
-                    <label>
-                        <%#Limit(Eval("designation").ToString(),30) %>
-                    </label>
-                    <br />
-                    <label>
-                        <%#Limit(Eval("name").ToString(),30) %>
-                    </label><br />
-                    <label>
-                        <%#Limit(Eval("phone").ToString(), 30)%>
-                    </label><br />
-                    <label><%#Eval("jobStartDate") %></label>
-                </div>
-            </div>
-        </ItemTemplate>
-    </asp:Repeater>*@
-

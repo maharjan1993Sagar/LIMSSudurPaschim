@@ -204,6 +204,8 @@ li.nav-item::before {
     border-top-width: medium;
     background: #fff;
     border-top: 3px solid #2657BA;
+    max-height:180px;
+    overflow-y:auto;
 }
 
 .nav-item:hover>.dropdown-menu { display: block; background: #f1f1f1;}
@@ -603,10 +605,8 @@ li.nav-item::before,li.nav-item::after{
 }
 }
 footer {
-
-    background: #4c4c4c;
+    background: #2657BA;
     padding: 40px 0 0;
-
 }
 .g-10 {
 
@@ -1821,14 +1821,12 @@ position: absolute;
     color: #fff;
 }
 .copyright {
-
     padding: 10px 0;
-    background: #000;
+    background: #011f5c;
     color: #fff;
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 600;
-
 }
 
 .no-word-break.has-border-s::after {
