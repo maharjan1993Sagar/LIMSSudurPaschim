@@ -69,7 +69,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            ViewBag.SubMenuId =await  GetSubMenu();           
+            ViewBag.SubMenuId =await  GetSubMenu();
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
             return View();
         }
 
@@ -82,6 +83,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 var subsubMenu = model.ToEntity();
                 subsubMenu.SubMenu = await _subMenuService.GetSubMenuById(model.SubMenuId);
                 subsubMenu.UserId = _workContext.CurrentCustomer.Id;
+                if (model.IsUrlExternal)
+                {
+                    subsubMenu.Url = model.ExternalUrl;
+                }
                 await _subSubMenuService.InsertSubSubMenu(subsubMenu);
                
                     subsubMenu.Url = "/NewsEvent/Index?subSubMenu=" + subsubMenu.Id;
@@ -92,6 +97,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             }
 
             ViewBag.SubMenuId =await GetSubMenu();
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -106,7 +112,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 //No blog post found with the specified id
                 return RedirectToAction("List");
             var model = subMenu.ToModel();
+            if (subMenu.IsUrlExternal)
+            {
+                model.ExternalUrl = subMenu.Url;
+            }
             ViewBag.SubMenuId =await  GetSubMenu();
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
 
             return View(model);
@@ -124,8 +135,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var m = model.ToEntity(subMenu);
-                m.Url = "/NewsEvent/Index?subSubMenu=" + m.Id;
-
+                //m.Url = "/NewsEvent/Index?subSubMenu=" + m.Id;
+                if (model.IsUrlExternal)
+                {
+                    m.Url = model.ExternalUrl;
+                }                
                 m.SubMenu = await _subMenuService.GetSubMenuById(model.SubMenuId);
 
                 await _subSubMenuService.UpdateSubSubMenu(m);
@@ -141,6 +155,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             }
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             ViewBag.SubMenuId =await GetSubMenu();
+            ViewBag.MainMenu = MainMenuLink.GetBreedType();
             return View(model);
         }
 

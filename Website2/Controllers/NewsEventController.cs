@@ -25,50 +25,31 @@ namespace LIMS.Website1.Controllers
             _config = config;
             _db = new DataContext(_config);
         }
-        public async Task<IActionResult> Index(string type, string id)
-        {
-            ViewBag.Types = new List<SelectListItem>() {
-                            new SelectListItem{Text="--Select--",Value="" },
-                            new SelectListItem{Text="Tender",Value="Tender" },
-                            new SelectListItem{Text="Press Release",Value="PressRelease" },
-                            new SelectListItem{Text="Letters",Value="Letter" },
-                            new SelectListItem{Text="Rules & Regulation",Value="Rules & Regulation" },
-                            new SelectListItem{Text="Directives",Value="Directives" },
-                            new SelectListItem{Text="Act & Policies",Value="Act" },
-                            new SelectListItem{Text="Reports",Value="Report" },
-                            new SelectListItem{Text="Other Files",Value="OtherFiles" },
-                            new SelectListItem{Text="Publication",Value="Publication" },
-                            };
-            type = String.IsNullOrEmpty(type) ? "News" : type;
-
-            var newsEventTenders = await _db.GetNewsEventTender("");
+        public async Task<IActionResult> Index(string mainMenu, string subMenu, string subSubMenu,string id)
+        {             
+            var newsEventTenders = await _db.GetNewsEventTenderByMenu(mainMenu, subMenu,subSubMenu, "");
 
             newsEventTenders
                 .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
 
             var newsEventVM = new NewsEventViewModel();
             newsEventVM.NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList();
-
-            if (!String.IsNullOrEmpty(type))
+                       
+            newsEventVM.News = newsEventTenders;
+              
+            if (!String.IsNullOrEmpty(id))
             {
-                newsEventTenders = newsEventTenders.Where(m => m.TypeName == type).ToList();
-                newsEventVM.News = newsEventTenders;
-                if (type == "News" || type == "Event" || type=="Notices")
-                {
-                    if (!String.IsNullOrEmpty(id))
-                    {
-                        var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
-                        newsEventVM.ObjNews = objNews;
-                    }
-                    else
-                    {
-                        newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
-                    }
-                }
+                var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
+                newsEventVM.ObjNews = objNews;
             }
-            ViewBag.Type = type;
-            newsEventVM.Type = type;
-            newsEventVM.TypeName = type;
+            else
+            {
+                newsEventVM.ObjNews = newsEventTenders.OrderByDescending(m => m.UploadedDate).FirstOrDefault();
+            }
+
+            newsEventVM.Type = await _db.GetMainMenuName(mainMenu, subMenu, subSubMenu);
+            //ViewBag.Type = await _db.GetMainMenuName(mainMenu, subMenu, subSubMenu);
+           
             return View(newsEventVM);
         }
         public async Task<IActionResult> Download(string id)

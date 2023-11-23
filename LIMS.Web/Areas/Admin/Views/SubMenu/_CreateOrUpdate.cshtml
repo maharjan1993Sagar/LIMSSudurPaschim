@@ -1,4 +1,4 @@
-﻿@using LIMS.Web.Areas.Admin.Models.DynamicMenu 
+﻿@using LIMS.Web.Areas.Admin.Models.DynamicMenu
 @model SubMenuModel
 <div class="x_content form">
     <div class="form-row">
@@ -13,62 +13,69 @@
                 </div>
             </div>
             <div class="col-md-3">
-
                 <div class="form-group">
                     <admin-label asp-for="MainMenuId" />
                     <admin-select asp-for="MainMenuId" asp-items="@ViewBag.MainMenuId"></admin-select>
                     <span asp-validation-for="MainMenuId"></span>
-
                 </div>
             </div>
             <div class="col-md-3">
-
                 <div class="form-group">
                     <admin-label asp-for="Name" />
-                    <admin-input asp-for="Name"/>
-                        
+                    <admin-input asp-for="Name" />
                     <span asp-validation-for="Name"></span>
-
                 </div>
             </div>
             <div class="col-md-3">
-
                 <div class="form-group">
                     <admin-label asp-for="NameNepali" />
                     <admin-input asp-for="NameNepali" />
                     <span asp-validation-for="NameNepali"></span>
-
                 </div>
             </div>
-            @*<div class="col-md-3">
-
+            <div class="col-md-4">
                 <div class="form-group">
                     <admin-label asp-for="Url" />
-                    <admin-select asp-for="Url" data-val="@Model.Url" >
-                        </admin-select>
+                    <select name="Url" asp-items="ViewBag.Url" class="form-control"></select>
                     <span asp-validation-for="Url"></span>
-
-                </div>
-            </div>*@
-            <div class="col-md-3 col-sm-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="HasSubSubMenu" /><br />
-                    <admin-input asp-for="HasSubSubMenu" />
-                    <span asp-validation-for="HasSubSubMenu"></span>
-
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
-
+            <div class="col-md-4">
                 <div class="form-group">
-                    <admin-label asp-for="IsActive" /><br />
-                    <admin-input asp-for="IsActive" />
-                    <span asp-validation-for="IsActive"></span>
-
+                    <admin-label asp-for="ExternalUrl" />
+                    <admin-input asp-for="ExternalUrl" />
+                    <span asp-validation-for="ExternalUrl"></span>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
 
+                    <div class="form-group">
+                        <admin-label asp-for="IsUrlExternal" /><br />
+                        <admin-input asp-for="IsUrlExternal" />
+                        <span asp-validation-for="IsUrlExternal"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+
+                    <div class="form-group">
+                        <admin-label asp-for="HasSubSubMenu" /><br />
+                        <admin-input asp-for="HasSubSubMenu" />
+                        <span asp-validation-for="HasSubSubMenu"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+
+                    <div class="form-group">
+                        <admin-label asp-for="IsActive" /><br />
+                        <admin-input asp-for="IsActive" />
+                        <span asp-validation-for="IsActive"></span>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -102,7 +109,7 @@
                 });
             });
         }
-            
+
     $('#@Html.IdFor(m=>m.MainMenuId)').change(function () {
         var provinces= $("#MainMenuId :selected").text();
 

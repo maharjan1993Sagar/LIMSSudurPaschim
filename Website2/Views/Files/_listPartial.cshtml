@@ -1,0 +1,116 @@
+﻿@model NewsEventViewModel
+<div class="col-md-12">
+    <h3 class="text-primary">
+        <i class="fa fa-book"></i>@Model.Type
+    </h3>
+</div>
+@*<form method="get">
+    <div class="col-md-3">
+        <div class="form-group">
+            <select onchange="this.form.submit()" name="type" class="form-control" asp-items='@(new SelectList(ViewBag.Types,"Value","Text",Model.Type))'>
+            </select>
+        </div>
+    </div>
+</form>*@
+<div class="col-md-6">
+    <table id="tblPublication" class="table table-responsive table-bordered">
+        <thead>
+            <tr style="background: #fefefe;">
+                <th>
+                    Title
+                </th>
+                <th>
+                    Active Date
+                </th>
+                <th>
+                    Download
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.News.Any())
+            {
+                @foreach (var item in Model.News)
+                {
+                    <tr>
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>
+                            @item.ActiveDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(item.Image.FileName))
+                            {
+                                <a asp-controller="Files" asp-action="Download" asp-route-id="@item.Id">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">No record found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@*<div class="col-md-3 col-sm-6 col-xs-12">
+    <div class="highlight-section">
+        <div class="highlight-header text-center">
+            <h6>Highlights</h6>
+        </div>
+        <ul>
+            @if (Model.NewsAndEvent.Count() > 0)
+            {
+                @foreach (var item in Model.NewsAndEvent)
+                {
+                    <li class="d-flex mb-4 news-highlight">
+                        <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"~/Dolfd/img/nep-gov1.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov1.png'" alt="" width="25" height="20">
+
+                        <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.TypeName">
+                            @item.Title
+                            <br /><span class="date d-block ml-0 mt-1">
+                                <i class="fa fa-calendar">   @item.ActiveDate.ToString("dd MMM yyyy")</i>
+                            </span>
+                        </a>
+                    </li>
+                    <div class="clearfix"></div>
+                }
+            }
+            else
+            {
+                <li class="d-flex mb-4 news-highlight">
+                    <img src="img/nep-gov.png" width="60px" class="hilight-img">
+                    <a href="#" target="_blank">
+                        No records found
+                        <br /><span class="date d-block ml-0 mt-1">
+                            <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                        </span>
+                    </a>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>*@
+
+@section Scripts{
+    <script type="text/javascript">
+        function hideImage(img) {
+            img.style.display = "none";
+        }
+        $(document).ready(function () {
+            $('#tblPublication').DataTable({
+                language: {
+                    searchPlaceholder: "Search...",
+                    search: "",
+                }
+            });
+        });
+    </script>
+}

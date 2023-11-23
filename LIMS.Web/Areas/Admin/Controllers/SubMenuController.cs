@@ -74,8 +74,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;
             SubMenuModel model=new SubMenuModel();
-            return View(model);
-        }
+            ViewBag.URL = MainMenuLink.GetBreedType();
+            return View();
+        }   
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
@@ -99,7 +100,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     }
                     else
                     {
-                        subMenu.Url = "/NewsEvent/Index?subMenu=" + subMenu.Id;
+                        if(model.IsUrlExternal)
+                        {
+                            subMenu.Url = model.ExternalUrl;
+                        }
+                        //else
+
+                       // subMenu.Url = "/NewsEvent/Index?subMenu=" + subMenu.Id;
                     }
                     await _subMenuService.UpdateSubMenu(subMenu);
                 }
@@ -111,6 +118,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;
+            ViewBag.URL = MainMenuLink.GetBreedType();
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -125,11 +133,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 //No blog post found with the specified id
                 return RedirectToAction("List");
             var model = subMenu.ToModel();
+            if (subMenu.IsUrlExternal)
+            {
+                model.ExternalUrl = subMenu.Url;
+            }
             var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-           
+            ViewBag.URL = MainMenuLink.GetBreedType();
             return View(model);
         }
 
@@ -158,7 +170,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     }
                     else
                     {
-                        m.Url = "/NewsEvent/Index?subMenu=" + subMenu.Id;
+                        if (model.IsUrlExternal)
+                        {
+                            m.Url = model.ExternalUrl;
+                        }
+                        //m.Url = "/NewsEvent/Index?subMenu=" + subMenu.Id;
                     }
                     
                 }
@@ -177,6 +193,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var mainMenus = new SelectList(await _mainMenuService.GetMainMenuByUser(), "Id", "MainMenuName").ToList();
             mainMenus.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.MainMenuId = mainMenus;
+            ViewBag.URL = MainMenuLink.GetBreedType();
             return View(model);
         }
 

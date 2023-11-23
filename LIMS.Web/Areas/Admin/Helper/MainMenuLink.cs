@@ -27,6 +27,18 @@ namespace LIMS.Web.Areas.Admin.Helper
                           Text = "Contact us",
                           Value = "/home/contactus",
                       },
+                       new SelectListItem {
+                          Text = "PageContent",
+                          Value = "/PageContent/Index",
+                      },
+                        new SelectListItem {
+                          Text = "News/Event",
+                          Value = "/NewsEvent/Index",
+                      },
+                         new SelectListItem {
+                          Text = "Files",
+                          Value = "/Files/Index",
+                      },
                         new SelectListItem {
                           Text = "Market",
                           Value = "/market",

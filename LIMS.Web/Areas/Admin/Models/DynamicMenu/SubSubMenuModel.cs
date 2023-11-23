@@ -16,6 +16,12 @@ namespace LIMS.Web.Areas.Admin.Models.DynamicMenu
         [LIMSResourceDisplayName("Admin.SubSubMenu.SubSubMenuUrl")]
 
         public string Url { get; set; }
+        [LIMSResourceDisplayName("Admin.SubSubMenu.ExternalUrl")]
+
+        public string ExternalUrl { get; set; }
+        [LIMSResourceDisplayName("Admin.SubSubMenu.IsUrlExternal")]
+
+        public bool IsUrlExternal { get; set; }
         [LIMSResourceDisplayName("Admin.SubSubMenu.IsActiveSubSubMenu")]
 
         public bool IsActive { get; set; }

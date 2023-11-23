@@ -77,6 +77,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var mainMenu = model.ToEntity();
+                if (model.IsUrlExternal)
+                {
+                    mainMenu.Url = model.ExternalUrl;
+                }                   
                 mainMenu.UserId = _workContext.CurrentCustomer.Id;
                 mainMenu.CreatedBy = _workContext.CurrentCustomer.NameEnglish;
                 mainMenu.CreatedDate = DateTime.Now;
@@ -100,10 +104,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.MainMenu = MainMenuLink.GetBreedType();
 
             var mainMenu = await _mainMenuService.GetMainMenuById(id);
+           
             if (mainMenu == null)
                 //No blog post found with the specified id
                 return RedirectToAction("List");
-            var model = mainMenu.ToModel();           
+            var model = mainMenu.ToModel();
+            if (model.IsUrlExternal) 
+            {
+                model.ExternalUrl = model.Url;
+            }
             return View(model);
         }
 
@@ -123,7 +132,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 m.UserId = _workContext.CurrentCustomer.Id;
                 m.EditedBy = _workContext.CurrentCustomer.NameEnglish;
                 m.EditedDate = DateTime.Now;
-               
+                if (model.IsUrlExternal)
+                {
+                    m.Url = model.ExternalUrl;
+                }
                 await _mainMenuService.UpdateMainMenu(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.MainMenu.Updated"));

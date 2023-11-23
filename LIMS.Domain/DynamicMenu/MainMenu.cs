@@ -17,6 +17,7 @@ namespace LIMS.Domain.DynamicMenu
         public string  Url { get; set; }
         public bool HasSubMenu { get; set; }
         public bool IsActive { get; set; }
+        public bool IsUrlExternal { get; set; }
         public string UserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }

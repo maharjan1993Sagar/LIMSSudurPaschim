@@ -15,6 +15,7 @@ namespace LIMS.Domain.DynamicMenu
         public string SubSubMenuName { get; set; }
         public string SubSubMenuNameNepali { get; set; }
         public string  Url { get; set; }
+        public bool  IsUrlExternal { get; set; }
         public bool IsActive { get; set; }
         public string SubMenuId { get; set; }
         public SubMenu SubMenu { get; set; }

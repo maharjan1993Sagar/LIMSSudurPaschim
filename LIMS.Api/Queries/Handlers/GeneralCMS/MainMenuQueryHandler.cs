@@ -55,8 +55,9 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                         //MainMenuId = item.MainMenuId,
                         SerialNo = item.SerialNo,
                         Url = item.Url,
-                        UserId = item.UserId
-                    };
+                        UserId = item.UserId,
+                        MainMenuId = item.Id
+                };
 
                     var filSubMenu = subMenus.Where(m => m.MainMenuId == item.Id && m.UserId == request.UserId && m.IsActive).OrderBy(m=>m.SerialNo);
 
@@ -71,7 +72,8 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                                 Name = itemSub.Name,
                                 NameNepali = itemSub.NameNepali,
                                 SerialNo = itemSub.SerialNo,
-                                Url = itemSub.Url
+                                Url = itemSub.Url,
+                                SubMenuId = itemSub.Id
                             };
                             var filSubSubMenus = subSubMenus.Where(m => m.SubMenuId == itemSub.Id && m.UserId == request.UserId && m.IsActive).OrderBy(m=>m.SerialNo);
                             if (filSubSubMenus.Any())
@@ -83,7 +85,8 @@ namespace LIMS.Api.Queries.Handlers.GeneralCMS
                                                                             SubSubMenuName = m.SubSubMenuName,
                                                                             SubSubMenuNameNepali = m.SubSubMenuNameNepali,
                                                                             Url = m.Url,
-                                                                            UserId = m.UserId
+                                                                            UserId = m.UserId,
+                                                                            SubSubMenuId =  m.Id
                                                                         }).ToList();
                             }
                             listSubMenu.Add(objSubMenu);

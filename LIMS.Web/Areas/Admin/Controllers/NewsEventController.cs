@@ -195,8 +195,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
                 if (model.FileModel!= null&&model.FileModel.File!=null)
                 {
-
-
                     if (!Directory.Exists(_hostEnvironment.WebRootPath + "/uploads/newsEvent"))
                     {
                         Directory.CreateDirectory(_hostEnvironment.WebRootPath + "/uploads/newsEvent");

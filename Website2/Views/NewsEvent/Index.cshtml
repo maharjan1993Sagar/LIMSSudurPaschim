@@ -1,16 +1,7 @@
 ﻿@model NewsEventViewModel
     <section class="newsevents">
         <div class="container-fluid">
-            
-                @if (Model.TypeName == "News" || Model.TypeName == "Event" || Model.TypeName == "Notices")
-                {
                     <partial name="_listDetailsPartial.cshtml" model="@Model" />
-                }
-                else
-                {
-                    <partial name="_listPartial.cshtml" model="@Model" />
-                }
-
             </div>
         
     </section>

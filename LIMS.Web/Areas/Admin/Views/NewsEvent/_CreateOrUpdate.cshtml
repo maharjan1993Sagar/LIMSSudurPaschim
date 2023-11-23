@@ -32,7 +32,6 @@
 
                 </div>
             </div>
-
             <div class="col-md-3">
 
                 <div class="form-group">
@@ -42,29 +41,41 @@
 
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-12">
 
-                <div class="form-group">
-                    <admin-label asp-for="ShowText" /><br />
-                    <admin-input asp-for="ShowText" />
-                    <span asp-validation-for="ShowText"></span>
+                <div class="col-md-3">
 
+                    <div class="form-group">
+                        <admin-label asp-for="ShowText" /><br />
+                        <admin-input class="form-check-input" asp-for="ShowText" />
+                        <span asp-validation-for="ShowText"></span>
+
+                    </div>
+                </div> <div class="col-md-3">
+
+                    <div class="form-group">
+                        <admin-label asp-for="IsScroll" /><br />
+                        <admin-input asp-for="IsScroll" />
+                        <span asp-validation-for="IsScroll"></span>
+
+                    </div>
+                </div> <div class="col-md-3">
+
+                    <div class="form-group">
+                        <admin-label asp-for="IsModalPopup" /><br />
+                        <admin-input asp-for="IsModalPopup" />
+                        <span asp-validation-for="IsModalPopup"></span>
+
+                    </div>
                 </div>
-            </div> <div class="col-md-2">
+                <div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="IsScroll" /><br />
-                    <admin-input asp-for="IsScroll" />
-                    <span asp-validation-for="IsScroll"></span>
+                    <div class="form-group">
+                        <admin-label asp-for="IsActive" /><br />
+                        <admin-input asp-for="IsActive" />
+                        <span asp-validation-for="IsActive"></span>
 
-                </div>
-            </div> <div class="col-md-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="IsModalPopup" /><br />
-                    <admin-input asp-for="IsModalPopup" />
-                    <span asp-validation-for="IsModalPopup"></span>
-
+                    </div>
                 </div>
             </div>
             <div class="col-md-12 col-sm-12">
@@ -105,15 +116,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="IsActive" />
-                    <admin-input asp-for="IsActive" />
-                    <span asp-validation-for="IsActive"></span>
-
-                </div>
-            </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="FileModel.File" />

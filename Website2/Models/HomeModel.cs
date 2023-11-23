@@ -97,12 +97,15 @@ namespace LIMS.Website1.Models
         public DateTime UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public NewsEventFileModel Image { get; set; }
+        public string SubMenu { get; set; }
+        public string SubSubMenu { get; set; }
 
     }
 
     public class PageContentModel
     {
         public string Id { get; set; }
+        public string Type { get; set; }
 
         public Guid PageContentId { get; set; }
         public string PageName { get; set; }

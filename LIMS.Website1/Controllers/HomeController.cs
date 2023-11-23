@@ -32,8 +32,6 @@ namespace LIMS.Website1.Controllers
         {
             string baseUrl = _config.GetValue<string>("Constants:FileBaseUrl");
 
-
-
             var newsEventTenders = await _db.GetNewsEventTender("");
 
             newsEventTenders

@@ -25,30 +25,26 @@ namespace LIMS.Website1.Controllers
             _db = new DataContext(_config);
         }
 
-        public async Task<IActionResult> Index(string pageName)
+        public async Task<IActionResult> Index(string mainMenu, string subMenu, string subsubMenu,string id)
         {
-            if (!String.IsNullOrEmpty(pageName))
-            {
-                var pageContent = await _db.GetPageContent(pageName);
-                if (pageContent != null)
-                {
-                    pageContent.Image.PictureUrl = GetPath(pageContent.Image.PictureUrl);
+            var newsEventTenders = await _db.GetNewsEventTenderByMenu(mainMenu, subMenu, subsubMenu, "");
 
-                    return View(pageContent);
-                }
-                else
-                {
-                    return View(null);
-                }
-               
-            }
-            else
-            {
-                return View(null);  
-            }
-           
+            newsEventTenders
+                .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
+
+            var pageContent = new PageContentModel();
+            
+            var objNews = newsEventTenders.FirstOrDefault(m => m.Id == id);
+            pageContent.Title = objNews.Title;
+            pageContent.Image = objNews.Image;
+            pageContent.Description = objNews.Description;
+            
+
+            pageContent.Type = await _db.GetMainMenuName(mainMenu, subMenu, subsubMenu);
+
+            return View(pageContent);
         }
-        
+
         public string GetPath(string path)
         {
             string basePath = _config.GetValue<string>("Constants:FileBaseUrl");

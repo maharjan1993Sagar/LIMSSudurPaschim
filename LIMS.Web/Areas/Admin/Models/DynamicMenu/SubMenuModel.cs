@@ -15,6 +15,10 @@ namespace LIMS.Web.Areas.Admin.Models.DynamicMenu
         public string NameNepali { get; set; }
         [LIMSResourceDisplayName("Admin.SubMenu.Url")]
         public string Url { get; set; }
+        [LIMSResourceDisplayName("Admin.SubMenu.ExternalUrl")]
+        public string ExternalUrl { get; set; }
+        [LIMSResourceDisplayName("Admin.SubMenu.IsUrlExternal")]
+        public bool IsUrlExternal { get; set; }
         [LIMSResourceDisplayName("Admin.SubMenu.MainMenu")]
         public string MainMenuId { get; set; }
         [LIMSResourceDisplayName("Admin.SubMenu.IsActive")]

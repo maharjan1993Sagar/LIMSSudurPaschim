@@ -38,25 +38,41 @@
 
                 </div>
             </div>
-            @*<div class="col-md-3">
-
+            <div class="col-md-4">
                 <div class="form-group">
                     <admin-label asp-for="Url" />
-                    <admin-input asp-for="Url" />
+                    <admin-select asp-for="Url" asp-items="@ViewBag.MainMenu" />
                     <span asp-validation-for="Url"></span>
-
-                </div>
-            </div>*@
-            <div class="col-md-3 col-sm-3">
-
-                <div class="form-group">
-                    <admin-label asp-for="IsActive" /><br />
-                    <admin-input asp-for="IsActive" />
-                    <span asp-validation-for="IsActive"></span>
-
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <admin-label asp-for="ExternalUrl" />
+                    <admin-input asp-for="ExternalUrl" />
+                    <span asp-validation-for="ExternalUrl"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
 
+                    <div class="form-group">
+                        <admin-label asp-for="IsUrlExternal" /><br />
+                        <admin-input asp-for="IsUrlExternal" />
+                        <span asp-validation-for="IsUrlExternal"></span>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+
+                    <div class="form-group">
+                        <admin-label asp-for="IsActive" /><br />
+                        <admin-input asp-for="IsActive" />
+                        <span asp-validation-for="IsActive"></span>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
