@@ -1,2 +1,0 @@
-ExternalAuth.Facebook
-ExternalAuth.Google

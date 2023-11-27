@@ -377,22 +377,18 @@
                             {
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "Livestock", new { Area = "Admin" })">@T("Admin.Livestock")</a></li>
              }
-                @if(roles.Contains("SoilAdmin"))
-                {
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("List", "Soil", new { Area = "Admin" })">@T("Admin.Soil")</a></li>
-                }
-
+                
                 @if (mastersetup)
                 {
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
                     <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.User")</a>
                     <ul class="dropdown-menu">
 
-                        <li class="dropdown-item"><a href="@Url.Action("List", "Dolfd", new { Area = "Admin" })">@T("Admin.OrganizationUnderMolmac")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("List", "Dolfd", new { Area = "Admin" })">@T("Admin.Users")</a></li>
 
-                        <li class="dropdown-item"><a href="@Url.Action("List", "NLBO", new { Area = "Admin" })">@T("Admin.ORC")</a></li>
+                    @*    <li class="dropdown-item"><a href="@Url.Action("List", "NLBO", new { Area = "Admin" })">@T("Admin.ORC")</a></li>
                         <li class="dropdown-item"><a href="@Url.Action("List", "Vhlsec", new { Area = "Admin" })">@T("Admin.OrganizationUnderDolfdAndAdd")</a></li>
-
+*@
 
 
                     </ul>

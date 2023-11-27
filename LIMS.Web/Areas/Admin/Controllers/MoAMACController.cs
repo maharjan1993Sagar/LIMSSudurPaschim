@@ -99,7 +99,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var allCustomerRoles = await _customerService.GetAllCustomerRoles(showHidden: true);
             var newCustomerRoles = new List<CustomerRole>();
             CustomerRole role = new CustomerRole();
-          
                 role = allCustomerRoles.Where(m => m.Name == "MolmacAdmin").FirstOrDefault();
             
             newCustomerRoles.Add(role);
