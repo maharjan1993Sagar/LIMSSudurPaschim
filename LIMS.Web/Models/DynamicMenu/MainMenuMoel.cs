@@ -11,7 +11,7 @@ namespace LIMS.Web.Models.DynamicMenu
         {
             SubMenus = new List<SubMenuModel>();
         }
-        public Guid MainMenuId { get; set; }
+        public string MainMenuId { get; set; }
         public int SerialNo { get; set; }
         public string MainMenuName { get; set; }
         public string Url { get; set; }
@@ -27,7 +27,7 @@ namespace LIMS.Web.Models.DynamicMenu
         {
             SubSubMenus = new List<SubSubMenuModel>();
         }
-        public Guid SubMenuId { get; set; }
+        public string SubMenuId { get; set; }
         public int SerialNo { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
@@ -38,7 +38,7 @@ namespace LIMS.Web.Models.DynamicMenu
 
     public class SubSubMenuModel
     {
-        public Guid SubSubMenuId { get; set; }
+        public string SubSubMenuId { get; set; }
         public int SerialNo { get; set; }
         public string SubSubMenuName { get; set; }
         public string Url { get; set; }

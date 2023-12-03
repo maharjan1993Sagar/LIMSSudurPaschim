@@ -5,21 +5,9 @@
     <div class="row">
         <div class="col-md-12">
             <h3 class="text-primary">
-                <i class="fa fa-book"></i>@Model.TypeName
+                <i class="fa fa-book"></i>@Model.Type
             </h3>
-        </div>
-        @*<form method="get">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>
-                        @_lbl.GetByName("News.Type", "")
-                       
-                    </label>
-                    <select onchange="this.form.submit()" name="type" class="form-control" asp-items='@(new SelectList(ViewBag.Types,"Value","Text",Model.Type))'>
-                    </select>
-                </div>
-            </div>
-        </form>*@
+        </div>     
         <div class="col-md-12">
             <table id="tblPublication" class="table table-responsive table-bordered">
                 <thead>
@@ -30,11 +18,12 @@
                         </th>
                         <th>
                             @_lbl.GetByName("News.PublishedDate", "")
-
                         </th>
                         <th>
-                            @_lbl.GetByName("News.Download", "")
-                            
+                            @_lbl.GetByName("News.File.Size", "")
+                        </th>
+                        <th>
+                            @_lbl.GetByName("News.Download", "")                            
                         </th>
                     </tr>
                 </thead>
@@ -50,6 +39,7 @@
                                 <td>
                                     @item.ActiveDate.ToShortDateString()
                                 </td>
+                                <td>@item.Image.FileSize</td>
                                 <td>
                                     @if (!String.IsNullOrEmpty(item.Image.FileName))
                                     {

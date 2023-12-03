@@ -1,0 +1,49 @@
+﻿@model NewsEventTenderModel
+<section>
+    @if (Model != null)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <label class="text-primary">
+                                <i class="fa fa-align-left"></i>
+                                @Model.Title
+                            </label>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                @Html.Raw(Model.Description)
+                            </p>
+                            @if (Model.Image != null && !String.IsNullOrEmpty(Model.Image.FileName))
+                            {
+                                @if (Model.Image.Type.Contains("image"))
+                                {
+                                    <p>
+                                        <img src="@Model.Image.FilePath" height="400" width="500" />
+                                    </p>
+                                }
+                                else if (Model.Image.Type.Contains("pdf"))
+                                {
+                                    <p>
+                                        File
+                                        <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@Model.Id" style="color:#245580;">
+
+                                        <i class="fa fa-download"></i>
+                                            </a>
+                                    </p>
+                                    
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <partial name="~/views/shared/_RecordNotFound.cshtml" />
+    }
+</section>

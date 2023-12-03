@@ -1,7 +1,7 @@
-﻿@*@model NewsEventViewModel
+﻿@model NewsEventViewModel
 @using LIMS.Website1.Data
-@inject IGetLabel _lbl*@
-<!--<div class="container">
+@inject IGetLabel _lbl
+<div class="container">
     <div class="row">
         <br />
         <div class="col-md-3">
@@ -9,22 +9,18 @@
                 <div class="panel-heading">
                     <h4 class="text-primary">
                         <i class="fa fa-newspaper-o"></i>
-                        {
-                            string type = Model.ObjNews != null ? Model.ObjNews.Type : "News/Event";
-                        }
-                        _lbl.GetByName("News."+type.Trim(),"")-->
-@*  @(Model.ObjNews!=null?Model.ObjNews.Type:"News/Event")*@
-<!--</h4>
+                        @Model.Type                        
+                        </h4>
                 </div>
                 <div class="panel-body">
                     <ul class="scholoar-ship">
-                        if (Model.News.Any())
+                        @if (Model.News.Any())
                         {
-                            foreach (var item in Model.News)
+                            @foreach (var item in Model.News)
                             {
                                 <li>
-                                    <a style="color: #1892F5;" asp-route-id="item.Id" asp-route-type="item.Type">
-                                        item.Title<span></span>
+                                    <a style="color: #1892F5;" asp-route-id="@item.Id" asp-route-subsubmenu="@item.SubSubMenu" asp-route-submenu="@item.SubMenu" asp-route-mainmenu="@item.Type">
+                                        @item.Title<span></span>
                                     </a>
                                 </li>
                             }
@@ -37,128 +33,46 @@
                 </div>
             </div>
         </div>
-        if (Model.ObjNews != null)
+        @if (Model.ObjNews != null)
         {
-            <div class="col-md-9">
+    <div class="col-md-9">
 
-                <h4 class="text-primary">
-                    <i class="fa fa-newspaper-o"></i>
-                    Model.ObjNews.Title
-                </h4>
-                <font style="color: rgb(159,159,159);">
-                    <i class="fa fa-calendar">&nbsp;Model.ObjNews.UploadedDate.ToShortDateString() &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;Model.ObjNews.UploadedBy</i>
-                </font><br />
-
-                <div class="text-center">
-                    <img src='(Model.ObjNews.Image.FilePath)' onerror="hideImage(this);" width="550"
-                         alt="Avatar" />
-                </div>
-                Model.ObjNews.Description
-
+        <h4 class="text-primary">
+            <i class="fa fa-newspaper-o"></i>
+            @Model.ObjNews.Title
+        </h4>
+        <font style="color: rgb(159,159,159);">
+            <i class="fa fa-calendar">&nbsp;@Model.ObjNews.ActiveDate.ToShortDateString() &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
+        </font><br />
+        @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("image"))
+        {
+            <div class="text-center">
+                <img src='@(Model.ObjNews.Image.FilePath)' onerror="hideImage(this);" width="550"
+                     alt="Avatar" />
             </div>
         }
+        @Model.ObjNews.Description
+        @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("pdf"))
+        {
+            <div>
+               File:<a asp-action="download" asp-route-id="@Model.ObjNews.Id" style="color:#245580;"><i class="fa fa-download"></i></a>
+            </div>
+        }
+    </div>
+        }   
         else
         {
             <div class="col-md-9">
                 <h4 class="text-primary">
                     <i class="fa fa-newspaper-o"></i>
-                    News/Event Title
+                    Title
                 </h4>
                 <font style="color: rgb(159,159,159);">
-                    <i class="fa fa-calendar">&nbsp;DateTime.Now &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;Admin</i>
+                    <i class="fa fa-calendar">&nbsp;@DateTime.Now &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;Admin</i>
                 </font><br />
                 No record found.
             </div>
         }
-    </div>
-</div>
-section Scripts
-{
-    <script type="text/javascript">
-        function hideImage(img) {
-            img.style.display = "none";
-        }
-    </script>
-
-}-->
-@model NewsEventViewModel
-@using LIMS.Website1.Data
-@inject IGetLabel _lbl
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="text-primary">
-                <i class="fa fa-book"></i>@Model.TypeName
-            </h3>
-        </div>
-        @*<form method="get">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>
-                        @_lbl.GetByName("News.Type", "")
-
-                    </label>
-                    <select onchange="this.form.submit()" name="type" class="form-control" asp-items='@(new SelectList(ViewBag.Types,"Value","Text",Model.Type))'>
-                    </select>
-                </div>
-            </div>
-        </form>*@
-        <div class="col-md-12">
-            <table id="tblPublication" class="table table-responsive table-bordered">
-                <thead>
-                    <tr style="background: #fefefe;">
-                        <th>
-                            @_lbl.GetByName("Title", "")
-
-                        </th>
-                        <th>
-                            @_lbl.GetByName("Published date", "")
-
-                        </th>
-                        <th>
-                            @_lbl.GetByName("Download", "")
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.News.Any())
-                    {
-                        @foreach (var item in Model.News)
-                        {
-                            <tr>
-                                <td>
-                                    @item.Title
-                                </td>
-                                <td>
-                                    @item.ActiveDate.ToShortDateString()
-                                </td>
-                                <td>
-                                    @if (!String.IsNullOrEmpty(item.Image.FileName))
-                                    {
-                                        <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
-                                            <i class="fa fa-download"></i>
-                                        </a>
-                                    }
-                                    @if (item.ShowText)
-                                    {
-                                        <a asp-controller="NewsEvent" asp-action="Details" asp-route-id="@item.Id">
-                                            Details
-                                        </a>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="3">No record found.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 @section Scripts{

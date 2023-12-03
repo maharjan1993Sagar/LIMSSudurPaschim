@@ -1,0 +1,13 @@
+﻿@model NewsEventViewModel
+
+<section>
+    @if (Model.News.Any())
+    {
+    <partial name="_listPartial.cshtml" model="@Model" />
+    }
+    else
+    {
+    <partial name="~/views/shared/_RecordNotFound.cshtml" />
+    }
+   
+</section>

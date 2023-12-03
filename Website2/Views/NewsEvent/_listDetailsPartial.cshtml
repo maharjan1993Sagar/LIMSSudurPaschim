@@ -1,124 +1,92 @@
 ﻿@model NewsEventViewModel
-<div class="row">
-    <br />
-    <div class="col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="text-primary">
-                    <i class="fa fa-newspaper-o"></i>@(Model.Type)
-                </h4>
-            </div>
-            <div class="panel-body">
-                <ul class="scholoar-ship">
-                    @if (Model.News.Any())
-                    {
-                        @foreach (var item in Model.News)
+@using LIMS.Website1.Data
+@inject IGetLabel _lbl
+<div class="container">
+    <div class="row">
+        <br />
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="text-primary">
+                        <i class="fa fa-newspaper-o"></i>
+                        @Model.Type                        
+                        </h4>
+                </div>
+                <div class="panel-body">
+                    <ul class="scholoar-ship">
+                        @if (Model.News.Any())
                         {
-                            <li class="d-flex mb-4 news-highlight">
-                                <a style="color: #1892F5;" asp-route-mainmenu="@item.Type" asp-route-submenu="@item.SubMenu" asp-route-subsubmenu="@item.SubSubMenu" asp-route-id="@item.Id" >
-                                    @item.Title<span></span>
-                                </a>
-                            </li>
-                            <div class="clearfix"></div>
+                            @foreach (var item in Model.News)
+                            {
+                                <li>
+                                    <a style="color: #1892F5;" asp-route-id="@item.Id" asp-route-subsubmenu="@item.SubSubMenu" asp-route-submenu="@item.SubMenu" asp-route-mainmenu="@item.Type">
+                                        @item.Title<span></span>
+                                    </a>
+                                </li>
+                            }
                         }
-                    }
-                    else
-                    {
-                        <li><a href="">No record found.</a></li>
-                    }
-                </ul>
+                        else
+                        {
+                            <li><a href="">No record found.</a></li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    @if (Model.ObjNews != null)
-    {
-        <div class="col-md-9">
+        @if (Model.ObjNews != null)
+        {
+    <div class="col-md-9">
 
-            <h4 class="text-primary">
-                <i class="fa fa-newspaper-o"></i>
-                @Model.ObjNews.Title
-            </h4>
-            <font style="color: rgb(159,159,159);">
-                <i class="fa fa-calendar">&nbsp;@Model.ObjNews.ActiveDate.ToString("dd MMMM yy") &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
-            </font><br />
-
+        <h4 class="text-primary">
+            <i class="fa fa-newspaper-o"></i>
+            @Model.ObjNews.Title
+        </h4>
+        <font style="color: rgb(159,159,159);">
+            <i class="fa fa-calendar">&nbsp;@Model.ObjNews.ActiveDate.ToShortDateString() &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
+        </font><br />
+        @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("image"))
+        {
             <div class="text-center">
-                @if (Model.ObjNews.Image.Type.Contains("Image"))
-                {
-                    <img src='@(Model.ObjNews.Image.FilePath)' onerror="hideImage(this);" width="550"
-                         alt="Avatar" />
-                }
+                <img src='@(Model.ObjNews.Image.FilePath)' onerror="hideImage(this);" width="550"
+                     alt="Avatar" />
             </div>
-            <p>
-                @Model.ObjNews.Description
-            </p>
-           
-            Download: 
-            <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@Model.ObjNews.Id">
-                <i class="fa fa-download">@Model.ObjNews.Image.FileName</i>
-            </a>
-        </div>
-    }
-    else
-    {
-        <div class="col-md-9">
-            <h4 class="text-primary">
-                <i class="fa fa-newspaper-o"></i>
-                Title
-            </h4>
-            <font style="color: rgb(159,159,159);">
-                <i class="fa fa-calendar">&nbsp;@DateTime.Now &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;Admin</i>
-            </font><br />
-            No record found.
-        </div>
-    }
-
-    @*<div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="highlight-section">
-            <div class="highlight-header text-center">
-                <h6>Highlights</h6>
+        }
+        @Model.ObjNews.Description
+        @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("pdf"))
+        {
+            <div>
+               File:<a asp-action="download" asp-route-id="@Model.ObjNews.Id" style="color:#245580;"><i class="fa fa-download"></i></a>
             </div>
-            <ul>
-                @if (Model.NewsAndEvent.Count() > 0)
-                {
-                    @foreach (var item in Model.NewsAndEvent)
-                    {
-                        <li class="d-flex mb-4 news-highlight">
-                            <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/nep-gov1.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov1.png'" alt="" width="25" height="20">
-
-                            <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.TypeName">
-                                @item.Title
-                                <br /><span class="date d-block ml-0 mt-1">
-                                    <i class="fa fa-calendar">   @item.UploadedDate.ToString("dd MMM yyyy")</i>
-                                </span>
-                            </a>
-                        </li>
-                        <div class="clearfix"></div>
-                    }
-                }
-                else
-                {
-                    <li class="d-flex mb-4 news-highlight">
-                        <img src="img/nep-gov.png" width="60px" class="hilight-img">
-                        <a href="#" target="_blank">
-                            No records found
-                            <br /><span class="date d-block ml-0 mt-1">
-                                <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
-                            </span>
-                        </a>
-                    </li>
-                }
-
-            </ul>
-        </div>
-    </div>*@
+        }
+    </div>
+        }   
+        else
+        {
+            <div class="col-md-9">
+                <h4 class="text-primary">
+                    <i class="fa fa-newspaper-o"></i>
+                    Title
+                </h4>
+                <font style="color: rgb(159,159,159);">
+                    <i class="fa fa-calendar">&nbsp;@DateTime.Now &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;Admin</i>
+                </font><br />
+                No record found.
+            </div>
+        }
+    </div>
 </div>
-@section Scripts
-{
+@section Scripts{
     <script type="text/javascript">
         function hideImage(img) {
             img.style.display = "none";
         }
+        $(document).ready(function () {
+            $('#tblPublication').DataTable({
+                language: {
+                    searchPlaceholder: "Search...",
+                    search: "",
+                }
+            });
+        });
     </script>
-
 }
