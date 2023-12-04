@@ -45,6 +45,8 @@ namespace Website2
                     .AddSupportedUICultures(supportedCultures);
             });
 
+            services.AddScoped<IGetLabel, GetLabel>();
+
 
             #endregion
 

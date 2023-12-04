@@ -29,7 +29,7 @@
                             </th>
 
                             <th>
-                            Email
+                            Phone
 
                             </th>
 
@@ -47,18 +47,13 @@
                             <td>@item.Name</td>
                             <td>@item.Designation</td>
                             <td>
-
                                 <image src='@(!String.IsNullOrEmpty(item.Image.PictureUrl) ? @item.Image.PictureUrl : "/Dolfd/img/111.png")'
                                        style="height: 100px; width: 120px;" alt=""></image>
                             </td>
-                            <td>@item.Email1</td>
+                            <td>@item.Phone2</td>
                             @{i++;
                             }
                         </tr>
-
-                               
-                                  
-                               
 
                             }
                         }

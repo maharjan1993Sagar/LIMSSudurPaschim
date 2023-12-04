@@ -144,6 +144,7 @@ namespace LIMS.Website1.Controllers
                     newsEventTenders = newsEventTenders.Where(m => m.Type == mainmenu).ToList();
                 }
                 objNews = newsEventTenders.FirstOrDefault();
+                objNews.Description = objNews.Description.Replace(System.Environment.NewLine, "<br>");
                 return View(objNews);
             }
 

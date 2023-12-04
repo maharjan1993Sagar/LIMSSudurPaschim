@@ -162,7 +162,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 else
                 {
-                    if (m.Name.ToLower().Contains("employee")|| (m.Name.ToLower().Contains("staff"))|| (m.Name.ToLower().Contains("organ"))  )
+                    if (m.Name.ToLower().Contains("employee")|| (m.Name.ToLower().Contains("staff"))  )
                         {
                         m.Url = "/Employee/Index";
                     }

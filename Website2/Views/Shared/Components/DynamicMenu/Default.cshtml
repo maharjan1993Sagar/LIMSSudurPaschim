@@ -48,7 +48,7 @@
                                     {
                                         { subSubMenuName = curCulture == "en-US" ? subSubItem.SubSubMenuName : subSubItem.SubSubMenuNameNepali; }
 
-                                        <a class="dropdown-item" href='@(subSubItem.Url+"?mainmenu="+item.MainMenuId.ToString()+"&submenu="+subItem.SubMenuId.ToString()+"@subsubmenu="+subSubItem.SubSubMenuId)' target='@(subSubItem.IsUrlExternal?"_blank":"_self")'>@subSubMenuName</a>
+                                        <a class="dropdown-item" href='@(subSubItem.Url)' target='@(subSubItem.IsUrlExternal?"_blank":"_self")'>@subSubMenuName</a>
                                     }
 
                                     @*</li>*@
@@ -59,7 +59,7 @@
 
                                     @*<a class="dropdown-item" href="#"></a>*@
 
-                                    <a class="dropdown-item" href='@(subItem.Url+"?mainmenu="+item.MainMenuId.ToString()+"&submenu="+subItem.SubMenuId.ToString())' target='@(subItem.IsUrlExternal?"_blank":"_self")'>@subMenuName</a>
+                                    <a class="dropdown-item" href='@(subItem.Url)' target='@(subItem.IsUrlExternal?"_blank":"_self")'>@subMenuName</a>
 
 
                                 }

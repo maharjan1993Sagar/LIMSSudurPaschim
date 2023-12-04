@@ -39,7 +39,7 @@
                                 <td>
                                     @item.ActiveDate.ToShortDateString()
                                 </td>
-                                <td>@item.Image.FileSize</td>
+                                <td>@(item.Image.FileSize+"KB")</td>
                                 <td>
                                     @if (!String.IsNullOrEmpty(item.Image.FileName))
                                     {

@@ -87,7 +87,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
                 if (model.IsUrlExternal)
                 {
-                    subsubMenu.Url = model.ExternalUrl;
+                    subsubMenu.Url = model.Url;
                 }                
                 await _subSubMenuService.InsertSubSubMenu(subsubMenu);
                 
@@ -139,7 +139,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 m.Url = "/NewsEvent/Index?subSubMenu=" + m.Id;
                 if (model.IsUrlExternal)
                 {
-                    m.Url = model.ExternalUrl;
+                    m.Url = model.Url;
                 }                
                 m.SubMenu = await _subMenuService.GetSubMenuById(model.SubMenuId);
                 await _subSubMenuService.UpdateSubSubMenu(m);
