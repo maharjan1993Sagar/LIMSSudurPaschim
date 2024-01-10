@@ -103,7 +103,7 @@ namespace LIMS.Website1.Controllers
                 RulesRegulation = rules.Take(rules.ToList().Count > 4 ? 4 : rules.ToList().Count).ToList(),
                 Gallery = gallery.FirstOrDefault(),
                 Video = video.FirstOrDefault(),
-                Galleries = gallery.Take(gallery.ToList().Count > 4 ? 4 : gallery.ToList().Count).ToList(),
+                Galleries = gallery.Take(gallery.ToList().Count > 6 ? 6 : gallery.ToList().Count).ToList(),
                 Videos = video.Take(video.ToList().Count > 4 ? 4 : video.ToList().Count).ToList(),
             OrgName=customer.OrgName
             };
