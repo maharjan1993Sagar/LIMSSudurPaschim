@@ -55,5 +55,6 @@ namespace LIMS.Domain.StatisticalData
 
         public string FarmId { get; set; }
         public Farm Farm { get; set; }
+        public string Remarks { get; set; }
     }
 }

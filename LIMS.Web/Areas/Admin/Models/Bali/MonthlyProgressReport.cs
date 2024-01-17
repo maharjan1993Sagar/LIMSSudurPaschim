@@ -8,8 +8,8 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 {
     public class MonthlyProgressReport
     {
-        public PujigatKharchaKharakram pujigatKharchaKharakram { get; set; }
-        public string PujigatKharchaId { get; set; }
+        public Budget budget { get; set; }
+        public string BudgetId { get; set; }
         public string FiscalYearId { get; set; }
         public string Month { get; set; }
         public string VautikPragati { get; set; }

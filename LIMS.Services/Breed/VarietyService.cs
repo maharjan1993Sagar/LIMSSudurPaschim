@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LIMS.Services.Breed
 {
-   public class VarietyService:IVarietyService
+    public class VarietyService : IVarietyService
     {
 
         private readonly IRepository<CropsProduction> _VarietyRepository;
@@ -32,11 +32,11 @@ namespace LIMS.Services.Breed
             await _mediator.EntityDeleted(CropsProduction);
         }
 
-        public async Task<IPagedList<CropsProduction>> GetBreed(string createdby,string keyword,int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<CropsProduction>> GetBreed(string createdby, string keyword, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _VarietyRepository.Table;
             query = query.Where(m => m.CreatedBy == createdby);
-            if(!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(
                     m => m.GrowingSeason.GrowingSeason.Contains(keyword)
@@ -76,7 +76,7 @@ namespace LIMS.Services.Breed
             }
             if (fiscalYearId != null && speciesId != null && string.IsNullOrEmpty(district))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.CropName.Species.Id== speciesId);
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.CropName.Species.Id == speciesId);
 
             }
             if (fiscalYearId != null && speciesId != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
@@ -89,9 +89,9 @@ namespace LIMS.Services.Breed
                 query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.District == district);
 
             }
-            if (fiscalYearId != null  &&  !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
+            if (fiscalYearId != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId  && m.LocalLevel == LocalLevel);
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.LocalLevel == LocalLevel);
 
             }
             return await PagedList<CropsProduction>.Create(query, pageIndex, pageSize);
@@ -134,10 +134,27 @@ namespace LIMS.Services.Breed
             await _VarietyRepository.UpdateAsync(Varietys);
         }
 
-        public async Task<PagedList<CropsProduction>> GetFilteredLivestock(string createdby,string district,string locallevel,string fiscalyear,int ward, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<PagedList<CropsProduction>> GetFilteredLivestock(string createdby, string district, string locallevel, string fiscalyear, int ward, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _VarietyRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.District==district&& m.LocalLevel==locallevel&&m.FiscalYear.Id==fiscalyear&&m.Ward==ward.ToString());
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            if (!String.IsNullOrEmpty(district))
+            {               
+                query = query.Where(m => m.LocalLevel == locallevel);
+            }
+            if (!String.IsNullOrEmpty(fiscalyear))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalyear);
+
+            }
+            if (ward>0)
+            {
+                query = query.Where(m => m.Ward == ward.ToString());
+            }
+
             return await PagedList<CropsProduction>.Create(query, pageIndex, pageSize);
 
         }

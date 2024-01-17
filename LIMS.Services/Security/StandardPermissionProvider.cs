@@ -229,12 +229,10 @@ namespace LIMS.Services.Security
                 AccessNewsEventTender,
                 AccessGeneralCMS,
                 AccessCMS,
-                    AccessMolmacRegister,
-                    AccessCropProduction,
-                    AccessSubsidyRegister,
-                    AccessResourceRegister
-
-
+                AccessMolmacRegister,
+                AccessCropProduction,
+                AccessSubsidyRegister,
+                AccessResourceRegister
             };
         }
 
@@ -287,8 +285,6 @@ namespace LIMS.Services.Security
                         ManageKnowledgebase,
                         ManageCourses,
                         ManageMessageTemplates,
-
-
                         ManageMessageQueue,
                         ManageMessageContactForm,
                         ManageMaintenance,
@@ -306,7 +302,8 @@ namespace LIMS.Services.Security
                         ManageInteractiveForm,
                         ManageActions,
                         ManageReminders,
-                                   
+                        AccessMasterSetup,
+                        AccessCMS
                     }
 
 
@@ -392,10 +389,6 @@ namespace LIMS.Services.Security
                         ManageReminders
                       
                     }
-
-
-
-
                 },
                 };
             //    new DefaultPermissionRecord

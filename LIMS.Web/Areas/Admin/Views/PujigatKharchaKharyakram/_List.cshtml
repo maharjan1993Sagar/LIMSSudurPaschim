@@ -1,33 +1,25 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @model FarmListModel
 @{ //page title
-                ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
 
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel light form-fit">
-
-
             <div class="form-group">
                 <div class="col-md-6">
                     <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Filter" />
                 </div>
-               
             </div>
             <div class="x_title">
-
                 <div class="form-group">
-
-
                 </div>
-
                 <div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
                     <button type="button" class="btn ">
                         <a href="@Url.Action("Create")" class="btn green">
                             @T("Admin.Common.AddNew")
                         </a>
                     </button>
-
                     <button type="button" name="importexcel" id="importexcel" class="btn blue">
                         <i class="fa fa-upload"></i>
                         @T("Admin.Common.ImportFromExcel")
@@ -35,9 +27,9 @@
                     <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
                 </div>
             </div>
-
             <div class="x_content">
                 <div id="categories-grid"></div>
+               
             </div>
         </div>
     </div>
@@ -62,12 +54,12 @@
                         dataType: "json",
                         data: additionalData
                     },
-                    update: {
+                    @*update: {
                         url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
-                    },
+                    },*@
                     destroy: {
                         url: "@Html.Raw(Url.Action("Delete", "PujigatKharchaKharyakram"))",
                         type: "POST",
@@ -81,10 +73,7 @@
                     errors: "Errors",
                     model: {
                         id: "Id",
-
                     }
-
-
                 },
                 error: function (e) {
                     display_kendoui_grid_error(e);
@@ -106,40 +95,43 @@
             },
             scrollable: false,
             columns: [
-                {
-                field: "Limbis_Code",
-                title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
+                @*{
+                field: "FiscalYear",
+                title: "@T("Admin.Budget.Fields.FiscalYear")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
-            },
+            },*@
             {
-                field: "Program",
-                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                field: "ActivityName",
+                    title: "@T("Admin.Budget.Fields.ActivityName")",
+                     template: '<a class="k-link" href="Edit/#=Id#">#=ActivityName#</a>',
             },
 
             {
-                field: "kharchaCode",
-                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                field: "PlanningProgram",
+                title: "@T("Admin.Budget.Fields.PlanningProgram")",
                 },
-
-
             {
-                field: "Unit",
-                title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
+                field: "Yearly",
+                title: "@T("Admin.PujigatKaryakram.Fields.Yearly")",
             },
             {
-                field: "BarsikBajet",
-                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                field: "SourceOfFund",
+                title: "@T("Admin.PujigatKaryakram.Fields.SourceOfFund")",
                 },
              {
-                 field: "BarshikParinam",
-                title: "@T("Admin.PujigatKaryakram.Fields.BarshikParinam")",
+                 field: "TypeOfExpen",
+                title: "@T("Admin.PujigatKaryakram.Fields.TypeOfExpen")",
                 },
-              
+
             {
-                field: "PrathamChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
+                field: "TypeOfExecution",
+                title: "@T("Admin.PujigatKaryakram.Fields.TypeOfExecution")",
                 },
-             {
+              {
+                  field: "ExpensesCategory",
+                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
+                },
+             @*{
                   field: "PrathamChaumasikParimam",
                 title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikParimam")",
                 },
@@ -164,25 +156,21 @@
             {
                 field: "Remarks",
                 title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
-            },
+            },*@
              {
                 command: [
-                    {
+                    @*{
                         name: "edit",
                         text: {
                             edit: "@T("Admin.Common.Edit")",
                             update: "@T("Admin.Common.Update")",
                             cancel: "@T("Admin.Common.Cancel")"
                         },
-
-                     },
-                    {
+                     },*@
+                     {
                         name: "destroy",
                         text: "@T("Admin.Common.Delete")"
-                           }
-
-
-
+                     }
                  ],
                 width: 200
             }
@@ -191,6 +179,10 @@
         });
 
     });
+
+
+
+
     function additionalData() {
         var data = {
             Keyword: $("#Keyword").val()
@@ -221,8 +213,8 @@
     <script type="text/javascript">
         // don't remove <script> tag
     </script>
-    <form asp-area="@Constants.AreaAdmin" asp-controller="PujigatKharchaKharyakram" asp-action="ImportFromXlsx" method="post" enctype="multipart/form-data">
-        
+    <form asp-area="@Constants.AreaAdmin" asp-controller="PujigatKharchaKharyakram" asp-action="ImportBudgetFromXlsx" method="post" enctype="multipart/form-data">
+
         @*<em>@T("Admin.Catalog.Category.List.ImportFromExcelTip")</em>*@
         <div class="form-group">
             <label><b>xlsx Format of excel file required  </b></label>  &nbsp; &nbsp; &nbsp;
@@ -231,10 +223,10 @@
         </div>
         <div class="form-group">
             @*<div class="col-md-3" style="margin-top: 2px; height: 34px; padding-left: 25px;">
-                <label class="control-label">
-                    @T("Admin.Common.ExcelFile"):
-                </label>
-            </div>*@
+                    <label class="control-label">
+                        @T("Admin.Common.ExcelFile"):
+                    </label>
+                </div>*@
 
             <div class="col-md-3">
                 <label>@T("Admin.Common.ExcelFile") </label>
@@ -247,7 +239,7 @@
                     <option value="">Select</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            @*<div class="col-md-3">
                 <label>@T("Admin.Common.Type")</label>
                 <select id="Type" name="Type" class="form-control" required>
                     <option value="">Select</option>
@@ -258,7 +250,7 @@
                 <select id="Program" name="ProgramType" class="form-control" required>
                     <option value="">Select</option>
                 </select>
-            </div>
+            </div>*@
         </div>
         <div class="form-group">
             &nbsp;
@@ -278,9 +270,6 @@
         $.get("/Admin/PujigatKharchaKharyakram/GetFiscalYear", (result) => {
             $.each(result, function (i, item) {
                 $("#Fiscalyear").append(`<option value="${item.Id}" selected>${item.NepaliFiscalYear}</option>`);
-
-
-
             });
         });
         $.get("/Admin/PujigatKharchaKharyakram/PujigatType", (result) => {
@@ -294,8 +283,6 @@
         $.get("/Admin/PujigatKharchaKharyakram/ProgramType", (result) => {
             $.each(result, function (i, item) {
                 $("#Program").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
-
-
 
             });
         });

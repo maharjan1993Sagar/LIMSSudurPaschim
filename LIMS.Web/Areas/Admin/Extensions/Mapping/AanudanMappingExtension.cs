@@ -23,6 +23,14 @@ namespace LIMS.Web.Areas.Admin.Extensions.Mapping
         {
             return model.MapTo<PugigatKharchaKaryakramModel, PujigatKharchaKharakram>();
         }
+        public static BudgetModel ToModel(this Budget entity)
+        {
+            return entity.MapTo<Budget, BudgetModel>();
+        }
+        public static Budget ToEntity(this BudgetModel model)
+        {
+            return model.MapTo<BudgetModel, Budget>();
+        }
         public static AanudanKokaryakram ToEntity(this AanudanModel model, AanudanKokaryakram destination)
         {
             return model.MapTo(destination);

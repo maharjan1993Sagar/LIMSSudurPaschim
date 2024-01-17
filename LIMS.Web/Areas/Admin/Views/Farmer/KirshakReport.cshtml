@@ -13,33 +13,43 @@
                     @T("Admin.Farmer.LIST")
                 </div>
                 @*<div class="actions btn-group btn-group-devided">
-                    <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
-                </div>*@
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>*@
             </div>
             <div class="x_content form">
-                <div class="form-inline">
-                    <div class="form-body">
-                        <div class="form-body col-md-12">
-                            <div class="form-group">
-                                <!--<div class="col-2 col-md-2 col-sm-3">
-                                    <admin-select asp-for="Fiscalyear" asp-items="ViewBag.IncuvationCenter">
-
-
-                                    </admin-select>-->
-
-
-                                    @*<input id="dropdownlist" />*@
-                                <!--</div>-->
-                                <div class="col-2 col-md-2 col-sm-3">
-                                    <admin-select asp-for="District" asp-items="ViewBag.FiscalYearId">
-
-
-                                    </admin-select>
-
-
-                                    @*<input id="dropdownlist" />*@
+                <div class="form-row">                 
+                              
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Fiscalyear" />
+                                        <admin-select asp-for="Fiscalyear" asp-items="ViewBag.FiscalYearId">
+                                        </admin-select>
+                                    </div>
                                 </div>
-                                <div class="col-md-2 col-sm-2">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <admin-label asp-for="BudgetId" />
+
+                                        <select asp-for="BudgetId" class="form-control" required="required"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <admin-label asp-for="TalimId" />
+
+                                        <select asp-for="TalimId" class="form-control" required="required"></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="LocalLevel" />
+
+                                        <select asp-for="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" style="padding-top:20px;">
                                     <button class="btn btn-success filter-submit" id="search-bali" style="font-size: 13px!important;">
                                         <i class="fa fa-search"></i> @T("admin.common.search")
                                     </button>
@@ -56,9 +66,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+       
 <script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
@@ -66,6 +74,94 @@
 
 <script>
     $(document).ready(function () {
+
+        var fiscalyear = $("#@Html.IdFor(m=>m.Fiscalyear)").val();
+        var budgetId = $("#@Html.IdFor(m=>m.BudgetId)").val();
+
+        datas = {
+            fiscalyear: fiscalyear,
+            budgetId: budgetId
+        }
+
+
+         if (fiscalyear) {
+            var a = $("#@Html.IdFor(m=>m.BudgetId)").data('val');
+                 $("#@Html.IdFor(m=>m.BudgetId)").empty();
+                 $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/LabambitKrishak/GetBudget";
+                 $.getJSON(url, datas, function (result) {
+                     $.each(result, function (i, item) {
+                         if (a == item.Id) {
+                             $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}" selected>${item.ActivityName}</option>`);
+                         }
+                         else {
+                             $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
+                         }
+                         });
+                 })
+        }
+
+        if (budgetId) {
+            var a = $("#@Html.IdFor(m=>m.TalimId)").data('val');
+                 $("#@Html.IdFor(m=>m.TalimId)").empty();
+                 $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/LabambitKrishak/GetTrainingProgram";
+                 $.getJSON(url, datas, function (result) {
+                     $.each(result, function (i, item) {
+                         if (a == item.Id) {
+                             $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}" selected>${item.NameNepali}</option>`);
+                         }
+                         else {
+                             $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameNepali}</option>`);
+                         }
+                         });
+                 })
+        }
+
+
+        $("#@Html.IdFor(m=>m.Fiscalyear)").change(function () {
+            fiscalyear = $(this).val();
+            data = {
+                fiscalyear: fiscalyear,
+                budgetId: $("#@Html.IdFor(m=>m.BudgetId)").val()
+            }
+
+             if (fiscalyear) {
+                 $("#@Html.IdFor(m=>m.BudgetId)").empty();
+                 $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/LabambitKrishak/GetBudget";
+                 $.getJSON(url, data, function (result) {
+                     $.each(result, function (i, item) {
+                         $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
+                     });
+                 })
+            }
+        });
+
+    $("#@Html.IdFor(m=>m.BudgetId)").change(function () {
+        budgetId = $(this).val();
+        data = {
+           fiscalyear:$("#@Html.IdFor(m=>m.Fiscalyear)").val(),
+            budgetId:$("#@Html.IdFor(m=>m.BudgetId)").val()
+        }
+
+        if (budgetId) {
+                 $("#@Html.IdFor(m=>m.TalimId)").empty();
+                 $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
+
+            url = "/Admin/LabambitKrishak/GetTrainingProgram";
+                 $.getJSON(url, data, function (result) {
+                     $.each(result, function (i, item) {
+                         $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameNepali}</option>`);
+                     });
+                 })
+            }
+    });
+
+
         $('#search-bali').click(function () {
             //search
             var grid = $('#bali-grid').data('kendoGrid');
@@ -117,8 +213,8 @@
 
                 },
                  {
-                    field: "District",
-                    title: "@T("Admin.Farmer.District")",
+                    field: "LocalLevel",
+                    title: "@T("Admin.Farmer.LocalLevel")",
                     width: 400,
 
                 },
@@ -198,7 +294,7 @@
                 },
                               {
                              field: "Others",
-                        title: "@T("Admin.Common.Others")",
+                        title: "@T("Admin.Common.Anya")",
                         width: 400,
 
                 },
@@ -229,9 +325,11 @@
 
     function additionalData() {
         var data = {
-            keyword: $('#@Html.FieldIdFor(model => model.Fiscalyear)').val(),
-            fiscalyear: $('#@Html.FieldIdFor(model => model.District)').val()
-
+            //keyword: $('#@Html.FieldIdFor(model => model.Fiscalyear)').val(),
+            fiscalyear: $('#@Html.FieldIdFor(model => model.Fiscalyear)').val(),
+            budgetId: $('#@Html.FieldIdFor(model => model.BudgetId)').val(),
+            talimId: $('#@Html.FieldIdFor(model => model.TalimId)').val(),
+            localLevel: $('#@Html.FieldIdFor(model => model.LocalLevel)').val()
         };
         addAntiForgeryToken(data);
         return data;

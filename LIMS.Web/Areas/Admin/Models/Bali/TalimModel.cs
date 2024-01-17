@@ -33,9 +33,9 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 
         public string Description { get; set; }
 
-        [LIMSResourceDisplayName("Lims.Aanudan.PujigatKharchaKaryakramId")]
+        [LIMSResourceDisplayName("Lims.Aanudan.BudgetId")]
 
-        public string PujigatKharchaKaryakramId { get; set; }
+        public string BudgetId { get; set; }
 
     }
 }

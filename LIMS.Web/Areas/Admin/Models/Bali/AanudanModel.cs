@@ -13,6 +13,9 @@ namespace LIMS.Web.Areas.Admin.Models.Bali.Aanudan
         [LIMSResourceDisplayName("Lims.Aanudan.PujigatKharchaKaryakramId")]
 
         public string PujigatKharchaKaryakramId { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.BudgetId")]
+
+        public string BudgetId { get; set; }
         [LIMSResourceDisplayName("Lims.Aanudan.FiscalyearId")]
 
         public string FiscalyearId { get; set; }

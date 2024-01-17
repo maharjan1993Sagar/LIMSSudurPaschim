@@ -25,5 +25,9 @@ namespace LIMS.Web.Areas.Admin.Models.Livestock
         public string Ward { get; set; }
         [LIMSResourceDisplayName("Admin.Livestock.Type")]
         public string Type { get; set; }
+        [LIMSResourceDisplayName("Admin.Farmer.BudgetId")]
+        public string BudgetId { get; set; }
+        [LIMSResourceDisplayName("Admin.Farmer.TalimId")]
+        public string TalimId { get; set; }
     }
 }

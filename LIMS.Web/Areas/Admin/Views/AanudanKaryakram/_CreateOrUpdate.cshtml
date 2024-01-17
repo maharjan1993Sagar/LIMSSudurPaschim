@@ -1,12 +1,12 @@
 ﻿@model AanudanModel
 @inject IWorkContext workContext
-@{ 
+@{
     var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 }
 <style>
     #tal {
-        width:150%;
-        overflow-x:scroll;
+        width: 150%;
+        overflow-x: scroll;
     }
 </style>
 
@@ -26,51 +26,36 @@
         <div class="col-md-3">
 
             <div class="form-group">
-                <admin-label asp-for="PujigatKharchaKaryakramId" />
-                <admin-select asp-for="PujigatKharchaKaryakramId" data-val="@Model.PujigatKharchaKaryakramId" class="form-control" required="required">
-                    <option value="">@T("Admin.Common.Select")</option>
+                <admin-label asp-for="BudgetId" />
+                <admin-select asp-for="BudgetId" data-val="@Model.BudgetId" class="form-control" required="required">
                 </admin-select>
-                <span asp-validation-for="PujigatKharchaKaryakramId"></span>
+                <span asp-validation-for="BudgetId"></span>
 
             </div>
         </div>
-        <div class="col-md-3">
 
+        <div class="col-md-2">
             <div class="form-group">
-                <admin-label asp-for="Province" />
-                <select name="Provience" id="country" data-val="Sudurpashchim Province" class="form-control" required="required">
-                    <option value="">select</option>
+                <admin-label asp-for="LocalLevel" />
+                <select asp-for="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" required="required">
                 </select>
-
+                <span asp-validation-for="LocalLevel"></span>
             </div>
         </div>
-        @if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
-        {
-            <div class="col-md-2">
 
-                <div class="form-group">
-                    <admin-label asp-for="District" />
-                    <select name="district" id="district" data-val="@Model.District" class="form-control" required="required">
-                        <option value="">select</option>
-                    </select>
-                    <span asp-validation-for="District"></span>
-
-                </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <admin-label>आसातित प्रतिफलहरू</admin-label>
+                <input asp-for="ExpectedOutput" class="form-control" required="required" />
             </div>
-        }
-        else
-        {
-            <div class="col-md-2">
-
-                <div class="form-group">
-                    <admin-label asp-for="District" />
-                    <input type="text" readonly="readonly"   name="district" id="district" value="@Model.District" class="form-control" />
-                    
-                    <span asp-validation-for="District"></span>
-
-                </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <admin-label>कैफियत</admin-label>
+                <input asp-for="Remarks" class="form-control" required="required" />
             </div>
-        }
+        </div>
+
         <div id="tal">
             <table class="table table-bordered" style="width:150% !important;text-align:center">
                 <tr style="background-color:#3c3c44;color:white">
@@ -79,9 +64,9 @@
 
                     </th>
 
-                    <th width="10%">
-                        <admin-label asp-for="LocalLevel" />
-                    </th>
+                    @*<th width="10%">
+                            <admin-label asp-for="LocalLevel" />
+                        </th>*@
 
                     <th>
                         <admin-label asp-for="Ward" />
@@ -89,14 +74,14 @@
                     <th width="8%">
                         <admin-label asp-for="PhoneNo" />
                     </th>
-                    <th  width="5%">
+                    <th width="5%">
                         <admin-label asp-for="AnudanReceiverType" />
                     </th>
                     <th width="5%">
                         <admin-label asp-for="SubsidyCategory" />
                     </th>
 
-                    <th  width="5%">
+                    <th width="5%">
                         <admin-label asp-for="AanudanKokisim" />
                     </th>
                     <th>
@@ -122,13 +107,6 @@
                         <admin-label asp-for="Others" />
                     </th>
 
-                    <th>
-                        <admin-label asp-for="ExpectedOutput" />
-                    </th>
-
-                    <th>
-                        <admin-label asp-for="Remarks" />
-                    </th>
                 </tr>
                 <tbody id="tabularEntry">
                 </tbody>
@@ -159,9 +137,9 @@
                 <input asp-for="KrishakKoName" class="form-control" />
             </td>
 
-            <td>
-                <admin-input asp-for="LocalLevel" />
-            </td>
+            @*<td>
+                    <admin-input asp-for="LocalLevel" />
+                </td>*@
             <td>
                 <admin-input asp-for="Ward" oninput="validity.valid||(value='0');" />
             </td>
@@ -176,7 +154,6 @@
                     <option value="Admin.LabambitKrishak.CoOperative">@T("Admin.LabambitKrishak.CoOperative")</option>
                     <option value="Admin.LabambitKrishak.Farm">@T("Admin.LabambitKrishak.Farm")</option>
                     <option value="Admin.LabambitKrishak.Farmer">@T("Admin.LabambitKrishak.Farmer")</option>
-
                     <option value="Admin.LabambitKrishak.Others">@T("Admin.LabambitKrishak.Others")</option>
 
                 </select>
@@ -185,12 +162,10 @@
                 <select name="SubsidyCategory" class="form-control">
 
                     <option value="">Select</option>
-
                     <option value="Livestock">Livestock</option>
                     <option value="Crops">Crops</option>
                     <option value="Livestock/crops">Livestock/crops</option>
                     <option value="Fisheries">Fisheries</option>
-
                     <option value="Others">Others</option>
 
                 </select>
@@ -199,7 +174,7 @@
 
 
             <td>
-                <admin-select asp-for="AanudanKokisim">
+                <select name="AanudanKokisim" class="form-control">
                     <option value="">Select</option>
                     <option value="Bew/Berna">Bew/Berna</option>
                     <option value="Irrigation Inrastructure">Irrigation Inrastructure</option>
@@ -211,19 +186,16 @@
                     <option value="rustic store">rustic store</option>
                     <option value="Marketing">Marketing</option>
                     <option value="Processing help">Processing help</option>
-
                     <option value="Cash">Cash</option>
                     <option value="Others">Others</option>
 
-                </admin-select>
+                </select>
             </td>
 
 
             <td><input type="number" name="AanudanRakam" class="form-control" min="0" oninput="validity.valid||(value='0');" /></td>
 
             <td><input type="number" name="FarmerContribution" class="form-control" min="0" oninput="validity.valid||(value='0');" /></td>
-
-
 
             <td><input type="number" name="MaleMember" class="form-control" min="0" oninput="validity.valid||(value='0');" /></td>
 
@@ -235,15 +207,12 @@
 
             <td><input type="number" name="Others" class="form-control" min="0" oninput="validity.valid||(value='0' );" /></td>
 
-            <td><input type="text" name="ExpectedOutput" class="form-control" min="0" oninput="validity.valid||(value='0' );" /></td>
 
-
-            <td><input type="text" name="Remarks" class="form-control" /></td>
 
 </table>
 
 <div id="fgh">
-    <admin-select asp-for="AanudanKokisim">
+    <select name="AanudanKokisim" class="form-control">
         <option value="">Select</option>
         <option value="Bew/Berna">Bew/Berna</option>
         <option value="Irrigation Inrastructure">Irrigation Inrastructure</option>
@@ -255,97 +224,95 @@
         <option value="rustic store">rustic store</option>
         <option value="Marketing">Marketing</option>
         <option value="Processing help">Processing help</option>
-
         <option value="Cash">Cash</option>
         <option value="Others">Others</option>
 
-    </admin-select>
+    </select>
 </div>
 
 <div id="ijk">
     <select name="AnudanReceiverType" id="AnudanReceiverType" class="form-control">
         <option value="">Select</option>
-
         <option value="Admin.LabambitKrishak.Group">@T("Admin.LabambitKrishak.Group")</option>
         <option value="Admin.LabambitKrishak.CoOperative">@T("Admin.LabambitKrishak.CoOperative")</option>
         <option value="Admin.LabambitKrishak.Farm">@T("Admin.LabambitKrishak.Farm")</option>
         <option value="Admin.LabambitKrishak.Farmer">@T("Admin.LabambitKrishak.Farmer")</option>
-
         <option value="Admin.LabambitKrishak.Others">@T("Admin.LabambitKrishak.Others")</option>
-
     </select>
 </div>
 <div id="lmo">
     <select name="SubsidyCategory" id="SubsidyCategory" class="form-control">
 
         <option value="">Select</option>
-
         <option value="Livestock">Livestock</option>
         <option value="Crops">Crops</option>
         <option value="Livestock/crops">Livestock/crops</option>
         <option value="Fisheries">Fisheries</option>
-
         <option value="Others">Others</option>
-
     </select>
 </div>
 <script>
        $(document).ready(function () {
-        $("#tal").hide();
+          $("#tal").hide();
            $("#hide").hide();
            $("#fgh").hide();
            $("#ijk").hide();
            $("#lmo").hide();
-       var  fiscalyear = $("#@Html.IdFor(m=>m.FiscalyearId)").val();
-             data = {
-                 fiscalyear: fiscalyear
-             }
-             if (fiscalyear) {
-                 $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").empty();
-                 $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="">Select</option>`);
 
+         var fiscalyear = $("#@Html.IdFor(m=>m.FiscalyearId)").val();
+         data = {
+                 fiscalyear: fiscalyear
+           }
+
+         if (fiscalyear) {
+                 $("#@Html.IdFor(m=>m.BudgetId)").empty();
+                 $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="">Select</option>`);
                  url = "/Admin/LabambitKrishak/GetSubsidyProgram";
                  $.getJSON(url, data, function (result) {
                      $.each(result, function (i, item) {
-                         $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);
+                         $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
                      });
                  })
-                 data = {
-            fiscalyear: $("#@Html.IdFor(m=>m.FiscalyearId)").val(),
-            program: $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").val(),
-            district:$("#district").val(),
-        }
-        abc(data);
+
+                  data = {
+                    fiscalyear: $("#@Html.IdFor(m=>m.FiscalyearId)").val(),
+                    program: $("#@Html.IdFor(m=>m.BudgetId)").val(),
+                    localLevel:$("#@Html.IdFor(m=>m.LocalLevel)").val(),
              }
-    });
-                    $("#@Html.IdFor(m=>m.FiscalyearId)").change(function () {
+
+                abc(data);
+           }
+
+            $("#@Html.IdFor(m=>m.FiscalyearId)").change(function () {
                         var fiscalyear = $("#@Html.IdFor(m=>m.FiscalyearId)").val();
                         data = {
                             fiscalyear: fiscalyear
                         }
                         if (fiscalyear) {
-                            $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").empty();
-                            $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="">Select</option>`);
+                            $("#@Html.IdFor(m=>m.BudgetId)").empty();
+                            $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="">Select</option>`);
 
                             url = "/Admin/LabambitKrishak/GetSubsidyProgram";
                             $.getJSON(url, data, function (result) {
                                 $.each(result, function (i, item) {
-                                    $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);
+                                    $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
                                 });
                             })
                             data = {
                                 fiscalyear: $("#@Html.IdFor(m=>m.FiscalyearId)").val(),
-                                Program: $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").val(),
+                                Program: $("#@Html.IdFor(m=>m.BudgetId)").val(),
                                 district: $("#district").val(),
                             }
                             abc(data);
                         }
-                    });
-    $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").change(function () {
+            });
+
+
+    $("#@Html.IdFor(m=>m.BudgetId)").change(function () {
         data = {
             fiscalyear: $("#@Html.IdFor(m=>m.FiscalyearId)").val(),
-            program: $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").val(),
-            district:$("#district").val(),
+            program: $("#@Html.IdFor(m=>m.BudgetId)").val(),
+            localLevel:$("#@Html.IdFor(m=>m.LocalLevel)").val(),
         }
         abc(data);
         //var tablerow = $("#hide tbody").html();
@@ -353,68 +320,83 @@
         //$("#tal").show();
     });
 
-      $("#district").change(function () {
+      $("#@Html.IdFor(m=>m.LocalLevel)").change(function () {
         data = {
             fiscalyear: $("#@Html.IdFor(m=>m.FiscalyearId)").val(),
-            program: $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").val(),
-            district:$("#district").val(),
+            program: $("#@Html.IdFor(m=>m.BudgetId)").val(),
+            localLevel:$("#@Html.IdFor(m=>m.LocalLevel)").val(),
+
         }
         abc(data);
       });
+
     $("#add").click(function () {
         var tablerow = $("#hide tbody").html();
         $("#tabularEntry").append(tablerow);
     })
+    });
+
+
     function abc(data) {
         $(tabularEntry).html("");
         a = $("#fgh").html();
         b = $("#ijk").html();
         c = $("#lmo").html();
-        if (data.fiscalyear) {
+        if (data.fiscalyear && data.program && data.localLevel) {
             $.post("@Url.Action("GetAnudan", "AanudanKaryakram")", addAntiForgeryToken(data), function (result) {
                 if (result.length > 0) {
+
+                    $("#@Html.IdFor(m=>m.ExpectedOutput)").val(result[0].ExpectedOutput);
+                    $("#@Html.IdFor(m=>m.Remarks)").val(result[0].Remaks);
+
+
                     $.each(result, function (index, item) {
-
-
-
                         var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
-
-
                         tableRow += '<input type="text" name="KrishakKoName" class="form-control"  value="' + item.KrishakKoName + '"/></td>';
-                        tableRow += '<td><input type="text" name="LocalLevel" class="form-control" value="' + item.LocalLevel + '"/></td>';
-                        tableRow += '<td><input type="number" name="Ward" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Ward + '"/></td>';
+                       tableRow += '<td><input type="number" name="Ward" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Ward + '"/></td>';
                         tableRow += '<td><input type="text" name="PhoneNO" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.PhoneNo + '"/></td>';
-
                         tableRow += '<td>'+b+'</td>';
                         tableRow += '<td>'+c+'</td>';
-
-
                         tableRow += '<td>'+a+'</td>';
                         tableRow += '<td><input type="number" name="AanudanRakam" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.AanudanRakam + '"/></td>';
                         tableRow += '<td><input type="number" name="FarmerContribution" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FarmerContribution + '"/></td>';
-
                         tableRow += '<td><input type="number" name="MaleMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.MaleMember + '"/></td>';
                         tableRow += '<td><input type="number" name="FemaleMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FemaleMember + '"/></td>';
                         tableRow += '<td><input type="number" name="DalitMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.DalitMember + '"/></td>';
                         tableRow += '<td><input type="number" name="JanajatiMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.JanajatiMember + '"/></td>';
                         tableRow += '<td><input type="number" name="Others" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Others + '"/></td>';
-                        tableRow += '<td><input type="text" name="ExpectedOutput" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.ExpectedOutput + '"/></td>';
-
-                        tableRow += '<td><input type="text" name="Remarks" class="form-control" value="' + item.Remaks + '"/></td>';
-                        $("#AanudanKokisim").val(item.AanudanKokisim);
-                        $("#SubsidyCategory").val(item.SubsidyCategory);
-                        $("#AnudanReceiverType").val(item.AnudanReceiverType);
+                        //$("#AanudanKokisim").val(item.AanudanKokisim);
+                        //$("#SubsidyCategory").val(item.SubsidyCategory);
+                        //$("#AnudanReceiverType").val(item.AnudanReceiverType);
                         $(tabularEntry).append(tableRow);
-                        //$('tr#' + item.Id + ' select[name="Ward"]').val(item.Ward);
-                        //$('tr#' + item.Id + ' select[name="LocalLevel"]').val(item.LocalLevel);
+
+                        // Assuming you want to set the value to "Male" for the "Gender" dropdown
+                        var AanudanKokisimDDL = $("#tabularEntry").find('tr:last select[name="AanudanKokisim"]');
+                        if (AanudanKokisimDDL.find('option[value="' + item.AanudanKokisim + '"]').length > 0) {
+                            AanudanKokisimDDL.val(item.AanudanKokisim);
+
+                        }  // Assuming you want to set the value to "Male" for the "Gender" dropdown
+
+                        var SubsidyCategoryDDL = $("#tabularEntry").find('tr:last select[name="SubsidyCategory"]');
+                        if (SubsidyCategoryDDL.find('option[value="' + item.SubsidyCategory + '"]').length > 0) {
+                            SubsidyCategoryDDL.val(item.Gender);
+
+                        }  // Assuming you want to set the value to "Male" for the "Gender" dropdown
+
+
+                        var AnudanReceiverTypeDDL = $("#tabularEntry").find('tr:last select[name="AnudanReceiverType"]');
+                        if (AnudanReceiverTypeDDL.find('option[value="' + item.AnudanReceiverType + '"]').length > 0) {
+                            AnudanReceiverTypeDDL.val(item.AnudanReceiverType);
+                        }
+
+
                     });
                     $("#tal").show();
                 }
 
                     else {
-
-
-
+                     $("#@Html.IdFor(m=>m.ExpectedOutput)").val("");
+                    $("#@Html.IdFor(m=>m.Remarks)").val("");
 
                     var tablerow = $("#hide tbody").html();
                     $("#tabularEntry").append(tablerow);
@@ -423,12 +405,7 @@
                 $("#tal").show();
 
             });
-
-
-
         }
-
-
 
     }
 </script>

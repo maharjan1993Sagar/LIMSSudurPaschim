@@ -9,6 +9,8 @@ namespace LIMS.Domain.Bali
     {
         public PujigatKharchaKharakram PujigatKharchaKharakram { get; set; }
         public string PujigatKharchaKaryakramId { get; set; }
+        public Budget Budget { get; set; }
+        public string BudgetId { get; set; }
         public FiscalYear FiscalYear { get; set; }
         public string FiscalyearId { get; set; }
         public string KrishakKoName { get; set; }

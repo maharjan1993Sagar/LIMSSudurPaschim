@@ -89,14 +89,14 @@ namespace LIMS.Web.Areas.Admin.Components
             var thirdQuaterKharcha = progress.Where(m => m.Month == "Chaitra" || m.Month == "Baishakh" || m.Month == "Jestha" || m.Month == "Asar").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
             var yearlyQuaterKharcha = progress.Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a * 100000 : 0).ToString()).Sum(x => Convert.ToDecimal(x));
 
-            var firstQuaterChaluKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Where(m => m.Month == "Shrawan" || m.Month == "Bhadra" || m.Month == "Ashwin" || m.Month == "Kartik").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
-            var secondChaluKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Where(m => m.Month == "Mangsir" || m.Month == "Poush" || m.Month == "Magh" || m.Month == "Falgun").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
-            var thirdChaluQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Where(m => m.Month == "Chaitra" || m.Month == "Baishakh" || m.Month == "Jestha" || m.Month == "Asar").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
-            var yearlyChaluQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a * 100000 : 0)).Sum(x => Convert.ToDecimal(x));
-            var firstQuaterPugigatKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Where(m => m.Month == "Shrawan" || m.Month == "Bhadra" || m.Month == "Ashwin" || m.Month == "Kartik").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a: 0).ToString()).Sum(x => Convert.ToDecimal(x));
-            var secondPugigatChaluKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Where(m => m.Month == "Mangsir" || m.Month == "Poush" || m.Month == "Magh" || m.Month == "Falgun").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a : 0).ToString()).Sum(x => Convert.ToDecimal(x));
-            var thirdPugigatQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Where(m => m.Month == "Chaitra" || m.Month == "Baishakh" || m.Month == "Jestha" || m.Month == "Asar").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
-            var yearlyPugigatQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a * 100000 : 0).ToString()).Sum(x => Convert.ToDecimal(x));
+            //var firstQuaterChaluKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Where(m => m.Month == "Shrawan" || m.Month == "Bhadra" || m.Month == "Ashwin" || m.Month == "Kartik").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
+            //var secondChaluKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Where(m => m.Month == "Mangsir" || m.Month == "Poush" || m.Month == "Magh" || m.Month == "Falgun").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
+            //var thirdChaluQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Where(m => m.Month == "Chaitra" || m.Month == "Baishakh" || m.Month == "Jestha" || m.Month == "Asar").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
+            //var yearlyChaluQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "chalu").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a * 100000 : 0)).Sum(x => Convert.ToDecimal(x));
+            //var firstQuaterPugigatKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Where(m => m.Month == "Shrawan" || m.Month == "Bhadra" || m.Month == "Ashwin" || m.Month == "Kartik").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a: 0).ToString()).Sum(x => Convert.ToDecimal(x));
+            //var secondPugigatChaluKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Where(m => m.Month == "Mangsir" || m.Month == "Poush" || m.Month == "Magh" || m.Month == "Falgun").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a : 0).ToString()).Sum(x => Convert.ToDecimal(x));
+            //var thirdPugigatQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Where(m => m.Month == "Chaitra" || m.Month == "Baishakh" || m.Month == "Jestha" || m.Month == "Asar").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a  : 0).ToString()).Sum(x => Convert.ToDecimal(x));
+            //var yearlyPugigatQuaterKharcha = progress.Where(m => m.pujigatKharchaKharakram.Type == "pujigat").Select(m => (decimal.TryParse(m.BitiyaPragati, out a) ? a * 100000 : 0).ToString()).Sum(x => Convert.ToDecimal(x));
 
             var yearlypragatiVar = 0;
             var yearlychaluPragatiVar = 0;
@@ -139,8 +139,8 @@ namespace LIMS.Web.Areas.Admin.Components
                 PugigatBudget = firstPugigatQuaterBudget,
                 ChaluBudget = firstChaluQuaterBudget,
                 TotalBudgetKharcha = firstQuaterKharcha,
-                ChaluBudgetKharcha = firstQuaterChaluKharcha,
-                PugigatBudgetKharcha = firstQuaterPugigatKharcha,
+                //ChaluBudgetKharcha = firstQuaterChaluKharcha,
+                //PugigatBudgetKharcha = firstQuaterPugigatKharcha,
                 PragratiVar = firstpragatiVar,
                 PugigatPragratiVar = firstPugigatPragatiVar,
                 ChaluPragatiVar=firstchaluPragatiVar,
@@ -162,8 +162,8 @@ namespace LIMS.Web.Areas.Admin.Components
                 PugigatBudget = secondPugigatQuaterBudget,
                 ChaluBudget = secondChaluQuaterBudget,
                 TotalBudgetKharcha = secondKharcha,
-                ChaluBudgetKharcha = secondChaluKharcha,
-                PugigatBudgetKharcha = secondPugigatChaluKharcha,
+               // ChaluBudgetKharcha = secondChaluKharcha,
+               // PugigatBudgetKharcha = secondPugigatChaluKharcha,
                 PragratiVar = secondpragatiVar,
                 PugigatPragratiVar = secondPugigatPragatiVar,
                 ChaluPragatiVar = secondchaluPragatiVar,
@@ -185,8 +185,8 @@ namespace LIMS.Web.Areas.Admin.Components
                 PugigatBudget = thirdPugigatQuaterBudget,
                 ChaluBudget = thirdChaluQuaterBudget,
                 TotalBudgetKharcha = thirdQuaterKharcha,
-                ChaluBudgetKharcha = thirdChaluQuaterKharcha,
-                PugigatBudgetKharcha = thirdPugigatQuaterKharcha,
+               // ChaluBudgetKharcha = thirdChaluQuaterKharcha,
+              //  PugigatBudgetKharcha = thirdPugigatQuaterKharcha,
                 PragratiVar = thirdpragatiVar,
                 PugigatPragratiVar = thirdPugigatPragatiVar,
                 ChaluPragatiVar = thirdchaluPragatiVar,
@@ -209,8 +209,8 @@ namespace LIMS.Web.Areas.Admin.Components
                 PugigatBudget = TotalPugigatBudget,
                 ChaluBudget = TotalChaluBudget,
                 TotalBudgetKharcha = yearlyQuaterKharcha,
-                ChaluBudgetKharcha = yearlyChaluQuaterKharcha,
-                PugigatBudgetKharcha = yearlyPugigatQuaterKharcha,
+              //  ChaluBudgetKharcha = yearlyChaluQuaterKharcha,
+              //  PugigatBudgetKharcha = yearlyPugigatQuaterKharcha,
                 PragratiVar = yearlypragatiVar,
                 PugigatPragratiVar = yearlyPugigatPragatiVar,
                 ChaluPragatiVar = yearlychaluPragatiVar,

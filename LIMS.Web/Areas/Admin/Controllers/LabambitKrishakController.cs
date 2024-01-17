@@ -26,6 +26,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
     {
         private readonly ILabambitKrishakService _animalRegistrationService;
         private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
+        private readonly IBudgetService _budgetService;
 
         private readonly ISpeciesService _speciesService;
         private readonly IBreedService _breedService;
@@ -47,7 +48,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ITalimService talimService,
             IIncuvationCenterService incuvationCenterService,
             IPujigatKharchaKharakramService pujigatKharchaKharakramService,
-            IPictureService pictureService
+            IPictureService pictureService,
+            IBudgetService budgetService
 
             )
         {
@@ -62,6 +64,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _incuvationCenterService = incuvationCenterService;
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
             _pictureService = pictureService;
+            _budgetService = budgetService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -469,16 +472,25 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetSubsidyProgram(string fiscalyear)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
+           // var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
+            var budget = await _budgetService.GetBudget();
+           // var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
+            var karyakram = budget.Where(m => m.FiscalYearId == fiscalyear && m.ExpensesCategory == "Subsidy");
             return Json(karyakram.ToList());
         }
-        public async Task<ActionResult> GetTrainingProgram(string fiscalyear)
+        public async Task<ActionResult> GetBudget(string fiscalyear)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.IsTrainingKaryaKram == "Training");
-            return Json(karyakram.ToList());
+            var budgets = await _budgetService.GetBudget();
+            var lstBudgets = budgets.Where(m => m.FiscalYearId == fiscalyear && m.ExpensesCategory == "Training");
+            
+            return Json(lstBudgets.ToList());
+        }
+        public async Task<ActionResult> GetTrainingProgram(string fiscalyear, string budgetId)
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+           var talims = await _talimService.Gettalim("",fiscalyear,budgetId);           
+            return Json(talims.ToList());
         }
 
         public List<SelectListItem> PujigatType()

@@ -31,46 +31,46 @@
                                 <span asp-validation-for="ProductionType"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="Provience" />
-                                <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
-                                <span asp-validation-for="Provience"></span>
-                            </div>
-                        </div>
-                        @if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
-                        {
-                            <div class="col-md-2">
-
+                        @*<div class="col-md-2">
                                 <div class="form-group">
-                                    <admin-label asp-for="District" />
-                                    <select name="district" id="district" data-val="@Model.District" class="form-control" required="required">
-                                        <option value="">select</option>
-                                    </select>
-                                    <span asp-validation-for="District"></span>
-
+                                    <admin-label asp-for="Provience" />
+                                    <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
+                                    <span asp-validation-for="Provience"></span>
                                 </div>
                             </div>
-                        }
-                        else
-                        {
-                            <div class="col-md-2">
+                            @if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
+                            {
+                                <div class="col-md-2">
 
-                                <div class="form-group">
-                                    <admin-label asp-for="District" />
-                                    <select id="district" data-val="@Model.District" class="form-control" disabled required="required">
-                                        <option value="">select</option>
-                                    </select>
-                                    <span asp-validation-for="District"></span>
+                                    <div class="form-group">
+                                        <admin-label asp-for="District" />
+                                        <select name="district" id="district" data-val="@Model.District" class="form-control" required="required">
+                                            <option value="">select</option>
+                                        </select>
+                                        <span asp-validation-for="District"></span>
 
+                                    </div>
                                 </div>
-                            </div>
-                            <input type="hidden" name="district" value="@Model.District" />
-                        }
+                            }
+                            else
+                            {
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <admin-label asp-for="District" />
+                                        <select id="district" data-val="@Model.District" class="form-control" disabled required="required">
+                                            <option value="">select</option>
+                                        </select>
+                                        <span asp-validation-for="District"></span>
+
+                                    </div>
+                                </div>
+                                <input type="hidden" name="district" value="@Model.District" />
+                            }*@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" class="form-control">
+                                <select id="locallevel" name="LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control">
                                     <option value="">Select</option>
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
@@ -100,6 +100,7 @@
                                 <td>@T("Admin.Production.SpeciesName")</td>
                                 <td>@T("Admin.Production.Quantity")</td>
                                 <td>@T("Admin.Production.Unit")</td>
+                                <td>@T("Admin.Production.Remarks")</td>
                             </tr>
                         </thead>
                         <tbody id="tabularEntry">
@@ -237,18 +238,13 @@
                     tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="'+item.Id+'"/><input type="hidden" name="ProductionDataId" value="" /></td>';
                     tableRow += '<td><input type="number" name="Quantity"  class="form-control" min="0" step="0.01" /></td>';
                     tableRow += '<td>' + $('#select-units').html() + '</td>';
+                    tableRow += '</td><input type="text" name="Remarks"  class="form-control"  /></td>';
                      tableRow += '</tr>';
                     $("#tabularEntry").append(tableRow);
                 });
             });
             $("#showTable").show();
-
-        }
-
-
-            );
-
-
+        });
 
         var list = [];
         $("#subumtform").click(function () {
@@ -269,6 +265,7 @@
             $.each(result, function (index, item) {
                 $('tr#' + item.Species.Id + ' input[name="ProductionDataId"]').val(item.Id);
                 $('tr#' + item.Species.Id + ' input[name="Quantity"]').val(item.Quantity);
+                $('tr#' + item.Species.Id + ' input[name="Remarks"]').val(item.Remarks);
                  console.log(item);
             });
         });

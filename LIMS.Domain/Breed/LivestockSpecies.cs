@@ -15,7 +15,6 @@ namespace LIMS.Domain.Breed
         public string NepaliName { get; set; }
         public string EnglishName { get; set; }
         public List<string> Purposes { get; set; }
-
         public string Detail { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }

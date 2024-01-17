@@ -20,7 +20,7 @@ namespace LIMS.Services.Bali
 
         Task UpdatebaliRegister(AanudanKokaryakram baliRegister);
         Task UpdatebaliRegisterList(List<AanudanKokaryakram> livestocks);
-        Task<IPagedList<AanudanKokaryakram>> GetFilteredSubsidy(string id, string fiscalYear, string district, string program, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<AanudanKokaryakram>> GetFilteredSubsidy(string id, string fiscalYear, string localLevel, string budgetId, int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task<IPagedList<AanudanKokaryakram>> GetFilteredLabambitKrishak(string id, string fiscalYear, string programType, string type, int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<AanudanKokaryakram>> GetFilteredLabambitKrishak(List<string> id, string fiscalYear, string programType, string type, int pageIndex = 0, int pageSize = int.MaxValue);

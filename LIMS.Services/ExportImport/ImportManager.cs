@@ -10,12 +10,14 @@ using LIMS.Services.Media;
 using LIMS.Web.Areas.Admin.Helper;
 using Microsoft.AspNetCore.StaticFiles;
 using NPOI.XSSF.UserModel;
+using NPOI.SS.UserModel;
 using Org.BouncyCastle.Cms;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace LIMS.Services.ExportImport
 {
@@ -30,6 +32,7 @@ namespace LIMS.Services.ExportImport
         private readonly ICountryService _countryService;
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
+        private readonly IBudgetService _budgetService;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly IWorkContext _workContext;
 
@@ -38,11 +41,12 @@ namespace LIMS.Services.ExportImport
 
         #region Ctor
 
-        public ImportManager(         
+        public ImportManager(
             IPictureService pictureService,
             ICountryService countryService,
             IStateProvinceService stateProvinceService,
             IPujigatKharchaKharakramService pujigatKharchaKharakramService,
+            IBudgetService budgetService,
             IFiscalYearService fiscalYearService,
              IWorkContext workContext
             )
@@ -51,6 +55,7 @@ namespace LIMS.Services.ExportImport
             _countryService = countryService;
             _stateProvinceService = stateProvinceService;
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
+            _budgetService = budgetService;
             _fiscalYearService = fiscalYearService;
             _workContext = workContext;
         }
@@ -82,7 +87,7 @@ namespace LIMS.Services.ExportImport
             }
             return new PropertyManager<T>(properties.ToArray());
         }
-        
+
         protected virtual string GetMimeTypeFromFilePath(string filePath)
         {
             new FileExtensionContentTypeProvider().TryGetContentType(filePath, out string mimeType);
@@ -195,10 +200,6 @@ namespace LIMS.Services.ExportImport
             return count;
         }
 
-
-
-
-
         protected virtual void PrepareCategoryMapping(PujigatKharchaKharakram category, PropertyManager<PujigatKharchaKharakram> manager)
         {
             foreach (var property in manager.GetProperties)
@@ -216,7 +217,7 @@ namespace LIMS.Services.ExportImport
                         break;
                     case "limbis_code":
                         category.Limbis_Code = NumberHelper.EnglishToNepaliNumber(property.StringValue);
-                        
+
                         break;
                     case "kharchacode":
                         category.kharchaCode = NumberHelper.EnglishToNepaliNumber(property.StringValue);
@@ -227,17 +228,12 @@ namespace LIMS.Services.ExportImport
                     case "1st_quarter_qty":
                         category.PrathamChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
-
-                        
-
                     case "2nd_quarter_qty":
                         category.DorsoChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
                     case "2nd_quater_budget":
                         category.DosroChaumasikBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
-
-
                     case "3rd_quarter_qty":
                         category.TesroChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
@@ -247,15 +243,12 @@ namespace LIMS.Services.ExportImport
                     case "yearly_budget":
                         category.BarsikBajet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
-
                     case "yearly_qty":
                         category.BarshikParinam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
-
                     case "unit":
                         category.Unit = property.StringValue;
                         break;
-
                     case "expenses_category":
                         category.Expenses_category = property.StringValue;
                         break;
@@ -263,23 +256,8 @@ namespace LIMS.Services.ExportImport
 
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
         }
-        public virtual async Task ImportCategoryFromXlsx(Stream stream,string Type, string FiscalYear,string ProgramType)
+        public virtual async Task ImportCategoryFromXlsx(Stream stream, string Type, string FiscalYear, string ProgramType)
         {
             var workbook = new XSSFWorkbook(stream);
             var worksheet = workbook.GetSheetAt(0);
@@ -300,17 +278,17 @@ namespace LIMS.Services.ExportImport
                 //category ??= new Category();
 
                 var pujigatKharcha = new PujigatKharchaKharakram();
-                 pujigatKharcha.CreatedAt = DateTime.UtcNow;
+                pujigatKharcha.CreatedAt = DateTime.UtcNow;
                 pujigatKharcha.CreatedBy = _workContext.CurrentCustomer.Id;
                 pujigatKharcha.Type = Type;
                 pujigatKharcha.FiscalYearId = FiscalYear;
-                pujigatKharcha.FiscalYear =await _fiscalYearService.GetFiscalYearById(FiscalYear);
+                pujigatKharcha.FiscalYear = await _fiscalYearService.GetFiscalYearById(FiscalYear);
                 pujigatKharcha.ProgramType = ProgramType;
 
                 PrepareCategoryMapping(pujigatKharcha, manager);
                 if (!string.IsNullOrEmpty(pujigatKharcha.Limbis_Code))
                 {
-                    if(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramByLmBIsCode(pujigatKharcha.Limbis_Code))
+                    if (await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramByLmBIsCode(pujigatKharcha.Limbis_Code))
                     {
                         await _pujigatKharchaKharakramService.UpdatePujigatKharchaKharakram(pujigatKharcha);
 
@@ -321,8 +299,98 @@ namespace LIMS.Services.ExportImport
 
                     }
                 }
-               
+
+            }
+
+        }
+
+        public virtual async Task ImportBudgetFromXlsx(Stream stream, string Type, string FiscalYear, string ProgramType)
+        {
+            var workbook = new XSSFWorkbook(stream);
+            var worksheet = workbook.GetSheetAt(0);
+            if (worksheet == null)
+                throw new CmsException("No worksheet found");
+
+            var manager = GetPropertyManager<Budget>(worksheet);
+            var cellResultsList = new List<string[]>();
+
+
+            for (var iRow = 0; iRow < worksheet.PhysicalNumberOfRows; iRow++)
+            {
                 
+                //manager.ReadFromXlsx(worksheet, iRow);
+                int rowIndex = iRow + 1;
+                var budget = new Budget();
+                if (worksheet.GetRow(rowIndex) != null) //null is when the row only contains empty cells 
+                {
+                    budget.CreatedAt = DateTime.UtcNow;
+                    budget.CreatedBy = _workContext.CurrentCustomer.Id;
+                    budget.FiscalYearId = FiscalYear;
+                    //budget.Type = Type;
+                    //budget.FiscalYear = await _fiscalYearService.GetFiscalYearById(FiscalYear);
+                    //budget.ProgramType = ProgramType;
+
+                    var row = worksheet.GetRow(rowIndex);
+                    var cellResults = new string[26];
+
+                    for (int cellIndex = 0; cellIndex < 26; cellIndex++)
+                    {
+                        var cell = row?.GetCell(cellIndex);
+
+                        cellResults[cellIndex] = cell?.CellType switch {
+                            CellType.String => cell.StringCellValue?.ToString().Trim(),
+                            CellType.Numeric => cell.NumericCellValue.ToString().Trim(),
+                            _ => "",
+                        };
+                    }
+
+                    //worksheet.GetRow(row).GetCell(0).CellType == CellType.String ?
+                    //                    worksheet.GetRow(row).GetCell(0)?.StringCellValue?.ToString().Trim() :
+                    //                    (worksheet.GetRow(row).GetCell(0)?.NumericCellValue!=null?
+                    //                    worksheet.GetRow(row).GetCell(0)?.NumericCellValue.ToString().Trim():"");
+
+
+                    budget.PLIMBIS_No = cellResults[0];
+                    budget.SerialNO = cellResults[1];
+                    budget.SanketNO = cellResults[2];                    
+                    budget.ActivityName = cellResults[3];                    
+                    budget.KarchaSrishak = cellResults[4]; 
+                    budget.SourceOfFund = cellResults[6]; 
+                    budget.Yearly = cellResults[7];
+                    budget.TypeOfExpen = cellResults[8];
+                    budget.WardNo = cellResults[9];
+                    budget.KharchaUpaSirshak = cellResults[10]; 
+                    budget.SakhaAndKaryakram = cellResults[11];
+                    budget.PlanningProgram = cellResults[12];
+                    budget.BudgetBiniyojanType = cellResults[13]; 
+                    budget.FirstQuaterBudget = cellResults[14]; 
+                    budget.FirstQuaterQuantity= cellResults[15];
+                    budget.SecondQuaterBudget = cellResults[16]; 
+                    budget.SecondQuaterQuantity = cellResults[17];
+                    budget.ThirdQuaterQuantityBudget = cellResults[18];
+                    budget.ThirdQuaterQuantity = cellResults[19];
+                    budget.FourthQuaterQuantityBudget = cellResults[20];
+                    budget.FourthQuaterQuantity = cellResults[21]; 
+                    budget.TypeOfExecution = cellResults[22];
+                    budget.SanchalanAAbadi = cellResults[23]; 
+                    budget.Objective = cellResults[24]; 
+                    budget.Remarks = cellResults[25]; 
+                    if (!string.IsNullOrEmpty(budget.KarchaSrishak) && !string.IsNullOrEmpty(budget.KharchaUpaSirshak))
+                    {
+                        if (await _budgetService.GetBudgetByLmBIsCode(budget.KarchaSrishak,budget.KharchaUpaSirshak, budget.FiscalYearId))
+                        {
+                            var objBudget = await _budgetService.GetBudgetObjByLmBIsCode(budget.KarchaSrishak, budget.KharchaUpaSirshak, budget.FiscalYearId);
+                            objBudget = budget;
+                            await _budgetService.UpdateBudget(objBudget);
+                        }
+                        else
+                        {
+                            await _budgetService.InsertBudget(budget);
+                        }
+                    }
+                }
+
+
             }
 
         }

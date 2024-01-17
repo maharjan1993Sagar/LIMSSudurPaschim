@@ -1,0 +1,70 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.SubsidyReportModel
+
+<form method="get"  id="subsidy">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYear" required="required" />
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+    @*<div class="col-md-3">
+
+        <div class="form-group">
+            <admin-label asp-for="BudgetId" />
+            <select asp-for="BudgetId" asp-items="@ViewBag.budgetId" data-val="@Model.BudgetId" class="form-control" required="required"></select>
+            <span asp-validation-for="BudgetId"></span>
+        </div>
+    </div>*@
+
+    <div class="col-md-2">
+
+        <div class="form-group">
+            <admin-label asp-for="LocalLevel" />
+            <select asp-for="@Model.LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
+            </select>
+            <span asp-validation-for="LocalLevel"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <br />
+            <input type="submit" class="btn btn-sm btn-success" />
+        </div>
+    </div>
+</form>
+<br />
+<div style="display:inline-block !important;">
+
+    <div id="result"></div>
+    </div>
+    <script>
+        $(document).ready(function () {           
+
+
+            $('#subsidy').submit(function (e) {
+                var data = {
+                    FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val(),
+                    localLevel: $('#@Html.IdFor(m => m.LocalLevel)').val()
+                }
+                addAntiForgeryToken(data);
+                e.preventDefault();
+                $.ajax({
+                    cache: false,
+                    url: '/Admin/Report/SubsidyReportHtml',
+                    data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                    type: "POST",
+                    success: function (response) {
+                        if (response.success) {
+                            $('#result').html(response.livestockWardWiseReportHtml);
+                        }
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        })
+        
+    </script>

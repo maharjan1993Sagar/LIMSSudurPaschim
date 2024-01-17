@@ -9,6 +9,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.MedicineInventory;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
@@ -42,6 +43,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IFiscalYearService _fiscalYearService;
         public readonly ILssService _lssService;
         public readonly IVhlsecService _vhlsecService;
+        public readonly ILocalLevelService _localLevelService;
+        public readonly IBudgetService _budgetService;
 
         public ReportController(ILocalizationService localizationService,
             IAnimalRegistrationService animalRegistrationService,
@@ -57,8 +60,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IFiscalYearService fiscalYearService,
             ILssService lssService,
             IWorkContext workContext,
-            IVhlsecService vhlsecService
-            
+            IVhlsecService vhlsecService,
+            ILocalLevelService localLevelService,
+            IBudgetService budgetService
             )
         {
             _localizationService = localizationService;
@@ -76,6 +80,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _fiscalYearService = fiscalYearService;
             _lssService = lssService;
             _vhlsecService = vhlsecService;
+            _localLevelService = localLevelService;
+            _budgetService = budgetService;
         }
 
 
@@ -113,6 +119,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
             lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevel = lss;
+
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Species = species;
@@ -250,8 +257,93 @@ namespace LIMS.Web.Areas.Admin.Controllers
             });
         }
 
-     
-      
+        public async Task<IActionResult> TrainingReport()
+        {
+            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYear = fiscalyear;
+            
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+            var LssIds = new List<Lss>();
+
+            LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+
+            //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+            //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevel = lss;
+
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Species = species;
+
+            var model = new TrainingReportModel();
+
+            return View(model);
+
+
+        }
+        public async Task<IActionResult> SubsidyReport()
+        {
+            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYear = fiscalyear;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+
+            //var LssIds = new List<Lss>();
+            //LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+            //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+            //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevel = lss;
+
+
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Species = species;
+
+            var model =new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        [HttpPost]
+        public virtual IActionResult TrainingReportHtml(string FiscalYear,string BudgetId, string LocalLevel = "")
+        {
+
+            var livestockWardWiseReportHtml = RenderViewComponentToString("TrainingReport", new { fiscalyear = FiscalYear, budgetId = BudgetId, localLevel = LocalLevel });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        [HttpPost]
+        public virtual IActionResult SubsidyReportHtml(string FiscalYear, string LocalLevel = "")
+        {
+
+            var livestockWardWiseReportHtml = RenderViewComponentToString("SubsidyReport", new { fiscalyear = FiscalYear, LocalLevel = LocalLevel });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+
 
     }
 }

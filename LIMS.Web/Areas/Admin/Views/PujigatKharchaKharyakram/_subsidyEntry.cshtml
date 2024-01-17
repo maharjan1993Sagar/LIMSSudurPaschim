@@ -63,7 +63,7 @@
                         data: additionalData
                     },
                     update: {
-                        url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
+                        url: "@Html.Raw(Url.Action("Update", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
@@ -76,9 +76,16 @@
                     model: {
                         id: "Id",
                         fields: {
-
                             Id: { editable: false, type: "string" },
-                            Expenses_category: { editable: true, type: "string" }
+                            FiscalYear: { editable: false, type: "string" },
+                            WardNo: { editable: false, type: "string" },
+                            ActivityName: { editable: false, type: "string" },
+                            PlanningProgram: { editable: false, type: "string" },
+                            Yearly: { editable: false, type: "number" },
+                            SourcOfFund: { editable: false, type: "string" },
+                            TypeOfExpen: { editable: false, type: "string" },
+                            TypeOfExecution: { editable: false, type: "string" },
+                            ExpensesCategory: { editable: true, type: "string" }
 
                         }
                     },
@@ -103,50 +110,42 @@
                 mode: "inline"
             },
             scrollable: false,
-            columns: [{
-                field: "Limbis_Code",
-                title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
+            columns: [               
+                  {
+                field: "WardNo",
+                title: "@T("Admin.Budget.Fields.WardNo")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
             },
             {
-                field: "Program",
-                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                field: "ActivityName",
+                title: "@T("Admin.Budget.Fields.ActivityName")",
             },
 
             {
-                field: "kharchaCode",
-                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                field: "PlanningProgram",
+                title: "@T("Admin.Budget.Fields.PlanningProgram")",
                 },
             {
-                field: "Unit",
-                title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
+                field: "Yearly",
+                title: "@T("Admin.Budget.Fields.Yearly")",
             },
             {
-                field: "BarsikBajet",
-                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                field: "SourcOfFund",
+                title: "@T("Admin.Budget.Fields.SourceOfFund")",
             },
             {
-                field: "PrathamChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
+                field: "TypeOfExpen",
+                title: "@T("Admin.Budget.Fields.TypeOfEpen")",
             },
             {
-                field: "DosroChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.DosroChaumasikBadjet")",
+                field: "TypeOfExecution",
+                title: "@T("Admin.Budget.Fields.TypeOfExecution")",
             },
             {
-                field: "TesroChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
-                },
-            {
-                field: "Expenses_category",
-                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
+                field: "ExpensesCategory",
+                title: "@T("Admin.Budget.Fields.ExpensesCategory")",
                 editor: sDropDownEditor
                 },
-            {
-                field: "Remarks",
-                title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
-            },
-
             {
                 command: [
                     {
@@ -173,7 +172,7 @@
         return data;
     }
     function sDropDownEditor(container, options) {
-        $('<input name="Expenses_category"/>')
+        $('<input name="ExpensesCategory"/>')
             .appendTo(container)
             .kendoDropDownList({
                 valuePrimitive: true,
@@ -182,12 +181,10 @@
                 dataTextField: "name",
                 dataValueField: "value",
                 dataSource: [
-
                     { name: "Select", value: "" },
-                { name: "Subsidy", value: "Subsidy" },
-                
-       ]
-
+                    { name: "Subsidy", value: "Subsidy" }//,
+                   // {name: "Training", value:"Training"}
+                    ]
             });
     }
 

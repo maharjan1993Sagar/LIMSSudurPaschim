@@ -20,7 +20,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 {
     public class TalimController : BaseAdminController
     {
-        private readonly ITalimService _animalRegistrationService;
+        private readonly ITalimService _talimService;
         private readonly ISpeciesService _speciesService;
         private readonly IBreedService _breedService;
         private readonly ILocalizationService _localizationService;
@@ -28,25 +28,28 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
+        private readonly IBudgetService _budgetService;
 
         public TalimController(ILocalizationService localizationService,
-            ITalimService animalRegistrationService,
+            ITalimService talimService,
             ILanguageService languageService,
             ISpeciesService speciesService,
             IBreedService breedService,
             IPujigatKharchaKharakramService pujigatKharchaKharakramService,
+            IBudgetService budgetService,
             IWorkContext workContext,
             IFiscalYearService fiscalYearService
             )
         {
             _localizationService = localizationService;
-            _animalRegistrationService = animalRegistrationService;
+            _talimService = talimService;
             _languageService = languageService;
             _speciesService = speciesService;
             _breedService = breedService;
             _workContext = workContext;
             _fiscalYearService = fiscalYearService;
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
+            _budgetService = budgetService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -58,7 +61,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> List(DataSourceRequest command)
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _animalRegistrationService.Gettalim(id, command.Page - 1, command.PageSize);
+            var bali = await _talimService.Gettalim(id,"","" ,command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount
@@ -72,10 +75,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+           
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
-           TalimModel model = new TalimModel();
+           
+
+
+            TalimModel model = new TalimModel();
 
             return View(model);
         }
@@ -86,40 +93,47 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var animalRegistration = model.ToEntity();
-                    animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
-                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
+                var talim = model.ToEntity();
+                talim.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
+                talim.Budget = await _budgetService.GetBudgetById(model.BudgetId);
 
-                animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
-                await _animalRegistrationService.Inserttalim(animalRegistration);
+                talim.CreatedBy = _workContext.CurrentCustomer.Id;
+                await _talimService.Inserttalim(talim);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
-                return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) :RedirectToAction("TabView", "AanudanKaryakram");
+                return continueEditing ? RedirectToAction("Edit", new { id = talim.Id }) :RedirectToAction("TabView", "AanudanKaryakram");
                 
             }
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+           
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
+           
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+           
             return View(model);
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            var animalRegistration = await _animalRegistrationService.GettalimById(id);
-            if (animalRegistration == null)
+            var talim = await _talimService.GettalimById(id);
+            if (talim == null)
                 return RedirectToAction("List");
-            var model = animalRegistration.ToModel();
+            var model = talim.ToModel();
+           
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+           
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
+           
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            
             return View(model);
         }
 
@@ -127,18 +141,18 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Edit(TalimModel model, bool continueEditing)
         {
-            var animalRegistration = await _animalRegistrationService.GettalimById(model.Id);
-            if (animalRegistration == null)
+            var talim = await _talimService.GettalimById(model.Id);
+            if (talim == null)
                 //No blog post found with the specified id
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
-                var m = model.ToEntity(animalRegistration);
-                animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
-                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
+                var m = model.ToEntity(talim);
+                talim.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
+                talim.Budget = await _budgetService.GetBudgetById(model.BudgetId);
 
-                await _animalRegistrationService.Updatetalim(m);
+                await _talimService.Updatetalim(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Update.Successful"));
                 if (continueEditing)
@@ -153,10 +167,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+           
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
-
 
 
             //If we got this far, something failed, redisplay form

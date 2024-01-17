@@ -10,6 +10,8 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
     {
         public PujigatKharchaKharakram pujigatKharchaKharakram { get; set; }
         public string PujigatKharchaId { get; set; }
+        public Budget Budget { get; set; }
+        public string BudgetId { get; set; }
         public string FiscalYearId { get; set; }
         public string Type { get; set; }
         public string ProgramType { get; set; }
@@ -22,6 +24,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string FemaleMember { get; set; }
         public string DalitMember { get; set; }
         public string JanajatiMember { get; set; }
+        public string OtherMember { get; set; }
         public string Id { get; set; }
     }
 }

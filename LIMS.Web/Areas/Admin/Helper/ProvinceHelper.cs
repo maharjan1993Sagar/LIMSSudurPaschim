@@ -12,7 +12,7 @@ namespace LIMS.Web.Areas.Admin.Helper
         {
 
            return new List<SelectListItem> {
-                new SelectListItem { Text = "Gandaki Province", Value = "Province 4" },
+                new SelectListItem { Text = "Bagamati Province", Value = "Province 3" },
             };
         }
     }

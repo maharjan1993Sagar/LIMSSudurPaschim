@@ -18,7 +18,8 @@ namespace LIMS.Domain.Bali
         public string Description { get; set; }
         public PujigatKharchaKharakram PujigatKharchaKharakram { get; set; }
         public string PujigatKharchaKharakramId { get; set; }
-
+        public Budget Budget { get; set; }
+        public string BudgetId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
     }

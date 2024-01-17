@@ -61,6 +61,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<AnimalRegistrationService>().As<IAnimalRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<OwnerService>().As<IOwnerService>().InstancePerLifetimeScope();
             builder.RegisterType<PujigatKharchaKharakramService>().As<IPujigatKharchaKharakramService>().InstancePerLifetimeScope();
+            builder.RegisterType<BudgetService>().As<IBudgetService>().InstancePerLifetimeScope();
             builder.RegisterType<MilkRecordingService>().As<IMilkRecordingService>().InstancePerLifetimeScope();
             builder.RegisterType<GrowthMonitoringService>().As<IGrowthMonitoringService>().InstancePerLifetimeScope();
             builder.RegisterType<AiService>().As<IAiService>().InstancePerLifetimeScope();
@@ -126,6 +127,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<LivestockService>().As<ILivestockService>().InstancePerLifetimeScope();
 
             builder.RegisterType<PujigatKharchaKharakramService>().As<IPujigatKharchaKharakramService>().InstancePerLifetimeScope();
+            builder.RegisterType<BudgetService>().As<IBudgetService>().InstancePerLifetimeScope();
             builder.RegisterType<MonthlyPragatiService>().As<IMonthlyPragatiService>().InstancePerLifetimeScope();
             builder.RegisterType<LabambitKrishakService>().As<ILabambitKrishakService>().InstancePerLifetimeScope();
             builder.RegisterType<AanudanService>().As<IAnudanService>().InstancePerLifetimeScope();

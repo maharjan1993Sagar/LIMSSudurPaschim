@@ -38,6 +38,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IAnimalTypeService _animalTypeService;
         public readonly IFarmService _farmService;
         public readonly ILocalLevelService _localLevelService;
+        
 
         #endregion fields
         #region ctor
@@ -92,7 +93,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 createdby = adminemail;
             }
             var fishProductions = await _fishProductionService.GetFishProduction(createdby, command.Page - 1, command.PageSize);
-         
+
             var gridModel = new DataSourceResult {
                 Data = fishProductions,
                 Total = fishProductions.TotalCount
@@ -110,24 +111,31 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ward.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             ViewBag.Ward = ward;
-            var current =await _fiscalYearService.GetCurrentFiscalYear();
+            var current = await _fiscalYearService.GetCurrentFiscalYear();
+           
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var breeds = await _breedService.GetBreed();
             var breed = breeds.Where(m => m.Species.EnglishName.ToLower() == "fish").ToList();
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",current.Id).ToList();
+           
+            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", current.Id).ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;
+           
             MonthHelper month = new MonthHelper();
-
             var months = month.GetMonths();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-
             ViewBag.Month = months;
-
 
             ViewBag.BreedId = breed;
             ViewBag.FiscalYearId = fiscalyear;
@@ -137,24 +145,30 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Type = type;
 
             var natureofprod = new List<SelectListItem> {
-
                 new SelectListItem {Text=_localizationService.GetResource("Admin.select.Paddycumfish"),Value="Admin.select.Paddycumfish"  },
                 new SelectListItem {Text=_localizationService.GetResource("Admin.select.Troutfishinraceway"),Value="Admin.select.Troutfishinraceway"  },
                 new SelectListItem {Text=_localizationService.GetResource("Admin.select.Cagefishculture"),Value="Admin.select.Cagefishculture"  },
                 new SelectListItem {Text=_localizationService.GetResource("Admin.select.Ghols"),Value="Admin.select.Ghols"  },
-                                new SelectListItem {Text=_localizationService.GetResource("Admin.select.Others"),Value="Admin.select.Others"  },
+                new SelectListItem {Text=_localizationService.GetResource("Admin.select.Others"),Value="Admin.select.Others"  },
 
             };
+
             natureofprod.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.natureofprod = natureofprod;
+            
             FishProductionModel fishProductionModel = new FishProductionModel();
-          //  fishProductionModel.LocalLevel = _workContext.CurrentCustomer.OrgLocalLevel;
+            //  fishProductionModel.LocalLevel = _workContext.CurrentCustomer.OrgLocalLevel;
             fishProductionModel.District = _workContext.CurrentCustomer.OrgAddress;
             return View(fishProductionModel);
         }
         [HttpPost]
         public async Task<IActionResult> Create(FishProductionModel model, IFormCollection form)
         {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var wards = form["Ward"].ToList();
             var numberOfFish = form["NumberOfFish"].ToList();
             var natureOfProduction = form["NatureOfProduction"].ToList();
@@ -163,46 +177,43 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var remarks = form["Remarks"].ToList();
             var livestockDataId = form["LivestockDataId"].ToList();
             var localLevel = form["LocalLevel"].ToList();
-
             var updateFishProductions = new List<FishProduction>();
             var addFishProductions = new List<FishProduction>();
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
+
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
                 createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby =  admin.Id;
-            }
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
             for (int i = 0; i < wards.Count(); i++)
             {
-             
-                var fishProduction = (dynamic)null;
-     
-                    if (string.IsNullOrEmpty(numberOfFish[i]))
-                        continue;
-                    fishProduction = new FishProduction {
-                    
-                        Area = area[i],
-                        NumberOfFish= numberOfFish[i],
-                        Ward = wards[i],
-                        FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
-                       
-                        Province = model.Province,
-                        District = model.District,
-                        LocalLevel = localLevel[i],
-                       
-                        NatureOfProduction=natureOfProduction[i],
-                        CreatedBy = createdby,
-                        Remarks=remarks[i]
 
-                    };
-             
-             
+                var fishProduction = (dynamic)null;
+
+                if (string.IsNullOrEmpty(numberOfFish[i]))
+                    continue;
+                fishProduction = new FishProduction {
+                    Area = area[i],
+                    NumberOfFish = numberOfFish[i],
+                    Ward = wards[i],
+                    FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
+                    Province = model.Province,
+                    District = model.District,
+                    LocalLevel = model.LocalLevel,
+                    NatureOfProduction = natureOfProduction[i],
+                    CreatedBy = createdby,
+                    Remarks = remarks[i]
+
+                };
+
+
                 if (!string.IsNullOrEmpty(livestockDataId[i]))
                 {
                     fishProduction.Id = livestockDataId[i];
@@ -231,7 +242,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
             var breeds = await _breedService.GetBreed();
-            var breeda= breeds.Where(m => m.Species.EnglishName.ToLower() == "fish").ToList();
+            var breeda = breeds.Where(m => m.Species.EnglishName.ToLower() == "fish").ToList();
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             var quater = QuaterHelper.GetQuater();
@@ -264,7 +275,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             natureofprod.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.natureofprod = natureofprod;
             FishProductionModel fishProductionModel = new FishProductionModel();
-          //  fishProductionModel.LocalLevel = _workContext.CurrentCustomer.OrgLocalLevel;
+            //  fishProductionModel.LocalLevel = _workContext.CurrentCustomer.OrgLocalLevel;
             fishProductionModel.District = model.District;
             return View(fishProductionModel);
 
@@ -272,28 +283,28 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> GetFishProductionData( string fiscalYearId,  string district = "")
+        public async Task<IActionResult> GetFishProductionData(string fiscalYearId, string localLevel = "")
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
             var fishProductionData = (dynamic)null;
+            fishProductionData = await _fishProductionService.GetFilteredFishProduction(createdby, fiscalYearId, localLevel);
 
-            fishProductionData = await _fishProductionService.GetFilteredFishProduction(createdby, fiscalYearId,district);
-            
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
+
 
             return Json(fishProductionData);
         }
-      
+
 
         #endregion FishProduction
     }

@@ -9,9 +9,7 @@ namespace LIMS.Domain.Bali
     {
         public string Name { get; set; }
         public string NameNepali { get; set; }
-
         public string Province { get; set; }
-
         public string District { get; set; }
         public string LocalLevel { get; set; }
         public string Address { get; set; }
@@ -33,10 +31,15 @@ namespace LIMS.Domain.Bali
         public DateTime CreatedAt { get; set; }
         public PujigatKharchaKharakram pujigatKharchaKharakram { get; set; }
         public string pujigatKharchaKharakramId { get; set; }
+        public Budget Budget { get; set; }
+        public string BudgetId { get; set; }
+        public string Gender { get; set; }
+        public string Caste { get; set; }
         public DateTime  StartDate { get; set; }
-
         public DateTime EndDate { get; set; }
         public string Duration { get; set; }
         public string Purpose { get; set; }
+        public decimal TotalExpenses { get; set; }
+        public string Logistics { get; set; }
     }
 }

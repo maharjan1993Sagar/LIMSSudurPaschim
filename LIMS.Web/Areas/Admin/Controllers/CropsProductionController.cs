@@ -7,6 +7,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Helper;
@@ -39,6 +40,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IAnimalTypeService _animalTypeService;
         public readonly IFarmService _farmService;
         public readonly ICropsSeason _cropSeason;
+        public readonly ILocalLevelService _localLevelService;
 
         #endregion fields
         #region ctor
@@ -53,7 +55,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
               ICustomerService customerService,
               IAnimalTypeService animalTypeService,
               IFarmService farmService,
-              ICropsSeason cropSeason
+              ICropsSeason cropSeason,
+              ILocalLevelService localLevelService
              )
         {
             _localizationService = localizationService;
@@ -68,6 +71,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _animalTypeService = animalTypeService;
             _farmService = farmService;
             _cropSeason = cropSeason;
+            _localLevelService = localLevelService;
         }
         #endregion ctor
         #region Livestock
@@ -271,31 +275,37 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             WardHelper wardHelper = new WardHelper();
+
             var ward = wardHelper.GetWard();
             ward.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-
             ViewBag.Ward = ward;
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var spes = await _speciesService.GetSpecies();
             var sf = spes.Where(m => m.EnglishName.ToLower() != "fish");
             var species = new SelectList(sf, "Id", "NepaliName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+           
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+           
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;
-            MonthHelper month = new MonthHelper();
 
+            MonthHelper month = new MonthHelper();
             var months = month.GetMonths();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-
             ViewBag.Month = months;
-
 
             ViewBag.SpeciesId = species;
             ViewBag.FiscalYearId = fiscalyear;
@@ -304,6 +314,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var type = BreedTypeHelper.GetBreedType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+
             CropsProductionModel livestockModel = new CropsProductionModel();
             livestockModel.CropSeason = _cropSeason.GetBreed().Result.OrderBy(m=>m.Species.Id).ToList();
             return View(livestockModel);
@@ -311,6 +322,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CropsProductionModel model, IFormCollection form)
         {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var GrowingSeason = form["GrowingSeasonId"].ToList();
             var Area = form["Area"].ToList();
             var Production = form["Production"].ToList();
@@ -393,9 +409,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+           
+            createdby = _workContext.CurrentCustomer.Id;
+          
+            var livestockData = (dynamic)null;
+
+            livestockData = await  _livestockService.GetFilteredLivestock("",  district, locallevel,fiscalYearId,Convert.ToInt32(ward));
             //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
             //{
-            createdby = _workContext.CurrentCustomer.Id;
             //}
             //else
             //{
@@ -403,9 +424,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    var admin = await _customerService.GetCustomerByEmail(adminemail);
             //    createdby = adminemail;
             //}
-            var livestockData = (dynamic)null;
-
-            livestockData = await  _livestockService.GetFilteredLivestock(createdby,  district, locallevel,fiscalYearId,Convert.ToInt32(ward));
             //}
             //else
             //{

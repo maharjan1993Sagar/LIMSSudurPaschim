@@ -76,10 +76,16 @@
                     model: {
                         id: "Id",
                         fields: {
-
                             Id: { editable: false, type: "string" },
-                                   IsTrainingKaryaKram: { editable: true, type: "string" }
-
+                            FiscalYear: { editable: false, type: "string" },
+                            WardNo: { editable: false, type: "string" },
+                            ActivityName: { editable: false, type: "string" },
+                            PlanningProgram: { editable: false, type: "string" },
+                            Yearly: { editable: false, type: "number" },
+                            SourcOfFund: { editable: false, type: "string" },
+                            TypeOfExpen: { editable: false, type: "string" },
+                            TypeOfExecution: { editable: false, type: "string" },
+                            ExpensesCategory: { editable: true, type: "string" }
                         }
                     },
 
@@ -103,49 +109,45 @@
                 mode: "inline"
             },
             scrollable: false,
-            columns: [{
-                field: "Limbis_Code",
-                title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
+            columns: [  {
+                field: "ActivityName",
+                title: "@T("Admin.Budget.Fields.ActivityName")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
             },
             {
-                field: "Program",
-                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                field: "WardNo",
+                title: "@T("Admin.Budget.Fields.WardNo")",
             },
 
             {
-                field: "kharchaCode",
-                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                field: "PlanningProgram",
+                title: "@T("Admin.Budget.Fields.PlanningProgram")",
                 },
             {
-                field: "Unit",
-                title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
+                field: "Yearly",
+                title: "@T("Admin.Budget.Fields.Yearly")",
             },
             {
-                field: "BarsikBajet",
-                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                field: "SourcOfFund",
+                title: "@T("Admin.Budget.Fields.SourceOfFund")",
             },
             {
-                field: "PrathamChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
+                field: "TypeOfExpen",
+                title: "@T("Admin.Budget.Fields.TypeOfEpen")",
             },
             {
-                field: "DosroChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.DosroChaumasikBadjet")",
+                field: "TypeOfExecution",
+                title: "@T("Admin.Budget.Fields.TypeOfExecution")",
             },
             {
-                field: "TesroChaumasikBadjet",
-                title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
-                },
-            {
-                field: "IsTrainingKaryaKram",
+                field: "ExpensesCategory",
                 title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
                 editor: TDropDownEditor
                 },
-            {
+            @*{
                 field: "Remarks",
                 title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
-            },
+            },*@
 
             {
                 command: [
@@ -173,7 +175,7 @@
         return data;
     }
     function TDropDownEditor(container, options) {
-        $('<input name="IsTrainingKaryaKram"/>')
+        $('<input name="ExpensesCategory"/>')
             .appendTo(container)
             .kendoDropDownList({
                 valuePrimitive: true,
@@ -182,11 +184,10 @@
                 dataTextField: "name",
                 dataValueField: "value",
                 dataSource: [
-
                     { name: "Select", value: "" },
-               
-                { name: "Training", value: "Training" },
-       ]
+                    { name: "Training", value: "Training" }
+                   // {name:"Subsidary",value:"Subsidary"}
+                            ]
 
             });
     }

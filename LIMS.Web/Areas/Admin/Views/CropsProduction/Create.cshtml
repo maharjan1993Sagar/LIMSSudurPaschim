@@ -36,27 +36,10 @@
                         </div>
 
 
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <admin-label asp-for="Provience" />
-                                <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
-                                <span asp-validation-for="Provience"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="District" />
-                                <select id="district" name="District" data-val="@district" onchange="getLivestockData()" class="form-control">
-                                    <option value="">Select </option>
-                                </select>
-                                <span asp-validation-for="District"></span>
-                            </div>
-                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" onchange="getLivestockData()" class="form-control">
+                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" onchange="getLivestockData()" class="form-control">
                                     <option value="">Select</option>
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
@@ -69,29 +52,47 @@
                                 <span asp-validation-for="Ward"></span>
                             </div>
                         </div>
-                        @*@if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
-                            {
 
-                            }
-                            else
-                            {
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <admin-label asp-for="Ward" />
-                                        <admin-select asp-for="Ward" asp-items="ViewBag.Ward" />
-                                        <span asp-validation-for="Ward"></span>
-                                    </div>
-                                </div>
-                            }*@
+
+                        @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Provience" />
+                <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
+                <span asp-validation-for="Provience"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select id="district" name="District" data-val="@district" onchange="getLivestockData()" class="form-control">
+                    <option value="">Select </option>
+                </select>
+                <span asp-validation-for="District"></span>
+            </div>
+        </div>*@
+                        @*@if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
+        {
+
+        }
+        else
+        {
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="Ward" />
+                    <admin-select asp-for="Ward" asp-items="ViewBag.Ward" />
+                    <span asp-validation-for="Ward"></span>
+                </div>
+            </div>
+        }*@
 
 
                         @*<div class="col-md-2">
-                                <div class="form-group">
-                                    <admin-label asp-for="Month" />
-                                    <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getLivestockData()" required="required" />
-                                    <span asp-validation-for="Month"></span>
-                                </div>
-                            </div>*@
+            <div class="form-group">
+                <admin-label asp-for="Month" />
+                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getLivestockData()" required="required" />
+                <span asp-validation-for="Month"></span>
+            </div>
+        </div>*@
                     </div>
                 </div>
                 <div>
@@ -157,7 +158,7 @@
     function getLivestockData() {
         var data = {
             fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
-            district: $('#district').val(),
+            district:'',// $('#district').val(),
             locallevel: $('#locallevel').val(),
             ward: $('#@Html.IdFor(m=>m.Ward)').val(),
 

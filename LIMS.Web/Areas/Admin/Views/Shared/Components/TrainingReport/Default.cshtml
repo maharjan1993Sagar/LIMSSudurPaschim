@@ -1,0 +1,55 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.TrainingReportModel
+<div id="Printcontent">
+    <div class="text-center">
+        @Model.LocalLevel<br />
+        @Model.Level<br />
+        @Model.Address<br />
+        आ.ब. @Model.FiscalYear को सम्पन्न तालिमहरुको प्रतिवेदन
+
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            @if (Model.Rows.Count() > 0)
+            {
+            <tr style="text-align:center">
+                <th id="c">@T("Admin.Training.SN")</th>
+                <th>@T("Admin.Training.Budget")</th>
+                <th>@T("Admin.Training.Talim")</th>
+                <th>@T("Admin.Training.MainActivity")</th>
+                <th>@T("Admin.Training.Remarks")</th>
+
+            </tr>
+            }
+        </thead>
+        <tbody>
+            @{string a = "";}
+            @foreach (var item in Model.Rows)
+            {
+
+            <tr>
+                <td>@item.SN</td>
+                <td>@item.BudgetTitle</td>
+                <td>@item.TrainingTitle</td>
+                <td>@item.MainActivity</td>
+                <td>@item.Remarks</td>
+            </tr>
+
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+@if (Model.Rows.Count() > 0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "Training.xls"
+        });
+    }
+</script>

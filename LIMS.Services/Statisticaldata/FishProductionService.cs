@@ -104,31 +104,33 @@ namespace LIMS.Services.Statisticaldata
 
         }
 
-        public async Task<IPagedList<FishProduction>> GetFilteredFishProduction(string createdBy, string fiscalYearId, string quater, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<FishProduction>> GetFilteredFishProduction(string createdBy, string fiscalYearId, string locallevel, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _fishProductionRepository.Table;
-            query = query.Where(m =>
-            
-              m.FiscalYear.Id == fiscalYearId &&
-              m.CreatedBy == createdBy 
-              &&
-              m.District==quater
-            );
+            if(!String.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
+            if(!String.IsNullOrEmpty(fiscalYearId))
+            {
+                query = query.Where(m => m.FiscalYearId == fiscalYearId);
+            }
+            if (!String.IsNullOrEmpty(locallevel))
+            {
+                query = query.Where(m => m.LocalLevel == locallevel);
+            }
+          
             return await PagedList<FishProduction>.Create(query, pageIndex, pageSize);
 
         }
         public async Task<IPagedList<FishProduction>> GetFilteredFishProduction(string createdBy, string fiscalYearId, string quater,string natureOfProduction, string localevel = "", string ward = "", string farmid = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _fishProductionRepository.Table;
-            query = query.Where(m =>
-             
-              //m.Trimister == quater &&
+            query = query.Where(m => 
               m.FiscalYear.Id == fiscalYearId &&
               m.NatureOfProduction==natureOfProduction&&
-              m.CreatedBy == createdBy 
-              &&
-              m.Ward==ward
-              &&
+              m.CreatedBy == createdBy  &&
+              m.Ward==ward  &&
               m.LocalLevel==localevel
             );
             //if (!string.IsNullOrEmpty(farmid))

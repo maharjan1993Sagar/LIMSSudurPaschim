@@ -31,24 +31,32 @@ namespace LIMS.Services.Bali
             await _mediator.EntityDeleted(talim);
         }
 
-        public async Task<IPagedList<Talim>> Gettalim(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        public async Task<IPagedList<Talim>> Gettalim(string createdby ="", string fiscalyear = "", string budgetId = "" ,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _talimRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(
                   m => m.FiscalYear.Id == fiscalyear
                 );
             }
-
+            if (!string.IsNullOrEmpty(budgetId))
+            {
+                query = query.Where(
+                  m => m.BudgetId == budgetId
+                );
+            }
             return await PagedList<Talim>.Create(query, pageIndex, pageSize);
         }
 
         public async Task<IPagedList<Talim>> Gettalim(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
-            var query = _talimRepository.Table;
-            query = query.Where(m => createdby.Contains(m.CreatedBy));
+            var query = _talimRepository.Table;          
+            query = query.Where(m => createdby.Contains(m.CreatedBy));            
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(

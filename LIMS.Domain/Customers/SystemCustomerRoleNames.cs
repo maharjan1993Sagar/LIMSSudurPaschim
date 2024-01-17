@@ -3,7 +3,7 @@ namespace LIMS.Domain.Customers
     public static partial class SystemCustomerRoleNames
     {
         public static string Administrators { get { return "Administrators"; } }
-        
+
         public static string ForumModerators { get { return "ForumModerators"; } }
 
         public static string Registered { get { return "Registered"; } }
@@ -15,5 +15,8 @@ namespace LIMS.Domain.Customers
         public static string Staff { get { return "Staff"; } }
 
         public static string Developer { get { return "Developer"; } }
+
+        public static string LiveStock { get { return "LiveStock"; } }
+        public static string Agriculture { get{ return "Agriculture"; } }
     }
 }

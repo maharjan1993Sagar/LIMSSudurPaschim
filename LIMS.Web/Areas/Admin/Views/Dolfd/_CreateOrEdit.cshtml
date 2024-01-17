@@ -6,16 +6,14 @@
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="CustomerId" />
         <div class="col-md-2">
-
             <div class="form-group">
                 <admin-label asp-for="MoamacId" />
                 <admin-select asp-for="MoamacId" asp-items="ViewBag.MoamacId" />
                 <span asp-validation-for="MoamacId"></span>
-
             </div>
         </div>
-        <div class="col-md-2">
 
+        <div class="col-md-2">
             <div class="form-group">
                 <admin-label asp-for="Type" />
                 <admin-select asp-for="Type">
@@ -24,11 +22,9 @@
                     <option value="Add">Agriculture</option>
                 </admin-select>
                 <span asp-validation-for="Type"></span>
-
             </div>
         </div>
         <div class="col-md-4">
-
             <div class="form-group">
                 <admin-label asp-for="NameNepali" />
                 <admin-input asp-for="NameNepali" />
@@ -37,28 +33,20 @@
             </div>
         </div>
         <div class="col-md-4">
-
             <div class="form-group">
                 <admin-label asp-for="NameEnglish" />
                 <admin-input asp-for="NameEnglish" />
                 <span asp-validation-for="NameEnglish"></span>
-
             </div>
         </div>
 
-
-
-
-
         <div class="col-md-3">
-
             <div class="form-group">
                 <admin-label asp-for="Provience" />
                 <admin-select asp-for="Provience" id="country" data-val="@Model.Provience">
                     <option value=""> select</option>
                 </admin-select>
                 <span asp-validation-for="Provience"></span>
-
             </div>
         </div>
         <div class="col-md-3">
@@ -368,17 +356,6 @@
                 })
 
             });
-
-
-
-
-
-
-
-
-
-
-
 
     })
 

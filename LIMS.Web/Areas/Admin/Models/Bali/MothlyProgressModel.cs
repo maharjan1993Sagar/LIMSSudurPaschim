@@ -10,10 +10,10 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 {
     public class MonthlyProgressModel:BaseEntity
     {
-        public List<PujigatKharchaKharakram> pujigatKharchaKharakram { get; set; }
-        [LIMSResourceDisplayName("LIMS.Common.PujigatKharchaId")]
+        public List<MonthlyPragati> Pragatis { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.BudgetId")]
 
-        public string PujigatKharchaId { get; set; }
+        public string BudgetId { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.Fiscalyear")]
 
         public string FiscalYearId { get; set; }
@@ -31,14 +31,14 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Common.ProgramType")]
 
         public string ProgramType { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.ExpensesCategory")]
+
+        public string ExpensesCategory { get; set; }
 
         [LIMSResourceDisplayName("LIMS.Common.Dolfd")]
 
         public string DolfdId { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.Vhlsec")]
-
-
-
 
         public string KharchaKoSwrot { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.SuchanaPrakashan")]
@@ -63,16 +63,13 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 
         public string Remarks { get; set; }
 
-
-
-
-
-
-
-
         [LIMSResourceDisplayName("LIMS.Common.Vhlsec")]
 
         public string VhlsecId { get; set; }
+
+        [LIMSResourceDisplayName("Admin.Common.LocalLevel")]
+
+        public string LocalLevel { get; set; }
 
 
     }

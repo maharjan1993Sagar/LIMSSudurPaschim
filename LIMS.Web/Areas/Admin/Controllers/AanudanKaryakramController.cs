@@ -9,6 +9,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Media;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
@@ -28,9 +29,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
 {
     public class AanudanKaryakramController : BaseAdminController
     {
-        private readonly ILabambitKrishakService _animalRegistrationService;
-        private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
-
+        private readonly ILabambitKrishakService _farmerService;
+        private readonly IBudgetService _BudgetService;
         private readonly ISpeciesService _speciesService;
         private readonly IBreedService _breedService;
         private readonly ILocalizationService _localizationService;
@@ -44,9 +44,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IDolfdService _dolfdService;
         public readonly IVhlsecService _vhlsecService;
         public readonly ICustomerService _customerService;
+        public readonly IBudgetService _budgetService;
+        public readonly ILocalLevelService _localLevelService;
+
 
         public AanudanKaryakramController(ILocalizationService localizationService,
-            ILabambitKrishakService animalRegistrationService,
+            ILabambitKrishakService farmerService,
             ILanguageService languageService,
             ISpeciesService speciesService,
             IBreedService breedService,
@@ -54,18 +57,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IFiscalYearService fiscalYearService,
             ITalimService talimService,
             IIncuvationCenterService incuvationCenterService,
-            IPujigatKharchaKharakramService pujigatKharchaKharakramService,
+            IBudgetService BudgetService,
             IPictureService pictureService,
             IAnudanService anudanService,
             IDolfdService dolfdService,
             IVhlsecService vhlsecService,
-             ICustomerService customerService
-
+             ICustomerService customerService,
+            IBudgetService budgetService,
+            ILocalLevelService localLevelService
 
             )
         {
             _localizationService = localizationService;
-            _animalRegistrationService = animalRegistrationService;
+            _farmerService = farmerService;
             _languageService = languageService;
             _speciesService = speciesService;
             _breedService = breedService;
@@ -73,12 +77,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _fiscalYearService = fiscalYearService;
             _talimService = talimService;
             _incuvationCenterService = incuvationCenterService;
-            _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
+            _BudgetService = BudgetService;
             _pictureService = pictureService;
             _anudanService = anudanService;
             _dolfdService = dolfdService;
             _vhlsecService = vhlsecService;
             _customerService = customerService;
+            _budgetService = budgetService;
+            _localLevelService = localLevelService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -141,7 +147,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 foreach (var item in krishak)
                 {
                     var labambit = new AanudanReport();
-                    labambit.pujigatKharchaKharakram = item.PujigatKharchaKharakram;
+                    labambit.Budget = item.Budget;
                     labambit.Rakam = Convert.ToString(item.AanudanRakam);
                     labambit.PhoneNo = item.PhoneNo;
                     labambit.Name = item.KrishakKoName;
@@ -180,135 +186,159 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var id = _workContext.CurrentCustomer.Id;
             var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
-            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.SpeciesId = species;
-
+           
+            
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
-
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
-            var type = PujigatType();
-            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Type = type;
-            var programType = ProgramType();
-            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ProgramType = programType;
-            var month = new MonthHelper();
-            var months = month.GetMonths();
 
-            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Month = months;
-            if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
-            {
-                string entityId = _workContext.CurrentCustomer.EntityId;
-                List<Dolfd> dolfdid = _dolfdService.GetDolfdByMolmacId(entityId).Result.ToList();
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
-                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
-                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.dolfd = lss;
-            }
-            else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
-            {
-                string entityId = _workContext.CurrentCustomer.EntityId;
-                List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
+            //ViewBag.Expences = new SelectList(ExecutionHelper.GetPrakar(), "Value", "Text"); //Type
+            //ViewBag.Swrot = new SelectList(ExecutionHelper.Swrot(), "Value", "Text"); //ProgramType
 
-                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
-                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.vhlsec = lss;
-            }
 
-            return View();
+            //var month = new MonthHelper();
+            //var months = month.GetMonths();
+            //months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.Month = months;
+
+
+
+            //var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            //species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.SpeciesId = species;
+
+            //ViewBag.TypeOFExecution = new SelectList(ExecutionHelper.GetTypeOfExecution(), "Value", "Text");
+
+            //var type = PujigatType();
+            //type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            //ViewBag.Type = type;
+
+            //var programType = ProgramType();
+            //programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.ProgramType = programType;
+
+
+            //if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
+            //{
+            //string entityId = _workContext.CurrentCustomer.EntityId;
+            //List<Dolfd> dolfdid = _dolfdService.GetDolfdByMolmacId(entityId).Result.ToList();
+
+            //var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+            //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.dolfd = lss;
+            //}
+            //else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+            //{
+            //    string entityId = _workContext.CurrentCustomer.EntityId;
+            //    List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
+
+            //    var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+            //    lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //    ViewBag.vhlsec = lss;
+            //}
+            var model = new MonthlyProgressModel();
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> OrgReport(DataSourceRequest command, string type, string programType, string fiscalYear, string vhlsecid, string dolfdid)
-        {
-            if (!string.IsNullOrEmpty(dolfdid) && string.IsNullOrEmpty(vhlsecid))
-            {
-
-                List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
-                var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
-                List<string> customerid = customers.Select(x => x.Id).ToList();
-
+        public async Task<IActionResult> OrgReport(DataSourceRequest command, string fiscalYear, string budgetId, string localLevel)//string vhlsecid,string type, string sourceOfFund,
+        {           
                 var id = _workContext.CurrentCustomer.Id;
-                var krishak = await _anudanService.GetFilteredLabambitKrishak(customerid, fiscalYear, programType, type);
+                var krishak = await _anudanService.GetFilteredSubsidy("", fiscalYear, localLevel,budgetId);
                 List<AanudanReport> report = new List<AanudanReport>();
                 foreach (var item in krishak)
                 {
                     var labambit = new AanudanReport();
                     labambit.Id = item.Id;
-                    labambit.pujigatKharchaKharakram = item.PujigatKharchaKharakram;
+                    labambit.Budget = item.Budget;
                     labambit.Rakam = Convert.ToString(item.AanudanRakam);
                     labambit.PhoneNo = item.PhoneNo;
                     labambit.Name = item.KrishakKoName;
-                    labambit.Address = item.District + " " + item.LocalLevel;
-                    labambit.OrgName = _customerService.GetCustomerById(item.CreatedBy).Result.OrgName;
+                    labambit.FiscalYearId   = item.FiscalyearId;
+                    labambit.MaleMember  = item.MaleMember.ToString();
+                    labambit.FemaleMember = item.FemaleMember.ToString();
+                    labambit.DalitMember = item.DalitMember.ToString();
+                    labambit.OtherMember = item.Others.ToString();
+                    labambit.Address = item.LocalLevel;
+                    labambit.OrgName = _customerService.GetCustomerById(item.CreatedBy).Result.OrgName;                    
                     report.Add(labambit);
-                    //labambit.Male=.
-
                 }
-                var gridModel = new DataSourceResult {
-                    Data = report,
-                    Total = report.Count()
-                };
-                return Json(gridModel);
-            }
-            else if (!string.IsNullOrEmpty(vhlsecid))
-            {
-                string entity = vhlsecid;
-                var customers = _customerService.GetCustomerByLssId(null, entity);
-                List<string> customerid = customers.Select(x => x.Id).ToList();
-                var krishak = await _anudanService.GetFilteredLabambitKrishak(customerid, fiscalYear, programType, type);
-                List<AanudanReport> report = new List<AanudanReport>();
-                foreach (var item in krishak)
-                {
-                    var labambit = new AanudanReport();
-                    labambit.Id = item.Id;
-                    labambit.pujigatKharchaKharakram = item.PujigatKharchaKharakram;
-                    labambit.Rakam = Convert.ToString(item.AanudanRakam);
-                    labambit.PhoneNo = item.PhoneNo;
-                    labambit.Name = item.KrishakKoName;
-                    labambit.Address = item.District + " " + item.LocalLevel;
-                    labambit.OrgName = _customerService.GetCustomerById(item.CreatedBy).Result.OrgName;
 
-                    report.Add(labambit);
-                    //labambit.Male=.
-
-                }
-                var gridModel = new DataSourceResult {
-                    Data = report,
-                    Total = report.Count()
-                };
-                return Json(gridModel);
-            }
-            else
-            {
-                var id = _workContext.CurrentCustomer.Id;
-                var krishak = await _anudanService.GetFilteredLabambitKrishak(id, fiscalYear, programType, type);
-                List<AanudanReport> report = new List<AanudanReport>();
-                foreach (var item in krishak)
-                {
-                    var labambit = new AanudanReport();
-                    labambit.pujigatKharchaKharakram = item.PujigatKharchaKharakram;
-                    labambit.Rakam = Convert.ToString(item.AanudanRakam);
-                    labambit.PhoneNo = item.PhoneNo;
-                    labambit.Name = item.KrishakKoName;
-                    labambit.Address = item.District + " " + item.LocalLevel;
-                    labambit.OrgName = _customerService.GetCustomerById(item.CreatedBy).Result.OrgName;
-
-                    report.Add(labambit);
-                    //labambit.Male=.
-
-                }
                 var gridModel = new DataSourceResult {
                     Data = report,
                     Total = report.Count()
                 };
                 return Json(gridModel);
 
-            }
-            
+
+            //if (!string.IsNullOrEmpty(dolfdid))// && string.IsNullOrEmpty(vhlsecid))
+            //{
+            //    List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
+            //    var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
+            //    List<string> customerid = customers.Select(x => x.Id).ToList();
+
+            // }
+            //else if (!string.IsNullOrEmpty(vhlsecid))
+            //{
+            //    string entity = vhlsecid;
+            //    var customers = _customerService.GetCustomerByLssId(null, entity);
+            //    List<string> customerid = customers.Select(x => x.Id).ToList();
+            //    var krishak = await _anudanService.GetFilteredLabambitKrishak(customerid, fiscalYear, programType, type);
+            //    List<AanudanReport> report = new List<AanudanReport>();
+            //    foreach (var item in krishak)
+            //    {
+            //        var labambit = new AanudanReport();
+            //        labambit.Id = item.Id;
+            //        labambit.Budget = item.Budget;
+            //        labambit.Rakam = Convert.ToString(item.AanudanRakam);
+            //        labambit.PhoneNo = item.PhoneNo;
+            //        labambit.Name = item.KrishakKoName;
+            //        labambit.Address = item.District + " " + item.LocalLevel;
+            //        labambit.OrgName = _customerService.GetCustomerById(item.CreatedBy).Result.OrgName;
+
+            //        report.Add(labambit);
+            //        //labambit.Male=.
+
+            //    }
+            //    var gridModel = new DataSourceResult {
+            //        Data = report,
+            //        Total = report.Count()
+            //    };
+            //    return Json(gridModel);
+            //}
+            //else
+            //{
+            //    var id = _workContext.CurrentCustomer.Id;
+            //    var krishak = await _anudanService.GetFilteredLabambitKrishak(id, fiscalYear, programType, type);
+            //    List<AanudanReport> report = new List<AanudanReport>();
+            //    foreach (var item in krishak)
+            //    {
+            //        var labambit = new AanudanReport();
+            //        labambit.Budget = item.Budget;
+            //        labambit.Rakam = Convert.ToString(item.AanudanRakam);
+            //        labambit.PhoneNo = item.PhoneNo;
+            //        labambit.Name = item.KrishakKoName;
+            //        labambit.Address = item.District + " " + item.LocalLevel;
+            //        labambit.OrgName = _customerService.GetCustomerById(item.CreatedBy).Result.OrgName;
+
+            //        report.Add(labambit);
+            //        //labambit.Male=.
+
+            //    }
+            //    var gridModel = new DataSourceResult {
+            //        Data = report,
+            //        Total = report.Count()
+            //    };
+            //    return Json(gridModel);
+
+            //}
+
         }
 
 
@@ -319,9 +349,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",fiscal.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
-            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
-            pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.pujigatKaryakram = pujigatKaryakram;
+
+            var budget = await _budgetService.GetBudget(createdby);
+            var anudan = budget.Where(m => m.ExpensesCategory == "Subsidy").ToList();
+
+            var budgetSelect = new SelectList(anudan, "Id", "ActivityName").ToList();
+            budgetSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Budget = budgetSelect;
 
             var sex = new List<SelectListItem>() {
                 new SelectListItem {
@@ -355,33 +389,38 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             AanudanModel model = new AanudanModel();
             model.District = _workContext.CurrentCustomer.OrgAddress;
+            model.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             return View(model);
+
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Create(AanudanModel model, IFormCollection col)
-        {
-            
-                var animalRegistration = model.ToEntity();
-                animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
+        {            
+            var farmer = model.ToEntity();
+            farmer.CreatedBy = _workContext.CurrentCustomer.Id;
                
-                animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
-                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
-                animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
+            farmer.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
+            farmer.Budget = await _budgetService.GetBudgetById(model.BudgetId);
+            farmer.CreatedBy = _workContext.CurrentCustomer.Id;
 
-
+            var District = col["District"].ToList();
             var Male = col["MaleMember"].ToList();
             var Female = col["FemaleMember"].ToList();
             var Dalit = col["DalitMember"].ToList();
             var Janajati = col["JanajatiMember"].ToList();
-            var Others = col["Others"].ToList();
-
-           
+            var Others = col["Others"].ToList();           
             var Name = col["KrishakKoName"].ToList();
             var Address = col["LocalLevel"].ToList();
             var Phone = col["PhoneNo"].ToList();
-            // var WardNo = col["WardNo"].ToList();
+            // var Remarks = col["Remarks"].ToList();
             var Ward = col["Ward"].ToList();
             var AnudanReceiverType = col["AnudanReceiverType"].ToList();
            // var Area = col["Area"].ToList();
@@ -391,8 +430,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var FarmerContribution = col["FarmerContribution"];
             var Remarks = col["Remarks"].ToList();
             var ExpectedOutput = col["ExpectedOutput"].ToList();
-
             var LivestockDataId = col["LivestockDataId"].ToList();
+
             List<AanudanKokaryakram> update = new List<AanudanKokaryakram>();
             List<AanudanKokaryakram> insert = new List<AanudanKokaryakram>();
             for (int i = 0; i < Name.Count(); i++)
@@ -401,67 +440,77 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     continue;
                 AanudanKokaryakram farm = new AanudanKokaryakram();
 
-                farm.PujigatKharchaKharakram = animalRegistration.PujigatKharchaKharakram;
-                farm.PujigatKharchaKaryakramId = animalRegistration.PujigatKharchaKaryakramId;
-                farm.FiscalYear = animalRegistration.FiscalYear;
-                farm.FiscalyearId = animalRegistration.FiscalyearId;
-                farm.CreatedBy = animalRegistration.CreatedBy;
-                farm.District = animalRegistration.District;
+                farm.Budget = farmer.Budget;
+                farm.BudgetId = farmer.BudgetId;
+                farm.FiscalYear = farmer.FiscalYear;
+                farm.FiscalyearId = farmer.FiscalyearId;
+                farm.CreatedBy = farmer.CreatedBy;
+                farm.District = farmer.District;
+                farm.LocalLevel = farmer.LocalLevel;
+                farm.Remaks = Remarks[0];
+                farm.ExpectedOutput = farmer.ExpectedOutput;
                 farm.KrishakKoName = Name[i];
                 farm.PhoneNo = Phone[i];
-                farm.LocalLevel = Address[i];
+                farm.LocalLevel = Address[0];
                 farm.Ward = Ward[i];
                 farm.MaleMember =Convert.ToInt32(Male[i]);
                 farm.FemaleMember = Convert.ToInt32(Female[i]);
                 farm.DalitMember = Convert.ToInt32(Dalit[i]);
                 farm.JanajatiMember = Convert.ToInt32(Janajati[i]);
                 farm.Others = Convert.ToInt32(Others[i]);
-                farm.SubsidyCategory = subsidycategory[i];
-                farm.Remaks = Remarks[i];
-                farm.ExpectedOutput = ExpectedOutput[i];
-                farm.AanudanKokisim = category[i];
-              
+                farm.SubsidyCategory = subsidycategory[i];               
+                farm.AanudanKokisim = category[i];              
                 farm.AnudanReceiverType = AnudanReceiverType[i];
                 farm.AanudanRakam = Convert.ToDecimal(AanudanRakam[i]);
                 farm.FarmerContribution = Convert.ToDecimal(FarmerContribution[i]);
+               
+
                 if (!string.IsNullOrEmpty(LivestockDataId[i]))
                 {
                     farm.Id = LivestockDataId[i];
                     await _anudanService.UpdatebaliRegister(farm);
                 }
                 else
-                {
-                  
+                {                  
                     await _anudanService.InsertbaliRegister(farm);
                 }
-
-
             }
             
 
-            //  await _anudanService.InsertbaliRegister(animalRegistration);
+            //  await _anudanService.InsertbaliRegister(farmer);
 
             SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
-               // return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("TabView");
+               // return continueEditing ? RedirectToAction("Edit", new { id = farmer.Id }) : RedirectToAction("TabView");
             
             var createdby = _workContext.CurrentCustomer.Id;
             var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
             incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.IncuvationCenter = incuvationCenter;
+            
             var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;
-            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
-            pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.pujigatKaryakram = pujigatKaryakram;
+
+            var budget = await _budgetService.GetBudget(createdby);
+            var anudan = budget.Where(m => m.ExpensesCategory == "Subsidy").ToList();
+            var budgetSelect = new SelectList(anudan, "Id", "ActivityName").ToList();
+            budgetSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Budget = budget;           
 
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
+           
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var EthnicGroup = new List<SelectListItem>() {
                 new SelectListItem {
                     Text="Dalit",
@@ -478,15 +527,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             EthnicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.EthnicGroup = EthnicGroup;
+            
             return View(model);
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            var animalRegistration = await _anudanService.GetbaliRegisterById(id);
-            if (animalRegistration == null)
+            var farmer = await _anudanService.GetbaliRegisterById(id);
+            if (farmer == null)
                 return RedirectToAction("List");
-            var model = animalRegistration.ToModel();
+            var model = farmer.ToModel();
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
@@ -513,7 +563,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             sex.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Sex = sex;
-            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
+            var pujigatKaryakram = new SelectList(await _budgetService.GetBudget(createdby), "Id", "ActivityName").ToList();
             pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             var EthnicGroup = new List<SelectListItem>() {
                 new SelectListItem {
@@ -541,16 +591,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Edit(AanudanModel model, bool continueEditing)
         {
-            var animalRegistration = await _anudanService.GetbaliRegisterById(model.Id);
-            if (animalRegistration == null)
+            var farmer = await _anudanService.GetbaliRegisterById(model.Id);
+            if (farmer == null)
                 //No blog post found with the specified id
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
-                var m = model.ToEntity(animalRegistration);
-                animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
-                animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
+                var m = model.ToEntity(farmer);
+                farmer.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalyearId);
+                farmer.Budget = await _budgetService.GetBudgetById(model.BudgetId);
 
 
 
@@ -616,7 +666,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;
 
-            var pujigatKaryakram = new SelectList(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby), "Id", "Program").ToList();
+            var pujigatKaryakram = new SelectList(await _budgetService.GetBudget(createdby), "Id", "ActivityName").ToList();
             pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
                         ViewBag.pujigatKaryakram = pujigatKaryakram;
 
@@ -636,16 +686,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetProgram(string fiscalyear)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear);
+            var budget = await _budgetService.GetBudget(createdby);
+            var karyakram = budget.Where(m => m.FiscalYearId == fiscalyear);
             return Json(karyakram.ToList());
         }
-        public async Task<ActionResult> GetAnudan(string fiscalyear,string program,string district)
+        public async Task<ActionResult> GetAnudan(string fiscalyear,string program,string localLevel)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pugigatkaryakram = await _anudanService.GetFilteredSubsidy(createdby,fiscalyear,district,program);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear);
-            return Json(karyakram.ToList());
+            var anudan = await _anudanService.GetFilteredSubsidy(createdby,fiscalyear,localLevel,program);
+            //var karyakram = budget.Where(m => m.FiscalYear.Id == fiscalyear);
+            return Json(anudan.ToList());
         }
         public List<SelectListItem> PujigatType()
         {

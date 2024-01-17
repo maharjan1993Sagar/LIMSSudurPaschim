@@ -51,7 +51,7 @@
             </div>
         </div>*@
 
-                        <div class="col-md-2">
+                        @*<div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Province" />
                                 <select asp-for="Province" data-val="Sudurpashchim Province" id="country" class="form-control" readonly="readonly" required>
@@ -60,10 +60,10 @@
 
                                 <span asp-validation-for="Province"></span>
                             </div>
-                        </div>
-                        @if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
-                        {
-                            <div class="col-md-2">
+                        </div>*@
+                        @*@if (roles.Contains("MolmacAdmin") || roles.Contains("DolfdAdmin") || roles.Contains("AddAdmin"))
+                        {*@
+                            @*<div class="col-md-2">
 
                                 <div class="form-group">
                                     <admin-label asp-for="District" />
@@ -73,8 +73,19 @@
                                     <span asp-validation-for="District"></span>
 
                                 </div>
+                            </div>*@
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <admin-label asp-for="LocalLevel" />
+                                    <select name="localLevel" id="localLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" required="required">
+                                        <option value="">select</option>
+                                    </select>
+                                    <span asp-validation-for="LocalLevel"></span>
+
+                                </div>
                             </div>
-                        }
+                        @*}
                         else
                         {
                     <div class="col-md-2">
@@ -89,7 +100,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="district" value="@Model.District" />
-                        }
+                        }*@
 
                         @*@if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
         {*@
@@ -109,7 +120,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr style="text-align:center">
-                                <th>@T("Admin.common.LocalLevel")</th>
+                               @* <th>@T("Admin.common.LocalLevel")</th>*@
                                 <th id="c">@T("Admin.Common.Ward")</th>
                                 <th id="d">@T("Admin.StatisticalData.FishProduction.NatureOfProduction")</th>
                                 <th>@T("Admin.StatisticalData.FishProduction.Area")</th>
@@ -138,17 +149,17 @@
 <div id="q">
     <admin-select asp-for="Ward" asp-items="ViewBag.Ward"></admin-select>
 </div>
-<div id="r">
+@*<div id="r">
     <select id="locallevel" name="LocalLevel"  class="form-control locallevel" required>
         <option value="">Select</option>
     </select>
     <span asp-validation-for="LocalLevel"></span>
-</div>
+</div>*@
 <script>
     $(document).ready(function () {
         $("#p").hide();
         $("#q").hide();
-        $("#r").hide();
+       // $("#r").hide();
         $("#showTable").hide();
         var data = {
             fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
@@ -171,12 +182,12 @@
                         $.each(result, function (index, item) {
                             var a = $("#p").html();
                             var b = $("#q").html();
-                            var c = $("#r").html();
+                            //var c = $("#r").html();
 
                             //$(b).val(item.Ward);
 
                             var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/>';
-                            tableRow += c + '</td><td>';
+                           // tableRow += c + '</td><td>';
                             tableRow += b;
                             tableRow += '</td><td>';
                             tableRow += a;
@@ -193,10 +204,10 @@
                     else {
                         var a = $("#p").html();
                         var b = $("#q").html();
-                        var c = $("#r").html();
+                       // var c = $("#r").html();
 
                         var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
-                        tableRow += c + '</td><td>';
+                       // tableRow += c + '</td><td>';
                         tableRow += b;
                         tableRow += '</td><td>';
                         tableRow += a;
@@ -210,14 +221,14 @@
                         var data = {
                             district: district
                         }
-                        $.getJSON(url, data, (result) => {
-                            $(".locallevel").append('<option value="">select</option>');
-                            $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
-                            $.each(result, function (item, value) {
-                                $(".locallevel").append(`<option value="${value}">${value}</option>`);
-                            });
+                        //$.getJSON(url, data, (result) => {
+                        //    $(".locallevel").append('<option value="">select</option>');
+                        //    $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
+                        //    $.each(result, function (item, value) {
+                        //        $(".locallevel").append(`<option value="${value}">${value}</option>`);
+                        //    });
 
-                        });
+                        //});
                     }
                 })
 
@@ -232,7 +243,7 @@
     $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
         var data = {
             fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
-            district: $('#district').val(),
+            district: $('#locallevel').val(),
 
 
         };
@@ -250,12 +261,12 @@
                 $.each(result, function (index, item) {
                     var a = $("#p").html();
                     var b = $("#q").html();
-                    var c = $("#r").html();
+                   // var c = $("#r").html();
 
                     //$(b).val(item.Ward);
 
                     var tableRow = '<tr id="'+item.Id+'"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/>';
-                    tableRow += c+'</td><td>';
+                    //tableRow += c+'</td><td>';
                     tableRow += b;
                     tableRow += '</td><td>';
                     tableRow += a;
@@ -272,10 +283,10 @@
             else {
                 var a = $("#p").html();
                 var b = $("#q").html();
-                var c = $("#r").html();
+               // var c = $("#r").html();
 
                 var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
-                tableRow += c + '</td><td>';
+              //  tableRow += c + '</td><td>';
                 tableRow += b;
                 tableRow += '</td><td>';
                 tableRow += a;
@@ -289,14 +300,14 @@
                 var data = {
                     district: district
                 }
-        $.getJSON(url, data, (result) => {
-            $(".locallevel").append('<option value="">select</option>');
-            $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
-            $.each(result, function (item, value) {
-                $(".locallevel").append(`<option value="${value}">${value}</option>`);
-            });
+        //$.getJSON(url, data, (result) => {
+        //    $(".locallevel").append('<option value="">select</option>');
+        //    $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
+        //    $.each(result, function (item, value) {
+        //        $(".locallevel").append(`<option value="${value}">${value}</option>`);
+        //    });
 
-        });
+        //});
             }
         })
         $("#showTable").show();
@@ -323,12 +334,12 @@
                 $.each(result, function (index, item) {
                     var a = $("#p").html();
                     var b = $("#q").html();
-                    var c = $("#r").html();
+                   // var c = $("#r").html();
 
                     //$(b).val(item.Ward);
 
                     var tableRow = '<tr id="'+item.Id+'"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/>';
-                    tableRow += c+'</td><td>';
+                   // tableRow += c+'</td><td>';
                     tableRow += b;
                     tableRow += '</td><td>';
                     tableRow += a;
@@ -345,10 +356,10 @@
             else {
                 var a = $("#p").html();
                 var b = $("#q").html();
-                var c = $("#r").html();
+               // var c = $("#r").html();
 
                 var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
-                tableRow += c + '</td><td>';
+                //tableRow += c + '</td><td>';
                 tableRow += b;
                 tableRow += '</td><td>';
                 tableRow += a;
@@ -362,14 +373,14 @@
                 var data = {
                     district: district
                 }
-        $.getJSON(url, data, (result) => {
-            $(".locallevel").append('<option value="">select</option>');
-            $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
-            $.each(result, function (item, value) {
-                $(".locallevel").append(`<option value="${value}">${value}</option>`);
-            });
+        //$.getJSON(url, data, (result) => {
+        //    $(".locallevel").append('<option value="">select</option>');
+        //    $(".locallevel").append('<option value="All localLevel">All localLevel</option>');
+        //    $.each(result, function (item, value) {
+        //        $(".locallevel").append(`<option value="${value}">${value}</option>`);
+        //    });
 
-        });
+        //});
             }
         })
         $("#showTable").show();
@@ -377,10 +388,10 @@
     $('#add').click(function () {
         var a = $("#p").html();
         var b = $("#q").html();
-        var c = $("#r").html();
+       // var c = $("#r").html();
 
         var tableRow = '<tr> <td><input type="hidden" name="LivestockDataId" />';
-        tableRow += c + '</td><td>';
+       // tableRow += c + '</td><td>';
         tableRow += b + '</td><td>';
         tableRow += a+'</td>';
         tableRow += '<td><input type="number" name="Area" class="form-control" /></td>';

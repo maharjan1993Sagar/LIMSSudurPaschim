@@ -47,14 +47,17 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<Farmer>> GetfarmerByIncuvationCenter(string createdby, string keyword="",string fiscalyear="", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _farmerRepository.Table;
-            query = query.Where(m => createdby==m.CreatedBy);
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => createdby == m.CreatedBy);
+            }
             if(!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(m => m.Incubation.Id == keyword);
             }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
-                query = query.Where(m => m.Talim.FiscalYear.Id== fiscalyear);
+                query = query.Where(m => m.FiscalYearId== fiscalyear);
             }
             return await PagedList<Farmer>.Create(query, pageIndex, pageSize);
 
@@ -67,20 +70,33 @@ namespace LIMS.Services.Bali
             return await PagedList<Farmer>.Create(query, pageIndex, pageSize);
 
         }
-        public async Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string district, string talimname, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string localLevel, string budgetId, string fiscalyear, string talimId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _farmerRepository.Table;
-            query = query.Where(m => createdby == m.CreatedBy && m.FiscalYear.Id == fiscalyear  );
-            if(!string.IsNullOrEmpty(talimname))
+            if (!String.IsNullOrEmpty(createdby))
             {
-                query = query.Where(m => m.pujigatKharchaKharakram.Id == talimname);
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            if (!string.IsNullOrEmpty(fiscalyear))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalyear); // createdby == m.CreatedBy &&
+            }
+            if (!string.IsNullOrEmpty(budgetId))
+            {
+                query = query.Where(m => m.Budget.Id == budgetId);
 
             }
-            if(!string.IsNullOrEmpty(talimname)&&!string.IsNullOrEmpty(district))
+            if (!string.IsNullOrEmpty(localLevel))
             {
-                query = query.Where(m => m.District == district);
+                query = query.Where(m => m.LocalLevel == localLevel);
 
             }
+            if (!string.IsNullOrEmpty(talimId))
+            {
+                query = query.Where(m => m.TalimId == talimId);
+
+            }
+
             return await PagedList<Farmer>.Create(query, pageIndex, pageSize);
 
         }

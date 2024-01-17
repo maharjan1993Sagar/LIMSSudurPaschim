@@ -21,7 +21,7 @@
     var currentVersion = LIMS.Core.LIMSVersion.FullVersion;
     var kendoVersion = "2019.2.514";
     var supportRtl = workContext.WorkingLanguage.Rtl &&
-        !localizationSettings.IgnoreRtlPropertyForAdminArea;
+                    !localizationSettings.IgnoreRtlPropertyForAdminArea;
 
     //CSS
     if (supportRtl)
@@ -92,7 +92,7 @@
 
 
 <!DOCTYPE html>
-<html @if (supportRtl) {<text> dir="rtl" </text> } onloadstart="myFunction()">
+<html @if (supportRtl) { <text> dir="rtl" </text> } onloadstart="myFunction()">
 <head>
     <title>@adminPageTitle</title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
@@ -132,9 +132,9 @@
             white-space: normal;
             text-align: center !important;
         }
+
         .table td, .table th {
             padding: 0.5rem !important;
-          
         }
 
         @@media(min-width: 1100px) {
@@ -354,7 +354,6 @@
                                             </li>
                                         }
 
-
                                     </ul>
                                 </div>
                             </div>
@@ -371,87 +370,76 @@
             <ul style="list-style-type: none;margin:0;padding:0;overflow:hidden;">
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Cdms", "Dashboard", new { Area = "Admin" })">@T("Admin.GryaPristha")</a></li>
 
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "MolmacDashboard", new { Area = "Admin" })">@T("Admin.Dashboard")</a></li>
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Website", "Dashboard", new { Area = "Admin" })">@T("Admin.Website")</a></li>
-                @if (livestock)
-                            {
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "Livestock", new { Area = "Admin" })">@T("Admin.Livestock")</a></li>
-             }
-                
-                @if (mastersetup)
+                @*<li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "MolmacDashboard", new { Area = "Admin" })">@T("Admin.Dashboard")</a></li>
+                    <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Website", "Dashboard", new { Area = "Admin" })">@T("Admin.Website")</a></li>*@
+                @*@if (livestock)
+                    {
+                        <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "Livestock", new { Area = "Admin" })">@T("Admin.Livestock")</a></li>
+                    }*@
+                @if (roles.Contains("Administrators"))
                 {
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
-                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.User")</a>
-                    <ul class="dropdown-menu">
-
-                        <li class="dropdown-item"><a href="@Url.Action("List", "Dolfd", new { Area = "Admin" })">@T("Admin.Users")</a></li>
-
-                    @*    <li class="dropdown-item"><a href="@Url.Action("List", "NLBO", new { Area = "Admin" })">@T("Admin.ORC")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("List", "Vhlsec", new { Area = "Admin" })">@T("Admin.OrganizationUnderDolfdAndAdd")</a></li>
-*@
-
-
-                    </ul>
-                </li>
+                    <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                        <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.User")</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item"><a href="@Url.Action("List", "Dolfd", new { Area = "Admin" })">@T("Admin.Users")</a></li>
+                        </ul>
+                    </li>
                 }
-                @if (livestock||crop)
+                @if (livestock || crop)
                 {
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
-                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.Production")</a>
-                    <ul class="dropdown-menu">
-                        @if (livestock)
+                    <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                        <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.Production")</a>
+                        <ul class="dropdown-menu">
+                            @if (livestock)
                             {
-                        <li class="dropdown-item"><a href="@Url.Action("Create", "FishProduction", new { Area = "Admin" })">@T("Admin.FishProduction")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("Create", "FishProduction", new { Area = "Admin" })">@T("Admin.FishProduction")</a></li>
 
-                        <li class="dropdown-item"><a href="@Url.Action("Index", "Production", new { Area = "Admin" })">@T("Admin.LivestockProduction")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("Index", "Production", new { Area = "Admin" })">@T("Admin.LivestockProduction")</a></li>
                             }
-                        @if (crop)
+                            @if (crop)
                             {
-                        <li class="dropdown-item"><a href="@Url.Action("List", "CropsProduction", new { Area = "Admin" })">@T("Admin.CropsProduction")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("List", "CropsProduction", new { Area = "Admin" })">@T("Admin.CropsProduction")</a></li>
                             }
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
                 }
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("tabentry", "PujigatKharchaKharyakram", new { Area = "Admin" })">@T("Admin.PujigatKharchaKharyakram")</a></li>
-
-
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
-                    <a style="Color:#FFF" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.BudgetProgress")</a>
-                    <ul id="GenSubMenu" class="dropdown-menu">
-                        <li class="dropdown-item"><a href="@Url.Action("Create","MonthlyProgress")">@T("Admin.Overallprogress")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("CreateNitigatKaryakram","MonthlyProgress")">@T("Admin.NitigatProgress")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("CreateMainKaryakram","MonthlyProgress")">@T("Admin.Main.Progress")</a></li>
-                    </ul>
-                </li>
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
-                    <a style="Color:#FFF" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.KarmachariBibarn")</a>
-                    <ul id="GenSubMenu" class="dropdown-menu">
-                        <li class="dropdown-item"><a href="@Url.Action("Create","DolfdSthai")">@T("Admin.SthaiTaha")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("Create","DolfdTaha")">@T("Admin.AstaiTaha")</a></li>
-                    </ul>
-                </li>
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Create", "MonthlyProgress", new { Area = "Admin" })">@T("Admin.Overallprogress")</a></li>
+                @*<li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                        <a style="Color:#FFF" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.BudgetProgress")</a>
+                        <ul id="GenSubMenu" class="dropdown-menu">
+                            <li class="dropdown-item"><a href="@Url.Action("Create","MonthlyProgress")">@T("Admin.Overallprogress")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("CreateNitigatKaryakram","MonthlyProgress")">@T("Admin.NitigatProgress")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("CreateMainKaryakram","MonthlyProgress")">@T("Admin.Main.Progress")</a></li>
+                        </ul>
+                    </li>*@
+                @*<li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                        <a style="Color:#FFF" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.KarmachariBibarn")</a>
+                        <ul id="GenSubMenu" class="dropdown-menu">
+                            <li class="dropdown-item"><a href="@Url.Action("Create","DolfdSthai")">@T("Admin.SthaiTaha")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Create","DolfdTaha")">@T("Admin.AstaiTaha")</a></li>
+                        </ul>
+                    </li>*@
 
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
                     <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.TalimAndSubsidy")</a>
                     <ul id="GenSubMenu" class="dropdown-menu">
-                        @if (subsidy)
+                        <li class="dropdown-item"><a href="@Url.Action("Create", "AanudanKaryakram")">@T("Admin.Subsidy")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("CreateOne", "Farmer")">@T("Admin.Training")</a></li>
+
+                        @*@if (subsidy)
                             {
-                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 0 })">@T("Admin.TalimName")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 1 })">@T("Admin.IncuvationCenter")</a></li>
-
-                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 2 })">@T("Admin.Subsidy")</a></li>
-
-                        <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 3 })">@T("Admin.Training")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 0 })">@T("Admin.TalimName")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 1 })">@T("Admin.IncuvationCenter")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 2 })">@T("Admin.Subsidy")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("TabView", "AanudanKaryakram", new { Index = 3 })">@T("Admin.Training")</a></li>
                             }
                             else
                             {
-
-                        <li class="dropdown-item"><a href="@Url.Action("Create", "AanudanKaryakram")">@T("Admin.Subsidy")</a></li>
-
-                        <li class="dropdown-item"><a href="@Url.Action("CreateOne", "Farmer")">@T("Admin.Training")</a></li>
-
-                         }
+                                <li class="dropdown-item"><a href="@Url.Action("Create", "AanudanKaryakram")">@T("Admin.Subsidy")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("CreateOne", "Farmer")">@T("Admin.Training")</a></li>
+                            }*@
                     </ul>
                 </li>
 
@@ -459,24 +447,33 @@
                     <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.Report")</a>
                     <ul id="GenSubMenu" class="dropdown-menu">
                         <li class="dropdown-item"><a href="@Url.Action("KirshakReport","Farmer")">@T("Admin.Talim.Report")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("Summery","MonthlyProgress")">@T("Admin.ProgramSummery.Report")</a></li>
                         <li class="dropdown-item"><a href="@Url.Action("OrgReport","aanudankaryakram")">@T("Admin.Aanudan.Report")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("Report","MonthlyProgress")">@T("Admin.MonthlyProgress.Report")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("SummerizedReport","MonthlyProgress")">@T("Admin.MonthlyProgress.SummerizedReport")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("Report","DolfdSthai")">@T("Admin.SthaiTaha.Report")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("Report","DolfdTaha")">@T("Admin.AstaiTaha.Report")</a></li>
+                        @*<li class="dropdown-item"><a href="@Url.Action("Summery","MonthlyProgress")">@T("Admin.ProgramSummery.Report")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Report","MonthlyProgress")">@T("Admin.MonthlyProgress.Report")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("SummerizedReport","MonthlyProgress")">@T("Admin.MonthlyProgress.SummerizedReport")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Report","DolfdSthai")">@T("Admin.SthaiTaha.Report")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Report","DolfdTaha")">@T("Admin.AstaiTaha.Report")</a></li>*@
+                        @if (roles.Contains("Administrators"))
+                        {
+                            <li class="dropdown-item"><a href="@Url.Action("Report", "CropsProduction")">@T("Admin.CropProduction.Report")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Report", "Production")">@T("Admin.LivestockProduction.Report")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("LivestockReportDolfdNepali", "Report", new { Area = "Admin" })">@T("Admin.LivestockReport")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Report", "Livestock")">@T("Admin.Livestock.Report")</a></li>
 
-                        @if (crop)
+                        }
+                        else
+                        {
+                            @if (crop)
                             {
-                        <li class="dropdown-item"><a href="@Url.Action("Report", "CropsProduction")">@T("Admin.CropProduction.Report")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("Report", "CropsProduction")">@T("Admin.CropProduction.Report")</a></li>
                             }
-                        @if (livestock)
+                            @if (livestock)
                             {
-                        <li class="dropdown-item"><a href="@Url.Action("Report", "Production")">@T("Admin.LivestockProduction.Report")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("LivestockReportDolfdNepali", "Report", new { Area = "Admin" })">@T("Admin.LivestockReport")</a></li>
-
-                        <li class="dropdown-item"><a href="@Url.Action("Report", "Livestock")">@T("Admin.Livestock.Report")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("Report", "Production")">@T("Admin.LivestockProduction.Report")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("LivestockReportDolfdNepali", "Report", new { Area = "Admin" })">@T("Admin.LivestockReport")</a></li>
+                                <li class="dropdown-item"><a href="@Url.Action("Report", "Livestock")">@T("Admin.Livestock.Report")</a></li>
                             }
+                        }
 
                     </ul>
                 </li>

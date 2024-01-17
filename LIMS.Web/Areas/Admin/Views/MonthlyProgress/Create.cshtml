@@ -1,23 +1,25 @@
 ﻿@model MonthlyProgressModel
-@{
 
-    ViewBag.Title = "Livestock";
+@{
+    ViewBag.Title = "Progress";
 }
+
 @inject IWorkContext workContext
 @using LIMS.Web.Areas.Admin.Helper
 
 @{
     var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 }
+
 <style>
     .printContent {
         height: 550px;
         overflow-y: scroll;
     }
 </style>
-<a asp-action="CreateMainKaryakram"><button class="btn btn-primary">@T("Admin.MainProgress")</button></a>
-<a asp-action="CreateNitigatKaryakram"><button class="btn btn-primary">@T("Admin.NitigatProgress")</button></a>
-<a asp-action="Create"><button class="btn btn-outline-danger">@T("Admin.OverallProgress")</button></a>
+@*<a asp-action="CreateMainKaryakram"><button class="btn btn-primary">@T("Admin.MainProgress")</button></a>
+    <a asp-action="CreateNitigatKaryakram"><button class="btn btn-primary">@T("Admin.NitigatProgress")</button></a>
+    <a asp-action="Create"><button class="btn btn-outline-danger">@T("Admin.OverallProgress")</button></a>*@
 
 <form method="post">
     <div class="row">
@@ -41,8 +43,17 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
+                                <admin-label asp-for="ExpensesCategory" />
+                                <admin-select asp-for="ExpensesCategory" asp-items="ViewBag.ExpensesCategory" onchange="getMonthlyData()" />
+                                @* expenses category *@
+                                <span asp-validation-for="ExpensesCategory"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
                                 <admin-label asp-for="ProgramType" />
-                                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getMonthlyData()"  />
+                                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getMonthlyData()" />
+                                @* source of fund *@
                                 <span asp-validation-for="ProgramType"></span>
                             </div>
                         </div>
@@ -51,15 +62,17 @@
                             <div class="form-group">
                                 <admin-label asp-for="Type" />
                                 <admin-select asp-for="Type" asp-items="ViewBag.Type" onchange="getMonthlyData()" />
+                                @* type of expens *@
                                 <span asp-validation-for="Type"></span>
                             </div>
                         </div>
 
-
-                        <div class="form-group">
-                            <admin-label asp-for="Month" />
-                            <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getMonthlyData()" required="required" />
-                            <span asp-validation-for="Month"></span>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Month" />
+                                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getMonthlyData()" required="required" />
+                                <span asp-validation-for="Month"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,48 +83,78 @@
                 <table id="abc" class="table table-bordered">
                     <thead>
                         <tr style="text-align:center">
-                            <th id="c">@T("Admin.PujigatKharcha.Lmbiscode")</th>
-                            <th>@T("Admin.PujigatKharcha.Type")</th>
-                            <th>@T("Admin.PujigatKharcha.BudgetSirshakNo")</th>
-
-
-                            <th>@T("Admin.PujigatKharcha.ProgramName")</th>
-                            <th>@T("Admin.PujigatKharcha.Budget")</th>
-                            <th>@T("Admin.PujigatKharcha.BarshikParinam")</th>
-                            
-                            <th>@T("Admin.PujigatKharcha.BhautikPragati")</th>
-                            <th>@T("Admin.PujigatKharcha.BitiyaPragati")</th>
+                            <th>@T("Admin.Budget.ActivityName")</th>
+                            @*<th>@T("Admin.Budget.PLIMBSNo")</th>*@
+                            <th>@T("Admin.Budget.KarchaSrishak")</th>
+                            <th>@T("Admin.Budget.KharchaUpaSirshak")</th>
+                            @*<th>@T("Admin.Budget.SanketNO")</th>*@
+                            @*<th>@T("Admin.Budget.BudgetBiniyojanType")</th>*@
+                            <th>@T("Admin.Budget.VautikPragati")</th>
+                            <th>@T("Admin.Budget.BitiyaPragati")</th>
+                            @*<th>@T("Admin.Budget.UpalabdhiHaru")</th>
+                            <th>@T("Admin.Budget.Remarks")</th>*@
+                            <th></th>
 
                         </tr>
                     </thead>
                     <tbody id="tabularEntry">
 
-                        @if (Model.pujigatKharchaKharakram.Count() > 0)
+                        @if (Model.Pragatis.Count() > 0)
                         {
-                            foreach (var item in Model.pujigatKharchaKharakram)
+                            foreach (var item in Model.Pragatis)
                             {
-                        <tr id="@item.Id">
-                            <td>
-                                @item.Limbis_Code
-                                <input type="hidden" name="PujigatKharchaId" value="@item.Id" /><input type="hidden" name="ProgressDataId" value="" />
-                            </td>
-                            <td></td>
-
-                            <td>@T(item.Type) </td>
-                            <td>
-                                @item.Program
-                            </td>
-                            <td> item.BarsikBajet </td>
-
-                            <td><input type="text" name="BhautikPragati" class="form-control"/></td>
-                            <td><input type="text" name="BitiyaPragati" class="form-control" /></td>
-
-
-                        </tr>
+                                <tr id="@item.Id" data-budgetid="@item.BudgetId" data-progressid="@item.Id"  data-id="@item.Id" data-upalbdiharu="@item.UpalbdiHaru" data-remarks="@item.Remarks" data-vaukitpragati="@item.VautikPragati" item-bitiyapragati="@item.BitiyaPragati">
+                                    <td>
+                                        @item.Budget.ActivityName
+                                        <input type="hidden" name="BudgetId" value="@item.Budget.BudgetId" />
+                                        <input type="hidden" name="ProgressDataId" value="@item.Id" />
+                                    </td>
+                                    @*<td>@item.Budget.PLIMBIS_No</td>*@
+                                    <td>
+                                        @item.Budget.KarchaSrishak
+                                    </td>
+                                    <td>@T(item.Budget.KharchaUpaSirshak) </td>
+                                    @*<td>
+                                        @item.Budget.SanketNO
+                                    </td>*@
+                                   @* <td> @item.Budget.BudgetBiniyojanType </td>*@
+                                    <td>@item.VautikPragati</td>
+                                    <td>@item.BitiyaPragati</td>
+                                    @*<td><input type="text" name="UpalbdiHaru" class="form-control" /></td>
+                                    <td><input type="text" name="Remarks"  class="form-control" /></td>*@
+                                    <td><button type="button" class="btnUpdate btn btn-primary"><i class="fa fa-edit"></i></button></td>
+                                </tr>
                             }
                         }
                     </tbody>
                 </table>
+                <div class="modal" id="modalProgress">
+                    <input type="hidden" id="hidBudgetId" />
+                    <input type="hidden" id="hidProgressId" />
+                    <input type="hidden" id="hidMonth" />
+                    <input type="hidden" id="hidFiscalYear" />
+                    <div class="form-group">
+                        <label>Bhautik Pragati</label>
+                        <input type="number" step="001" name="BhautikPragati" id="txtBhautik" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Bitiya Pragati</label>
+                        <input type="number" step="001" name="BitiyaPragati" id="txtBitiya" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>UpalbdiHaru</label>
+                        <textarea type="text" rows="4" id="txtUpalabdhiHaru" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kaifiyat</label>
+                        <textarea type="text" rows="2" id="txtRemarks" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success" id="btnUpdateTable">Submit</button>
+                        <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
                 <center>
                     <input type="submit" class="btn btn-success" />
                 </center>
@@ -120,98 +163,95 @@
     </div>
 
 </form>
-
-
-
-
-
 <script>
     $(document).ready(function () {
 
 
         $("#showTable").hide();
-          getPragati();
-        $("#@Html.IdFor(m=>m.ProgramType)").on("change", function () {
-
+        getPragati();
+          $("#@Html.IdFor(m=>m.ExpensesCategory)").on("change", function () {
             getPragati();
+        })
 
+        $("#@Html.IdFor(m=>m.ProgramType)").on("change", function () {
+            getPragati();
         })
         $("#@Html.IdFor(m=>m.FiscalYearId)").on("change", function () {
-
             getPragati();
-
         })
         $("#@Html.IdFor(m=>m.Type)").on("change", function () {
-
             getPragati();
-
         })
-
+         $("#@Html.IdFor(m=>m.Month)").on("change", function () {
+            getPragati();
+        })
 
     });
     async function getPragati() {
-
+            expensesCategory =  $('#@Html.IdFor(m=>m.ExpensesCategory)').val();
             programType = $('#@Html.IdFor(m=>m.ProgramType)').val();
             type = $('#@Html.IdFor(m=>m.Type)').val();
-        fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
-                month= $('#@Html.IdFor(m => m.Month)').val();
+            fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
+            month= $('#@Html.IdFor(m => m.Month)').val();
 
             if (fiscalYear != null) {
                 var data = {
                     programType: programType,
                     type: type,
                     fiscalYear: fiscalYear,
-
+                    expensesCategory: expensesCategory,
+                    month:month
                 };
                 addAntiForgeryToken(data);
-                $.post("@Url.Action("GetPujigatKharcha", "MonthlyProgress")", data, function (result) {
+                $.get("@Url.Action("GetBudget", "MonthlyProgress")", data, function (result) {
 
                     if (result.length > 0) {
                         $("#tabularEntry").empty();
 
                         $.each(result, function (index, item) {
-                            var tableRow = '<tr id="' + item.Id + '">';
-                            tableRow += '<td>' + item.Limbis_Code + '<input type="hidden" name="PujigatKharchaId" value="' + item.Id + '"/><input type="hidden" name="ProgressDataId" value="" /></td>';
-                            tableRow += '<td>' + item.Type + '</td>';
-                            tableRow += '<td>' + item.kharchaCode + '</td>';
-                            tableRow += '<td>' + item.Program + '</td>';
-                            tableRow += '<td>' + item.BarsikBajet + '</td>';
-                            tableRow += '<td>' + item.BarshikParinam + '</td>';
-                            
-                            tableRow += '<td><input type="text" name="BhautikPragati" class="form-control"/></td>';
-                            tableRow += '<td><input type="number" name="BitiyaPragati" class="form-control"/></td>';
+                            var tableRow = '<tr id="' + item.Id + '" data-budgetid="' + item.BudgetId + '" data-progressid="' + item.Id + '"  data-id="' + item.Id + '" data-upalbdiharu="' + item.UpalbdiHaru + '" data-remarks="' + item.Remarks + '" data-vautikpragati="' + item.VautikPragati + '" item-bitiyapragati="' + item.BitiyaPragati + '">';
+                            tableRow += '<td>' + item.Budget.ActivityName + '<input type="hidden" name="BudgetId" value="' + item.Budget.BudgetId + '"/><input type="hidden" name="ProgressDataId" value="'+item.Id+'" /></td>';
+                            //tableRow += '<td>' + item.Budget.PLIMBIS_No + '</td>';
+                            tableRow += '<td>' + item.Budget.KarchaSrishak + '</td>';
+                            tableRow += '<td>' + item.Budget.KharchaUpaSirshak + '</td>';
+                            //tableRow += '<td>' + item.Budget.SanketNO + '</td>';
+                            //tableRow += '<td>' + item.Budget.BudgetBiniyojanType + '</td>';
+                            //tableRow += '<td>' + item.BarshikParinam + '</td>';
 
+                            tableRow += '<td>'+item.VautikPragati+'</td>';
+                            tableRow += '<td>' + item.BitiyaPragati +'</td>';
+                            //tableRow += '<td><input type="text" name="UpalbdiHaru" value="' + item.UpalbdiHaru +'"  class="form-control"/></td>';
+                            //tableRow += '<td><input type="text" name="Remarks" value="' + item.Remarks +'" class="form-control"/></td>';
+                            //tableRow += '<td><input type="number" name="BitiyaPragati" class="form-control"/></td>';
+                            tableRow += '<td><button class="btnUpdate btn btn-primary"><i class="fa fa-edit"></i></button></td>';
 
                             tableRow += '</tr>';
                             $("#tabularEntry").append(tableRow);
                         });
 
                         $("#showTable").show();
-                        if (month) {
-                            getMonthlyData();
-                        }
-
+                        //if (month) {
+                        //    getMonthlyData();
+                        //}
                     }
                     else {
                         $("#showTable").hide();
-
                     }
                 });
-
             }
-
-
     }
-     function getMonthlyData() {
 
-          programType = $('#@Html.IdFor(m=>m.ProgramType)').val();
+     function getMonthlyData() {
+          expensesCategory =  $('#@Html.IdFor(m=>m.ExpensesCategory)').val();
+         programType = $('#@Html.IdFor(m=>m.ProgramType)').val();
          type = $('#@Html.IdFor(m=>m.Type)').val();
-        fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
-        month= $('#@Html.IdFor(m => m.Month)').val();
+         fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
+         month= $('#@Html.IdFor(m => m.Month)').val();
 
         if ( fiscalYear != "" && month!="") {
 
             var data = {
+            expensesCategory : $('#@Html.IdFor(m=>m.ExpensesCategory)').val(),
                 programType: $('#@Html.IdFor(m=>m.ProgramType)').val(),
                 type: $('#@Html.IdFor(m=>m.Type)').val(),
                 fiscalYear: $('#@Html.IdFor(m=>m.FiscalYearId)').val(),
@@ -221,9 +261,11 @@
             $.post("@Url.Action("GetProgress", "MonthlyProgress")", data, function (result) {
                 $("input[type=text]").val('');
                 $.each(result, function (index, item) {
-                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="ProgressDataId"]').val(item.Id);
-                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
-                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BitiyaPragati"]').val(item.BitiyaPragati);
+                    $('tr#' + item.Budget.Id + ' input[name="ProgressDataId"]').val(item.Id);
+
+                   // var
+                    //$('tr#' + item.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
+                    //$('tr#' + item.Budget.Id + ' input[name="BitiyaPragati"]').val(item.BitiyaPragati);
                 });
             });
         }
@@ -236,18 +278,136 @@
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
-            td2 = tr[i].getElementsByTagName("td")[2];
-            td3 = tr[i].getElementsByTagName("td")[3];
+            td2 = tr[i].getElementsByTagName("td")[1];
+            td3 = tr[i].getElementsByTagName("td")[2];
 
             if (td) {
                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1 || td2.innerHTML.toUpperCase().indexOf(filter) > -1 || td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
-                } else {
+                }
+                else {
                     tr[0].style.display = "";
-
                     tr[i].style.display = "none";
                 }
             }
         }
     }
+
+    $("body").on("click", "table tbody tr td button.btnUpdate", function (e) {
+        e.preventDefault();
+
+        var row = $(this).closest("tr");
+        var rowId = row.data("id");
+        var progressStatus = row.data("upalbdiharu");
+        var remarks = row.data("remarks");
+        var budgetId = row.data("budgetid");
+        var progressId = row.data("progressid");
+        var bitiya = row.data("bitiyapragati");
+        var vautik = row.data("vautikpragati");
+        var fiscalYear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+        var month = $('#@Html.IdFor(m => m.Month)').val();
+        if (typeof month === "string" && month.length === 0) {
+            alert("Month is empty");
+            e.preventDefault();
+        }
+        else {
+
+            // Set values in the modal
+            $("#txtUpalabdhiHaru").val(progressStatus);
+            $("#txtRemarks").val(remarks);
+            $("#txtVautik").val(vautik);
+            $("#txtBitiya").val(bitiya);
+            $("#hidBudgetId").val(budgetId);
+            $("#hidProgressId").val(progressId);
+            $("#hidMonth").val(month);
+            $("#hidFiscalYear").val(fiscalYear);
+
+            // Show the modal
+            var window = $("#modalProgress");
+            if (!window.data("kendoWindow")) {
+                window.kendoWindow({
+                    width: 800,  // Set the width to 400 pixels
+                    height: 340, // Set the height to 200 pixels
+                    modal: true,
+                    title: "@T("Admin.Common.UpdateProgress")",
+                    actions: ["Close"]
+                });
+            }
+            window.data('kendoWindow').center().open();
+        }
+        $("#btnClose").click(function (e) {
+            e.preventDefault();
+            window.data('kendoWindow').close();
+        })
+
+        $("#btnUpdateTable").click(function (e) {
+            e.preventDefault();
+
+            var updatedProgressStatus = $("#txtUpalabdhiHaru").val();
+            var updatedRemarks = $("#txtRemarks").val();
+            var updatedVautik = $("#txtBhautik").val();
+            var updatedBitiya = $("#txtBitiya").val();
+            progressId = $("#hidProgressId").val();
+            budgetId = $("#hidBudgetId").val();
+            month = $("#hidMonth").val();
+            ficalYear = $("#hidFiscalYear").val();
+
+            var data = {
+                progressId : progressId,
+                budgetId: budgetId,
+                fiscalYear: fiscalYear,
+                month: month,
+                bitiya: updatedBitiya,
+                vautik: updatedVautik,
+                upalabdhiharu: updatedProgressStatus,
+                remarks: updatedRemarks
+            };
+            addAntiForgeryToken(data);
+
+            $.post("@Url.Action("UpdateProgress", "MonthlyProgress")", data, function (result) {
+                row.data("upalbdiHaru", updatedProgressStatus);
+                row.data("remarks", updatedRemarks);
+                row.data("bitiyapragati", updatedBitiya);
+                row.data("vautikpragati", updatedVautik);
+                row.data("progressId", result.Id);
+
+                alert("Success: " + result.Message);
+
+            }).fail(function (xhr, status, error) {
+                // Error callback
+                console.log("Error:", xhr.responseJSON || xhr.responseText);
+
+                // Handle error here, display error messages, etc.
+                var errorMessage = "An error occurred while processing your request.";
+                if (xhr.responseJSON && xhr.responseJSON.Message) {
+                    errorMessage = xhr.responseJSON.Message;
+                }
+                alert("Error: " + errorMessage);
+
+            }).always(function () {
+                // This block will be executed no matter if the request was successful or failed.
+                console.log("Request completed.");
+            });
+
+            var tdBitiya = row.find('td:eq(3)');
+            tdBitiya.html(updatedBitiya);
+
+            var tdVautik = row.find('td:eq(4)');
+            tdVautik.html(updatedVautik);
+
+
+            //var inputProgress = row.find('td:eq(8) input')
+            //inputProgress.val(updatedProgressStatus);
+
+            //var inputRemarks = row.find('td:eq(9) input');
+            //inputRemarks.val(updatedRemarks);
+
+            //row.data("UpalbdiHaru", updatedProgressStatus);
+            //row.data("remarks", updatedProgressStatus);
+
+            //window.data('kendoWindow').close();
+
+        });
+
+    });
 </script>

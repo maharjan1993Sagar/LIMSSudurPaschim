@@ -37,7 +37,5 @@ namespace LIMS.Domain.Bali
         public string IsNitiTathaKaryaKram { get; set; }
         public string IsTrainingKaryaKram { get; set; }
 
-
-
     }
 }

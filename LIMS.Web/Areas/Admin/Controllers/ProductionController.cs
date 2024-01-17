@@ -7,6 +7,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
 using LIMS.Services.Statisticaldata;
@@ -37,11 +38,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILssService _lssService;
         private readonly ICustomerService _customerService;
         private readonly IFarmService _farmService;
+        private readonly ILocalLevelService _localLevelService;
         public ProductionController(ILocalizationService localizationService, ILivestockSpeciesService speciesService, IUnitService unitService, IFiscalYearService fiscalYearService, IProductionionDataService productionionDataService, IWorkContext workContxt,
            IBreedService breedService,
              ILssService lssService,
              ICustomerService customerService,
-             IFarmService farmService
+             IFarmService farmService,
+             ILocalLevelService localLevelService
             )
         {
             _localizationService = localizationService;
@@ -54,6 +57,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _lssService = lssService;
             _customerService = customerService;
             _farmService = farmService;
+            _localLevelService = localLevelService;
         }
         public IActionResult Index() => RedirectToAction("List");
 
@@ -89,6 +93,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m=>m.Name).ToList();
             var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
 
             var productionType = new List<SelectListItem>() {
                 new SelectListItem{
@@ -134,14 +139,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
 
             string createdby = null;
-            if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacAdmin"))
-            {
-                createdby = "molmac";
-            }
-            else
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
+            //if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacAdmin"))
+            //{
+            //    createdby = "molmac";
+            //}
+            //else
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
          
 
             var production = await _productionionDataService.GetFilteredProduction(createdby,type,fiscalYear,locallevel,district);
@@ -206,8 +211,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+           
             var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             var productionType = new List<SelectListItem>() {
                 new SelectListItem{
@@ -264,7 +275,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var speciesIds = form["SpeciesId"].ToList();
             var quantities = form["Quantity"].ToList();
-           
+            var remarks = form["Remarks"].ToList();
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var existingProductionDataIds = form["ProductionDataId"].ToList();
             var updateproductions = new List<Production>();
             var addproduction = new List<Production>();
@@ -278,7 +295,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(quantities[i])) continue;
                 var production = new Production {
                     Quantity = quantities[i],
-                
+                    Remarks = remarks[i],                
                     FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYear),
                     Species = await _speciesService.GetBreedById(speciesIds[i]),
                     ProductionType = model.ProductionType,

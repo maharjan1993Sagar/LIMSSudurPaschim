@@ -10,7 +10,7 @@ namespace LIMS.Services.Bali
     public interface ITalimService
     {
         Task<Talim> GettalimById(string id);
-        Task<IPagedList<Talim>> Gettalim(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<Talim>> Gettalim(string createdby="" , string fiscalyear = "", string budgetId = "", int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<Talim>> Gettalim(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
 
         Task Deletetalim(Talim talim);
