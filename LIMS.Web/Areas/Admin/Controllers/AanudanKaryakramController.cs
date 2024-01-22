@@ -350,7 +350,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
-            var budget = await _budgetService.GetBudget(createdby);
+            var budget = await _budgetService.GetBudget("");
             var anudan = budget.Where(m => m.ExpensesCategory == "Subsidy").ToList();
 
             var budgetSelect = new SelectList(anudan, "Id", "ActivityName").ToList();
@@ -693,7 +693,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetAnudan(string fiscalyear,string program,string localLevel)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var anudan = await _anudanService.GetFilteredSubsidy(createdby,fiscalyear,localLevel,program);
+            var anudan = await _anudanService.GetFilteredSubsidy("",fiscalyear,localLevel,program);
             //var karyakram = budget.Where(m => m.FiscalYear.Id == fiscalyear);
             return Json(anudan.ToList());
         }

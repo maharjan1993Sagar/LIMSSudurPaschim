@@ -4,9 +4,9 @@
 @inject IWorkContext workContext
 
 @{
-
     var subsidy = await permissionService.Authorize(StandardPermissionProvider.AccessResourceRegister);
     var role = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name);
+    Layout = Constants.Layout_Website;
 }
 <style>
     .card {

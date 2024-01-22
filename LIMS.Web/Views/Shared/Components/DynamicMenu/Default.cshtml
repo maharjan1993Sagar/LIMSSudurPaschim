@@ -5,36 +5,32 @@
     <ul>
         @foreach (var item in Model)
         {
-                <li>
-                    <a href="@item.Url">@item.MainMenuName</a>
-                    @if (item.HasSubMenu)
-                    {
+            <li>
+                <a href="@item.Url">@item.MainMenuName</a>
+                @if (item.HasSubMenu)
+                {
                     <ul>
                         @foreach (var itemSub in item.SubMenus)
                         {
 
-                                <li>
-                                 <a href="@itemSub.Url">@itemSub.Name</a> 
-                                    @if (itemSub.HasSubSubMenu)
-                                    {
-                                        <ul>
-                                            @foreach (var itemSubSub in itemSub.SubSubMenus)
-                                            {
-                                                <li>
-                                                    <a href="@itemSubSub.Url">@itemSubSub.SubSubMenuName</a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                </li>
-
+                            <li>
+                                <a href="@itemSub.Url">@itemSub.Name</a>
+                                @if (itemSub.HasSubSubMenu)
+                                {
+                                    <ul>
+                                        @foreach (var itemSubSub in itemSub.SubSubMenus)
+                                        {
+                                            <li>
+                                                <a href="@itemSubSub.Url">@itemSubSub.SubSubMenuName</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
                         }
                     </ul>
-                    }
-                </li>
-            
-
-
+                }
+            </li>
         }
     </ul>
 }

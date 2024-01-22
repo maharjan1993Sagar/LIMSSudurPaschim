@@ -182,6 +182,9 @@ namespace LIMS.Web.Areas.Admin.Models.Customers
         //customer roles
         [LIMSResourceDisplayName("Admin.Customers.Customers.Fields.CustomerRoles")]
         public string CustomerRoleNames { get; set; }
+
+        [LIMSResourceDisplayName("Admin.Customers.Customers.Fields.CustomerRoles")]
+        public string Role { get; set; }
         public List<CustomerRoleModel> AvailableCustomerRoles { get; set; }
         public string[] SelectedCustomerRoleIds { get; set; }
 

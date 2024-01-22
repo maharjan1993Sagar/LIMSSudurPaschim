@@ -38,6 +38,7 @@
                             pluginNode.Visible = hasManagePluginsPermission && pluginNode.ChildNodes.Any(x => x.Visible);
                         }
                     }
+
                     @foreach (var item in rootNode.ChildNodes.Where(x => x.Visible))
                     {
                         <partial name="_MenuItem" model="item" />

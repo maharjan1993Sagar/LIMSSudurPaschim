@@ -56,21 +56,21 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command,string Keyword="")
         {
-            string createdby = null;
-            List<string> roles = _context.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _context.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _context.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
-            {
-                var hatchery = await _feedIndustryService.GetFeedIndustryByType(createdby, "Feed industry",Keyword, command.Page - 1, command.PageSize);
+            //string createdby = null;
+            //List<string> roles = _context.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+              //  createdby = _context.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _context.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
+            //{
+                var hatchery = await _feedIndustryService.GetFeedIndustryByType("", "Feed industry",Keyword, command.Page - 1, command.PageSize);
                 var gridModel = new DataSourceResult {
                     Data = hatchery,
                     ExtraData = Keyword,
@@ -78,44 +78,44 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 };
                 return Json(gridModel);
 
-            }
-            else if (roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.VhlsecUser))
-            {
-                string entityId = _context.CurrentCustomer.EntityId;
-                var lssid = await _lssService.GetLssByVhlsecId(entityId);
-                var lssids = lssid.Select(m => m.Id).ToList();
-                var customer = _customerService.GetCustomerByLssId(lssids, entityId);
-                var userids = customer.Select(m => m.Id).ToList();
-                var hatchery = await _feedIndustryService.GetFeedIndustryByType(userids, "Feed industry", Keyword, command.Page - 1, command.PageSize);
-                var gridModel = new DataSourceResult {
-                    Data = hatchery,
-                    ExtraData = Keyword,
-                    Total = hatchery.TotalCount
-                };
-                return Json(gridModel);
-            }
-            else if (roles.Contains(RoleHelper.DolfdAdmin) || roles.Contains(RoleHelper.DolfdUser))
-            {
-                string entityId = _context.CurrentCustomer.EntityId;
-                List<string> vhlsecId = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.Select(m => m.Id).ToList();
-                var LssIds = new List<string>();
-                foreach (var item in vhlsecId)
-                {
-                    LssIds.AddRange(_lssService.GetLssByVhlsecId(item).Result.Select(m => m.Id).ToList());
-                }
-                var userids = _customerService.GetCustomerByLssId(LssIds, vhlsecId, entityId).Select(m => m.Id).ToList();
-                var hatchery = await _feedIndustryService.GetFeedIndustryByType(userids, "Feed industry", Keyword, command.Page - 1, command.PageSize);
-                var gridModel = new DataSourceResult {
-                    Data = hatchery,
-                    ExtraData = Keyword,
-                    Total = hatchery.TotalCount
-                };
-                return Json(gridModel);
-            }
-            else
-            {
-                return Json(null);
-            }
+            //}
+            //else if (roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.VhlsecUser))
+            //{
+            //    string entityId = _context.CurrentCustomer.EntityId;
+            //    var lssid = await _lssService.GetLssByVhlsecId(entityId);
+            //    var lssids = lssid.Select(m => m.Id).ToList();
+            //    var customer = _customerService.GetCustomerByLssId(lssids, entityId);
+            //    var userids = customer.Select(m => m.Id).ToList();
+            //    var hatchery = await _feedIndustryService.GetFeedIndustryByType(userids, "Feed industry", Keyword, command.Page - 1, command.PageSize);
+            //    var gridModel = new DataSourceResult {
+            //        Data = hatchery,
+            //        ExtraData = Keyword,
+            //        Total = hatchery.TotalCount
+            //    };
+            //    return Json(gridModel);
+            //}
+            //else if (roles.Contains(RoleHelper.DolfdAdmin) || roles.Contains(RoleHelper.DolfdUser))
+            //{
+            //    string entityId = _context.CurrentCustomer.EntityId;
+            //    List<string> vhlsecId = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.Select(m => m.Id).ToList();
+            //    var LssIds = new List<string>();
+            //    foreach (var item in vhlsecId)
+            //    {
+            //        LssIds.AddRange(_lssService.GetLssByVhlsecId(item).Result.Select(m => m.Id).ToList());
+            //    }
+            //    var userids = _customerService.GetCustomerByLssId(LssIds, vhlsecId, entityId).Select(m => m.Id).ToList();
+            //    var hatchery = await _feedIndustryService.GetFeedIndustryByType(userids, "Feed industry", Keyword, command.Page - 1, command.PageSize);
+            //    var gridModel = new DataSourceResult {
+            //        Data = hatchery,
+            //        ExtraData = Keyword,
+            //        Total = hatchery.TotalCount
+            //    };
+            //    return Json(gridModel);
+            //}
+            //else
+            //{
+            //    return Json(null);
+            //}
           
         }
         public async Task<ActionResult> Create()

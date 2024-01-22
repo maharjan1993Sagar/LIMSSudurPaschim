@@ -241,7 +241,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> CreateOne(FarmerModel model, IFormCollection col)
         {
-
             var animalRegistration = model.ToEntity();
             animalRegistration.Incubation = await _incuvationCenterService.GetincuvationCenterById(animalRegistration.IncuvationCenterId);
             animalRegistration.pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(animalRegistration.pujigatKharchaKharakramId);

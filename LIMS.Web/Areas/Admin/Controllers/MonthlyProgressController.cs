@@ -119,9 +119,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
 
-            var Budget = await _budgetService.GetBudget(id, CurrentFiscalYear, "", "");
+            var Budget = await _budgetService.GetBudget("", CurrentFiscalYear, "", "");
 
-            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati(id,CurrentFiscalYear,"","","");
+            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("",CurrentFiscalYear,"","","");
 
             MonthlyProgressModel model = new MonthlyProgressModel();
 
@@ -1196,12 +1196,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var createdby = _workContext.CurrentCustomer.Id;
             var budget = await _budgetService.GetBudget(createdby, fiscalYear, programType, type);
 
-            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati(createdby, fiscalYear, programType, type, month, expensesCategory);
+            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month, expensesCategory);
 
+            var lstProgress = new List<MonthlyPragati>();
 
             foreach (var item in budget)
             {
-                var objPragati = progress.FirstOrDefault(m=>m.BudgetId == item.Id);
+                var objPragati = progress.FirstOrDefault(m => m.BudgetId == item.Id);
 
                 if (!progress.Any(m => m.BudgetId == item.Id))
                 {
@@ -1212,7 +1213,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Month = month,
                         Id = ""
                     };
-                    progress.Add(pragati);
+                    lstProgress.Add(pragati);
+                }
+                else{
+                    lstProgress.Add(objPragati);
                 }
                 
             }
@@ -1220,7 +1224,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //decimal a = 0;
             //progress.ToList().ForEach(m => m. = ((decimal.TryParse(m.Yearly, out a) ? a * 100000 : 0).ToStrin~g()));
 
-            return Json(progress.ToList());
+            return Json(lstProgress);
         }
 
 
@@ -1236,6 +1240,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     var objMonthlyPragati = await _animalRegistrationService.GetMonthlyPragatiById(progressId);
                     if (objMonthlyPragati != null)
                     {
+                        objMonthlyPragati.Budget = await _budgetService.GetBudgetById(budgetId);
                         objMonthlyPragati.BitiyaPragati = bitiya;
                         objMonthlyPragati.VautikPragati = vautik;
                         objMonthlyPragati.UpalbdiHaru = upalabdhiharu;
@@ -1247,10 +1252,28 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         await _animalRegistrationService.UpdateMonthlyPragati(objMonthlyPragati);
                         return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
                     }
+                    else
+                    {
+                        objMonthlyPragati = new MonthlyPragati();
+
+                        objMonthlyPragati.BudgetId = budgetId;
+                        objMonthlyPragati.Budget = await _budgetService.GetBudgetById(budgetId);
+                        objMonthlyPragati.BitiyaPragati = bitiya;
+                        objMonthlyPragati.VautikPragati = vautik;
+                        objMonthlyPragati.UpalbdiHaru = upalabdhiharu;
+                        objMonthlyPragati.Remarks = remarks;
+                        objMonthlyPragati.Month = month;
+                        objMonthlyPragati.CreatedAt = DateTime.Now;
+                        objMonthlyPragati.CreatedBy = createdby;
+                        objMonthlyPragati.FiscalYearId = fiscalYear;
+                        objMonthlyPragati.FiscalYear = await _fiscalYearService.GetFiscalYearById(fiscalYear);
 
 
+                        await _animalRegistrationService.InsertMonthlyPragati(objMonthlyPragati);
+                        return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
+                    }
                 }
-                if (!String.IsNullOrEmpty(budgetId))
+                else if (!String.IsNullOrEmpty(budgetId))
                 {
                     var objMonthlyPragati = new MonthlyPragati();
 
@@ -1309,7 +1332,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetProgress(string type, string programType, string fiscalYear, string month)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var budget = await _animalRegistrationService.GetFilteredMonthlyPragati(createdby, fiscalYear, programType, type, month);
+            var budget = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month);
 
             return Json(budget);
         }

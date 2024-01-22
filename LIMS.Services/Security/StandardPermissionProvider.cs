@@ -91,7 +91,7 @@ namespace LIMS.Services.Security
         public static readonly PermissionRecord VhlsecReport = new PermissionRecord { Name = "Admin area. Access Vhlsec Report", SystemName = PermissionSystemName.AccessVhlsecReport };
         public static readonly PermissionRecord NlboOnly = new PermissionRecord { Name = "Admin area. Access by Nlbo", SystemName = PermissionSystemName.AccessByNlboOnly };
         public static readonly PermissionRecord DolfdOnly = new PermissionRecord { Name = "Admin area. Access by Dolfd", SystemName = PermissionSystemName.AccessByDolfdOnly };
-
+       
 
         public static readonly PermissionRecord ManageMeasures = new PermissionRecord { Name = "Admin area. Manage Measures", SystemName = PermissionSystemName.Measures, Category = "Configuration", 
             Actions = new List<string> { 
@@ -130,6 +130,10 @@ namespace LIMS.Services.Security
        public static readonly PermissionRecord AccessMolmacRegister = new PermissionRecord { Name = "Admin area. Manage MolmacRegister", SystemName = PermissionSystemName.AccessMolmacRegister };
        public static readonly PermissionRecord AccessCMS = new PermissionRecord { Name = "Admin area. Manage CDS", SystemName = PermissionSystemName.AccessCDS};
         public static readonly PermissionRecord AccessCropProduction = new PermissionRecord { Name = "Admin area. AccessCropsProduction", SystemName = PermissionSystemName.AccessCropsProduction };
+       
+        //Agriculture
+        public static readonly PermissionRecord AgriUserAccess = new PermissionRecord { Name = "AgriUser Access", SystemName = PermissionSystemName.AgriUserAccess };
+        public static readonly PermissionRecord LivestockUserAccess = new PermissionRecord { Name = "LivestockUser Access", SystemName = PermissionSystemName.LivestockUserAccess };
 
         public virtual IEnumerable<PermissionRecord> GetPermissions()
         {
@@ -232,7 +236,10 @@ namespace LIMS.Services.Security
                 AccessMolmacRegister,
                 AccessCropProduction,
                 AccessSubsidyRegister,
-                AccessResourceRegister
+                AccessResourceRegister,
+                //Agriculture Access
+                AgriUserAccess,
+                LivestockUserAccess
             };
         }
 
@@ -303,7 +310,10 @@ namespace LIMS.Services.Security
                         ManageActions,
                         ManageReminders,
                         AccessMasterSetup,
-                        AccessCMS
+                        AccessCMS,
+                        //Agriculture Access
+                        AgriUserAccess,
+                        LivestockUserAccess
                     }
 
 
@@ -386,8 +396,11 @@ namespace LIMS.Services.Security
                         ManageBanners,
                         ManageInteractiveForm,
                         ManageActions,
-                        ManageReminders
-                      
+                        ManageReminders,
+                        //Agriculture Access
+                        AgriUserAccess,
+                        LivestockUserAccess
+
                     }
                 },
                 };

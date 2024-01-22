@@ -36,10 +36,14 @@ namespace LIMS.Services.Organizations
             query = query.Where(m => m.CreatedBy == createdby);
             return await PagedList<FeedIndustry>.Create(query, pageIndex, pageSize);
         }
-        public async Task<IPagedList<FeedIndustry>> GetFeedIndustryByType(string createdby, string type,string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<FeedIndustry>> GetFeedIndustryByType(string createdby, string type, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _feedIndustryRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.OtherOrganization.Type == type);
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m =>  m.OtherOrganization.Type == type);
             if(!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(m => m.FiscalYear.Id == fiscalyear);

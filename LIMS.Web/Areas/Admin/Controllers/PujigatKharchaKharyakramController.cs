@@ -74,7 +74,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest  command,string keyword) {
             var createdby = _workContext.CurrentCustomer.Id;
-            var budgets = await _budgetService.GetBudget(createdby,keyword,command.Page-1, command.PageSize);
+            var budgets = await _budgetService.GetBudget("",keyword,command.Page-1, command.PageSize);
             var b = budgets.ToList();
 
             b.ForEach(m => m.TypeOfExecution = ExecutionHelper.GetTypeOfExecution().Where(n => n.Value == m.TypeOfExecution).FirstOrDefault()?.Text);
@@ -100,7 +100,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var budgets = await _budgetService.GetBudget(createdby, keyword, command.Page - 1, command.PageSize);
+            var budgets = await _budgetService.GetBudget("", keyword, command.Page - 1, command.PageSize);
             var b = budgets.ToList();
 
             b.ForEach(m => m.TypeOfExecution = ExecutionHelper.GetTypeOfExecution().Where(n => n.Value == m.TypeOfExecution).FirstOrDefault()?.Text);

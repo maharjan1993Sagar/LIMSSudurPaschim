@@ -6,7 +6,8 @@ using LIMS.Framework.Mvc.Filters;
 using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Common;
 using LIMS.Services.Customers;
-using LIMS.Services.Localization;
+using LIMS.Services.Localization;                                           
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Media;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions;
@@ -29,7 +30,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
     {
         #region Fields
         private readonly ICustomerService _customerService;
-               private readonly ICustomerViewModelService _customerViewModelService;
+        private readonly ICustomerViewModelService _customerViewModelService;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly ICustomerRegistrationService _customerRegistrationService;
         private readonly ILocalizationService _localizationService;
@@ -47,6 +48,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IUserApiService _userApiService;
         private readonly IEncryptionService _encryptionService;
         private readonly ICustomerRoleViewModelService _customerRoleViewModelService;
+        private readonly ILocalLevelService _localLevelService;
+
         List<SelectListItem> lists = new List<SelectListItem> {
             new SelectListItem { Text = "Gandaki Province", Value = "Province 4" },
         };
@@ -72,7 +75,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IPermissionService permissionService,
             IUserApiService userApiService,
             IEncryptionService encryptionService,
-            ICustomerRoleViewModelService customerRoleViewModelService)
+            ICustomerRoleViewModelService customerRoleViewModelService,
+            ILocalLevelService localLevelService)
         {
             _customerService = customerService;
             
@@ -94,6 +98,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _userApiService = userApiService;
             _encryptionService = encryptionService;
             _customerRoleViewModelService = customerRoleViewModelService;
+            _localLevelService = localLevelService;
         }
         #endregion
 
@@ -132,9 +137,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [PermissionAuthorizeAction(PermissionActionName.Create)]
         public async Task<IActionResult> Create()
         {
-            var provience = ProvinceHelper.GetProvince();
-            provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.provience = provience;
+            //var provience = ProvinceHelper.GetProvince();
+            //provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.provience = provience;
+            var lstRoles = new List<SelectListItem>(){
+                            new SelectListItem{Text="Select",Value=""},
+                            new SelectListItem{Text=RoleHelper.Agriculture, Value=RoleHelper.Agriculture},
+                            new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
+                            };
+
+            ViewBag.Roles = new SelectList(lstRoles,"Value","Text");            
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var model = new CustomerModel();
             await _customerViewModelService.PrepareCustomerModel(model, null, false);
             //default value
@@ -147,6 +165,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CustomerModel model, bool continueEditing, IFormCollection form)
         {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            var lstRoles = new List<SelectListItem>(){
+                            new SelectListItem{Text="Select",Value=""},
+                            new SelectListItem{Text=RoleHelper.Agriculture, Value=RoleHelper.Agriculture},
+                            new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
+                            };
+
+            ViewBag.Roles = new SelectList(lstRoles,"Value","Text");
+
             if (!string.IsNullOrWhiteSpace(model.Email))
             {
                 var cust2 = await _customerService.GetCustomerByEmail(model.Email);
@@ -172,82 +203,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
             string orgAddress = currentCustomer.OrgAddress;
 
             CustomerRole role = new CustomerRole();
-            if (customerRoles.Contains(RoleHelper.VhlsecAdmin))
+
+            newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
+            newCustomerRoles.Add(allCustomerRoles.FirstOrDefault(m => m.Name == model.Role));
+            var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
+            if (!string.IsNullOrEmpty(customerRolesError))
             {
-                role = allCustomerRoles.Where(m => m.Name == "VhlsecUser").FirstOrDefault();
-
-                newCustomerRoles.Add(role);
-                newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-
-                var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
-                if (!string.IsNullOrEmpty(customerRolesError))
-                {
-                    ModelState.AddModelError("", customerRolesError);
-                    ErrorNotification(customerRolesError, false);
-                }
+                ModelState.AddModelError("", customerRolesError);
+                ErrorNotification(customerRolesError, false);
             }
-            if (customerRoles.Contains(RoleHelper.MolmacAdmin))
-            {
-                role = allCustomerRoles.Where(m => m.Name == "MolmacUser").FirstOrDefault();
-
-                newCustomerRoles.Add(role);
-                newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-
-                var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
-                if (!string.IsNullOrEmpty(customerRolesError))
-                {
-                    ModelState.AddModelError("", customerRolesError);
-                    ErrorNotification(customerRolesError, false);
-                }
-            }
-            if (customerRoles.Contains(RoleHelper.DolfdAdmin))
-            {
-                role = allCustomerRoles.Where(m => m.Name == "DolfdUser").FirstOrDefault();
-
-                newCustomerRoles.Add(role);
-                newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-
-                var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
-                if (!string.IsNullOrEmpty(customerRolesError))
-                {
-                    ModelState.AddModelError("", customerRolesError);
-                    ErrorNotification(customerRolesError, false);
-                }
-            }
-
-            if (customerRoles.Contains(RoleHelper.NlboAdmin))
-            {
-                role = allCustomerRoles.Where(m => m.Name == "NlboUser").FirstOrDefault();
-                try
-                {
-                    if (role == null)
-                    {
-                        CustomerRoleModel customerRole = new CustomerRoleModel();
-                        customerRole.IsSystemRole = true;
-                        customerRole.Name = "NlboUser";
-                        customerRole.SystemName = "NlboUser";
-                        customerRole.Active = true;
-                        await _customerRoleViewModelService.InsertCustomerRoleModel(customerRole);
-                    }
-                }
-                catch (Exception)
-                {
-                    
-                }
-                newCustomerRoles.Add(role);
-                newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-
-                var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
-                if (!string.IsNullOrEmpty(customerRolesError))
-                {
-                    ModelState.AddModelError("", customerRolesError);
-                    ErrorNotification(customerRolesError, false);
-                }
-            }
-
 
             if (ModelState.IsValid)
             {
+                model.Province = "BAGAMATI PROVINCE";
+                model.District = "KATHMANDU";
                 model.CreatedBy = _workContext.CurrentCustomer.Id;
                 model.OrgAddress = orgAddress;
                 model.OrgName = orgname;
@@ -299,21 +268,31 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-
-
-
-
-
         [PermissionAuthorizeAction(PermissionActionName.Preview)]
         public async Task<IActionResult> Edit(string id)
         {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            var lstRoles = new List<SelectListItem>(){
+                            new SelectListItem{Text="Select",Value=""},
+                            new SelectListItem{Text=RoleHelper.Agriculture, Value=RoleHelper.Agriculture},
+                            new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
+                            };
+
+            ViewBag.Roles = new SelectList(lstRoles,"Value","Text");
+
             var customer = await _customerService.GetCustomerById(id);
             if (customer == null || customer.Deleted)
                 //No customer found with the specified id
                 return RedirectToAction("List");
-            var provience = ProvinceHelper.GetProvince();
-            provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.provience = provience;
+            //var provience = ProvinceHelper.GetProvince();
+            //provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.provience = provience;
+
+
             var model = new CustomerModel();
             await _customerViewModelService.PrepareCustomerModel(model, customer, false);
             return View(model);
@@ -323,6 +302,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Edit(CustomerModel model, bool continueEditing, IFormCollection form)
         {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            var lstRoles = new List<SelectListItem>(){
+                            new SelectListItem{Text="Select",Value=""},
+                            new SelectListItem{Text=RoleHelper.Agriculture, Value=RoleHelper.Agriculture},
+                            new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
+                            };
+
+            ViewBag.Roles = new SelectList(lstRoles,"Value","Text");
+
             var customer = await _customerService.GetCustomerById(model.Id);
             string email = customer.Email;
             if (customer == null || customer.Deleted)
@@ -340,78 +332,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     var allCustomerRoles = await _customerService.GetAllCustomerRoles(showHidden: true);
                     var newCustomerRoles = new List<CustomerRole>();
                     CustomerRole role = new CustomerRole();
-                    if (customerRoles.Contains("VhlsecAdmin"))
-                    {
-                        role = allCustomerRoles.Where(m => m.Name == "VhlsecUser").FirstOrDefault();
 
-                        newCustomerRoles.Add(role);
-                        newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
+                    newCustomerRoles.Add(allCustomerRoles.FirstOrDefault(m=>m.Name==model.Role));
+                    newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
 
+
+                  
                         var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
                         if (!string.IsNullOrEmpty(customerRolesError))
                         {
                             ModelState.AddModelError("", customerRolesError);
                             ErrorNotification(customerRolesError, false);
                         }
-                    }
-                    if (customerRoles.Contains("LssAdmin"))
-                    {
-                        role = allCustomerRoles.Where(m => m.Name == "LssUser").FirstOrDefault();
-
-                        newCustomerRoles.Add(role);
-                        newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-
-                        var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
-                        if (!string.IsNullOrEmpty(customerRolesError))
-                        {
-                            ModelState.AddModelError("", customerRolesError);
-                            ErrorNotification(customerRolesError, false);
-                        }
-                    }
-                    if (customerRoles.Contains("DolfdAdmin"))
-                    {
-                        role = allCustomerRoles.Where(m => m.Name == "DolfdUser").FirstOrDefault();
-
-                        newCustomerRoles.Add(role);
-                        newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-
-                        var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
-                        if (!string.IsNullOrEmpty(customerRolesError))
-                        {
-                            ModelState.AddModelError("", customerRolesError);
-                            ErrorNotification(customerRolesError, false);
-                        }
-                    }
-
-                    if (customerRoles.Contains(RoleHelper.NlboAdmin))
-                    {
-                        role = allCustomerRoles.Where(m => m.Name == "NlboUser").FirstOrDefault();
-                        try
-                        {
-                            if (role == null)
-                            {
-                                CustomerRoleModel customerRole = new CustomerRoleModel();
-                                customerRole.IsSystemRole = true;
-                                customerRole.Name = "NlboUser";
-                                customerRole.SystemName = "NlboUser";
-                                customerRole.Active = true;
-                                await _customerRoleViewModelService.InsertCustomerRoleModel(customerRole);
-                            }
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                        newCustomerRoles.Add(role);
-                        newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-
-                        var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
-                        if (!string.IsNullOrEmpty(customerRolesError))
-                        {
-                            ModelState.AddModelError("", customerRolesError);
-                            ErrorNotification(customerRolesError, false);
-                        }
-                    }
+                    
 
 
 

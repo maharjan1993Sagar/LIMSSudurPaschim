@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace LIMS.Services.Bali
 {
     public class MonthlyPragatiService : IMonthlyPragatiService
@@ -41,8 +40,15 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string sourceOfFund, string typeOfExpense, string month, string expenseCategory="", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _MonthlyPragatiRepository.Table;
-            query = query.Where(m =>// m.CreatedBy == createdby &&            
-            m.FiscalYearId == fiscalYear && m.Month == month );
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby );
+            }
+            if(!String.IsNullOrEmpty(fiscalYear))
+            {
+                query = query.Where(m => m.FiscalYearId == fiscalYear);
+            }
+            
             if(!string.IsNullOrEmpty(sourceOfFund))
             {
                query= query.Where(m => m.Budget.SourceOfFund == sourceOfFund);                
@@ -55,7 +61,11 @@ namespace LIMS.Services.Bali
 
             if (!string.IsNullOrEmpty(expenseCategory))
             {
-                query = query.Where(m => m.Budget.TypeOfExpen == expenseCategory);
+                query = query.Where(m => m.Budget.ExpensesCategory == expenseCategory);
+            }
+            if (!String.IsNullOrEmpty(month))
+            {
+                query = query.Where(m => m.Month == month);
             }
 
             return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);

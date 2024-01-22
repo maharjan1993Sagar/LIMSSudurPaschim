@@ -19,6 +19,8 @@ namespace LIMS.Web.Areas.Admin.Helper
         public static string Technician = "Technician";
         public static string MolmacAdmin = "MolmacAdmin";
         public static string MolmacUser="MolmacUser";
+        public static string Agriculture="Agriculture";
+        public static string Livestock="Livestock";
 
     }
 }

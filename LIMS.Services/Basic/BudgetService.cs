@@ -43,9 +43,11 @@ namespace LIMS.Services.Basic
 
         public async Task<IPagedList<Budget>> GetBudget(string createdby,   string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            var query = _BudgetRepository.Table;            
-            query = query.Where(m => m.CreatedBy == createdby);
-           
+            var query = _BudgetRepository.Table;
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(m => m.PLIMBIS_No.Contains(keyword) || m.KarchaSrishak.Contains(keyword) || m.ActivityName.Contains(keyword));
@@ -93,8 +95,11 @@ namespace LIMS.Services.Basic
             int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
-
-            query = query.Where(m => m.CreatedBy == createdby && m.FiscalYearId == fiscalYear);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m =>m.FiscalYearId == fiscalYear);
             //if (!string.IsNullOrEmpty(programtype))
             //{
             //    query = query.Where(m => m.TypeOfExecution == programtype);

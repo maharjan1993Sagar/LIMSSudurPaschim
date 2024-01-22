@@ -102,6 +102,8 @@
         public const string AccessVhlsecReport = "AccessVhlsecReport";
         public const string AccessByNlboOnly = "NlboOnly";
         public const string AccessByDolfdOnly = "DolfdOnly";
+        //public const string AgricultureUser = "AgricultureUser";
+        //public const string LivestockUser = "LivestockUser";
 
         public const string AccessDynamicMenu = "AccessDynamicMenu";
         public const string AccessNewsEventTender = "AccessNewsEventTender";
@@ -113,6 +115,9 @@
 
         public const string AccessGeneralCMS = "AccessGeneralCMS";
         public const string AccessCropsProduction = "AccessCropsProduction";
+
+        public const string AgriUserAccess = "AgriUserAccess";
+        public const string LivestockUserAccess = "LivestockUserAccess";
 
 
     }

@@ -75,14 +75,13 @@
             </div>
         </div>
         <div class="col-md-3">
-
             <div class="form-group">
                 <admin-label asp-for="LastName" />
                 <admin-input asp-for="LastName" />
                 <span asp-validation-for="LastName"></span>
             </div>
         </div>
-     
+
         <div class="col-md-2">
 
             <div class="form-group">
@@ -99,7 +98,7 @@
                 <span asp-validation-for="MobileNo"></span>
             </div>
         </div>
-        <div class="col-md-3 ">
+        @*<div class="col-md-3 ">
 
             <div class="form-group">
                 <admin-label asp-for="Province" />
@@ -107,8 +106,8 @@
                 <span asp-validation-for="Province"></span>
 
             </div>
-        </div>
-        <div class="col-md-2">
+        </div>*@
+        @*<div class="col-md-2">
 
             <div class="form-group">
                 <admin-label asp-for="District" />
@@ -118,20 +117,26 @@
                 <span asp-validation-for="District"></span>
 
             </div>
+        </div>*@
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="Role" />
+                <select id="locallevel" asp-for="Role" asp-items="ViewBag.Roles" class="form-control">
+                </select>
+                <span asp-validation-for="Role"></span>
+
+            </div>
         </div>
         <div class="col-md-3">
-
             <div class="form-group">
                 <admin-label asp-for="LocalLevel" />
-                <select id="locallevel" class="form-control">
-                    <option value=""> select</option>
+                <select id="locallevel" asp-for="LocalLevel" asp-items="ViewBag.LocalLevels" class="form-control">
                 </select>
                 <span asp-validation-for="LocalLevel"></span>
 
             </div>
         </div>
         <div class="col-md-2">
-
             <div class="form-group">
                 <admin-label asp-for="Ward" />
                 <admin-input asp-for="Ward" />
@@ -165,7 +170,6 @@
             <label class="mt-checkbox mt-checkbox-outline control control-checkbox">
                 IsActive
                 <input type="checkbox" asp-for="Active" />
-
                 <div class="control__indicator"></div>
             </label>
         </div>

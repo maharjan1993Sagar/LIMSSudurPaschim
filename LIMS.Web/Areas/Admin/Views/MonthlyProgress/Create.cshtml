@@ -33,18 +33,18 @@
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
                 <div class="x_content form">
                     <div class="form-row">
-
+                        <div class="col-md-12"><i>Note:Choose option from all checkboxes to filter out montly progress.</i></div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYearId" />
-                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getMonthlyData()" required="required" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getPragati()" required="required" />
                                 <span asp-validation-for="FiscalYearId"></span>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="ExpensesCategory" />
-                                <admin-select asp-for="ExpensesCategory" asp-items="ViewBag.ExpensesCategory" onchange="getMonthlyData()" />
+                                <admin-select asp-for="ExpensesCategory" asp-items="ViewBag.ExpensesCategory" onchange="getPragati()" />
                                 @* expenses category *@
                                 <span asp-validation-for="ExpensesCategory"></span>
                             </div>
@@ -52,7 +52,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="ProgramType" />
-                                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getMonthlyData()" />
+                                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getPragati()" />
                                 @* source of fund *@
                                 <span asp-validation-for="ProgramType"></span>
                             </div>
@@ -61,7 +61,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Type" />
-                                <admin-select asp-for="Type" asp-items="ViewBag.Type" onchange="getMonthlyData()" />
+                                <admin-select asp-for="Type" asp-items="ViewBag.Type" onchange="getPragati()" />
                                 @* type of expens *@
                                 <span asp-validation-for="Type"></span>
                             </div>
@@ -70,7 +70,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Month" />
-                                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getMonthlyData()" required="required" />
+                                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getPragati()" required="required" />
                                 <span asp-validation-for="Month"></span>
                             </div>
                         </div>
@@ -84,15 +84,10 @@
                     <thead>
                         <tr style="text-align:center">
                             <th>@T("Admin.Budget.ActivityName")</th>
-                            @*<th>@T("Admin.Budget.PLIMBSNo")</th>*@
                             <th>@T("Admin.Budget.KarchaSrishak")</th>
                             <th>@T("Admin.Budget.KharchaUpaSirshak")</th>
-                            @*<th>@T("Admin.Budget.SanketNO")</th>*@
-                            @*<th>@T("Admin.Budget.BudgetBiniyojanType")</th>*@
                             <th>@T("Admin.Budget.VautikPragati")</th>
                             <th>@T("Admin.Budget.BitiyaPragati")</th>
-                            @*<th>@T("Admin.Budget.UpalabdhiHaru")</th>
-                            <th>@T("Admin.Budget.Remarks")</th>*@
                             <th></th>
 
                         </tr>
@@ -103,25 +98,18 @@
                         {
                             foreach (var item in Model.Pragatis)
                             {
-                                <tr id="@item.Id" data-budgetid="@item.BudgetId" data-progressid="@item.Id"  data-id="@item.Id" data-upalbdiharu="@item.UpalbdiHaru" data-remarks="@item.Remarks" data-vaukitpragati="@item.VautikPragati" item-bitiyapragati="@item.BitiyaPragati">
+                                <tr id="@item.Id" data-budgetid="@item.BudgetId" data-progressid="@item.Id" data-id="@item.Id" data-upalbdiharu="@item.UpalbdiHaru" data-remarks="@item.Remarks" data-vaukitpragati="@item.VautikPragati" item-bitiyapragati="@item.BitiyaPragati">
                                     <td>
                                         @item.Budget.ActivityName
                                         <input type="hidden" name="BudgetId" value="@item.Budget.BudgetId" />
                                         <input type="hidden" name="ProgressDataId" value="@item.Id" />
                                     </td>
-                                    @*<td>@item.Budget.PLIMBIS_No</td>*@
                                     <td>
                                         @item.Budget.KarchaSrishak
                                     </td>
                                     <td>@T(item.Budget.KharchaUpaSirshak) </td>
-                                    @*<td>
-                                        @item.Budget.SanketNO
-                                    </td>*@
-                                   @* <td> @item.Budget.BudgetBiniyojanType </td>*@
                                     <td>@item.VautikPragati</td>
                                     <td>@item.BitiyaPragati</td>
-                                    @*<td><input type="text" name="UpalbdiHaru" class="form-control" /></td>
-                                    <td><input type="text" name="Remarks"  class="form-control" /></td>*@
                                     <td><button type="button" class="btnUpdate btn btn-primary"><i class="fa fa-edit"></i></button></td>
                                 </tr>
                             }
@@ -168,7 +156,7 @@
 
 
         $("#showTable").hide();
-        getPragati();
+        //getPragati();
           $("#@Html.IdFor(m=>m.ExpensesCategory)").on("change", function () {
             getPragati();
         })
@@ -188,57 +176,51 @@
 
     });
     async function getPragati() {
-            expensesCategory =  $('#@Html.IdFor(m=>m.ExpensesCategory)').val();
-            programType = $('#@Html.IdFor(m=>m.ProgramType)').val();
-            type = $('#@Html.IdFor(m=>m.Type)').val();
-            fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
-            month= $('#@Html.IdFor(m => m.Month)').val();
+        expensesCategory = $('#@Html.IdFor(m=>m.ExpensesCategory)').val();
+        programType = $('#@Html.IdFor(m=>m.ProgramType)').val(); //sourceOfFund
+        type = $('#@Html.IdFor(m=>m.Type)').val(); //chalu, pujigat
+        fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
+        month = $('#@Html.IdFor(m => m.Month)').val();
 
-            if (fiscalYear != null) {
-                var data = {
-                    programType: programType,
-                    type: type,
-                    fiscalYear: fiscalYear,
-                    expensesCategory: expensesCategory,
-                    month:month
-                };
-                addAntiForgeryToken(data);
-                $.get("@Url.Action("GetBudget", "MonthlyProgress")", data, function (result) {
+        if (!isEmpty(fiscalYear) && !isEmpty(expensesCategory) && !isEmpty(programType)  && !isEmpty(type)  && !isEmpty(month) ) {
 
-                    if (result.length > 0) {
-                        $("#tabularEntry").empty();
+            var data = {
+                programType: programType,
+                type: type,
+                fiscalYear: fiscalYear,
+                expensesCategory: expensesCategory,
+                month: month
+            };
+            addAntiForgeryToken(data);
+            $.get("@Url.Action("GetBudget", "MonthlyProgress")", data, function (result) {
 
-                        $.each(result, function (index, item) {
-                            var tableRow = '<tr id="' + item.Id + '" data-budgetid="' + item.BudgetId + '" data-progressid="' + item.Id + '"  data-id="' + item.Id + '" data-upalbdiharu="' + item.UpalbdiHaru + '" data-remarks="' + item.Remarks + '" data-vautikpragati="' + item.VautikPragati + '" item-bitiyapragati="' + item.BitiyaPragati + '">';
-                            tableRow += '<td>' + item.Budget.ActivityName + '<input type="hidden" name="BudgetId" value="' + item.Budget.BudgetId + '"/><input type="hidden" name="ProgressDataId" value="'+item.Id+'" /></td>';
-                            //tableRow += '<td>' + item.Budget.PLIMBIS_No + '</td>';
-                            tableRow += '<td>' + item.Budget.KarchaSrishak + '</td>';
-                            tableRow += '<td>' + item.Budget.KharchaUpaSirshak + '</td>';
-                            //tableRow += '<td>' + item.Budget.SanketNO + '</td>';
-                            //tableRow += '<td>' + item.Budget.BudgetBiniyojanType + '</td>';
-                            //tableRow += '<td>' + item.BarshikParinam + '</td>';
+                $("#tabularEntry").empty();
 
-                            tableRow += '<td>'+item.VautikPragati+'</td>';
-                            tableRow += '<td>' + item.BitiyaPragati +'</td>';
-                            //tableRow += '<td><input type="text" name="UpalbdiHaru" value="' + item.UpalbdiHaru +'"  class="form-control"/></td>';
-                            //tableRow += '<td><input type="text" name="Remarks" value="' + item.Remarks +'" class="form-control"/></td>';
-                            //tableRow += '<td><input type="number" name="BitiyaPragati" class="form-control"/></td>';
-                            tableRow += '<td><button class="btnUpdate btn btn-primary"><i class="fa fa-edit"></i></button></td>';
+                if (result.length > 0) {
+                    // $("#tabularEntry").empty();
 
-                            tableRow += '</tr>';
-                            $("#tabularEntry").append(tableRow);
-                        });
+                    $.each(result, function (index, item) {
+                        var tableRow = '<tr id="' + item.Id + '" data-budgetid="' + item.BudgetId + '" data-progressid="' + item.Id + '"  data-id="' + item.Id + '" data-upalbdiharu="' + item.UpalbdiHaru + '" data-remarks="' + item.Remarks + '" data-vautikpragati="' + item.VautikPragati + '" item-bitiyapragati="' + item.BitiyaPragati + '">';
+                        tableRow += '<td>' + item.Budget.ActivityName + '<input type="hidden" name="BudgetId" value="' + item.BudgetId + '"/><input type="hidden" name="ProgressDataId" value="' + item.Id + '" /></td>';
+                        tableRow += '<td>' + item.Budget.KarchaSrishak + '</td>';
+                        tableRow += '<td>' + item.Budget.KharchaUpaSirshak + '</td>';
 
-                        $("#showTable").show();
-                        //if (month) {
-                        //    getMonthlyData();
-                        //}
-                    }
-                    else {
-                        $("#showTable").hide();
-                    }
-                });
-            }
+                        tableRow += '<td>' + item.VautikPragati + '</td>';
+                        tableRow += '<td>' + item.BitiyaPragati + '</td>';
+                        tableRow += '<td><button class="btnUpdate btn btn-primary"><i class="fa fa-edit"></i></button></td>';
+
+                        tableRow += '</tr>';
+                        $("#tabularEntry").append(tableRow);
+                    });
+
+                    $("#showTable").show();
+                }
+                else {
+                    $("#showTable").hide();
+                }
+            });
+        }
+
     }
 
      function getMonthlyData() {
@@ -262,11 +244,7 @@
                 $("input[type=text]").val('');
                 $.each(result, function (index, item) {
                     $('tr#' + item.Budget.Id + ' input[name="ProgressDataId"]').val(item.Id);
-
-                   // var
-                    //$('tr#' + item.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
-                    //$('tr#' + item.Budget.Id + ' input[name="BitiyaPragati"]').val(item.BitiyaPragati);
-                });
+                  });
             });
         }
     }
@@ -335,12 +313,15 @@
             }
             window.data('kendoWindow').center().open();
         }
-        $("#btnClose").click(function (e) {
+
+        $("#btnClose").click(function (e) {4
             e.preventDefault();
             window.data('kendoWindow').close();
         })
 
-        $("#btnUpdateTable").click(function (e) {
+    });
+   // $('#example tbody').on('click', 'tr span', function (e) {
+        $("body #btnUpdateTable").on('click', function (e) {
             e.preventDefault();
 
             var updatedProgressStatus = $("#txtUpalabdhiHaru").val();
@@ -394,20 +375,6 @@
 
             var tdVautik = row.find('td:eq(4)');
             tdVautik.html(updatedVautik);
-
-
-            //var inputProgress = row.find('td:eq(8) input')
-            //inputProgress.val(updatedProgressStatus);
-
-            //var inputRemarks = row.find('td:eq(9) input');
-            //inputRemarks.val(updatedRemarks);
-
-            //row.data("UpalbdiHaru", updatedProgressStatus);
-            //row.data("remarks", updatedProgressStatus);
-
-            //window.data('kendoWindow').close();
-
-        });
 
     });
 </script>
