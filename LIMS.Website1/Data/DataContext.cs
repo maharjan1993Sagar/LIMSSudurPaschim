@@ -176,7 +176,7 @@ namespace LIMS.Website1.Data
                     lst = lst.Where(m => m.UserId == userId).Where(m => m.Type == type).ToList();
                 }
             }
-            return lst;
+            return lst.OrderByDescending(m=>m.ActiveDate).ToList();
         }
         public async Task<PageContentModel> GetPageContent(string name)
         {
