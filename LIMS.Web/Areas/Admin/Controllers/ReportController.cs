@@ -1,12 +1,12 @@
-﻿using Google.Apis.AnalyticsReporting.v4.Data;
-using LIMS.Core;
+﻿using LIMS.Core;
 using LIMS.Domain.MoAMAC;
-using LIMS.Domain.StatisticalData;
-using LIMS.Framework.Kendoui;
+using LIMS.Framework.Controllers;
 using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Ainr;
+using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
+using LIMS.Services.Common;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
 using LIMS.Services.LocalStructure;
@@ -14,16 +14,15 @@ using LIMS.Services.MedicineInventory;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
 using LIMS.Services.Statisticaldata;
-using LIMS.Web.Areas.Admin.Helper;
-using LIMS.Web.Areas.Admin.Models;
 using LIMS.Web.Areas.Admin.Models.Reports;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using static LIMS.Web.Areas.Admin.Models.Reports.LivestockReport;
+using Wkhtmltopdf.NetCore;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
@@ -45,6 +44,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IVhlsecService _vhlsecService;
         public readonly ILocalLevelService _localLevelService;
         public readonly IBudgetService _budgetService;
+        public readonly IGeneratePdf _generatePdf;
+        public readonly IPdfService _pdfService;
+        public readonly IAnudanService _anudanService;
+        //public readonly ITalimService _talimService;
+       // public readonly IMonthlyPragatiService _MonthlyPragatiService;
 
         public ReportController(ILocalizationService localizationService,
             IAnimalRegistrationService animalRegistrationService,
@@ -62,7 +66,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IWorkContext workContext,
             IVhlsecService vhlsecService,
             ILocalLevelService localLevelService,
-            IBudgetService budgetService
+            IBudgetService budgetService,
+            IGeneratePdf generatePdf,
+            IPdfService pdfService,
+            IAnudanService anudanService
             )
         {
             _localizationService = localizationService;
@@ -82,6 +89,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _vhlsecService = vhlsecService;
             _localLevelService = localLevelService;
             _budgetService = budgetService;
+            _generatePdf = generatePdf;
+            _pdfService = pdfService;
+            _anudanService = anudanService;
+
         }
 
 
@@ -320,7 +331,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public virtual IActionResult TrainingReportHtml(string FiscalYear,string BudgetId, string LocalLevel = "")
         {
-
             var livestockWardWiseReportHtml = RenderViewComponentToString("TrainingReport", new { fiscalyear = FiscalYear, budgetId = BudgetId, localLevel = LocalLevel });
 
             return Json(new
@@ -343,6 +353,164 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 livestockWardWiseReportHtml
             });
         }
+
+
+        //public async Task<IActionResult> TrainingDetailReport()
+        //{
+        //    var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+        //    fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.FiscalYear = fiscalyear;
+
+        //    var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+        //    var localLevelSelect = new SelectList(localLevels).ToList();
+        //    localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.LocalLevels = localLevelSelect;
+
+        //   // var trainings = await _training
+
+        //    string entityId = _workContext.CurrentCustomer.EntityId;
+        //    var LssIds = new List<Lss>();
+
+        //    LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+
+        //    //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+        //    //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    //ViewBag.LocalLevel = lss;
+
+        //    var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+        //    species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Species = species;
+
+        //    var model = new TrainingReportModel();
+
+        //    return View(model);
+
+
+        //}
+        //public async Task<IActionResult> SubsidyDetailReport()
+        //{
+        //    var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+        //    fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.FiscalYear = fiscalyear;
+
+        //    var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+        //    var localLevelSelect = new SelectList(localLevels).ToList();
+        //    localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.LocalLevels = localLevelSelect;
+
+        //    string entityId = _workContext.CurrentCustomer.EntityId;
+
+        //    //var LssIds = new List<Lss>();
+        //    //LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+        //    //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+        //    //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    //ViewBag.LocalLevel = lss;
+
+
+        //    var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+        //    species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Species = species;
+
+        //    var model = new SubsidyReportModel();
+
+        //    return View(model);
+
+
+        //}
+        //[HttpPost]
+        //public virtual IActionResult TrainingDetailReportHtml(string FiscalYear, string BudgetId, string LocalLevel = "")
+        //{
+        //    var livestockWardWiseReportHtml = RenderViewComponentToString("TrainingReport", new { fiscalyear = FiscalYear, budgetId = BudgetId, localLevel = LocalLevel });
+
+        //    return Json(new
+        //    {
+        //        success = true,
+        //        message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+        //        livestockWardWiseReportHtml
+        //    });
+        //}
+        //[HttpPost]
+        //public virtual IActionResult SubsidyDetailReportHtml(string FiscalYear, string LocalLevel = "")
+        //{
+
+        //    var livestockWardWiseReportHtml = RenderViewComponentToString("SubsidyReport", new { fiscalyear = FiscalYear, LocalLevel = LocalLevel });
+
+        //    return Json(new
+        //    {
+        //        success = true,
+        //        message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+        //        livestockWardWiseReportHtml
+        //    });
+        //}
+        //[PermissionAuthorizeAction(PermissionActionName.Export)]
+        [HttpPost]
+        //[FormValueRequired("download-subsidy-pdf")]
+        public async Task<IActionResult> DownloadSubsidyPdf(string FiscalYear, string LocalLevel = "")
+        {
+            var reportModel =await _anudanService.GetSubsidyReportModel("",FiscalYear,LocalLevel,"");
+                //RenderViewComponentToString("SubsidyReport", new { fiscalyear = FiscalYear, LocalLevel = LocalLevel });
+                       
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                   await _pdfService.PrintSubsidyPdf(stream,reportModel);
+                   bytes = stream.ToArray();
+                }
+                return File(bytes, "application/octet-stream", "subsidy.pdf");
+            }
+            catch (Exception exc)
+            {
+                ErrorNotification(exc);
+                return RedirectToAction("SubsidyReport");
+            }
+        }
+
+        [PermissionAuthorizeAction(PermissionActionName.Export)]
+        [HttpPost]
+        //[FormValueRequired("download-talim-pdf")]
+        public async Task<IActionResult> DownloadTrainingPdf(string FiscalYear, string BudgetId, string LocalLevel = "")
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("TrainingReport", new { fiscalyear = FiscalYear, budgetId = BudgetId, localLevel = LocalLevel });
+
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                  //  await pdfService.PrintToPdf(stream, livestockWardWiseReportHtml);
+                    bytes = _generatePdf.GetPDF(livestockWardWiseReportHtml);
+                   // bytes = stream.ToArray();
+                }
+                return File(bytes, "application/pdf", "training.pdf");
+            }
+            catch (Exception exc)
+            {
+                ErrorNotification(exc);
+                return RedirectToAction("TrainingReport");
+            }
+        }
+        //[PermissionAuthorizeAction(PermissionActionName.Export)]
+        //[HttpPost]
+        //[FormValueRequired("download-training-excel")]
+        //public async Task<IActionResult> DownloadSubsidyExcel( string FiscalYear, string LocalLevel = "")
+        //{
+        //    var earTags = await _earTagService.GetEarTags(model.From, model.To);
+        //    var newEarTags = earTags.Select(x => new LIMS.Domain.AInR.EarTag { EarTagNo = Convert.ToInt32(x.EarTagNo).ToString() }).ToList();
+        //    newEarTags.Reverse();
+        //    try
+        //    {
+        //        byte[] bytes = exportManager.ExpertEarTagToXlsx(newEarTags);
+
+        //        return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "eartags.xlsx");
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        ErrorNotification(exc);
+        //        return RedirectToAction("EarTag");
+        //    }
+        //}
 
 
     }

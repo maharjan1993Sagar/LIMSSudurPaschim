@@ -1,0 +1,90 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.SubsidyReportModel
+@inject IWebHelper _webHelper;
+@inject PdfSettings _pdfSettings;
+@inject LIMS.Core.IWorkContext _workContext;
+@inject LIMS.Services.Localization.ILocalizationService _localizationService;
+@inject LIMS.Services.Directory.ICurrencyService _currencyService;
+
+@{
+    var lang = _workContext.WorkingLanguage;
+    var langdir = lang.Rtl ? "rtl" : "ltr";
+    // Use absolute url for images
+    //If you want divide content for page use    <div style="display:block; clear:both; page-break-after:always;"></div>
+}
+<style>
+    .col-container {
+        display: table;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+        .col-container .column {
+            display: table-cell;
+        }
+
+        .col-container .right {
+            text-align: right;
+        }
+
+            .col-container .right.column img {
+                margin-top: 25px;
+            }
+
+        .col-container .eartag {
+            display: table-cell;
+            width: 25%;
+        }
+
+    @@media print {
+        .new-page {
+            page-break-before: always;
+        }
+    }
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="@langdir">
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="Printcontent">
+        <div class="text-center">
+            @Model.LocalLevel<br />
+            @Model.Level<br />
+            @Model.Address<br />
+            आ.ब. @Model.FiscalYear को सम्पन्न अनुदानहरुको प्रतिवेदन
+
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                @if (Model.Rows.Count() > 0)
+                {
+                    <tr style="text-align:center">
+                        <th id="c">@T("Admin.Subsidy.SN")</th>
+                        <th>@T("Admin.Subsidy.BudgetId")</th>
+                        <th>@T("Admin.Subsidy.MainActivity")</th>
+                        <th>@T("Admin.Subsidy.Remarks")</th>
+
+                    </tr>
+                }
+            </thead>
+            <tbody>
+                @{string a = "";}
+                @foreach (var item in Model.Rows)
+                {
+
+                    <tr>
+                        <td>@item.SN</td>
+                        <td>@item.BudgetTitle</td>
+                        <td>@item.MainActivity</td>
+                        <td>@item.Remarks</td>
+                    </tr>
+
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

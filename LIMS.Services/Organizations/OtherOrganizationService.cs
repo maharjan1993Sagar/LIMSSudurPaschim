@@ -68,7 +68,15 @@ namespace LIMS.Services.OtherOrganizations
         public async Task<List<OtherOrganization>> GetOtherOrganizationByType(string createdby, string type)
         {
             var query = _otherOrganizationRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby&& m.Type==type);
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby );
+            }
+            if(!String.IsNullOrEmpty(type))
+            {
+                query = query.Where(m =>  m.Type == type);
+
+            }
             return query.ToList();
         }
 

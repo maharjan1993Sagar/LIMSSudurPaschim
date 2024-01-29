@@ -95,41 +95,7 @@ namespace LIMS.Web.Areas.Admin.Components
                 i++;
             }
 
-            subsidy.Rows = lstRowData;
-
-            //List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-
-            //string createdby = null;
-            //if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacAdmin"))
-            //{
-            //    createdby = "molmac";
-            //}
-            //else
-            //{
-            //    createdby = _workContext.CurrentCustomer.Id;
-            //}
-            //    var currenFiscal = await _fiscalYearService.GetCurrentFiscalYear();
-            //    var livestocks = await _livestockService.GetFilteredProduction(createdby,speciesId,fiscalyear,locallevel,district);
-            //List<CropsProductionModel> cropsProductions = new List<CropsProductionModel>();
-            //var live =livestocks.OrderBy(m => m.CropName.Id).GroupBy(m=>m.GrowingSeason).Select(m=>new CropsProductionModel {
-            //    CropName = m.First().CropName.EnglishName,
-            //    Season = m.First().GrowingSeason.GrowingSeason,
-            //    Production = Convert.ToString(m.Sum(m=>Convert.ToDecimal(m.Production))),
-            //    Area =Convert.ToString(m.Sum(m=>Convert.ToInt32(m.Area))),
-            //    Yeald = Convert.ToString(Math.Round(Convert.ToDecimal(m.Sum(m => Convert.ToDecimal(m.Production))) / Convert.ToDecimal(m.Sum(m => Convert.ToInt32(m.Area)))))
-            //}
-            //    ).ToList();
-            ////foreach(var item in live)
-            ////{
-            ////    cropsProductions.Add(
-            ////      new CropsProductionModel {
-            ////        CropName=item.,
-            ////        Season=item.GrowingSeason.GrowingSeason,
-            ////        Production=item.Production,
-            ////        Area=item.Area,
-            ////        Yeald=Convert.ToString(Convert.ToDecimal(item.Production)/ Convert.ToDecimal(item.Area))
-            ////      });
-            ////}
+            subsidy.Rows = lstRowData;            
 
             return View(subsidy);
         }

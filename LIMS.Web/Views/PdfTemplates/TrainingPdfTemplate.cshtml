@@ -1,0 +1,60 @@
+﻿@model IList<LIMS.Domain.AInR.EarTag>
+@inject IWebHelper _webHelper;
+@inject PdfSettings _pdfSettings;
+@inject LIMS.Core.IWorkContext _workContext;
+@inject LIMS.Services.Localization.ILocalizationService _localizationService;
+@inject LIMS.Services.Directory.ICurrencyService _currencyService;
+
+@{
+    var lang = _workContext.WorkingLanguage;
+    var langdir = lang.Rtl ? "rtl" : "ltr";
+    // Use absolute url for images
+    //If you want divide content for page use    <div style="display:block; clear:both; page-break-after:always;"></div>
+}
+<style>
+    .col-container {
+        display: table;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+        .col-container .column {
+            display: table-cell;
+        }
+
+        .col-container .right {
+            text-align: right;
+        }
+
+            .col-container .right.column img {
+                margin-top: 25px;
+            }
+
+        .col-container .eartag {
+            display: table-cell;
+            width: 25%;
+        }
+
+    @@media print {
+        .new-page {
+            page-break-before: always;
+        }
+    }
+</style>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="@langdir">
+<head>
+    <title></title>
+</head>
+<body>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="eartag">
+            <h3>@Convert.ToInt32(Model[i].EarTagNo)</h3>
+        </div>
+        if ((i + 1) % 30 == 0)
+        {
+            <div style="display:block; clear:both; page-break-after:always;"></div>
+        }
+    }
+</body>
+</html>

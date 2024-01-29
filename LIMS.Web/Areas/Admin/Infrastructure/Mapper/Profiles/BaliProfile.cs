@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using LIMS.Core.Infrastructure.Mapper;
 using LIMS.Domain.Bali;
+using LIMS.Domain.BasicSetup;
 using LIMS.Domain.Breed;
 using LIMS.Services.Breed;
 using LIMS.Web.Areas.Admin.Models.Bali;
 using LIMS.Web.Areas.Admin.Models.Bali.Aanudan;
+using LIMS.Web.Areas.Admin.Models.BasicSetup;
 using LIMS.Web.Areas.Admin.Models.Breed;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,10 @@ namespace LIMS.Web.Areas.Admin.Infrastructure.Mapper.Profiles
             CreateMap<CropsProduction, CropsProductionModel>().ReverseMap();
             CreateMap<PujigatKharchaKharakram, PugigatKharchaKaryakramModel>().ReverseMap();
             CreateMap<Budget, BudgetModel>().ReverseMap();
+            CreateMap<Category, CategoryModel>().ReverseMap();
+            CreateMap<InputSupply, InputSupplyModel>().ReverseMap();
+            CreateMap<Anugaman, AnugamanModel>().ReverseMap();
+
         }
         public int Order { get; set; } = 0;
     }

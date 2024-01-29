@@ -1,0 +1,377 @@
+﻿@model InputSupplyModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-3 col-sm-3">
+                <div class="form-group">
+                    <admin-label asp-for="CategoryName" />
+                    <input asp-for="CategoryName" class="form-control" required="required" />
+                    <input asp-for="CategoryId" type="hidden" />
+                    <span asp-validation-for="CategoryName"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="Type" />
+                    <select asp-for="Type" asp-items="@ViewBag.Types" class="form-control"></select>
+                    <span asp-validation-for="Type"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="FiscalYearId" />
+                    <select asp-for="FiscalYearId" asp-items="@ViewBag.FiscalYearId" class="form-control"></select>
+                    <span asp-validation-for="FiscalYearId"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="LocalLevel" />
+                    <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                    </select>
+                    <span asp-validation-for="LocalLevel"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="Ward" />
+                    <select asp-for="Ward" asp-items="@ViewBag.Wards" class="form-control"></select>
+                    <span asp-validation-for="Ward"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="NepaliDate" />
+                    <admin-input asp-for="NepaliDate" />
+                    <span asp-validation-for="NepaliDate"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="ProvidedBy" />
+                    <admin-input asp-for="ProvidedBy" />
+                    <span asp-validation-for="ProvidedBy"></span>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="UnitId" />
+                    <select asp-for="UnitId" asp-items="@ViewBag.Units" class="form-control"></select>
+                    <span asp-validation-for="UnitId"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="Price" />
+                    <admin-input asp-for="Price" />
+                    <span asp-validation-for="Price"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="Quantity" />
+                    <admin-input asp-for="Quantity" />
+                    <span asp-validation-for="Quantity"></span>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <admin-label asp-for="Purpose" />
+                    <admin-input asp-for="Purpose" />
+                    <span asp-validation-for="Purpose"></span>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <admin-label asp-for="Bibaran" />
+                    <admin-input asp-for="Bibaran" required="required" />
+                    <span asp-validation-for="Bibaran"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="PhoneNumber" />
+                    <admin-input asp-for="PhoneNumber" required="required" />
+                    <span asp-validation-for="PhoneNumber"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="ReceivedBy" />
+                    <admin-input asp-for="ReceivedBy" required="required" />
+                    <span asp-validation-for="ReceivedBy"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <admin-label asp-for="BudgetId" />
+                    <Select asp-for="BudgetId" id="BudgetId" class="form-control"></Select>
+                    <span asp-validation-for="ReceivedBy"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <admin-label asp-for="Remarks" />
+                    <admin-input asp-for="Remarks" />
+                    <span asp-validation-for="Remarks"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div><script>
+    $(document).ready(function () {
+
+        var fiscalYearId = $("#FiscalYearId").val();
+        if (fiscalYearId != "") {
+            $("#BudgetId").empty();
+            $("#BudgetId").append("<option value=''>Select</option>");
+            url = "/Admin/InputSupply/GetBudgetByFiscalYear";
+            $.getJSON(url, { fiscalYearId: fiscalYearId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#BudgetId").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
+                });
+            });
+        }
+
+        $('#@Html.IdFor(m=>m.FiscalYearId)').on("change", function () {
+            var fiscalYearId = $(this).val();
+            $("#BudgetId").empty();
+            $("#BudgetId").append("<option value=''>Select</option>");
+            url = "/Admin/InputSupply/GetBudgetByFiscalYear";
+            $.getJSON(url, { fiscalYearId: fiscalYearId }, (data) => {
+                $.each(data, function (i, item) {                  
+                        $("#BudgetId").append(`<option value="${item.Id}">${item.ActivityName}</option>`);                   
+                });
+            });
+        });
+        $('#@Html.IdFor(m=>m.CategoryName)').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/InputSupply/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $('#@Html.IdFor(m=>m.CategoryName)').val(),
+                                type: "Input Supply"
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's ID to the hidden textbox
+                $('#@Html.IdFor(m=>m.CategoryId)').val(e.dataItem.id);
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });
+        @*function onSelect(e) {
+            $('#@Html.IdFor(m=>m.CategoryId)').val(e.dataItem.Id);
+            $('#@Html.IdFor(m=>m.CategoryName)').val(e.dataItem.NameEnglish);
+                // Set the selected item's value to the autocomplete textbox
+              //  this.value(e.dataItem.NameEnglish);
+        }*@
+        @*$('#@Html.IdFor(m=>m.CategoryName)').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/InputSupply/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $(this).val(),
+                                type: "Input Supply"
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.id,
+                                value: item.val
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value" // Specify the field containing the display text
+        });*@
+        @*$("#farm").kendoAutoComplete({
+            dataTextField: "NameEnglish",
+            filter: "contains",
+            minLength: 3,
+            dataSource: {
+                type: "json",
+                // serverFiltering: true,
+                transport: {
+                    read: {
+                        url: "@Url.Action("SearchFarmAutoComplete", "Farm")",
+                        data: onFarmAdditionalData,
+
+                    },
+                },
+              pageSize: 5
+
+            },
+            select: onFarmSelect,
+            filtering: onFarmFiltering,
+        });
+        function onFarmAdditionalData() {
+            return {
+                term: $("#farm").val()
+            };
+        }
+
+
+            $("#@Html.IdFor(m=>m.Eartag)").kendoAutoComplete({
+                dataTextField: "EarTagNo",
+                filter: "contains",
+                minLength: 3,
+                dataSource: {
+                    type: "json",
+                    // serverFiltering: true,
+                    transport: {
+                        read: {
+                            type: 'GET',
+                            url: "@Url.Action("SearchAnimalAutoComplete", "AnimalRegistration")",
+                            data: onEartagAdditionalData,
+                        },
+                    },
+                    pageSize: 5
+                },
+                select: onEarTagSelect,
+                filtering: onEartagFiltering,
+            });
+            $("#AnimalName").kendoAutoComplete({
+                dataTextField: "Name",
+                filter: "contains",
+                minLength: 3,
+                dataSource: {
+                    type: "json",
+                    // serverFiltering: true,
+                    transport: {
+                        read: {
+                            type: 'GET',
+                            url: "@Url.Action("SearchAnimalAutoComplete", "AnimalRegistration")",
+                            data: onAnimalAdditionalData,
+                        },
+                    },
+                    pageSize: 5
+                },
+                select: onAnimalSelect,
+                filtering: onAnimalFiltering,
+            });
+            // console.log(e.dataItem);
+        }
+
+        function onFarmFiltering() {
+            $('#FarmId').val('');
+            $('#MobileNo').val('');
+        }
+
+        function onAnimalAdditionalData() {
+            return {
+                term: $("#AnimalName").val(),
+                farm: $("#FarmId").val()
+            };
+        }
+        function onEartagAdditionalData() {
+            return {
+                term: $("#EarTag").val(),
+                farm: $("#FarmId").val()
+            };
+        }
+
+        function onEarTagSelect(e) {
+            $('#AnimalId').val(e.dataItem.Id);
+            $('#SpeciesId').val(e.dataItem.SpeciesId);
+            if (e.dataItem.SpeciesId) {
+                $("#breedid").empty();
+                $("#breedid").append("<option value=''>Select</option>");
+                url = "/Admin/Prototype/getBreed";
+                $.getJSON(url, { id: e.dataItem.SpeciesId }, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                    });
+                    $('#breedid').val(e.dataItem.BreedId);
+                });
+            }
+
+            $('#AnimalName').val(e.dataItem.Name);
+            var animal = document.getElementById('AnimalName');
+            animal.setAttribute("readonly", "readonly");
+
+
+            console.log(e.dataItem);
+        }
+        function onAnimalSelect(e) {
+            $('#AnimalId').val(e.dataItem.Id);
+            $('#SpeciesId').val(e.dataItem.SpeciesId);
+            if (e.dataItem.SpeciesId) {
+                $("#breedid").empty();
+                $("#breedid").append("<option value=''>Select</option>");
+                url = "/Admin/Prototype/getBreed";
+                $.getJSON(url, { id: e.dataItem.SpeciesId }, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#breedid").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                    });
+                    $('#breedid').val(e.dataItem.BreedId);
+                });
+            }
+
+            $('#Eartag').val(e.dataItem.EarTagNo);
+            var eartag = document.getElementById("Eartag");
+            eartag.setAttribute("readonly", "readonly");
+
+            console.log(e.dataItem);
+        }
+        function onAnimalFiltering() {
+            $('#AnimalId').val('');
+            $('#SpeciesId').val('');
+         //   $('#Eartag').val('');
+        }
+        function onEartagFiltering() {
+            $('#AnimalId').val('');
+            $('#SpeciesId').val('');
+            //$('#AnimalName').val('');
+        }*@
+    });
+</script>

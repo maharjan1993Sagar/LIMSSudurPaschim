@@ -1194,8 +1194,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetBudget(string type, string programType, string fiscalYear,string month,string expensesCategory)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var budget = await _budgetService.GetBudget(createdby, fiscalYear, programType, type);
+            //Get Budget
+            var budget = await _budgetService.GetBudget("", fiscalYear, programType, type);
 
+            //Get Progress
             var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month, expensesCategory);
 
             var lstProgress = new List<MonthlyPragati>();
@@ -1211,6 +1213,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Budget = item,
                         FiscalYearId = item.FiscalYearId,
                         Month = month,
+                        VautikPragati= "0",
+                        BitiyaPragati = "0",
                         Id = ""
                     };
                     lstProgress.Add(pragati);
@@ -1269,7 +1273,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         objMonthlyPragati.FiscalYear = await _fiscalYearService.GetFiscalYearById(fiscalYear);
 
 
+                       
                         await _animalRegistrationService.InsertMonthlyPragati(objMonthlyPragati);
+
                         return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
                     }
                 }

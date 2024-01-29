@@ -1,11 +1,13 @@
 ﻿using LIMS.Domain;
 using LIMS.Domain.Bali;
 using LIMS.Domain.Data;
+using LIMS.Domain.Report;
 using LIMS.Services.Events;
 using MediatR;
 using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -67,6 +69,60 @@ namespace LIMS.Services.Bali
             }
 
             return await PagedList<AanudanKokaryakram>.Create(query, pageIndex, pageSize);
+
+        }
+
+        public async Task<SubsidyReportModel> GetSubsidyReportModel(string id, string fiscalYear, string localLevel, string budgetId, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _anudanRepository.Table;
+            if (!String.IsNullOrEmpty(id))
+            {
+                query = query.Where(m => m.CreatedBy == id);
+            }
+            if (!string.IsNullOrEmpty(fiscalYear))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalYear);
+            }
+
+            if (!string.IsNullOrEmpty(budgetId))
+            {
+                query = query.Where(m => m.BudgetId == budgetId);
+            }
+            if (!string.IsNullOrEmpty(localLevel))
+            {
+                query = query.Where(m => m.LocalLevel == localLevel);
+            }
+
+            var filteredAnudan = query.AsEnumerable().ToList();
+
+            var distinctBudget = filteredAnudan.ToList().Select(m => m.BudgetId).Distinct();
+
+            var subsidy = new SubsidyReportModel();
+            subsidy.FiscalYear = filteredAnudan.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear;
+            subsidy.LocalLevel = localLevel;
+            subsidy.Level = "नगर कार्यपालिकाको कार्यालय";
+            subsidy.StartDate = "";
+            subsidy.EndDate = "";
+            subsidy.Address = "काठमाडौँ";
+            subsidy.Ward = "";
+            var lstRowData = new List<SubsidyRowData>();
+            int i = 1;
+            foreach (var item in distinctBudget)
+            {
+                var objData = filteredAnudan.ToList().FirstOrDefault(m => m.BudgetId == item);
+                var objSubsidyData = new SubsidyRowData {
+                    BudgetTitle = objData.Budget.ActivityName,
+                    MainActivity = objData.ExpectedOutput,
+                    Remarks = objData.Remaks,
+                    SN = i.ToString()
+                };
+                lstRowData.Add(objSubsidyData);
+                i++;
+            }
+
+            subsidy.Rows = lstRowData;
+
+            return subsidy;
 
         }
 

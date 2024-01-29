@@ -90,8 +90,8 @@ namespace LIMS.Services.Basic
         public async Task<IPagedList<Budget>> GetBudget(
             string createdby,
             string fiscalYear,
-            string programtype = "",
-            string type = "",
+            string sourceOfFund = "",
+            string executionType = "",
             int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
@@ -99,15 +99,18 @@ namespace LIMS.Services.Basic
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
-            query = query.Where(m =>m.FiscalYearId == fiscalYear);
-            //if (!string.IsNullOrEmpty(programtype))
-            //{
-            //    query = query.Where(m => m.TypeOfExecution == programtype);
-            //}
-            //if (!string.IsNullOrEmpty(type))
-            //{
-            //    query = query.Where(m => m.Type == type);
-            //}
+            if (!String.IsNullOrEmpty(fiscalYear))
+            {
+                query = query.Where(m => m.FiscalYearId == fiscalYear);
+            }
+            if (!string.IsNullOrEmpty(sourceOfFund))
+            {
+                query = query.Where(m => m.SourceOfFund == sourceOfFund);
+            }
+            if (!string.IsNullOrEmpty(executionType))
+            {
+                query = query.Where(m => m.TypeOfExecution == executionType);
+            }
 
             return await PagedList<Budget>.Create(query, pageIndex, pageSize);
         }

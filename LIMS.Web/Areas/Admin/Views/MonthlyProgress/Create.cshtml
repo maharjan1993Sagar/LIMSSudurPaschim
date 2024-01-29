@@ -143,9 +143,9 @@
                     </div>
                 </div>
 
-                <center>
-                    <input type="submit" class="btn btn-success" />
-                </center>
+                @*<center>
+                        <input type="submit" class="btn btn-success" />
+                    </center>*@
             </div>
         </div>
     </div>
@@ -153,7 +153,7 @@
 </form>
 <script>
     $(document).ready(function () {
-
+        var row;
 
         $("#showTable").hide();
         //getPragati();
@@ -200,7 +200,7 @@
                     // $("#tabularEntry").empty();
 
                     $.each(result, function (index, item) {
-                        var tableRow = '<tr id="' + item.Id + '" data-budgetid="' + item.BudgetId + '" data-progressid="' + item.Id + '"  data-id="' + item.Id + '" data-upalbdiharu="' + item.UpalbdiHaru + '" data-remarks="' + item.Remarks + '" data-vautikpragati="' + item.VautikPragati + '" item-bitiyapragati="' + item.BitiyaPragati + '">';
+                        var tableRow = '<tr id="' + item.Id + '" data-budgetid="' + item.BudgetId + '" data-progressid="' + item.Id + '"  data-id="' + item.Id + '" data-upalbdiharu="' + item.UpalbdiHaru + '" data-remarks="' + item.Remarks + '" data-vautikpragati="' + item.VautikPragati + '" data-bitiyapragati="' + item.BitiyaPragati + '">';
                         tableRow += '<td>' + item.Budget.ActivityName + '<input type="hidden" name="BudgetId" value="' + item.BudgetId + '"/><input type="hidden" name="ProgressDataId" value="' + item.Id + '" /></td>';
                         tableRow += '<td>' + item.Budget.KarchaSrishak + '</td>';
                         tableRow += '<td>' + item.Budget.KharchaUpaSirshak + '</td>';
@@ -248,6 +248,8 @@
             });
         }
     }
+
+
     function myFunction() {
         var input, filter, table, tr, td, i;
         input = document.getElementById("myInput");
@@ -274,7 +276,7 @@
     $("body").on("click", "table tbody tr td button.btnUpdate", function (e) {
         e.preventDefault();
 
-        var row = $(this).closest("tr");
+        row = $(this).closest("tr");
         var rowId = row.data("id");
         var progressStatus = row.data("upalbdiharu");
         var remarks = row.data("remarks");
@@ -293,7 +295,7 @@
             // Set values in the modal
             $("#txtUpalabdhiHaru").val(progressStatus);
             $("#txtRemarks").val(remarks);
-            $("#txtVautik").val(vautik);
+            $("#txtBhautik").val(vautik);
             $("#txtBitiya").val(bitiya);
             $("#hidBudgetId").val(budgetId);
             $("#hidProgressId").val(progressId);
@@ -314,8 +316,10 @@
             window.data('kendoWindow').center().open();
         }
 
-        $("#btnClose").click(function (e) {4
+        $("#btnClose").click(function (e) {
             e.preventDefault();
+
+
             window.data('kendoWindow').close();
         })
 
@@ -345,36 +349,41 @@
             };
             addAntiForgeryToken(data);
 
-            $.post("@Url.Action("UpdateProgress", "MonthlyProgress")", data, function (result) {
-                row.data("upalbdiHaru", updatedProgressStatus);
-                row.data("remarks", updatedRemarks);
-                row.data("bitiyapragati", updatedBitiya);
-                row.data("vautikpragati", updatedVautik);
-                row.data("progressId", result.Id);
+            if (!isEmpty(updatedBitiya) && !isEmpty(updatedVautik) && !isEmpty(updatedProgressStatus) && !isEmpty(budgetId) && !isEmpty(fiscalYear)) {
 
-                alert("Success: " + result.Message);
+                $.post("@Url.Action("UpdateProgress", "MonthlyProgress")", data, function (result) {
+                    row.data("upalbdiHaru", updatedProgressStatus);
+                    row.data("remarks", updatedRemarks);
+                    row.data("bitiyapragati", updatedBitiya);
+                    row.data("vautikpragati", updatedVautik);
+                    row.data("progressId", result.Id);
 
-            }).fail(function (xhr, status, error) {
-                // Error callback
-                console.log("Error:", xhr.responseJSON || xhr.responseText);
+                    var tdBitiya = row.find('td:eq(3)');
+                    tdBitiya.html(updatedBitiya);
 
-                // Handle error here, display error messages, etc.
-                var errorMessage = "An error occurred while processing your request.";
-                if (xhr.responseJSON && xhr.responseJSON.Message) {
-                    errorMessage = xhr.responseJSON.Message;
-                }
-                alert("Error: " + errorMessage);
+                    var tdVautik = row.find('td:eq(4)');
+                    tdVautik.html(updatedVautik);
 
-            }).always(function () {
-                // This block will be executed no matter if the request was successful or failed.
-                console.log("Request completed.");
-            });
+                    alert("Success: " + result.Message);
 
-            var tdBitiya = row.find('td:eq(3)');
-            tdBitiya.html(updatedBitiya);
+                }).fail(function (xhr, status, error) {
+                    // Error callback
+                    console.log("Error:", xhr.responseJSON || xhr.responseText);
 
-            var tdVautik = row.find('td:eq(4)');
-            tdVautik.html(updatedVautik);
+                    // Handle error here, display error messages, etc.
+                    var errorMessage = "An error occurred while processing your request.";
+                    if (xhr.responseJSON && xhr.responseJSON.Message) {
+                        errorMessage = xhr.responseJSON.Message;
+                    }
+                    alert("Error: " + errorMessage);
 
+                }).always(function () {
+                    // This block will be executed no matter if the request was successful or failed.
+                    console.log("Request completed.");
+                });
+
+                
+
+            }
     });
 </script>

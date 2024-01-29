@@ -79,11 +79,11 @@ namespace LIMS.Services.Bali
             }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalyear); // createdby == m.CreatedBy &&
+                query = query.Where(m => m.FiscalYearId == fiscalyear); // createdby == m.CreatedBy &&
             }
             if (!string.IsNullOrEmpty(budgetId))
             {
-                query = query.Where(m => m.Budget.Id == budgetId);
+                query = query.Where(m => m.BudgetId == budgetId);
 
             }
             if (!string.IsNullOrEmpty(localLevel))

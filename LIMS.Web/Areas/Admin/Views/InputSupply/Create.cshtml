@@ -1,31 +1,26 @@
-﻿@model AanudanModel
+﻿@model LIMS.Web.Areas.Admin.Models.Bali.InputSupplyModel
 @{
     //page title
     ViewBag.Title = "";
 }
-<a asp-action="CreateOne" asp-controller="Farmer"><button class="btn btn-primary">@T("Admin.Training")</button></a>
-<a asp-action="Create"><button class="btn btn-outline-danger">@T("Admin.Subsidy")</button></a>
-
-<form asp-area="@Constants.AreaAdmin" asp-controller="AanudanKaryakram" asp-action="Create" method="post">
+<form asp-area="@Constants.AreaAdmin" asp-controller="InputSupply" asp-action="Create" method="post">
 
     <div class="row">
-
         <div class="col-md-12">
             <div class="x_panel light form-fit">
                 <div class="x_title">
                     <div class="caption">
                         <i class="fa fa-comment"></i>
-                        @T("Admin.Aanudan.Create")
-
-
+                        @T("Admin.InputSupply.Create")
                         @*@T("Admin.ContentManagement.Blog.BlogPosts.AddNew")*@
+                        <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
                     </div>
-                    @*<div class="actions">
+                    <div class="actions">
                         <div class="btn-group btn-group-devided">
                             <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
-
+                            
                         </div>
-                    </div>*@
+                    </div>
                 </div>
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
 
@@ -40,12 +35,3 @@
         </div>
     </div>
 </form>
-<button id="btnExport" class="btn btn-primary" onclick="Export()">Export</button>
-<script src="~/scripts/jquery.table2excel.js"></script>
-<script>
-function Export() {
-        $(".table").table2excel({
-            filename: "Subsidy.xls"
-        });
-    }
-</script>

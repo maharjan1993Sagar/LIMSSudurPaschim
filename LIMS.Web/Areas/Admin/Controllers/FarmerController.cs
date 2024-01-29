@@ -237,6 +237,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> CreateOne(FarmerModel model, IFormCollection col)
@@ -317,6 +318,37 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         }
 
+
+        public async Task<IActionResult> TrainingReport()
+        {
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.SpeciesId = species;
+
+            var c = await _fiscalYearService.GetCurrentFiscalYear();
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", c.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            string createdby = _workContext.CurrentCustomer.Id;
+            var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
+            incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.IncuvationCenter = incuvationCenter;
+
+            var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
+            talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Talim = talim;
+
+            FarmerModel model = new FarmerModel();
+            model.District = _workContext.CurrentCustomer.OrgAddress;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            return View(model);
+        }
 
         public async Task<IActionResult> Edit(string id)
         {
@@ -407,10 +439,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return Json(t.ToList());
         }
         [HttpPost]
-        public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string district, string talim)
+        public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string budgetId, string talimId,string localLevel)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var t = await _animalRegistrationService.GetfarmerByPugigatType(createdby, district,null, fiscalyear, talim);
+            var t = await _animalRegistrationService.GetfarmerByPugigatType("", localLevel,budgetId, fiscalyear, talimId);
 
             return Json(t.ToList());
         }
