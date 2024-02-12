@@ -75,18 +75,18 @@
                     errors: "Errors",
                     model: {
                         id: "Id",
-                        fields: {
-                            Id: { editable: false, type: "string" },
-                            FiscalYear: { editable: false, type: "string" },
-                            WardNo: { editable: false, type: "string" },
-                            ActivityName: { editable: false, type: "string" },
-                            PlanningProgram: { editable: false, type: "string" },
-                            Yearly: { editable: false, type: "number" },
-                            SourcOfFund: { editable: false, type: "string" },
-                            TypeOfExpen: { editable: false, type: "string" },
-                            TypeOfExecution: { editable: false, type: "string" },
-                            ExpensesCategory: { editable: true, type: "string" }
-                        }
+                        //fields: {
+                        //    Id: { editable: false, type: "string" },
+                        //    FiscalYear: { editable: false, type: "string" },
+                        //    WardNo: { editable: false, type: "string" },
+                        //    ActivityName: { editable: false, type: "string" },
+                        //    PlanningProgram: { editable: false, type: "string" },
+                        //    Yearly: { editable: false, type: "number" },
+                        //    SourcOfFund: { editable: false, type: "string" },
+                        //    TypeOfExpen: { editable: false, type: "string" },
+                        //    TypeOfExecution: { editable: false, type: "string" },
+                        //    ExpensesCategory: { editable: true, type: "string" }
+                        //}
                     },
 
                 },
@@ -109,16 +109,15 @@
                 mode: "inline"
             },
             scrollable: false,
-            columns: [  {
+            columns: [
+                 {
+                field: "WardNo",
+                title: "@T("Admin.Budget.Fields.WardNo")",
+            },{
                 field: "ActivityName",
                 title: "@T("Admin.Budget.Fields.ActivityName")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
             },
-            {
-                field: "WardNo",
-                title: "@T("Admin.Budget.Fields.WardNo")",
-            },
-
             {
                 field: "PlanningProgram",
                 title: "@T("Admin.Budget.Fields.PlanningProgram")",
@@ -142,26 +141,8 @@
             {
                 field: "ExpensesCategory",
                 title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
-                editor: TDropDownEditor
-                },
-            @*{
-                field: "Remarks",
-                title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
-            },*@
+               },
 
-            {
-                command: [
-                    {
-                        name: "edit",
-                        text: {
-                            edit: "@T("Admin.Common.Edit")",
-                            update: "@T("Admin.Common.Update")",
-                            cancel: "@T("Admin.Common.Cancel")"
-                        },
-
-                    }],
-                width: 200
-            }
             ]
 
         });
@@ -169,29 +150,12 @@
     });
     function additionalData() {
         var data = {
-            Keyword: $("#Keyword").val()
+            Keyword: $("#Keyword").val(),
+            category: "Training"
         };
         addAntiForgeryToken(data);
         return data;
     }
-    function TDropDownEditor(container, options) {
-        $('<input name="ExpensesCategory"/>')
-            .appendTo(container)
-            .kendoDropDownList({
-                valuePrimitive: true,
-
-                autoBind: true,
-                dataTextField: "name",
-                dataValueField: "value",
-                dataSource: [
-                    { name: "Select", value: "" },
-                    { name: "Training", value: "Training" }
-                   // {name:"Subsidary",value:"Subsidary"}
-                            ]
-
-            });
-    }
-
 </script>
 <script>$(document).ready(function () {
         //search button

@@ -27,7 +27,7 @@ namespace LIMS.Services.Bali
         Task UpdateMonthlyPragatiList(List<MonthlyPragati> livestocks);
 
         Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(List<string> createdby,string fiscalYear,string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
-        Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string sourceOfFund, string typeOfExpense, string month, string expenseCategory = "", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string sourceOfFund, string typeOfExpense, string month, string expenseCategory = "", string xetra = "", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
 
         //Task<IPagedList<MonthlyPragati>> GetFilteredNitiMonthlyPragati(string createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
         //Task<IPagedList<MonthlyPragati>> GetFilteredMainMonthlyPragati(string createdby, string fiscalYear, string programtype, string type, string month, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");

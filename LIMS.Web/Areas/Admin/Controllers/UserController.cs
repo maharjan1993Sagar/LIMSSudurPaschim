@@ -214,7 +214,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             }
 
             if (ModelState.IsValid)
-            {
+            {                
                 model.Province = "BAGAMATI PROVINCE";
                 model.District = "KATHMANDU";
                 model.CreatedBy = _workContext.CurrentCustomer.Id;
@@ -282,9 +282,23 @@ namespace LIMS.Web.Areas.Admin.Controllers
                             new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
                             };
 
-            ViewBag.Roles = new SelectList(lstRoles,"Value","Text");
-
             var customer = await _customerService.GetCustomerById(id);
+
+            var roles = customer.CustomerRoles;
+
+            if(roles.Select(m=>m.SystemName).Contains(RoleHelper.Livestock))
+            {
+                ViewBag.Roles = new SelectList(lstRoles,"Value","Text",RoleHelper.Livestock);
+            }
+            else if (roles.Select(m => m.SystemName).Contains(RoleHelper.Agriculture))
+            {
+                ViewBag.Roles = new SelectList(lstRoles, "Value", "Text",RoleHelper.Agriculture);
+            }
+            else
+            {
+                ViewBag.Roles = new SelectList(lstRoles, "Value", "Text");
+            }
+
             if (customer == null || customer.Deleted)
                 //No customer found with the specified id
                 return RedirectToAction("List");
@@ -295,6 +309,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var model = new CustomerModel();
             await _customerViewModelService.PrepareCustomerModel(model, customer, false);
+            
             return View(model);
         }
 
@@ -313,9 +328,24 @@ namespace LIMS.Web.Areas.Admin.Controllers
                             new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
                             };
 
-            ViewBag.Roles = new SelectList(lstRoles,"Value","Text");
+           // ViewBag.Roles = new SelectList(lstRoles,"Value","Text");
 
             var customer = await _customerService.GetCustomerById(model.Id);
+            var roles = customer.CustomerRoles;
+
+            if (roles.Select(m => m.SystemName).Contains(RoleHelper.Livestock))
+            {
+                ViewBag.Roles = new SelectList(lstRoles, "Value", "Text", RoleHelper.Livestock);
+            }
+            else if (roles.Select(m => m.SystemName).Contains(RoleHelper.Agriculture))
+            {
+                ViewBag.Roles = new SelectList(lstRoles, "Value", "Text", RoleHelper.Agriculture);
+            }
+            else
+            {
+                ViewBag.Roles = new SelectList(lstRoles, "Value", "Text");
+            }
+
             string email = customer.Email;
             if (customer == null || customer.Deleted)
                 //No customer found with the specified id
@@ -398,6 +428,148 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         await SaveSelectedTabIndex();
 
                         return RedirectToAction("Edit", new { id = customer.Id });
+                    }
+                    return RedirectToAction("List");
+                }
+                catch (Exception exc)
+                {
+                    ErrorNotification(exc.Message, false);
+                }
+            }
+            //If we got this far, something failed, redisplay form
+            await _customerViewModelService.PrepareCustomerModel(model, customer, true);
+            var provience = ProvinceHelper.GetProvince();
+            provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.provience = provience;
+            return View(model);
+        }
+
+        [PermissionAuthorizeAction(PermissionActionName.Preview)]
+        public async Task<IActionResult> EditAdmin(string id)
+        {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            var lstRoles = new List<SelectListItem>(){
+                            new SelectListItem{Text="Select",Value=""},
+                            new SelectListItem{Text=RoleHelper.Agriculture, Value=RoleHelper.Agriculture},
+                            new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
+                            };
+
+            var customer = await _customerService.GetCustomerById(id);
+            
+
+            if (customer == null || customer.Deleted)
+                return RedirectToAction("List");
+            
+            var model = new CustomerModel();
+            model.Role = RoleHelper.Administrators;
+
+            await _customerViewModelService.PrepareCustomerModel(model, customer, false);
+
+            return View(model);
+        }
+
+        [PermissionAuthorizeAction(PermissionActionName.Edit)]
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public async Task<IActionResult> EditAdmin(CustomerModel model, bool continueEditing, IFormCollection form)
+        {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
+            var lstRoles = new List<SelectListItem>(){
+                            new SelectListItem{Text="Select",Value=""},
+                            new SelectListItem{Text=RoleHelper.Agriculture, Value=RoleHelper.Agriculture},
+                            new SelectListItem{Text=RoleHelper.Livestock, Value=RoleHelper.Livestock},
+                            };
+
+            // ViewBag.Roles = new SelectList(lstRoles,"Value","Text");
+
+            var customer = await _customerService.GetCustomerById(model.Id);
+            
+
+            string email = customer.Email;
+            if (customer == null || customer.Deleted)
+                //No customer found with the specified id
+                return RedirectToAction("List");
+
+            //validate customer roles
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var currentCustomer = _workContext.CurrentCustomer;
+                    string[] customerRoles = currentCustomer.GetCustomerRoleName();
+                    var allCustomerRoles = await _customerService.GetAllCustomerRoles(showHidden: true);
+                    var newCustomerRoles = new List<CustomerRole>();
+                    CustomerRole role = new CustomerRole();
+
+                    //newCustomerRoles.Add(allCustomerRoles.FirstOrDefault(m => m.Name == model.Role));
+                    //newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
+                    //newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name ==RoleHelper.Administrators).FirstOrDefault());
+
+                    var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
+                    if (!string.IsNullOrEmpty(customerRolesError))
+                    {
+                        ModelState.AddModelError("", customerRolesError);
+                        ErrorNotification(customerRolesError, false);
+                    }
+
+                    customer = await _customerViewModelService.UpdateCustomerModel(customer, model);
+                    if (!string.IsNullOrWhiteSpace(model.Password))
+                    {
+                        var changePassRequest = new ChangePasswordRequest(model.Email, false, _customerSettings.DefaultPasswordFormat, model.Password);
+                        var changePassResult = await _customerRegistrationService.ChangePassword(changePassRequest);
+                        if (!changePassResult.Success)
+                        {
+                            foreach (var changePassError in changePassResult.Errors)
+                                ErrorNotification(changePassError);
+                        }
+                    }
+                    //foreach (var customerRole in newCustomerRoles)
+                    //{
+                    //    //ensure that the current customer cannot add to "Administrators" system role if he's not an admin himself
+                    //    if (customerRole.SystemName == SystemCustomerRoleNames.Administrators)
+                    //        continue;
+
+                    //    customer.CustomerRoles.Add(customerRole);
+                    //    customerRole.CustomerId = customer.Id;
+
+                    //    await _customerService.InsertCustomerRoleInCustomer(customerRole);
+                    //}
+                    var userapi = await _userApiService.GetUserByEmail(email);
+
+                    UserApiModel user = new UserApiModel();
+                    user.Email = model.Email;
+                    user.Password = model.Password;
+                    user.IsActive = model.Active;
+                    if (!string.IsNullOrEmpty(user.Password))
+                    {
+                        userapi = user.ToEntity(userapi);
+                        var keys = HashPassword(model.Password);
+                        userapi.Password = keys.hashpassword;
+                        userapi.PrivateKey = keys.privatekey;
+
+                        await _userApiService.UpdateUserApi(userapi);
+                    }
+
+                    // var keys = HashPassword(model.Password);
+                    //userapi.Password = keys.hashpassword;
+                    //userapi.PrivateKey = keys.privatekey;
+
+
+                    SuccessNotification(_localizationService.GetResource("Admin.Customers.Customers.Updated"));
+                    if (continueEditing)
+                    {
+                        //selected tab
+                        await SaveSelectedTabIndex();
+
+                        return RedirectToAction("EditAdmin", new { id = customer.Id });
                     }
                     return RedirectToAction("List");
                 }

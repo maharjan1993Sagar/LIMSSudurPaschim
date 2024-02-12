@@ -41,9 +41,12 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Livestock>> GetLivestock(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear="")
         {
             var query = _livestockRepository.Table;
-            query=query.Where(m => m.CreatedBy == createdby);
-            
-           
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+
+
             return await PagedList<Livestock>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<Livestock>> GetLivestock(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
@@ -177,11 +180,14 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Livestock>> GetFilteredsLivestock(string createdby,  string fiscalYearId, string LocalLevel, string district,string ward, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _livestockRepository.Table;
-           
+
+            if (!string.IsNullOrEmpty(createdby))
+            {
                 query = query.Where(m => m.CreatedBy == createdby);
-            
-           
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId &&  m.LocalLevel == LocalLevel&&m.Ward==ward);
+            }
+
+
+            query = query.Where(m => m.FiscalYear.Id == fiscalYearId &&  m.LocalLevel == LocalLevel&&m.Ward==ward);
 
           
             return await PagedList<Livestock>.Create(query, pageIndex, pageSize);

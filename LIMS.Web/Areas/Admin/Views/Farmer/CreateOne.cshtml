@@ -38,7 +38,7 @@
                 <div class="x_content form">
                     <div class="x_content form">
                         <div class="form-row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
 
                                 <div class="form-group">
                                     <admin-label asp-for="FiscalYearId" />
@@ -47,7 +47,7 @@
                                     <span asp-validation-for="FiscalYearId"></span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-5">
 
                                 <div class="form-group">
                                     <admin-label asp-for="budgetId" />
@@ -55,7 +55,7 @@
                                     <span asp-validation-for="budgetId"></span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-5">
 
                                 <div class="form-group">
                                     <admin-label asp-for="TalimId" />
@@ -63,7 +63,8 @@
                                     <span asp-validation-for="TalimId"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <input type="hidden" asp-for="LocalLevel"/>
+                            @*<div class="col-md-2">
 
                                 <div class="form-group">
                                     <admin-label asp-for="LocalLevel" />
@@ -71,7 +72,7 @@
                                     </select>
                                     <span asp-validation-for="LocalLevel"></span>
                                 </div>
-                            </div>
+                            </div>*@
 
 
                             @*<div class="col-md-3">
@@ -92,7 +93,7 @@
                                     <input asp-for="EndDate" class="form-control" type="date" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <admin-label>Total Expense</admin-label>
                                     <input asp-for="TotalExpense" class="form-control" type="number" step="0.01" />
@@ -119,25 +120,25 @@
                                 </div>
                             </div>
                             <div id="tal">
-                                <table class="table table-bordered" style="width:150% !important;">
+                                <table class="table table-bordered" >
                                     <tr style="background-color:#3c3c44;color:white;text-align:center">
 
                                         <th>
                                             <admin-label asp-for="Name" />
                                         </th>
 
-                                        <th>
+                                        <th width="20%">
                                             <admin-label asp-for="Address" />
                                         </th>
 
-                                        <th>
+                                        <th width="8%">
                                             <admin-label asp-for="WardNo" />
                                         </th>
-                                        <th>
+                                        <th  width="15%">
                                             <admin-label asp-for="Phone" />
                                         </th>
-                                        <th><admin-label asp-for="Gender" /></th>
-                                        <th><admin-label asp-for="Caste" /></th>
+                                        <th  width="10%"><admin-label asp-for="Gender" /></th>
+                                        <th  width="10%"><admin-label asp-for="Caste" /></th>
 
                                     </tr>
                                     <tbody id="tabularEntry">
@@ -333,7 +334,7 @@
     })
     function abc(data) {
         $(tabularEntry).html("");
-        if (data.fiscalyear && data.budgetId && data.talimId && data.localLevel) {
+        if (data.fiscalyear && data.budgetId && data.talimId) { // && data.localLevel
             $.post("@Url.Action("GetTalimDataNew", "Farmer")", addAntiForgeryToken(data), function (result) {
                 if (result.length > 0) {
                     // Convert date strings to Date objects and format them for input fields

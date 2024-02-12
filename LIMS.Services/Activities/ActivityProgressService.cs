@@ -41,18 +41,23 @@ namespace LIMS.Services.Activities
         public async Task<IPagedList<ActivityProgress>> GetActivityProgress(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _activityProgressRepository.Table;
-
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<ActivityProgress>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<ActivityProgress>> GetFilteredProgress(string createdby, string fiscalyear,string month, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _activityProgressRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && 
+            if(!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            
+            query = query.Where(m =>
                                 m.FiscalYearId == fiscalyear &&
                                 m.Month==month
-                                
-                                
                                 );
             return await PagedList<ActivityProgress>.Create(query, pageIndex, pageSize);
         }

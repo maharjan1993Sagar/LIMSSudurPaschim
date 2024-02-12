@@ -26,47 +26,44 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            @*<div class="col-md-2">
 
-                                <div class="form-group">
-                                    <admin-label asp-for="NameEnglish" />
-                                    <admin-input asp-for="NameEnglish" />
-                                    <span asp-validation-for="NameEnglish"></span>
+            <div class="form-group">
+                <admin-label asp-for="NameEnglish" />
+                <admin-input asp-for="NameEnglish" />
+                <span asp-validation-for="NameEnglish"></span>
 
-                                </div>
-                            </div>
+            </div>
+        </div>
 
 
-                            <div class="col-md-2">
+        <div class="col-md-2">
 
-                                <div class="form-group">
-                                    <admin-label asp-for="Provience" />
-                                    <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
-                                    <span asp-validation-for="Provience"></span>
+            <div class="form-group">
+                <admin-label asp-for="Provience" />
+                <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" />
+                <span asp-validation-for="Provience"></span>
 
-                                </div>
-                            </div>
+            </div>
+        </div>
 
-                            <div class="col-md-2">
+        <div class="col-md-2">
 
-                                <div class="form-group">
-                                    <admin-label asp-for="District" />
-                                    <select id="district" name="District" data-val="@Model.District" class="form-control">
-                                        <option value="">select</option>
-                                    </select>
-                                    <span asp-validation-for="District"></span>
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select id="district" name="District" data-val="@Model.District" class="form-control">
+                    <option value="">select</option>
+                </select>
+                <span asp-validation-for="District"></span>
 
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-
+            </div>
+        </div>*@
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <admin-label asp-for="LocalLevel" />
-                                    <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" class="form-control">
-                                        <option value="">select</option>
+                                    <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
                                     </select>
                                     <span asp-validation-for="LocalLevel"></span>
-
                                 </div>
                             </div>
                             <div class="col-md-1">

@@ -6,6 +6,7 @@ using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Models.Bali;
@@ -28,6 +29,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly ITalimService _talimService;
+        private readonly ILocalLevelService _localLevelService;
 
         public IncubationCenterController(ILocalizationService localizationService,
             IIncuvationCenterService animalRegistrationService,
@@ -36,7 +38,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IBreedService breedService,
             IWorkContext workContext,
             IFiscalYearService fiscalYearService,
-            ITalimService talimService
+            ITalimService talimService,
+            ILocalLevelService localLevelService
 
             )
         {
@@ -48,6 +51,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _workContext = workContext;
             _fiscalYearService = fiscalYearService;
             _talimService = talimService;
+            _localLevelService = localLevelService;
+
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -135,6 +140,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
               ViewBag.NatureOfWork =NatureOfWork;
 
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             IncubationCenterModel model = new IncubationCenterModel();
 
             return View(model);
@@ -217,6 +227,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 },
 
             };
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
               ViewBag.NatureOfWork =NatureOfWork;
 
@@ -292,6 +308,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 },
 
             };
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
               ViewBag.NatureOfWork =NatureOfWork;
 
@@ -388,7 +410,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             NatureOfWork.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
               ViewBag.NatureOfWork =NatureOfWork;
 
-
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

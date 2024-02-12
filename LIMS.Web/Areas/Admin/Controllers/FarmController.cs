@@ -7,6 +7,7 @@ using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Ainr;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Media;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
@@ -38,6 +39,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ICustomerService _customerService;
         private readonly IMediator _mediator;
         private readonly IStoreContext _storeContext;
+        private readonly ILocalLevelService _localLevelService;
 
 
         public FarmController(ILocalizationService localizationService, IFarmService farmService, IPictureService pictureService, ILanguageService languageService, IWorkContext workContext, IVhlsecService vhlsecService, ILssService lssService, ICustomerService customerService, IMediator mediator, IStoreContext storeContext)
@@ -52,6 +54,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _customerService = customerService;
             _mediator = mediator;
             _storeContext = storeContext;
+            _localLevelService = _localLevelService;
         }
         public IActionResult Index() => RedirectToAction("List");
 
@@ -63,8 +66,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
 
-            if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
-            {
+            //if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
+            //{
                 string vhlsecid = _workContext.CurrentCustomer.EntityId;
                 List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
                 var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
@@ -76,36 +79,36 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     Total = farm.TotalCount
                 };
                 return Json(gridModel);
-            }
-            if (roles.Contains(RoleHelper.NlboAdmin) || roles.Contains(RoleHelper.NlboUser))
-            {
-                string nlboId = _workContext.CurrentCustomer.EntityId;
-                var customers = _customerService.GetCustomerByLssId(null, nlboId);
-                var pprsCustomer = _customerService.GetNlboUsers();
-                List<string> pprsCustomerId = pprsCustomer.Select(x => x.Id).ToList();
-                List<string> customerid = customers.Select(x => x.Id).ToList();
-               customerid.AddRange(pprsCustomerId);
-                var farm = await _farmService.GetFarmByLssId(customerid, model.Keyword, command.Page - 1, command.PageSize);
-                var currentuser = _workContext.CurrentCustomer.Id;
-                var gridModel = new DataSourceResult {
-                    Data = farm,
-                    Total = farm.TotalCount
-                };
-                return Json(gridModel);
-            }
-            else
-            {
+            //}
+            //if (roles.Contains(RoleHelper.NlboAdmin) || roles.Contains(RoleHelper.NlboUser))
+            //{
+            //    string nlboId = _workContext.CurrentCustomer.EntityId;
+            //    var customers = _customerService.GetCustomerByLssId(null, nlboId);
+            //    var pprsCustomer = _customerService.GetNlboUsers();
+            //    List<string> pprsCustomerId = pprsCustomer.Select(x => x.Id).ToList();
+            //    List<string> customerid = customers.Select(x => x.Id).ToList();
+            //   customerid.AddRange(pprsCustomerId);
+            //    var farm = await _farmService.GetFarmByLssId(customerid, model.Keyword, command.Page - 1, command.PageSize);
+            //    var currentuser = _workContext.CurrentCustomer.Id;
+            //    var gridModel = new DataSourceResult {
+            //        Data = farm,
+            //        Total = farm.TotalCount
+            //    };
+            //    return Json(gridModel);
+            //}
+            //else
+            //{
               
-                var currentuser = _workContext.CurrentCustomer.EntityId;
-               var  allCustomer = await _customerService.GetAllCustomers();
-                List<string> customerid = allCustomer.Where(m=>m.EntityId==currentuser).Select(x => x.Id).ToList();
-                var farm = await _farmService.GetFarmByLssId(customerid, model.Keyword, command.Page-1, command.PageSize);
-                var gridModel = new DataSourceResult {
-                    Data = farm,
-                    Total = farm.TotalCount
-                };
-                return Json(gridModel);
-            }
+            //    var currentuser = _workContext.CurrentCustomer.EntityId;
+            //   var  allCustomer = await _customerService.GetAllCustomers();
+            //    List<string> customerid = allCustomer.Where(m=>m.EntityId==currentuser).Select(x => x.Id).ToList();
+            //    var farm = await _farmService.GetFarmByLssId(customerid, model.Keyword, command.Page-1, command.PageSize);
+            //    var gridModel = new DataSourceResult {
+            //        Data = farm,
+            //        Total = farm.TotalCount
+            //    };
+            //    return Json(gridModel);
+            //}
         }
 
 
@@ -169,7 +172,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             Provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             EthinicGroup.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Provience = Provience;
-            
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             ViewBag.Education = Education;
             ViewBag.FarmType = FarmType;
             ViewBag.Category = Category;
@@ -208,6 +216,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Season = season;
             var shedType = SHedTypeHelper.GetShedType();
             shedType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             ViewBag.ShedType = shedType;
             ViewBag.Education = Education;
             ViewBag.FarmType = FarmType;
@@ -272,7 +286,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Season = season;
             var shedType = SHedTypeHelper.GetShedType();
             shedType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ShedType = shedType;        
+            ViewBag.ShedType = shedType;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
 

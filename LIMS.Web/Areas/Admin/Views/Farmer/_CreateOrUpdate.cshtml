@@ -48,7 +48,7 @@
 
 
         }
-        <div class="col-md-3">
+        @*<div class="col-md-3">
 
             <div class="form-group">
                 <admin-label asp-for="Province" />
@@ -69,64 +69,72 @@
                 <span asp-validation-for="District"></span>
 
             </div>
-        </div>
+        </div>*@
+        @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+            </div>
+        </div>*@
         <div id="tal">
-        <table class="table table-bordered" >
-            <tr>
-                <th>
-                    <admin-label asp-for="Name" />
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        <admin-label asp-for="Name" />
 
-                </th>
+                    </th>
 
-                <th>
-                    <admin-label asp-for="Address" />
-                </th>
+                    <th>
+                        <admin-label asp-for="Address" />
+                    </th>
 
-                <th>
-                    <admin-label asp-for="WardNo" />
-                </th>
-                <th>
-                    <admin-label asp-for="Phone" />
-                </th>
+                    <th>
+                        <admin-label asp-for="WardNo" />
+                    </th>
+                    <th>
+                        <admin-label asp-for="Phone" />
+                    </th>
 
-                <th>
-                    <admin-label asp-for="Male" />
-                </th>
-                <th>
-                    <admin-label asp-for="Female" />
-                </th>
-                <th>
-                    <admin-label asp-for="Dalit" />
-                </th>
-                <th>
-                    <admin-label asp-for="Janajati" />
-                </th>
+                    <th>
+                        <admin-label asp-for="Male" />
+                    </th>
+                    <th>
+                        <admin-label asp-for="Female" />
+                    </th>
+                    <th>
+                        <admin-label asp-for="Dalit" />
+                    </th>
+                    <th>
+                        <admin-label asp-for="Janajati" />
+                    </th>
 
-                <th>
-                    <admin-label asp-for="Others" />
-                </th>
-                <th>
-                    <admin-label asp-for="Remarks" />
-                </th>
-            </tr>
-            <tbody id="tabularEntry">
-            </tbody>
+                    <th>
+                        <admin-label asp-for="Others" />
+                    </th>
+                    <th>
+                        <admin-label asp-for="Remarks" />
+                    </th>
+                </tr>
+                <tbody id="tabularEntry">
+                </tbody>
 
 
 
-        </table>
-        <div class="col-md-12">
-            <Center>
-                <div class="btn-group btn-group-devided">
+            </table>
+            <div class="col-md-12">
+                <Center>
+                    <div class="btn-group btn-group-devided">
 
-                    <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
-                    <input type="button" class="btn btn-primary" id="add" value="Add row" />;
+                        <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+                        <input type="button" class="btn btn-primary" id="add" value="Add row" />;
 
-                </div>
-            </Center>
+                    </div>
+                </Center>
 
+            </div>
         </div>
-          </div>
     </div>
 </div>
 

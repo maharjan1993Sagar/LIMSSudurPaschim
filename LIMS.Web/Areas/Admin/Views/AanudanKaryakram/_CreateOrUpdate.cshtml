@@ -23,7 +23,7 @@
 
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-9">
 
             <div class="form-group">
                 <admin-label asp-for="BudgetId" />
@@ -34,14 +34,14 @@
             </div>
         </div>
 
-        <div class="col-md-2">
+        @*<div class="col-md-2">
             <div class="form-group">
                 <admin-label asp-for="LocalLevel" />
                 <select asp-for="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" required="required">
                 </select>
                 <span asp-validation-for="LocalLevel"></span>
             </div>
-        </div>
+        </div>*@
 
         <div class="col-md-12">
             <div class="form-group">
@@ -64,9 +64,9 @@
 
                     </th>
 
-                    @*<th width="10%">
-                            <admin-label asp-for="LocalLevel" />
-                        </th>*@
+                   <th width="15%">
+                            <admin-label asp-for="Address" />
+                        </th>
 
                     <th>
                         <admin-label asp-for="Ward" />
@@ -74,14 +74,14 @@
                     <th width="8%">
                         <admin-label asp-for="PhoneNo" />
                     </th>
-                    <th width="5%">
+                    <th width="10%">
                         <admin-label asp-for="AnudanReceiverType" />
                     </th>
-                    <th width="5%">
+                    <th width="10%">
                         <admin-label asp-for="SubsidyCategory" />
                     </th>
 
-                    <th width="5%">
+                    <th width="10%">
                         <admin-label asp-for="AanudanKokisim" />
                     </th>
                     <th>
@@ -135,6 +135,7 @@
             <td>
                 <input type="hidden" name="LivestockDataId" />
                 <input asp-for="KrishakKoName" class="form-control" />
+                <input asp-for="Address" class="form-control" />
             </td>
 
             @*<td>
@@ -149,7 +150,6 @@
             <td>
                 <select name="AnudanReceiverType" class="form-control">
                     <option value="">Select</option>
-
                     <option value="Admin.LabambitKrishak.Group">@T("Admin.LabambitKrishak.Group")</option>
                     <option value="Admin.LabambitKrishak.CoOperative">@T("Admin.LabambitKrishak.CoOperative")</option>
                     <option value="Admin.LabambitKrishak.Farm">@T("Admin.LabambitKrishak.Farm")</option>
@@ -160,7 +160,6 @@
             </td>
             <td>
                 <select name="SubsidyCategory" class="form-control">
-
                     <option value="">Select</option>
                     <option value="Livestock">Livestock</option>
                     <option value="Crops">Crops</option>
@@ -342,7 +341,7 @@
         a = $("#fgh").html();
         b = $("#ijk").html();
         c = $("#lmo").html();
-        if (data.fiscalyear && data.program && data.localLevel) {
+        if (data.fiscalyear) { //&& data.program&& data.localLevel
             $.post("@Url.Action("GetAnudan", "AanudanKaryakram")", addAntiForgeryToken(data), function (result) {
                 if (result.length > 0) {
 
@@ -353,6 +352,7 @@
                     $.each(result, function (index, item) {
                         var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
                         tableRow += '<input type="text" name="KrishakKoName" class="form-control"  value="' + item.KrishakKoName + '"/></td>';
+                        tableRow += '<input type="text" name="Address" class="form-control"  value="' + item.Address + '"/></td>';
                        tableRow += '<td><input type="number" name="Ward" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Ward + '"/></td>';
                         tableRow += '<td><input type="text" name="PhoneNO" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.PhoneNo + '"/></td>';
                         tableRow += '<td>'+b+'</td>';
@@ -379,7 +379,7 @@
 
                         var SubsidyCategoryDDL = $("#tabularEntry").find('tr:last select[name="SubsidyCategory"]');
                         if (SubsidyCategoryDDL.find('option[value="' + item.SubsidyCategory + '"]').length > 0) {
-                            SubsidyCategoryDDL.val(item.Gender);
+                            SubsidyCategoryDDL.val(item.SubsidyCategory);
 
                         }  // Assuming you want to set the value to "Male" for the "Gender" dropdown
 

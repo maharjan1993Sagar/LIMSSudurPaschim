@@ -33,13 +33,20 @@ namespace LIMS.Services.Organizations
         public async Task<IPagedList<DiaryIndustryAndShop>> GetDiaryIndustryAndShop(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _diaryIndustryAndShopRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<DiaryIndustryAndShop>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<DiaryIndustryAndShop>> GetDiaryIndustryAndShopByType(string createdby, string type, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _diaryIndustryAndShopRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.OtherOrganization.Type == type);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => m.OtherOrganization.Type == type);
             return await PagedList<DiaryIndustryAndShop>.Create(query, pageIndex, pageSize);
         }
 

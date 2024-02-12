@@ -37,8 +37,10 @@ namespace LIMS.Services.VaccinationInventory
         public async Task<IPagedList<ReceivedVaccine>> GetReceivedVaccine(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _receivedVaccineRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
-            
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
 
             return await PagedList<ReceivedVaccine>.Create(query, pageIndex, pageSize);
         }

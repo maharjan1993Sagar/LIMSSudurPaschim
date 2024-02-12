@@ -80,16 +80,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             string user = _workContext.CurrentCustomer.Id;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             string createdby = null;
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
 
             var service = await _serviceData.GetService();
             var gridModel = new DataSourceResult {
@@ -216,16 +216,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var existingServiceId = form["ServiceDataId"].ToList();
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
             var addServices = new List<ServicesData>();
             var updateServices = new List<ServicesData>();
             if (model.ServicesType.ToLower() == "ai")
@@ -331,16 +331,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
             
             var servicesData = await _serviceData.GetFilteredService(fiscalyearId, quater,month, serviceType, createdby,district, locallevel,ward,species,vaccineName,treatMentType,animalHealth);
             return Json(servicesData);

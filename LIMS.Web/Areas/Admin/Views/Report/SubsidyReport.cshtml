@@ -1,10 +1,14 @@
-﻿@model LIMS.Web.Areas.Admin.Models.Reports.SubsidyReportModel
+﻿@inject IWorkContext workContext
+@model LIMS.Web.Areas.Admin.Models.Reports.SubsidyReportModel
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
 
 <form id="subsidy">
     <div class="col-md-2">
         <div class="form-group">
             <admin-label asp-for="FiscalYear" />
-            <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYear" required="required" />
+            <admin-select asp-for="FiscalYear"  asp-items="ViewBag.FiscalYear" required="required" />
             <span asp-validation-for="FiscalYear"></span>
         </div>
     </div>
@@ -21,29 +25,40 @@
 
         <div class="form-group">
             <admin-label asp-for="LocalLevel" />
-            <select asp-for="@Model.LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
+            <select asp-for="@Model.LocalLevel" disabled data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
             </select>
             <span asp-validation-for="LocalLevel"></span>
         </div>
     </div>
+    @if (roles.Contains("Administrators"))
+    {
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Xetra" />
+                <select asp-for="Xetra" asp-items="@ViewBag.Xetras" class="form-control"></select>
+                <span asp-validation-for="Xetra"></span>
+            </div>
+        </div>
+    }
     <div class="col-md-2">
         <div class="form-group">
             <br />
             <button type="submit" class="btn btn-sm btn-success">Show Report</button>
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <br />
-            <button type="submit" formaction="DownloadSubsidyPdf" class="btn btn-sm btn-success">Download Pdf</button>
+    @*<div class="col-md-2">
+            <div class="form-group">
+                <br />
+                <button type="submit" formaction="DownloadSubsidyPdf" class="btn btn-sm btn-success">Download Pdf</button>
+            </div>
         </div>
-    </div>
-    <button id="btnPrint"  class="btn btn-sm btn-success">print post</button>
+        <button id="btnPrint"  class="btn btn-sm btn-success">print post</button>*@
 </form>
 <br />
 <div style="display:inline-block !important;">
     <div id="result"></div>
-    </div>
+</div>
 <script>
         $(document).ready(function () {
 
@@ -54,7 +69,7 @@
                     FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val(),
                     localLevel: $('#@Html.IdFor(m => m.LocalLevel)').val()
                 }
-                 
+
                 $.ajax({
                     cache: false,
                     url: '/Admin/Report/DownloadSubsidyPdf',
@@ -136,7 +151,8 @@
 
                     var data = {
                         FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val(),
-                        localLevel: $('#@Html.IdFor(m => m.LocalLevel)').val()
+                        localLevel: $('#@Html.IdFor(m => m.LocalLevel)').val(),
+                        xetra:$('#@Html.IdFor(m=>m.Xetra)').val()
                     }
                     addAntiForgeryToken(data);
                     e.preventDefault();

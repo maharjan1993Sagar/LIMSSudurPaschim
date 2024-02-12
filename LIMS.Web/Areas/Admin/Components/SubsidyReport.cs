@@ -66,29 +66,56 @@ namespace LIMS.Web.Areas.Admin.Components
             _anudanService = anudanService;
         }
         #endregion ctor
-        public async Task<IViewComponentResult> InvokeAsync(string fiscalyear, string locallevel)
+        public async Task<IViewComponentResult> InvokeAsync(string fiscalyear, string locallevel,string xetra)
         {
-            var filteredAnudan =await _anudanService.GetFilteredSubsidy("",fiscalyear,locallevel,"");
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            string localLevel = _workContext.CurrentCustomer.LocalLevel;
+            string orgName = _workContext.CurrentCustomer.OrgName;
+            string orgAddress = _workContext.CurrentCustomer.OrgAddress;
+            string orgLevel = "नगर कार्यपालिकाको कार्यालय";
+
+            if (roles.Contains("Agriculture"))
+            {
+                xetra = "कृषि विकास";
+            }
+            if (roles.Contains("Livestock"))
+            {
+                xetra = "पशु तथा मत्स्य विकास ";
+            }
+            //if (roles.Contains("Administrators"))
+            //{
+            //    xetra = "";
+            //}
+
+            var filteredAnudan =await _anudanService.GetFilteredSubsidy("",fiscalyear,locallevel,"",xetra);
 
             var distinctBudget = filteredAnudan.ToList().Select(m => m.BudgetId).Distinct();
 
             var subsidy = new SubsidyReportModel();
             subsidy.FiscalYear = filteredAnudan.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear;
-            subsidy.LocalLevel = locallevel;
-            subsidy.Level = "नगर कार्यपालिकाको कार्यालय";
+            subsidy.LocalLevel = orgName;
+            subsidy.Level = orgLevel;
             subsidy.StartDate = "";
             subsidy.EndDate = "";
-            subsidy.Address = "काठमाडौँ";
+            subsidy.Address = orgAddress;
             subsidy.Ward = "";
             var lstRowData = new List<SubsidyRowData>();
             int i = 1;
             foreach (var item in distinctBudget)
             {
-                var objData = filteredAnudan.ToList().FirstOrDefault(m => m.BudgetId == item);
-                var objSubsidyData = new SubsidyRowData {
-                    BudgetTitle = objData.Budget.ActivityName,
-                    MainActivity = objData.ExpectedOutput,
-                    Remarks = objData.Remaks,
+                var objData = filteredAnudan.ToList().Where(m => m.BudgetId == item);
+                var objFirst = objData.FirstOrDefault();
+                var objSubsidyData = new SubsidyRowData {                    
+                    BudgetTitle = objFirst.Budget.ActivityName,
+                    MainActivity = objFirst.ExpectedOutput,
+                    Remarks = objFirst.Remaks,
+                    Purpose = objFirst.ExpectedOutput,
+                    Male = objData.Sum(m => m.MaleMember??0).ToString(),
+                    Female = objData.Sum(m => m.FemaleMember??0).ToString(),
+                    Janajati = objData.Sum(m => m.JanajatiMember??0).ToString(),
+                    Dalit = objData.Sum(m => m.DalitMember??0).ToString(),
+                    Others = objData.Sum(m => m.Others??0).ToString(),
+                    Total = (objData.Sum(m => m.MaleMember ?? 0) + objData.Sum(m => m.FemaleMember ?? 0)).ToString(),
                     SN = i.ToString()
                 };
                 lstRowData.Add(objSubsidyData);

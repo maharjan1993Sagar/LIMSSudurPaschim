@@ -40,5 +40,6 @@ namespace LIMS.Domain.Bali
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }
         public string AnudanReceiverType { get; set; }
+        public string Address { get; set; }
     }
 }

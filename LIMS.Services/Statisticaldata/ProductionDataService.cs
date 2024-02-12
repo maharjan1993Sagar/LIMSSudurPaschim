@@ -41,15 +41,20 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Production>> GetProduction(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
-
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
 
             return await PagedList<Production>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<Production>> GetProductionByKeyword(string createdby, string keyword, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(m => m.ProductionType.ToLower().Contains(keyword.ToLower())
@@ -77,8 +82,11 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Production>> GetProduction(string createdby,string fiscalyear,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
-
-            query = query.Where(m => m.CreatedBy == createdby&& m.FiscalYear.Id==fiscalyear);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => m.FiscalYear.Id==fiscalyear);
             return await PagedList<Production>.Create(query, pageIndex, pageSize);
         }
 
@@ -164,13 +172,16 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Production>> GetFilteredProduction(string fiscalyearId,string productiontype,string createdBy,string district,string locallevel,string ward, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
+            if (!string.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
             query = query.Where(m =>
               m.LocalLevel == locallevel &&
               m.District==district&&
               m.ProductionType == productiontype &&
               m.FiscalYear.Id==fiscalyearId &&
-              m.Ward==ward&&
-              m.CreatedBy == createdBy
+              m.Ward==ward
             );
             return await PagedList<Production>.Create(query, pageIndex, pageSize);
         }

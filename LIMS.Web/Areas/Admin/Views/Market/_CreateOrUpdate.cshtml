@@ -68,7 +68,7 @@
 
             </div>
         </div>
-        <div class="col-md-2">
+        @*<div class="col-md-2">
 
             <div class="form-group">
                 <admin-label asp-for="Province" />
@@ -88,6 +88,14 @@
                 </select>
                 <span asp-validation-for="District"></span>
 
+            </div>
+        </div>*@
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
             </div>
         </div>
         <div class="col-md-3">

@@ -45,9 +45,11 @@ namespace LIMS.Services.MedicineInventory
          int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _receivedMedicineRepository.Table;
-            
-                query = query.Where(m => m.CreatedBy == createdBy
-                && m.FiscalYear.Id==fiscalyear&&
+            if (!string.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
+            query = query.Where(m =>  m.FiscalYear.Id==fiscalyear&&
                 m.Month==month&&
                 m.Organization.Id==organization
 
@@ -60,9 +62,11 @@ namespace LIMS.Services.MedicineInventory
        int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _receivedMedicineRepository.Table;
-
-            query = query.Where(m => m.CreatedBy == createdBy
-            && m.FiscalYear.Id == fiscalyear &&
+            if (!string.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
+            query = query.Where(m => m.FiscalYear.Id == fiscalyear &&
             m.Month == month 
 
             );

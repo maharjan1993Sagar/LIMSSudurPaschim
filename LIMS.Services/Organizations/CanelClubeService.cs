@@ -33,14 +33,20 @@ namespace LIMS.Services.Organizations
         public async Task<IPagedList<CanelClube>> GetCanelClube(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _canelClubeRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<CanelClube>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<CanelClube>> GetCanelClube(string createdby,string keyword, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _canelClubeRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
-            if(!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(m => m.FiscalYear.Id == keyword);
             }

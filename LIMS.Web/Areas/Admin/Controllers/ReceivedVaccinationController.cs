@@ -81,16 +81,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             string createdBy = null;
-            if (roles.Contains(RoleHelper.LssAdmin) || (roles.Contains(RoleHelper.VhlsecAdmin)))
-            {
-                createdBy = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdBy = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin) || (roles.Contains(RoleHelper.VhlsecAdmin)))
+            //{
+            //    createdBy = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdBy = admin.Id;
+            //}
             var receivedVaccines = await _receivedVaccinationService.GetReceivedVaccine(createdBy, command.Page - 1, command.PageSize);
             var receivedVaccineLists = new List<ReceivedVaccineListModel>();
             foreach (var item in receivedVaccines)
@@ -156,16 +156,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
            
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             string createdBy = null;
-            if (roles.Contains(RoleHelper.LssAdmin)||roles.Contains(RoleHelper.VhlsecAdmin))
-            {
-                createdBy = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdBy = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin)||roles.Contains(RoleHelper.VhlsecAdmin))
+            //{
+            //    createdBy = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdBy = admin.Id;
+            //}
            
             for (int i = 0; i < medicine.Count; i++)
             {

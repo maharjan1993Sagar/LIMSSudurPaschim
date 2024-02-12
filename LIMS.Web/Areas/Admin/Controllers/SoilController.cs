@@ -6,6 +6,7 @@ using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Helper;
@@ -29,6 +30,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly ITalimService _talimService;
+        private readonly ILocalLevelService _localLevelService;
 
         public SoilController(ILocalizationService localizationService,
             ISoilService animalRegistrationService,
@@ -37,7 +39,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IBreedService breedService,
             IWorkContext workContext,
             IFiscalYearService fiscalYearService,
-            ITalimService talimService
+            ITalimService talimService,
+            ILocalLevelService localLevelService
 
             )
         {
@@ -49,15 +52,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _workContext = workContext;
             _fiscalYearService = fiscalYearService;
             _talimService = talimService;
+            _localLevelService = localLevelService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
 
-        public IActionResult List() {
+        public async Task<IActionResult> List() {
 
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             return View();
                 
                 
@@ -85,6 +95,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             SoilModel model = new SoilModel();
 
             return View(model);
@@ -111,6 +126,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
             return View(model);
         }
 
@@ -127,6 +146,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
             return View(model);
         }
 
@@ -162,7 +185,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
 
-
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

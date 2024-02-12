@@ -122,16 +122,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string createdby = null;
             List<string> roles = _context.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin))
-            {
-                createdby = _context.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _context.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //createdby = _context.CurrentCustomer.Id;
+            //if (roles.Contains(RoleHelper.LssAdmin))
+            //{
+            //    createdby = _context.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _context.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
 
             var organization = await _organizationService.GetOtherOrganizationByType(createdby, "Diary industry");
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
@@ -160,16 +161,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var dailyMilkConsumption = form["TotalMilkConsumption"].ToList();
             string createdby = null;
             List<string> roles = _context.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _context.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _context.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _context.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _context.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
             var diaryIndustries = new List<DiaryIndustryAndShop>();
             for (int i = 0; i < organizationIds.Count(); i++)
             {

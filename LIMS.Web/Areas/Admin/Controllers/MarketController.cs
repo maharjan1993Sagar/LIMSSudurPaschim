@@ -6,6 +6,7 @@ using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Helper;
@@ -29,6 +30,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly IUnitService _unitService;
+        private readonly ILocalLevelService _localLevelService;
+
 
         public MarketController(ILocalizationService localizationService,
             IMarketDataService animalRegistrationService,
@@ -37,7 +40,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IBreedService breedService,
             IWorkContext workContext,
             IFiscalYearService fiscalYearService,
-            IUnitService unitService
+            IUnitService unitService,
+            ILocalLevelService localLevelService
             )
         {
             _localizationService = localizationService;
@@ -48,6 +52,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _workContext = workContext;
             _fiscalYearService = fiscalYearService;
             _unitService = unitService;
+            _localLevelService = localLevelService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -105,6 +110,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Month = months;
             MarketModel model = new MarketModel();
 
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             return View(model);
         }
 
@@ -137,6 +147,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var months = month.GetMonths();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.UnitId = unit;
@@ -164,6 +180,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.UnitId = unit;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             return View(model);
         }
@@ -215,6 +236,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.UnitId = unit;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             return RedirectToAction("Edit");
         }

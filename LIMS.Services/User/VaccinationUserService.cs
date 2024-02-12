@@ -33,7 +33,10 @@ namespace LIMS.Services.User
         public async Task<IPagedList<VaccinationUser>> GetVaccinationUser(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _vaccinationUserRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<VaccinationUser>.Create(query, pageIndex, pageSize);
         }
 

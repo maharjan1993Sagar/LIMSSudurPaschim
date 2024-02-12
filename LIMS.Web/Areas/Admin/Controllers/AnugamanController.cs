@@ -118,6 +118,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Wards = ward;
 
             AnugamanModel model = new AnugamanModel();
+            model.LocalLevel = ExecutionHelper.LocalLevel;
 
             return View(model);
         }

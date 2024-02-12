@@ -34,7 +34,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<LabambitKrishakHaru>> GetLabambitKrishakHaru(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _LabambitKrishakHaruRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(

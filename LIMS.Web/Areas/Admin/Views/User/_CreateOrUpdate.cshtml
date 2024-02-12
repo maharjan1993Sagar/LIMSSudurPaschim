@@ -156,8 +156,7 @@
         </div>
 
 
-        <div class="col-md-3">
-
+        <div class="col-md-1">
             <div class="form-group">
                 <admin-label asp-for="IDCardNo" />
                 <admin-input asp-for="IDCardNo" />
@@ -165,6 +164,23 @@
             </div>
         </div>
 
+        <div class="col-md-4">
+            <div class="form-group">
+                <admin-label asp-for="OrgName" />
+                <admin-input asp-for="OrgName" />
+                <span asp-validation-for="OrgName"></span>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <admin-label asp-for="OrgAddress" />
+                <admin-input asp-for="OrgAddress" />
+                <span asp-validation-for="OrgAddress"></span>
+
+            </div>
+        </div>
         <div class="mt-checkbox-list">
             <br />
             <label class="mt-checkbox mt-checkbox-outline control control-checkbox">

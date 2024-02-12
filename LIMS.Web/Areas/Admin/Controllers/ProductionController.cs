@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
-    [PermissionAuthorize(PermissionSystemName.ProductionData)]
+    [PermissionAuthorize(PermissionSystemName.LivestockUserAccess)]
 
     public class ProductionController : BaseAdminController
     {

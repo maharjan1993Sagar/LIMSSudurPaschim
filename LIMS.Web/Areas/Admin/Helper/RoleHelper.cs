@@ -7,6 +7,7 @@ namespace LIMS.Web.Areas.Admin.Helper
 {
     public static class RoleHelper
     {
+        public static string Administrators = "Administrators";
         public static string VhlsecAdmin = "VhlsecAdmin";
         public static string VhlsecUser = "VhlsecUser";
         public static string LssAdmin = "LssAdmin";

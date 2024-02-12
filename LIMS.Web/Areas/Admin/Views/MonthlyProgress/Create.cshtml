@@ -182,7 +182,8 @@
         fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
         month = $('#@Html.IdFor(m => m.Month)').val();
 
-        if (!isEmpty(fiscalYear) && !isEmpty(expensesCategory) && !isEmpty(programType)  && !isEmpty(type)  && !isEmpty(month) ) {
+        //if (!isEmpty(fiscalYear) && !isEmpty(expensesCategory) && !isEmpty(programType)  && !isEmpty(type)  && !isEmpty(month) ) {
+        if (!isEmpty(fiscalYear) && !isEmpty(month)) {
 
             var data = {
                 programType: programType,

@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="col-md-2">
+        @*<div class="col-md-2">
 
             <div class="form-group">
                 <admin-label asp-for="Province" />
@@ -42,6 +42,14 @@
                 </select>
                 <span asp-validation-for="District"></span>
 
+            </div>
+        </div>*@
+        <div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
             </div>
         </div>
         <div class="col-md-3">
@@ -68,7 +76,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="Phone" />
-                <input asp-for="Phone" class="form-control" required="required"/>
+                <input asp-for="Phone" class="form-control" required="required" />
                 <span asp-validation-for="Phone"></span>
             </div>
         </div>
@@ -89,13 +97,13 @@
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="ValueChain" />
-                <admin-select asp-for="ValueChain"  asp-items="ViewBag.ValueChain" />
+                <admin-select asp-for="ValueChain" asp-items="ViewBag.ValueChain" />
                 <span asp-validation-for="ValueChain"></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <admin-label asp-for="OrganizationStatus" /><br/>
+                <admin-label asp-for="OrganizationStatus" /><br />
                 <admin-input asp-for="OrganizationStatus" />&nbsp; Active
                 <span asp-validation-for="OrganizationStatus"></span>
             </div>

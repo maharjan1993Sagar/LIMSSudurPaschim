@@ -39,7 +39,10 @@ namespace LIMS.Services.AnimalBreeding
         public async Task<IPagedList<PregnencyDiagnosis>> GetPregnencyDiagnosis(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pregnencyDiagnosisRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<PregnencyDiagnosis>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<PregnencyDiagnosis>> GetPregnencyDiagnosis(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue)

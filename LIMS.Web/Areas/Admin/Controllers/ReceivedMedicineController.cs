@@ -78,16 +78,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             string createdBy = null;
-            if (roles.Contains(RoleHelper.LssAdmin))
-            {
-                createdBy = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdBy = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin))
+            //{
+            //    createdBy = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdBy = admin.Id;
+            //}
 
             var medicineProgresses = await _medicineProgressService.GetMedicineProgress(createdBy, command.Page-1, command.PageSize);
 
@@ -128,23 +128,25 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.UnitId = unit;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             var vaccination = new List<VaccinationType>();
-            if (roles.Contains(RoleHelper.LssAdmin))
-            {
-                var createdBy = _workContext.CurrentCustomer.Id;
+            var vaccine = await _vaccinationTypeService.GetVaccination("");
+            vaccination = vaccine.ToList();
+            //if (roles.Contains(RoleHelper.LssAdmin))
+            //{
+            //    var createdBy = _workContext.CurrentCustomer.Id;
 
-                var vaccine = await _vaccinationTypeService.GetVaccination(createdBy);
-                vaccination = vaccine.ToList();
+            //    var vaccine = await _vaccinationTypeService.GetVaccination(createdBy);
+            //    vaccination = vaccine.ToList();
 
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                string createdBy = admin.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    string createdBy = admin.Id;
 
-                var vaccine = await _vaccinationTypeService.GetVaccination(createdBy);
-                vaccination = vaccine.ToList();
-            }
+            //    var vaccine = await _vaccinationTypeService.GetVaccination(createdBy);
+            //    vaccination = vaccine.ToList();
+            //}
             var model = new MedicineProgressModel();
             model.VaccinationType = vaccination;
             return View(model);
@@ -162,16 +164,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var addReceivedMedicines = new List<MedicineProgress>();
 
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
             //var receivedMedicines = new List<MedicineProgress>();
             for (int i = 0; i < medicine.Count; i++)
             {
@@ -216,16 +218,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string createdby = "";
             var roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
             var receivedMedicine = await _medicineProgressService.GetMedicineProgress(createdby, month, fiscalyear);
             return Json(receivedMedicine.ToList());
         }

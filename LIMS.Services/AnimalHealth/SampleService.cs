@@ -34,7 +34,10 @@ namespace LIMS.Services.AnimalHealth
         public async Task<IPagedList<Sample>> Getsample(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _sampleRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<Sample>.Create(query, pageIndex, pageSize);
         }
 

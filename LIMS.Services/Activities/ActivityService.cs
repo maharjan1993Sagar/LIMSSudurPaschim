@@ -43,14 +43,13 @@ namespace LIMS.Services.Activities
         public async Task<IPagedList<Activity>> GetActivityByFiscalYear(string createdby, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _activityRepository.Table;
-
-            query = query.Where(
-                m => m.CreatedBy == createdby &&
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m=>
                 m.FiscalYear.Id == fiscalyear
                 );
-                
-                
-                
               
             return await PagedList<Activity>.Create(query, pageIndex, pageSize);
         }

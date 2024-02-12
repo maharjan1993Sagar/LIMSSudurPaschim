@@ -1,0 +1,89 @@
+﻿@inject IWorkContext workContext
+@model List<LIMS.Domain.Bali.AanudanKokaryakram>
+@{
+    var currentCustomer = workContext.CurrentCustomer;
+    var objFirst = Model[0];
+    var level = "नगर कार्यपालिकाको कार्यालय";
+    var address = currentCustomer.OrgAddress;
+    var localLevel = currentCustomer.OrgName;
+    int i = 1;
+}
+<div id="Printcontent">
+    <div class="text-center">
+        @localLevel<br />
+        @level<br />
+        @address<br />
+        @objFirst.FiscalYear.NepaliFiscalYear को सम्पन्न अनुदानको विवरण
+
+    </div>
+    <div>
+        <b>बजेट शिर्षक:</b> @objFirst.Budget.ActivityName<br />
+        <b>आसातित प्रतिफलहरू:</b> @objFirst.ExpectedOutput<br />
+        <b>कैफियत:</b> @objFirst.Remaks<br />
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            @if (Model.Count() > 0)
+            {
+            <tr style="text-align:center">
+                <th id="c">@T("Admin.Subsidy.SN")</th>
+                <th>@T("Admin.Subsidy.FarmerName")</th>
+                <th>@T("Admin.Subsidy.Address")</th>
+                <th>@T("Admin.Subsidy.WardNo")</th>
+                <th>@T("Admin.Subsidy.Phone")</th>
+                <th>@T("Admin.Subsidy.BeneficiaryType")</th>
+                <th>@T("Admin.Subsidy.SubsidyCategory")</th>
+                <th>@T("Admin.Subsidy.TypeOfSubsidy")</th>
+                <th>@T("Admin.Subsidy.SubsidyAmount")</th>
+                <th>@T("Admin.Subsidy.FarmerContributionAmt")</th>
+                <th>@T("Admin.Subsidy.Male")</th>
+                <th>@T("Admin.Subsidy.Female")</th>
+                <th>@T("Admin.Subsidy.Dalit")</th>
+                <th>@T("Admin.Subsidy.Janajati")</th>
+                <th>@T("Admin.Subsidy.Other")</th>
+            </tr>
+            }
+        </thead>
+        <tbody>
+            @{string a = "";}
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>@i</td>
+                    <td>@item.KrishakKoName</td>
+                    <td>@item.Address</td>
+                    <td>@item.Ward</td>
+                    <td>@item.PhoneNo</td>
+                    <td>@T(item.AnudanReceiverType)</td>
+                    <td>@item.SubsidyCategory</td>
+                    <td>@item.AanudanKokisim</td>
+                    <td>@item.AanudanRakam</td>
+                    <td>@item.FarmerContribution</td>
+                    <td>@item.MaleMember</td>
+                    <td>@item.FemaleMember</td>
+                    <td>@item.DalitMember</td>
+                    <td>@item.JanajatiMember</td>
+                    <td>@item.Others</td>
+                </tr>
+                i = i + 1;
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@if (Model.Count() > 0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "SubsidyDetails.xls"
+        });
+    }
+</script>

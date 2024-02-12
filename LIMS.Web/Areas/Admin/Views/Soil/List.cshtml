@@ -19,28 +19,27 @@
             <div class="x_content form">
                 <div class="form-horizontal">
                     <div class="form-group">
-                       
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="Province" />
-                                <admin-select asp-for="Province" id="country" />
-                                <span asp-validation-for="Province"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <admin-label asp-for="District" />
-                                <select id="district" name="District" class="form-control">
-                                    <option value="">Select </option>
-                                </select>
-                                <span asp-validation-for="District"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
+
+                        @*<div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="Province" />
+                <admin-select asp-for="Province" id="country" />
+                <span asp-validation-for="Province"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select id="district" name="District" class="form-control">
+                    <option value="">Select </option>
+                </select>
+                <span asp-validation-for="District"></span>
+            </div>
+        </div>*@
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel"  class="form-control">
-                                    <option value="">Select</option>
+                                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>

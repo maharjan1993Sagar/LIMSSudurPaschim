@@ -40,7 +40,10 @@ namespace LIMS.Services.AnimalBreeding
         public async Task<IPagedList<AIService>> GetAI(string createdBy,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _aiRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdBy);
+            if (!string.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
             return await PagedList<AIService>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<AIService>> GetAI(List<string> createdBy, int pageIndex = 0, int pageSize = int.MaxValue)

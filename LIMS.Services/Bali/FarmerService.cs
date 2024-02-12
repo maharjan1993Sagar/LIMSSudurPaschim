@@ -34,7 +34,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<Farmer>> Getfarmer(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _farmerRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             //if (!string.IsNullOrEmpty(fiscalyear))
             //{
             //    query = query.Where(
@@ -70,7 +73,7 @@ namespace LIMS.Services.Bali
             return await PagedList<Farmer>.Create(query, pageIndex, pageSize);
 
         }
-        public async Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string localLevel, string budgetId, string fiscalyear, string talimId, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string localLevel, string budgetId, string fiscalyear, string talimId, string xetra="", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _farmerRepository.Table;
             if (!String.IsNullOrEmpty(createdby))
@@ -94,6 +97,12 @@ namespace LIMS.Services.Bali
             if (!string.IsNullOrEmpty(talimId))
             {
                 query = query.Where(m => m.TalimId == talimId);
+
+            }
+
+            if (!string.IsNullOrEmpty(xetra))
+            {
+                query = query.Where(m => m.Budget.Xetra == xetra);
 
             }
 

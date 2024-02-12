@@ -22,6 +22,7 @@ namespace LIMS.Domain.Bali
         public string MaxPrice { get; set; }
         public string Province { get; set; }
         public string District { get; set; }
+        public string LocalLevel { get; set; }
         public string NameOfMarket { get; set; }
 
         public string AddressBazar { get; set; }

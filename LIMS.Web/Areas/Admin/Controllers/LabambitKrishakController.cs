@@ -7,6 +7,7 @@ using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Media;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
@@ -37,6 +38,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ITalimService _talimService;
         private readonly IIncuvationCenterService _incuvationCenterService;
         private readonly IPictureService _pictureService;
+        private readonly ILocalLevelService _localLevelService;
 
         public LabambitKrishakController(ILocalizationService localizationService,
             ILabambitKrishakService animalRegistrationService,
@@ -49,7 +51,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IIncuvationCenterService incuvationCenterService,
             IPujigatKharchaKharakramService pujigatKharchaKharakramService,
             IPictureService pictureService,
-            IBudgetService budgetService
+            IBudgetService budgetService,
+            ILocalLevelService localLevelService
 
             )
         {
@@ -65,6 +68,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
             _pictureService = pictureService;
             _budgetService = budgetService;
+            _localLevelService = localLevelService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -158,6 +162,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",fiscal.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             var sex = new List<SelectListItem>() {
                 new SelectListItem {
@@ -263,6 +272,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             pujigatKaryakram.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.pujigatKaryakram = pujigatKaryakram;
 
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var EthnicGroup = new List<SelectListItem>() {
                 new SelectListItem {
                     Text="Dalit",
@@ -316,6 +330,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var sex = new List<SelectListItem>() {
                 new SelectListItem {
                     Text="Male",
@@ -393,6 +413,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             var sex = new List<SelectListItem>() {
                 new SelectListItem {
                     Text="Male",
@@ -474,16 +500,56 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var createdby = _workContext.CurrentCustomer.Id;
            // var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
             var budget = await _budgetService.GetBudget();
-           // var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
-            var karyakram = budget.Where(m => m.FiscalYearId == fiscalyear && m.ExpensesCategory == "Subsidy");
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            string xetra="";
+
+            if (roles.Contains("Agriculture"))
+            {
+                xetra = "कृषि विकास";
+            }
+            if (roles.Contains("Livestock"))
+            {
+                xetra = "पशु तथा मत्स्य विकास ";
+            }
+            if (roles.Contains("Administrators"))
+            {
+                xetra = "";
+            }
+            // var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
+            var karyakram = budget.Where(m => m.FiscalYearId == fiscalyear && m.ExpensesCategory == "Subsidy" );
+           if(!String.IsNullOrEmpty(xetra))
+            {
+                karyakram = karyakram.Where(m => m.Xetra == xetra);
+            }
             return Json(karyakram.ToList());
         }
         public async Task<ActionResult> GetBudget(string fiscalyear)
         {
             var createdby = _workContext.CurrentCustomer.Id;
             var budgets = await _budgetService.GetBudget();
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            string xetra = "";
+
+            if (roles.Contains("Agriculture"))
+            {
+                xetra = "कृषि विकास";
+            }
+            if (roles.Contains("Livestock"))
+            {
+                xetra = "पशु तथा मत्स्य विकास ";
+            }
+            if (roles.Contains("Administrators"))
+            {
+                xetra = "";
+            }
+
             var lstBudgets = budgets.Where(m => m.FiscalYearId == fiscalyear && m.ExpensesCategory == "Training");
-            
+
+            if (!String.IsNullOrEmpty(xetra))
+            {
+            lstBudgets = lstBudgets.Where(m =>  m.Xetra == xetra);
+
+            }
             return Json(lstBudgets.ToList());
         }
         public async Task<ActionResult> GetTrainingProgram(string fiscalyear, string budgetId)

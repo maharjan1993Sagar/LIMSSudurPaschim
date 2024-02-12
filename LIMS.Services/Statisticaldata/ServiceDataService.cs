@@ -117,13 +117,17 @@ namespace LIMS.Services.Statisticaldata
         public async Task<List<ServicesData>> GetFilteredService( string fiscalyearId, string quarter,string month, string serviceType, string createdby, string district, string locallevel,string ward, string species="",string vaccineName="",string tretmentType="",string animalHealth="", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _serviceRepository.Table;
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(species)&& serviceType.ToLower()=="ai")
             {
+               
                 query = query.Where(m =>
                   m.Month == quarter &&
                   m.ServicesType == serviceType &&
                   m.FiscalYear.Id == fiscalyearId &&
-                  m.CreatedBy == createdby &&
                   m.Species.Id == species&&
                   m.District==district&&
                   m.LocalLevel==locallevel&&
@@ -136,8 +140,7 @@ namespace LIMS.Services.Statisticaldata
                 query = query.Where(m =>
                                  m.Month == quarter &&
                                  m.ServicesType == serviceType &&
-                                 m.FiscalYear.Id == fiscalyearId &&
-                                 m.CreatedBy == createdby &&
+                                 m.FiscalYear.Id == fiscalyearId &&                                 
                                   m.District == district &&
                                    m.LocalLevel == locallevel&&
                                     m.Ward == ward &&

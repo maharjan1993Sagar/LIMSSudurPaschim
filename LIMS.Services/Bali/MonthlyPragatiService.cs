@@ -37,7 +37,7 @@ namespace LIMS.Services.Bali
         //    return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
         //}
 
-        public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string sourceOfFund, string typeOfExpense, string month, string expenseCategory="", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string sourceOfFund, string typeOfExpense, string month, string expenseCategory="", string xetra = "", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _MonthlyPragatiRepository.Table;
             if (!String.IsNullOrEmpty(createdby))
@@ -62,6 +62,10 @@ namespace LIMS.Services.Bali
             if (!string.IsNullOrEmpty(expenseCategory))
             {
                 query = query.Where(m => m.Budget.ExpensesCategory == expenseCategory);
+            }
+            if (!string.IsNullOrEmpty(xetra))
+            {
+                query = query.Where(m => m.Budget.Xetra == xetra);
             }
             if (!String.IsNullOrEmpty(month))
             {
@@ -137,6 +141,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<MonthlyPragati>> GetFilteredYearlyPragati(string createdby, string fiscalYear, string programtype, string type,  int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _MonthlyPragatiRepository.Table;
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             query = query.Where(m => m.FiscalYear.Id == fiscalYear); // m.CreatedBy == createdby &&
             if (!string.IsNullOrEmpty(programtype))
             {
@@ -174,9 +182,12 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<MonthlyPragati>> GetMonthlyPragati(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _MonthlyPragatiRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
 
-            if(!string.IsNullOrEmpty(fiscalyear))
+            if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(m => m.FiscalYear.Id == fiscalyear);
             }
@@ -195,7 +206,11 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<MonthlyPragati>> GetMonthlyPragati(string createdby, string type, string programType, string fiscalYear,string month, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _MonthlyPragatiRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby&&m.Budget.ExpensesCategory==type&&m.Budget.TypeOfExecution==programType&&m.FiscalYear.Id==fiscalYear&&m.Month==month);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => m.Budget.ExpensesCategory==type&&m.Budget.TypeOfExecution==programType&&m.FiscalYear.Id==fiscalYear&&m.Month==month);
 
 
             return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
@@ -204,7 +219,11 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<MonthlyPragati>> GetyearlyPragati(string createdby, string type, string programType, string fiscalYear,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _MonthlyPragatiRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.Budget.ExpensesCategory == type && m.Budget.TypeOfExecution == programType && m.FiscalYear.Id == fiscalYear );
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => m.Budget.ExpensesCategory == type && m.Budget.TypeOfExecution == programType && m.FiscalYear.Id == fiscalYear );
 
 
             return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);

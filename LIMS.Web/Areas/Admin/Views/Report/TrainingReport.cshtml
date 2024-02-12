@@ -1,6 +1,10 @@
-﻿@model LIMS.Web.Areas.Admin.Models.Reports.TrainingReportModel
+﻿@inject IWorkContext workContext
+@model LIMS.Web.Areas.Admin.Models.Reports.TrainingReportModel
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
 
-<form method="get"  id="TrainingReport">
+<form method="get" id="TrainingReport">
     <div class="col-md-2">
         <div class="form-group">
             <admin-label asp-for="FiscalYear" />
@@ -21,12 +25,23 @@
 
         <div class="form-group">
             <admin-label asp-for="LocalLevel" />
-            <select asp-for="@Model.LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
+            <select asp-for="@Model.LocalLevel" disabled data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
             </select>
             <span asp-validation-for="LocalLevel"></span>
         </div>
     </div>
 
+    @if (roles.Contains("Administrators"))
+    {
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Xetra" />
+                <select asp-for="Xetra" asp-items="@ViewBag.Xetras" class="form-control"></select>
+                <span asp-validation-for="Xetra"></span>
+            </div>
+        </div>
+    }
 
     <div class="col-md-2">
         <div class="form-group">
@@ -70,7 +85,7 @@
              fiscalyear = $(this).val();
              data = {
             fiscalyear:$("#@Html.IdFor(m=>m.FiscalYear)").val()
-           
+
             }
 
              if (fiscalyear) {
@@ -91,7 +106,8 @@
             var data = {
                 fiscalYear: $('#FiscalYear').val(),
                 budgetId: $('#@Html.IdFor(m=>m.BudgetId)').val(),
-                localLevel: $('#@Html.IdFor(m=>m.LocalLevel)').val()
+                localLevel: $('#@Html.IdFor(m=>m.LocalLevel)').val(),
+                xetra:$('#@Html.IdFor(m=>m.Xetra)').val(),
             }
             addAntiForgeryToken(data);
             e.preventDefault();
@@ -107,6 +123,8 @@
                     console.log(response);
                 },
                 error: function (response) {
+                    $('#result').html("");
+                    alert("No record found.");
                     console.log(response);
                 }
             });

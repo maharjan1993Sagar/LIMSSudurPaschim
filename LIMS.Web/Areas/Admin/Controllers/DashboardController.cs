@@ -330,7 +330,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             return View();
         } 
-         public ActionResult CDMS()
+         public ActionResult AVMIS()
         {
             return View();
         } 

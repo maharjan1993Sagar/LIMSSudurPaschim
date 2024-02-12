@@ -62,7 +62,10 @@ namespace LIMS.Services.User
         public async Task<IPagedList<ServiceProvider>> GetServiceProvider(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _serviceProviderRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<ServiceProvider>.Create(query, pageIndex, pageSize);
         }
 

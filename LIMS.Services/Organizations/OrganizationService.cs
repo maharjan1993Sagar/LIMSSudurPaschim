@@ -35,7 +35,10 @@ namespace LIMS.Services.Organizations
         public async Task<IPagedList<Organization>> GetOrganization(string createdby,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _organizationRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<Organization>.Create(query, pageIndex, pageSize);
         }
 

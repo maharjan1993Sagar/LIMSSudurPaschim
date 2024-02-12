@@ -33,8 +33,11 @@ namespace LIMS.Services.Organizations
         public async Task<IPagedList<TechSchool>> GetTechSchool(string createdby,string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _techSchoolRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
-            if(!string.IsNullOrEmpty(fiscalyear))
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(m => m.FiscalYear.Id == fiscalyear);
 

@@ -34,9 +34,12 @@ namespace LIMS.Services.MedicineInventory
         public async Task<IPagedList<MedicineProgress>> GetMedicineProgress(string createdBy,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _medicineProgressRepository.Table;
-           
+
+            if (!string.IsNullOrEmpty(createdBy))
+            {
                 query = query.Where(m => m.CreatedBy == createdBy);
-            
+            }
+
 
             return await PagedList<MedicineProgress>.Create(query, pageIndex, pageSize);
         }
@@ -44,9 +47,12 @@ namespace LIMS.Services.MedicineInventory
             fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _medicineProgressRepository.Table;
-           
-              query = query.Where(
-                  m => m.CreatedBy == createdBy &&
+            if (!string.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
+            query = query.Where(
+                  m =>
                   m.FiscalYear.Id==fiscalyear&&
                   m.Month==month
  

@@ -30,26 +30,34 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
+            @*<div class="col-md-2">
 
-                <div class="form-group">
-                    <admin-label asp-for="Province" />
-                    <select name="Provience" id="country" data-val="Sudurpashchim Province" class="form-control">
-                        <option value="">select</option>
-                    </select>
+            <div class="form-group">
+                <admin-label asp-for="Province" />
+                <select name="Provience" id="country" data-val="Sudurpashchim Province" class="form-control">
+                    <option value="">select</option>
+                </select>
 
-                </div>
             </div>
+        </div>
 
-            <div class="col-md-2">
+        <div class="col-md-2">
 
+            <div class="form-group">
+                <admin-label asp-for="District" />
+                <select name="district" id="district" data-val="@Model.District" class="form-control">
+                    <option value="">select</option>
+                </select>
+                <span asp-validation-for="District"></span>
+
+            </div>
+        </div>*@
+            <div class="col-md-3">
                 <div class="form-group">
-                    <admin-label asp-for="District" />
-                    <select name="district" id="district" data-val="@Model.District" class="form-control">
-                        <option value="">select</option>
+                    <admin-label asp-for="LocalLevel" />
+                    <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
                     </select>
-                    <span asp-validation-for="District"></span>
-
+                    <span asp-validation-for="LocalLevel"></span>
                 </div>
             </div>
             <div class="col-md-2">

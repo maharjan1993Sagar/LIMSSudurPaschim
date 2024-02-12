@@ -221,7 +221,7 @@
                                                 @if (currentCustomer.IsAdmin())
                                                 {
                                                     <li>
-                                                        <a href="@Url.Action("Edit", "Customer", new { id = currentCustomer.Id, area = Constants.AreaAdmin })">
+                                                        <a href="@Url.Action("EditAdmin", "User", new { id = currentCustomer.Id, area = Constants.AreaAdmin })">
                                                             <i class="icon-user"></i> @T("Admin.Header.Profile")
                                                         </a>
                                                     </li>
@@ -290,7 +290,7 @@
             <vc:admin-widget widget-zone="admin_header_after" additional-data="null" />
 
 
-            <ul style="list-style-type: none;margin:0;padding:0;overflow:hidden;">
+            @*<ul style="list-style-type: none;margin:0;padding:0;overflow:hidden;">
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Cdms", "Dashboard", new { Area = "Admin" })">@T("Admin.GryaPristha")</a></li>
 
                 @if (livestock || crop)
@@ -301,7 +301,6 @@
                             @if (livestock)
                             {
                                 <li class="dropdown-item"><a href="@Url.Action("Create", "FishProduction", new { Area = "Admin" })">@T("Admin.FishProduction")</a></li>
-
                                 <li class="dropdown-item"><a href="@Url.Action("Index", "Production", new { Area = "Admin" })">@T("Admin.LivestockProduction")</a></li>
                             }
                             @if (crop)
@@ -324,7 +323,7 @@
                     </ul>
                 </li>
 
-            </ul>
+            </ul>*@
 
             <partial name="Menu" />
 
@@ -486,3 +485,4 @@
     });
 
 </script>
+<script src="~/scripts/print.js"></script>

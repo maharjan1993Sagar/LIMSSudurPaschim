@@ -44,7 +44,10 @@ namespace LIMS.Services.Basic
         public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(m => m.Limbis_Code.Contains(keyword) || m.kharchaCode.Contains(keyword) || m.Program.Contains(keyword));
@@ -54,7 +57,11 @@ namespace LIMS.Services.Basic
         public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakramSelect(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && (m.kharchaCode == "22522" || m.kharchaCode == "26413" || m.kharchaCode == "26423" || m.kharchaCode == "31159"
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => (m.kharchaCode == "22522" || m.kharchaCode == "26413" || m.kharchaCode == "26423" || m.kharchaCode == "31159"
             || m.kharchaCode == "22512"
             ));
           
@@ -114,7 +121,11 @@ namespace LIMS.Services.Basic
           int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && !string.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.FiscalYear.Id == fiscalYear);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => !string.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.FiscalYear.Id == fiscalYear);
             if (!string.IsNullOrEmpty(programtype))
             {
                 query = query.Where(m => m.ProgramType == programtype);
@@ -135,7 +146,11 @@ namespace LIMS.Services.Basic
           int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby &&(m.kharchaCode== "22512" || m.kharchaCode=="22522" || m.kharchaCode=="26413"||m.kharchaCode== "26423") && m.FiscalYear.Id == fiscalYear);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => (m.kharchaCode== "22512" || m.kharchaCode=="22522" || m.kharchaCode=="26413"||m.kharchaCode== "26423") && m.FiscalYear.Id == fiscalYear);
             if (!string.IsNullOrEmpty(programtype))
             {
                 query = query.Where(m => m.ProgramType == programtype);

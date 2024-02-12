@@ -7,6 +7,7 @@ using LIMS.Framework.Mvc.Filters;
 using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Security;
 using LIMS.Services.Stores;
 using LIMS.Services.User;
@@ -39,11 +40,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ICustomerRegistrationService _customerRegistrationService;
         private readonly IUserApiService _userApiService;
         private readonly IEncryptionService _encryptionService;
+        private readonly ILocalLevelService _localLevelService;
+
         #endregion
         public ServiceProviderController(IServiceProviderService serviceProviderService, ILanguageService languageService, ILocalizationService localizationService,
             IStoreService storeService, IWorkContext workContext, SeoSettings seoSettings,
              ICustomerService customerService, ICustomerViewModelService customerViewModelService,
-            CustomerSettings customerSettings, ICustomerRegistrationService customerRegistrationService, IUserApiService userApiService, IEncryptionService encryptionService)
+            CustomerSettings customerSettings, ICustomerRegistrationService customerRegistrationService, IUserApiService userApiService, IEncryptionService encryptionService,
+            ILocalLevelService localLevelService)
         {
             _serviceProviderService = serviceProviderService;
             _languageService = languageService;
@@ -58,6 +62,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _customerSettings = customerSettings;
             _encryptionService = encryptionService;
             _userApiService = userApiService;
+            _localLevelService = localLevelService;
         }
         protected (string hashpassword, string privatekey) HashPassword(string password)
         {
@@ -103,6 +108,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             ViewBag.Type = type;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             ServiceProviderModel serviceProvider = new ServiceProviderModel();
@@ -228,6 +238,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
 
             return View(model);
@@ -246,6 +262,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             var serviceProviderType = new List<SelectListItem> {
                 new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
@@ -359,6 +381,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 new SelectListItem { Text = "Temporary", Value = "Temporary" },
             };
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             ViewBag.Type = type;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

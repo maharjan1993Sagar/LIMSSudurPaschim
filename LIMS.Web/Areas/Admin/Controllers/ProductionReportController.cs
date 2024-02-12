@@ -78,16 +78,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
 
                 string createdby = null;
-                if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-                {
-                    createdby = _workContext.CurrentCustomer.Id;
-                }
-                else
-                {
-                    string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                    var admin = await _customerService.GetCustomerByEmail(adminemail);
-                    createdby = admin.Id;
-                }
+                //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+                //{
+                //    createdby = _workContext.CurrentCustomer.Id;
+                //}
+                //else
+                //{
+                //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+                //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+                //    createdby = admin.Id;
+                //}
                 var productions = await _productionionDataService.GetProduction(createdby, fiscalyear);
 
                 var species = await _speciesService.GetSpecies();

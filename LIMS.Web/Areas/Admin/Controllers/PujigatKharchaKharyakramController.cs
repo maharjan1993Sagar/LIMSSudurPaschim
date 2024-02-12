@@ -97,7 +97,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword)
+        public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword, string category="")
         {
             var createdby = _workContext.CurrentCustomer.Id;
             var budgets = await _budgetService.GetBudget("", keyword, command.Page - 1, command.PageSize);
@@ -113,9 +113,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
             b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
             //   b.ForEach(m => m.FirstQuaterBudget = _context.Bhuktanis.Where(n => n.BudgetId == m.Id).FirstOrDefault()?.BudgetId.ToString());
 
+            var lstBudget = b.ToList();
+            if (!String.IsNullOrEmpty(category))
+            {
+                lstBudget  = lstBudget.Where(m => m.ExpensesCategory == category).ToList();
+            }
+
             var gridModel = new DataSourceResult {
-                Data = b,
-                Total = budgets.TotalCount
+                Data = lstBudget,
+                Total = lstBudget.Count
             };
             return Json(gridModel);
 

@@ -163,8 +163,12 @@ namespace LIMS.Services.Ainr
        {
             var query = _animalRegistrationRepository.Table;
             query = query.Where(m => m.IsDeleted == false);
+            if (!string.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
+            query = query.Where(m => m.Gender== "Male");
 
-            query = query.Where(m => m.CreatedBy == createdBy && m.Gender== "Male");
             if (!string.IsNullOrEmpty(keyword))
             {
                 keyword = keyword.ToLower();

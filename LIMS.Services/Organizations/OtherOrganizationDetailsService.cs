@@ -33,7 +33,10 @@ namespace LIMS.Services.Organizations
         public async Task<IPagedList<OtherOrganizationDetails>> GetOtherOrganization(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _otherOrganizationRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<OtherOrganizationDetails>.Create(query, pageIndex, pageSize);
         }
         public async Task<IPagedList<OtherOrganizationDetails>> GetOtherFilteredOrganization(string createdby,string type, string fiscalyear = "",int pageIndex = 0, int pageSize = int.MaxValue)

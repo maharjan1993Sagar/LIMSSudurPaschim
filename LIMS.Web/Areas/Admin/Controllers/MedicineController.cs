@@ -59,31 +59,34 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> List(DataSourceRequest command)
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+            //createdby = _context.CurrentCustomer.Id;
+            var createdBy = "";
+            var vaccination = await _vaccinationTypeService.GetVaccination(createdBy, command.Page - 1, command.PageSize);
+            var gridModel = new DataSourceResult {
+                Data = vaccination,
+                Total = vaccination.TotalCount
+            };
+            return Json(gridModel);
 
-            if (roles.Contains(RoleHelper.LssAdmin))
-            {
-                var createdBy = _workContext.CurrentCustomer.Id;
+            //if (roles.Contains(RoleHelper.LssAdmin))
+            //{
+            //    var createdBy = _workContext.CurrentCustomer.Id;
 
-                var vaccination = await _vaccinationTypeService.GetVaccination(createdBy, command.Page - 1, command.PageSize);
-                var gridModel = new DataSourceResult {
-                    Data = vaccination,
-                    Total = vaccination.TotalCount
-                };
-                return Json(gridModel);
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                string createdBy = admin.Id;
+               
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    string createdBy = admin.Id;
 
-                var vaccination = await _vaccinationTypeService.GetVaccination(createdBy, command.Page - 1, command.PageSize);
-                var gridModel = new DataSourceResult {
-                    Data = vaccination,
-                    Total = vaccination.TotalCount
-                };
-                return Json(gridModel);
-            }
+            //    var vaccination = await _vaccinationTypeService.GetVaccination(createdBy, command.Page - 1, command.PageSize);
+            //    var gridModel = new DataSourceResult {
+            //        Data = vaccination,
+            //        Total = vaccination.TotalCount
+            //    };
+            //    return Json(gridModel);
+            //}
 
 
         }

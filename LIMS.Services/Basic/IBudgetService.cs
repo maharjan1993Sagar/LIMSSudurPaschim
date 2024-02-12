@@ -14,28 +14,13 @@ namespace LIMS.Services.Basic
         Task<Budget> GetBudgetById(string Id);
         Task<bool> GetBudgetByLmBIsCode(string kharcha, string upaKharcha, string fiscalYearId);
         Task<Budget> GetBudgetObjByLmBIsCode(string kharcha, string upaKharcha, string fiscalYearId);
-        Task<IPagedList<Budget>> GetBudget(
-           int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Budget>> GetBudget(int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<Budget>> GetBudgetSelect(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue);
-        Task<IPagedList<Budget>> GetBudget(string createdby, 
-          string keyword="", int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Budget>> GetBudget(string createdby,string keyword="", int pageIndex = 0, int pageSize = int.MaxValue);
 
-        Task<IPagedList<Budget>> GetBudget(List<string> createdby,
-          int pageIndex = 0, int pageSize = int.MaxValue);
-        Task<IPagedList<Budget>> GetBudget(List<string> createdby,
-              string fiscalyear,
-            string programtype = "",
-
-            string type = "",
-
-        int pageIndex = 0, int pageSize = int.MaxValue);
-        Task<IPagedList<Budget>> GetBudget(string createdby,
-              string fiscalyear,
-            string programtype="",
-          
-            string type="",
-            
-        int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Budget>> GetBudget(List<string> createdby,int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Budget>> GetBudget(List<string> createdby, string fiscalyear, string sourceOfFund = "",string typeOfExpense = "", string ExpensesCategory = "", int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Budget>> GetBudget(string createdby,string fiscalyear,string programtype="",string type="",string ExpensesCategory ="", string xetra = "", int pageIndex = 0, int pageSize = int.MaxValue);
         //Task<IPagedList<Budget>> GetNitigatKharakram(string createdby,
         //    string fiscalyear,
         //  string programtype = "",

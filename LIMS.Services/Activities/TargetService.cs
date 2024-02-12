@@ -41,8 +41,11 @@ namespace LIMS.Services.Activities
         public async Task<IPagedList<TargetRegister>> GetFilteredTarget(string createdby, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _targetRegisterRepository.Table;
-
-            query = query.Where(m => m.CreatedBy == createdby && m.FiscalYearId == fiscalyear);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m =>m.FiscalYearId == fiscalyear);
 
             return await PagedList<TargetRegister>.Create(query, pageIndex, pageSize);
         }

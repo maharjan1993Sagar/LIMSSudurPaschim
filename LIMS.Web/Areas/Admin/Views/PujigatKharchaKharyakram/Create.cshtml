@@ -44,13 +44,13 @@
                                     <span asp-validation-for="ActivityName" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            @*<div class="col-md-2">
                                 <div class="form-group">
                                     <label asp-for="PLIMBIS_No" class="control-label"></label>
                                     <input asp-for="PLIMBIS_No" class="form-control" />
                                     <span asp-validation-for="PLIMBIS_No" class="text-danger"></span>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-1">
                                 <div class="form-group">
                                     <label asp-for="SerialNO" class="control-label"></label>
@@ -88,12 +88,14 @@
                                     <select asp-for="UpaXetra" data-val="@Model.UpaXetra" asp-items="ViewBag.UpaChetra" id="UpaXetraId" class="form-control"></select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            @*<div class="col-md-2">
                                 <div class="form-group">
                                     <label asp-for="MukhyaKaryakram" class="control-label"></label>
-                                    <select asp-for="MukhyaKaryakram" data-val="@Model.MukhyaKaryakram" id="MukhyaKaryakramId" class="form-control"></select>
+                                    <input asp-for="MukhyaKaryakram" min="0" class="form-control" />
+                                    <span asp-validation-for="MukhyaKaryakram" class="text-danger"></span>
+
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label asp-for="SourceOfFund" class="control-label"></label>
@@ -159,244 +161,244 @@
                                 </div>
                             </div>
                             @*<fieldset style="border:1px solid #999; border-radius:8px; padding:6px;">
-            <legend style="text-align: left;">बजेटको त्रैमशिक विवरण</legend>
+                                    <legend style="text-align: left;">बजेटको त्रैमशिक विवरण</legend>
 
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="FirstQuaterBudget" class="control-label"></label>
-                        <input asp-for="FirstQuaterBudget" type="number" class="form-control" />
-                        <span asp-validation-for="FirstQuaterBudget" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="FirstQuaterQuantity" class="control-label"></label>
-                        <input asp-for="FirstQuaterQuantity" type="number" class="form-control" />
-                        <span asp-validation-for="FirstQuaterQuantity" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="SecondQuaterBudget" class="control-label"></label>
-                        <input asp-for="SecondQuaterBudget" type="number" class="form-control" />
-                        <span asp-validation-for="SecondQuaterBudget" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="SecondQuaterQuantity" class="control-label"></label>
-                        <input asp-for="SecondQuaterQuantity" type="number" class="form-control" />
-                        <span asp-validation-for="SecondQuaterQuantity" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="ThirdQuaterQuantityBudget" class="control-label"></label>
-                        <input asp-for="ThirdQuaterQuantityBudget" type="number" class="form-control" />
-                        <span asp-validation-for="ThirdQuaterQuantityBudget" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="ThirdQuaterQuantity" class="control-label"></label>
-                        <input asp-for="ThirdQuaterQuantity" type="number" class="form-control" />
-                        <span asp-validation-for="ThirdQuaterQuantity" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="FourthQuaterQuantityBudget" class="control-label"></label>
-                        <input asp-for="FourthQuaterQuantityBudget" type="number" class="form-control" />
-                        <span asp-validation-for="FourthQuaterQuantityBudget" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="FourthQuaterQuantity" class="control-label"></label>
-                        <input asp-for="FourthQuaterQuantity" type="number" class="form-control" />
-                        <span asp-validation-for="FourthQuaterQuantity" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </fieldset>*@
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="FirstQuaterBudget" class="control-label"></label>
+                                                <input asp-for="FirstQuaterBudget" type="number" class="form-control" />
+                                                <span asp-validation-for="FirstQuaterBudget" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="FirstQuaterQuantity" class="control-label"></label>
+                                                <input asp-for="FirstQuaterQuantity" type="number" class="form-control" />
+                                                <span asp-validation-for="FirstQuaterQuantity" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="SecondQuaterBudget" class="control-label"></label>
+                                                <input asp-for="SecondQuaterBudget" type="number" class="form-control" />
+                                                <span asp-validation-for="SecondQuaterBudget" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="SecondQuaterQuantity" class="control-label"></label>
+                                                <input asp-for="SecondQuaterQuantity" type="number" class="form-control" />
+                                                <span asp-validation-for="SecondQuaterQuantity" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="ThirdQuaterQuantityBudget" class="control-label"></label>
+                                                <input asp-for="ThirdQuaterQuantityBudget" type="number" class="form-control" />
+                                                <span asp-validation-for="ThirdQuaterQuantityBudget" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="ThirdQuaterQuantity" class="control-label"></label>
+                                                <input asp-for="ThirdQuaterQuantity" type="number" class="form-control" />
+                                                <span asp-validation-for="ThirdQuaterQuantity" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="FourthQuaterQuantityBudget" class="control-label"></label>
+                                                <input asp-for="FourthQuaterQuantityBudget" type="number" class="form-control" />
+                                                <span asp-validation-for="FourthQuaterQuantityBudget" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label asp-for="FourthQuaterQuantity" class="control-label"></label>
+                                                <input asp-for="FourthQuaterQuantity" type="number" class="form-control" />
+                                                <span asp-validation-for="FourthQuaterQuantity" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>*@
 
                             @*<div class="col-md-2">
-            <div class="form-group">
-                <label asp-for="SanchalanAAbadi" class="control-label"></label>
-                <input asp-for="SanchalanAAbadi"  type="number" class="form-control" />
-                <span asp-validation-for="SanchalanAAbadi" class="text-danger"></span>
-            </div>
-        </div>*@
+                                    <div class="form-group">
+                                        <label asp-for="SanchalanAAbadi" class="control-label"></label>
+                                        <input asp-for="SanchalanAAbadi"  type="number" class="form-control" />
+                                        <span asp-validation-for="SanchalanAAbadi" class="text-danger"></span>
+                                    </div>
+                                </div>*@
                             @*<div class="col-md-12">
-            <div class="form-group">
-                <label asp-for="Objective" class="control-label"></label>
-                <input asp-for="Objective" class="form-control" />
-                <span asp-validation-for="Objective" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label asp-for="Remarks" class="control-label"></label>
-                <input asp-for="Remarks" class="form-control" />
-                <span asp-validation-for="Remarks" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label asp-for="Objective" class="control-label"></label>
+                                        <input asp-for="Objective" class="form-control" />
+                                        <span asp-validation-for="Objective" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label asp-for="Remarks" class="control-label"></label>
+                                        <input asp-for="Remarks" class="form-control" />
+                                        <span asp-validation-for="Remarks" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
 
-            <div class="form-group">
-                <admin-label asp-for="Limbis_Code" />
-                <input asp-for="Limbis_Code" class="form-control" required="required" />
-                <span asp-validation-for="Limbis_Code"></span>
+                                    <div class="form-group">
+                                        <admin-label asp-for="Limbis_Code" />
+                                        <input asp-for="Limbis_Code" class="form-control" required="required" />
+                                        <span asp-validation-for="Limbis_Code"></span>
 
-            </div>
-        </div>
-        <div class="col-md-4">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
 
-            <div class="form-group">
-                <admin-label asp-for="Program" />
-                <admin-input asp-for="Program" required="required" />
-                <span asp-validation-for="Program"></span>
+                                    <div class="form-group">
+                                        <admin-label asp-for="Program" />
+                                        <admin-input asp-for="Program" required="required" />
+                                        <span asp-validation-for="Program"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="kharchaCode" />
-                <admin-input asp-for="kharchaCode" />
-                <span asp-validation-for="kharchaCode"></span>
+                                    <div class="form-group">
+                                        <admin-label asp-for="kharchaCode" />
+                                        <admin-input asp-for="kharchaCode" />
+                                        <span asp-validation-for="kharchaCode"></span>
 
-            </div>
-        </div>
+                                    </div>
+                                </div>
 
 
-        <div class="col-md-2">
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="Unit" />
-                <admin-input asp-for="Unit" />
-                <span asp-validation-for="Unit"></span>
+                                    <div class="form-group">
+                                        <admin-label asp-for="Unit" />
+                                        <admin-input asp-for="Unit" />
+                                        <span asp-validation-for="Unit"></span>
 
-            </div>
-        </div>
+                                    </div>
+                                </div>
 
-        <div class="col-md-3">
+                                <div class="col-md-3">
 
-            <div class="form-group">
-                <admin-label asp-for="Type" />
-                <admin-select asp-for="Type" asp-items="ViewBag.Type" required="required">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Type" />
+                                        <admin-select asp-for="Type" asp-items="ViewBag.Type" required="required">
 
-                </admin-select>
-                <span asp-validation-for="Type"></span>
+                                        </admin-select>
+                                        <span asp-validation-for="Type"></span>
 
-            </div>
-        </div>
-        <div class="col-md-3">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
 
-            <div class="form-group">
-                <admin-label asp-for="ProgramType" />
-                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required">
+                                    <div class="form-group">
+                                        <admin-label asp-for="ProgramType" />
+                                        <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required">
 
-                </admin-select>
-                <span asp-validation-for="ProgramType"></span>
+                                        </admin-select>
+                                        <span asp-validation-for="ProgramType"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="BarsikBajet" />
-                <admin-input asp-for="BarsikBajet" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="BarsikBajet" />
+                                        <admin-input asp-for="BarsikBajet" />
 
-                <span asp-validation-for="BarsikBajet"></span>
+                                        <span asp-validation-for="BarsikBajet"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="BarshikParinam" />
-                <admin-input asp-for="BarshikParinam" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="BarshikParinam" />
+                                        <admin-input asp-for="BarshikParinam" />
 
-                <span asp-validation-for="BarshikParinam"></span>
+                                        <span asp-validation-for="BarshikParinam"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="PrathamChaumasikBadjet" />
-                <admin-input asp-for="PrathamChaumasikBadjet" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="PrathamChaumasikBadjet" />
+                                        <admin-input asp-for="PrathamChaumasikBadjet" />
 
-                <span asp-validation-for="PrathamChaumasikBadjet"></span>
+                                        <span asp-validation-for="PrathamChaumasikBadjet"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="PrathamChaumasikParimam" />
-                <admin-input asp-for="PrathamChaumasikParimam" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="PrathamChaumasikParimam" />
+                                        <admin-input asp-for="PrathamChaumasikParimam" />
 
-                <span asp-validation-for="PrathamChaumasikParimam"></span>
+                                        <span asp-validation-for="PrathamChaumasikParimam"></span>
 
-            </div>
-        </div><div class="col-md-2">
+                                    </div>
+                                </div><div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="DosroChaumasikBadjet" />
-                <admin-input asp-for="DosroChaumasikBadjet" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="DosroChaumasikBadjet" />
+                                        <admin-input asp-for="DosroChaumasikBadjet" />
 
-                <span asp-validation-for="DosroChaumasikBadjet"></span>
+                                        <span asp-validation-for="DosroChaumasikBadjet"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="DorsoChaumasikParimam" />
-                <admin-input asp-for="DorsoChaumasikParimam" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="DorsoChaumasikParimam" />
+                                        <admin-input asp-for="DorsoChaumasikParimam" />
 
-                <span asp-validation-for="DorsoChaumasikParimam"></span>
+                                        <span asp-validation-for="DorsoChaumasikParimam"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="TesroChaumasikBadjet" />
-                <admin-input asp-for="TesroChaumasikBadjet" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="TesroChaumasikBadjet" />
+                                        <admin-input asp-for="TesroChaumasikBadjet" />
 
-                <span asp-validation-for="TesroChaumasikBadjet"></span>
+                                        <span asp-validation-for="TesroChaumasikBadjet"></span>
 
-            </div>
-        </div>
-        <div class="col-md-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
 
-            <div class="form-group">
-                <admin-label asp-for="TesroChaumasikParimam" />
-                <admin-input asp-for="TesroChaumasikParimam" />
+                                    <div class="form-group">
+                                        <admin-label asp-for="TesroChaumasikParimam" />
+                                        <admin-input asp-for="TesroChaumasikParimam" />
 
-                <span asp-validation-for="TesroChaumasikParimam"></span>
+                                        <span asp-validation-for="TesroChaumasikParimam"></span>
 
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <admin-label asp-for="FiscalYearId" />
-                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required">
-                </admin-select>
-                <span asp-validation-for="FiscalYearId"></span>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-3">
-            <div class="form-group">
-                <admin-label asp-for="Remarks" />
-                <admin-input asp-for="Remarks">
-                    <span asp-validation-for="Remarks"></span>
-            </div>
-        </div>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <admin-label asp-for="FiscalYearId" />
+                                        <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required">
+                                        </admin-select>
+                                        <span asp-validation-for="FiscalYearId"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Remarks" />
+                                        <admin-input asp-for="Remarks">
+                                            <span asp-validation-for="Remarks"></span>
+                                    </div>
+                                </div>*@
                         </div>
                     </div>
                 </div>

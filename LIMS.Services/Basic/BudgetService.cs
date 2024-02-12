@@ -41,7 +41,7 @@ namespace LIMS.Services.Basic
             return await PagedList<Budget>.Create(query, pageIndex, pageSize);
         }
 
-        public async Task<IPagedList<Budget>> GetBudget(string createdby,   string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Budget>> GetBudget(string createdby,  string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
             if (!String.IsNullOrEmpty(createdby))
@@ -57,7 +57,10 @@ namespace LIMS.Services.Basic
         public async Task<IPagedList<Budget>> GetBudgetSelect(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             //&& (m.kharchaCode == "22522" || m.kharchaCode == "26413" || m.kharchaCode == "26423" || m.kharchaCode == "31159"
             //|| m.kharchaCode == "22512"
             //));
@@ -71,27 +74,55 @@ namespace LIMS.Services.Basic
 
 
 
-        public async Task<IPagedList<Budget>> GetBudget(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Budget>> GetBudget(List<string> createdby,
+           int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
-            query = query.Where(m => createdby.Contains(m.CreatedBy));
-
+            if (createdby.Count > 0)
+            {
+                query = query.Where(m => createdby.Contains(m.CreatedBy));
+            }          
+            //if (!string.IsNullOrEmpty(ExpensesCategory))
+            //{
+            //    query = query.Where(m => m.ExpensesCategory == ExpensesCategory);
+            //}
             return await PagedList<Budget>.Create(query, pageIndex, pageSize);
         }
 
-        //public async Task<IPagedList<Budget>> GetBudget(List<string> createdby, string programtype, string type,string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
-        //{
-        //    var query = _BudgetRepository.Table;
-        //    query = query.Where(m => createdby.Contains(m.CreatedBy)&&m.FiscalYear.Id==fiscalyear&&m.ProgramType==programtype&&m.Type==type);
-
-        //    return await PagedList<Budget>.Create(query, pageIndex, pageSize);
-        //}
+        public async Task<IPagedList<Budget>> GetBudget(List<string> createdby, string fiscalYear, string sourceOfFund, string typeOfExpense,string ExpensesCategory ,  int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = _BudgetRepository.Table;
+            query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYear.Id == fiscalYear && m.SourceOfFund == sourceOfFund && m.TypeOfExpen == typeOfExpense);
+           if(createdby.Count>0)
+            {
+                query = query.Where(m => createdby.Contains(m.CreatedBy));
+            }
+            if (!String.IsNullOrEmpty(fiscalYear))
+            {
+                query = query.Where(m => m.FiscalYearId == fiscalYear);
+            }
+            if (!string.IsNullOrEmpty(sourceOfFund))
+            {
+                query = query.Where(m => m.SourceOfFund == sourceOfFund);
+            }
+            if (!string.IsNullOrEmpty(typeOfExpense))
+            {
+                query = query.Where(m => m.TypeOfExpen == typeOfExpense);
+            }
+            if (!string.IsNullOrEmpty(ExpensesCategory))
+            {
+                query = query.Where(m => m.ExpensesCategory == ExpensesCategory);
+            }
+            return await PagedList<Budget>.Create(query, pageIndex, pageSize);
+        }
 
         public async Task<IPagedList<Budget>> GetBudget(
             string createdby,
             string fiscalYear,
             string sourceOfFund = "",
-            string executionType = "",
+            string typeOfExpense="",
+            string ExpensesCategory = "",
+            string xetra="",
             int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
@@ -107,11 +138,18 @@ namespace LIMS.Services.Basic
             {
                 query = query.Where(m => m.SourceOfFund == sourceOfFund);
             }
-            if (!string.IsNullOrEmpty(executionType))
+            if (!string.IsNullOrEmpty(typeOfExpense))
             {
-                query = query.Where(m => m.TypeOfExecution == executionType);
+                query = query.Where(m => m.TypeOfExpen == typeOfExpense);
             }
-
+            if (!string.IsNullOrEmpty(ExpensesCategory))
+            {
+                query = query.Where(m => m.ExpensesCategory == ExpensesCategory);
+            }
+            if (!string.IsNullOrEmpty(xetra))
+            {
+                query = query.Where(m => m.Xetra == xetra);
+            }
             return await PagedList<Budget>.Create(query, pageIndex, pageSize);
         }
 
@@ -145,7 +183,10 @@ namespace LIMS.Services.Basic
           int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             //&&(m.PLIMBIS_No== "22512" || m.KarchaSrishak=="22522" || m.kharchaCode=="26413"||m.kharchaCode== "26423") && m.FiscalYear.Id == fiscalYear);
             if (!string.IsNullOrEmpty(programtype))
             {
@@ -158,27 +199,26 @@ namespace LIMS.Services.Basic
 
             return await PagedList<Budget>.Create(query, pageIndex, pageSize);
         }
-        public async Task<IPagedList<Budget>> GetBudget(
-           List<string> createdby,
-          string fiscalYear,
-           string programtype = "",
-           string type = "",
+        //public async Task<IPagedList<Budget>> GetBudget(
+        //   List<string> createdby,
+        //  string fiscalYear,
+        //   string programtype = "",
+        //   string type = "",
+        //   int pageIndex = 0, int pageSize = int.MaxValue)
+        //{
+        //    var query = _BudgetRepository.Table;
+        //    query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYearId == fiscalYear);
+        //    if (!string.IsNullOrEmpty(programtype))
+        //    {
+        //        query = query.Where(m => m.ExpensesCategory == programtype);
+        //    }
+        //    //if (!string.IsNullOrEmpty(type))
+        //    //{
+        //    //    query = query.Where(m => m.Type == type);
+        //    //}
 
-           int pageIndex = 0, int pageSize = int.MaxValue)
-        {
-            var query = _BudgetRepository.Table;
-            query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYearId == fiscalYear);
-            if (!string.IsNullOrEmpty(programtype))
-            {
-                query = query.Where(m => m.ExpensesCategory == programtype);
-            }
-            //if (!string.IsNullOrEmpty(type))
-            //{
-            //    query = query.Where(m => m.Type == type);
-            //}
-
-            return await PagedList<Budget>.Create(query, pageIndex, pageSize);
-        }
+        //    return await PagedList<Budget>.Create(query, pageIndex, pageSize);
+        //}
 
         public Task<Budget> GetBudgetById(string Id)
         {

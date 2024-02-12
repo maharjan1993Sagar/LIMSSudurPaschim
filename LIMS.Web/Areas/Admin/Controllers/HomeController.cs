@@ -85,6 +85,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             return View(model);
         }
+        public IActionResult Print()
+        {
+            return View();
+        }
 
         public IActionResult Statistics()
         {

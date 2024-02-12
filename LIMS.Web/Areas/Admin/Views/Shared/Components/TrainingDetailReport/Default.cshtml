@@ -1,0 +1,87 @@
+﻿@inject IWorkContext workContext
+@model List<LIMS.Domain.Bali.Farmer>
+@{
+    var currentUser = workContext.CurrentCustomer;
+    var objFirst = Model.Count > 0 ? Model[0] : new LIMS.Domain.Bali.Farmer();
+    var fiscalYear = objFirst.FiscalYear != null ? objFirst.FiscalYear.NepaliFiscalYear : "२०८०/०८१";
+    var level = "नगर कार्यपालिकाको कार्यालय";
+    var address = currentUser.OrgAddress;
+    var localLevel = currentUser.OrgName;
+    int i = 1;
+}
+
+<div id="Printcontent">
+    <div class="text-center">
+        @localLevel<br />
+        @level<br />
+        @address<br />
+        @fiscalYear को सम्पन्न तालिमको विवरण
+
+    </div>
+    <div>
+        <b> बजेट शिर्षक:</b> @objFirst.Budget.ActivityName<br />
+        <b>तालिम:</b> @objFirst.Talim.NameNepali <br />
+        <b>सुरु मिति:</b> @objFirst.StartDate
+        <b> अन्तिम मिति:</b> @objFirst.EndDate
+        <b> जम्मा खर्च:</b> @objFirst.TotalExpenses
+        <b>विवरण:</b> @objFirst.Logistics<br />
+        <b>उद्देश्य:</b> @objFirst.Purpose<br />
+        <b> कैफियत:</b> @objFirst.Remarks<br />
+
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            @if (Model.Count() > 0)
+            {
+                <tr style="text-align:center">
+                    <th id="c">@T("Admin.Trining.SN")</th>
+                    <th>@T("Admin.Training.Name")</th>
+                    <th>@T("Admin.Training.Address")</th>
+                    <th>@T("Admin.Training.WardNo")</th>
+                    <th>@T("Admin.Training.Phone")</th>
+                    <th>@T("Admin.Training.Male")</th>
+                    <th>@T("Admin.Training.Female")</th>
+                    <th>@T("Admin.Training.Dalit")</th>
+                    <th>@T("Admin.Training.Janajati")</th>
+                    <th>@T("Admin.Training.Other")</th>
+                </tr>
+            }
+        </thead>
+        <tbody>
+            @{string a = "";}
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>@i</td>
+                    <td>@item.Name</td>
+                    <td>@item.Address</td>
+                    <td>@item.Ward</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Male</td>
+                    <td>@item.FeMale</td>
+                    <td>@item.Dalit</td>
+                    <td>@item.Janajati</td>
+                    <td>@item.Others</td>
+                </tr>
+                i = i + 1;
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@if (Model.Count() > 0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "TrainingDetails.xls"
+        });
+    }
+</script>

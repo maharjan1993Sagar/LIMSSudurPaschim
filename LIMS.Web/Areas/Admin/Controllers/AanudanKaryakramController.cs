@@ -250,7 +250,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> OrgReport(DataSourceRequest command, string fiscalYear, string budgetId, string localLevel)//string vhlsecid,string type, string sourceOfFund,
         {           
                 var id = _workContext.CurrentCustomer.Id;
-                var krishak = await _anudanService.GetFilteredSubsidy("", fiscalYear, localLevel,budgetId);
+                var krishak = await _anudanService.GetFilteredSubsidy("", fiscalYear, localLevel,budgetId,"");
                 List<AanudanReport> report = new List<AanudanReport>();
                 foreach (var item in krishak)
                 {
@@ -412,6 +412,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             farmer.CreatedBy = _workContext.CurrentCustomer.Id;
 
             var District = col["District"].ToList();
+            var Add = col["Address"].ToList();
             var Male = col["MaleMember"].ToList();
             var Female = col["FemaleMember"].ToList();
             var Dalit = col["DalitMember"].ToList();
@@ -453,7 +454,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 farm.PhoneNo = Phone[i];
                 farm.LocalLevel = Address[0];
                 farm.Ward = Ward[i];
-                farm.MaleMember =Convert.ToInt32(Male[i]);
+                farm.MaleMember = Convert.ToInt32(Male[i]);
                 farm.FemaleMember = Convert.ToInt32(Female[i]);
                 farm.DalitMember = Convert.ToInt32(Dalit[i]);
                 farm.JanajatiMember = Convert.ToInt32(Janajati[i]);
@@ -463,6 +464,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 farm.AnudanReceiverType = AnudanReceiverType[i];
                 farm.AanudanRakam = Convert.ToDecimal(AanudanRakam[i]);
                 farm.FarmerContribution = Convert.ToDecimal(FarmerContribution[i]);
+                farm.Address = Add[i];
                
 
                 if (!string.IsNullOrEmpty(LivestockDataId[i]))
@@ -693,7 +695,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetAnudan(string fiscalyear,string program,string localLevel)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var anudan = await _anudanService.GetFilteredSubsidy("",fiscalyear,localLevel,program);
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            string xetra="";
+
+            if (roles.Contains("Agriculture"))
+            {
+                xetra = "कृषि विकास";
+            }
+            if (roles.Contains("Livestock"))
+            {
+                xetra = "पशु तथा मत्स्य विकास ";
+            }
+            if (roles.Contains("Administrators"))
+            {
+                xetra = "";
+            }
+            var anudan = await _anudanService.GetFilteredSubsidy("",fiscalyear,localLevel,program,xetra);
             //var karyakram = budget.Where(m => m.FiscalYear.Id == fiscalyear);
             return Json(anudan.ToList());
         }

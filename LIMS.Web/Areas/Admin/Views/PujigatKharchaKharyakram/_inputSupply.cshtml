@@ -1,0 +1,208 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model FarmListModel
+@{ //page title
+    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Filter" />
+                </div>
+                @*<div class="col-md-4 col-sm-4">
+                    <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                    </button>
+                </div>*@
+            </div>
+            <div class="x_title">
+
+                <div class="form-group">
+                </div>
+
+                @*<div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
+
+
+                    <button type="button" name="importexcel" id="importexcel" class="btn blue">
+                        <i class="fa fa-upload"></i>
+                        @T("Admin.Common.ImportFromExcel")
+                    </button>
+                    <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
+                </div>*@
+            </div>
+
+            <div class="x_content">
+                <div id="input-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#input-grid").kendoGrid({
+            //toolbar: ["search"],
+            //search: {
+            //    fields: [
+            //        { name: "Program", operator: "eq" },
+            //        { name: "kharchaCode", operator: "eq" },
+            //    ]
+            //},
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    },
+                    //update: {
+                    //    url: "@Html.Raw(Url.Action("Update", "PujigatKharchaKharyakram"))",
+                    //    type: "POST",
+                    //    dataType: "json",
+                    //    data: addAntiForgeryToken
+                    //}
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+                    model: {
+                        id: "Id",
+                        //fields: {
+                        //    Id: { editable: false, type: "string" },
+                        //    FiscalYear: { editable: false, type: "string" },
+                        //    WardNo: { editable: false, type: "string" },
+                        //    ActivityName: { editable: false, type: "string" },
+                        //    PlanningProgram: { editable: false, type: "string" },
+                        //    Yearly: { editable: false, type: "number" },
+                        //    SourcOfFund: { editable: false, type: "string" },
+                        //    TypeOfExpen: { editable: false, type: "string" },
+                        //    TypeOfExecution: { editable: false, type: "string" },
+                        //    ExpensesCategory: { editable: true, type: "string" }
+
+                        //}
+                    },
+
+                },
+                error: function (e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+        serverPaging: true,
+            serverFiltering: true,
+                serverSorting: true
+    },
+        pageable: {
+        refresh: true,
+        pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+    editable: {
+        confirmation: false,
+            mode: "inline"
+    },
+    scrollable: false,
+        columns: [
+            {
+                field: "WardNo",
+                title: "@T("Admin.Budget.Fields.WardNo")",
+                //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
+            },
+            {
+                field: "ActivityName",
+                title: "@T("Admin.Budget.Fields.ActivityName")",
+            },
+
+            {
+                field: "PlanningProgram",
+                title: "@T("Admin.Budget.Fields.PlanningProgram")",
+            },
+            {
+                field: "Yearly",
+                title: "@T("Admin.Budget.Fields.Yearly")",
+            },
+            {
+                field: "SourcOfFund",
+                title: "@T("Admin.Budget.Fields.SourceOfFund")",
+            },
+            {
+                field: "TypeOfExpen",
+                title: "@T("Admin.Budget.Fields.TypeOfEpen")",
+            },
+            {
+                field: "TypeOfExecution",
+                title: "@T("Admin.Budget.Fields.TypeOfExecution")",
+            },
+            {
+                field: "ExpensesCategory",
+                title: "@T("Admin.Budget.Fields.ExpensesCategory")",
+                // editor: sDropDownEditor
+            },
+            @* {
+        command: [
+            {
+                name: "edit",
+                text: {
+                    edit: "@T("Admin.Common.Edit")",
+                    update: "@T("Admin.Common.Update")",
+                    cancel: "@T("Admin.Common.Cancel")"
+                        },
+
+            }],
+        width: 200
+    } *@
+            ]
+
+        });
+
+    });
+    function additionalData() {
+        var data = {
+            Keyword: $("#Keyword").val(),
+            category: "Input Supply"
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+    function sDropDownEditor(container, options) {
+        $('<input name="ExpensesCategory"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                valuePrimitive: true,
+
+                autoBind: true,
+                dataTextField: "name",
+                dataValueField: "value",
+                dataSource: [
+                    { name: "Select", value: "" },
+                    { name: "Subsidy", value: "Subsidy" },
+                    { name: "Training", value: "Training" },
+                    { name: "Input Supply", value: "Input Supply" },
+                    { name: "Other", value: "Other" },
+                ]
+            });
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#Keyword').keyup(function () {
+            //search
+            var grid = $('#subsidy-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+
+    });</script>
+@*import categories form*@
+
+

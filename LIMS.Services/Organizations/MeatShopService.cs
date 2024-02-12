@@ -33,8 +33,11 @@ namespace LIMS.Services.Organizations
         public async Task<IPagedList<MeatShop>> GetMeatShop(string createdby,string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _meatShopRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
-            if(!string.IsNullOrEmpty(fiscalyear))
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(m => m.FiscalYear.Id == fiscalyear);
 
@@ -55,7 +58,11 @@ namespace LIMS.Services.Organizations
         public async Task<List<MeatShop>> GetMeatShopByType(string createdby, string type, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _meatShopRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.OtherOrganization.Type == type);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m => m.OtherOrganization.Type == type);
             return await PagedList<MeatShop>.Create(query, pageIndex, pageSize);
         }
 

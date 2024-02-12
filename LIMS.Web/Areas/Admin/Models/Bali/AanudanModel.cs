@@ -90,6 +90,8 @@ namespace LIMS.Web.Areas.Admin.Models.Bali.Aanudan
         public string Area { get; set; }
         [LIMSResourceDisplayName("Lims.Aanudan.AnudanReceiverType")]
         public string AnudanReceiverType { get; set; }
+        [LIMSResourceDisplayName("Lims.Aanudan.Address")]
+        public string Address { get; set; }
 
     }
 }

@@ -9,6 +9,7 @@ namespace LIMS.Web.Areas.Admin.Helper
     
     public static class ExecutionHelper
     {
+        public static string LocalLevel = "Tokha Municipality";
         public static List<SelectListItem> GetTypeOfExecution()
         {
             return new List<SelectListItem> {
@@ -73,6 +74,14 @@ namespace LIMS.Web.Areas.Admin.Helper
                     Text="Subsidy",
                     Value="Subsidy"
                 },
+                  new SelectListItem {
+                    Text="Input Supply",
+                    Value="Input Supply"
+                },
+                   new SelectListItem {
+                    Text="Other",
+                    Value="Other"
+                }
             };
         }
         public static List<SelectListItem> GetXetras()

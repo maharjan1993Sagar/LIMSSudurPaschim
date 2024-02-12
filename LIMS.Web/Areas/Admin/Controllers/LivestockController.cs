@@ -8,6 +8,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
 using LIMS.Services.Statisticaldata;
@@ -24,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
-    [PermissionAuthorize(PermissionSystemName.ProductionData)]
+    [PermissionAuthorize(PermissionSystemName.LivestockUserAccess)]
 
     public class LivestockController : BaseAdminController
     {
@@ -38,6 +39,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IAnimalTypeService _ageCategory;
         public readonly IVhlsecService _vhlsecService;
         public readonly IDolfdService _dolfdService;
+        public readonly ILocalLevelService _localLevelService;
 
         #endregion fields
         #region ctor
@@ -49,7 +51,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
               ICustomerService customerService, 
                IAnimalTypeService ageCategory,
                IVhlsecService vhlsecService,
-               IDolfdService dolfdService
+               IDolfdService dolfdService,
+               ILocalLevelService localLevelService
              )
         {
             _localizationService = localizationService;
@@ -61,6 +64,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _ageCategory=ageCategory;
             _vhlsecService = vhlsecService;
             _dolfdService = dolfdService;
+            _localLevelService = localLevelService;
         }
         #endregion ctor
         #region Livestock
@@ -68,9 +72,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> List()
         {
-            var createdby = _workContext.CurrentCustomer.EntityId;
-            var createdbys = _customerService.GetCustomerByLssId(null, createdby);
-            var ids = createdbys.Select(m => m.Id).ToList();
+            //var createdby = _workContext.CurrentCustomer.EntityId;
+            //var createdbys = _customerService.GetCustomerByLssId(null, createdby);
+            //var ids = createdbys.Select(m => m.Id).ToList();
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             FarmListModel currentfiscal = new FarmListModel();
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();

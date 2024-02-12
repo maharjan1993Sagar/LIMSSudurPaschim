@@ -34,7 +34,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<MarketData>> GetmarketData(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _marketDataRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(
@@ -47,7 +50,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<MarketData>> GetmarketData(string createdby, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _marketDataRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(

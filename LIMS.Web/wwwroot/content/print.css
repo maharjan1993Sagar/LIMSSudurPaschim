@@ -1,0 +1,8 @@
+@media print {
+    /* Adjust the size of printed content */
+    body {
+        height: 210mm; /* A4 width */
+        width: 297mm; /* A4 height */
+    }
+    /* Additional print-specific styles can be added here */
+}

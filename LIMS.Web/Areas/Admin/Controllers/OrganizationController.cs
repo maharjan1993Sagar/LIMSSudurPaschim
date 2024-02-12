@@ -76,16 +76,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
 
             var Organization = await _organizationService.GetOrganization(createdby, command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
@@ -137,16 +137,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     string createdby = null;
                     List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-                    if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-                    {
-                        createdby = _workContext.CurrentCustomer.Id;
-                    }
-                    else
-                    {
-                        string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                        var admin = await _customerService.GetCustomerByEmail(adminemail);
-                        createdby = admin.Id;
-                    }
+                    //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+                    //{
+                    //    createdby = _workContext.CurrentCustomer.Id;
+                    //}
+                    //else
+                    //{
+                    //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+                    //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+                    //    createdby = admin.Id;
+                    //}
                     Organization Organization = model.ToEntity();
                     Organization.CreatedBy = createdby;
                     await _organizationService.InsertOrganization(Organization);
@@ -271,16 +271,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = admin.Id;
-            }
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = admin.Id;
+            //}
             var Organization = await _organizationService.GetOrganization(createdby);
            
             return Json(Organization);

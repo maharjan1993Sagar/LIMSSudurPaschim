@@ -36,7 +36,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<AanudanKokaryakram>> GetbaliRegister(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _anudanRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(
@@ -47,7 +50,7 @@ namespace LIMS.Services.Bali
             return await PagedList<AanudanKokaryakram>.Create(query, pageIndex, pageSize);
         }
         
-         public async Task<IPagedList<AanudanKokaryakram>> GetFilteredSubsidy(string id, string fiscalYear, string localLevel, string budgetId, int pageIndex = 0, int pageSize = int.MaxValue)
+         public async Task<IPagedList<AanudanKokaryakram>> GetFilteredSubsidy(string id, string fiscalYear, string localLevel, string budgetId,string xetra, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _anudanRepository.Table;
             if (!String.IsNullOrEmpty(id))
@@ -66,6 +69,10 @@ namespace LIMS.Services.Bali
             if (!string.IsNullOrEmpty(localLevel))
             {
                 query = query.Where(m => m.LocalLevel == localLevel);
+            }
+            if (!string.IsNullOrEmpty(xetra))
+            {
+                query = query.Where(m => m.Budget.Xetra == xetra);
             }
 
             return await PagedList<AanudanKokaryakram>.Create(query, pageIndex, pageSize);

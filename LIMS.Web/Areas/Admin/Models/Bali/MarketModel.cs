@@ -36,6 +36,9 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Common.District")]
 
         public string District { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.LocalLevel")]
+
+        public string LocalLevel { get; set; }
         [LIMSResourceDisplayName("LIMS.Market.NameOfMarket")]
 
 

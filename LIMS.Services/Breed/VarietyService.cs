@@ -35,7 +35,10 @@ namespace LIMS.Services.Breed
         public async Task<IPagedList<CropsProduction>> GetBreed(string createdby, string keyword, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _VarietyRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(

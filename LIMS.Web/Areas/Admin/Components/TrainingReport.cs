@@ -77,15 +77,31 @@ namespace LIMS.Web.Areas.Admin.Components
             _budgetService = budgetService;
         }
         #endregion ctor
-        public async Task<IViewComponentResult> InvokeAsync(string fiscalyear,string budgetId,string locallevel)
+        public async Task<IViewComponentResult> InvokeAsync(string fiscalyear, string budgetId, string locallevel, string xetra)
         {
-            var talims = await _farmerService.GetfarmerByPugigatType("", locallevel, budgetId, fiscalyear, "");
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            string orgName = _workContext.CurrentCustomer.OrgName;
+            string orgAddress = _workContext.CurrentCustomer.OrgAddress;
+            string orgLevel = "नगर कार्यपालिकाको कार्यालय";
+            if (roles.Contains("Agriculture"))
+            {
+                xetra = "कृषि विकास";
+            }
+            if (roles.Contains("Livestock"))
+            {
+                xetra = "पशु तथा मत्स्य विकास ";
+            }
+            //if (roles.Contains("Administrators"))
+            //{
+            //    xetra = "";
+            //}
+            var talims = await _farmerService.GetfarmerByPugigatType("", locallevel, budgetId, fiscalyear, "",xetra);
 
             var objTrainingReport = new TrainingReportModel();
             objTrainingReport.FiscalYear = talims.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear;
-            objTrainingReport.Address = "काठमाडौँ";
-            objTrainingReport.LocalLevel = locallevel;
-            objTrainingReport.Level = "नगर कार्यपालिकाको कार्यालय";
+            objTrainingReport.Address =orgAddress;
+            objTrainingReport.LocalLevel = orgName;
+            objTrainingReport.Level = orgLevel;
             objTrainingReport.StartDate = "";
             objTrainingReport.EndDate = "";
             objTrainingReport.Ward = "";
@@ -94,13 +110,26 @@ namespace LIMS.Web.Areas.Admin.Components
             int i = 1;
             foreach (var item in distinctTraining)
             {
+                var lstTraining = talims.ToList().Where(m => m.TalimId == item);
                 var objTraining = talims.ToList().FirstOrDefault(m => m.TalimId == item);
                 var objReportData = new TrainingRowData {
                     BudgetTitle = objTraining.Budget.ActivityName,
                     MainActivity = objTraining.Purpose,
                     Remarks = objTraining.Remarks,
                     SN = i.ToString(),
-                    TrainingTitle = objTraining.Talim.NameNepali
+                    TrainingTitle = objTraining.Talim.NameNepali,
+                    StartDate = objTraining.StartDate.ToString(),
+                    EndDate = objTraining.EndDate.ToString(),
+                    Male = lstTraining.Sum(m=>Convert.ToInt32(m.Male??"0")).ToString(),
+                    Female = lstTraining.Sum(m => Convert.ToInt32(m.Male ?? "0")).ToString(),
+                    Dalit = lstTraining.Sum(m => Convert.ToInt32(m.Dalit ?? "0")).ToString(),
+                    Janajati = lstTraining.Sum(m => Convert.ToInt32(m.Janajati ?? "0")).ToString(),
+                    Others = lstTraining.Sum(m => Convert.ToInt32(m.Others ?? "0")).ToString(),
+                    Total =( lstTraining.Sum(m => Convert.ToInt32(m.Male ?? "0"))+ lstTraining.Sum(m => Convert.ToInt32(m.FeMale ?? "0"))).ToString(),
+                    TotalExpense = objTraining.TotalExpenses.ToString(),
+                    Logistics = objTraining.Logistics,
+                    Purpose = objTraining.Purpose,
+                    Address = objTraining.Address
                 };
                 lstTrainingReportData.Add(objReportData);
                 i++;

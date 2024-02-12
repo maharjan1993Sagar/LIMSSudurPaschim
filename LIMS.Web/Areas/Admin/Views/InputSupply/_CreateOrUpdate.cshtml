@@ -11,14 +11,14 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="Type" />
                     <select asp-for="Type" asp-items="@ViewBag.Types" class="form-control"></select>
                     <span asp-validation-for="Type"></span>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="FiscalYearId" />
                     <select asp-for="FiscalYearId" asp-items="@ViewBag.FiscalYearId" class="form-control"></select>
@@ -30,13 +30,13 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="LocalLevel" />
-                    <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                    <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" disabled class="form-control">
                     </select>
                     <span asp-validation-for="LocalLevel"></span>
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-1">
                 <div class="form-group">
                     <admin-label asp-for="Ward" />
                     <select asp-for="Ward" asp-items="@ViewBag.Wards" class="form-control"></select>
@@ -44,10 +44,10 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="NepaliDate" />
-                    <admin-input asp-for="NepaliDate" />
+                    <input asp-for="NepaliDate" type="datetime-local"/>
                     <span asp-validation-for="NepaliDate"></span>
                 </div>
             </div>
@@ -62,14 +62,14 @@
 
 
 
-            <div class="col-md-3">
+            <div class="col-md-1">
                 <div class="form-group">
                     <admin-label asp-for="UnitId" />
-                    <select asp-for="UnitId" asp-items="@ViewBag.Units" class="form-control"></select>
+                    <select asp-for="UnitId" asp-items="@ViewBag.Units" required class="form-control"></select>
                     <span asp-validation-for="UnitId"></span>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-1">
                 <div class="form-group">
                     <admin-label asp-for="Price" />
                     <admin-input asp-for="Price" />
@@ -77,7 +77,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-1">
                 <div class="form-group">
                     <admin-label asp-for="Quantity" />
                     <admin-input asp-for="Quantity" />
@@ -85,7 +85,7 @@
 
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     <admin-label asp-for="Purpose" />
                     <admin-input asp-for="Purpose" />
@@ -101,15 +101,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="PhoneNumber" />
-                    <admin-input asp-for="PhoneNumber" required="required" />
-                    <span asp-validation-for="PhoneNumber"></span>
-
-                </div>
-            </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="ReceivedBy" />
@@ -117,7 +109,15 @@
                     <span asp-validation-for="ReceivedBy"></span>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="PhoneNumber" />
+                    <admin-input asp-for="PhoneNumber" required="required" />
+                    <span asp-validation-for="PhoneNumber"></span>
+
+                </div>
+            </div>
+            <div class="col-md-7">
                 <div class="form-group">
                     <admin-label asp-for="BudgetId" />
                     <Select asp-for="BudgetId" id="BudgetId" class="form-control"></Select>

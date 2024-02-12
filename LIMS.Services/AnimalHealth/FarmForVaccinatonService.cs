@@ -47,7 +47,10 @@ namespace LIMS.Services.AnimalHealth
         public async Task<IPagedList<FarmForPurnaKhop>> GetVaccination(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _animalVaccinationRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<FarmForPurnaKhop>.Create(query, pageIndex, pageSize);
         }
 
@@ -60,7 +63,11 @@ namespace LIMS.Services.AnimalHealth
         public async Task<IPagedList<FarmForPurnaKhop>> GetVaccinationByFarmId(string createdby, string FarmId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _animalVaccinationRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.FarmId==FarmId);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
+            query = query.Where(m =>  m.FarmId==FarmId);
             return await PagedList<FarmForPurnaKhop>.Create(query, pageIndex, pageSize);
         }
 

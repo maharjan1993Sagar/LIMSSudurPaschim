@@ -30,7 +30,10 @@ namespace LIMS.Services.AnimalHealth
         public async  Task<IPagedList<PurnaKhop>> GetVaccination(string createdby, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _animalVaccinationRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             return await PagedList<PurnaKhop>.Create(query, pageIndex, pageSize);
         }
 

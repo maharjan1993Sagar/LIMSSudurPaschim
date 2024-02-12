@@ -34,7 +34,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<BaliRegister>> GetbaliRegister(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _baliRegisterRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(
@@ -47,7 +50,10 @@ namespace LIMS.Services.Bali
         public async Task<IPagedList<BaliRegister>> GetbaliRegister(string createdby, string keyword, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _baliRegisterRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!string.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(

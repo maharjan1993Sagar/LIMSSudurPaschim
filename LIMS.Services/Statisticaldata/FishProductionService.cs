@@ -126,10 +126,13 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<FishProduction>> GetFilteredFishProduction(string createdBy, string fiscalYearId, string quater,string natureOfProduction, string localevel = "", string ward = "", string farmid = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _fishProductionRepository.Table;
+            if (!string.IsNullOrEmpty(createdBy))
+            {
+                query = query.Where(m => m.CreatedBy == createdBy);
+            }
             query = query.Where(m => 
               m.FiscalYear.Id == fiscalYearId &&
               m.NatureOfProduction==natureOfProduction&&
-              m.CreatedBy == createdBy  &&
               m.Ward==ward  &&
               m.LocalLevel==localevel
             );

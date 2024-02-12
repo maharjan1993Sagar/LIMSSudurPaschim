@@ -27,13 +27,13 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        @*<div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
                                 <select id="LocalLevel" name="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
                                 </select>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <br />
@@ -149,8 +149,8 @@
         function additionalData() {
         var data = {
 
-             fiscalYear:$("#FiscalYearId").val(),
-            locallevel: $("#LocalLevel").val()
+             fiscalYear:$("#FiscalYearId").val()
+            //locallevel: $("#LocalLevel").val()
 
 
         };

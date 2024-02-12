@@ -53,6 +53,7 @@
     <Content Remove="Areas\Admin\Views\MonthlyProgress\CreateMainKaryakram.cshtml" />
     <Content Remove="Areas\Admin\Views\MonthlyProgress\CreateNitigatKaryakram.cshtml" />
     <Content Remove="Areas\Admin\Views\PujigatKharchaKharyakram\Edit.cshtml" />
+    <Content Remove="Areas\Admin\Views\PujigatKharchaKharyakram\_inputSupply.cshtml" />
     <Content Remove="Areas\Admin\Views\PujigatKharchaKharyakram\_nitiAndKaryakramChonot.cshtml" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.7.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.7.0" />
@@ -85,6 +86,7 @@
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\TabEntry.cshtml" />
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\_List.cshtml" />
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\_subsidyEntry.cshtml" />
+    <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\_inputSupply.cshtml" />
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\_trainingChonot.cshtml" />
   </ItemGroup>
   <ItemGroup>

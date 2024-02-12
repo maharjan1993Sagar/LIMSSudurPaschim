@@ -529,7 +529,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
 
-                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "",command.Page - 1, command.PageSize);
 
 
                     var gridModel = new DataSourceResult {
@@ -561,7 +561,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     List<string> customerid = customers.Select(x => x.Id).ToList();
 
 
-                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
 
 
                     var gridModel = new DataSourceResult {
@@ -602,7 +602,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         }
                         var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
                         List<string> customerid = customers.Select(x => x.Id).ToList();
-                        budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
 
                     }
                     else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
@@ -612,12 +612,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         var customers = _customerService.GetCustomerByLssId(entities, entity);
                         List<string> customerid = customers.Select(x => x.Id).ToList();
 
-                        budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
 
                     }
                     else
                     {
-                        budget = await _budgetService.GetBudget(id, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        budget = await _budgetService.GetBudget(id, fiscalYear, programType, type,"","", command.Page - 1, command.PageSize);
 
                     }
                     //var id = _workContext.CurrentCustomer.Id;
@@ -649,7 +649,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         }
                         var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
                         List<string> customerid = customers.Select(x => x.Id).ToList();
-                        budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, "", command.Page - 1, command.PageSize);
 
                     }
                     else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
@@ -659,12 +659,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         var customers = _customerService.GetCustomerByLssId(entities, entity);
                         List<string> customerid = customers.Select(x => x.Id).ToList();
 
-                        budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, "",command.Page - 1, command.PageSize);
 
                     }
                     else
                     {
-                        budget = await _budgetService.GetBudget(id, CurrentFiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        budget = await _budgetService.GetBudget(id, CurrentFiscalYear, programType, type,"","" ,command.Page - 1, command.PageSize);
 
                     }
                     //var id = _workContext.CurrentCustomer.Id;
@@ -1194,11 +1194,27 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetBudget(string type, string programType, string fiscalYear,string month,string expensesCategory)
         {
             var createdby = _workContext.CurrentCustomer.Id;
+
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            string xetra="";
+
+            if (roles.Contains("Agriculture"))
+            {
+                xetra = "कृषि विकास";
+            }
+            if (roles.Contains("Livestock"))
+            {
+                xetra = "पशु तथा मत्स्य विकास ";
+            }
+            if (roles.Contains("Administrators"))
+            {
+                xetra = "";
+            }
             //Get Budget
-            var budget = await _budgetService.GetBudget("", fiscalYear, programType, type);
+            var budget = await _budgetService.GetBudget("", fiscalYear, programType, type,expensesCategory,xetra);
 
             //Get Progress
-            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month, expensesCategory);
+            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month, expensesCategory,xetra);
 
             var lstProgress = new List<MonthlyPragati>();
 

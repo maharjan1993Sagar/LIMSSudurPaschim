@@ -78,7 +78,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public DateTime EndDate { get; set; }
         public string Gender { get; set; }
         public string Caste { get; set; }
-        public string TotalExpense { get; set; }
+        public decimal TotalExpense { get; set; }
         public string Logistics { get; set; }
     }
 }

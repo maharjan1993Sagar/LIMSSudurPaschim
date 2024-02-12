@@ -6,6 +6,7 @@ using LIMS.Framework.Mvc.Filters;
 using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.OtherOrganizations;
 using LIMS.Services.Security;
 using LIMS.Services.Stores;
@@ -37,13 +38,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ICustomerRegistrationService _customerRegistrationService;
         private readonly IUserApiService _userApiService;
         private readonly IEncryptionService _encryptionService;
+        private readonly ILocalLevelService _localLevelService;
+
+
 
         public ILocalizationService LocalizationService => _localizationService;
         #endregion
         public OtherOrganizationController(IOtherOrganizationService organizationService, ILanguageService languageService, ILocalizationService localizationService,
             IStoreService storeService, IWorkContext workContext, SeoSettings seoSettings,
              ICustomerService customerService, ICustomerViewModelService customerViewModelService,
-            CustomerSettings customerSettings, ICustomerRegistrationService customerRegistrationService, IUserApiService userApiService, IEncryptionService encryptionService)
+            CustomerSettings customerSettings, ICustomerRegistrationService customerRegistrationService, IUserApiService userApiService, IEncryptionService encryptionService,ILocalLevelService localLevelService)
         {
             _organizationService = organizationService;
             _languageService = languageService;
@@ -58,6 +62,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _customerSettings = customerSettings;
             _encryptionService = encryptionService;
             _userApiService = userApiService;
+            _localLevelService = localLevelService;
         }
        
         public IActionResult Index() => RedirectToAction("List");
@@ -99,6 +104,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var type = OrganizationTypeHelper.GetOrganizationType();
             type.Insert(0, new SelectListItem(LocalizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             var organization = new OtherOrganizationModel();
             return View(organization);
@@ -116,16 +128,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     string createdby = null;
                     List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-                    if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-                    {
-                        createdby = _workContext.CurrentCustomer.Id;
-                    }
-                    else
-                    {
-                        string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                        var admin = await _customerService.GetCustomerByEmail(adminemail);
-                        createdby = admin.Id;
-                    }
+                    //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+                    //{
+                    //    createdby = _workContext.CurrentCustomer.Id;
+                    //}
+                    //else
+                    //{
+                    //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+                    //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+                    //    createdby = admin.Id;
+                    //}
                     var Organization = model.ToEntity();
                     Organization.CreatedBy = createdby;
                     await _organizationService.InsertOtherOrganization(Organization);
@@ -142,6 +154,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(LocalizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
 
             return View(model);
@@ -163,6 +181,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var type = OrganizationTypeHelper.GetOrganizationType();
             type.Insert(0, new SelectListItem(LocalizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
 
             return View(model);
         }
@@ -198,6 +221,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(LocalizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = localLevelSelect;
+
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
         }
