@@ -6,10 +6,32 @@ using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Helper
 {
-    
+
     public static class ExecutionHelper
     {
         public static string LocalLevel = "Tokha Municipality";
+        public static string LevelNepali = "नगर कार्यपालिकाको कार्यालय";
+        public static string LevelEnglish = "Office of Municipal Executive";
+        public static string DepartmentLivestock = "पशु सेवा शाखा";
+
+        public static List<SelectListItem> GetFirmRegister()
+        {
+            return new List<SelectListItem> {
+        new SelectListItem {
+                    Text="Select",
+                    Value=""
+                },
+                new SelectListItem {
+                    Text="दर्ता भएको",
+                    Value="दर्ता भएको"
+                },
+                 new SelectListItem
+                 {
+                     Text = "दर्ता नभएको",
+                     Value = "दर्ता नभएको"
+                 }, };
+           
+        }
         public static List<SelectListItem> GetTypeOfExecution()
         {
             return new List<SelectListItem> {

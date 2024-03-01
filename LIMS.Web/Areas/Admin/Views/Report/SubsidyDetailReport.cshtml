@@ -147,7 +147,7 @@
 
 
             $('#subsidy').submit(function (e) {
-
+                $('#result').html("");
                     var data = {
                         FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val(),
                         localLevel: $('#@Html.IdFor(m => m.LocalLevel)').val(),

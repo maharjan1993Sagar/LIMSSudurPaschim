@@ -151,7 +151,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var model = new CustomerModel();
             await _customerViewModelService.PrepareCustomerModel(model, null, false);
@@ -168,7 +168,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var lstRoles = new List<SelectListItem>(){
                             new SelectListItem{Text="Select",Value=""},
@@ -274,7 +274,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var lstRoles = new List<SelectListItem>(){
                             new SelectListItem{Text="Select",Value=""},
@@ -320,7 +320,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var lstRoles = new List<SelectListItem>(){
                             new SelectListItem{Text="Select",Value=""},
@@ -374,10 +374,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                             ModelState.AddModelError("", customerRolesError);
                             ErrorNotification(customerRolesError, false);
                         }
-                    
 
 
 
+                   // model.SelectedCustomerRoleIds = newCustomerRoles.Select(m => m.Id).ToArray();
                     customer = await _customerViewModelService.UpdateCustomerModel(customer, model);
                     if (!string.IsNullOrWhiteSpace(model.Password))
                     {
@@ -450,7 +450,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var lstRoles = new List<SelectListItem>(){
                             new SelectListItem{Text="Select",Value=""},
@@ -479,7 +479,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var lstRoles = new List<SelectListItem>(){
                             new SelectListItem{Text="Select",Value=""},
@@ -509,9 +509,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     var newCustomerRoles = new List<CustomerRole>();
                     CustomerRole role = new CustomerRole();
 
-                    //newCustomerRoles.Add(allCustomerRoles.FirstOrDefault(m => m.Name == model.Role));
-                    //newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == "Registered").FirstOrDefault());
-                    //newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name ==RoleHelper.Administrators).FirstOrDefault());
+                    newCustomerRoles.Add(allCustomerRoles.FirstOrDefault(m => m.Name == model.Role));
+                    newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == SystemCustomerRoleNames.Registered).FirstOrDefault());
+                    newCustomerRoles.Add(allCustomerRoles.Where(m => m.Name == SystemCustomerRoleNames.Administrators).FirstOrDefault());
 
                     var customerRolesError = _customerViewModelService.ValidateCustomerRoles(newCustomerRoles);
                     if (!string.IsNullOrEmpty(customerRolesError))
@@ -520,6 +520,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         ErrorNotification(customerRolesError, false);
                     }
 
+                    model.SelectedCustomerRoleIds = newCustomerRoles.Select(m => m.Id).ToArray();
                     customer = await _customerViewModelService.UpdateCustomerModel(customer, model);
                     if (!string.IsNullOrWhiteSpace(model.Password))
                     {

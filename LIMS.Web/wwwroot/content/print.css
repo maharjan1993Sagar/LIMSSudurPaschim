@@ -4,5 +4,9 @@
         height: 210mm; /* A4 width */
         width: 297mm; /* A4 height */
     }
+
+    .divTable {
+        overflow: auto;
+    }
     /* Additional print-specific styles can be added here */
 }

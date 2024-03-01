@@ -42,7 +42,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILocalLevelService _localLevelService;
 
 
-        public FarmController(ILocalizationService localizationService, IFarmService farmService, IPictureService pictureService, ILanguageService languageService, IWorkContext workContext, IVhlsecService vhlsecService, ILssService lssService, ICustomerService customerService, IMediator mediator, IStoreContext storeContext)
+        public FarmController(ILocalizationService localizationService, IFarmService farmService, IPictureService pictureService, ILanguageService languageService, IWorkContext workContext, IVhlsecService vhlsecService, ILssService lssService, ICustomerService customerService, IMediator mediator, IStoreContext storeContext, LocalLevelService localLevelService)
         {
             _localizationService = localizationService;
             _farmService = farmService;
@@ -54,7 +54,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _customerService = customerService;
             _mediator = mediator;
             _storeContext = storeContext;
-            _localLevelService = _localLevelService;
+            _localLevelService = localLevelService;
         }
         public IActionResult Index() => RedirectToAction("List");
 
@@ -112,7 +112,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             List<SelectListItem> Category = GetCategory();
             Category.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -135,6 +135,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.FarmType = FarmType;
             ViewBag.Category = Category;
             ViewBag.EthinicGroup = EthinicGroup;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             var farmModel = new FarmModel();
             return View(farmModel);
         }
@@ -176,12 +182,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             ViewBag.Education = Education;
             ViewBag.FarmType = FarmType;
             ViewBag.Category = Category;
             ViewBag.EthinicGroup = EthinicGroup;
+
+            //var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            //var localLevelSelect = new SelectList(localLevels).ToList();
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+
             return View(model);
         }
 
@@ -220,7 +233,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             ViewBag.ShedType = shedType;
             ViewBag.Education = Education;
@@ -291,7 +304,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

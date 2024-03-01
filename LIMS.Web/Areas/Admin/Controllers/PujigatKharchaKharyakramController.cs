@@ -142,7 +142,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.UpaChetra = new SelectList(ExecutionHelper.GetUpaXetras(), "Value", "Text");
 
             //var selected = _context.FiscalYear.Where(m => m.status == true).FirstOrDefault().Id;
-            // ViewBag.FiscalYearId = new SelectList(_context.FiscalYear, "Id", "nepaliFY", selected);
+            // ViewBag.FiscalYearId = new SelectList(_contextabentyt.FiscalYear, "Id", "nepaliFY", selected);
             //r.FiscalYearId = selected;
 
 

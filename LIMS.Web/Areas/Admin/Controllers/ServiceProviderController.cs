@@ -112,7 +112,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             ServiceProviderModel serviceProvider = new ServiceProviderModel();
@@ -242,7 +242,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
 
@@ -266,7 +266,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             var serviceProviderType = new List<SelectListItem> {
@@ -385,7 +385,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             ViewBag.Type = type;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

@@ -60,7 +60,7 @@
                         url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: additionalData
+                        data: additionalData2
                     },
                     update: {
                         url: "@Html.Raw(Url.Action("Update", "PujigatKharchaKharyakram"))",
@@ -164,7 +164,7 @@
         });
 
     });
-    function additionalData() {
+    function additionalData2() {
         var data = {
             Keyword: $("#Keyword").val(),
             category: "Subsidy"

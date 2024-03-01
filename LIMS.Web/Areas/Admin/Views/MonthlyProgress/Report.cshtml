@@ -37,7 +37,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <admin-label asp-for="ProgramType" />
-                            <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required" />
+                            <admin-select asp-for="ProgramType" asp-items="ViewBag.Swrot" required="required" />
                             <span asp-validation-for="ProgramType"></span>
                         </div>
                     </div>
@@ -45,11 +45,11 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <admin-label asp-for="Type" />
-                            <admin-select asp-for="Type" asp-items="ViewBag.Type" required="required" />
+                            <admin-select asp-for="Type" asp-items="ViewBag.Expences" required="required" />
                             <span asp-validation-for="Type"></span>
                         </div>
                     </div>
-                    @if (role.Contains("MolmacAdmin"))
+                    @*@if (role.Contains("MolmacAdmin"))
                     {
                 <div class="col-md-2">
                     <div class="form-group">
@@ -75,7 +75,7 @@
                         <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
                         <span asp-validation-for="VhlsecId"></span>
                     </div>
-                </div>}
+                </div>}*@
 
 
 
@@ -163,52 +163,52 @@
             scrollable: false,
             columns: [
                  {
-                    field: "pujigatKharchaKharakram.Limbis_Code",
-                title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
+                    field: "budget.karchaSrishak",
+                title: "@T("Admin.budget.Fields.KarchaSrishak")",
                 },
                 {
-                    field: "pujigatKharchaKharakram.kharchaCode",
-                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                    field: "budget.kharchaUpaSirshak",
+                title: "@T("Admin.budget.Fields.KharchaUpaSirshak")",
                 },
                 {
-                    field: "pujigatKharchaKharakram.Program",
-                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                    field: "budget.ActivityName",
+                title: "@T("Admin.budget.Fields.ActivityName")",
                 },
                  {
-                     field: "pujigatKharchaKharakram.BarsikBajet",
-                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                     field: "budget.Yearly",
+                title: "@T("Admin.budget.Fields.Yearly")",
                 },
                  {
                       field: "PreviousMonthVautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.PreviousMonthVautikPragati")",
+                title: "@T("Admin.budget.Fields.PreviousMonthVautikPragati")",
                 },
                   {
                       field: "PreviousMonthBitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.PreviousMonthBitiyaPragati")",
+                title: "@T("Admin.budget.Fields.PreviousMonthBitiyaPragati")",
                 },
                   {
                      field: "VautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.VautikPragati")",
+                title: "@T("Admin.budget.Fields.VautikPragati")",
                 },
                  {
                      field: "BitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.BitiyaPragati")",
+                title: "@T("Admin.budget.Fields.BitiyaPragati")",
                 },
 
                   {
                        field: "TotalMonthVautikPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthVautikPragati")",
+                title: "@T("Admin.budget.Fields.TotalMonthVautikPragati")",
                  },
 
 
 
                    {
                        field: "TotalMonthBitiyaPragati",
-                title: "@T("Admin.PujigatKaryakram.Fields.TotalMonthBitiyaPragati")",
+                title: "@T("Admin.budget.Fields.TotalMonthBitiyaPragati")",
                 },
                      {
                          field: "BalanceBudget",
-                title: "@T("Admin.PujigatKaryakram.Fields.BalanceBudget")",
+                title: "@T("Admin.budget.Fields.BalanceBudget")",
                 },
 
            ]

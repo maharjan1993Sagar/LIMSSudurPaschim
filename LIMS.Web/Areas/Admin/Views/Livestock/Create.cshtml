@@ -32,7 +32,7 @@
                         </div>
 
 
-                        <div class="col-md-2">
+                        @*<div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Provience" />
                                 <admin-select asp-for="Provience" data-val="Sudurpashchim Province" id="country" />
@@ -67,12 +67,11 @@
                             </div>
                         </div>
                         <input type="hidden" name="district" value="@Model.District" />
-                        }
+                        }*@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" class="form-control">
-                                    <option value="">Select</option>
+                                <select id="locallevel" name="LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" disabled>                                   
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>

@@ -12,7 +12,7 @@
 
 
     string createdby = null;
-    if (roles.Contains("VhlsecAdmin") || roles.Contains("VhlsecUser"))
+    @*if (roles.Contains("VhlsecAdmin") || roles.Contains("VhlsecUser"))
     {
 
         <div class="col-md-12">
@@ -23,17 +23,17 @@
         </div>
     }
     else
-    {
+    {*@
 
         <div class="col-md-12">
             <center>
                 <b>@workContext.CurrentCustomer.OrgName</b><br />
-                <b>Office of the Rural Municipality</b><br />
+                <b>Office of Municipal Executive</b><br />
                 <b>Livestock Service section</b><br />
                 <b>Yearly progress report -animal production</b><br />
             </center>
         </div>
-    }
+    @*}*@
 
 }
 

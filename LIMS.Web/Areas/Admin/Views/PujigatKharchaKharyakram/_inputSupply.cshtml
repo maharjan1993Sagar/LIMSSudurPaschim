@@ -58,7 +58,7 @@
                         url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: additionalData
+                        data: additionalData1
                     },
                     //update: {
                     //    url: "@Html.Raw(Url.Action("Update", "PujigatKharchaKharyakram"))",
@@ -162,7 +162,7 @@
         });
 
     });
-    function additionalData() {
+    function additionalData1() {
         var data = {
             Keyword: $("#Keyword").val(),
             category: "Input Supply"
@@ -195,7 +195,7 @@
         //search button
         $('#Keyword').keyup(function () {
             //search
-            var grid = $('#subsidy-grid').data('kendoGrid');
+            var grid = $('#input-grid').data('kendoGrid');
             grid.dataSource.page(1); //new search. Set page size to 1
             //grid.dataSource.read(); we already loaded the grid above using "page" function
             return false;

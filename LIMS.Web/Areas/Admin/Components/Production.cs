@@ -68,10 +68,10 @@ namespace LIMS.Web.Areas.Admin.Components
         public async Task<IViewComponentResult> InvokeAsync(string fiscalyear)
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssUser) || roles.Contains(RoleHelper.LssAdmin))
-            {
+            //if (roles.Contains(RoleHelper.LssUser) || roles.Contains(RoleHelper.LssAdmin))
+            //{
 
-                string createdby = null;
+            //    string createdby = null;
                 //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
                 //{
                 //    createdby = _workContext.CurrentCustomer.Id;
@@ -82,7 +82,7 @@ namespace LIMS.Web.Areas.Admin.Components
                 //    var admin = await _customerService.GetCustomerByEmail(adminemail);
                 //    createdby = admin.Id;
                 //}
-                var productions = await _productionionDataService.GetProduction(createdby, fiscalyear);
+                var productions = await _productionionDataService.GetProduction("", fiscalyear);
 
                 var species = await _speciesService.GetSpecies();
 
@@ -148,88 +148,88 @@ namespace LIMS.Web.Areas.Admin.Components
                 }
 
                 return View(productionReports);
-            }
-            else
-            {
-                string vhlsecid = _workContext.CurrentCustomer.EntityId;
-                List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
-                var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
-                List<string> customerid = customers.Select(x => x.Id).ToList();
+            //}
+            //else
+            //{
+            //    string vhlsecid = _workContext.CurrentCustomer.EntityId;
+            //    List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
+            //    var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
+            //    List<string> customerid = customers.Select(x => x.Id).ToList();
 
-                var productions = new List<Production>();
-                foreach (var item in customerid)
-                {
-                    var livestock = await _productionionDataService.GetProduction(createdBy: item, fiscalyear: fiscalyear);
-                    var newlivestocks = livestock.ToList();
-                    productions.AddRange(newlivestocks);
-                }
+            //    var productions = new List<Production>();
+            //    foreach (var item in customerid)
+            //    {
+            //        var livestock = await _productionionDataService.GetProduction(createdBy: item, fiscalyear: fiscalyear);
+            //        var newlivestocks = livestock.ToList();
+            //        productions.AddRange(newlivestocks);
+            //    }
 
-                var species = await _speciesService.GetSpecies();
+            //    var species = await _speciesService.GetSpecies();
 
-                var prod = new ProductionReport();
-                var sp = new List<string>();
-                var sp1 = new List<string>();
+            //    var prod = new ProductionReport();
+            //    var sp = new List<string>();
+            //    var sp1 = new List<string>();
 
-                foreach (var item in species)
-                {
-                    if (item.Purposes.Contains("Milk"))
-                    {
-                        sp.Add(item.EnglishName);
-                    }
-                }
-                foreach (var item in species)
-                {
-                    if (item.Purposes.Contains("Meat"))
-                    {
-                        sp1.Add(item.EnglishName);
-                    }
-                }
+            //    foreach (var item in species)
+            //    {
+            //        if (item.Purposes.Contains("Milk"))
+            //        {
+            //            sp.Add(item.EnglishName);
+            //        }
+            //    }
+            //    foreach (var item in species)
+            //    {
+            //        if (item.Purposes.Contains("Meat"))
+            //        {
+            //            sp1.Add(item.EnglishName);
+            //        }
+            //    }
 
-                var farms = productions.Where(m => m.Farm != null).Select(m => m.Farm.Id).Distinct().ToList();
-                var productionReports = new List<ProductionReport>();
-                foreach (var item in farms)
-                {
-                    var typeNos = new List<int>();
-                    var milklist = new List<int>();
-                    var meatlist = new List<int>();
-                    foreach (var animal in sp)
-                    {
-                        typeNos.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "milk").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
-                        milklist.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "milk").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
-
-
-                    }
-                    typeNos.Add(milklist.Sum());
-
-                    foreach (var animal in sp1)
-                    {
-                        if (animal.ToLower() != "cow")
-                        {
-                            typeNos.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "meat").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
-                            meatlist.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "meat").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
-                        }
-
-                    }
-                    typeNos.Add(meatlist.Sum());
-                    var farm = await _farmService.GetFarmById(item);
-                    var year = await _fiscalYearService.GetFiscalYearById(fiscalyear);
-                    productionReports.Add(new ProductionReport {
-                        FarmName = farm.NameEnglish,
-                        Address = farm.District + " " + farm.LocalLevel,
-                        Species = sp,
-                        SpeciesMeat=sp1,
-                        Production = typeNos,
-                        FiscalYear = year.NepaliFiscalYear
-
-                    }
-                        );
+            //    var farms = productions.Where(m => m.Farm != null).Select(m => m.Farm.Id).Distinct().ToList();
+            //    var productionReports = new List<ProductionReport>();
+            //    foreach (var item in farms)
+            //    {
+            //        var typeNos = new List<int>();
+            //        var milklist = new List<int>();
+            //        var meatlist = new List<int>();
+            //        foreach (var animal in sp)
+            //        {
+            //            typeNos.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "milk").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
+            //            milklist.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "milk").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
 
 
-                }
+            //        }
+            //        typeNos.Add(milklist.Sum());
 
-                return View(productionReports);
+            //        foreach (var animal in sp1)
+            //        {
+            //            if (animal.ToLower() != "cow")
+            //            {
+            //                typeNos.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "meat").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
+            //                meatlist.Add(productions.Where(m => m.Farm != null).Where(m => m.Farm.Id == item && m.Species.EnglishName == animal && m.ProductionType.ToLower() == "meat").Sum(m => Convert.ToInt32(String.IsNullOrEmpty(m.Quantity) ? "0" : m.Quantity)));
+            //            }
 
-            }
+            //        }
+            //        typeNos.Add(meatlist.Sum());
+            //        var farm = await _farmService.GetFarmById(item);
+            //        var year = await _fiscalYearService.GetFiscalYearById(fiscalyear);
+            //        productionReports.Add(new ProductionReport {
+            //            FarmName = farm.NameEnglish,
+            //            Address = farm.District + " " + farm.LocalLevel,
+            //            Species = sp,
+            //            SpeciesMeat=sp1,
+            //            Production = typeNos,
+            //            FiscalYear = year.NepaliFiscalYear
+
+            //        }
+            //            );
+
+
+            //    }
+
+            //    return View(productionReports);
+
+            //}
         }
         }
 }

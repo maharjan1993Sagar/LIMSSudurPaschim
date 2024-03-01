@@ -29,6 +29,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly SeoSettings _seoSettings;
         private readonly ISpeciesService _speciesService;
+        private readonly ILivestockSpeciesService _livestockSpeciesService;
         public VaccineTypeController(
             IVaccinationTypeService vaccinationTypeService,
             ILanguageService languageService,
@@ -36,7 +37,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IStoreService storeService,
             IWorkContext workContext,
             SeoSettings seoSettings,
-            ISpeciesService speciesService
+            ISpeciesService speciesService,
+            ILivestockSpeciesService livestockSpeciesService
             )
         {
             _vaccinationTypeService = vaccinationTypeService;
@@ -46,6 +48,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _workContext = workContext;
             _seoSettings = seoSettings;
             _speciesService = speciesService;
+            _livestockSpeciesService = livestockSpeciesService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -73,7 +76,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 new SelectListItem{Text="Vaccine", Value="Vaccine" },
             };
             vaccineType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Purpose = await _speciesService.GetSpecies();
+            ViewBag.Purpose = await _livestockSpeciesService.GetBreed();
             ViewBag.Type = vaccineType;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
 
@@ -102,6 +105,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             vaccineType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = vaccineType;
+            ViewBag.Purpose = await _livestockSpeciesService.GetBreed();
+
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -122,7 +127,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 new SelectListItem{Text="Medicine", Value="Medicine" },
                 new SelectListItem{Text="Vaccine", Value="Vaccine" },
             };
-            ViewBag.Purpose = await _speciesService.GetSpecies();
+            ViewBag.Purpose = await _livestockSpeciesService.GetBreed();
+
             vaccineType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = vaccineType;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
@@ -159,7 +165,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 new SelectListItem{Text="Medicine", Value="Medicine" },
                 new SelectListItem{Text="Vaccine", Value="Vaccine" },
             };
-            ViewBag.Purpose = await _speciesService.GetSpecies();
+            ViewBag.Purpose = await _livestockSpeciesService.GetBreed();
+
             vaccineType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             ViewBag.Type = vaccineType;

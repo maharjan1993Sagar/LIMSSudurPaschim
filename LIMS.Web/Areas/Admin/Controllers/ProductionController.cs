@@ -90,6 +90,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m=>m.Name).ToList();
             var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -137,6 +143,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string user = _workContext.CurrentCustomer.Id;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
 
             string createdby = null;
             //if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacAdmin"))
@@ -218,7 +230,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect,"Text","Text",ExecutionHelper.LocalLevel);
 
             var productionType = new List<SelectListItem>() {
                 new SelectListItem{
@@ -277,10 +289,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var quantities = form["Quantity"].ToList();
             var remarks = form["Remarks"].ToList();
 
+            model.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var existingProductionDataIds = form["ProductionDataId"].ToList();
             var updateproductions = new List<Production>();
@@ -301,7 +314,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     ProductionType = model.ProductionType,
                     Provience = model.Provience,
                     District = model.District,
-                    LocalLevel = model.LocalLevel,
+                    LocalLevel = _workContext.CurrentCustomer.LocalLevel,
                     CreatedBy = createdby,
                     Ward=model.Ward,
                     Farm = await _farmService.GetFarmById(model.FarmId),
@@ -348,8 +361,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
            
-                createdby = _workContext.CurrentCustomer.Id;
-            var productiondata = await _productionionDataService.GetFilteredProduction(fiscalyearId, productionType, createdby, district, locallevel,ward);
+            //createdby = _workContext.CurrentCustomer.Id;
+            var productiondata = await _productionionDataService.GetFilteredProduction(fiscalyearId, productionType, "", district, locallevel,ward);
             return Json(productiondata);
         }
 

@@ -112,30 +112,42 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Livestock>> GetFilteredLivestock(string createdby, string speciesId, string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _livestockRepository.Table;
-            if (createdby != "molmac")
+            if (!String.IsNullOrEmpty(createdby) )
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
-            if(fiscalYearId!=null&&(speciesId==null&&string.IsNullOrEmpty(district)))
+            if (!String.IsNullOrEmpty(fiscalYearId))
             {
-                query = query.Where(m => m.FiscalYear.Id==fiscalYearId);
-
+                query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
             }
-            if (fiscalYearId != null && !string.IsNullOrEmpty(speciesId) && string.IsNullOrEmpty(district))
+            if (!String.IsNullOrEmpty(LocalLevel))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId&&m.Species.Id==speciesId);
-
+                query = query.Where(m => m.LocalLevel == LocalLevel);
             }
-            if (fiscalYearId != null && !string.IsNullOrEmpty(speciesId) && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel) )
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId&&m.District==district);
+            //if (createdby != "molmac")
+            //{
+            //    query = query.Where(m => m.CreatedBy == createdby);
+            //}
+            //if(fiscalYearId!=null&&(speciesId==null&&string.IsNullOrEmpty(district)))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id==fiscalYearId);
 
-            }
-            if (fiscalYearId != null && !string.IsNullOrEmpty(speciesId) && district != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId && m.LocalLevel == LocalLevel);
+            //}
+            //if (fiscalYearId != null && !string.IsNullOrEmpty(speciesId) && string.IsNullOrEmpty(district))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId&&m.Species.Id==speciesId);
 
-            }
+            //}
+            //if (fiscalYearId != null && !string.IsNullOrEmpty(speciesId) && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel) )
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId&&m.District==district);
+
+            //}
+            //if (fiscalYearId != null && !string.IsNullOrEmpty(speciesId) && district != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId && m.LocalLevel == LocalLevel);
+
+            //}
             return await PagedList<Livestock>.Create(query, pageIndex, pageSize);
         
         }

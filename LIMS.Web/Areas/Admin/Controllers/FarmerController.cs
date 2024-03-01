@@ -10,6 +10,7 @@ using LIMS.Services.Localization;
 using LIMS.Services.LocalStructure;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
+using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Bali;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
-    public class FarmerController:BaseAdminController
+    public class FarmerController : BaseAdminController
     {
         private readonly IFarmerService _animalRegistrationService;
         private readonly ISpeciesService _speciesService;
@@ -66,14 +67,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public IActionResult Index() => RedirectToAction("List");
 
-        public IActionResult List() => View();
+        public IActionResult List()
+           => View();
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command)
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _animalRegistrationService.Getfarmer(id, command.Page - 1, command.PageSize);
+            var bali = await _animalRegistrationService.Getfarmer("", command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount
@@ -100,7 +102,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             return View();
         }
@@ -234,7 +236,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             return View(model);
         }
@@ -289,7 +291,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 farm.FiscalYearId = animalRegistration.FiscalYearId;
                 farm.CreatedBy = animalRegistration.CreatedBy;
                 farm.District = animalRegistration.District;
-                farm.LocalLevel = model.LocalLevel;
+                farm.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
                 farm.TotalExpenses =model.TotalExpense;
                 farm.Logistics = model.Logistics;
                 farm.Name = Name[i];
@@ -325,7 +327,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
             return View(model);
@@ -359,7 +361,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             return View(model);
         }

@@ -34,7 +34,10 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<FishProduction>> GetFishProduction(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
         {
             var query = _fishProductionRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby);
+            if (!String.IsNullOrEmpty(createdby))
+            {
+                query = query.Where(m => m.CreatedBy == createdby);
+            }
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(

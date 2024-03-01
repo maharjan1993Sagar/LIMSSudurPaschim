@@ -1,7 +1,9 @@
 ﻿using LIMS.Core.ModelBinding;
 using LIMS.Domain;
+using LIMS.Domain.Breed;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -60,6 +62,27 @@ namespace LIMS.Web.Areas.Admin.Models.StatisticalData
         [LIMSResourceDisplayName("Admin.StatisticalData.Service.Month")]
 
         public string Month { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Service.FirmRegistrationType")]
+
+        public string FirmRegistrationServiceType { get; set; }
+
+        [LIMSResourceDisplayName("Admin.StatisticalData.Service.TechnicianName")]
+        public string TechnicianName { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Service.Native")]
+        [UIHint("Int32")]
+
+
+        public string Native { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Service.CrossBreed")]
+        [UIHint("Int32")]
+
+        public string CrossBreed { get; set; }
+        [LIMSResourceDisplayName("Admin.StatisticalData.Service.PureExotic")]
+        [UIHint("Int32")]
+        public string PureExotic { get; set; }
+        public List<Species> Species { get; set; }
+        public List<LivestockSpecies> LivestockSpecies { get; set; }
+
 
     }
 }

@@ -33,7 +33,7 @@
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
                 <div class="x_content form">
                     <div class="form-row">
-                        <div class="col-md-12"><i>Note:Choose option from all checkboxes to filter out montly progress.</i></div>
+                        <div class="col-md-12"><i>Note:Choose at least Fiscal year and month to filter out montly progress.</i></div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYearId" />
@@ -85,7 +85,7 @@
                         <tr style="text-align:center">
                             <th>@T("Admin.Budget.ActivityName")</th>
                             <th>@T("Admin.Budget.KarchaSrishak")</th>
-                            <th>@T("Admin.Budget.KharchaUpaSirshak")</th>
+                            <th>@T("Admin.Budget.SerialNO")</th>
                             <th>@T("Admin.Budget.VautikPragati")</th>
                             <th>@T("Admin.Budget.BitiyaPragati")</th>
                             <th></th>
@@ -121,32 +121,40 @@
                     <input type="hidden" id="hidProgressId" />
                     <input type="hidden" id="hidMonth" />
                     <input type="hidden" id="hidFiscalYear" />
-                    <div class="form-group">
-                        <label>Bhautik Pragati</label>
-                        <input type="number" step="001" name="BhautikPragati" id="txtBhautik" class="form-control" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@T("Admin.Budget.VautikPragati")</label>
+                            <input type="number" step="001" name="BhautikPragati" id="txtBhautik" class="form-control" />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Bitiya Pragati</label>
-                        <input type="number" step="001" name="BitiyaPragati" id="txtBitiya" class="form-control" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@T("Admin.Budget.BitiyaPragati")</label>
+                            <input type="number" step="001" name="BitiyaPragati" id="txtBitiya" class="form-control" />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>UpalbdiHaru</label>
-                        <textarea type="text" rows="4" id="txtUpalabdhiHaru" class="form-control"></textarea>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@T("Admin.Budget.UpalabdhiHaru")</label>
+                            <textarea type="text" rows="4" id="txtUpalabdhiHaru" class="form-control"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Kaifiyat</label>
-                        <textarea type="text" rows="2" id="txtRemarks" class="form-control"></textarea>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@T("Admin.Budget.Kaifiyat")</label>
+                            <textarea type="text" rows="2" id="txtRemarks" class="form-control"></textarea>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" id="btnUpdateTable">Submit</button>
+                            <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-success" id="btnUpdateTable">Submit</button>
-                        <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
 
-                @*<center>
-                        <input type="submit" class="btn btn-success" />
-                    </center>*@
-            </div>
+                    @*<center>
+            <input type="submit" class="btn btn-success" />
+        </center>*@
+                </div>
         </div>
     </div>
 
@@ -204,7 +212,7 @@
                         var tableRow = '<tr id="' + item.Id + '" data-budgetid="' + item.BudgetId + '" data-progressid="' + item.Id + '"  data-id="' + item.Id + '" data-upalbdiharu="' + item.UpalbdiHaru + '" data-remarks="' + item.Remarks + '" data-vautikpragati="' + item.VautikPragati + '" data-bitiyapragati="' + item.BitiyaPragati + '">';
                         tableRow += '<td>' + item.Budget.ActivityName + '<input type="hidden" name="BudgetId" value="' + item.BudgetId + '"/><input type="hidden" name="ProgressDataId" value="' + item.Id + '" /></td>';
                         tableRow += '<td>' + item.Budget.KarchaSrishak + '</td>';
-                        tableRow += '<td>' + item.Budget.KharchaUpaSirshak + '</td>';
+                        tableRow += '<td>' + item.Budget.SerialNO + '</td>';
 
                         tableRow += '<td>' + item.VautikPragati + '</td>';
                         tableRow += '<td>' + item.BitiyaPragati + '</td>';
@@ -383,7 +391,7 @@
                     console.log("Request completed.");
                 });
 
-                
+
 
             }
     });

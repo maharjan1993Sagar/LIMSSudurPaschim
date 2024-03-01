@@ -79,9 +79,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> List()
         {
-            var createdby = _workContext.CurrentCustomer.EntityId;
-            var createdbys = _customerService.GetCustomerByLssId(null, createdby);
-            var ids = createdbys.Select(m => m.Id).ToList();
+            //var createdby = _workContext.CurrentCustomer.EntityId;
+            //var createdbys = _customerService.GetCustomerByLssId(null, createdby);
+            //var ids = createdbys.Select(m => m.Id).ToList();
 
             FarmListModel currentfiscal = new FarmListModel();
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
@@ -99,7 +99,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var speci = new List<SelectListItem>();
             try
             {
-                speci = new SelectList(speciesist, "Id", "NepaliName", species.Where(m => m.EnglishName.ToLower() == "cow").FirstOrDefault().Id).ToList();
+                speci = new SelectList(speciesist, "Id", "NepaliName", species.Where(m => m.EnglishName.ToLower() == "cow").FirstOrDefault().Id.ToString()).ToList();
             }
             catch
             {
@@ -120,13 +120,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
 
-                string createdby = null;
+                //string createdby = null;
 
-                createdby = _workContext.CurrentCustomer.Id;
+                //createdby = _workContext.CurrentCustomer.Id;
 
                 var currenFiscal = await _fiscalYearService.GetCurrentFiscalYear();
 
-                var livestocks = await _livestockService.GetBreed(createdby,keyword);
+                var livestocks = await _livestockService.GetBreed("",keyword);
                 var live = livestocks.Select(m => m.Ward).Distinct();
                 //List<LivestockListModel> lives = new List<LivestockListModel>();
                 //foreach (var item in live)
@@ -222,14 +222,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Report()
         {
             var createdby = _workContext.CurrentCustomer.EntityId;
-            var createdbys = _customerService.GetCustomerByLssId(null, createdby);
-            var ids = createdbys.Select(m => m.Id).ToList();
+            //var createdbys = _customerService.GetCustomerByLssId(null, createdby);
+           // var ids = createdbys.Select(m => m.Id).ToList();
 
             FarmListModel currentfiscal = new FarmListModel();
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             currentfiscal.CurrentFiscalYear = fiscalyear.Id;
             var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
 
             ViewBag.fiscalyear = dropdownitem;
             var months = QuaterHelper.GetQuater();
@@ -288,7 +294,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var spes = await _speciesService.GetSpecies();
             var sf = spes.Where(m => m.EnglishName.ToLower() != "fish");
@@ -325,7 +331,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+            model.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
 
             var GrowingSeason = form["GrowingSeasonId"].ToList();
             var Area = form["Area"].ToList();
@@ -362,7 +369,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
                     Provience = model.Provience,
                     District = model.District,
-                    LocalLevel = model.LocalLevel,
+                    LocalLevel = _workContext.CurrentCustomer.LocalLevel,
 
                     CreatedBy = createdby,
 

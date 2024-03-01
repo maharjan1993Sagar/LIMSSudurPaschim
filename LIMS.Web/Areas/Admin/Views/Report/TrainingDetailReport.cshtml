@@ -150,6 +150,8 @@
         });
 
         $('#TrainingReport').submit(function (e) {
+            $('#result').html("");
+
             e.preventDefault();
             var data = {
                 fiscalYear: $('#FiscalYear').val(),

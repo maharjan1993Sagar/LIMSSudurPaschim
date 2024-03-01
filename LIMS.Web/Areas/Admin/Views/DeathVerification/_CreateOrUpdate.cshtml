@@ -1,0 +1,211 @@
+﻿@model DeathVerificationModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group">
+                    <admin-label asp-for="FiscalYearId" />
+                    <select asp-for="FiscalYearId" asp-items="@ViewBag.FiscalYearId" class="form-control" required="required" />
+                    <input asp-for="FiscalYearId" type="hidden" />
+                    <span asp-validation-for="FiscalYearId"></span>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="EnglishDate" />
+                    <input asp-for="EnglishDate" class="form-control" />
+                    <span asp-validation-for="EnglishDate"></span>
+                </div>
+            </div>
+            <input type="hidden" asp-for="OrganizationId" />
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="OrganizationName" />
+                    <input asp-for="OrganizationName" class="form-control" />
+                    <span asp-validation-for="OrganizationName"></span>
+
+                </div>
+            </div>
+            <input type="hidden" asp-for="LocalLevel" />
+            @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+            </div>
+        </div>*@
+
+            <div class="col-md-1">
+                <div class="form-group">
+                    <admin-label asp-for="WardNo" />
+                    <select asp-for="WardNo" asp-items="@ViewBag.Ward" class="form-control"></select>
+                    <span asp-validation-for="WardNo"></span>
+                </div>
+            </div>
+            <input type="hidden" asp-for="FarmerId" />
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="FarmerName" />
+                    <input class="form-control"  asp-for="FarmerName" />
+                    <span asp-validation-for="FarmerName"></span>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="LivestockSpeciesId" />
+                    <select asp-for="LivestockSpeciesId" asp-items="@ViewBag.Species" class="form-control"></select>
+                    <span asp-validation-for="LivestockSpeciesId"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="LivestockBreedId" />
+                    <select asp-for="LivestockBreedId" asp-items="@ViewBag.Breed" class="form-control" required="required" ></select>
+                    <span asp-validation-for="LivestockBreedId"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="TagNo" />
+                    <input asp-for="TagNo" class="form-control" required="required" />
+                    <span asp-validation-for="TagNo"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="Color" />
+                    <admin-input asp-for="Color" required="required" />
+                    <span asp-validation-for="Color"></span>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <admin-label asp-for="Height" />
+                    <admin-input asp-for="Height" required="required" />
+                    <span asp-validation-for="Height"></span>
+
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <admin-label asp-for="Age" />
+                    <admin-input asp-for="Age" required="required" />
+                    <span asp-validation-for="Age"></span>
+
+                </div>
+            </div><div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="InsuranceCompany" />
+                    <admin-input asp-for="InsuranceCompany" required="required" />
+                    <span asp-validation-for="InsuranceCompany"></span>
+
+                </div>
+            </div><div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="InsuranceCompanyAddress" />
+                    <admin-input asp-for="InsuranceCompanyAddress" required="required" />
+                    <span asp-validation-for="InsuranceCompanyAddress"></span>
+
+                </div>
+            </div><div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="InsuranceNo" />
+                    <admin-input asp-for="InsuranceNo" required="required" />
+                    <span asp-validation-for="InsuranceNo"></span>
+
+                </div>
+            </div><div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="CauseOfDeath" />
+                    <admin-input asp-for="CauseOfDeath" required="required" />
+                    <span asp-validation-for="CauseOfDeath"></span>
+
+                </div>
+            </div><div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="InsuranceAmount" />
+                    <admin-input asp-for="InsuranceAmount" required="required" />
+                    <span asp-validation-for="InsuranceAmount"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <admin-label asp-for="Remarks" />
+                    <admin-input asp-for="Remarks" required="required" />
+                    <span asp-validation-for="Remarks"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="VerifiedBy" />
+                    <admin-input asp-for="VerifiedBy" required="required" />
+                    <span asp-validation-for="VerifiedBy"></span>
+
+                </div>
+            </div><div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="PhoneNumber" />
+                    <admin-input asp-for="PhoneNumber" required="required" />
+                    <span asp-validation-for="PhoneNumber"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="Designation" />
+                    <admin-input asp-for="Designation" />
+                    <span asp-validation-for="Designation"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div><script>
+    $(document).ready(function () {
+
+        @*$('#@Html.IdFor(m=>m.CategoryName)').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/Anugaman/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $('#@Html.IdFor(m=>m.CategoryName)').val(),
+                                type: "Anugaman"
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's ID to the hidden textbox
+                $('#@Html.IdFor(m=>m.CategoryId)').val(e.dataItem.id);
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });*@
+    });
+</script>

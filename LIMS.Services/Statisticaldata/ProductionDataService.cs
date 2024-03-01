@@ -140,31 +140,43 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Production>> GetFilteredProduction(string createdby, string type, string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
-            if (createdby != "molmac")
+            if (!String.IsNullOrEmpty(createdby))
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
-            if (fiscalYearId != null && (type == null && string.IsNullOrEmpty(district)))
+            if (!String.IsNullOrEmpty(LocalLevel))
+            {
+                query = query.Where(m => m.LocalLevel == LocalLevel);
+            }
+            if (!String.IsNullOrEmpty(fiscalYearId))
             {
                 query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
-
             }
-            if (fiscalYearId != null && type != null && string.IsNullOrEmpty(district))
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type);
+            //if (createdby != "molmac")
+            //{
+            //    query = query.Where(m => m.CreatedBy == createdby);
+            //}
+            //if (fiscalYearId != null && (type == null && string.IsNullOrEmpty(district)))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
 
-            }
-            if (fiscalYearId != null && type != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.District == district);
+            //}
+            //if (fiscalYearId != null && type != null && string.IsNullOrEmpty(district))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type);
 
-            }
-            
-            if (fiscalYearId != null && type != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.LocalLevel == LocalLevel);
+            //}
+            //if (fiscalYearId != null && type != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.District == district);
 
-            }
+            //}
+
+            //if (fiscalYearId != null && type != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.ProductionType == type && m.LocalLevel == LocalLevel);
+
+            //}
             return await PagedList<Production>.Create(query, pageIndex, pageSize);
 
         }
@@ -176,13 +188,29 @@ namespace LIMS.Services.Statisticaldata
             {
                 query = query.Where(m => m.CreatedBy == createdBy);
             }
-            query = query.Where(m =>
-              m.LocalLevel == locallevel &&
-              m.District==district&&
-              m.ProductionType == productiontype &&
-              m.FiscalYear.Id==fiscalyearId &&
-              m.Ward==ward
-            );
+            if(!String.IsNullOrEmpty(fiscalyearId))
+            {
+                query = query.Where(m => m.FiscalYear.Id == fiscalyearId);
+            }
+            if (!String.IsNullOrEmpty(productiontype))
+            {
+                query = query.Where(m => m.ProductionType == productiontype); 
+            }
+            if (!String.IsNullOrEmpty(ward))
+            {
+                query = query.Where(m => m.Ward == ward);
+            }
+            if (!String.IsNullOrEmpty(locallevel))
+            {
+                query = query.Where(m => m.LocalLevel == locallevel);
+            }
+            //query = query.Where(m =>
+            //  m.LocalLevel == locallevel &&
+            //  m.District==district&&
+            //  m.ProductionType == productiontype &&
+            //  m.FiscalYear.Id==fiscalyearId &&
+            //  m.Ward==ward
+            //);
             return await PagedList<Production>.Create(query, pageIndex, pageSize);
         }
     }

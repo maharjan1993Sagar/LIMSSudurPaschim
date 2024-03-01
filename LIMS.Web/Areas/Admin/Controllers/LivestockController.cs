@@ -79,7 +79,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             FarmListModel currentfiscal = new FarmListModel();
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
@@ -242,8 +242,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Report()
         {
             var createdby = _workContext.CurrentCustomer.EntityId;
-            var createdbys = _customerService.GetCustomerByLssId(null, createdby);
-            var ids = createdbys.Select(m => m.Id).ToList();
+            //var createdbys = _customerService.GetCustomerByLssId(null, createdby);
+            //var ids = createdbys.Select(m => m.Id).ToList();
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
 
             FarmListModel currentfiscal = new FarmListModel();
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
@@ -256,10 +262,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Quater = months;
             var roles = _workContext.CurrentCustomer.Id;
-            if(roles.Contains(RoleHelper.VhlsecAdmin)||roles.Contains(RoleHelper.VhlsecUser))
-            {
-                ViewBag.District = _workContext.CurrentCustomer.District;
-            }
+            //if(roles.Contains(RoleHelper.VhlsecAdmin)||roles.Contains(RoleHelper.VhlsecUser))
+            //{
+            //    ViewBag.District = _workContext.CurrentCustomer.District;
+            //}
             var species = await _speciesService.GetBreed();
 
             var speciesist = species.Where(m => m.EnglishName.ToLower() != "fish").ToList();
@@ -288,31 +294,30 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
                 var livestocks = new List<Livestock>();
 
-                if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacUser"))
-                {
-                    livestocks = _livestockService.GetLivestock().Result.ToList();
+                // if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacUser"))
+                // {
+                //     livestocks = _livestockService.GetLivestock().Result.ToList();
 
-                }
-               else if (roles.Contains("DolfdAdmin") || roles.Contains("DolfdUser") )
-                {
+                // }
+                //else if (roles.Contains("DolfdAdmin") || roles.Contains("DolfdUser") )
+                // {
 
-                    livestocks = _livestockService.GetLivestock().Result.ToList();
-                }
-                else
-                {
-                    string createdby = null;
+                //     livestocks = _livestockService.GetLivestock().Result.ToList();
+                // }
+                // else
+                // {
+                //     string createdby = null;
 
-                    createdby = _workContext.CurrentCustomer.Id;
-                    livestocks = _livestockService.GetLivestock(createdby).Result.ToList();
+                //     createdby = _workContext.CurrentCustomer.Id;
+                //     livestocks = _livestockService.GetLivestock(createdby).Result.ToList();
 
 
-                }
+                // }
+                     livestocks = _livestockService.GetLivestock("").Result.ToList();
+
+
                 var currenFiscal = await _fiscalYearService.GetCurrentFiscalYear();
                 livestocks.Where(m => m.FiscalYear.Id == currenFiscal.Id);
-
-
-
-
 
                 var live = livestocks.Select(m => m.Ward).Distinct();
                 List<LivestockModel> lives = new List<LivestockModel>();
@@ -362,15 +367,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
                 var livestocks = new List<Livestock>();
-                if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacUser")|| roles.Contains("DolfdAdmin")|| roles.Contains("DolfdUserUser"))
-                {
-                    createdby = "molmac";
-                }
-                else
-                {
-                    createdby = _workContext.CurrentCustomer.Id;
-                }
-                livestocks = _livestockService.GetFilteredLivestock(createdby, speciesId, fiscalYear, locallevel, district).Result.ToList();
+                //if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacUser")|| roles.Contains("DolfdAdmin")|| roles.Contains("DolfdUserUser"))
+                //{
+                //    createdby = "molmac";
+                //}
+                //else
+                //{
+                //    createdby = _workContext.CurrentCustomer.Id;
+                //}
+                livestocks = _livestockService.GetFilteredLivestock("", speciesId, fiscalYear, locallevel, district).Result.ToList();
 
 
                 //var live = livestocks.Select(m => m.Ward).Distinct();
@@ -452,28 +457,31 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> Create() {
 
-                    WardHelper wardHelper = new WardHelper();
+             WardHelper wardHelper = new WardHelper();
             var ward = wardHelper.GetWard();
             ward.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-
             ViewBag.Ward = ward;
 
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
             var spes = await _speciesService.GetBreed();
             var sf=spes.Where(m => m.EnglishName.ToLower() != "fish");
             var species = new SelectList(sf, "Id", "NepaliName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;
+
             MonthHelper month = new MonthHelper();
             var months = month.GetMonths();
-            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
+            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
 
 
@@ -483,8 +491,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var type =BreedTypeHelper.GetBreedType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+
             LivestockModel livestockModel = new LivestockModel();
             livestockModel.District = _workContext.CurrentCustomer.OrgAddress;
+           
             return View(livestockModel);
         }
         [HttpPost]
@@ -526,7 +542,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Species = await _speciesService.GetBreedById(model.SpeciesName),
                         Provience = model.Provience,
                         District = model.District,
-                        LocalLevel = model.LocalLevel,
+                        LocalLevel = _workContext.CurrentCustomer.LocalLevel,
                         Quater = model.Quater,
                         BreedType = model.BreedType,
                       
@@ -552,7 +568,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 await _livestockService.InsertLivestockList(addLivestocks);
 
 
-            
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
 
             return RedirectToAction("List");
         }
@@ -597,6 +617,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var type = BreedTypeHelper.GetBreedType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             LivestockModel livestockModel = new LivestockModel();
             livestockModel.District = _workContext.CurrentCustomer.OrgAddress;
             List<SpeciesWithAnimal> speciesWithAnimals = new List<SpeciesWithAnimal>();
@@ -703,6 +729,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 await _livestockService.InsertLivestockList(addLivestocks);
 
 
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
 
             return RedirectToAction("List");

@@ -617,6 +617,8 @@ namespace LIMS.Services.Customers
                 .Set(x => x.State, customer.State)
                 .Set(x => x.LocalLevel, customer.LocalLevel)
                 .Set(x => x.Wardno, customer.Ward)
+                .Set(x => x.Ward, customer.Ward)
+                .Set(x => x.Tole, customer.Tole)
                 .Set(x => x.PhoneNo, customer.PhoneNo)
                 .Set(x => x.MobileNo, customer.MobileNo)
                 .Set(x => x.IDCardNo, customer.IDCardNo)

@@ -92,8 +92,8 @@ namespace LIMS.Services.Basic
         public async Task<IPagedList<Budget>> GetBudget(List<string> createdby, string fiscalYear, string sourceOfFund, string typeOfExpense,string ExpensesCategory ,  int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _BudgetRepository.Table;
-            query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYear.Id == fiscalYear && m.SourceOfFund == sourceOfFund && m.TypeOfExpen == typeOfExpense);
-           if(createdby.Count>0)
+            //query = query.Where(m => createdby.Contains(m.CreatedBy) && m.FiscalYear.Id == fiscalYear && m.SourceOfFund == sourceOfFund && m.TypeOfExpen == typeOfExpense);
+           if(createdby !=null &&createdby.Count>0)
             {
                 query = query.Where(m => createdby.Contains(m.CreatedBy));
             }

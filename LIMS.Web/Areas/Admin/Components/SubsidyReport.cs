@@ -66,7 +66,7 @@ namespace LIMS.Web.Areas.Admin.Components
             _anudanService = anudanService;
         }
         #endregion ctor
-        public async Task<IViewComponentResult> InvokeAsync(string fiscalyear, string locallevel,string xetra)
+        public async Task<IViewComponentResult> InvokeAsync(string fiscalyear, string locallevel, string xetra)
         {
             var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
             string localLevel = _workContext.CurrentCustomer.LocalLevel;
@@ -87,11 +87,15 @@ namespace LIMS.Web.Areas.Admin.Components
             //    xetra = "";
             //}
 
-            var filteredAnudan =await _anudanService.GetFilteredSubsidy("",fiscalyear,locallevel,"",xetra);
+            var filteredAnudan = await _anudanService.GetFilteredSubsidy("", fiscalyear, "", "", xetra);
 
             var distinctBudget = filteredAnudan.ToList().Select(m => m.BudgetId).Distinct();
 
             var subsidy = new SubsidyReportModel();
+            if (!filteredAnudan.Any())
+            {
+                return View(subsidy);
+            }
             subsidy.FiscalYear = filteredAnudan.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear;
             subsidy.LocalLevel = orgName;
             subsidy.Level = orgLevel;
@@ -105,7 +109,8 @@ namespace LIMS.Web.Areas.Admin.Components
             {
                 var objData = filteredAnudan.ToList().Where(m => m.BudgetId == item);
                 var objFirst = objData.FirstOrDefault();
-                var objSubsidyData = new SubsidyRowData {                    
+                var objSubsidyData = new SubsidyRowData { 
+                    Upalabdhiharu = objFirst.ExpectedOutput,
                     BudgetTitle = objFirst.Budget.ActivityName,
                     MainActivity = objFirst.ExpectedOutput,
                     Remarks = objFirst.Remaks,

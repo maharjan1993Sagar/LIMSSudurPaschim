@@ -68,35 +68,43 @@ namespace LIMS.Services.Breed
         public async Task<IPagedList<CropsProduction>> GetFilteredProduction(string createdby, string speciesId, string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _VarietyRepository.Table;
-            if (createdby != "molmac")
+            if (!String.IsNullOrEmpty(createdby))
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
-            if (fiscalYearId != null && (speciesId == null && string.IsNullOrEmpty(district)))
+            if (!String.IsNullOrEmpty(fiscalYearId))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
-
+               query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
             }
-            if (fiscalYearId != null && speciesId != null && string.IsNullOrEmpty(district))
+            if (!String.IsNullOrEmpty(LocalLevel))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.CropName.Species.Id == speciesId);
-
+                query = query.Where(m => m.LocalLevel == LocalLevel);
             }
-            if (fiscalYearId != null && speciesId != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.CropName.Species.Id == speciesId && m.District == district);
+            //if (fiscalYearId != null && (speciesId == null && string.IsNullOrEmpty(district)))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
 
-            }
-            if (fiscalYearId != null && speciesId == null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.District == district);
+            //}
+            //if (fiscalYearId != null && speciesId != null && string.IsNullOrEmpty(district))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.CropName.Species.Id == speciesId);
 
-            }
-            if (fiscalYearId != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
-            {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.LocalLevel == LocalLevel);
+            //}
+            //if (fiscalYearId != null && speciesId != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.CropName.Species.Id == speciesId && m.District == district);
 
-            }
+            //}
+            //if (fiscalYearId != null && speciesId == null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(LocalLevel))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.District == district);
+
+            //}
+            //if (fiscalYearId != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(LocalLevel))
+            //{
+            //    query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.LocalLevel == LocalLevel);
+
+            //}
             return await PagedList<CropsProduction>.Create(query, pageIndex, pageSize);
 
         }

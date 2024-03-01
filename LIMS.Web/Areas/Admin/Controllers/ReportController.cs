@@ -99,8 +99,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         }
 
-
-
         public async Task<IActionResult> LivestockReport()
         {
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
@@ -280,8 +278,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
-            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Value", "Text", ExecutionHelper.LocalLevel);
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
             ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
 
@@ -305,6 +303,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
         }
+
         public async Task<IActionResult> SubsidyReport()
         {
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
@@ -314,7 +313,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels =new SelectList(localLevelSelect.ToList(),"Value","Text",ExecutionHelper.LocalLevel);
+            ViewBag.LocalLevels =new SelectList(localLevelSelect.ToList(),"Text","Text",ExecutionHelper.LocalLevel);
 
             ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
 
@@ -332,6 +331,38 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Species = species;
 
             var model =new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        public async Task<IActionResult> ProgressReport()
+        {
+            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYear = fiscalyear;
+           
+            ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+            var month = new MonthHelper();
+            var months = month.GetMonths();
+            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.AllMonths"), ""));
+            ViewBag.Month = months;
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+            var LssIds = new List<Lss>();
+
+            LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+
+            //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+            //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevel = lss;
+
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Species = species;
+
+            var model = new ProgressReportModel();
 
             return View(model);
 
@@ -363,6 +394,18 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 livestockWardWiseReportHtml
             });
         }
+        [HttpPost]
+        public virtual IActionResult ProgressReportHtml(string FiscalYear,  string xetra = "", string month ="")
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("ProgressReport", new { fiscalyear = FiscalYear, xetra = xetra, month = month });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
 
 
         public async Task<IActionResult> TrainingDetailReport()
@@ -373,8 +416,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
-            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Value", "Text", ExecutionHelper.LocalLevel);
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
             // var trainings = await _training
 
@@ -387,7 +430,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;
-          
+
+            ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+
             var model = new TrainingReportModel();
 
             return View(model);
@@ -402,8 +448,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
-            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Value", "Text", ExecutionHelper.LocalLevel);
+           // localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
             var budget = await _budgetService.GetBudget("");
             var anudan = budget.Where(m => m.ExpensesCategory == "Subsidy").ToList();
@@ -411,6 +457,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var budgetSelect = new SelectList(anudan, "Id", "ActivityName").ToList();
             budgetSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Budget = budgetSelect;
+
+            ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
 
 
             string entityId = _workContext.CurrentCustomer.EntityId;

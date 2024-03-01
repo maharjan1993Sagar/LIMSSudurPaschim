@@ -22,7 +22,6 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="ServicesType" />
@@ -34,7 +33,6 @@
                             <div class="form-group">
                                 <admin-label asp-for="SpeciesName" />
                                 <admin-select asp-for="SpeciesName" asp-items="ViewBag.SpeciesId" onchange="getServiceData()" />
-
                                 <span asp-validation-for="SpeciesName"></span>
                             </div>
                         </div>
@@ -59,7 +57,9 @@
                                 <span asp-validation-for="TreatmentType"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <input type="hidden" asp-for="Provience" />
+                        <input type="hidden" asp-for="District" />
+                        @*<div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Provience" />
                                 <admin-select asp-for="Provience" id="country" />
@@ -74,12 +74,11 @@
                                 </select>
                                 <span asp-validation-for="District"></span>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel" class="form-control">
-                                    <option value="">Select</option>
+                                <select asp-for="LocalLevel" class="form-control">
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>
@@ -88,7 +87,6 @@
                             <div class="form-group">
                                 <admin-label asp-for="Ward" />
                                 <admin-select asp-for="Ward" asp-items="ViewBag.Ward" required onchange="getServiceData()" />
-
                                 <span asp-validation-for="Ward"></span>
                             </div>
                         </div>
@@ -253,7 +251,6 @@
             }
             else if ($(this).val() == "Treatment") {
                 $('#tabularEntry').html('');
-
                 $("#showTable").show();
 
                 url = "/Admin/Prototype/getSpecies";
@@ -330,17 +327,18 @@
         });
     });
         function getServiceData() {
-             var data = {
+            var data = {
             species: $('#@Html.IdFor(m => m.SpeciesName)').val(),
             fiscalYearId: $('#@Html.IdFor(m => m.FiscalYear)').val(),
             quater: $('#@Html.IdFor(m => m.Month)').val(),
             serviceType: $('#@Html.IdFor(m => m.ServicesType)').val(),
             vaccineName: $('#@Html.IdFor(m => m.Vaccination)').val(),
-             treatmentType: $('#@Html.IdFor(m => m.TreatmentType)').val(),
-             animalHealth: $('#@Html.IdFor(m => m.AnimalHealthService)').val(),
-             district: $('#district').val(),
-                 locallevel: $('#locallevel').val(),
-                 ward: $('#@Html.IdFor(m => m.Ward)').val()
+            treatmentType: $('#@Html.IdFor(m => m.TreatmentType)').val(),
+            animalHealth: $('#@Html.IdFor(m => m.AnimalHealthService)').val(),
+            district: $('#@Html.IdFor(m => m.District)').val(),
+            locallevel: $('#@Html.IdFor(m => m.LocalLevel)').val(),
+            ward: $('#@Html.IdFor(m => m.Ward)').val(),
+            type: $('#@Html.IdFor(m => m.ServicesType)').val()
 
         };
         addAntiForgeryToken(data);

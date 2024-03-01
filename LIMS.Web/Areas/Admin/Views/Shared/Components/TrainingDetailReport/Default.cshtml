@@ -11,64 +11,71 @@
 }
 
 <div id="Printcontent">
-    <div class="text-center">
-        @localLevel<br />
-        @level<br />
-        @address<br />
-        @fiscalYear को सम्पन्न तालिमको विवरण
+    @if (Model.Count() > 0)
+    {
+        <div class="text-center">
+            <b>
+                @localLevel<br />
+                @level<br />
+                @address<br />
+                आ. ब. @fiscalYear को सम्पन्न तालिमको विवरण
+            </b>
 
-    </div>
-    <div>
-        <b> बजेट शिर्षक:</b> @objFirst.Budget.ActivityName<br />
-        <b>तालिम:</b> @objFirst.Talim.NameNepali <br />
-        <b>सुरु मिति:</b> @objFirst.StartDate
-        <b> अन्तिम मिति:</b> @objFirst.EndDate
-        <b> जम्मा खर्च:</b> @objFirst.TotalExpenses
-        <b>विवरण:</b> @objFirst.Logistics<br />
-        <b>उद्देश्य:</b> @objFirst.Purpose<br />
-        <b> कैफियत:</b> @objFirst.Remarks<br />
+        </div>
+        <div>
+            <b> बजेट शिर्षक:</b><br /> @objFirst.Budget.ActivityName<br />
+            <b>तालिम:</b><br /> @objFirst.Talim.NameNepali <br />
+            <b>सुरु मिति:</b> @objFirst.StartDate.ToString("yyyy-mm-dd")
+            <b> अन्तिम मिति:</b> @objFirst.EndDate.ToString("yyyy-mm-dd")
+            <b> जम्मा खर्च:</b> @objFirst.TotalExpenses
+            <b>विवरण:</b><br /> @objFirst.Logistics<br />
+            <b>उद्देश्य:</b><br /> @objFirst.Purpose<br />
+            <b> कैफियत:</b><br /> @objFirst.Remarks<br />
 
-    </div>
-    <table class="table table-bordered">
-        <thead>
-            @if (Model.Count() > 0)
-            {
-                <tr style="text-align:center">
-                    <th id="c">@T("Admin.Trining.SN")</th>
-                    <th>@T("Admin.Training.Name")</th>
-                    <th>@T("Admin.Training.Address")</th>
-                    <th>@T("Admin.Training.WardNo")</th>
-                    <th>@T("Admin.Training.Phone")</th>
-                    <th>@T("Admin.Training.Male")</th>
-                    <th>@T("Admin.Training.Female")</th>
-                    <th>@T("Admin.Training.Dalit")</th>
-                    <th>@T("Admin.Training.Janajati")</th>
-                    <th>@T("Admin.Training.Other")</th>
-                </tr>
-            }
-        </thead>
-        <tbody>
-            @{string a = "";}
-            @foreach (var item in Model)
-            {
+        </div>
+        <div class="divTable">
+        <table class="table table-bordered">
+            <thead>
+                @if (Model.Count() > 0)
+                {
+                    <tr style="text-align:center">
+                        <th id="c">@T("Admin.Trining.SN")</th>
+                        <th>@T("Admin.Training.Name")</th>
+                        <th>@T("Admin.Training.Address")</th>
+                        <th>@T("Admin.Training.WardNo")</th>
+                        <th>@T("Admin.Training.Phone")</th>
+                        <th>@T("Admin.Training.Male")</th>
+                        <th>@T("Admin.Training.Female")</th>
+                        <th>@T("Admin.Training.Dalit")</th>
+                        <th>@T("Admin.Training.Janajati")</th>
+                        <th>@T("Admin.Training.Other")</th>
+                    </tr>
+                }
+            </thead>
+            <tbody>
+                @{string a = "";}
+                @foreach (var item in Model)
+                {
 
-                <tr>
-                    <td>@i</td>
-                    <td>@item.Name</td>
-                    <td>@item.Address</td>
-                    <td>@item.Ward</td>
-                    <td>@item.Phone</td>
-                    <td>@item.Male</td>
-                    <td>@item.FeMale</td>
-                    <td>@item.Dalit</td>
-                    <td>@item.Janajati</td>
-                    <td>@item.Others</td>
-                </tr>
-                i = i + 1;
-            }
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Name</td>
+                        <td>@item.Address</td>
+                        <td>@item.Ward</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Male</td>
+                        <td>@item.FeMale</td>
+                        <td>@item.Dalit</td>
+                        <td>@item.Janajati</td>
+                        <td>@item.Others</td>
+                    </tr>
+                    i = i + 1;
+                }
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+            </div>
+    }
 </div>
 
 @if (Model.Count() > 0)

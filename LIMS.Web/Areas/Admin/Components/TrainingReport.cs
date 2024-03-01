@@ -95,9 +95,14 @@ namespace LIMS.Web.Areas.Admin.Components
             //{
             //    xetra = "";
             //}
-            var talims = await _farmerService.GetfarmerByPugigatType("", locallevel, budgetId, fiscalyear, "",xetra);
+            var talims = await _farmerService.GetfarmerByPugigatType("", "", budgetId, fiscalyear, "",xetra);
 
             var objTrainingReport = new TrainingReportModel();
+
+            if (!talims.Any())
+            {
+                return View(objTrainingReport);
+            }
             objTrainingReport.FiscalYear = talims.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear;
             objTrainingReport.Address =orgAddress;
             objTrainingReport.LocalLevel = orgName;

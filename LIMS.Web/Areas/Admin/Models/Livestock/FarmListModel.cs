@@ -29,5 +29,20 @@ namespace LIMS.Web.Areas.Admin.Models.Livestock
         public string BudgetId { get; set; }
         [LIMSResourceDisplayName("Admin.Farmer.TalimId")]
         public string TalimId { get; set; }
+       
+        [LIMSResourceDisplayName("Admin.Livestock.Farm.Month")]
+        public string Month { get; set; }
+        [LIMSResourceDisplayName("Admin.Livestock.Farm.Quater")]
+        public string Quater { get; set; }
+
+        [LIMSResourceDisplayName("Admin.common.Ward")]
+        public string ward { get; set; }
+        [LIMSResourceDisplayName("Admin.Livestock.Farm.Species")]
+
+        public string SpeciesId { get; set; }
+       
+        [LIMSResourceDisplayName("Admin.Livestock.Farm.Technician")]
+
+        public string Technician { get; set; }
     }
 }

@@ -30,7 +30,7 @@
                                         <span asp-validation-for="Species"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                @*<div class="col-md-2">
                                     <div class="form-group">
                                         <admin-label asp-for="Province" />
                                         <admin-select asp-for="Province" id="country" />
@@ -45,11 +45,11 @@
                                         </select>
                                         <span asp-validation-for="District"></span>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <admin-label asp-for="LocalLevel" />
-                                        <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" onchange="getLivestockData()" class="form-control">
+                                        <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" onchange="getLivestockData()" class="form-control" disabled>
                                             <option value="">Select</option>
                                         </select>
                                         <span asp-validation-for="LocalLevel"></span>
@@ -167,7 +167,7 @@
         var data = {
             fiscalYear: $("#@Html.IdFor(m => m.Fiscalyear)").val(),
             speciesId: $("#@Html.IdFor(m => m.Species)").val(),
-                        district:$("#district").val(),
+            //district:$("#district").val(),
             locallevel:$("#locallevel").val()
 
 

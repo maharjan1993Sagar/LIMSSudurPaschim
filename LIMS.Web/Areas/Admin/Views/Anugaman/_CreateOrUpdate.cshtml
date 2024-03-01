@@ -43,29 +43,29 @@
                     <span asp-validation-for="Ward"></span>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="NepaliDate" />
-                    <admin-input asp-for="NepaliDate" />
+                    <input class="form-control" type="date" asp-for="NepaliDate" />
                     <span asp-validation-for="NepaliDate"></span>
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="Month" />
                     <select asp-for="Month" asp-items="@ViewBag.Months" class="form-control" ></select>
                     <span asp-validation-for="Month"></span>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="ObservedBy" />
                     <admin-input asp-for="ObservedBy" required="required" />
                     <span asp-validation-for="ObservedBy"></span>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="Name" />
                     <admin-input asp-for="Name" required="required" />

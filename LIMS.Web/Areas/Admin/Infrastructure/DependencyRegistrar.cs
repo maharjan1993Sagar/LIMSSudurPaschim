@@ -134,6 +134,7 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerLifetimeScope();
             builder.RegisterType<AnugamanService>().As<IAnugamanService>().InstancePerLifetimeScope();
             builder.RegisterType<InputSupplyService>().As<IInputSupplyService>().InstancePerLifetimeScope();
+            builder.RegisterType<DeathVerificationService>().As<IDeathVerificationService>().InstancePerLifetimeScope();
 
 
 
@@ -161,6 +162,8 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<FishProductionService>().As<IFishProductionService>().InstancePerLifetimeScope();
             builder.RegisterType<DolfdAstaiPadService>().As<IDolfdAstaiPadService>().InstancePerLifetimeScope();
             builder.RegisterType<TahaDarbandiService>().As<ITahaDarbandiService>().InstancePerLifetimeScope();
+            builder.RegisterType<ServiceDataService>().As<IServiceData>().InstancePerLifetimeScope();
+
 
 
         }

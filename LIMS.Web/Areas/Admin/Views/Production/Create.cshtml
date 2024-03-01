@@ -62,16 +62,17 @@
                                             <option value="">select</option>
                                         </select>
                                         <span asp-validation-for="District"></span>
-
+                                
                                     </div>
                                 </div>
                                 <input type="hidden" name="district" value="@Model.District" />
                             }*@
+
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control">
-                                    <option value="">Select</option>
+                                @*<input asp-for="LocalLevel" disabled="disabled" class="form-control"/>*@
+                                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" disabled>                                   
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>
@@ -238,7 +239,7 @@
                     tableRow += '<td>' + item.EnglishName + '<input type="hidden" name="SpeciesId" value="'+item.Id+'"/><input type="hidden" name="ProductionDataId" value="" /></td>';
                     tableRow += '<td><input type="number" name="Quantity"  class="form-control" min="0" step="0.01" /></td>';
                     tableRow += '<td>' + $('#select-units').html() + '</td>';
-                    tableRow += '</td><input type="text" name="Remarks"  class="form-control"  /></td>';
+                    tableRow += '<td><input type="text" name="Remarks"  class="form-control" /></td>';
                      tableRow += '</tr>';
                     $("#tabularEntry").append(tableRow);
                 });

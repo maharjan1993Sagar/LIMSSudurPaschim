@@ -80,19 +80,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> List(DataSourceRequest command, string keyword = "")
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-
+            var current = await _fiscalYearService.GetCurrentFiscalYear();
             string createdby = null;
-            if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
-            else
-            {
-                string adminemail = _workContext.CurrentCustomer.CreatedBy;
-                var admin = await _customerService.GetCustomerByEmail(adminemail);
-                createdby = adminemail;
-            }
-            var fishProductions = await _fishProductionService.GetFishProduction(createdby, command.Page - 1, command.PageSize);
+            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
+            //else
+            //{
+            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
+            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
+            //    createdby = adminemail;
+            //}
+            var fishProductions = await _fishProductionService.GetFishProduction("", command.Page - 1, command.PageSize, current.Id);
 
             var gridModel = new DataSourceResult {
                 Data = fishProductions,
@@ -120,7 +120,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
             var breeds = await _breedService.GetBreed();
             var breed = breeds.Where(m => m.Species.EnglishName.ToLower() == "fish").ToList();
@@ -167,7 +167,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = localLevelSelect;
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
+            model.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
 
             var wards = form["Ward"].ToList();
             var numberOfFish = form["NumberOfFish"].ToList();
@@ -206,7 +207,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
                     Province = model.Province,
                     District = model.District,
-                    LocalLevel = model.LocalLevel,
+                    LocalLevel = _workContext.CurrentCustomer.LocalLevel,
                     NatureOfProduction = natureOfProduction[i],
                     CreatedBy = createdby,
                     Remarks = remarks[i]
@@ -241,10 +242,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
             var breeds = await _breedService.GetBreed();
             var breeda = breeds.Where(m => m.Species.EnglishName.ToLower() == "fish").ToList();
+
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;

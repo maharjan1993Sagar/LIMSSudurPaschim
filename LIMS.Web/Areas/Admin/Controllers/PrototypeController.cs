@@ -25,6 +25,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILocalizationService _localizationService;
         private readonly IBreedService _breedService;
         private readonly ISpeciesService _speciesService;
+        private readonly ILivestockSpeciesService _livestockSpeciesService;
         private readonly IVaccinationTypeService _vaccinationType;
         private readonly IParaProfessionalService _paraProfessionalService;
         private readonly IVetGraduateService _vetGraduateService;
@@ -33,7 +34,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public PrototypeController(ILocalizationService localizationService,
             IBreedService breedService, ISpeciesService speciesService,
             IVaccinationTypeService vaccinationType, IParaProfessionalService paraProfessionalService,
-            IVetGraduateService vetGraduateService, IMoAMACService moAMACService, IFiscalYearService fiscalYearService)
+            IVetGraduateService vetGraduateService, IMoAMACService moAMACService, IFiscalYearService fiscalYearService
+            ,ILivestockSpeciesService livestockService)
         {
             _localizationService = localizationService;
             _breedService = breedService;
@@ -43,6 +45,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _paraProfessionalService = paraProfessionalService;
             _moAMACService = moAMACService;
             _fiscalYearService = fiscalYearService;
+            _livestockSpeciesService = livestockService;
         }
 
         public IActionResult SpeciesCreate()
@@ -56,8 +59,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return Ok(await _breedService.GetBreedBySpeciesId(id));
         }
         [AllowAnonymous]
-        public async Task<IActionResult> GetSpecies()
+        public async Task<IActionResult> GetSpecies(string type = "")
         {
+            if(!String.IsNullOrEmpty(type) && type.ToLower()=="treatment")
+            {
+                return Ok(await _livestockSpeciesService.GetBreed());
+            }
             return Ok(await _speciesService.GetSpecies());
         }
         [AllowAnonymous]

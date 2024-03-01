@@ -1,68 +1,73 @@
 ﻿@model LIMS.Web.Areas.Admin.Models.Reports.SubsidyReportModel
 <div id="Printcontent">
-    <div class="text-center">
-        @Model.LocalLevel<br />
-        @Model.Level<br />
-        @Model.Address<br />
-        आ.ब. @Model.FiscalYear को सम्पन्न अनुदानहरुको प्रतिवेदन
+    @if (Model.Rows.Count() > 0)
+    {
+        <div class="text-center">
+            @Model.LocalLevel<br />
+            @Model.Level<br />
+            @Model.Address<br />
+            आ.ब. @Model.FiscalYear को अनुदानहरुको विवरण
 
-    </div>
-    <table class="table table-bordered">
-        <thead>
-            @if (Model.Rows.Count() > 0)
-            {
-            <tr style="text-align:center">
-                <th id="c">@T("Admin.Subsidy.SN")</th>
-                <th>@T("Admin.Subsidy.BudgetId")</th>
-                <th>@T("Admin.Subsidy.MainActivity")</th>
-                <th>@T("Admin.Subsidy.Male")</th>
-                <th>@T("Admin.Subsidy.Female")</th>
-                <th>@T("Admin.Subsidy.Dalit")</th>
-                <th>@T("Admin.Subsidy.Janajati")</th>
-                <th>@T("Admin.Subsidy.Others")</th>
-                <th>@T("Admin.Subsidy.Total")</th>
-                <th>@T("Admin.Subsidy.ExpectedOutput")</th>
-                <th>@T("Admin.Subsidy.Remarks")</th>
+        </div>
+        <div class="divTable">
+            <table class="table table-bordered">
+                <thead>
+                    @if (Model.Rows.Count() > 0)
+                    {
+                        <tr style="text-align:center">
+                            <th id="c">@T("Admin.Subsidy.SN")</th>
+                            <th>@T("Admin.Subsidy.BudgetId")</th>
+                            <th>@T("Admin.Subsidy.MainActivity")</th>
+                            <th>@T("Admin.Subsidy.Male")</th>
+                            <th>@T("Admin.Subsidy.Female")</th>
+                            <th>@T("Admin.Subsidy.Dalit")</th>
+                            <th>@T("Admin.Subsidy.Janajati")</th>
+                            <th>@T("Admin.Subsidy.Others")</th>
+                            <th>@T("Admin.Subsidy.Total")</th>
+                            <th>@T("Admin.Subsidy.ExpectedOutput")</th>
+                            <th>@T("Admin.Subsidy.Remarks")</th>
 
-            </tr>
+                        </tr>
+                    }
+                </thead>
+                <tbody>
+                    @{string a = "";}
+                    @foreach (var item in Model.Rows)
+                    {
+
+                        <tr>
+                            <td>@item.SN</td>
+                            <td>@item.BudgetTitle</td>
+                            <td>@item.MainActivity</td>
+                            <td>@item.Male</td>
+                            <td>@item.Female</td>
+                            <td>@item.Dalit</td>
+                            <td>@item.Janajati</td>
+                            <td>@item.Others</td>
+                            <td>@item.Total</td>
+                            <td>@item.Upalabdhiharu</td>
+                            <td>@item.Remarks</td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+            </div>
             }
-        </thead>
-        <tbody>
-            @{string a = "";}
-            @foreach (var item in Model.Rows)
-            {
+        </div>
 
-            <tr>
-                <td>@item.SN</td>
-                <td>@item.BudgetTitle</td>
-                <td>@item.MainActivity</td>
-                <td>@item.Male</td>
-                <td>@item.Female</td>
-                <td>@item.Dalit</td>
-                <td>@item.Janajati</td>
-                <td>@item.Others</td>
-                <td>@item.Total</td>
-                <td>@item.Upalabdhiharu</td>
-                <td>@item.Remarks</td>
-            </tr>
-
+        @if (Model.Rows.Count() > 0)
+        {
+            <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+            <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+        }
+        <script src="~/scripts/jquery.table2excel.js"></script>
+        <script>
+            function Export() {
+                $("#Printcontent").table2excel({
+                    filename: "Subsidy.xls"
+                });
             }
-
-
-        </tbody>
-    </table>
-</div>
-
-@if (Model.Rows.Count() > 0)
-{
-    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
-    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
-}
-<script src="~/scripts/jquery.table2excel.js"></script>
-<script>
-    function Export() {
-        $("#Printcontent").table2excel({
-            filename: "Subsidy.xls"
-        });
-    }
-</script>
+        </script>

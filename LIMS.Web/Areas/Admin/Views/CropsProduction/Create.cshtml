@@ -39,9 +39,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" onchange="getLivestockData()" class="form-control">
-                                    <option value="">Select</option>
-                                </select>
+                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" onchange="getLivestockData()" class="form-control" disabled>
+                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>
                         </div>

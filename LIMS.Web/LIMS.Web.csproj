@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Areas\Admin\Views\Customer\ChangePassword.cshtml" />
+    <None Include="Areas\Admin\Views\DiaryIndustry\Create.cshtml" />
+    <None Include="Areas\Admin\Views\DiaryIndustry\List.cshtml" />
     <None Include="Areas\Admin\Views\FishProduction\Create.cshtml" />
     <None Include="Areas\Admin\Views\FishProduction\List.cshtml" />
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\Edit.cshtml" />
@@ -88,6 +90,8 @@
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\_subsidyEntry.cshtml" />
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\_inputSupply.cshtml" />
     <None Include="Areas\Admin\Views\PujigatKharchaKharyakram\_trainingChonot.cshtml" />
+    <None Include="Areas\Admin\Views\Treatment\Create.cshtml" />
+    <None Include="Areas\Admin\Views\Treatment\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Areas\Admin\Views\Shared\Components\SubsidyReport\Default.cshtml">

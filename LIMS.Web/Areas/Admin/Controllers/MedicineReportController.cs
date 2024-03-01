@@ -60,7 +60,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.FiscalYearId = fiscalyear;
             return View();
         }
-        public async Task<IActionResult> MedicineReport(string fiscalyear,string month) {
+        public async Task<IActionResult> MedicineReport(string fiscalyear,string month) 
+        {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             var vaccination = new List<VaccinationType>();
             string createdBy="";
@@ -83,6 +84,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    vaccination = vaccine.ToList();
 
             //}
+            var customer = _workContext.CurrentCustomer;
+            ViewBag.LocalLevel = customer.LocalLevel;
+            ViewBag.Address = customer.Addresses;
+            ViewBag.Level = ExecutionHelper.LevelEnglish;
             var vaccinationReport = new List<BaseMedicineReportModel>();
             var receivedMedicine = await _medicineProgress.GetMedicineProgress(createdBy);
             var sentmedicine = await _receivedMedicine.GetReceivedMedicine(createdBy);

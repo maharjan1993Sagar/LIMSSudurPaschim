@@ -50,8 +50,8 @@
 
             <div class="form-group">
                 <admin-label asp-for="LocalLevel" />
-                <select name="LocalLevel" id="locallevel" data-val="@Model.LocalLevel" class="form-control">
-                    <option value="">Select</option>
+                <select name="LocalLevel" id="localLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" required="required" disabled>
+                    <option value="">select</option>
                 </select>
                 <span asp-validation-for="LocalLevel"></span>
 

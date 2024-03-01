@@ -88,6 +88,7 @@
     var mastersetup = await permissionService.Authorize(StandardPermissionProvider.AccessMasterSetup);
     var subsidy = await permissionService.Authorize(StandardPermissionProvider.AccessSubsidyRegister);
     var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+    var level = "नगर कार्यपालिकाको कार्यालय";
 
 }
 
@@ -186,12 +187,12 @@
                                     </div>
                                     <div class="column">
                                         <div style="float:left; margin-top:10px;">
-                                            Governmernt of Nepal<br />
                                             @if (!String.IsNullOrEmpty(currentCustomer.OrgName))
                                             {
                                                 <b>  @(currentCustomer.OrgName)</b>
                                             }
                                             <br />
+                                            <b>@level</b><br />
                                             @if (!String.IsNullOrEmpty(currentCustomer.OrgAddress))
                                             {
                                                 @(currentCustomer.OrgAddress)

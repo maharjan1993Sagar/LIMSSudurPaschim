@@ -47,7 +47,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="NepaliDate" />
-                    <input asp-for="NepaliDate" type="datetime-local"/>
+                    <input class="form-control" asp-for="NepaliDate" type="date"/>
                     <span asp-validation-for="NepaliDate"></span>
                 </div>
             </div>
@@ -62,14 +62,14 @@
 
 
 
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="UnitId" />
                     <select asp-for="UnitId" asp-items="@ViewBag.Units" required class="form-control"></select>
                     <span asp-validation-for="UnitId"></span>
                 </div>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="Price" />
                     <admin-input asp-for="Price" />
@@ -77,7 +77,7 @@
 
                 </div>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="Quantity" />
                     <admin-input asp-for="Quantity" />

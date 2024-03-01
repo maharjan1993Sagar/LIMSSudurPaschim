@@ -8,6 +8,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
 using LIMS.Services.Statisticaldata;
@@ -40,6 +41,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly ICustomerService _customerService;
         public readonly IFarmService _farmService;
         public readonly IVaccinationTypeService _vaccinationService;
+        public readonly ILocalLevelService _localLevelService;
         #endregion fields
         #region ctor
         public ServicesController(ILocalizationService localizationService,
@@ -52,7 +54,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
               ILssService lssService,
               ICustomerService customerService,
               IFarmService farmService,
-               IVaccinationTypeService vaccinationService
+               IVaccinationTypeService vaccinationService,
+               ILocalLevelService localLevelService
             )
         {
             _localizationService = localizationService;
@@ -66,6 +69,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _customerService = customerService;
             _farmService = farmService;
             _vaccinationService = vaccinationService;
+            _localLevelService = localLevelService;
         }
         #endregion ctor
         #region service
@@ -91,7 +95,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    createdby = admin.Id;
             //}
 
-            var service = await _serviceData.GetService();
+            var service = await _serviceData.GetService("");
             var gridModel = new DataSourceResult {
                 Data = service.Where(m => m.CreatedBy == createdby),
                 Total = service.Where(m => m.CreatedBy == createdby).Count()
@@ -197,8 +201,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             WardHelper wardHelper = new WardHelper();
             var ward = wardHelper.GetWard();
             ward.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-
             ViewBag.Ward = ward;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+
             ServicesModel model = new ServicesModel();
 
             return View(model);
@@ -248,7 +258,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Species = await _speciesService.GetSpeciesById(model.SpeciesName),
                         Provience = model.Provience,
                         District = model.District,
-                        LocalLevel = model.LocalLevel,
+                        LocalLevel = _workContext.CurrentCustomer.LocalLevel,
                         Quater = model.Quater,
                         ServicesType = model.ServicesType,
                         FarmId = model.FarmId,
@@ -290,7 +300,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Species = await _speciesService.GetSpeciesById(speciesids[i]),
                         Provience = model.Provience,
                         District = model.District,
-                        LocalLevel = model.LocalLevel,
+                        LocalLevel = _workContext.CurrentCustomer.LocalLevel,
                         Quater = model.Quater,
                         ServicesType = model.ServicesType,
                         FarmId = model.FarmId,
@@ -331,18 +341,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
-            //{
-            //    createdby = _workContext.CurrentCustomer.Id;
-            //}
-            //else
-            //{
-            //    string adminemail = _workContext.CurrentCustomer.CreatedBy;
-            //    var admin = await _customerService.GetCustomerByEmail(adminemail);
-            //    createdby = admin.Id;
-            //}
             
-            var servicesData = await _serviceData.GetFilteredService(fiscalyearId, quater,month, serviceType, createdby,district, locallevel,ward,species,vaccineName,treatMentType,animalHealth);
+            var servicesData = await _serviceData.GetFilteredService(fiscalyearId,month, serviceType, createdby,district, locallevel,vaccineName,treatMentType,animalHealth,"");
+            
+            
             return Json(servicesData);
 
 

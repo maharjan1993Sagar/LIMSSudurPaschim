@@ -67,18 +67,18 @@ namespace LIMS.Web.Areas.Admin.Components
                 List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
 
                 string createdby = null;
-            if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacAdmin"))
-            {
-                createdby = "molmac";
-            }
-            else
-            {
-                createdby = _workContext.CurrentCustomer.Id;
-            }
+            //if (roles.Contains("MolmacAdmin") || roles.Contains("MolmacAdmin"))
+            //{
+            //    createdby = "molmac";
+            //}
+            //else
+            //{
+            //    createdby = _workContext.CurrentCustomer.Id;
+            //}
                 var currenFiscal = await _fiscalYearService.GetCurrentFiscalYear();
                 var livestocks = await _livestockService.GetFilteredProduction(createdby,speciesId,fiscalyear,locallevel,district);
-            List<CropsProductionModel> cropsProductions = new List<CropsProductionModel>();
-            var live =livestocks.OrderBy(m => m.CropName.Id).GroupBy(m=>m.GrowingSeason).Select(m=>new CropsProductionModel {
+                List<CropsProductionModel> cropsProductions = new List<CropsProductionModel>();
+                var live =livestocks.OrderBy(m => m.CropName.Id).GroupBy(m=>m.GrowingSeason).Select(m=>new CropsProductionModel {
                 CropName = m.First().CropName.EnglishName,
                 Season = m.First().GrowingSeason.GrowingSeason,
                 Production = Convert.ToString(m.Sum(m=>Convert.ToDecimal(m.Production))),

@@ -10,7 +10,7 @@
         <div class="x_panel light form-fit">
             <div class="form-row">
                 <div class=" col-md-12">
-                    @if (role.Contains("MolmacAdmin"))
+                    @*@if (role.Contains("MolmacAdmin"))
                     {
         <div class="col-md-2">
             <div class="form-group">
@@ -36,19 +36,19 @@
                 <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
                 <span asp-validation-for="VhlsecId"></span>
             </div>
-        </div>}
+        </div>}*@
 
                     <div class="col-md-2">
                         <div class="form-group">
                             <admin-label asp-for="FiscalYearId" />
-                            <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                            <admin-select asp-for="FiscalYearId" asp-items="@ViewBag.FiscalYearId" required="required" />
                             <span asp-validation-for="FiscalYearId"></span>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <admin-label asp-for="ProgramType" />
-                            <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required" />
+                            <admin-select asp-for="ProgramType" asp-items="@ViewBag.Swrot" required="required" />
                             <span asp-validation-for="ProgramType"></span>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <admin-label asp-for="Type" />
-                            <admin-select asp-for="Type" asp-items="ViewBag.Type" required="required" />
+                            <admin-select asp-for="Type" asp-items="@ViewBag.Expences" required="required" />
                             <span asp-validation-for="Type"></span>
                         </div>
                     </div>
@@ -127,16 +127,16 @@
             scrollable: false,
             columns: [
                 {
-                field: "kharchaCode",
-                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
+                field: "KarchaSrishak",
+                title: "@T("Admin.Budget.Fields.KarchaSrishak")",
                            },
                 {
-                field: "Program",
-                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
+                 field: "ActivityName",
+                title: "@T("Admin.Budget.Fields.ActivityName")",
                 },
                  {
-                     field: "BarsikBajet",
-                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
+                field: "Yearly",
+                title: "@T("Admin.Budget.Fields.Yearly")",
                  },
 
 

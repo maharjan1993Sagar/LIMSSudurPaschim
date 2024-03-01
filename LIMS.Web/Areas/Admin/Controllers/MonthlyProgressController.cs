@@ -473,213 +473,216 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+           
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             var CurrentFiscalYear = fiscalyear.Id;
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
-            var type = PujigatType();
-            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Type = type;
-            var programType = ProgramType();
-            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ProgramType = programType;
+
+            ViewBag.Expences = new SelectList(ExecutionHelper.GetPrakar(), "Value", "Text");
+
+            ViewBag.Swrot = new SelectList(ExecutionHelper.Swrot(), "Value", "Text");
+
+
+            //var type = PujigatType();
+            //type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.Type = type;
+            //var programType = ProgramType();
+            //programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.ProgramType = programType;
+            
             var month = new MonthHelper();
             var months = month.GetMonths();
-
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
 
-            if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
-            {
-                string entityId = _workContext.CurrentCustomer.EntityId;
-                List<Dolfd> dolfdid = _dolfdService.GetDolfdByMolmacId(entityId).Result.ToList();
+            //if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
+            //{
+            //    string entityId = _workContext.CurrentCustomer.EntityId;
+            //    List<Dolfd> dolfdid = _dolfdService.GetDolfdByMolmacId(entityId).Result.ToList();
 
-                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
-                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.dolfd = lss;
-            }
-            else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
-            {
-                string entityId = _workContext.CurrentCustomer.EntityId;
-                List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
+            //    var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+            //    lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //    ViewBag.dolfd = lss;
+            //}
+            //else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+            //{
+            //    string entityId = _workContext.CurrentCustomer.EntityId;
+            //    List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
 
-                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
-                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.vhlsec = lss;
-            }
+            //    var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+            //    lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //    ViewBag.vhlsec = lss;
+            //}
 
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Summery(DataSourceRequest command, string type, string programType, string fiscalYear, string month, string vhlsecid, string dolfdid)
         {
-            if (!string.IsNullOrEmpty(dolfdid) && string.IsNullOrEmpty(vhlsecid))
-            {
-                if (fiscalYear != null)
-                {
-                    var id = _workContext.CurrentCustomer.Id;
+            //if (!string.IsNullOrEmpty(dolfdid) && string.IsNullOrEmpty(vhlsecid))
+            //{
+            //    if (fiscalYear != null)
+            //    {
+                   // var id = _workContext.CurrentCustomer.Id;
 
-                    string entity = _workContext.CurrentCustomer.EntityId;
-                    List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
-                    var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
-                    List<string> customerid = customers.Select(x => x.Id).ToList();
-
-
+                    //string entity = _workContext.CurrentCustomer.EntityId;
+                    //List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
+                    //var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
+                    //List<string> customerid = customers.Select(x => x.Id).ToList();
 
 
-
-                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "",command.Page - 1, command.PageSize);
-
-
+                    var budget = await _budgetService.GetBudget(null, fiscalYear, programType, type, "",command.Page - 1, command.PageSize);
+                    
                     var gridModel = new DataSourceResult {
                         Data = budget,
                         Total = budget.TotalCount
                     };
                     return Json(gridModel);
-                }
-                else
-                {
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
+            //    }
+            //    else
+            //    {
+            //        List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
 
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = report.Count
-                    };
-                    return Json(gridModel);
+            //        var gridModel = new DataSourceResult {
+            //            Data = report,
+            //            Total = report.Count
+            //        };
+            //        return Json(gridModel);
 
-                }
-            }
-            else if (!string.IsNullOrEmpty(vhlsecid))
-            {
-                if (fiscalYear != null)
-                {
-                    var id = _workContext.CurrentCustomer.Id;
+            //    }
+            //}
+            //else if (!string.IsNullOrEmpty(vhlsecid))
+            //{
+            //    if (fiscalYear != null)
+            //    {
+            //        var id = _workContext.CurrentCustomer.Id;
 
-                    string entity = _workContext.CurrentCustomer.EntityId;
-                    var customers = _customerService.GetCustomerByLssId(null, vhlsecid);
-                    List<string> customerid = customers.Select(x => x.Id).ToList();
-
-
-                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
+            //        string entity = _workContext.CurrentCustomer.EntityId;
+            //        var customers = _customerService.GetCustomerByLssId(null, vhlsecid);
+            //        List<string> customerid = customers.Select(x => x.Id).ToList();
 
 
-                    var gridModel = new DataSourceResult {
-                        Data = budget,
-                        Total = budget.TotalCount
-                    };
-                    return Json(gridModel);
-                }
-                else
-                {
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = report.Count
-                    };
-                    return Json(gridModel);
-
-                }
-            }
-            else
-            {
-                var id = _workContext.CurrentCustomer.Id;
-
-                var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
-
-                if (fiscalYear != null)
-                {
-                    var budget = (dynamic)null;
-                    if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
-                    {
-                        string entity = _workContext.CurrentCustomer.EntityId;
-                        List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
-                        List<string> lss = new List<string>();
-                        foreach (var item in entities)
-                        {
-                            lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
-                        }
-                        var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
-                        List<string> customerid = customers.Select(x => x.Id).ToList();
-                        budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
-
-                    }
-                    else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
-                    {
-                        string entity = _workContext.CurrentCustomer.EntityId;
-                        List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
-                        var customers = _customerService.GetCustomerByLssId(entities, entity);
-                        List<string> customerid = customers.Select(x => x.Id).ToList();
-
-                        budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
-
-                    }
-                    else
-                    {
-                        budget = await _budgetService.GetBudget(id, fiscalYear, programType, type,"","", command.Page - 1, command.PageSize);
-
-                    }
-                    //var id = _workContext.CurrentCustomer.Id;
+            //        var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
 
 
+            //        var gridModel = new DataSourceResult {
+            //            Data = budget,
+            //            Total = budget.TotalCount
+            //        };
+            //        return Json(gridModel);
+            //    }
+            //    else
+            //    {
+            //        List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
 
-                    var gridModel = new DataSourceResult {
-                        Data = budget,
-                        Total = budget.TotalCount
-                    };
-                    return Json(gridModel);
-                }
-                else
-                {
+            //        var gridModel = new DataSourceResult {
+            //            Data = report,
+            //            Total = report.Count
+            //        };
+            //        return Json(gridModel);
 
+            //    }
+            //}
+            //else
+            //{
+            //    var id = _workContext.CurrentCustomer.Id;
 
-                    var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
-                    var CurrentFiscalYear = fiscalyear.Id;
+            //    var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 
-                    var budget = (dynamic)null;
-                    if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
-                    {
-                        string entity = _workContext.CurrentCustomer.EntityId;
-                        List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
-                        List<string> lss = new List<string>();
-                        foreach (var item in entities)
-                        {
-                            lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
-                        }
-                        var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
-                        List<string> customerid = customers.Select(x => x.Id).ToList();
-                        budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, "", command.Page - 1, command.PageSize);
+            //    if (fiscalYear != null)
+            //    {
+            //        var budget = (dynamic)null;
+            //        if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
+            //        {
+            //            string entity = _workContext.CurrentCustomer.EntityId;
+            //            List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
+            //            List<string> lss = new List<string>();
+            //            foreach (var item in entities)
+            //            {
+            //                lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
+            //            }
+            //            var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
+            //            List<string> customerid = customers.Select(x => x.Id).ToList();
+            //            budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
 
-                    }
-                    else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
-                    {
-                        string entity = _workContext.CurrentCustomer.EntityId;
-                        List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
-                        var customers = _customerService.GetCustomerByLssId(entities, entity);
-                        List<string> customerid = customers.Select(x => x.Id).ToList();
+            //        }
+            //        else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+            //        {
+            //            string entity = _workContext.CurrentCustomer.EntityId;
+            //            List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
+            //            var customers = _customerService.GetCustomerByLssId(entities, entity);
+            //            List<string> customerid = customers.Select(x => x.Id).ToList();
 
-                        budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, "",command.Page - 1, command.PageSize);
+            //            budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
 
-                    }
-                    else
-                    {
-                        budget = await _budgetService.GetBudget(id, CurrentFiscalYear, programType, type,"","" ,command.Page - 1, command.PageSize);
+            //        }
+            //        else
+            //        {
+            //            budget = await _budgetService.GetBudget(id, fiscalYear, programType, type,"","", command.Page - 1, command.PageSize);
 
-                    }
-                    //var id = _workContext.CurrentCustomer.Id;
+            //        }
+            //        //var id = _workContext.CurrentCustomer.Id;
 
 
 
-                    var gridModel = new DataSourceResult {
-                        Data = budget,
-                        Total = budget.TotalCount
-                    };
-                    return Json(gridModel);
+            //        var gridModel = new DataSourceResult {
+            //            Data = budget,
+            //            Total = budget.TotalCount
+            //        };
+            //        return Json(gridModel);
+            //    }
+            //    else
+            //    {
 
 
-                }
-            }
+            //        var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            //        var CurrentFiscalYear = fiscalyear.Id;
+
+            //        var budget = (dynamic)null;
+            //        if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
+            //        {
+            //            string entity = _workContext.CurrentCustomer.EntityId;
+            //            List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
+            //            List<string> lss = new List<string>();
+            //            foreach (var item in entities)
+            //            {
+            //                lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
+            //            }
+            //            var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
+            //            List<string> customerid = customers.Select(x => x.Id).ToList();
+            //            budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, "", command.Page - 1, command.PageSize);
+
+            //        }
+            //        else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+            //        {
+            //            string entity = _workContext.CurrentCustomer.EntityId;
+            //            List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
+            //            var customers = _customerService.GetCustomerByLssId(entities, entity);
+            //            List<string> customerid = customers.Select(x => x.Id).ToList();
+
+            //            budget = await _budgetService.GetBudget(customerid, CurrentFiscalYear, programType, type, "",command.Page - 1, command.PageSize);
+
+            //        }
+            //        else
+            //        {
+            //            budget = await _budgetService.GetBudget(id, CurrentFiscalYear, programType, type,"","" ,command.Page - 1, command.PageSize);
+
+            //        }
+            //        //var id = _workContext.CurrentCustomer.Id;
+
+
+
+            //        var gridModel = new DataSourceResult {
+            //            Data = budget,
+            //            Total = budget.TotalCount
+            //        };
+            //        return Json(gridModel);
+
+
+              //  }
+            //}
         }
         public async Task<IActionResult> Report()
         {
@@ -693,36 +696,44 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
-            var type = PujigatType();
-            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Type = type;
-            var programType = ProgramType();
-            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ProgramType = programType;
+
+            //var type = PujigatType();
+            //type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.Type = type;
+
+            //var programType = ProgramType();
+            //programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.ProgramType = programType;
+
+            ViewBag.Expences = new SelectList(ExecutionHelper.GetPrakar(), "Value", "Text");
+
+            ViewBag.Swrot = new SelectList(ExecutionHelper.Swrot(), "Value", "Text");
+
+
             var month = new MonthHelper();
             var months = month.GetMonths();
 
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
             var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
-            if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
-            {
-                string entityId = _workContext.CurrentCustomer.EntityId;
-                List<Dolfd> dolfdid = _dolfdService.GetDolfdByMolmacId(entityId).Result.ToList();
+            //if (role.Contains("MolmacAdmin") || role.Contains("MolmacUser"))
+            //{
+            //    string entityId = _workContext.CurrentCustomer.EntityId;
+            //    List<Dolfd> dolfdid = _dolfdService.GetDolfdByMolmacId(entityId).Result.ToList();
 
-                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
-                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.dolfd = lss;
-            }
-            else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
-            {
-                string entityId = _workContext.CurrentCustomer.EntityId;
-                List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
+            //    var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+            //    lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //    ViewBag.dolfd = lss;
+            //}
+            //else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+            //{
+            //    string entityId = _workContext.CurrentCustomer.EntityId;
+            //    List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
 
-                var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
-                lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.vhlsec = lss;
-            }
+            //    var lss = new SelectList(dolfdid, "Id", "NameEnglish").ToList();
+            //    lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //    ViewBag.vhlsec = lss;
+            //}
 
             return View();
         }
@@ -731,8 +742,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 
-            if (!string.IsNullOrEmpty(dolfdid) && string.IsNullOrEmpty(vhlsecid))
-            {
+            //if (!string.IsNullOrEmpty(dolfdid) && string.IsNullOrEmpty(vhlsecid))
+            //{
                 if (fiscalYear != null && month != null)
                 {
                     var id = _workContext.CurrentCustomer.Id;
@@ -755,19 +766,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         }
                     }
 
-                    string entity = _workContext.CurrentCustomer.EntityId;
-                    List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
-                    var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
-                    List<string> customerid = customers.Select(x => x.Id).ToList();
+                    //string entity = _workContext.CurrentCustomer.EntityId;
+                    //List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
+                    //var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
+                    //List<string> customerid = customers.Select(x => x.Id).ToList();
 
 
 
 
-                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month);
-                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, previousMonth);
-                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear, programType, type);
+                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month);
+                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, previousMonth);
+                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati("", fiscalYear, programType, type);
 
-                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type);
+                    var budget = await _budgetService.GetBudget("", fiscalYear, programType, type);
 
 
                     decimal a = 0;
@@ -846,287 +857,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Total = MonthlyPragati.TotalCount
                     };
                     return Json(gridModel);
-                }
-                else
-                {
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = report.Count
-                    };
-                    return Json(gridModel);
-
-                }
-            }
-            else if (!string.IsNullOrEmpty(vhlsecid))
-            {
-                if (fiscalYear != null && month != null)
-                {
-                    var id = _workContext.CurrentCustomer.Id;
-                    string previousMonth = null;
-                    if (!string.IsNullOrEmpty(month))
-                    {
-                        var monthHelper = new MonthHelper();
-                        var months = monthHelper.GetMonths();
-                        SelectListItem listindex = months.Where(m => m.Value == month).Single<SelectListItem>();
-                        int index = months.IndexOf(listindex);
-                        index = index + 1;
-
-                        if (index != 1)
-                        {
-                            previousMonth = months.ElementAt(index - 2).Value.ToString();
-                        }
-                        else
-                        {
-                            previousMonth = "no";
-                        }
-                    }
-                    string entity = vhlsecid;
-                    var customers = _customerService.GetCustomerByLssId(null, entity);
-                    List<string> customerid = customers.Select(x => x.Id).ToList();
-
-
-                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month);
-                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, previousMonth);
-                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear, programType, type);
-
-                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type);
-                    decimal a = 0;
-                    budget.ToList().ForEach(m => m.Yearly = ((decimal.TryParse(m.Yearly, out a) ? a * 100000 : 0).ToString()));
-
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-                    foreach (var item in budget)
-                    {
-                        var progress = new MonthlyProgressReport();
-                        progress.budget = item;
-                        try
-                        {
-                            progress.BitiyaPragati = (MonthlyPragati.Where(m => m.Budget.Id == item.Id) != null) ? MonthlyPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
-                        }
-                        catch
-                        {
-                            progress.BitiyaPragati = "0";
-
-                        }
-                        try
-                        {
-                            progress.VautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.BitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-                        }
-                        catch
-                        {
-                            progress.VautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.PreviousMonthBitiyaPragati = (PreviousMonthPragati.Where(m => m.Budget.Id == item.Id) != null) ? PreviousMonthPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
-                        }
-                        catch
-                        {
-                            progress.PreviousMonthBitiyaPragati = "0";
-
-                        }
-                        try
-                        {
-                            progress.PreviousMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.PreviousMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-
-                        }
-                        catch
-                        {
-                            progress.PreviousMonthVautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.TotalMonthBitiyaPragati = (FiscalYearPragati.Where(m => m.Budget.Id == item.Id) != null) ? FiscalYearPragati.Where(m => m.Budget.Id == item.Id).Sum(m => Convert.ToDecimal(String.IsNullOrEmpty(m.BitiyaPragati) ? "0" : m.BitiyaPragati)).ToString() : "";
-                        }
-                        catch
-                        {
-                            progress.TotalMonthBitiyaPragati = "0";
-                        }
-                        try
-                        {
-                            progress.TotalMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.TotalMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-
-                        }
-                        catch
-                        {
-                            progress.TotalMonthVautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.BalanceBudget = Convert.ToString(Convert.ToDecimal(item.Yearly) - Convert.ToDecimal(progress.TotalMonthBitiyaPragati));
-                        }
-                        catch
-                        {
-                            progress.BalanceBudget = item.Yearly;
-                        }
-                        report.Add(progress);
-                    }
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = MonthlyPragati.TotalCount
-                    };
-                    return Json(gridModel);
-                }
-                else
-                {
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = report.Count
-                    };
-                    return Json(gridModel);
-
-                }
             }
             else
             {
-                if (fiscalYear != null && month != null)
-                {
-                    var id = _workContext.CurrentCustomer.Id;
-                    string previousMonth = null;
-                    if (!string.IsNullOrEmpty(month))
-                    {
-                        var monthHelper = new MonthHelper();
-                        var months = monthHelper.GetMonths();
-                        SelectListItem listindex = months.Where(m => m.Value == month).Single<SelectListItem>();
-                        int index = months.IndexOf(listindex);
-                        index = index + 1;
+                List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
 
-                        if (index != 1)
-                        {
-                            previousMonth = months.ElementAt(index - 2).Value.ToString();
-                        }
-                        else
-                        {
-                            previousMonth = "no";
-                        }
-                    }
+                var gridModel = new DataSourceResult {
+                    Data = report,
+                    Total = report.Count
+                };
+                return Json(gridModel);
 
-                    List<string> customerid = (dynamic)null;
-                    if (role.Contains("MolmacAdmin") || role.Contains("MolmacAdmin"))
-                    {
-                        string entity = _workContext.CurrentCustomer.EntityId;
-                        List<string> entities = _dolfdService.GetDolfdByMolmacId(entity).Result.Select(m => m.Id).ToList();
-                        List<string> lss = new List<string>();
-                        foreach (var item in entities)
-                        {
-                            lss.AddRange(_vhlsecService.GetVhlsecByDolfdId(item).Result.Select(m => m.Id).ToList());
-                        }
-                        var customers = _customerService.GetCustomerByLssId(lss, entities, entity);
-                        customerid = customers.Select(x => x.Id).ToList();
-
-                    }
-                    else if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
-                    {
-                        string entity = _workContext.CurrentCustomer.EntityId;
-                        List<string> entities = _vhlsecService.GetVhlsecByDolfdId(entity).Result.Select(m => m.Id).ToList();
-                        var customers = _customerService.GetCustomerByLssId(entities, entity);
-                        customerid = customers.Select(x => x.Id).ToList();
-
-
-                    }
-                    else
-                    {
-                        customerid = new List<string>();
-                        customerid.Add(_workContext.CurrentCustomer.Id);
-
-                    }
-                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, month);
-                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati(customerid, fiscalYear, programType, type, previousMonth);
-                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati(customerid, fiscalYear, programType, type);
-
-                    var budget = await _budgetService.GetBudget(customerid, fiscalYear, programType, type);
-                    decimal a = 0;
-                    budget.ToList().ForEach(m => m.Yearly = ((decimal.TryParse(m.Yearly, out a) ? a * 100000 : 0).ToString()));
-
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-                    foreach (var item in budget)
-                    {
-                        var progress = new MonthlyProgressReport();
-                        progress.budget = item;
-                        try
-                        {
-                            progress.BitiyaPragati = (MonthlyPragati.Where(m => m.Budget.Id == item.Id) != null) ? MonthlyPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
-                        }
-                        catch
-                        {
-                            progress.BitiyaPragati = "0";
-
-                        }
-                        try
-                        {
-                            progress.VautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.BitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-                        }
-                        catch
-                        {
-                            progress.VautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.PreviousMonthBitiyaPragati = (PreviousMonthPragati.Where(m => m.Budget.Id == item.Id) != null) ? PreviousMonthPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
-                        }
-                        catch
-                        {
-                            progress.PreviousMonthBitiyaPragati = "0";
-
-                        }
-                        try
-                        {
-                            progress.PreviousMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.PreviousMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-
-                        }
-                        catch
-                        {
-                            progress.PreviousMonthVautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.TotalMonthBitiyaPragati = (FiscalYearPragati.Where(m => m.Budget.Id == item.Id) != null) ? FiscalYearPragati.Where(m => m.Budget.Id == item.Id).Sum(m => Convert.ToDecimal(String.IsNullOrEmpty(m.BitiyaPragati) ? "0" : m.BitiyaPragati)).ToString() : "";
-                        }
-                        catch
-                        {
-                            progress.TotalMonthBitiyaPragati = "0";
-                        }
-                        try
-                        {
-                            progress.TotalMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.TotalMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-
-                        }
-                        catch
-                        {
-                            progress.TotalMonthVautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.BalanceBudget = Convert.ToString(Convert.ToDecimal(item.Yearly) - Convert.ToDecimal(progress.TotalMonthBitiyaPragati));
-                        }
-                        catch
-                        {
-                            progress.BalanceBudget = item.Yearly;
-                        }
-                        report.Add(progress);
-                    }
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = MonthlyPragati.TotalCount
-                    };
-                    return Json(gridModel);
-                }
-                else
-                {
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = report.Count
-                    };
-                    return Json(gridModel);
-
-                }
             }
         }
+     
 
 
 

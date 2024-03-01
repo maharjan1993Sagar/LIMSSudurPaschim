@@ -85,7 +85,7 @@ namespace LIMS.Web.Areas.Admin.Components
             //{
             //    xetra = "";
             //}
-            var filteredAnudan =await _anudanService.GetFilteredSubsidy("",fiscalyear,locallevel,budgetId,xetra);
+            var filteredAnudan =await _anudanService.GetFilteredSubsidy("",fiscalyear,"",budgetId,xetra);
 
            
             //var distinctBudget = filteredAnudan.ToList().Select(m => m.BudgetId).Distinct();

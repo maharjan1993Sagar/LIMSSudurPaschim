@@ -59,7 +59,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <admin-label asp-for="LocalLevel" />
-                                    <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                                    <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" disabled>
                                     </select>
                                     <span asp-validation-for="LocalLevel"></span>
                                 </div>
@@ -183,7 +183,7 @@
                 },
 
 
-                {
+                @*{
                     field: "District",
                     title: "@T("Admin.Common.District")",
                     width: 200,
@@ -192,7 +192,7 @@
                     field: "LocalLevel",
                     title: "@T("Admin.Common.LocalLevel")",
                     width: 200,
-                },
+                },*@
                  {
                     field: "Ward",
                     title: "@T("Admin.Common.Ward")",

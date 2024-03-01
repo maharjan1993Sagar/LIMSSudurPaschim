@@ -33,6 +33,7 @@
 
             </div>
         </div>
+        <input type="hidden" asp-for="LocalLevel" value="" />
 
         @*<div class="col-md-2">
             <div class="form-group">
@@ -45,13 +46,13 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <admin-label>आसातित प्रतिफलहरू</admin-label>
+                <admin-label asp-for="ExpectedOutput"/>
                 <input asp-for="ExpectedOutput" class="form-control" required="required" />
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                <admin-label>कैफियत</admin-label>
+                <admin-label asp-for="Remarks"/>
                 <input asp-for="Remarks" class="form-control" required="required" />
             </div>
         </div>
@@ -68,7 +69,7 @@
                             <admin-label asp-for="Address" />
                         </th>
 
-                    <th>
+                    <th width="5%">
                         <admin-label asp-for="Ward" />
                     </th>
                     <th width="8%">
@@ -341,7 +342,7 @@
         a = $("#fgh").html();
         b = $("#ijk").html();
         c = $("#lmo").html();
-        if (data.fiscalyear) { //&& data.program&& data.localLevel
+        if (data.fiscalyear && data.program) { //&& data.program&& data.localLevel
             $.post("@Url.Action("GetAnudan", "AanudanKaryakram")", addAntiForgeryToken(data), function (result) {
                 if (result.length > 0) {
 
@@ -352,7 +353,7 @@
                     $.each(result, function (index, item) {
                         var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
                         tableRow += '<input type="text" name="KrishakKoName" class="form-control"  value="' + item.KrishakKoName + '"/></td>';
-                        tableRow += '<input type="text" name="Address" class="form-control"  value="' + item.Address + '"/></td>';
+                        tableRow += '<td><input type="text" name="Address" class="form-control"  value="' + item.Address + '"/></td>';
                        tableRow += '<td><input type="number" name="Ward" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Ward + '"/></td>';
                         tableRow += '<td><input type="text" name="PhoneNO" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.PhoneNo + '"/></td>';
                         tableRow += '<td>'+b+'</td>';
