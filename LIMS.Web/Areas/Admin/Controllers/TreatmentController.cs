@@ -268,7 +268,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     TreatmentType=model.TreatmentType
                 };
 
-                if (!string.IsNullOrEmpty(existingServiceId[i]))
+                var isExistingRecord = await _serviceData.GetServiceById(existingServiceId[i]);
+                               
+                if (isExistingRecord !=null)
                 {
                     service.Id = existingServiceId[i];
                     updateServices.Add(service);
@@ -296,7 +298,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             
-            var servicesData = await _serviceData.GetFilteredService(fiscalyearId, month, "Treatment", "", "", "","", treatmenttype);
+            var servicesData = await _serviceData.GetFilteredService(fiscalyearId, month, "Treatment", "", "", locallevel,"", treatmenttype);
             var species = await _livestockSpeciesService.GetBreed();
             var aiSpecies = species.Where(m => m.Purposes.Contains("AI"));
 
@@ -305,13 +307,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             foreach (var item in aiSpecies)
             {
-                if (servicesData.Any(m => m.LivestockSpecies.SpeciesId == item.SpeciesId))
+                if (servicesData.Any(m => m.LivestockSpecies.Id == item.Id))
                 {
-                    lstServiceData.Add(servicesData.FirstOrDefault(m => m.LivestockSpecies.SpeciesId == item.SpeciesId));
+                    lstServiceData.Add(servicesData.FirstOrDefault(m => m.LivestockSpecies.Id == item.Id));
                 }
                 else
                 {
                     var objServiceData = new ServicesData{LivestockSpecies =item };
+                    objServiceData.Id = "";
                      lstServiceData.Add(objServiceData);
                 }
             }

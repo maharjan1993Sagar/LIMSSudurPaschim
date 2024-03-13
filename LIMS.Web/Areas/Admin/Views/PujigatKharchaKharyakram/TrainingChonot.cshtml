@@ -1,40 +1,45 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @model FarmListModel
 @{ //page title
-    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; 
-    }
+    ViewBag.Title = T("Admin.Catalog.training.Manage").Text; }
 
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel light form-fit">
+              <a asp-action="List" class="btn btn-default">@T("Admin.ImportBudget")</a>
+                <a asp-action="SubsidyEntry" class="btn btn-default"  >@T("Admin.Budget.Subsidy")</a>
+                <a asp-action="TrainingChonot" class="btn btn-primary"  >@T("Admin.Budget.Training")</a>
+                <a asp-action="InputSupply" class="btn btn-default" >@T("Admin.Budget.InputSupply")</a>
             <div class="form-group">
                 <div class="col-md-6">
-                    <input name="Keyword2" id="Keyword2" class="form-control" style="width: inherit!important" placeholder="Filter" />
+                    <input name="Keyword4" id="Keyword4" class="form-control" style="width: inherit!important" placeholder="Filter" />
                 </div>
                 @*<div class="col-md-4 col-sm-4">
-                    <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
-                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
-                    </button>
-                </div>*@
+                        <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                            <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                        </button>
+                    </div>*@
             </div>
             <div class="x_title">
 
                 <div class="form-group">
+
+
                 </div>
 
-                @*<div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
+                <div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
 
 
-                    <button type="button" name="importexcel" id="importexcel" class="btn blue">
+                    @*<button type="button" name="importexcel" id="importexcel" class="btn blue">
                         <i class="fa fa-upload"></i>
                         @T("Admin.Common.ImportFromExcel")
-                    </button>
+                    </button>*@
                     <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
-                </div>*@
+                </div>
             </div>
 
             <div class="x_content">
-                <div id="input-grid"></div>
+                <div id="training-grid"></div>
             </div>
         </div>
     </div>
@@ -43,7 +48,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#input-grid").kendoGrid({
+        $("#training-grid").kendoGrid({
             //toolbar: ["search"],
             //search: {
             //    fields: [
@@ -57,14 +62,14 @@
                         url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: additionalData1
+                        data: additionalData3
                     },
-                    //update: {
-                    //    url: "@Html.Raw(Url.Action("Update", "PujigatKharchaKharyakram"))",
-                    //    type: "POST",
-                    //    dataType: "json",
-                    //    data: addAntiForgeryToken
-                    //}
+                    update: {
+                        url: "@Html.Raw(Url.Action("Update", "PujigatKharchaKharyakram"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken
+                    }
                 },
                 schema: {
                     data: "Data",
@@ -83,7 +88,6 @@
                         //    TypeOfExpen: { editable: false, type: "string" },
                         //    TypeOfExecution: { editable: false, type: "string" },
                         //    ExpensesCategory: { editable: true, type: "string" }
-
                         //}
                     },
 
@@ -94,34 +98,32 @@
                     this.cancelChanges();
                 },
                 pageSize: @(adminAreaSettings.DefaultGridPageSize),
-        serverPaging: true,
-            serverFiltering: true,
+                serverPaging: true,
+                serverFiltering: true,
                 serverSorting: true
-    },
-        pageable: {
-        refresh: true,
-        pageSizes: [@(adminAreaSettings.GridPageSizes)]
             },
-    editable: {
-        confirmation: false,
-            mode: "inline"
-    },
-    scrollable: false,
-        columns: [
-            {
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                 {
                 field: "WardNo",
                 title: "@T("Admin.Budget.Fields.WardNo")",
+            },{
+                field: "ActivityName",
+                title: "@T("Admin.Budget.Fields.ActivityName")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
             },
             {
-                field: "ActivityName",
-                title: "@T("Admin.Budget.Fields.ActivityName")",
-            },
-
-            {
                 field: "PlanningProgram",
                 title: "@T("Admin.Budget.Fields.PlanningProgram")",
-            },
+                },
             {
                 field: "Yearly",
                 title: "@T("Admin.Budget.Fields.Yearly")",
@@ -140,68 +142,37 @@
             },
             {
                 field: "ExpensesCategory",
-                title: "@T("Admin.Budget.Fields.ExpensesCategory")",
-                // editor: sDropDownEditor
-            },
-            @* {
-        command: [
-            {
-                name: "edit",
-                text: {
-                    edit: "@T("Admin.Common.Edit")",
-                    update: "@T("Admin.Common.Update")",
-                    cancel: "@T("Admin.Common.Cancel")"
-                        },
+                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
+               },
 
-            }],
-        width: 200
-    } *@
             ]
 
         });
 
     });
-    function additionalData1() {
+    function additionalData3() {
         var data = {
-            Keyword: $("#Keyword2").val(),
-            category: "Input Supply"
+            Keyword: $("#Keyword").val(),
+            category: "Training"
         };
         addAntiForgeryToken(data);
         return data;
     }
-    //function sDropDownEditor(container, options) {
-    //    $('<input name="ExpensesCategory"/>')
-    //        .appendTo(container)
-    //        .kendoDropDownList({
-    //            valuePrimitive: true,
-
-    //            autoBind: true,
-    //            dataTextField: "name",
-    //            dataValueField: "value",
-    //            dataSource: [
-    //                { name: "Select", value: "" },
-    //                { name: "Subsidy", value: "Subsidy" },
-    //                { name: "Training", value: "Training" },
-    //                { name: "Input Supply", value: "Input Supply" },
-    //                { name: "Other", value: "Other" },
-    //            ]
-    //        });
-    //}
-
 </script>
 <script>
     $(document).ready(function () {
         //search button
-        $('#Keyword2').keyup(function () {
+        $('#Keyword4').keyup(function () {
             //search
-            var grid = $('#input-grid').data('kendoGrid');
+            var grid = $('#training-grid').data('kendoGrid');
             grid.dataSource.page(1); //new search. Set page size to 1
             //grid.dataSource.read(); we already loaded the grid above using "page" function
             return false;
         });
 
 
-    });</script>
-@*import categories form*@
+});
+    </script>
+@*import training form*@
 
 

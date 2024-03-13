@@ -1,19 +1,21 @@
-﻿@inject AdminAreaSettings adminAreaSettings
-@model FarmListModel
+﻿@*@inject AdminAreaSettings adminAreaSettings*@
+@model List<LIMS.Domain.Bali.Budget>
+
+
 @{ //page title
     ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
 
 <div class="row">
     <div class="col-md-12">
-
         <div class="x_panel light form-fit">
-            @*<a asp-action="List" class="btn btn-primary">@T("Admin.ImportBudget")</a>
-            <a asp-action="List" class="btn btn-default">@T("Admin.Budget.Subsidy")</a>
-            <a asp-action="List" class="btn btn-default">@T("Admin.Budget.Training")</a>
-            <a asp-action="List" class="btn btn-default">@T("Admin.Budget.InputSupply")</a>*@
+
+            <a asp-action="ListTest" class="btn btn-primary">@T("Admin.ImportBudget")</a>
+            <a asp-action="ListTest" asp-route-category="Subsidy" class="btn btn-default">@T("Admin.Budget.Subsidy")</a>
+            <a asp-action="ListTest" asp-route-category="Training" class="btn btn-default">@T("Admin.Budget.Training")</a>
+            <a asp-action="ListTest" asp-route-category="Input Supply" class="btn btn-default">@T("Admin.Budget.InputSupply")</a>
             <div class="form-group">
                 <div class="col-md-6">
-                    <input name="Keyword1" id="Keyword1" class="form-control" style="width: inherit!important" placeholder="Filter" />
+                    <input name="Keyword" id="Keyword1" class="form-control" style="width: inherit!important" placeholder="Filter" />
                 </div>
             </div>
             <div class="x_title">
@@ -33,8 +35,36 @@
                 </div>
             </div>
             <div class="x_content">
-                <div id="categories-grid"></div>
+                <div style=" overflow-x: auto;">
+                    <table class="table table-bordered">
+                        <thead>                           
+                            <tr>
+                                <th>@T("Admin.Budget.Fields.ActivityName")</th>
+                                <th>@T("Admin.Budget.Fields.PlanningProgram")</th>
+                                <th>@T("Admin.PujigatKaryakram.Fields.Yearly")</th>
+                                <th>@T("Admin.PujigatKaryakram.Fields.SourceOfFund")</th>
+                                <th>@T("Admin.PujigatKaryakram.Fields.TypeOfExpen")</th>
+                                <th>@T("Admin.PujigatKaryakram.Fields.TypeOfExecution")</th>
+                                <th>@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in Model)
+                            {
+                            <tr>
+                                <td><a asp-action="Edit" asp-route-id="@item.Id">@item.ActivityName</a></td>
+                                <td>@item.PlanningProgram</td>
+                                <td>@item.Yearly</td>
+                                <td>@item.SourceOfFund</td>
+                                <td>@item.TypeOfExpen</td>
+                                <td>@item.TypeOfExecution</td>
+                                <td>@item.ExpensesCategory</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
 
+                </div>
             </div>
         </div>
     </div>
@@ -43,7 +73,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#categories-grid").kendoGrid({
+        @*$("#categories-grid").kendoGrid({
             //toolbar: ["search"],
             //search: {
             //    fields: [
@@ -159,12 +189,9 @@
             }
             ]
 
-        });
+        });*@
 
     });
-
-
-
 
     function additionalData() {
         var data = {

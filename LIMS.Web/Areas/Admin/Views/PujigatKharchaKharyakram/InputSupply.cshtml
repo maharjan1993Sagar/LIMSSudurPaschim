@@ -7,15 +7,20 @@
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel light form-fit">
+            <a asp-action="List" class="btn btn-default">@T("Admin.ImportBudget")</a>
+            <a asp-action="SubsidyEntry" class="btn btn-default">@T("Admin.Budget.Subsidy")</a>
+            <a asp-action="TrainingChonot" class="btn btn-default">@T("Admin.Budget.Training")</a>
+            <a asp-action="InputSupply" class="btn btn-primary">@T("Admin.Budget.InputSupply")</a>
+
             <div class="form-group">
                 <div class="col-md-6">
                     <input name="Keyword2" id="Keyword2" class="form-control" style="width: inherit!important" placeholder="Filter" />
                 </div>
                 @*<div class="col-md-4 col-sm-4">
-                    <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
-                        <i class="fa fa-search"></i> @T("Admin.Common.Search")
-                    </button>
-                </div>*@
+                <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
+                    <i class="fa fa-search"></i> @T("Admin.Common.Search")
+                </button>
+            </div>*@
             </div>
             <div class="x_title">
 
@@ -25,12 +30,12 @@
                 @*<div class="actions btn-group btn-group-devided util-btn-margin-bottom-5">
 
 
-                    <button type="button" name="importexcel" id="importexcel" class="btn blue">
-                        <i class="fa fa-upload"></i>
-                        @T("Admin.Common.ImportFromExcel")
-                    </button>
-                    <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
-                </div>*@
+                <button type="button" name="importexcel" id="importexcel" class="btn blue">
+                    <i class="fa fa-upload"></i>
+                    @T("Admin.Common.ImportFromExcel")
+                </button>
+                <vc:admin-widget widget-zone="category_list_buttons" additional-data="null" />
+            </div>*@
             </div>
 
             <div class="x_content">

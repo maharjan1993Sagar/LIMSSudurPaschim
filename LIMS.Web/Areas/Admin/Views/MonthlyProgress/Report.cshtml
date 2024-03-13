@@ -42,13 +42,13 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    @*<div class="col-md-2">
                         <div class="form-group">
                             <admin-label asp-for="Type" />
                             <admin-select asp-for="Type" asp-items="ViewBag.Expences" required="required" />
                             <span asp-validation-for="Type"></span>
                         </div>
-                    </div>
+                    </div>*@
                     @*@if (role.Contains("MolmacAdmin"))
                     {
                 <div class="col-md-2">
@@ -163,11 +163,11 @@
             scrollable: false,
             columns: [
                  {
-                    field: "budget.karchaSrishak",
-                title: "@T("Admin.budget.Fields.KarchaSrishak")",
+                    field: "budget.KarchaSrishak",
+                title: "@T("Admin.budget.Fields.KharchaSrishak")",
                 },
                 {
-                    field: "budget.kharchaUpaSirshak",
+                    field: "budget.KharchaUpaSirshak",
                 title: "@T("Admin.budget.Fields.KharchaUpaSirshak")",
                 },
                 {

@@ -1,7 +1,7 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @model FarmListModel
 @{ //page title
-    ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
+    ViewBag.Title = T("Admin.Catalog.niti.Manage").Text; }
 
 <div class="row">
     <div class="col-md-12">
@@ -10,7 +10,7 @@
 
             <div class="form-group">
                 <div class="col-md-6">
-                    <input name="Keyword3" id="Keyword3" class="form-control" style="width: inherit!important" placeholder="Filter" />
+                    <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Filter" />
                 </div>
                 @*<div class="col-md-4 col-sm-4">
                         <button class="btn btn-success filter-submit" id="search-farms" style="font-size: 13px!important;">
@@ -37,7 +37,7 @@
             </div>
 
             <div class="x_content">
-                <div id="subsidy-grid"></div>
+                <div id="niti-grid"></div>
             </div>
         </div>
     </div>
@@ -46,24 +46,18 @@
 
 <script>
     $(document).ready(function () {
-        $("#subsidy-grid").kendoGrid({
-            //toolbar: ["search"],
-            //search: {
-            //    fields: [
-            //        { name: "Program", operator: "eq" },
-            //        { name: "kharchaCode", operator: "eq" },
-            //    ]
-            //},
+        $("#niti-grid").kendoGrid({
+            
             dataSource: {
                 transport: {
                     read: {
                         url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: additionalData2
+                        data: additionalData
                     },
                     update: {
-                        url: "@Html.Raw(Url.Action("Update", "PujigatKharchaKharyakram"))",
+                        url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
@@ -75,19 +69,12 @@
                     errors: "Errors",
                     model: {
                         id: "Id",
-                        //fields: {
-                        //    Id: { editable: false, type: "string" },
-                        //    FiscalYear: { editable: false, type: "string" },
-                        //    WardNo: { editable: false, type: "string" },
-                        //    ActivityName: { editable: false, type: "string" },
-                        //    PlanningProgram: { editable: false, type: "string" },
-                        //    Yearly: { editable: false, type: "number" },
-                        //    SourcOfFund: { editable: false, type: "string" },
-                        //    TypeOfExpen: { editable: false, type: "string" },
-                        //    TypeOfExecution: { editable: false, type: "string" },
-                        //    ExpensesCategory: { editable: true, type: "string" }
+                        fields: {
 
-                        //}
+                            Id: { editable: false, type: "string" },
+                            IsNitiTathaKaryaKram: { editable: true, type: "string" }
+
+                        }
                     },
 
                 },
@@ -110,43 +97,51 @@
                 mode: "inline"
             },
             scrollable: false,
-            columns: [               
-                  {
-                field: "WardNo",
-                title: "@T("Admin.Budget.Fields.WardNo")",
+            columns: [{
+                field: "Limbis_Code",
+                title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
                 //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
             },
             {
-                field: "ActivityName",
-                title: "@T("Admin.Budget.Fields.ActivityName")",
+                field: "Program",
+                title: "@T("Admin.PujigatKaryakram.Fields.Program")",
             },
 
             {
-                field: "PlanningProgram",
-                title: "@T("Admin.Budget.Fields.PlanningProgram")",
+                field: "kharchaCode",
+                title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
                 },
             {
-                field: "Yearly",
-                title: "@T("Admin.Budget.Fields.Yearly")",
+                field: "Unit",
+                title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
             },
             {
-                field: "SourcOfFund",
-                title: "@T("Admin.Budget.Fields.SourceOfFund")",
+                field: "BarsikBajet",
+                title: "@T("Admin.PujigatKaryakram.Fields.BarsikBajet")",
             },
             {
-                field: "TypeOfExpen",
-                title: "@T("Admin.Budget.Fields.TypeOfEpen")",
+                field: "PrathamChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
             },
             {
-                field: "TypeOfExecution",
-                title: "@T("Admin.Budget.Fields.TypeOfExecution")",
+                field: "DosroChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.DosroChaumasikBadjet")",
             },
             {
-                field: "ExpensesCategory",
-                title: "@T("Admin.Budget.Fields.ExpensesCategory")",
-               // editor: sDropDownEditor
+                field: "TesroChaumasikBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
                 },
-            @*{
+            {
+                field: "IsNitiTathaKaryaKram",
+                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
+                editor: ExpancesDropDownEditor
+                },
+            {
+                field: "Remarks",
+                title: "@T("Admin.PujigatKaryakram.Fields.Remarks")",
+            },
+
+            {
                 command: [
                     {
                         name: "edit",
@@ -158,53 +153,52 @@
 
                     }],
                 width: 200
-            }*@
+            }
             ]
 
         });
 
     });
-    function additionalData2() {
+    function additionalData() {
         var data = {
-            Keyword: $("#Keyword3").val(),
-            category: "Subsidy"
+            Keyword: $("#Keyword").val()
         };
         addAntiForgeryToken(data);
         return data;
     }
-    //function sDropDownEditor(container, options) {
-    //    $('<input name="ExpensesCategory"/>')
-    //        .appendTo(container)
-    //        .kendoDropDownList({
-    //            valuePrimitive: true,
+    function ExpancesDropDownEditor(container, options) {
+        $('<input name="IsNitiTathaKaryaKram"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                valuePrimitive: true,
 
-    //            autoBind: true,
-    //            dataTextField: "name",
-    //            dataValueField: "value",
-    //            dataSource: [
-    //                { name: "Select", value: "" },
-    //                { name: "Subsidy", value: "Subsidy" },
-    //                { name: "Training", value: "Training" },
-    //                { name: "Input Supply", value: "Input Supply" },
-    //                {name: "Other", value:"Other"},
-    //                ]
-    //        });
-    //}
+                autoBind: true,
+                dataTextField: "name",
+                dataValueField: "value",
+                dataSource: [
+
+                    { name: "Select", value: "" },
+                   
+                    { name: "Yes", value: "Yes" },
+               
+       ]
+
+            });
+    }
 
 </script>
 <script>
     $(document).ready(function () {
         //search button
-        $('#Keyword3').keyup(function () {
+        $('#Keyword').keyup(function () {
             //search
-            var grid = $('#subsidy-grid').data('kendoGrid');
+            var grid = $('#niti-grid').data('kendoGrid');
             grid.dataSource.page(1); //new search. Set page size to 1
             //grid.dataSource.read(); we already loaded the grid above using "page" function
             return false;
         });
 
 
-    });</script>
-@*import categories form*@
-
-
+    });
+</script>
+@*import niti form*@

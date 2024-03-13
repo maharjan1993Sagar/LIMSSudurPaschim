@@ -108,7 +108,7 @@
                     field: "FarmerName",
                     title: "@T("Admin.DeathVerification.FarmerName")",
                     width: 400,
-                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=Name#</a>',
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=FarmerName#</a>',
 
                 },
                  {
@@ -143,7 +143,7 @@
                 },
                 {
                     title: "",
-                    template: "<a href='/Admin/DeathVerification/Report/#= id #'>Gen. Report</a> <a href='/Admin/DeathVerification/Upload/#= id #'>Upload Doc.</a>"
+                    template: "<a target='_blank' href='Report/#=Id#'>Gen. Report</a> <a target='_blank' href='Upload/#=Id#'>Upload Doc.</a>"
                 },
 
             ]

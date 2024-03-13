@@ -42,7 +42,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILocalLevelService _localLevelService;
 
 
-        public FarmController(ILocalizationService localizationService, IFarmService farmService, IPictureService pictureService, ILanguageService languageService, IWorkContext workContext, IVhlsecService vhlsecService, ILssService lssService, ICustomerService customerService, IMediator mediator, IStoreContext storeContext, LocalLevelService localLevelService)
+        public FarmController(ILocalizationService localizationService, IFarmService farmService, IPictureService pictureService,
+            ILanguageService languageService, IWorkContext workContext, IVhlsecService vhlsecService, 
+            ILssService lssService, ICustomerService customerService, IMediator mediator,
+            IStoreContext storeContext, ILocalLevelService localLevelService)
         {
             _localizationService = localizationService;
             _farmService = farmService;
@@ -72,7 +75,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
                 var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
                 List<string> customerid = customers.Select(x => x.Id).ToList();
-                var farm = await _farmService.GetFarmByLssId(customerid, model.Keyword, command.Page-1, command.PageSize);
+                var farm = await _farmService.GetFarmByLssId(null, model.Keyword, command.Page-1, command.PageSize);
                 var currentuser = _workContext.CurrentCustomer.Id;
                 var gridModel = new DataSourceResult {
                     Data = farm,

@@ -78,7 +78,7 @@ namespace LIMS.Web.Areas.Admin.Components
             string localLevel = _workContext.CurrentCustomer.LocalLevel;
             string orgName = _workContext.CurrentCustomer.OrgName;
             string orgAddress = _workContext.CurrentCustomer.OrgAddress;
-            string orgLevel = "नगर कार्यपालिकाको कार्यालय";
+            string orgLevel = ExecutionHelper.LevelNepali;
 
             //if (roles.Contains("Agriculture"))
             //{
@@ -97,14 +97,16 @@ namespace LIMS.Web.Areas.Admin.Components
             var reportModel = new DeathVerificationReportModel();
             reportModel.DeathVerification = filteredVerification;
             reportModel.VerificationHeader = new VerificationHeader {
-                                            LocalLevel = customer.OrgName,
-                                            Level = ExecutionHelper.LevelNepali,
-                                            Address = customer.OrgAddress,
-                                            PhoneNumber = customer.PhoneNo,
-                                            PaSa = "०८०/०८१",
-                                            Department = ExecutionHelper.DepartmentLivestock};
+                LocalLevel = customer.OrgName,
+                Level = ExecutionHelper.LevelNepali,
+                Address = customer.OrgAddress,
+                PhoneNumber = customer.PhoneNo,
+                PaSa = "०८०/०८१",
+                Department = ExecutionHelper.DepartmentLivestock,
+                Today = DateTime.Now.ToString("yyyy/MM/dd")
+            };
 
             return View(reportModel);
         }
-        }
+    }
 }

@@ -24,7 +24,7 @@ using LIMS.Web.Areas.Admin.Helper;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
-    public class PujigatKharchaKharyakramController : BaseAdminController
+    public class BudgetController : BaseAdminController
     {
         #region fields
         //private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
@@ -37,17 +37,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly IImportManager _importManager;
         private readonly IFiscalYearService _fiscalYearService;
-        private readonly IHostingEnvironment _environment;
+        private IHostingEnvironment _environment;
         #endregion
         #region ctor
-        public PujigatKharchaKharyakramController(
-            //IPujigatKharchaKharakramService pujigatKharchaKharakramService,
+        public BudgetController(
+            IPujigatKharchaKharakramService pujigatKharchaKharakramService,
             IBudgetService budgetService,
             ICustomerService customerService,
             ILanguageService languageService,
              ILocalizationService localizationService,
              IStoreService storeService,
-              //  IExportManager exportManager,
+            //  IExportManager exportManager,
               IWorkContext workContext,
               IImportManager importManager,
               IFiscalYearService fiscalYearService,
@@ -55,20 +55,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             )
         {
-            // _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
+           // _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
             _budgetService = budgetService;
             _customerService = customerService;
             _languageService = languageService;
             _localizationService = localizationService;
             _storeService = storeService;
-            // _exportManager = exportManager;
+           // _exportManager = exportManager;
             _workContext = workContext;
             _importManager = importManager;
             _fiscalYearService = fiscalYearService;
             _environment = environment;
         }
         #endregion
-        public IActionResult Index() => RedirectToAction("List");
+        public IActionResult Index() =>RedirectToAction("List");
         public IActionResult TabEntry() => View();
 
         public IActionResult List() => View();
@@ -76,9 +76,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public IActionResult TrainingChonot() => View();
         public IActionResult InputSupply() => View();
 
-        public async Task<IActionResult> ListTest(string keyword = "", string category = "")
+        public async Task<IActionResult> ListTest(string keyword="",string category= "")
         {
-            // var createdby = _workContext.CurrentCustomer.Id;
+           // var createdby = _workContext.CurrentCustomer.Id;
             var budgets = await _budgetService.GetBudget("", keyword, 0, 50);
             var b = budgets.ToList();
 
@@ -91,7 +91,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //  b.ForEach(m => m.MukhyaKaryakram = _context.MukhyaKaryakrams.Where(n => n.Id.ToString() == m.MukhyaKaryakram).FirstOrDefault()?.MukhyaKaryakramKoName);
             b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
             //   b.ForEach(m => m.FirstQuaterBudget = _context.Bhuktanis.Where(n => n.BudgetId == m.Id).FirstOrDefault()?.BudgetId.ToString());
-
+           
             var lstBudget = b.ToList();
             if (!String.IsNullOrEmpty(category))
             {
@@ -104,26 +104,25 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
 
             return View(lstBudget);
-            // return Json(gridModel);
+           // return Json(gridModel);
 
         }
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command, string keyword)
-        {
+        public async Task<IActionResult> List(DataSourceRequest  command,string keyword) {
             var createdby = _workContext.CurrentCustomer.Id;
-            var budgets = await _budgetService.GetBudget("", keyword, command.Page - 1, command.PageSize);
+            var budgets = await _budgetService.GetBudget("",keyword,command.Page-1, command.PageSize);
             var b = budgets.ToList();
 
-            b.ForEach(m => m.TypeOfExecution = ExecutionHelper.GetTypeOfExecution().Where(n => n.Value == m.TypeOfExecution).FirstOrDefault()?.Text);
-            b.ForEach(m => m.PlanningProgram = ExecutionHelper.GetPlanningTypes().Where(n => n.Value == m.PlanningProgram).FirstOrDefault()?.Text);
-            b.ForEach(m => m.TypeOfExpen = ExecutionHelper.GetPrakar().Where(n => n.Value == m.TypeOfExpen).FirstOrDefault()?.Text);
-            b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
-            b.ForEach(m => m.Xetra = ExecutionHelper.GetXetras().Where(n => n.Value.ToString() == m.Xetra).FirstOrDefault()?.Text);
-            b.ForEach(m => m.UpaXetra = ExecutionHelper.GetUpaXetras().Where(n => n.Value.ToString() == m.UpaXetra).FirstOrDefault()?.Text);
-            //  b.ForEach(m => m.MukhyaKaryakram = _context.MukhyaKaryakrams.Where(n => n.Id.ToString() == m.MukhyaKaryakram).FirstOrDefault()?.MukhyaKaryakramKoName);
-            b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
-            //   b.ForEach(m => m.FirstQuaterBudget = _context.Bhuktanis.Where(n => n.BudgetId == m.Id).FirstOrDefault()?.BudgetId.ToString());
-
+         //   b.ForEach(m => m.TypeOfExecution = ExecutionHelper.GetTypeOfExecution().Where(n => n.Value == m.TypeOfExecution).FirstOrDefault()?.Text);
+         //   b.ForEach(m => m.PlanningProgram = ExecutionHelper.GetPlanningTypes().Where(n => n.Value == m.PlanningProgram).FirstOrDefault()?.Text);
+         //   b.ForEach(m => m.TypeOfExpen = ExecutionHelper.GetPrakar().Where(n => n.Value == m.TypeOfExpen).FirstOrDefault()?.Text);
+         //   b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
+         //   b.ForEach(m => m.Xetra = ExecutionHelper.GetXetras().Where(n => n.Value.ToString() == m.Xetra).FirstOrDefault()?.Text);
+         //   b.ForEach(m => m.UpaXetra =ExecutionHelper.GetUpaXetras().Where(n => n.Value.ToString() == m.UpaXetra).FirstOrDefault()?.Text);
+         // //  b.ForEach(m => m.MukhyaKaryakram = _context.MukhyaKaryakrams.Where(n => n.Id.ToString() == m.MukhyaKaryakram).FirstOrDefault()?.MukhyaKaryakramKoName);
+         //   b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
+         ////   b.ForEach(m => m.FirstQuaterBudget = _context.Bhuktanis.Where(n => n.BudgetId == m.Id).FirstOrDefault()?.BudgetId.ToString());
+           
             var gridModel = new DataSourceResult {
                 Data = b,
                 Total = budgets.TotalCount
@@ -134,26 +133,26 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword, string category = "")
+        public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword, string category="")
         {
             var createdby = _workContext.CurrentCustomer.Id;
             var budgets = await _budgetService.GetBudget("", keyword, command.Page - 1, command.PageSize);
             var b = budgets.ToList();
 
-            b.ForEach(m => m.TypeOfExecution = ExecutionHelper.GetTypeOfExecution().Where(n => n.Value == m.TypeOfExecution).FirstOrDefault()?.Text);
-            b.ForEach(m => m.PlanningProgram = ExecutionHelper.GetPlanningTypes().Where(n => n.Value == m.PlanningProgram).FirstOrDefault()?.Text);
-            b.ForEach(m => m.TypeOfExpen = ExecutionHelper.GetPrakar().Where(n => n.Value == m.TypeOfExpen).FirstOrDefault()?.Text);
-            b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
-            b.ForEach(m => m.Xetra = ExecutionHelper.GetXetras().Where(n => n.Value.ToString() == m.Xetra).FirstOrDefault()?.Text);
-            b.ForEach(m => m.UpaXetra = ExecutionHelper.GetUpaXetras().Where(n => n.Value.ToString() == m.UpaXetra).FirstOrDefault()?.Text);
-            //  b.ForEach(m => m.MukhyaKaryakram = _context.MukhyaKaryakrams.Where(n => n.Id.ToString() == m.MukhyaKaryakram).FirstOrDefault()?.MukhyaKaryakramKoName);
-            b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
-            //   b.ForEach(m => m.FirstQuaterBudget = _context.Bhuktanis.Where(n => n.BudgetId == m.Id).FirstOrDefault()?.BudgetId.ToString());
+            //b.ForEach(m => m.TypeOfExecution = ExecutionHelper.GetTypeOfExecution().Where(n => n.Value == m.TypeOfExecution).FirstOrDefault()?.Text);
+            //b.ForEach(m => m.PlanningProgram = ExecutionHelper.GetPlanningTypes().Where(n => n.Value == m.PlanningProgram).FirstOrDefault()?.Text);
+            //b.ForEach(m => m.TypeOfExpen = ExecutionHelper.GetPrakar().Where(n => n.Value == m.TypeOfExpen).FirstOrDefault()?.Text);
+            //b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
+            //b.ForEach(m => m.Xetra = ExecutionHelper.GetXetras().Where(n => n.Value.ToString() == m.Xetra).FirstOrDefault()?.Text);
+            //b.ForEach(m => m.UpaXetra = ExecutionHelper.GetUpaXetras().Where(n => n.Value.ToString() == m.UpaXetra).FirstOrDefault()?.Text);
+            ////  b.ForEach(m => m.MukhyaKaryakram = _context.MukhyaKaryakrams.Where(n => n.Id.ToString() == m.MukhyaKaryakram).FirstOrDefault()?.MukhyaKaryakramKoName);
+            //b.ForEach(m => m.BudgetBiniyojanType = ExecutionHelper.GetPrakar().Where(n => n.Value == m.BudgetBiniyojanType).FirstOrDefault()?.Text);
+            ////   b.ForEach(m => m.FirstQuaterBudget = _context.Bhuktanis.Where(n => n.BudgetId == m.Id).FirstOrDefault()?.BudgetId.ToString());
 
             var lstBudget = b.ToList();
             if (!String.IsNullOrEmpty(category))
             {
-                lstBudget = lstBudget.Where(m => m.ExpensesCategory == category).ToList();
+                lstBudget  = lstBudget.Where(m => m.ExpensesCategory == category).ToList();
             }
 
             var gridModel = new DataSourceResult {
@@ -166,8 +165,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Create()
-        {
+        public async Task<IActionResult> Create() {
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
             ViewBag.ExpensesCategory = new SelectList(ExecutionHelper.GetExecTypes(), "Value", "Text");
@@ -175,7 +173,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Chetra = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
             //var c = ChetraId.ToList();
             //c.Insert(0, new SelectListItem { Text = "Select", Value = "" });
-            // = c;
+           // = c;
 
             ViewBag.UpaChetra = new SelectList(ExecutionHelper.GetUpaXetras(), "Value", "Text");
 
@@ -236,10 +234,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             }
         }
 
-        public FileResult Download()
-        {
+            public FileResult Download() {
 
-            string filePath = _environment.WebRootPath + "/Import_Budget.xlsx";
+            string filePath= _environment.WebRootPath +"/Import_Budget.xlsx";
             byte[] bytes = System.IO.File.ReadAllBytes(filePath);
 
             //Send the File to Download.
@@ -248,14 +245,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ImportBudgetFromXlsx(IFormFile importexcelfile, string Type, string FiscalYear, string ProgramType)
+        public async Task<IActionResult> ImportBudgetFromXlsx(IFormFile importexcelfile,string Type,string FiscalYear,string ProgramType)
         {
             //a vendor and staff cannot import categories           
             try
             {
                 if (importexcelfile != null && importexcelfile.Length > 0)
                 {
-                    await _importManager.ImportBudgetFromXlsx(importexcelfile.OpenReadStream(), Type, FiscalYear, ProgramType);
+                    await _importManager.ImportBudgetFromXlsx(importexcelfile.OpenReadStream(),Type,FiscalYear,ProgramType);
                 }
                 else
                 {
@@ -297,8 +294,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return RedirectToAction("TabEntry");
             }
         }
-        public async Task<IActionResult> GetFiscalYear()
-        {
+        public async Task<IActionResult> GetFiscalYear() {
 
             return Json(await _fiscalYearService.GetFiscalYear());
 
@@ -341,7 +337,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
                 },
-
+                
             };
 
         }
@@ -349,7 +345,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (!String.IsNullOrEmpty(id))
             {
-                var budget = await _budgetService.GetBudgetById(id);
+                var budget =await _budgetService.GetBudgetById(id);
                 var model = budget.ToModel();
 
 
@@ -358,17 +354,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 ViewBag.ExpensesCategory = new SelectList(ExecutionHelper.GetExecTypes(), "Value", "Text", model.ExpensesCategory);
 
                 ViewBag.Chetra = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text", model.Xetra);
-
+               
 
                 ViewBag.UpaChetra = new SelectList(ExecutionHelper.GetUpaXetras(), "Value", "Text", model.UpaXetra);
 
-
+              
 
                 ViewBag.Expences = new SelectList(ExecutionHelper.GetPrakar(), "Value", "Text", model.TypeOfExpen);
 
                 ViewBag.BiniyojanType = new SelectList(ExecutionHelper.BiniyojanType(), "Value", "Text", model.BudgetBiniyojanType);
 
-                ViewBag.TypeOFExecution = new SelectList(ExecutionHelper.GetTypeOfExecution(), "Value", "Text", model.TypeOfExecution);
+                ViewBag.TypeOFExecution = new SelectList(ExecutionHelper.GetTypeOfExecution(), "Value", "Text",model.TypeOfExecution);
 
                 ViewBag.Planning = new SelectList(ExecutionHelper.GetPlanningTypes(), "Value", "Text", model.PlanningProgram);
 
@@ -402,7 +398,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, BudgetModel model)
+        public async Task<IActionResult> Edit(string id,BudgetModel model)
         {
             var budget = model.ToEntity();
             budget.CreatedBy = _workContext.CurrentCustomer.Id;
@@ -413,7 +409,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (objBudget == null)
                 throw new ArgumentException("No program found with the specified id ");
             if (ModelState.IsValid)
-            {
+            {                
                 await _budgetService.UpdateBudget(budget);
                 SuccessNotification(_localizationService.GetResource("Admin.Catalog.Category.Imported"));
                 return RedirectToAction("TabEntry");

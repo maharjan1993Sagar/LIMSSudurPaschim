@@ -76,9 +76,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var id = _workContext.CurrentCustomer.Id;
             var bali = await _animalRegistrationService.Getfarmer("", command.Page - 1, command.PageSize);
+            var filtered = bali.Where(m => !String.IsNullOrEmpty(m.TalimId)).ToList();
             var gridModel = new DataSourceResult {
-                Data = bali,
-                Total = bali.TotalCount
+                Data = filtered,
+                Total = filtered.Count(),
             };
             return Json(gridModel);
         }
@@ -144,11 +145,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Create(FarmerModel model,IFormCollection col)
-        {
-           
-                var animalRegistration = model.ToEntity();
-                animalRegistration.Incubation = await _incuvationCenterService.GetincuvationCenterById(animalRegistration.IncuvationCenterId);
-                animalRegistration.Talim = await _talimService.GettalimById(animalRegistration.TalimId);
+        {           
+            var animalRegistration = model.ToEntity();
+            animalRegistration.Incubation = await _incuvationCenterService.GetincuvationCenterById(animalRegistration.IncuvationCenterId);
+            animalRegistration.Talim = await _talimService.GettalimById(animalRegistration.TalimId);
             animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(animalRegistration.FiscalYearId);
 
             animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;

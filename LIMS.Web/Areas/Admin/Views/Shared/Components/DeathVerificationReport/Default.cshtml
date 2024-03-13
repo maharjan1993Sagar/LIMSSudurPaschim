@@ -1,82 +1,132 @@
 ﻿@model LIMS.Web.Areas.Admin.Models.Bali.DeathVerificationReportModel
 <div id="Printcontent">
-    <div class="text-center">
-        @Model.VerificationHeader.LocalLevel<br />
-        @Model.VerificationHeader.Level<br />
-        @Model.VerificationHeader.Address<br />
-        @Model.VerificationHeader.Department<br />
-        <br />
-       
+    <div class="col-md-12">
+        <div class="col-md-2">
+            <br />
+            <br />
+            <br />
+            <br />
+            प.सं.: @Model.VerificationHeader.PaSa<br />
+            च.नं.:
+        </div>
+        <div class="col-md-8 text-center">
+            <b>
+                @Model.VerificationHeader.LocalLevel<br />
+                @Model.VerificationHeader.Level<br />
+                @Model.VerificationHeader.Address<br />
+                @Model.VerificationHeader.Department<br />
+            </b>
+        </div>
+        <div class="col-md-2">
+            फोन नं. : @Model.VerificationHeader.PhoneNumber
+            <br />
+            <br />
+            <br />
+            <br />
+            मिति: @Model.VerificationHeader.Today
+        </div>
+        <div class="col-md-12 text-center">
+            विषय: मृत्यु प्रमाणित सम्बन्धमा |
+        </div>
+        <div class="col-md-12">
+            श्री @Model.DeathVerification.InsuranceCompany<br />
+            @Model.DeathVerification.InsuranceCompanyAddress
+        </div>
+        <div class="col-md-12">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; प्रस्तुत विषयमा @Model.DeathVerification.LocalLevel का वडा नं. @Model.DeathVerification.WardNo मा रहेको अयाशं पशुपालन फर्मका @Model.DeathVerification.FarmerName ले तहाँ कार्यालयमा दर्ता गरी पालेको तपसिल बमोजिमको @Model.DeathVerification.LivestockSpecies.NepaliName मृत्यु भएको व्यहोरा प्रमाणित गरिन्छ |
+
+        </div>
+        <div class="col-md-12 text-left">
+            <b><u>तपशिल</u></b> <br />
+            जाती : @Model.DeathVerification.LivestockSpecies.NepaliName <br />
+            नश्ल : @Model.DeathVerification.LivestockBreed.NepaliName <br />
+            संकेत नं. : @Model.DeathVerification.TagNo <br />
+            रङ्ग : @Model.DeathVerification.Color <br />
+            उचाई : @Model.DeathVerification.Height<br />
+            विमलेखा नं. : @Model.DeathVerification.InsuranceNo<br />
+            सिफारिस व्यक्ति : @Model.DeathVerification.InsuranceCompany<br />
+            कारण : @Model.DeathVerification.CauseOfDeath<br />
+            विमाकं रकम : @Model.DeathVerification.InsuranceAmount<br />
+            मृत्यु भएको मिति: @Model.DeathVerification.DeathDate<br />
+        </div>
+        <div class="col-md-12 text-right">
+            हस्ताक्षर: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+            सिफारिस गर्नेको नाम : @Model.DeathVerification.VerifiedBy <br />
+            सिफारिस गर्नेको पद : @Model.DeathVerification.Designation <br />
+            सिफारिस गर्नेको फोन नं.: @Model.DeathVerification.PhoneNumber <br />
+        </div>
     </div>
 
+
     @*@if (Model.Rows.Count() > 0)
-    {
-        <div class="text-center">
-            @Model.LocalLevel<br />
-            @Model.Level<br />
-            @Model.Address<br />
-            आ.ब. @Model.FiscalYear को अनुदानहरुको विवरण
-
-        </div>
-        <div class="divTable">
-            <table class="table table-bordered">
-                <thead>
-                    @if (Model.Rows.Count() > 0)
-                    {
-                        <tr style="text-align:center">
-                            <th id="c">@T("Admin.Subsidy.SN")</th>
-                            <th>@T("Admin.Subsidy.BudgetId")</th>
-                            <th>@T("Admin.Subsidy.MainActivity")</th>
-                            <th>@T("Admin.Subsidy.Male")</th>
-                            <th>@T("Admin.Subsidy.Female")</th>
-                            <th>@T("Admin.Subsidy.Dalit")</th>
-                            <th>@T("Admin.Subsidy.Janajati")</th>
-                            <th>@T("Admin.Subsidy.Others")</th>
-                            <th>@T("Admin.Subsidy.Total")</th>
-                            <th>@T("Admin.Subsidy.ExpectedOutput")</th>
-                            <th>@T("Admin.Subsidy.Remarks")</th>
-
-                        </tr>
-                    }
-                </thead>
-                <tbody>
-                    @{string a = "";}
-                    @foreach (var item in Model.Rows)
-                    {
-
-                        <tr>
-                            <td>@item.SN</td>
-                            <td>@item.BudgetTitle</td>
-                            <td>@item.MainActivity</td>
-                            <td>@item.Male</td>
-                            <td>@item.Female</td>
-                            <td>@item.Dalit</td>
-                            <td>@item.Janajati</td>
-                            <td>@item.Others</td>
-                            <td>@item.Total</td>
-                            <td>@item.Upalabdhiharu</td>
-                            <td>@item.Remarks</td>
-                        </tr>
-
-                    }
-
-
-                </tbody>
-            </table>
-        </div>
-    }*@
-</div>
-
-        @*@if (Model.Rows.Count() > 0)
         {
-            <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
-            <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+            <div class="text-center">
+                @Model.LocalLevel<br />
+                @Model.Level<br />
+                @Model.Address<br />
+                आ.ब. @Model.FiscalYear को अनुदानहरुको विवरण
+
+            </div>
+            <div class="divTable">
+                <table class="table table-bordered">
+                    <thead>
+                        @if (Model.Rows.Count() > 0)
+                        {
+                            <tr style="text-align:center">
+                                <th id="c">@T("Admin.Subsidy.SN")</th>
+                                <th>@T("Admin.Subsidy.BudgetId")</th>
+                                <th>@T("Admin.Subsidy.MainActivity")</th>
+                                <th>@T("Admin.Subsidy.Male")</th>
+                                <th>@T("Admin.Subsidy.Female")</th>
+                                <th>@T("Admin.Subsidy.Dalit")</th>
+                                <th>@T("Admin.Subsidy.Janajati")</th>
+                                <th>@T("Admin.Subsidy.Others")</th>
+                                <th>@T("Admin.Subsidy.Total")</th>
+                                <th>@T("Admin.Subsidy.ExpectedOutput")</th>
+                                <th>@T("Admin.Subsidy.Remarks")</th>
+
+                            </tr>
+                        }
+                    </thead>
+                    <tbody>
+                        @{string a = "";}
+                        @foreach (var item in Model.Rows)
+                        {
+
+                            <tr>
+                                <td>@item.SN</td>
+                                <td>@item.BudgetTitle</td>
+                                <td>@item.MainActivity</td>
+                                <td>@item.Male</td>
+                                <td>@item.Female</td>
+                                <td>@item.Dalit</td>
+                                <td>@item.Janajati</td>
+                                <td>@item.Others</td>
+                                <td>@item.Total</td>
+                                <td>@item.Upalabdhiharu</td>
+                                <td>@item.Remarks</td>
+                            </tr>
+
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
         }*@
-        <script src="~/scripts/jquery.table2excel.js"></script>
-        <script>
-            function Export() {
-                $("#Printcontent").table2excel({
-                    filename: "Subsidy.xls"
-                });
-            }
-        </script>
+</div>
+<div class="col-md-12">
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+</div>
+@*@if (Model.Rows.Count() > 0)
+    {
+        <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    }*@
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "Insurance.xls"
+        });
+    }
+</script>

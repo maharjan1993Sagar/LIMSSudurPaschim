@@ -139,7 +139,7 @@ namespace LIMS.Web.Areas.Admin.Components
                         Species = sp,
                         SpeciesMeat=sp1,
                         Production = typeNos,
-                        FiscalYear = year.NepaliFiscalYear
+                        FiscalYear = year.NepaliFiscalYear,                       
 
                     }
                         );

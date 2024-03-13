@@ -20,6 +20,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string Department { get; set; }
         public string PaSa { get; set; }
         public string ChaNa { get; set; }
+        public string Today { get; set; }
     }
 
     public class DeathVerificationReportModel

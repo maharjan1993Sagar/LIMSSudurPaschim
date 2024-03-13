@@ -121,7 +121,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var Budget = await _budgetService.GetBudget("", CurrentFiscalYear, "", "");
 
-            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("",CurrentFiscalYear,"","","");
+            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", CurrentFiscalYear, "", "", "");
 
             MonthlyProgressModel model = new MonthlyProgressModel();
 
@@ -140,7 +140,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     };
                     progress.Add(pragati);
                 }
-                
+
             }
             model.Pragatis = progress.ToList();
 
@@ -204,7 +204,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
-            
+
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", model.FiscalYearId).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
@@ -216,7 +216,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var programType = ExecutionHelper.Swrot();
             programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.ProgramType = programType;
-            
+
             var month = new MonthHelper();
             var months = month.GetMonths();
 
@@ -225,7 +225,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var budget = await _budgetService.GetBudget(createdby, model.FiscalYearId, "", "");
 
-            
+
             MonthlyProgressModel models = new MonthlyProgressModel();
             models.Pragatis = model.Pragatis;
 
@@ -473,7 +473,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
-           
+
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             var CurrentFiscalYear = fiscalyear.Id;
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
@@ -491,7 +491,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //var programType = ProgramType();
             //programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             //ViewBag.ProgramType = programType;
-            
+
             var month = new MonthHelper();
             var months = month.GetMonths();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -525,21 +525,21 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //{
             //    if (fiscalYear != null)
             //    {
-                   // var id = _workContext.CurrentCustomer.Id;
+            // var id = _workContext.CurrentCustomer.Id;
 
-                    //string entity = _workContext.CurrentCustomer.EntityId;
-                    //List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
-                    //var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
-                    //List<string> customerid = customers.Select(x => x.Id).ToList();
+            //string entity = _workContext.CurrentCustomer.EntityId;
+            //List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
+            //var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
+            //List<string> customerid = customers.Select(x => x.Id).ToList();
 
 
-                    var budget = await _budgetService.GetBudget(null, fiscalYear, programType, type, "",command.Page - 1, command.PageSize);
-                    
-                    var gridModel = new DataSourceResult {
-                        Data = budget,
-                        Total = budget.TotalCount
-                    };
-                    return Json(gridModel);
+            var budget = await _budgetService.GetBudget(null, fiscalYear, programType, type, "", command.Page - 1, command.PageSize);
+
+            var gridModel = new DataSourceResult {
+                Data = budget,
+                Total = budget.TotalCount
+            };
+            return Json(gridModel);
             //    }
             //    else
             //    {
@@ -681,7 +681,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //        return Json(gridModel);
 
 
-              //  }
+            //  }
             //}
         }
         public async Task<IActionResult> Report()
@@ -738,125 +738,130 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Report(DataSourceRequest command, string type, string programType, string fiscalYear, string month, string vhlsecid, string dolfdid, string ToMonth)
+        public async Task<IActionResult> Report(DataSourceRequest command, string programType, string fiscalYear, string month, string vhlsecid, string dolfdid, string ToMonth, string type = "")
         {
             var role = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 
             //if (!string.IsNullOrEmpty(dolfdid) && string.IsNullOrEmpty(vhlsecid))
             //{
-                if (fiscalYear != null && month != null)
+            if (fiscalYear != null && month != null)
+            {
+                var id = _workContext.CurrentCustomer.Id;
+                string previousMonth = null;
+                if (!string.IsNullOrEmpty(month))
                 {
-                    var id = _workContext.CurrentCustomer.Id;
-                    string previousMonth = null;
-                    if (!string.IsNullOrEmpty(month))
+                    var monthHelper = new MonthHelper();
+                    var months = monthHelper.GetMonths();
+                    SelectListItem listindex = months.Where(m => m.Value == month).Single<SelectListItem>();
+                    int index = months.IndexOf(listindex);
+                    index = index + 1;
+
+                    if (index != 1)
                     {
-                        var monthHelper = new MonthHelper();
-                        var months = monthHelper.GetMonths();
-                        SelectListItem listindex = months.Where(m => m.Value == month).Single<SelectListItem>();
-                        int index = months.IndexOf(listindex);
-                        index = index + 1;
-
-                        if (index != 1)
-                        {
-                            previousMonth = months.ElementAt(index - 2).Value.ToString();
-                        }
-                        else
-                        {
-                            previousMonth = "no";
-                        }
+                        previousMonth = months.ElementAt(index - 2).Value.ToString();
                     }
-
-                    //string entity = _workContext.CurrentCustomer.EntityId;
-                    //List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
-                    //var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
-                    //List<string> customerid = customers.Select(x => x.Id).ToList();
-
-
-
-
-                    var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month);
-                    var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, previousMonth);
-                    var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati("", fiscalYear, programType, type);
-
-                    var budget = await _budgetService.GetBudget("", fiscalYear, programType, type);
-
-
-                    decimal a = 0;
-                    // budget.ToList().ForEach(m => m.Yearly = ((decimal.TryParse(m.Yearly, out a) ? a * 100000 : 0).ToString()));
-
-
-                    List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
-                    foreach (var item in budget)
+                    else
                     {
-                        var progress = new MonthlyProgressReport();
-                        //progress.BalanceBudget = item;
-                        try
-                        {
-                            progress.BitiyaPragati = (MonthlyPragati.Where(m => m.Budget.Id == item.Id) != null) ? MonthlyPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
-                        }
-                        catch
-                        {
-                            progress.BitiyaPragati = "0";
-
-                        }
-                        try
-                        {
-                            progress.VautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.BitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-                        }
-                        catch
-                        {
-                            progress.VautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.PreviousMonthBitiyaPragati = (PreviousMonthPragati.Where(m => m.Budget.Id == item.Id) != null) ? PreviousMonthPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
-                        }
-                        catch
-                        {
-                            progress.PreviousMonthBitiyaPragati = "0";
-
-                        }
-                        try
-                        {
-                            progress.PreviousMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.PreviousMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-
-                        }
-                        catch
-                        {
-                            progress.PreviousMonthVautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.TotalMonthBitiyaPragati = (FiscalYearPragati.Where(m => m.Budget.Id == item.Id) != null) ? FiscalYearPragati.Where(m => m.Budget.Id == item.Id).Sum(m => Convert.ToDecimal(String.IsNullOrEmpty(m.BitiyaPragati) ? "0" : m.BitiyaPragati)).ToString() : "";
-                        }
-                        catch
-                        {
-                            progress.TotalMonthBitiyaPragati = "0";
-                        }
-                        try
-                        {
-                            progress.TotalMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.TotalMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
-
-                        }
-                        catch
-                        {
-                            progress.TotalMonthVautikPragati = "0";
-                        }
-                        try
-                        {
-                            progress.BalanceBudget = Convert.ToString(Convert.ToDecimal(item.Yearly) - Convert.ToDecimal(progress.TotalMonthBitiyaPragati));
-                        }
-                        catch
-                        {
-                            progress.BalanceBudget = item.Yearly;
-                        }
-                        report.Add(progress);
+                        previousMonth = "no";
                     }
-                    var gridModel = new DataSourceResult {
-                        Data = report,
-                        Total = MonthlyPragati.TotalCount
-                    };
-                    return Json(gridModel);
+                }
+
+                //string entity = _workContext.CurrentCustomer.EntityId;
+                //List<string> entities = _vhlsecService.GetVhlsecByDolfdId(dolfdid).Result.Select(m => m.Id).ToList();
+                //var customers = _customerService.GetCustomerByLssId(entities, dolfdid);
+                //List<string> customerid = customers.Select(x => x.Id).ToList();
+
+
+
+
+                var MonthlyPragati = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month);
+                var PreviousMonthPragati = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, previousMonth);
+                var FiscalYearPragati = await _animalRegistrationService.GetFilteredYearlyPragati("", fiscalYear, programType, type);
+
+                var budget = await _budgetService.GetBudget("", fiscalYear, programType, type);
+
+
+                decimal a = 0;
+                // budget.ToList().ForEach(m => m.Yearly = ((decimal.TryParse(m.Yearly, out a) ? a * 100000 : 0).ToString()));
+
+
+                List<MonthlyProgressReport> report = new List<MonthlyProgressReport>();
+                foreach (var item in budget)
+                {
+                    var progress = new MonthlyProgressReport();
+                    //progress.BalanceBudget = item;
+                    try
+                    {
+                        progress.BitiyaPragati = (MonthlyPragati.Where(m => m.Budget.Id == item.Id) != null) ? MonthlyPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
+                    }
+                    catch
+                    {
+                        progress.BitiyaPragati = "0";
+
+                    }
+                    try
+                    {
+                        progress.VautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.BitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
+                    }
+                    catch
+                    {
+                        progress.VautikPragati = "0";
+                    }
+                    try
+                    {
+                        progress.PreviousMonthBitiyaPragati = (PreviousMonthPragati.Where(m => m.Budget.Id == item.Id) != null) ? PreviousMonthPragati.Where(m => m.Budget.Id == item.Id).FirstOrDefault().BitiyaPragati : "";
+                    }
+                    catch
+                    {
+                        progress.PreviousMonthBitiyaPragati = "0";
+
+                    }
+                    try
+                    {
+                        progress.PreviousMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.PreviousMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
+
+                    }
+                    catch
+                    {
+                        progress.PreviousMonthVautikPragati = "0";
+                    }
+                    try
+                    {
+                        progress.TotalMonthBitiyaPragati = (FiscalYearPragati.Where(m => m.Budget.Id == item.Id) != null) ? FiscalYearPragati.Where(m => m.Budget.Id == item.Id).Sum(m => Convert.ToDecimal(String.IsNullOrEmpty(m.BitiyaPragati) ? "0" : m.BitiyaPragati)).ToString() : "";
+                    }
+                    catch
+                    {
+                        progress.TotalMonthBitiyaPragati = "0";
+                    }
+                    try
+                    {
+                        progress.TotalMonthVautikPragati = Convert.ToString(Math.Round((Convert.ToDecimal(progress.TotalMonthBitiyaPragati) / Convert.ToDecimal(item.Yearly)), 2));
+
+                    }
+                    catch
+                    {
+                        progress.TotalMonthVautikPragati = "0";
+                    }
+                    try
+                    {
+                        progress.BalanceBudget = Convert.ToString(Convert.ToDecimal(item.Yearly) - Convert.ToDecimal(progress.TotalMonthBitiyaPragati));
+                    }
+                    catch
+                    {
+                        progress.BalanceBudget = item.Yearly;
+                    }
+                    progress.budget = item;
+                    progress.BudgetId = item.Id;
+                    report.Add(progress);
+                }
+
+                var filteredReport = report.Where(m => !String.IsNullOrEmpty(m.BudgetId)).ToList();
+
+                var gridModel = new DataSourceResult {
+                    Data = filteredReport,
+                    Total = filteredReport.Count()
+                };
+                return Json(gridModel);
             }
             else
             {
@@ -870,7 +875,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             }
         }
-     
+
 
 
 
@@ -935,12 +940,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<ActionResult> GetBudget(string type, string programType, string fiscalYear,string month,string expensesCategory)
+        public async Task<ActionResult> GetBudget(string type, string programType, string fiscalYear, string month, string expensesCategory)
         {
             var createdby = _workContext.CurrentCustomer.Id;
 
             var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
-            string xetra="";
+            string xetra = "";
 
             if (roles.Contains("Agriculture"))
             {
@@ -955,10 +960,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 xetra = "";
             }
             //Get Budget
-            var budget = await _budgetService.GetBudget("", fiscalYear, programType, type,expensesCategory,xetra);
+            var budget = await _budgetService.GetBudget("", fiscalYear, programType, type, expensesCategory, xetra);
 
             //Get Progress
-            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month, expensesCategory,xetra);
+            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month, expensesCategory, xetra);
 
             var lstProgress = new List<MonthlyPragati>();
 
@@ -973,16 +978,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         Budget = item,
                         FiscalYearId = item.FiscalYearId,
                         Month = month,
-                        VautikPragati= "0",
+                        VautikPragati = "0",
                         BitiyaPragati = "0",
                         Id = ""
                     };
                     lstProgress.Add(pragati);
                 }
-                else{
+                else
+                {
                     lstProgress.Add(objPragati);
                 }
-                
+
             }
 
             //decimal a = 0;
@@ -992,7 +998,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<ActionResult> UpdateProgress(string budgetId, string progressId, string month, string bitiya, string vautik, string upalabdhiharu, string remarks,string fiscalYear)
+        public async Task<ActionResult> UpdateProgress(string budgetId, string progressId, string month, string bitiya, string vautik, string upalabdhiharu, string remarks, string fiscalYear)
         {
             try
             {
@@ -1033,7 +1039,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         objMonthlyPragati.FiscalYear = await _fiscalYearService.GetFiscalYearById(fiscalYear);
 
 
-                       
+
                         await _animalRegistrationService.InsertMonthlyPragati(objMonthlyPragati);
 
                         return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
@@ -1060,16 +1066,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
 
                 }
-                
-                return Ok(new { Message = _localizationService.GetResource("Admin.Common.Fail"), id=""});
 
-               
+                return Ok(new { Message = _localizationService.GetResource("Admin.Common.Fail"), id = "" });
+
+
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
-                return BadRequest(new { Message = _localizationService.GetResource("Admin.Common.Fail")+"   "+ ex.Message, id="" });
+                return BadRequest(new { Message = _localizationService.GetResource("Admin.Common.Fail") + "   " + ex.Message, id = "" });
 
             }
         }

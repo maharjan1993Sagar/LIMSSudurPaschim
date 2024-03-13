@@ -13,16 +13,19 @@ using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Bali;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
-    public class DeathVerificationController:BaseAdminController
+    public class DeathVerificationController : BaseAdminController
     {
         private readonly IDeathVerificationService _DeathVerificationService;
         private readonly IUnitService _unitService;
@@ -37,6 +40,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILivestockBreedService _livestockBreedService;
         private readonly ILivestockSpeciesService _livestockSpeciesService;
         private readonly IOtherOrganizationService _otherOrganizationService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public DeathVerificationController(ILocalizationService localizationService,
             IDeathVerificationService DeathVerificationService,
@@ -51,7 +55,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IBudgetService budgetService,
             ILivestockBreedService livestockBreedService,
             ILivestockSpeciesService livestockSpeciesService,
-            IOtherOrganizationService otherOrganizationService
+            IOtherOrganizationService otherOrganizationService,
+            IHostingEnvironment hostingEnvironment
             )
         {
             _localizationService = localizationService;
@@ -68,6 +73,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _livestockBreedService = livestockBreedService;
             _livestockSpeciesService = livestockSpeciesService;
             _otherOrganizationService = otherOrganizationService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -85,15 +91,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
             return View();
-                
-                }
+
+        }
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command,  string fiscalYear = "", string district = "", string locallevel = "")
+        public async Task<IActionResult> List(DataSourceRequest command, string fiscalYear = "", string district = "", string locallevel = "")
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _DeathVerificationService.GetdeathVerification("",fiscalYear,locallevel, command.Page - 1, command.PageSize);
+            var bali = await _DeathVerificationService.GetdeathVerification("", fiscalYear, locallevel, command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount
@@ -127,6 +133,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             DeathVerificationModel model = new DeathVerificationModel();
             model.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
+            model.EnglishDate = DateTime.Now;
 
             return View(model);
         }
@@ -138,12 +145,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 var DeathVerification = model.ToEntity();
                 DeathVerification.LivestockBreed = await _livestockBreedService.GetBreedById(model.LivestockBreedId);
                 DeathVerification.LivestockSpecies = await _livestockSpeciesService.GetBreedById(model.LivestockSpeciesId);
                 DeathVerification.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
-               if(!String.IsNullOrEmpty(DeathVerification.OrganizationId))
+                if (!String.IsNullOrEmpty(DeathVerification.OrganizationId))
                 {
                     DeathVerification.Organization = await _otherOrganizationService.GetOtherOrganizationById(DeathVerification.OrganizationId);
                 }
@@ -203,7 +210,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var ward = new WardHelper();
             var wardSelect = ward.GetWard();
             wardSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-             ViewBag.Ward = new SelectList(wardSelect, "Value","Text");
+            ViewBag.Ward = new SelectList(wardSelect, "Value", "Text");
 
             var breedSelect = new SelectList(await _livestockBreedService.GetBreed(), "Id", "EnglishName").ToList();
             breedSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -275,12 +282,68 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return RedirectToAction("Create");
         }
 
+        public async Task<IActionResult> Report(string id)
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("DeathVerificationReport", new { id = id });
 
+            ViewBag.RawHtml = livestockWardWiseReportHtml;
+            return View();
+        }
+        public async Task<IActionResult> Upload(string id)
+        {
+            var model = new DeathVerificationUploadModel {
+                            Id=id
+                        };
+            if (String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Upload(DeathVerificationUploadModel model)
+        {
+            if (!String.IsNullOrEmpty(model.Id))
+            {
+                string path = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/");
+
+                if (!System.IO.Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                try
+                {
+                    if (model.Image != null && model.Image.Length > 0)
+                    {
+                        string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/"+model.Id+".jpg");
+                        using (Stream fileStream = new FileStream(uploads, FileMode.Create))
+                        {
+                            await model.Image.CopyToAsync(fileStream);
+                        }                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.ToString());
+                    return View(model);
+                }
+               
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
+
+        }
         //public virtual async Task<IActionResult> CategoryAutoComplete(string term, string type)
         //{
         //    var result = await _CategoryService.GetCategoryByType(type, term);
         //    return Json(result);
         //}
-      
-        }
+
+    }
     }

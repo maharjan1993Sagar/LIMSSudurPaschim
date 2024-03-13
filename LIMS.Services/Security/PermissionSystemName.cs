@@ -119,6 +119,8 @@
         public const string AgriUserAccess = "AgriUserAccess";
         public const string LivestockUserAccess = "LivestockUserAccess";
 
+        public const string OnlyDataEntryAccess = "OnlyDataEntryAccess";
+
 
     }
 }

@@ -134,6 +134,7 @@ namespace LIMS.Services.Security
         //Agriculture
         public static readonly PermissionRecord AgriUserAccess = new PermissionRecord { Name = "AgriUser Access", SystemName = PermissionSystemName.AgriUserAccess };
         public static readonly PermissionRecord LivestockUserAccess = new PermissionRecord { Name = "LivestockUser Access", SystemName = PermissionSystemName.LivestockUserAccess };
+        public static readonly PermissionRecord OnlyDataEntryAccess = new PermissionRecord { Name = "DataEntryUser Access", SystemName = PermissionSystemName.OnlyDataEntryAccess };
 
         public virtual IEnumerable<PermissionRecord> GetPermissions()
         {
@@ -239,7 +240,8 @@ namespace LIMS.Services.Security
                 AccessResourceRegister,
                 //Agriculture Access
                 AgriUserAccess,
-                LivestockUserAccess
+                LivestockUserAccess,
+                OnlyDataEntryAccess
             };
         }
 
@@ -313,7 +315,8 @@ namespace LIMS.Services.Security
                         AccessCMS,
                         //Agriculture Access
                         AgriUserAccess,
-                        LivestockUserAccess
+                        LivestockUserAccess,
+                        OnlyDataEntryAccess
                     }
 
 
@@ -399,7 +402,8 @@ namespace LIMS.Services.Security
                         ManageReminders,
                         //Agriculture Access
                         AgriUserAccess,
-                        LivestockUserAccess
+                        LivestockUserAccess,
+                        OnlyDataEntryAccess
 
                     }
                 },

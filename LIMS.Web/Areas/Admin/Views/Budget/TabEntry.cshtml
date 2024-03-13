@@ -1,9 +1,9 @@
-﻿@inject AdminAreaSettings adminAreaSettings
+﻿
 @{
     //page title
     ViewBag.Title = "Farm";
 }
-<!--<style>
+<style>
     /* Style the tab */
     .tab {
         overflow: hidden;
@@ -67,27 +67,28 @@
             </div>
 
             <!-- Tab content -->
-<!--<div id="List" class="tabcontent">
-    <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_List.cshtml"/>-->
-@* <partial name="_List.cshtml" />*@
-<!--</div>
+            <div id="List" class="tabcontent">
+                <partial name="~/Views/PujigatKharchaKharyakram/_List.cshtml"/>
+               @* <partial name="_List.cshtml" />*@
+            </div>
 
             <div id="Subsidy" class="tabcontent">
-                <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_subsidyEntry.cshtml" />
+                <partial name="~/Views/PujigatKharchaKharyakram/_subsidyEntry.cshtml" />
             </div>
 
             <div id="Training" class="tabcontent">
-                <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_trainingChonot.cshtml" />
+                <partial name="~/Views/PujigatKharchaKharyakram/_trainingChonot.cshtml" />
             </div>
             <div id="InputSupply" class="tabcontent">
-                <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_inputSupply.cshtml" />
+                <partial name="~/Views/PujigatKharchaKharyakram/_inputSupply.cshtml" />
             </div>
         </div>
     </div>
-</div>-->
+</div>
+
 @*@section Scripts
     {*@
-<!--<script>
+<script>
     document.getElementById("defaultOpen").click();
 
     function openCity(evt, cityName) {
@@ -110,27 +111,27 @@
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
     }
-</script>-->
+</script>
 @*}*@
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="x_panel light form-fit">
-            
+<!-- <div class="row">
+     <div class="col-md-12">
+         <div class="x_panel light form-fit">
+             <a
              <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
              <admin-tabstrip name="farm-edit">
                  <items>
                      <tabstrip-item text="@T("Admin.ImportBudget")" tab-index="0">
                          <content>
                              <div>
-                                 <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_List.cshtml" />
+                                 <partial name="_List" />
                              </div>
                          </content>
                      </tabstrip-item>
                      <tabstrip-item text="@T("Admin.Budget.Subsidy")" tab-index="1">
                          <content>
                              <div>
-                                 <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_subsidyEntry.cshtml" />
+                                 <partial name="_subsidyEntry" />
                              </div>
 
                          </content>
@@ -138,7 +139,7 @@
                      <tabstrip-item text="@T("Admin.Budget.Training")" tab-index="2">
                          <content>
                              <div>
-                                 <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_trainingChonot.cshtml" />
+                                 <partial name="_trainingChonot" />
                              </div>
 
                          </content>
@@ -146,12 +147,12 @@
                      <tabstrip-item text="@T("Admin.Budget.InputSupply")" tab-index="3">
                          <content>
                              <div>
-                                 <partial name="~/Areas/Admin/Views/PujigatKharchaKharyakram/_inputSupply.cshtml" />
+                                 <partial name="_inputSupply" />
                              </div>
                          </content>
                      </tabstrip-item>
                  </items>
              </admin-tabstrip>
-        </div>
-    </div>
-</div>
+         </div>
+     </div>
+ </div>-->

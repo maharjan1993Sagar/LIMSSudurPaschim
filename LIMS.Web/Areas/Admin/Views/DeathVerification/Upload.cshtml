@@ -1,0 +1,55 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Bali.DeathVerificationUploadModel
+@{
+    //page title
+    ViewBag.Title = "DeathVerification";
+}
+<form asp-area="@Constants.AreaAdmin" asp-controller="DeathVerification" asp-action="Upload" enctype="multipart/form-data" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.DeathVerification.Upload")
+                        @*@T("Admin.ContentManagement.Blog.BlogPosts.AddNew")*@
+                        <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="form-body">
+
+                            <input type="hidden" asp-for="Id" />
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <admin-label asp-for="Image" />
+                                    <input asp-for="Image" class="form-control" type="file" />
+                                    <span asp-validation-for="Image"></span>
+                                </div>
+                            </div>
+                            @if(!String.IsNullOrEmpty(Model.FilePath))
+                            {
+                            <div class="col-md-4 col-sm-4">
+                                <img src="@Model.FilePath" height="" width=""/>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</form>

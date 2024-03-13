@@ -183,7 +183,7 @@
                 console.log(result);
                 $.each(result, function (i, item) {
                     var tableRow = '<tr id="' + item.Id + '">';
-                    tableRow += '<td>' + item.LivestockSpecies.NepaliName +'<input type="hidden" name="SpeciesId"  value="' + item.LivestockSpecies.SpeciesId + '"/><input type="hidden" name="ServiceDataId" value="'+item.Id+'" /></td>';
+                    tableRow += '<td>' + item.LivestockSpecies.NepaliName +'<input type="hidden" name="SpeciesId"  value="' + item.LivestockSpecies.Id + '"/><input type="hidden" name="ServiceDataId" value="'+item.Id+'" /></td>';
                     tableRow += '<td><input type="number" value="' + item.Quantity + '" onkeyup="if(this.value<0){this.value= this.value * -1}" name="Quantity" class="form-control" min="1" step="1" /></td>';
                     //tableRow += '<td>' + $('#select-units').html() + '</td>';
                     tableRow += '</tr>';

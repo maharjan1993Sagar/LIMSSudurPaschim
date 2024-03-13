@@ -65,7 +65,12 @@ namespace LIMS.Services.Ainr
 
         public async Task<IPagedList<Farm>> GetFarmByLssId(List<string> customerid, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            var query = _farmRepository.Table.Where(t=>customerid.Contains(t.CreatedBy));
+            var query = _farmRepository.Table;
+
+            if(customerid!=null|| customerid.Count==0)
+            {
+                query = query.Where(t => customerid.Contains(t.CreatedBy));
+            }
 
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -82,6 +87,8 @@ namespace LIMS.Services.Ainr
                     f.CitizenshipNo.ToLower().Contains(keyword)
                     ||
                     f.District.ToLower().Contains(keyword)
+                    || 
+                    f.LocalLevel.ToLower().Contains(keyword)
                 );
             }
             return await PagedList<Farm>.Create(query, pageIndex, pageSize);
