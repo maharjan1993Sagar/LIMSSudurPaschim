@@ -1,0 +1,80 @@
+﻿@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+@model List<LIMS.Domain.Organizations.FertilizerShop>
+@{
+    var currentCustomer = workContext.CurrentCustomer;
+    var objFirst = Model[0];
+    var level = "नगर कार्यपालिकाको कार्यालय";
+    var address = currentCustomer.OrgAddress;
+    var localLevel = currentCustomer.OrgName;
+    int i = 1;
+}
+
+<div id="Printcontent">
+    @if (Model.Count() > 0)
+    {
+        <div class="text-center">
+            <b>
+                @localLevel<br />
+                @level<br />
+                @address<br />
+               आ.ब. @ExecutionHelper.EnglishToNepali(objFirst.FiscalYear.NepaliFiscalYear) को मल विक्री केन्द्रहरुको विवरण
+            </b>
+        </div>
+        <div class="divTable">
+            <table class="table table-bordered">
+                <thead>
+                    @if (Model.Count() > 0)
+                    {
+                        <tr style="text-align:center">
+                            <th id="c">@T("Admin.FertilizerShop.SN")</th>
+                            <th>@T("Admin.FertilizerShop.Name")</th>
+                            <th>@T("Admin.FertilizerShop.Address")</th>
+                            <th>@T("Admin.FertilizerShop.ContactNo")</th>
+                            <th>@T("Admin.FertilizerShop.Fertilizer1")</th>
+                            <th>@T("Admin.FertilizerShop.Fertilizer2")</th>
+                            <th>@T("Admin.FertilizerShop.Fertilizer3")</th>
+                            <th>@T("Admin.FertilizerShop.FertilizerOther")</th>
+                            <th>@T("Admin.FertilizerShop.Remarks")</th>
+                        </tr>
+                    }
+                </thead>
+                <tbody>
+                    @{string a = "";}
+                    @foreach (var item in Model)
+                    {
+
+                    <tr>
+                        <td>@(ExecutionHelper.EnglishToNepali(i.ToString()))</td>
+                        <td>@item.OtherOrganization.NameNepali</td>
+                        <td>@item.OtherOrganization.District</td>
+                        <td>@item.OtherOrganization.ContactNo</td>
+                        <td>@ExecutionHelper.EnglishToNepali(item.Fertilizer1.ToString())</td>
+                        <td>@ExecutionHelper.EnglishToNepali(item.Fertilizer2.ToString())</td>
+                        <td>@ExecutionHelper.EnglishToNepali(item.Fertilizer3.ToString())</td>
+                        <td>@ExecutionHelper.EnglishToNepali(item.FertilizerOther.ToString())</td>
+                        <td>@item.Remarks</td>
+                    </tr>
+                        i = i + 1;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@if (Model.Count() > 0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "FertilizerShopDetails.xls"
+        });
+    }
+</script>

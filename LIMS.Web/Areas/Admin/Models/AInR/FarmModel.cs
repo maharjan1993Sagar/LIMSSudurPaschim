@@ -29,8 +29,12 @@ namespace LIMS.Web.Areas.Admin.Models.AInR
         [LIMSResourceDisplayName("Admin.Farm.PanNo")]
         public string PanNO { get; set; }
 
-        [LIMSResourceDisplayName("Admin.Farm.CitizenshipNo")]
+        [LIMSResourceDisplayName("Admin.Common.CitizenshipNo")]
         public string CitizenshipNo { get; set; }
+        [LIMSResourceDisplayName("Admin.Common.IssueDate")]
+        public string IssueDate { get; set; }
+        [LIMSResourceDisplayName("Admin.Common.IssueDistrict")]
+        public string IssueDistrict { get; set; }
 
         [LIMSResourceDisplayName("Admin.Farm.RegistrationDate")]
         public string RegisteredDate { get; set; }
@@ -147,6 +151,24 @@ namespace LIMS.Web.Areas.Admin.Models.AInR
         [LIMSResourceDisplayName("Admin.Farm.NoOfFemaleMemeber")]
 
         public string NoOfFemaleMember { get; set; }
+        [LIMSResourceDisplayName("Admin.Farm.LandOwnershipType")]
+
+        public string LandOwnershipType { get; set; }
+        [LIMSResourceDisplayName("Admin.Farm.Own")]
+
+        public decimal Own { get; set; }
+        [LIMSResourceDisplayName("Admin.Farm.Lease")]
+
+        public decimal Lease { get; set; }
+        [LIMSResourceDisplayName("Admin.Farm.LandAreaUnit")]
+
+        public string LandAreaUnit { get; set; }
+        [LIMSResourceDisplayName("Admin.Farm.MarketType")]
+
+        public string MarketType { get; set; }
+        [LIMSResourceDisplayName("Admin.Farm.Buyer")]
+
+        public string Buyer { get; set; }
         public partial class FarmPictureModel : BaseEntityModel
         {
             public string FarmId { get; set; }

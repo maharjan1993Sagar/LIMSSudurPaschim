@@ -148,7 +148,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 

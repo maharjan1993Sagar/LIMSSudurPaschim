@@ -14,6 +14,161 @@ namespace LIMS.Web.Areas.Admin.Helper
         public static string LevelEnglish = "Office of Municipal Executive";
         public static string DepartmentLivestock = "पशु सेवा शाखा";
 
+        public static string NepaliNames(string name)
+        {
+            name = name.ToLower();
+            if (name == "male")   {return "पुरुष"; }
+            else if (name == "female"){  return "महिला";  }
+            else if (name == "dalit"){ return "दलित"; }
+            else if (name == "janajati")  { return "जनजाती"; }
+            else if (name == "anya"){ return "अन्य"; }
+            //else if (name == ""){  return ""; }
+            //else if (name == ""){  return ""; }
+            //else if (name == ""){  return ""; }
+            //else if (name == ""){  return ""; }
+            //else if (name == ""){  return ""; }
+            //else if (name == ""){  return ""; }
+            return name;
+        }
+        public static string EnglishToNepali(string num)
+        {
+            string nepNum = "";
+            foreach (char item in num)
+            {
+                char nepChar =item;
+                if (item == '0')
+                { nepChar = '०'; }
+                else if (item == '1')
+                { nepChar = '१'; }
+                else if (item == '2')
+                { nepChar = '२'; }
+                else if (item == '3')
+                { nepChar = '३'; }
+                else if (item == '4')
+                { nepChar = '४'; }
+                else if (item == '5')
+                { nepChar = '५'; }
+                else if (item == '6')
+                { nepChar = '६'; }
+                else if (item == '7')
+                { nepChar = '७'; }
+                else if (item == '8')
+                { nepChar = '८'; }
+                else if (item == '9')
+                { nepChar = '९'; }
+
+
+                nepNum = nepNum + nepChar;
+            }
+            return nepNum;
+        }
+
+
+
+        public static string GetNepaliMonth(string month)
+        {
+            string monthEng = month.Trim();
+            if (monthEng == "Shrawan")
+            {    return "श्रावण"; }
+            else if (monthEng == "Bhadra")
+            { return "भाद्र"; }
+            else if (monthEng == "Ashwin")
+            { return "असोज"; }
+            else if (monthEng == "Kartik")
+            { return "कार्तिक"; }
+            else if (monthEng == "Mangsir")
+            { return "मंसिर"; }
+            else if (monthEng == "Poush")
+            { return "पुष"; }
+            else if (monthEng == "Magh")
+            { return "माघ"; }
+            else if (monthEng == "Falgun")
+            { return "फागुन"; }
+            else if (monthEng == "Chaitra")
+            { return "चैत्र"; }
+            else if (monthEng == "Baishakh")
+            { return "बैशाख"; }
+            else if (monthEng == "Jestha")
+            { return "जेठ"; }
+            else if (monthEng == "Asar")
+            { return "असार"; }
+            return month;
+        }
+        public static List<SelectListItem> GetLandOwnershipType()
+        {
+            return new List<SelectListItem> {
+                new SelectListItem {
+                    Text = "Select",
+                    Value = ""
+                },
+                new SelectListItem {
+                    Text = "Own",
+                    Value = "Own"
+                },
+                new SelectListItem {
+                    Text = "Lease",
+                    Value = "Lease"
+                },
+                new SelectListItem {
+                    Text = "Both",
+                    Value = "Both"
+                },
+            };
+        }
+        public static List<SelectListItem> GetLandAreaUnit()
+        {
+            return new List<SelectListItem> {
+        new SelectListItem {
+                    Text="Select",
+                    Value=""
+                },
+                new SelectListItem {
+                    Text="रोपनी",
+                    Value="रोपनी"
+                },
+                 new SelectListItem
+                 {
+                     Text = "कठ्ठा",
+                     Value = "कठ्ठा"
+                 }, };
+
+        }
+
+
+        public static List<SelectListItem> GetMarketType()
+        {
+            return new List<SelectListItem> {
+        new SelectListItem {
+                    Text="Select",
+                    Value=""
+                },
+                new SelectListItem {
+                    Text="Farm Gate",
+                    Value="Farm Gate"
+                },
+                 new SelectListItem
+                 {
+                     Text = "Consumer",
+                     Value = "Consumer"
+                 },
+                   new SelectListItem
+                 {
+                     Text = "Cooperative",
+                     Value = "Cooperative"
+                 },
+                     new SelectListItem
+                 {
+                     Text = "Market",
+                     Value = "Market"
+                 },
+                       new SelectListItem
+                 {
+                     Text = "Agency",
+                     Value = "Agency"
+                 },
+            };
+
+        }
         public static List<SelectListItem> GetFirmRegister()
         {
             return new List<SelectListItem> {

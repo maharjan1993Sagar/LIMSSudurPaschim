@@ -324,10 +324,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 vaccination.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.vaccinationId = vaccination;
 
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
             var disease = new List<SelectListItem>() {
                 new SelectListItem{Text="rabies", Value="rabies" },
@@ -363,11 +364,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             serviceType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             ViewBag.ServiceType = serviceType;
 
             var terminationType = new List<SelectListItem>() {

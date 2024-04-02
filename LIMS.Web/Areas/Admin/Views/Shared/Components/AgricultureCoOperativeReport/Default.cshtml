@@ -1,0 +1,82 @@
+﻿@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+@model List<LIMS.Domain.Organizations.AgricultureCoOperative>
+@{
+    var currentCustomer = workContext.CurrentCustomer;
+    var objFirst = Model[0];
+    var level = "नगर कार्यपालिकाको कार्यालय";
+    var address = currentCustomer.OrgAddress;
+    var localLevel = currentCustomer.OrgName;
+    int i = 1;
+}
+
+<div id="Printcontent">
+    @if (Model.Count() > 0)
+    {
+        <div class="text-center">
+            <b>
+                @localLevel<br />
+                @level<br />
+                @address<br />
+               आ.ब. @ExecutionHelper.EnglishToNepali(objFirst.FiscalYear.NepaliFiscalYear) को कृषि सहकारीहरुको विवरण
+            </b>
+        </div>
+       
+        <div class="divTable">
+            <table class="table table-bordered">
+                <thead>
+                    @if (Model.Count() > 0)
+                    {
+                        <tr style="text-align:center">
+                            <th id="c">@T("Admin.AgricultureCoOperative.SN")</th>
+                            <th>@T("Admin.AgricultureCoOperative.Name")</th>
+                            <th>@T("Admin.AgricultureCoOperative.Address")</th>
+                            <th>@T("Admin.AgricultureCoOperative.ContactPersonName")</th>
+                            <th>@T("Admin.AgricultureCoOperative.ContactNo")</th>
+                            <th>@T("Admin.AgricultureCoOperative.MaleMembers")</th>
+                            <th>@T("Admin.AgricultureCoOperative.FemaleMembers")</th>
+                            <th>@T("Admin.AgricultureCoOperative.OthersMembers")</th>
+                            <th>@T("Admin.AgricultureCoOperative.Remarks")</th>
+                        </tr>
+                    }
+                </thead>
+                <tbody>
+                    @{string a = "";}
+                    @foreach (var item in Model)
+                    {
+
+                    <tr>
+                        <td>@ExecutionHelper.EnglishToNepali(i.ToString())</td>
+                        <td>@item.OtherOrganization.NameNepali</td>
+                        <td>@item.OtherOrganization.District</td>
+                        <td>@item.OtherOrganization.ContactPersonName</td>
+                        <td>@item.OtherOrganization.ContactNo</td>
+                        <td>@ExecutionHelper.EnglishToNepali(item.MaleMembers.ToString())</td>
+                        <td>@ExecutionHelper.EnglishToNepali(item.FemaleMembers.ToString())</td>
+                        <td>@ExecutionHelper.EnglishToNepali(item.OthersMembers.ToString())</td>
+                        <td>@item.Remarks</td>
+                       
+                    </tr>
+                        i = i + 1;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@if (Model.Count() > 0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "AgricultureCoOperativeDetails.xls"
+        });
+    }
+</script>

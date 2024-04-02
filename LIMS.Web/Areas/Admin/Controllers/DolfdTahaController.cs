@@ -96,14 +96,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             public async Task<IActionResult> Create()
             {
                  var c = await _fiscalYearService.GetCurrentFiscalYear();
-                var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",c.Id).ToList();
-                fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.FiscalYearId = fiscalYear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-              
-            
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
-                return View();
+
+
+
+            return View();
             }
 
             [PermissionAuthorizeAction(PermissionActionName.Edit)]
@@ -152,11 +154,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
                    
             
                 ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-                var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-                fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-                ViewBag.FiscalYearId = fiscalYear;
-               
-                return View(model);
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            return View(model);
             }
 
         public async Task<IActionResult> Report()

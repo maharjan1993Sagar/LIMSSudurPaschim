@@ -1,0 +1,227 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@model FarmListModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Vaccination").Text;
+}
+
+<form asp-area="@Constants.AreaAdmin" asp-controller="StaticVaccination" asp-action="List" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+
+                    <div class="actions btn-group btn-group-devided">
+                        <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                    </div>
+                </div>
+                <div class="x_content form">
+
+
+                    <div class="form-group">
+                        <div class="form-body col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Fiscalyear" />
+                                        <select asp-for="Fiscalyear" class="form-control" asp-items="ViewBag.FiscalYearId"></select>
+                                      <span asp-validation-for="Fiscalyear"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="SpeciesId" />
+                                        <admin-select asp-for="SpeciesId" asp-items="ViewBag.Species" />
+                                        <span asp-validation-for="SpeciesId"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <admin-label asp-for="Month" />
+                                        <admin-select asp-for="Month" asp-items=" ViewBag.Month" />
+                                        <span asp-validation-for="Month"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <br />
+                                        <input type="submit" value="@T("Admin.common.search")" class="btn-sm btn-success" style="margin-top:10px;" id="search-Ai" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="form-actions d-flex flex-column w-100">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <div class="x_content">
+                        <div id="AI-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<style>
+    .k-grid .k-grid-toolbar .k-grid-add,
+    .k-grid tbody .k-grid-edit,
+    .k-grid tbody .k-grid-update,
+    .k-grid tbody .k-grid-cancel,
+    .k-grid tbody .k-grid-delete {
+        min-width: 0;
+    }
+
+        .k-grid .k-grid-toolbar .k-grid-add .k-icon,
+        .k-grid tbody .k-grid-edit .k-icon,
+        .k-grid tbody .k-grid-update .k-icon,
+        .k-grid tbody .k-grid-cancel .k-icon,
+        .k-grid tbody .k-grid-delete .k-icon {
+            margin: 0;
+        }
+</style>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        //search button
+        $('#search-Ai').click(function () {
+            //search
+            var grid = $('#AI-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#AI-grid").kendoGrid({
+            toolbar:["excel"],
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "StaticVaccination"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    },
+                    update: {
+                        url: "@Html.Raw(Url.Action("Update", "StaticVaccination"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: addAntiForgeryToken,
+                        complete: function (response) {
+                            $("#AI-grid").data("kendoGrid").dataSource.read();
+                        }
+                        //},
+                    },
+                    destroy: {
+                                url: "@Html.Raw(Url.Action("Delete", "StaticAI"))",
+                                type: "POST",
+                                dataType: "json",
+                                data: addAntiForgeryToken
+                            },
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+                     model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            SpeciesId: { editable: false },
+                            "Vaccination.MedicalName": { editable: false },
+                            Month: { editable: false },
+                            Quantity: { editable: true, type: "number", validation: { required: true, min: 1 }},
+                            FiscalYearId: { editable: false },
+                            "Species.EnglishName": { editable: false }
+                        }
+                    }
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: true,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                  field: "FiscalYearId",
+                  title: "@T("Admin.Common.FiscalYear")",
+
+                  width: 200,
+                  template:"#=FiscalYear.NepaliFiscalYear#"
+                },
+
+                {
+                    field: "Species.NepaliName",
+                title: "@T("Admin.Vaccine.SpeciesName")",
+                width: 200,
+            },
+
+              {
+                  field: "Vaccination.MedicalName",
+                    title: "@T("Admin.Common.VaccineName")",
+                    width: 200,
+              },
+
+               {
+                  field: "Quantity",
+                  title: "@T("Admin.Vaccination.Quantity")",
+                  width: 200,
+                },
+
+ {
+                        command: [{
+                            name: "edit",
+                            text: {
+                                edit: " ",
+                                update: " ",
+                                cancel: " "
+                            }
+                        }, {
+                            name: "destroy",
+                            text: " "
+                        }],
+                        width: 200
+                    }
+
+
+            ]
+        });
+    });
+
+    function additionalData() {
+        var data = {
+              Fiscalyear: $("#Fiscalyear").val(),
+            Month: $("#Month").val(),
+            SpeciesId: $("#@Html.IdFor(m=>m.SpeciesId)").val(),
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+</script>

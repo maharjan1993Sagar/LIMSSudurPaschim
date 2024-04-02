@@ -168,7 +168,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            //var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
             ViewBag.ExpensesCategory = new SelectList(ExecutionHelper.GetExecTypes(), "Value", "Text");
 
@@ -197,6 +197,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             WardHelper ward = new WardHelper();
             ViewBag.WardNo = ward.GetWard();
 
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -353,7 +355,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 var model = budget.ToModel();
 
 
-                var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+                //var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
                 ViewBag.ExpensesCategory = new SelectList(ExecutionHelper.GetExecTypes(), "Value", "Text", model.ExpensesCategory);
 
@@ -377,6 +379,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 WardHelper ward = new WardHelper();
                 ViewBag.WardNo = ward.GetWard();
 
+
+                var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
                 var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
                 fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));

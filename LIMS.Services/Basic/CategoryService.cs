@@ -60,11 +60,18 @@ namespace LIMS.Services.Basic
         {
             var query = _CategoryRepository.Table;
            
-           var category = query.FirstOrDefault(m => m.NameEnglish==term.Trim());
+           var category =await query.FirstOrDefaultAsync(m => m.NameEnglish==term.Trim());
            
             return category;
         }
+        public async Task<Domain.BasicSetup.Category> GetCategoryByNameType(string term, string type)
+        {
+            var query = _CategoryRepository.Table;
 
+            var category = await query.FirstOrDefaultAsync(m => m.NameEnglish.ToLower() == term && m.Type ==type);
+
+            return category;
+        }
         public Task<Domain.BasicSetup.Category> GetCategoryById(string Id)
         {
             return _CategoryRepository.GetByIdAsync(Id);

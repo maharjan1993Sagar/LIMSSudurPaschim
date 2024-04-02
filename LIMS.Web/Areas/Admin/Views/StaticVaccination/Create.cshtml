@@ -1,0 +1,193 @@
+﻿@model LIMS.Web.Areas.Admin.Models.StatisticalData.ServicesModel
+@{
+    //page title
+    ViewBag.Title = "Service";
+}
+@inject IWorkContext workContext
+
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+
+
+
+
+
+                        <div class="col-md-2" >
+                            <div class="form-group">
+                                <admin-label asp-for="Vaccination" />
+                                <admin-select asp-for="Vaccination" asp-items="ViewBag.VaccinationId" onchange="getServiceData()" />
+                                <span asp-validation-for="Vaccination"></span>
+                            </div>
+                        </div>
+                        @if (roles.Contains("LssAdmin") || roles.Contains("VhlsecUser"))
+                        {
+                            @Html.HiddenFor(m => m.LocalLevel)
+                            @Html.HiddenFor(m => m.Provience)
+                            @Html.HiddenFor(m => m.District)
+
+                        }
+                        else
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="Provience" />
+                                    <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" required>
+                                        <option value="">Select </option>
+                                    </admin-select>
+                                    <span asp-validation-for="Provience"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="District" />
+                                    <select id="district" name="District" class="form-control" required>
+                                        <option value="">Select </option>
+                                    </select>
+                                    <span asp-validation-for="District"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <admin-label asp-for="LocalLevel" />
+                                    <select id="locallevel" name="LocalLevel" class="form-control" required>
+                                        <option value="">Select</option>
+                                    </select>
+                                    <span asp-validation-for="LocalLevel"></span>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYear" />
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" onchange="getServiceData()" required="required" />
+                                <span asp-validation-for="FiscalYear"></span>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Month" />
+                                <admin-select asp-for="Month" asp-items="ViewBag.Months" onchange="getServiceData()" required="required" />
+                                <span asp-validation-for="Month"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div id="showTable">
+                    <table class="table table-bordered col-md-6">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th id="abc">@T("Admin.vaccine.SpeciesName")</th>
+
+                                <th>@T("Admin.vaccine.Quantity")</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tabularEntry">
+                        </tbody>
+                    </table>
+                    <div class="col-md-8">
+                        <center>
+                        <input type="submit" value="@T("Admin.common.submit")" id="subumtform" class="btn btn-success" />
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div style="display: none;" id="select-units">
+    <select name="Unit" class="form-control"></select>
+</div>
+<div style="display: none;" id="select-breed">
+    <select name="BreedId" class="form-control"></select>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        //for unit dropdown
+        $.get('/Admin/Production/GetUnit', function (data) {
+            $.each(data, function (i, item) {
+                if (item.Text == "No") {
+                    $("#select-units select").append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                }
+                else {
+                    $("#select-units select").append($("<option></option>").val(this['Value']).html(this['Text']));
+
+                }
+                });
+        });
+        $("#showTable").hide();
+        $("#vaccination").hide();
+
+        $("#@Html.IdFor(m=>m.Vaccination)").change(function () {
+
+            url = "/Admin/Prototype/GetSpeciesVaccination";
+            datas = {
+                VaccinationId: $(this).val()
+            }
+            $.getJSON(url, datas, (data) => {
+                $("#tabularEntry").html('');
+                $.each(data, function (i, item) {
+                    var tableRow = '<tr id="' + item.Id + '">';
+                    tableRow += '<td>' + item.NepaliName + '<input type="hidden" name="SpeciesId"  value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
+                    tableRow += '<td><input type="number"  onkeyup="if(this.value<0){this.value= this.value * -1}" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                   tableRow += '</tr>';
+                    $("#tabularEntry").append(tableRow);
+                    $("#showTable").show();
+
+                });
+            });
+
+
+
+        });
+
+    });
+
+    function getServiceData() {
+
+        var data = {
+            fiscalYearId: $('#@Html.IdFor(m => m.FiscalYear)').val(),
+            vaccineName: $('#@Html.IdFor(m => m.Vaccination)').val(),
+            locallevel: $('#@Html.IdFor(m => m.LocalLevel)').val(),
+            month: $('#@Html.IdFor(m => m.Month)').val()
+        };
+        addAntiForgeryToken(data);
+        $('input[name="ServiceDataId"]').val('');
+        $('input[name="Quantity"]').val('');
+      
+        $.post("@Url.Action("getServiceData", "StaticVaccination")", data, function (result) {
+            if (result) {
+                $.each(result, function (i, item) {
+                    $('tr#' + item.Species.Id + ' input[name="ServiceDataId"]').val(item.Id);
+                    $('tr#' + item.Species.Id + ' input[name="Quantity"]').val(item.Quantity);
+                    console.log(item);
+                });
+             }
+            
+
+        });
+    }
+     
+
+</script>

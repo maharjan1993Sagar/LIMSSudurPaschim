@@ -78,7 +78,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
 
-            ViewBag.fiscalyear = dropdownitem;
+            ViewBag.FiscalYearId = dropdownitem;
             return View(currentfiscal);
         }
 
@@ -114,9 +114,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Unit = unit;
@@ -150,7 +154,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
             return View(model);
@@ -166,9 +172,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Unit = unit;
@@ -208,9 +217,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Unit = unit;
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;

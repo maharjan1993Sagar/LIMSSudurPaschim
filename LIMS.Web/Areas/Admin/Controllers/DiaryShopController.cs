@@ -134,9 +134,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //}
 
             var organization = await _organizationService.GetOtherOrganizationByType(createdby, "Diary shop");
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYearId = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             var feedIndustry = new DiaryIndustryAndShopModel();
             feedIndustry.Organization = organization;
             return View(feedIndustry);

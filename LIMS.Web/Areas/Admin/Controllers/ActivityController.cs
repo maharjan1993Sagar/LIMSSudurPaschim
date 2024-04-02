@@ -72,11 +72,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-           
-            
-            ViewBag.FiscalYearId = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
             return View();
         }
@@ -94,11 +94,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 SuccessNotification(_localizationService.GetResource("Admin.Activity.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = activity.Id }) : RedirectToAction("List");
             }
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-
-            ViewBag.FiscalYearId = fiscalyear;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             return View(model);
@@ -112,11 +112,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (activity == null)
                 return RedirectToAction("List");
             ActivityModel model = activity.ToModel();
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-            ViewBag.FiscalYearId = fiscalyear;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
 
             return View(model);
@@ -147,11 +149,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction("List");
             }
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-
-            ViewBag.FiscalYearId = fiscalyear;
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

@@ -1,4 +1,5 @@
 ﻿@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
 @model List<LIMS.Domain.Bali.AanudanKokaryakram>
 @{
     var currentCustomer = workContext.CurrentCustomer;
@@ -17,14 +18,13 @@
                 @localLevel<br />
                 @level<br />
                 @address<br />
-                @objFirst.FiscalYear.NepaliFiscalYear को अनुदानको विवरण
+               आ.ब. @ExecutionHelper.EnglishToNepali(objFirst.FiscalYear.NepaliFiscalYear) @objFirst.Budget.ActivityName को अनुदानको विवरण
             </b>
-
         </div>
         <div>
-            <b>बजेट शिर्षक:</b><br /> @objFirst.Budget.ActivityName<br />
-            <b>आसातित प्रतिफलहरू:</b><br /> @objFirst.ExpectedOutput<br />
-            <b>कैफियत:</b><br /> @objFirst.Remaks<br />
+            <b>बजेट शिर्षक: @objFirst.Budget.ActivityName</b><br />
+            <b>आसातित प्रतिफलहरू: @objFirst.ExpectedOutput</b><br />
+            <b>कैफियत: @objFirst.Remaks</b><br />
         </div>
         <div class="divTable">
             <table class="table table-bordered">
@@ -42,11 +42,8 @@
                             <th>@T("Admin.Subsidy.TypeOfSubsidy")</th>
                             <th>@T("Admin.Subsidy.SubsidyAmount")</th>
                             <th>@T("Admin.Subsidy.FarmerContributionAmt")</th>
-                            <th>@T("Admin.Subsidy.Male")</th>
-                            <th>@T("Admin.Subsidy.Female")</th>
-                            <th>@T("Admin.Subsidy.Dalit")</th>
-                            <th>@T("Admin.Subsidy.Janajati")</th>
-                            <th>@T("Admin.Subsidy.Other")</th>
+                            <th>@T("Admin.Subsidy.Gender")</th>
+                            <th>@T("Admin.Subsidy.EthinicGroup")</th>
                         </tr>
                     }
                 </thead>
@@ -56,21 +53,18 @@
                     {
 
                         <tr>
-                            <td>@i</td>
+                            <td>@(ExecutionHelper.EnglishToNepali(i.ToString()))</td>
                             <td>@item.KrishakKoName</td>
                             <td>@item.Address</td>
-                            <td>@item.Ward</td>
+                            <td>@(ExecutionHelper.EnglishToNepali(item.Ward.ToString()))</td>
                             <td>@item.PhoneNo</td>
                             <td>@T(item.AnudanReceiverType)</td>
-                            <td>@item.SubsidyCategory</td>
+                            <td>@T(item.SubsidyCategory)</td>
                             <td>@item.AanudanKokisim</td>
-                            <td>@item.AanudanRakam</td>
-                            <td>@item.FarmerContribution</td>
-                            <td>@item.MaleMember</td>
-                            <td>@item.FemaleMember</td>
-                            <td>@item.DalitMember</td>
-                            <td>@item.JanajatiMember</td>
-                            <td>@item.Others</td>
+                            <td>@ExecutionHelper.EnglishToNepali(item.AanudanRakam.ToString())</td>
+                            <td>@(ExecutionHelper.EnglishToNepali(item.FarmerContribution.ToString()))</td>
+                            <td>@item.Sex</td>
+                            <td>@item.EthinicGroup</td>
                         </tr>
                         i = i + 1;
                     }

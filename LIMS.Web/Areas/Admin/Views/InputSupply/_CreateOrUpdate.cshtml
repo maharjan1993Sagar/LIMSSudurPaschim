@@ -46,9 +46,9 @@
 
             <div class="col-md-2">
                 <div class="form-group">
-                    <admin-label asp-for="NepaliDate" />
-                    <input class="form-control" asp-for="NepaliDate" type="date"/>
-                    <span asp-validation-for="NepaliDate"></span>
+                    <admin-label asp-for="EnglishDate" />
+                    <input class="form-control" asp-for="EnglishDate" type="date"/>
+                    <span asp-validation-for="EnglishDate"></span>
                 </div>
             </div>
 
@@ -155,11 +155,13 @@
             $("#BudgetId").append("<option value=''>Select</option>");
             url = "/Admin/InputSupply/GetBudgetByFiscalYear";
             $.getJSON(url, { fiscalYearId: fiscalYearId }, (data) => {
-                $.each(data, function (i, item) {                  
-                        $("#BudgetId").append(`<option value="${item.Id}">${item.ActivityName}</option>`);                   
+                $.each(data, function (i, item) {
+                        $("#BudgetId").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
                 });
             });
         });
+
+        
         $('#@Html.IdFor(m=>m.CategoryName)').kendoAutoComplete({
             minLength: 3, // Minimum characters before the autocomplete activates
             dataSource: {

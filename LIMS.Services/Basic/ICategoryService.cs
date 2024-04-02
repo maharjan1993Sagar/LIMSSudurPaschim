@@ -15,6 +15,7 @@ namespace LIMS.Services.Basic
            int pageIndex = 0, int pageSize = int.MaxValue);
         Task<List<Category>> GetCategoryByType(string type,string term);
         Task<Category> GetCategoryByName(string term);
+        Task<Category> GetCategoryByNameType(string term, string type);
         Task DeleteCategory(Category Category);
 
 

@@ -99,7 +99,7 @@
             </div><div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="InsuranceCompany" />
-                    <admin-input asp-for="InsuranceCompany" required="required" />
+                    <input asp-for="InsuranceCompany" class="form-control" required="required" />
                     <span asp-validation-for="InsuranceCompany"></span>
 
                 </div>
@@ -120,7 +120,7 @@
             </div><div class="col-md-3">
                 <div class="form-group">
                     <admin-label asp-for="CauseOfDeath" />
-                    <admin-input asp-for="CauseOfDeath" required="required" />
+                    <input asp-for="CauseOfDeath" class="form-control" required="required" />
                     <span asp-validation-for="CauseOfDeath"></span>
 
                 </div>
@@ -160,7 +160,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="Designation" />
-                    <admin-input asp-for="Designation" />
+                    <input class="form-control" asp-for="Designation" />
                     <span asp-validation-for="Designation"></span>
                 </div>
             </div>
@@ -170,18 +170,31 @@
 </div><script>
     $(document).ready(function () {
 
-        @*$('#@Html.IdFor(m=>m.CategoryName)').kendoAutoComplete({
+         $(document).on('change', '#@Html.IdFor(m=>m.LivestockSpeciesId)', function () {        
+            var species = $(this).val();
+            $('#@Html.IdFor(m=>m.LivestockBreedId)').empty();
+             $('#@Html.IdFor(m=>m.LivestockBreedId)').append("<option value =''>Select</option> ");
+           var url = "/Admin/DeathVerification/GetBreedBySpecies";
+            $.getJSON(url, { species: species }, (data) => {
+                $.each(data, function (i, item) {
+                    $('#@Html.IdFor(m=>m.LivestockBreedId)').append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+         });
+
+
+        $('#@Html.IdFor(m=>m.OrganizationName)').kendoAutoComplete({
             minLength: 3, // Minimum characters before the autocomplete activates
             dataSource: {
                 transport: {
                     // AJAX Configuration
                     read: {
-                        url: "/Admin/Anugaman/CategoryAutoComplete",
+                        url: "/Admin/Farm/List",
                         data: function () {
                             return {
                                 // Parameters to pass to the AJAX URL
-                                term: $('#@Html.IdFor(m=>m.CategoryName)').val(),
-                                type: "Anugaman"
+                                keyword: $('#@Html.IdFor(m=>m.OrganizationName)').val(),
+                               // type: "Anugaman"
                             };
                         },
                         dataType: "json"
@@ -202,10 +215,126 @@
             dataTextField: "value", // Specify the field containing the display text
             select: function (e) {
                 // Set the selected item's ID to the hidden textbox
-                $('#@Html.IdFor(m=>m.CategoryId)').val(e.dataItem.id);
+                $('#@Html.IdFor(m=>m.OrganizationId)').val(e.dataItem.id);
                 // Set the selected item's value to the autocomplete textbox
                 this.value(e.dataItem.value);
             }
-        });*@
+        });
+
+
+        $('#@Html.IdFor(m=>m.CauseOfDeath)').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/InputSupply/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $('#@Html.IdFor(m=>m.CauseOfDeath)').val(),
+                                type: "Cause Of Death"
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's ID to the hidden textbox
+              //  $('#@Html.IdFor(m=>m.OrganizationId)').val(e.dataItem.id);
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });
+
+        $('#@Html.IdFor(m=>m.InsuranceCompany)').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/InputSupply/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $('#@Html.IdFor(m=>m.InsuranceCompany)').val(),
+                                type: "Insurance Company"
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's ID to the hidden textbox
+              //  $('#@Html.IdFor(m=>m.OrganizationId)').val(e.dataItem.id);
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });
+
+          $('#@Html.IdFor(m=>m.Designation)').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/InputSupply/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $('#@Html.IdFor(m=>m.Designation)').val(),
+                                type: "Designation"
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's ID to the hidden textbox
+              //  $('#@Html.IdFor(m=>m.OrganizationId)').val(e.dataItem.id);
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });
+
     });
 </script>

@@ -1,10 +1,12 @@
 ﻿using LIMS.Core;
 using LIMS.Domain.AInR;
+using LIMS.Domain.BasicSetup;
 using LIMS.Framework.Kendoui;
 using LIMS.Framework.Mvc;
 using LIMS.Framework.Mvc.Filters;
 using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Ainr;
+using LIMS.Services.Basic;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
 using LIMS.Services.LocalStructure;
@@ -40,12 +42,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IMediator _mediator;
         private readonly IStoreContext _storeContext;
         private readonly ILocalLevelService _localLevelService;
+        private readonly ICategoryService _CategoryService;
 
 
         public FarmController(ILocalizationService localizationService, IFarmService farmService, IPictureService pictureService,
             ILanguageService languageService, IWorkContext workContext, IVhlsecService vhlsecService, 
             ILssService lssService, ICustomerService customerService, IMediator mediator,
-            IStoreContext storeContext, ILocalLevelService localLevelService)
+            IStoreContext storeContext, ILocalLevelService localLevelService, ICategoryService categoryService)
         {
             _localizationService = localizationService;
             _farmService = farmService;
@@ -58,6 +61,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _mediator = mediator;
             _storeContext = storeContext;
             _localLevelService = localLevelService;
+            _CategoryService = categoryService;
         }
         public IActionResult Index() => RedirectToAction("List");
 
@@ -71,11 +75,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             //if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
             //{
-                string vhlsecid = _workContext.CurrentCustomer.EntityId;
-                List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
-                var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
-                List<string> customerid = customers.Select(x => x.Id).ToList();
-                var farm = await _farmService.GetFarmByLssId(null, model.Keyword, command.Page-1, command.PageSize);
+                //string vhlsecid = _workContext.CurrentCustomer.EntityId;
+                //List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
+                //var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
+                //List<string> customerid = customers.Select(x => x.Id).ToList()/*;*/
+                var farm = await _farmService.SearchFarm( model.Keyword, command.Page-1, command.PageSize);
                 var currentuser = _workContext.CurrentCustomer.Id;
                 var gridModel = new DataSourceResult {
                     Data = farm,
@@ -138,26 +142,51 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.FarmType = FarmType;
             ViewBag.Category = Category;
             ViewBag.EthinicGroup = EthinicGroup;
+            ViewBag.LandOwnershipType = ExecutionHelper.GetLandOwnershipType();
+            ViewBag.LandAreaUnit = ExecutionHelper.GetLandAreaUnit();
+            ViewBag.MarketType = ExecutionHelper.GetMarketType();
 
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
-            var farmModel = new FarmModel();
+            var farmModel = new FarmModel {Own=0,Lease =0 , District="Kathmandu", LocalLevel = ExecutionHelper.LocalLevel};
             return View(farmModel);
         }
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Create(FarmModel model, bool continueEditing)
         {
+            model.District = "Kathmandu";
+            
+            if (model.FarmType != "Farm")
+            {
+                model.Own = 0;
+                model.Lease = 0;
+                ModelState.Remove("Own");
+                ModelState.Remove("Lease");
+            }
             if (ModelState.IsValid)
             {
                 var farm = model.ToEntity();
                 farm.CreatedAt = DateTime.Now.ToString();
                 farm.CreatedBy = _workContext.CurrentCustomer.Id;
                 farm.Source = _workContext.CurrentCustomer.OrgName;
+                //farm.LocalLevel = model.LocalLevel;
                 farm.MobileNo = model.MoblileNo;
+                farm.NatureOfWork = model.NatureOfWork.Trim();
+                var objCategory = await _CategoryService.GetCategoryByNameType(model.NatureOfWork.Trim(),"Nature Of Work");
+                if (objCategory == null )
+                {
+                    var objCatNew = new Category {
+                                                NameEnglish = model.NatureOfWork.Trim(),
+                                                NameNepali = model.NatureOfWork.Trim(),
+                                                Type = "Nature Of Work"
+                                                };
+                    await _CategoryService.InsertCategory(objCatNew);
+                }
+
                 await _farmService.InsertFarm(farm);
                 SuccessNotification(_localizationService.GetResource("Admin.farm.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = farm.Id }) : RedirectToAction("List");
@@ -191,12 +220,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.FarmType = FarmType;
             ViewBag.Category = Category;
             ViewBag.EthinicGroup = EthinicGroup;
+            ViewBag.LandOwnershipType = ExecutionHelper.GetLandOwnershipType();
+            ViewBag.LandAreaUnit = ExecutionHelper.GetLandAreaUnit();
+            ViewBag.MarketType = ExecutionHelper.GetMarketType();
 
             //var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             //var localLevelSelect = new SelectList(localLevels).ToList();
             //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
+            SuccessNotification(_localizationService.GetResource("Admin.Common.Error"));
 
             return View(model);
         }
@@ -244,6 +277,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Category = Category;
             ViewBag.EthinicGroup = EthinicGroup;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
+            ViewBag.LandOwnershipType = ExecutionHelper.GetLandOwnershipType();
+            ViewBag.LandAreaUnit = ExecutionHelper.GetLandAreaUnit();
+            ViewBag.MarketType = ExecutionHelper.GetMarketType();
 
             return View(model);
         }
@@ -261,6 +297,18 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 var m = model.ToEntity(farm);
                 m.MobileNo = model.MoblileNo;
+                m.NatureOfWork = m.NatureOfWork.Trim();
+                var objCategory = await _CategoryService.GetCategoryByName(model.NatureOfWork.Trim());
+                if (objCategory == null)
+                {
+                    var objCatNew = new Category {
+                        NameEnglish = model.NatureOfWork.Trim(),
+                        NameNepali = model.NatureOfWork.Trim(),
+                        Type = "FarmNatureOfWork"
+                    };
+                    await _CategoryService.InsertCategory(objCatNew);
+                }
+
                 await _farmService.UpdateFarm(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.farm.Updated"));
@@ -311,6 +359,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
+            ViewBag.LandOwnershipType = ExecutionHelper.GetLandOwnershipType();
+            ViewBag.LandAreaUnit = ExecutionHelper.GetLandAreaUnit();
+            ViewBag.MarketType = ExecutionHelper.GetMarketType();
 
             return View(model);
         }
@@ -335,6 +386,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private List<SelectListItem> GetEducation()
         {
             return new List<SelectListItem>() {
+                new SelectListItem{Text="Agri_Graduate",Value="Agri-Graduate"},
+                new SelectListItem{Text="Gramin Krishi Karyakarta",Value="Gramin Krishi Karyakarta"},
                 new SelectListItem{Text="Bachelor",Value="Bachelor"},
                 new SelectListItem{Text="+2", Value="+2" },
                  new SelectListItem{Text="Secondary level", Value="Secondary level" },
@@ -351,6 +404,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
         }
 
+        private List<SelectListItem> Get()
+        {
+            return new List<SelectListItem>() {
+            new SelectListItem { Text = "Dalit", Value = "Dalit" },
+                 new SelectListItem { Text = "JanaJati", Value = "JanaJati" },
+                new SelectListItem { Text = "Aanya", Value = "Aanya" },
+           };
+        }
         private List<SelectListItem> GetEthinicGroup()
         {
             return new List<SelectListItem>() {

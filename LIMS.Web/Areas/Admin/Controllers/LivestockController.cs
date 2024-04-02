@@ -87,7 +87,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
 
-            ViewBag.fiscalyear = dropdownitem;
+            ViewBag.FiscalYearId = dropdownitem;
             var months = QuaterHelper.GetQuater();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Quater = months;
@@ -257,7 +257,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
 
-            ViewBag.fiscalyear = dropdownitem;
+            ViewBag.FiscalYearId = dropdownitem;
             var months = QuaterHelper.GetQuater();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Quater = months;
@@ -471,9 +471,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(sf, "Id", "NepaliName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;
@@ -486,7 +488,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
             ViewBag.SpeciesId = species;
-            ViewBag.FiscalYearId = fiscalyear;
+           // ViewBag.FiscalYearId = fiscalyear;
 
             var type =BreedTypeHelper.GetBreedType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -596,9 +598,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
 
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;
@@ -611,7 +615,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
             // ViewBag.SpeciesId = species;
-            ViewBag.FiscalYearId = fiscalyear;
+           // ViewBag.FiscalYearId = fiscalyear;
 
             
             var type = BreedTypeHelper.GetBreedType();

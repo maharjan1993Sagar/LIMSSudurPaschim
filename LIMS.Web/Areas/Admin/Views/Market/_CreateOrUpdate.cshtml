@@ -93,7 +93,8 @@
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="LocalLevel" />
-                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" disabled>
+                <input type="hidden" asp-for="LocalLevel" />
+                <select name="LocalLevel1" asp-items="@ViewBag.LocalLevels" class="form-control" disabled>
                 </select>
                 <span asp-validation-for="LocalLevel"></span>
             </div>
@@ -122,7 +123,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <admin-label asp-for="FiscalYearId" />
-                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalyearId" required="required" />
+                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
                 <span asp-validation-for="FiscalYearId"></span>
             </div>
         </div>

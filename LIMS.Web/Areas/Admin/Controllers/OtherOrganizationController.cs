@@ -101,6 +101,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(LocalizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
+
             var type = OrganizationTypeHelper.GetOrganizationType();
             type.Insert(0, new SelectListItem(LocalizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
@@ -250,6 +251,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ErrorNotification(ModelState);
             return RedirectToAction("Edit", new { id = id });
         }
+
+       
 
     }
 }

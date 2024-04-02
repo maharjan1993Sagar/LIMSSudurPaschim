@@ -17,13 +17,13 @@ namespace LIMS.Services.Security
         public static readonly PermissionRecord ManageManufacturers = new PermissionRecord { Name = "Admin area. Manage Manufacturers", SystemName = PermissionSystemName.Manufacturers, Category = "Catalog", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete, PermissionActionName.Export, PermissionActionName.Import } };
         public static readonly PermissionRecord ManageProductReviews = new PermissionRecord { Name = "Admin area. Manage Product Reviews", SystemName = PermissionSystemName.ProductReviews, Category = "Catalog", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageProductTags = new PermissionRecord { Name = "Admin area. Manage Product Tags", SystemName = PermissionSystemName.ProductTags, Category = "Catalog", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
-        
+
         public static readonly PermissionRecord ManageProductAttributes = new PermissionRecord { Name = "Admin area. Manage Product Attributes", SystemName = PermissionSystemName.ProductAttributes, Category = "Catalog", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageSpecificationAttributes = new PermissionRecord { Name = "Admin area. Manage Specification Attributes", SystemName = PermissionSystemName.SpecificationAttributes, Category = "Catalog", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageCheckoutAttribute = new PermissionRecord { Name = "Admin area. Manage Checkout Attributes", SystemName = PermissionSystemName.CheckoutAttributes, Category = "Catalog", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageContactAttribute = new PermissionRecord { Name = "Admin area. Manage Contact Attribute", SystemName = PermissionSystemName.ContactAttributes, Category = "Catalog", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
 
-        public static readonly PermissionRecord ManageCustomers = new PermissionRecord { Name = "Admin area. Manage Customers", SystemName = PermissionSystemName.Customers, Category = "Customers", Actions = new List<string> { PermissionActionName.List,  PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete, PermissionActionName.Export } };
+        public static readonly PermissionRecord ManageCustomers = new PermissionRecord { Name = "Admin area. Manage Customers", SystemName = PermissionSystemName.Customers, Category = "Customers", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete, PermissionActionName.Export } };
         public static readonly PermissionRecord ManageCustomerRoles = new PermissionRecord { Name = "Admin area. Manage Customer Roles", SystemName = PermissionSystemName.CustomerRoles, Category = "Customers", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageCustomerTags = new PermissionRecord { Name = "Admin area. Manage Customer Tags", SystemName = PermissionSystemName.CustomerTags, Category = "Customers", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageActions = new PermissionRecord { Name = "Admin area. Manage Customers Actions", SystemName = PermissionSystemName.Actions, Category = "Customers" };
@@ -57,7 +57,7 @@ namespace LIMS.Services.Security
         public static readonly PermissionRecord ManageCourses = new PermissionRecord { Name = "Admin area. Manage Courses", SystemName = PermissionSystemName.Courses, Category = "Content Management", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageMessageTemplates = new PermissionRecord { Name = "Admin area. Manage Message Templates", SystemName = PermissionSystemName.MessageTemplates, Category = "Content Management", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete } };
         public static readonly PermissionRecord ManageCountries = new PermissionRecord { Name = "Admin area. Manage Countries", SystemName = PermissionSystemName.Countries, Category = "Configuration", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete, PermissionActionName.Export, PermissionActionName.Import } };
-        public static readonly PermissionRecord ManageLanguages = new PermissionRecord { Name = "Admin area. Manage Languages", SystemName = PermissionSystemName.Languages, Category = "Configuration", Actions = new List<string>{ PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete, PermissionActionName.Export, PermissionActionName.Import } };
+        public static readonly PermissionRecord ManageLanguages = new PermissionRecord { Name = "Admin area. Manage Languages", SystemName = PermissionSystemName.Languages, Category = "Configuration", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Create, PermissionActionName.Edit, PermissionActionName.Preview, PermissionActionName.Delete, PermissionActionName.Export, PermissionActionName.Import } };
         public static readonly PermissionRecord ManageSettings = new PermissionRecord { Name = "Admin area. Manage Settings", SystemName = PermissionSystemName.Settings, Category = "Configuration" };
         public static readonly PermissionRecord ManagePaymentMethods = new PermissionRecord { Name = "Admin area. Manage Payment Methods", SystemName = PermissionSystemName.PaymentMethods, Category = "Configuration" };
         public static readonly PermissionRecord ManageExternalAuthenticationMethods = new PermissionRecord { Name = "Admin area. Manage External Authentication Methods", SystemName = PermissionSystemName.ExternalAuthenticationMethods, Category = "Configuration" };
@@ -70,7 +70,7 @@ namespace LIMS.Services.Security
         public static readonly PermissionRecord AccessSubsidyRegister = new PermissionRecord { Name = "Access Subsidy Setup", SystemName = PermissionSystemName.AccessSubsidyRegister };
         public static readonly PermissionRecord AccessResourceRegister = new PermissionRecord { Name = "Access AccessResourceRegister Setup", SystemName = PermissionSystemName.AccessResourceRegister };
 
-        
+
 
         //new permissions
         public static readonly PermissionRecord AnimalRegistration = new PermissionRecord { Name = "Access Animal Registration", SystemName = PermissionSystemName.AnimalRegistration };
@@ -91,14 +91,17 @@ namespace LIMS.Services.Security
         public static readonly PermissionRecord VhlsecReport = new PermissionRecord { Name = "Admin area. Access Vhlsec Report", SystemName = PermissionSystemName.AccessVhlsecReport };
         public static readonly PermissionRecord NlboOnly = new PermissionRecord { Name = "Admin area. Access by Nlbo", SystemName = PermissionSystemName.AccessByNlboOnly };
         public static readonly PermissionRecord DolfdOnly = new PermissionRecord { Name = "Admin area. Access by Dolfd", SystemName = PermissionSystemName.AccessByDolfdOnly };
-       
 
-        public static readonly PermissionRecord ManageMeasures = new PermissionRecord { Name = "Admin area. Manage Measures", SystemName = PermissionSystemName.Measures, Category = "Configuration", 
-            Actions = new List<string> { 
+
+        public static readonly PermissionRecord ManageMeasures = new PermissionRecord {
+            Name = "Admin area. Manage Measures",
+            SystemName = PermissionSystemName.Measures,
+            Category = "Configuration",
+            Actions = new List<string> {
                 PermissionActionName.Weights_List, PermissionActionName.Weights_Add, PermissionActionName.Weights_Edit, PermissionActionName.Weights_Delete,
                 PermissionActionName.Units_List, PermissionActionName.Units_Add, PermissionActionName.Units_Edit, PermissionActionName.Units_Delete,
                 PermissionActionName.Dimensions_List, PermissionActionName.Dimensions_Add, PermissionActionName.Dimensions_Edit, PermissionActionName.Dimensions_Delete,
-            } 
+            }
         };
 
         public static readonly PermissionRecord ManageActivityLog = new PermissionRecord { Name = "Admin area. Manage Activity Log", SystemName = PermissionSystemName.ActivityLog, Category = "Configuration", Actions = new List<string> { PermissionActionName.List, PermissionActionName.Edit, PermissionActionName.Delete } };
@@ -122,19 +125,119 @@ namespace LIMS.Services.Security
         public static readonly PermissionRecord EnableWishlist = new PermissionRecord { Name = "Public store. Enable wishlist", SystemName = PermissionSystemName.EnableWishlist, Category = "PublicStore" };
         public static readonly PermissionRecord PublicStoreAllowNavigation = new PermissionRecord { Name = "Public store. Allow navigation", SystemName = PermissionSystemName.PublicStoreAllowNavigation, Category = "PublicStore" };
         public static readonly PermissionRecord AccessClosedStore = new PermissionRecord { Name = "Public store. Access a closed store", SystemName = PermissionSystemName.AccessClosedStore, Category = "PublicStore" };
-        
-        
+
+
         public static readonly PermissionRecord AccessDynamicMenu = new PermissionRecord { Name = "Admin area. Manage Dynamic Menu. Access a Dynamic Menu", SystemName = PermissionSystemName.AccessDynamicMenu, Category = "Configuration" };
         public static readonly PermissionRecord AccessNewsEventTender = new PermissionRecord { Name = "Admin area. Manage News event tender publication. Access news event tender publication.", SystemName = PermissionSystemName.AccessNewsEventTender, Category = "Configuration" };
         public static readonly PermissionRecord AccessGeneralCMS = new PermissionRecord { Name = "Admin area. Manage CMS for Website. Access CMS for Website.", SystemName = PermissionSystemName.AccessGeneralCMS, Category = "Configuration" };
-       public static readonly PermissionRecord AccessMolmacRegister = new PermissionRecord { Name = "Admin area. Manage MolmacRegister", SystemName = PermissionSystemName.AccessMolmacRegister };
-       public static readonly PermissionRecord AccessCMS = new PermissionRecord { Name = "Admin area. Manage CDS", SystemName = PermissionSystemName.AccessCDS};
+        public static readonly PermissionRecord AccessMolmacRegister = new PermissionRecord { Name = "Admin area. Manage MolmacRegister", SystemName = PermissionSystemName.AccessMolmacRegister };
+        public static readonly PermissionRecord AccessCMS = new PermissionRecord { Name = "Admin area. Manage CDS", SystemName = PermissionSystemName.AccessCDS };
         public static readonly PermissionRecord AccessCropProduction = new PermissionRecord { Name = "Admin area. AccessCropsProduction", SystemName = PermissionSystemName.AccessCropsProduction };
-       
+
         //Agriculture
         public static readonly PermissionRecord AgriUserAccess = new PermissionRecord { Name = "AgriUser Access", SystemName = PermissionSystemName.AgriUserAccess };
         public static readonly PermissionRecord LivestockUserAccess = new PermissionRecord { Name = "LivestockUser Access", SystemName = PermissionSystemName.LivestockUserAccess };
         public static readonly PermissionRecord OnlyDataEntryAccess = new PermissionRecord { Name = "DataEntryUser Access", SystemName = PermissionSystemName.OnlyDataEntryAccess };
+
+
+        //New role for Tokha Agriculture System
+        //Dashboard
+        public static readonly PermissionRecord AccessDashboard = new PermissionRecord { Name = "Access Dashboard", SystemName = PermissionSystemName.AccessDashboard };
+        public static readonly PermissionRecord AccessUser = new PermissionRecord { Name = "Access User", SystemName = PermissionSystemName.AccessUser };
+
+        //organization
+        public static readonly PermissionRecord AccessOrganization = new PermissionRecord { Name = "Access Organization", SystemName = PermissionSystemName.AccessOrganization };
+        public static readonly PermissionRecord AccessOtherOrganization = new PermissionRecord { Name = "Access Other Organization", SystemName = PermissionSystemName.AccessOtherOrganization };
+        public static readonly PermissionRecord AccessServiceProvider = new PermissionRecord { Name = "Access Service Provider", SystemName = PermissionSystemName.AccessServiceProvider };
+
+        //Service Provider
+        public static readonly PermissionRecord AccessHatchery = new PermissionRecord { Name = "Access Hatchery", SystemName = PermissionSystemName.AccessHatchery };
+        public static readonly PermissionRecord AccessFeedIndustry = new PermissionRecord { Name = "Access Feed Industry", SystemName = PermissionSystemName.AccessFeedIndustry };
+        public static readonly PermissionRecord AccessFeedShop = new PermissionRecord { Name = "Access Feed Shop", SystemName = PermissionSystemName.AccessFeedShop };
+        public static readonly PermissionRecord AccessMilkCoOperative = new PermissionRecord { Name = "Access Milk Co Operative", SystemName = PermissionSystemName.AccessMilkCoOperative };
+        public static readonly PermissionRecord AccessDiaryIndustry = new PermissionRecord { Name = "Access Diary Industry", SystemName = PermissionSystemName.AccessDiaryIndustry };
+        public static readonly PermissionRecord AccessDiaryShop = new PermissionRecord { Name = "Access Diary Shop", SystemName = PermissionSystemName.AccessDiaryShop };
+        public static readonly PermissionRecord AccessChillingCenter = new PermissionRecord { Name = "Access Chilling Center", SystemName = PermissionSystemName.AccessChillingCenter };
+        public static readonly PermissionRecord AccessAnimalCollection = new PermissionRecord { Name = "Access Animal Collection", SystemName = PermissionSystemName.AccessAnimalCollection };
+        public static readonly PermissionRecord AccessMarket = new PermissionRecord { Name = "Access Market", SystemName = PermissionSystemName.AccessMarket };
+        public static readonly PermissionRecord AccessMeatProcessing = new PermissionRecord { Name = "Access Meat Processing", SystemName = PermissionSystemName.AccessMeatProcessing };
+        public static readonly PermissionRecord AccessMeatShop = new PermissionRecord { Name = "Access Meat Shop", SystemName = PermissionSystemName.AccessMeatShop };
+        public static readonly PermissionRecord AccessFishSrot = new PermissionRecord { Name = "Access Fish Srot", SystemName = PermissionSystemName.AccessFishSrot };
+        public static readonly PermissionRecord AccessNgo = new PermissionRecord { Name = "Access Ngo", SystemName = PermissionSystemName.AccessNgo };
+        public static readonly PermissionRecord AccessTechSchool = new PermissionRecord { Name = "Access Tech School", SystemName = PermissionSystemName.AccessTechSchool };
+        public static readonly PermissionRecord AccessCanelClub = new PermissionRecord { Name = "Access Canel Club", SystemName = PermissionSystemName.AccessCanelClub };
+        public static readonly PermissionRecord AccessVetClinic = new PermissionRecord { Name = "Access Vet Clinic", SystemName = PermissionSystemName.AccessVetClinic };
+        public static readonly PermissionRecord AccessFertilizerShop = new PermissionRecord { Name = "Access Fertilizer Shop", SystemName = PermissionSystemName.AccessFertilizerShop };
+        public static readonly PermissionRecord AccessAgricultureCoOperative = new PermissionRecord { Name = "Access Agriculture CoOperative", SystemName = PermissionSystemName.AccessAgricultureCoOperative };
+
+        //Farm
+        public static readonly PermissionRecord AccessFarm = new PermissionRecord { Name = "Access Farm", SystemName = PermissionSystemName.AccessFarm };
+
+        //AI
+        public static readonly PermissionRecord AccessAI = new PermissionRecord { Name = "Access AI", SystemName = PermissionSystemName.AccessAI };
+
+        //Medicine
+        public static readonly PermissionRecord AccessMedicine = new PermissionRecord { Name = "Access Medicine", SystemName = PermissionSystemName.AccessMedicine };
+        public static readonly PermissionRecord AccessReceivedMedicine = new PermissionRecord { Name = "Access Received Medicine", SystemName = PermissionSystemName.AccessReceivedMedicine };
+        public static readonly PermissionRecord AccessMedicineDistribution = new PermissionRecord { Name = "Access Medicine Distribution", SystemName = PermissionSystemName.AccessMedicineDistribution };
+        public static readonly PermissionRecord AccessReceivedVaccination = new PermissionRecord { Name = "Access Received Vaccination", SystemName = PermissionSystemName.AccessReceivedVaccination };
+        public static readonly PermissionRecord AccessDistributedVaccination = new PermissionRecord { Name = "Access Distributed Vaccination", SystemName = PermissionSystemName.AccessDistributedVaccination };
+
+        //DataEntry
+        public static readonly PermissionRecord AccessPujigatKharchaKharyakram = new PermissionRecord { Name = "Access PujigatKharcha Karyakram", SystemName = PermissionSystemName.AccessPujigatKharchaKharyakram };
+        public static readonly PermissionRecord AccessMonthlyProgress = new PermissionRecord { Name = "Access Monthly Progress", SystemName = PermissionSystemName.AccessMonthlyProgress };
+        public static readonly PermissionRecord AccessFarmer = new PermissionRecord { Name = "Access Farmer", SystemName = PermissionSystemName.AccessFarmer };
+        public static readonly PermissionRecord AccessAanudanKaryakram = new PermissionRecord { Name = "Access Aanudan Karyakram", SystemName = PermissionSystemName.AccessAanudanKaryakram };
+        public static readonly PermissionRecord AccessAnugaman = new PermissionRecord { Name = "Access Anugaman", SystemName = PermissionSystemName.AccessAnugaman };
+        public static readonly PermissionRecord AccessInputSupply = new PermissionRecord { Name = "Access Input Supply", SystemName = PermissionSystemName.AccessInputSupply };
+        public static readonly PermissionRecord AccessDeathVerification = new PermissionRecord { Name = "Access Death Verification", SystemName = PermissionSystemName.AccessDeathVerification };
+        public static readonly PermissionRecord AccessTreatment = new PermissionRecord { Name = "Access Treatment", SystemName = PermissionSystemName.AccessTreatment };
+        //public static readonly PermissionRecord AccessMarket = new PermissionRecord { Name = "AccessMarket", SystemName = PermissionSystemName.AccessMarket };
+        public static readonly PermissionRecord AccessResources = new PermissionRecord { Name = "Access Resources", SystemName = PermissionSystemName.AccessResources };
+        public static readonly PermissionRecord AccessTalim = new PermissionRecord { Name = "Access Talim", SystemName = PermissionSystemName.AccessTalim };
+        public static readonly PermissionRecord AccessIncubationCenter = new PermissionRecord { Name = "Access Incubation Center", SystemName = PermissionSystemName.AccessIncubationCenter };
+        //public static readonly PermissionRecord AccessFarmer = new PermissionRecord { Name = "AccessFarmer", SystemName = PermissionSystemName.AccessFarmer };
+        public static readonly PermissionRecord AccessSoil = new PermissionRecord { Name = "Access Soil", SystemName = PermissionSystemName.AccessSoil };
+        public static readonly PermissionRecord AccessLivestock = new PermissionRecord { Name = "Access Livestock", SystemName = PermissionSystemName.AccessLivestock };
+        public static readonly PermissionRecord AccessProduction = new PermissionRecord { Name = "Access Production", SystemName = PermissionSystemName.AccessProduction };
+        public static readonly PermissionRecord AccessCropsProduction = new PermissionRecord { Name = "Access Crops Production", SystemName = PermissionSystemName.AccessCropsProduction };
+        public static readonly PermissionRecord AccessFishProduction = new PermissionRecord { Name = "Access Fish Production", SystemName = PermissionSystemName.AccessFishProduction };
+        public static readonly PermissionRecord AccessSeedDistribution = new PermissionRecord { Name = "Access Seed Distribution", SystemName = PermissionSystemName.AccessSeedDistribution };
+        public static readonly PermissionRecord AccessFertilizerDistribution = new PermissionRecord { Name = "Access Fertilizer Distribution", SystemName = PermissionSystemName.AccessFertilizerDistribution };
+        public static readonly PermissionRecord AccessCropDisease = new PermissionRecord { Name = "Access Crop Disease", SystemName = PermissionSystemName.AccessCropDisease };
+
+        //Report
+        public static readonly PermissionRecord AccessProgressReport = new PermissionRecord { Name = "Access Progress Report", SystemName = PermissionSystemName.AccessProgressReport };
+        public static readonly PermissionRecord AccessSubsidyReport = new PermissionRecord { Name = "Access Subsidy Report", SystemName = PermissionSystemName.AccessSubsidyReport };
+        public static readonly PermissionRecord AccessTrainingReport = new PermissionRecord { Name = "Access Training Report", SystemName = PermissionSystemName.AccessTrainingReport };
+        public static readonly PermissionRecord AccessProductionReport = new PermissionRecord { Name = "Access Production Report", SystemName = PermissionSystemName.AccessProductionReport };
+        public static readonly PermissionRecord AccessMedicineReport = new PermissionRecord { Name = "Access Medicine Report", SystemName = PermissionSystemName.AccessMedicineReport };
+        public static readonly PermissionRecord AccessAiReport = new PermissionRecord { Name = "Access Ai Report", SystemName = PermissionSystemName.AccessAiReport };
+        public static readonly PermissionRecord AccessMonthlyProgressReport = new PermissionRecord { Name = "Access Monthly Progress Report", SystemName = PermissionSystemName.AccessMonthlyProgressReport };
+        public static readonly PermissionRecord AccessKirshakReport = new PermissionRecord { Name = "Access Kirshak Report", SystemName = PermissionSystemName.AccessKirshakReport };
+        public static readonly PermissionRecord AccessAanudanOrgReport = new PermissionRecord { Name = "Access Aanudan Org Report", SystemName = PermissionSystemName.AccessAanudanOrgReport };
+        public static readonly PermissionRecord AccessMonthlyProgressSummery = new PermissionRecord { Name = "Access Monthly Progress Summery", SystemName = PermissionSystemName.AccessMonthlyProgressSummery };
+        // public static readonly PermissionRecord AccessMonthlyProgressSReport = new PermissionRecord { Name = "Access Monthly Progress Report", SystemName = PermissionSystemName.AccessMonthlyProgressSReport };
+        public static readonly PermissionRecord AccessCropProductionReport = new PermissionRecord { Name = "Access Crop Production Report", SystemName = PermissionSystemName.AccessCropProductionReport };
+        //public static readonly PermissionRecord AccessProductionReport = new PermissionRecord { Name = "AccessProductionReport", SystemName = PermissionSystemName.AccessProductionReport };
+        public static readonly PermissionRecord AccessLivestockReport = new PermissionRecord { Name = "Access Livestock Report", SystemName = PermissionSystemName.AccessLivestockReport };
+        public static readonly PermissionRecord AccessAanudanKaryakramReport = new PermissionRecord { Name = "Access Aanudan Karyakram Report", SystemName = PermissionSystemName.AccessAanudanKaryakramReport };
+        public static readonly PermissionRecord AccessDeathVerificationReport = new PermissionRecord { Name = "Access Death Verification Report", SystemName = PermissionSystemName.AccessDeathVerificationReport };
+        public static readonly PermissionRecord AccessAgricultureCoOperativeReport = new PermissionRecord { Name = "Access Agriculture CoOperative Report", SystemName = PermissionSystemName.AccessAgricultureCoOperativeReport };
+        public static readonly PermissionRecord AccessFertilizerShopReport = new PermissionRecord { Name = "Access Fertilizer Shop Report", SystemName = PermissionSystemName.AccessFertilizerShopReport };
+
+        //Mastersetup
+        public static readonly PermissionRecord AccessSpecies = new PermissionRecord { Name = "Access Species", SystemName = PermissionSystemName.AccessSpecies };
+        public static readonly PermissionRecord AccessBreed = new PermissionRecord { Name = "Access Breed", SystemName = PermissionSystemName.AccessBreed };
+        public static readonly PermissionRecord AccessGrowingSeason = new PermissionRecord { Name = "Access Growing Season", SystemName = PermissionSystemName.AccessGrowingSeason };
+        public static readonly PermissionRecord AccessLivestockSpecies = new PermissionRecord { Name = "Access Livestock Species", SystemName = PermissionSystemName.AccessLivestockSpecies };
+        public static readonly PermissionRecord AccessCategory = new PermissionRecord { Name = "Access Category", SystemName = PermissionSystemName.AccessCategory };
+        public static readonly PermissionRecord AccessAnimalType = new PermissionRecord { Name = "Access Animal Type", SystemName = PermissionSystemName.AccessAnimalType };
+        public static readonly PermissionRecord AccessVaccineType = new PermissionRecord { Name = "Access Vaccine Type", SystemName = PermissionSystemName.AccessVaccineType };
+        public static readonly PermissionRecord AccessUnit = new PermissionRecord { Name = "Access Unit", SystemName = PermissionSystemName.AccessUnit };
+        public static readonly PermissionRecord AccessFiscalYear = new PermissionRecord { Name = "Access Fiscal Year", SystemName = PermissionSystemName.AccessFiscalYear };
+        public static readonly PermissionRecord AccessDisease = new PermissionRecord { Name = "Access Disease", SystemName = PermissionSystemName.AccessDisease };
+
 
         public virtual IEnumerable<PermissionRecord> GetPermissions()
         {
@@ -241,7 +344,107 @@ namespace LIMS.Services.Security
                 //Agriculture Access
                 AgriUserAccess,
                 LivestockUserAccess,
-                OnlyDataEntryAccess
+                OnlyDataEntryAccess,
+                //New roles for Tokha Agriculture System
+                //Dashboard
+                AccessDashboard,
+                AccessUser,
+                         
+                          //Organization 
+                AccessOrganization  ,
+                AccessOtherOrganization ,
+                AccessServiceProvider,
+
+                                              
+                          //Service Provider
+                AccessHatchery,
+                AccessFeedIndustry,
+                AccessFeedShop,
+                AccessMilkCoOperative ,
+                AccessDiaryIndustry  ,
+                AccessDiaryShop      ,
+                AccessChillingCenter ,
+                AccessAnimalCollection  ,
+                AccessMarket         ,
+                AccessMeatProcessing ,
+                AccessMeatShop       ,
+                AccessFishSrot       ,
+                AccessNgo            ,
+                AccessTechSchool     ,
+                AccessCanelClub      ,
+                AccessVetClinic      ,
+                AccessAgricultureCoOperative      ,
+                AccessFertilizerShop      ,
+
+                                              
+                          //Farm        ,
+                AccessFarm           ,
+
+                                              
+                         //AI          ,
+                AccessAI             ,
+
+                                              
+                          //Medicine    ,
+                AccessMedicine       ,
+                AccessReceivedMedicine     ,
+                AccessMedicineDistribution ,
+                AccessReceivedVaccination  ,
+                AccessDistributedVaccination        ,
+
+                                              
+                         //DataEntry   ,
+                AccessPujigatKharchaKharyakram      ,
+                AccessMonthlyProgress,
+                AccessFarmer         ,
+                AccessAanudanKaryakram     ,
+                AccessAnugaman       ,
+                AccessInputSupply    ,
+                AccessDeathVerification    ,
+                AccessTreatment,
+                        // AccessMarket,
+                AccessResources      ,
+                AccessTalim          ,
+                AccessIncubationCenter,
+                         //AccessFarmer,
+                AccessSoil           ,
+                AccessLivestock      ,
+                AccessProduction     ,
+                AccessCropsProduction   ,
+                AccessFishProduction,
+                AccessCropDisease,
+                AccessFertilizerDistribution,
+                AccessSeedDistribution,
+                          //Report      ,
+                AccessProgressReport ,
+                AccessSubsidyReport  ,
+                AccessTrainingReport ,
+                AccessProductionReport     ,
+                AccessMedicineReport ,
+                AccessAiReport       ,
+                AccessMonthlyProgressReport      ,
+                AccessKirshakReport  ,
+                AccessAanudanOrgReport     ,
+                AccessMonthlyProgressSummery        ,
+                        // AccessMonthlyProgressSReport        ,
+                AccessCropProductionReport         ,
+                AccessProductionReport,
+                AccessLivestockReport,
+                AccessAanudanKaryakramReport        ,
+                AccessDeathVerificationReport,
+                AccessAgricultureCoOperativeReport  ,
+                AccessFertilizerShopReport,
+                          //Mastersetup ,
+                AccessSpecies        ,
+                AccessBreed          ,
+                AccessGrowingSeason  ,
+                AccessLivestockSpecies ,
+                AccessCategory       ,
+                AccessAnimalType     ,
+                AccessVaccineType    ,
+                AccessUnit           ,
+                AccessFiscalYear     ,
+                AccessDisease
             };
         }
 
@@ -316,7 +519,110 @@ namespace LIMS.Services.Security
                         //Agriculture Access
                         AgriUserAccess,
                         LivestockUserAccess,
-                        OnlyDataEntryAccess
+                        OnlyDataEntryAccess,
+                        //New roles for Tokha Agriculture System
+                         //Dashboard
+                         AccessDashboard,
+                         AccessUser,
+                         
+                          //Organization 
+                         AccessOrganization  ,
+                         AccessOtherOrganization ,
+                         AccessServiceProvider,
+
+                                              
+                          //Service Provider
+                         AccessHatchery,
+                         AccessFeedIndustry,
+                         AccessFeedShop,
+                         AccessMilkCoOperative ,
+                         AccessDiaryIndustry  ,
+                         AccessDiaryShop      ,
+                         AccessChillingCenter ,
+                         AccessAnimalCollection  ,
+                         AccessMarket         ,
+                         AccessMeatProcessing ,
+                         AccessMeatShop       ,
+                         AccessFishSrot       ,
+                         AccessNgo            ,
+                         AccessTechSchool     ,
+                         AccessCanelClub      ,
+                         AccessVetClinic      ,
+                         AccessAgricultureCoOperative      ,
+                        AccessFertilizerShop      ,
+                                              
+                          //Farm        ,
+                         AccessFarm           ,
+
+                                              
+                         //AI          ,
+                         AccessAI             ,
+
+                                              
+                          //Medicine    ,
+                         AccessMedicine       ,
+                         AccessReceivedMedicine     ,
+                         AccessMedicineDistribution ,
+                         AccessReceivedVaccination  ,
+                         AccessDistributedVaccination        ,
+
+                                              
+                         //DataEntry   ,
+                         AccessPujigatKharchaKharyakram      ,
+                         AccessMonthlyProgress,
+                         AccessFarmer         ,
+                         AccessAanudanKaryakram     ,
+                         AccessAnugaman       ,
+                         AccessInputSupply    ,
+                         AccessDeathVerification    ,
+                         AccessTreatment,
+                        // AccessMarket,
+                         AccessResources      ,
+                         AccessTalim          ,
+                         AccessIncubationCenter,
+                         //AccessFarmer,
+                         AccessSoil           ,
+                         AccessLivestock      ,
+                         AccessProduction     ,
+                         AccessCropsProduction   ,
+                         AccessFishProduction,
+                           AccessCropDisease,
+                        AccessFertilizerDistribution,
+                        AccessSeedDistribution,
+
+                          //Report      ,
+                         AccessProgressReport ,
+                         AccessSubsidyReport  ,
+                         AccessTrainingReport ,
+                         AccessProductionReport     ,
+                         AccessMedicineReport ,
+                         AccessAiReport       ,
+                         AccessMonthlyProgressReport      ,
+                         AccessKirshakReport  ,
+                         AccessAanudanOrgReport     ,
+                         AccessMonthlyProgressSummery        ,
+                        // AccessMonthlyProgressSReport        ,
+                         AccessCropProductionReport         ,
+                         AccessProductionReport,
+                         AccessLivestockReport,
+                         AccessAanudanKaryakramReport        ,
+                         AccessDeathVerificationReport,
+                           AccessAgricultureCoOperativeReport  ,
+                        AccessFertilizerShopReport,   
+                        
+                          //Mastersetup ,
+                         AccessSpecies        ,
+                         AccessBreed          ,
+                         AccessGrowingSeason  ,
+                         AccessLivestockSpecies ,
+                         AccessCategory       ,
+                         AccessAnimalType     ,
+                         AccessVaccineType    ,
+                         AccessUnit           ,
+                         AccessFiscalYear     ,
+                         AccessDisease
+
+
                     }
 
 
@@ -403,7 +709,107 @@ namespace LIMS.Services.Security
                         //Agriculture Access
                         AgriUserAccess,
                         LivestockUserAccess,
-                        OnlyDataEntryAccess
+                        OnlyDataEntryAccess,
+                        //New roles for Tokha Agriculture System
+                         //Dashboard
+                         AccessDashboard,
+                         AccessUser,
+                         
+                          //Organization 
+                         AccessOrganization  ,
+                         AccessOtherOrganization ,
+                         AccessServiceProvider,
+
+                                              
+                          //Service Provider
+                         AccessHatchery,
+                         AccessFeedIndustry,
+                         AccessFeedShop,
+                         AccessMilkCoOperative ,
+                         AccessDiaryIndustry  ,
+                         AccessDiaryShop      ,
+                         AccessChillingCenter ,
+                         AccessAnimalCollection  ,
+                         AccessMarket         ,
+                         AccessMeatProcessing ,
+                         AccessMeatShop       ,
+                         AccessFishSrot       ,
+                         AccessNgo            ,
+                         AccessTechSchool     ,
+                         AccessCanelClub      ,
+                         AccessVetClinic      ,
+                         AccessAgricultureCoOperative      ,
+                         AccessFertilizerShop      ,
+                                              
+                          //Farm        ,
+                         AccessFarm           ,
+
+                                              
+                         //AI          ,
+                         AccessAI             ,
+
+                                              
+                          //Medicine    ,
+                         AccessMedicine       ,
+                         AccessReceivedMedicine     ,
+                         AccessMedicineDistribution ,
+                         AccessReceivedVaccination  ,
+                         AccessDistributedVaccination        ,
+
+                                              
+                         //DataEntry   ,
+                         AccessPujigatKharchaKharyakram      ,
+                         AccessMonthlyProgress,
+                         AccessFarmer         ,
+                         AccessAanudanKaryakram     ,
+                         AccessAnugaman       ,
+                         AccessInputSupply    ,
+                         AccessDeathVerification    ,
+                         AccessTreatment,
+                        // AccessMarket,
+                         AccessResources      ,
+                         AccessTalim          ,
+                         AccessIncubationCenter,
+                         //AccessFarmer,
+                         AccessSoil           ,
+                         AccessLivestock      ,
+                         AccessProduction     ,
+                         AccessCropsProduction   ,
+                         AccessFishProduction,
+                          AccessCropDisease,
+                        AccessFertilizerDistribution,
+                        AccessSeedDistribution,
+                          //Report      ,
+                         AccessProgressReport ,
+                         AccessSubsidyReport  ,
+                         AccessTrainingReport ,
+                         AccessProductionReport     ,
+                         AccessMedicineReport ,
+                         AccessAiReport       ,
+                         AccessMonthlyProgressReport      ,
+                         AccessKirshakReport  ,
+                         AccessAanudanOrgReport     ,
+                         AccessMonthlyProgressSummery        ,
+                        // AccessMonthlyProgressSReport        ,
+                         AccessCropProductionReport         ,
+                         AccessProductionReport,
+                         AccessLivestockReport,
+                         AccessAanudanKaryakramReport        ,
+                         AccessDeathVerificationReport,
+                         AccessAgricultureCoOperativeReport  ,
+                         AccessFertilizerShopReport,    
+                         
+                          //Mastersetup ,
+                         AccessSpecies        ,
+                         AccessBreed          ,
+                         AccessGrowingSeason  ,
+                         AccessLivestockSpecies ,
+                         AccessCategory       ,
+                         AccessAnimalType     ,
+                         AccessVaccineType    ,
+                         AccessUnit           ,
+                         AccessFiscalYear     ,
+                         AccessDisease
 
                     }
                 },

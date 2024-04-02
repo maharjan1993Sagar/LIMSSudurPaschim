@@ -56,6 +56,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.7.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Core" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="NepaliDateConverter.netstandard" Version="1.0.1" />
     <Content Update="Plugins\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -79,7 +80,9 @@
     <None Include="Areas\Admin\Views\DiaryIndustry\Create.cshtml" />
     <None Include="Areas\Admin\Views\DiaryIndustry\List.cshtml" />
     <None Include="Areas\Admin\Views\FishProduction\Create.cshtml" />
-    <None Include="Areas\Admin\Views\FishProduction\List.cshtml" />   
+    <None Include="Areas\Admin\Views\FishProduction\List.cshtml" />
+    <None Include="Areas\Admin\Views\StaticVaccination\Create.cshtml" />
+    <None Include="Areas\Admin\Views\StaticVaccination\List.cshtml" />   
     <None Include="Areas\Admin\Views\Treatment\Create.cshtml" />
     <None Include="Areas\Admin\Views\Treatment\List.cshtml" />
   </ItemGroup>

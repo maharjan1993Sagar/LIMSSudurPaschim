@@ -153,6 +153,7 @@
             }
         }
     </style>
+    <link href="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css" />
     <div class="container body">
         <div class="main_container">
 
@@ -292,39 +293,39 @@
 
 
             @*<ul style="list-style-type: none;margin:0;padding:0;overflow:hidden;">
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Cdms", "Dashboard", new { Area = "Admin" })">@T("Admin.GryaPristha")</a></li>
+                    <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Cdms", "Dashboard", new { Area = "Admin" })">@T("Admin.GryaPristha")</a></li>
 
-                @if (livestock || crop)
-                {
+                    @if (livestock || crop)
+                    {
+                        <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                            <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.Production")</a>
+                            <ul class="dropdown-menu">
+                                @if (livestock)
+                                {
+                                    <li class="dropdown-item"><a href="@Url.Action("Create", "FishProduction", new { Area = "Admin" })">@T("Admin.FishProduction")</a></li>
+                                    <li class="dropdown-item"><a href="@Url.Action("Index", "Production", new { Area = "Admin" })">@T("Admin.LivestockProduction")</a></li>
+                                }
+                                @if (crop)
+                                {
+                                    <li class="dropdown-item"><a href="@Url.Action("List", "CropsProduction", new { Area = "Admin" })">@T("Admin.CropsProduction")</a></li>
+                                }
+
+                            </ul>
+                        </li>
+                    }
+                    <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("tabentry", "PujigatKharchaKharyakram", new { Area = "Admin" })">@T("Admin.PujigatKharchaKharyakram")</a></li>
+                    <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Create", "MonthlyProgress", new { Area = "Admin" })">@T("Admin.Overallprogress")</a></li>
+
                     <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
-                        <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.Production")</a>
-                        <ul class="dropdown-menu">
-                            @if (livestock)
-                            {
-                                <li class="dropdown-item"><a href="@Url.Action("Create", "FishProduction", new { Area = "Admin" })">@T("Admin.FishProduction")</a></li>
-                                <li class="dropdown-item"><a href="@Url.Action("Index", "Production", new { Area = "Admin" })">@T("Admin.LivestockProduction")</a></li>
-                            }
-                            @if (crop)
-                            {
-                                <li class="dropdown-item"><a href="@Url.Action("List", "CropsProduction", new { Area = "Admin" })">@T("Admin.CropsProduction")</a></li>
-                            }
+                        <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.TalimAndSubsidy")</a>
+                        <ul id="GenSubMenu" class="dropdown-menu">
+                            <li class="dropdown-item"><a href="@Url.Action("Create", "AanudanKaryakram")">@T("Admin.Subsidy")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("CreateOne", "Farmer")">@T("Admin.Training")</a></li>
 
                         </ul>
                     </li>
-                }
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("tabentry", "PujigatKharchaKharyakram", new { Area = "Admin" })">@T("Admin.PujigatKharchaKharyakram")</a></li>
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Create", "MonthlyProgress", new { Area = "Admin" })">@T("Admin.Overallprogress")</a></li>
 
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
-                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.TalimAndSubsidy")</a>
-                    <ul id="GenSubMenu" class="dropdown-menu">
-                        <li class="dropdown-item"><a href="@Url.Action("Create", "AanudanKaryakram")">@T("Admin.Subsidy")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("CreateOne", "Farmer")">@T("Admin.Training")</a></li>
-
-                    </ul>
-                </li>
-
-            </ul>*@
+                </ul>*@
 
             <partial name="Menu" />
 
@@ -375,8 +376,13 @@
 </body>
 </html>
 <style></style>
+<script src="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.1.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
-        $(document).ready(function () {
+    $(document).ready(function () {
+        var nepaliInput = $(".nepaliDate");
+        nepaliInput.nepaliDatePicker();
+
         var province = $("#country").data("val");
             url = "@Url.Action("GetProvince", "LocalStructure")";
             $.getJSON(url, (result) => {
@@ -482,8 +488,9 @@
                 })
 
             });
-           
+
     });
 
 </script>
+
 <script src="~/scripts/print.js"></script>

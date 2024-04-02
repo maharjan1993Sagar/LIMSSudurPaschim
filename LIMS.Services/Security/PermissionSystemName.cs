@@ -122,5 +122,104 @@
         public const string OnlyDataEntryAccess = "OnlyDataEntryAccess";
 
 
+        //New roles for Tokha Agriculture System
+        //Dashboard
+        public const string AccessDashboard = "AccessDashboard";
+        public const string AccessUser = "AccessUser";
+
+        //Organization
+        public const string AccessOrganization = "AccessOrganization";
+        public const string AccessOtherOrganization = "AccessOtherOrganization";
+        public const string AccessServiceProvider = "AccessServiceProvider";
+
+        //Service Provider
+        public const string AccessHatchery = "AccessHatchery";
+        public const string AccessFeedIndustry = "AccessFeedIndustry";
+        public const string AccessFeedShop = "AccessFeedShop";
+        public const string AccessMilkCoOperative = "AccessMilkCoOperative";
+        public const string AccessDiaryIndustry = "AccessDiaryIndustry";
+        public const string AccessDiaryShop = "AccessDiaryShop";
+        public const string AccessChillingCenter = "AccessChillingCenter";
+        public const string AccessAnimalCollection = "AccessAnimalCollection";
+        public const string AccessMarket = "AccessMarket";
+        public const string AccessMeatProcessing = "AccessMeatProcessing";
+        public const string AccessMeatShop = "AccessMeatShop";
+        public const string AccessFishSrot = "AccessFishSrot";
+        public const string AccessNgo = "AccessNgo";
+        public const string AccessTechSchool = "AccessTechSchool";
+        public const string AccessCanelClub = "AccessCanelClub";
+        public const string AccessVetClinic = "AccessVetClinic";
+        public const string AccessAgricultureCoOperative = "AccessAgricultureCoOperative";
+        public const string AccessFertilizerShop = "AccessFertilizerShop";
+
+        //Farm
+        public const string AccessFarm = "AccessFarm";
+
+        //AI
+        public const string AccessAI = "AccessAI";
+
+        //Medicine
+        public const string AccessMedicine = "AccessMedicine";
+        public const string AccessReceivedMedicine = "AccessReceivedMedicine";
+        public const string AccessMedicineDistribution = "AccessMedicineDistribution";
+        public const string AccessReceivedVaccination = "AccessReceivedVaccination";
+        public const string AccessDistributedVaccination = "AccessDistributedVaccination";
+
+        //DataEntry
+        public const string AccessPujigatKharchaKharyakram = "AccessPujigatKharchaKharyakram";
+        public const string AccessMonthlyProgress = "AccessMonthlyProgress";
+        public const string AccessFarmer = "AccessFarmer";
+        public const string AccessAanudanKaryakram = "AccessAanudanKaryakram";
+        public const string AccessAnugaman = "AccessAnugaman";
+        public const string AccessInputSupply = "AccessInputSupply";
+        public const string AccessDeathVerification = "AccessDeathVerification";
+        public const string AccessTreatment = "AccessTreatment";
+       // public const string AccessMarket = "AccessMarket";
+        public const string AccessResources = "AccessResources";
+        public const string AccessTalim = "AccessTalim";
+        public const string AccessIncubationCenter = "AccessIncubationCenter";
+      //  public const string AccessFarmer = "AccessFarmer";
+        public const string AccessSoil = "AccessSoil";
+        public const string AccessLivestock = "AccessLivestock";
+        public const string AccessProduction = "AccessProduction";
+        //public const string AccessCropsProduction = "AccessCropsProduction";
+        public const string AccessFishProduction = "AccessFishProduction";
+        public const string AccessCropDisease = "AccessCropDisease";
+        public const string AccessFertilizerDistribution = "AccessFertilizerDistribution";
+        public const string AccessSeedDistribution = "AccessSeedDistribution";
+
+
+        //Report
+        public const string AccessProgressReport = "AccessProgressReport";
+        public const string AccessSubsidyReport = "AccessSubsidyReport";
+        public const string AccessTrainingReport = "AccessTrainingReport";
+        public const string AccessProductionReport = "AccessProductionReport";
+        public const string AccessMedicineReport = "AccessMedicineReport";
+        public const string AccessAiReport = "AccessAiReport";
+        public const string AccessMonthlyProgressReport = "AccessMonthlyProgressReport";
+        public const string AccessKirshakReport = "AccessKirshakReport";
+        public const string AccessAanudanOrgReport = "AccessAanudanOrgReport";
+        public const string AccessMonthlyProgressSummery = "AccessMonthlyProgressSummery";
+        //public const string AccessMonthlyProgressSReport = "AccessMonthlyProgressSReport";
+        public const string AccessCropProductionReport = "AccessCropProductionReport";
+      //  public const string AccessProductionReport = "AccessProductionReport";
+        public const string AccessLivestockReport = "AccessLivestockReport";
+        public const string AccessAanudanKaryakramReport = "AccessAanudanKaryakramReport";
+        public const string AccessDeathVerificationReport = "AccessDeathVerificationReport";
+        public const string AccessAgricultureCoOperativeReport = "AccessAgricultureCoOperativeReport";
+        public const string AccessFertilizerShopReport = "AccessFertilizerShopReport";
+
+
+        //Mastersetup
+        public const string AccessSpecies = "AccessSpecies";
+        public const string AccessBreed = "AccessBreed";
+        public const string AccessGrowingSeason = "AccessGrowingSeason";
+        public const string AccessLivestockSpecies = "AccessLivestockSpecies";
+        public const string AccessCategory = "AccessCategory";
+        public const string AccessAnimalType = "AccessAnimalType";
+        public const string AccessVaccineType = "AccessVaccineType";
+        public const string AccessUnit = "AccessUnit";
+        public const string AccessFiscalYear = "AccessFiscalYear";
+        public const string AccessDisease = "AccessDisease";
     }
 }

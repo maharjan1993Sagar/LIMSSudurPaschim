@@ -23,14 +23,14 @@
 
         </div>
         <div>
-            <b> बजेट शिर्षक:</b><br /> @objFirst.Budget.ActivityName<br />
-            <b>तालिम:</b><br /> @objFirst.Talim.NameNepali <br />
-            <b>सुरु मिति:</b> @objFirst.StartDate.ToString("yyyy-mm-dd")
-            <b> अन्तिम मिति:</b> @objFirst.EndDate.ToString("yyyy-mm-dd")
-            <b> जम्मा खर्च:</b> @objFirst.TotalExpenses
-            <b>विवरण:</b><br /> @objFirst.Logistics<br />
-            <b>उद्देश्य:</b><br /> @objFirst.Purpose<br />
-            <b> कैफियत:</b><br /> @objFirst.Remarks<br />
+            <b> बजेट शिर्षक: @objFirst.Budget.ActivityName</b><br />
+             <b>तालिम: @objFirst.Talim.NameNepali</b> <br />
+            <b>सुरु मिति: @objFirst.StartDate.ToString("yyyy-mm-dd") </b>
+             <b> अन्तिम मिति: @objFirst.EndDate.ToString("yyyy-mm-dd") </b>
+            <b> जम्मा खर्च: @objFirst.TotalExpenses </b>
+              <b>विवरण: @objFirst.Logistics</b><br />
+               <b>उद्देश्य:@objFirst.Purpose</b><br />
+               <b> कैफियत: @objFirst.Remarks</b><br />
 
         </div>
         <div class="divTable">
@@ -44,11 +44,8 @@
                         <th>@T("Admin.Training.Address")</th>
                         <th>@T("Admin.Training.WardNo")</th>
                         <th>@T("Admin.Training.Phone")</th>
-                        <th>@T("Admin.Training.Male")</th>
-                        <th>@T("Admin.Training.Female")</th>
-                        <th>@T("Admin.Training.Dalit")</th>
-                        <th>@T("Admin.Training.Janajati")</th>
-                        <th>@T("Admin.Training.Other")</th>
+                        <th>@T("Admin.Training.Gender")</th>
+                        <th>@T("Admin.Training.Caste")</th>
                     </tr>
                 }
             </thead>
@@ -63,11 +60,8 @@
                         <td>@item.Address</td>
                         <td>@item.Ward</td>
                         <td>@item.Phone</td>
-                        <td>@item.Male</td>
-                        <td>@item.FeMale</td>
-                        <td>@item.Dalit</td>
-                        <td>@item.Janajati</td>
-                        <td>@item.Others</td>
+                        <td>@item.Gender</td>
+                        <td>@item.Caste</td>
                     </tr>
                     i = i + 1;
                 }

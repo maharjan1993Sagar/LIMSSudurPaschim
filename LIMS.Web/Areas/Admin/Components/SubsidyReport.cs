@@ -7,6 +7,7 @@ using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
 using LIMS.Services.MoAMAC;
+using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Breed;
 using LIMS.Web.Areas.Admin.Models.Reports;
 using Microsoft.AspNetCore.Mvc;
@@ -96,7 +97,7 @@ namespace LIMS.Web.Areas.Admin.Components
             {
                 return View(subsidy);
             }
-            subsidy.FiscalYear = filteredAnudan.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear;
+            subsidy.FiscalYear = ExecutionHelper.EnglishToNepali(filteredAnudan.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear);
             subsidy.LocalLevel = orgName;
             subsidy.Level = orgLevel;
             subsidy.StartDate = "";
@@ -115,13 +116,13 @@ namespace LIMS.Web.Areas.Admin.Components
                     MainActivity = objFirst.ExpectedOutput,
                     Remarks = objFirst.Remaks,
                     Purpose = objFirst.ExpectedOutput,
-                    Male = objData.Sum(m => m.MaleMember??0).ToString(),
-                    Female = objData.Sum(m => m.FemaleMember??0).ToString(),
-                    Janajati = objData.Sum(m => m.JanajatiMember??0).ToString(),
-                    Dalit = objData.Sum(m => m.DalitMember??0).ToString(),
-                    Others = objData.Sum(m => m.Others??0).ToString(),
-                    Total = (objData.Sum(m => m.MaleMember ?? 0) + objData.Sum(m => m.FemaleMember ?? 0)).ToString(),
-                    SN = i.ToString()
+                    Male = ExecutionHelper.EnglishToNepali(objData.Sum(m => m.MaleMember??0).ToString()),
+                    Female = ExecutionHelper.EnglishToNepali(objData.Sum(m => m.FemaleMember??0).ToString()),
+                    Janajati = ExecutionHelper.EnglishToNepali(objData.Sum(m => m.JanajatiMember??0).ToString()),
+                    Dalit = ExecutionHelper.EnglishToNepali(objData.Sum(m => m.DalitMember??0).ToString()),
+                    Others = ExecutionHelper.EnglishToNepali(objData.Sum(m => m.Others??0).ToString()),
+                    Total = ExecutionHelper.EnglishToNepali((objData.Sum(m => m.MaleMember ?? 0) + objData.Sum(m => m.FemaleMember ?? 0)).ToString()),
+                    SN = ExecutionHelper.EnglishToNepali(i.ToString())
                 };
                 lstRowData.Add(objSubsidyData);
                 i++;

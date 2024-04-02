@@ -101,14 +101,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
-          
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;
 
-            ViewBag.FiscalYearId = fiscalyear;
+            //ViewBag.FiscalYearId = fiscalyear;
 
             ViewBag.UnitId = unit;
            

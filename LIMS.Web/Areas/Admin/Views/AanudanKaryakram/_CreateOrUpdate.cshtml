@@ -92,21 +92,13 @@
                         <admin-label asp-for="FarmerContribution" />
                     </th>
                     <th>
-                        <admin-label asp-for="MaleMember" />
+                        <admin-label asp-for="Sex" />
                     </th>
+                   
                     <th>
-                        <admin-label asp-for="FemaleMember" />
+                        <admin-label asp-for="EthinicGroup" />
                     </th>
-                    <th>
-                        <admin-label asp-for="DalitMember" />
-                    </th>
-                    <th>
-                        <admin-label asp-for="JanajatiMember" />
-                    </th>
-
-                    <th>
-                        <admin-label asp-for="Others" />
-                    </th>
+                  
 
                 </tr>
                 <tbody id="tabularEntry">
@@ -136,12 +128,15 @@
             <td>
                 <input type="hidden" name="LivestockDataId" />
                 <input asp-for="KrishakKoName" class="form-control" />
+               
+            </td>
+            <td>
                 <input asp-for="Address" class="form-control" />
             </td>
 
             @*<td>
-                    <admin-input asp-for="LocalLevel" />
-                </td>*@
+            <admin-input asp-for="LocalLevel" />
+        </td>*@
             <td>
                 <admin-input asp-for="Ward" oninput="validity.valid||(value='0');" />
             </td>
@@ -162,12 +157,13 @@
             <td>
                 <select name="SubsidyCategory" class="form-control">
                     <option value="">Select</option>
-                    <option value="Livestock">Livestock</option>
-                    <option value="Crops">Crops</option>
-                    <option value="Livestock/crops">Livestock/crops</option>
-                    <option value="Fisheries">Fisheries</option>
-                    <option value="Others">Others</option>
-
+                    <option value="Admin.LabambitKrishak.Hydroponic">@T("Admin.LabambitKrishak.Hydroponic")</option>
+                    <option value="Admin.LabambitKrishak.Aquaponic">@T("Admin.LabambitKrishak.Aquaponic")</option>
+                    <option value="Admin.LabambitKrishak.KausiKheti">@T("Admin.LabambitKrishak.KausiKheti")</option>
+                    <option value="Admin.LabambitKrishak.Vegetable">@T("Admin.LabambitKrishak.Vegetable")</option>
+                    <option value="Admin.LabambitKrishak.Khadhyanna">@T("Admin.LabambitKrishak.Khadhyanna")</option>
+                    <option value="Admin.LabambitKrishak.Fruits">@T("Admin.LabambitKrishak.Fruits")</option>
+                    <option value="Admin.LabambitKrishak.Chyau">@T("Admin.LabambitKrishak.Chyau")</option>
                 </select>
 
             </td>
@@ -197,15 +193,21 @@
 
             <td><input type="number" name="FarmerContribution" class="form-control" min="0" oninput="validity.valid||(value='0');" /></td>
 
-            <td><input type="number" name="MaleMember" class="form-control" min="0" oninput="validity.valid||(value='0');" /></td>
-
-            <td><input type="number" name="FemaleMember" class="form-control" min="0" oninput="validity.valid||(value='0');" /></td>
-
-            <td><input type="number" name="DalitMember" class="form-control" min="0" oninput="validity.valid||(value='0' );" /></td>
-
-            <td><input type="number" name="JanajatiMember" class="form-control" min="0" oninput="validity.valid||(value='0' );" /></td>
-
-            <td><input type="number" name="Others" class="form-control" min="0" oninput="validity.valid||(value='0' );" /></td>
+            <td>
+                <select asp-for="Sex" class="form-control">
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </td>
+            <td>
+                <select asp-for="EthinicGroup" class="form-control">
+                    <option value="">Select</option>
+                    <option value="Dalit">Dalit</option>
+                    <option value="Janajati">Janajati</option>
+                    <option value="Anya">Anya</option>
+                </select>
+            </td>
 
 
 
@@ -244,15 +246,36 @@
     <select name="SubsidyCategory" id="SubsidyCategory" class="form-control">
 
         <option value="">Select</option>
-        <option value="Livestock">Livestock</option>
-        <option value="Crops">Crops</option>
-        <option value="Livestock/crops">Livestock/crops</option>
-        <option value="Fisheries">Fisheries</option>
-        <option value="Others">Others</option>
+        <option value="Admin.LabambitKrishak.Hydroponic">@T("Admin.LabambitKrishak.Hydroponic")</option>
+        <option value="Admin.LabambitKrishak.Aquaponic">@T("Admin.LabambitKrishak.Aquaponic")</option>
+        <option value="Admin.LabambitKrishak.KausiKheti">@T("Admin.LabambitKrishak.KausiKheti")</option>
+        <option value="Admin.LabambitKrishak.Vegetable">@T("Admin.LabambitKrishak.Vegetable")</option>
+        <option value="Admin.LabambitKrishak.Khadhyanna">@T("Admin.LabambitKrishak.Khadhyanna")</option>
+        <option value="Admin.LabambitKrishak.Fruits">@T("Admin.LabambitKrishak.Fruits")</option>
+        <option value="Admin.LabambitKrishak.Chyau">@T("Admin.LabambitKrishak.Chyau")</option>
     </select>
 </div>
 <script>
-       $(document).ready(function () {
+    $(document).ready(function () {
+
+        $('#tableBody').on('input', '#KrishakKoName', function () {
+            $(this).kendoAutoComplete({
+                dataSource: [
+                    { value: "Option 1", input1: "Value 1-1", input2: "Value 1-2" },
+                    { value: "Option 2", input1: "Value 2-1", input2: "Value 2-2" },
+                    { value: "Option 3", input1: "Value 3-1", input2: "Value 3-2" }
+                ],
+                dataTextField: "value", // Use the "value" property for display
+                select: function (e) {
+                    var row = $(e.item).closest('tr');
+                    var selectedItem = e.dataItem;
+                    row.find('.other-input-1').val(selectedItem.input1);
+                    row.find('.other-input-2').val(selectedItem.input2);
+                }
+            });
+        });
+
+
           $("#tal").hide();
            $("#hide").hide();
            $("#fgh").hide();
@@ -351,8 +374,8 @@
 
 
                     $.each(result, function (index, item) {
-                        var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
-                        tableRow += '<input type="text" name="KrishakKoName" class="form-control"  value="' + item.KrishakKoName + '"/></td>';
+                        var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/><input type="hidden" name="FarmId" value="' + item.FarmId + '"/> ';
+                        tableRow += '<input id="txtKrishakKoName" type="text" name="KrishakKoName" class="form-control"  value="' + item.KrishakKoName + '"/></td>';
                         tableRow += '<td><input type="text" name="Address" class="form-control"  value="' + item.Address + '"/></td>';
                        tableRow += '<td><input type="number" name="Ward" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Ward + '"/></td>';
                         tableRow += '<td><input type="text" name="PhoneNO" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.PhoneNo + '"/></td>';
@@ -361,11 +384,20 @@
                         tableRow += '<td>'+a+'</td>';
                         tableRow += '<td><input type="number" name="AanudanRakam" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.AanudanRakam + '"/></td>';
                         tableRow += '<td><input type="number" name="FarmerContribution" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FarmerContribution + '"/></td>';
-                        tableRow += '<td><input type="number" name="MaleMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.MaleMember + '"/></td>';
-                        tableRow += '<td><input type="number" name="FemaleMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FemaleMember + '"/></td>';
-                        tableRow += '<td><input type="number" name="DalitMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.DalitMember + '"/></td>';
-                        tableRow += '<td><input type="number" name="JanajatiMember" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.JanajatiMember + '"/></td>';
-                        tableRow += '<td><input type="number" name="Others" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Others + '"/></td>';
+                        tableRow += `<td><select name="Sex" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </td>`;
+                        tableRow += `<td>
+                                    <select name="EthinicGroup" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="Dalit">Dalit</option>
+                                        <option value="Janajati">Janajati</option>
+                                        <option value="Anya">Anya</option>
+                                    </select>
+                                </td>`;
                         //$("#AanudanKokisim").val(item.AanudanKokisim);
                         //$("#SubsidyCategory").val(item.SubsidyCategory);
                         //$("#AnudanReceiverType").val(item.AnudanReceiverType);
@@ -390,6 +422,15 @@
                             AnudanReceiverTypeDDL.val(item.AnudanReceiverType);
                         }
 
+                        var SexDDL = $("#tabularEntry").find('tr:last select[name="Sex"]');
+                        if (SexDDL.find('option[value="' + item.Sex + '"]').length > 0) {
+                            SexDDL.val(item.Sex);
+                        }
+
+                        var EthinicGroupDDL = $("#tabularEntry").find('tr:last select[name="EthinicGroup"]');
+                        if (EthinicGroupDDL.find('option[value="' + item.EthinicGroup + '"]').length > 0) {
+                            EthinicGroupDDL.val(item.EthinicGroup);
+                        }
 
                     });
                     $("#tal").show();

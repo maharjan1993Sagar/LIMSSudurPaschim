@@ -124,10 +124,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var breeds = await _breedService.GetBreed();
             var breed = breeds.Where(m => m.Species.EnglishName.ToLower() == "fish").ToList();
-           
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", current.Id).ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.QuaterId = quater;
@@ -138,7 +141,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Month = months;
 
             ViewBag.BreedId = breed;
-            ViewBag.FiscalYearId = fiscalyear;
+            //ViewBag.FiscalYearId = fiscalyear;
 
             var type = BreedTypeHelper.GetBreedType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -246,8 +249,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var breeds = await _breedService.GetBreed();
             var breeda = breeds.Where(m => m.Species.EnglishName.ToLower() == "fish").ToList();
 
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -261,7 +267,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
             ViewBag.BreedId = breeda;
-            ViewBag.FiscalYearId = fiscalyear;
+           // ViewBag.FiscalYearId = fiscalyear;
 
             var type = BreedTypeHelper.GetBreedType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));

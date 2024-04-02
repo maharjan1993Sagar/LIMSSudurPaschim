@@ -3,17 +3,20 @@
     @if (Model.RowsPragatiVayeka.Count() > 0 )
     {
         <div class="text-center">
-            @Model.LocalLevel<br />
-            @Model.Level<br />
-            @Model.Address<br />
-            आ.ब. @Model.FiscalYear, @Model.Month महिनाको प्रगति विवरण<br />
+            <b>
+                @Model.LocalLevel<br />
+                @Model.Level<br />
+                @Model.Address<br />
+                आ.ब. @Model.FiscalYear, @Model.Month महिनासम्मको प्रगति प्रतिवेदन<br />
+            </b>
             @*<b>प्रगति भएका कार्यक्रमहरु</b>*@
         </div>
         <table class="table table-bordered">
             <thead>
                 <tr style="text-align:center">
-                    <th id="c">@T("Admin.Progress.SN")</th  >
+                    <th id="c">@T("Admin.Progress.SN")</th>
                     <th>@T("Admin.Progress.Title")</th>
+                    <th>@T("Admin.Progress.Month")</th>
                     <th>@T("Admin.Progress.VautikPragati")</th>
                     <th>@T("Admin.Progress.BitiyaPragati")</th>
                     <th>@T("Admin.Progress.Upalabdhiharu")</th>
@@ -22,22 +25,20 @@
 
             </thead>
             <tbody>
-                @{
-                    int serialNumber = 1;
-                }
+              
                 @if (Model.RowsPragatiVayeka.Count() > 0)
                 {
                     @foreach (var item in Model.RowsPragatiVayeka)
                     {
-                        <tr>
-                            <td>@serialNumber</td>
-                            <td>@item.BudgetTitle</td>
-                            <td>@item.VautikPragati</td>
-                            <td>@item.BitiyaPragati</td>
-                            <td>@Html.Raw(item.UpalbdiHaru)</td>
-                            <td>@Html.Raw(item.Remarks)</td>
-                        </tr>
-                        serialNumber++;
+                <tr>
+                    <td>@item.SN</td>
+                    <td>@item.BudgetTitle</td>
+                    <td>@item.Month</td>
+                    <td>@item.VautikPragati</td>
+                    <td>@item.BitiyaPragati</td>
+                    <td>@Html.Raw(item.UpalbdiHaru)</td>
+                    <td>@Html.Raw(item.Remarks)</td>
+                </tr>
                     }
                 }
             </tbody>

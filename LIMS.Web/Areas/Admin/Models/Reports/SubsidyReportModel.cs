@@ -81,6 +81,12 @@ namespace LIMS.Web.Areas.Admin.Models.Reports
         [LIMSResourceDisplayName("Admin.Subsidy.Upalabdhiharu")]
 
         public string Upalabdhiharu { get; set; }
+        [LIMSResourceDisplayName("Admin.Common.Gender")]
+
+        public string Sex { get; set; }
+        [LIMSResourceDisplayName("Admin.Common.EthnicGroup")]
+
+        public string EthnicGroup { get; set; }
     }
        
 }

@@ -117,13 +117,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             MonthHelper month = new MonthHelper();
             var months = month.GetMonths();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Months = months;
-            ViewBag.FiscalYearId = fiscalyear;
+           // ViewBag.FiscalYearId = fiscalyear;
 
             ViewBag.UnitId = unit;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();

@@ -179,7 +179,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
         public async Task<IActionResult> FiscalYearGraph() {
-            ViewBag.Fiscalyear = await _fiscalYearService.GetFiscalYear();
+            ViewBag.FiscalYearId = await _fiscalYearService.GetFiscalYear();
             var q = await _fiscalYearForGraphService.GetFiscalYear();
             if (q != null)
             {
@@ -211,7 +211,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 a.FiscalYear = fiscalyear;
                 await _fiscalYearForGraphService.InsertFiscalYear(a);
             }
-            ViewBag.Fiscalyear = await _fiscalYearService.GetFiscalYear();
+            ViewBag.FiscalYearId = await _fiscalYearService.GetFiscalYear();
             var q =await _fiscalYearForGraphService.GetFiscalYear();
             var r = q.ToModel();
             return View(r);

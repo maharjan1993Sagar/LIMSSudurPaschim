@@ -4,13 +4,14 @@ using LIMS.Domain.Data;
 using LIMS.Services.Events;
 using MediatR;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LIMS.Services.Breed
 {
-  public   class BreedService:IBreedService
+    public class BreedService : IBreedService
     {
         private readonly IRepository<BreedReg> _breedRegRepository;
         private readonly IMediator _mediator;
@@ -43,12 +44,17 @@ namespace LIMS.Services.Breed
         public async Task<List<BreedReg>> GetBreedBySpeciesId(string speciesId)
         {
             var filter = Builders<BreedReg>.Filter.Eq(x => x.Species.Id, speciesId);
-            return  _breedRegRepository.Collection.Find(filter).ToList();
+            return _breedRegRepository.Collection.Find(filter).ToList();
         }
         public async Task<List<BreedReg>> GetBreedByBreedType(string breedType)
         {
-            var filter = Builders<BreedReg>.Filter.Eq(x => x.Type, breedType);
-            return  _breedRegRepository.Collection.Find(filter).ToList();
+
+            var query = _breedRegRepository.Table;
+            if (!String.IsNullOrEmpty(breedType))
+            {
+                query = query.Where(m => m.Type == breedType);
+            }
+            return await PagedList<BreedReg>.Create(query, 0, int.MaxValue);
         }
 
         public async Task InsertBreed(BreedReg breedReg)
@@ -76,7 +82,7 @@ namespace LIMS.Services.Breed
             if (breedRegs == null)
                 throw new ArgumentNullException("BreedReg");
 
-            await _breedRegRepository.UpdateAsync(breedRegs);          
+            await _breedRegRepository.UpdateAsync(breedRegs);
         }
     }
 

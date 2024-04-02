@@ -1,0 +1,81 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Organization.FertilizerShopModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="showTable">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>@T("Admin.OtherOrganizationDetails.OrganizationName")</td>
+                        <td>@T("Admin.FertilizerShop.Fertilizer1")</td>
+                        <td>@T("Admin.FertilizerShop.Fertilizer2")</td>
+                        <td>@T("Admin.FertilizerShop.Fertilizer3")</td>
+                        <td>@T("Admin.FertilizerShop.FertilizerOther")</td>
+                        <td>@T("Admin.FertilizerShop.Remarks")</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var items in Model.Organization)
+                    {
+                    <tr>
+                        <td>
+                            @items.NameEnglish
+                            <input type="hidden" asp-for="OtherOrganizationId" value="@items.Id">
+                        </td>
+
+
+                        <td>
+                            <admin-input asp-for="Fertilizer1" />
+                        </td>
+                        <td>
+                            <admin-input asp-for="Fertilizer2" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Fertilizer3" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="FertilizerOther" />
+
+                        </td>
+                        <td>
+                            <admin-input asp-for="Remarks" />
+
+                        </td>
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <center>
+                <input type="submit" class="btn btn-success" />
+            </center>
+        </div>
+    </div>
+
+</form>
+
+

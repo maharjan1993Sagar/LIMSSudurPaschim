@@ -70,6 +70,9 @@ namespace LIMS.Web.Areas.Admin.Models.Reports
         [LIMSResourceDisplayName("Admin.Progress.Remarks")]
 
         public string Remarks { get; set; }
+        [LIMSResourceDisplayName("Admin.Common.Month")]
+
+        public string Month { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
     }

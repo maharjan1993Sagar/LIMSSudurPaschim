@@ -1,0 +1,154 @@
+﻿@model FertilizerDistributionModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-2 col-sm-3">
+                <div class="form-group">
+                    <admin-label asp-for="LocalLevel" />
+                    <input name="Locallevel1" value="@Model.LocalLevel" class="form-control" disabled />
+                    <input asp-for="LocalLevel" type="hidden" />
+                    <span asp-validation-for="LocalLevel"></span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-3">
+                <div class="form-group">
+                    <admin-label asp-for="Distributor" />
+                    <admin-input asp-for="Distributor" required="required"/>
+                    <span asp-validation-for="Distributor"></span>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="FertilizerType" />
+                    <input asp-for="FertilizerType" class="form-control autoComplete" data-type="Fertilizer Type" />
+                    <span asp-validation-for="FertilizerType"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="FiscalYearId" />
+                    <select asp-for="FiscalYearId" asp-items="@ViewBag.FiscalYearId" class="form-control"></select>
+                    <span asp-validation-for="FiscalYearId"></span>
+
+                </div>
+            </div>
+            @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+            </div>
+        </div>*@
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="EnglishDate" />
+                    <input asp-for="EnglishDate" class="form-control" type="date"/>
+                    <span asp-validation-for="EnglishDate"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="Quantity" />
+                    <admin-input asp-for="Quantity" />
+                    <span asp-validation-for="Quantity"></span>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="UnitId" />
+                    <select asp-for="UnitId" asp-items="@ViewBag.Units" class="form-control"></select>
+                    <span asp-validation-for="UnitId"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="FarmerName" />
+                    <admin-input asp-for="FarmerName" required="required" />
+                    <span asp-validation-for="FarmerName"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="CitizenshipNo" />
+                    <admin-input asp-for="CitizenshipNo" required="required" />
+                    <span asp-validation-for="CitizenshipNo"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="IssuedDate" />
+                    <input asp-for="IssuedDate" class="form-control nepaliDate" required="required"/>
+                    <span asp-validation-for="IssuedDate"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="IssuedDistrict" />
+                    <admin-input asp-for="IssuedDistrict" required="required" />
+                    <span asp-validation-for="IssuedDistrict"></span>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="PhoneNo" />
+                    <admin-input asp-for="PhoneNo"/>
+                    <span asp-validation-for="PhoneNo"></span>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <admin-label asp-for="Remarks" />
+                    <admin-input asp-for="Remarks" />
+                    <span asp-validation-for="Remarks"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div><script>
+    $(document).ready(function () {
+
+        $('.autoComplete').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/Anugaman/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $(this).val(),
+                                type: $(this).attr("data-type");
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's ID to the hidden textbox
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });
+    });
+</script>

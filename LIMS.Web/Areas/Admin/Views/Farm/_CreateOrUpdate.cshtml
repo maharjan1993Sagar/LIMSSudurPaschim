@@ -1,5 +1,7 @@
 ﻿@model LIMS.Web.Areas.Admin.Models.AInR.FarmModel
 <input type="hidden" asp-for="Id" />
+<input type="hidden" asp-for="District" />
+<input type="hidden" asp-for="LocalLevel" />
 <div class="form-row">
     <div class="col-md-2">
 
@@ -93,7 +95,7 @@
 
         <div class="form-group">
             <admin-label asp-for="LocalLevel" />
-            <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" required="required" disabled>
+            <select name="localLevel1" asp-items="@ViewBag.LocalLevels" class="form-control" disabled>
                 <option value="">select</option>
             </select>
             <span asp-validation-for="LocalLevel"></span>
@@ -136,8 +138,26 @@
 
         <div class="form-group">
             <admin-label asp-for="CitizenshipNo" />
-            <admin-input asp-for="CitizenshipNo" />
+            <input asp-for="CitizenshipNo" class="citizen form-control" />
             <span asp-validation-for="CitizenshipNo"></span>
+
+        </div>
+    </div>
+    <div class="col-md-2 nocooperative">
+
+        <div class="form-group">
+            <admin-label asp-for="IssueDate" />
+            <input asp-for="IssueDate" class="citizen form-control" />
+            <span asp-validation-for="IssueDate"></span>
+
+        </div>
+    </div>
+    <div class="col-md-2 nocooperative">
+
+        <div class="form-group">
+            <admin-label asp-for="IssueDistrict" />
+            <input asp-for="IssueDistrict" class="citizen form-control" />
+            <span asp-validation-for="IssueDistrict"></span>
 
         </div>
     </div>
@@ -201,7 +221,8 @@
 
         <div class="form-group">
             <admin-label asp-for="NatureOfWork" />
-            <admin-select asp-for="NatureOfWork" asp-items="ViewBag.NatureOfWork" />
+            <input asp-for="NatureOfWork" class="form-control" />
+            @* <admin-select asp-for="NatureOfWork" asp-items="ViewBag.NatureOfWork" />*@
             <span asp-validation-for="NatureOfWork"></span>
 
         </div>
@@ -216,7 +237,7 @@
 
         </div>
     </div>
-    <div class="col-md-2 farmeronly">
+    <div class="col-md-2 hide">
 
         <div class="form-group">
             <admin-label asp-for="FarmerEthnicity" />
@@ -316,19 +337,73 @@
 
         </div>
     </div>
-
-
-
     <div class="col-md-2 farmonly">
 
         <div class="form-group">
-            <admin-label asp-for="Pprs" /><br />
-            <input type="radio" class="radio" asp-for="Pprs" value="True" />Yes
-            <input type="radio" class="radio" asp-for="Pprs" value="False" />No
-            <span asp-validation-for="Pprs"></span>
+            <admin-label asp-for="LandOwnershipType" />
+            <admin-select asp-for="LandOwnershipType" asp-items="ViewBag.LandOwnershipType" />
+            <span asp-validation-for="LandOwnershipType"></span>
 
         </div>
     </div>
+    <div class="col-md-2 farmonly">
+
+        <div class="form-group">
+            <admin-label asp-for="LandAreaUnit" />
+            <admin-select asp-for="LandAreaUnit" asp-items="ViewBag.LandAreaUnit" />
+            <span asp-validation-for="LandAreaUnit"></span>
+
+        </div>
+    </div>
+    <div class="col-md-2 farmonlyOwn">
+
+        <div class="form-group">
+            <admin-label asp-for="Own" />
+            <admin-input asp-for="Own" />
+            <span asp-validation-for="Own"></span>
+
+        </div>
+    </div>
+    <div class="col-md-2 farmonlyLease">
+
+        <div class="form-group">
+            <admin-label asp-for="Lease" />
+            <admin-input asp-for="Lease" />
+            <span asp-validation-for="Lease"></span>
+
+        </div>
+    </div>
+    <div class="col-md-2 farmonly">
+
+        <div class="form-group">
+            <admin-label asp-for="MarketType" />
+            <admin-select asp-for="MarketType" asp-items="ViewBag.MarketType" />
+            <span asp-validation-for="MarketType"></span>
+
+        </div>
+    </div>
+    <div class="col-md-4 farmonly">
+
+        <div class="form-group">
+            <label id="lblMarketType"></label><admin-label asp-for="Buyer" />
+            <admin-input asp-for="Buyer" />
+            <span asp-validation-for="Buyer"></span>
+
+        </div>
+    </div>
+
+
+
+    @*<div class="col-md-2 farmonly">
+
+            <div class="form-group">
+                <admin-label asp-for="Pprs" /><br />
+                <input type="radio" class="radio" asp-for="Pprs" value="True" />Yes
+                <input type="radio" class="radio" asp-for="Pprs" value="False" />No
+                <span asp-validation-for="Pprs"></span>
+
+            </div>
+        </div>*@
 
 
 
@@ -338,7 +413,7 @@
     <div class="actions">
         <div class="btn-group btn-group-devided">
             <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
-            
+
         </div>
     </div>
 </center>
@@ -346,49 +421,136 @@
 
 <script>
     $(document).ready(function () {
-      
+
+        $(".hide").hide();
+        $(".farmonly").hide();
+        $(".farmonlyOwn").hide();
+        $(".farmonlyLease").hide();
+
+
+        $(".farmeronly").hide();
+        $(".cooperativeOnly").hide();
+        $(".nocooperative").hide();
+        $(".citizen").prop('required', false);
+        var category = $("#category").val();
+        var landOwnerShipType = $('@Html.IdFor(m=>m.LandOwnershipType)').val();
+        var marketType = $('@Html.IdFor(m=>m.MarketType)').val();
+        if (category == "farmer") {
+            $(".cooperativeOnly").hide();
+            $(".nocooperative").show();
             $(".farmonly").hide();
+            $(".farmonlyOwn").hide();
+            $(".farmonlyLease").hide();
+            $(".farmeronly").show();
+        }
+        if (category == "farm") {
+            $(".cooperativeOnly").hide();
+            $(".farmeronly").hide();
+            $(".farmonly").show();
+
+        }
+        if (category == "co-operative" || category == "groups") {
+            $(".farmonly").hide();
+            $(".farmonlyOwn").hide();
+            $(".farmonlyLease").hide();
+            $(".farmeronly").hide();
+            $(".nocooperative").hide();
+            $(".citizen").prop('required', false);
+            $(".cooperativeOnly").show();
+
+        }
+        if (category == "") {
+            $('.farmeronly input[type="text"]').val('');
+            $('.farmonly input[type="text"]').val('');
+            $('.farmonlyOwn input[type="text"]').val('');
+            $('.farmonlyLease input[type="text"]').val('');
+            $('.cooperativeOnly input[type="text"]').val('');
+            $(".farmonly").hide();
+            $(".farmonlyOwn").hide();
+            $(".farmonlyLease").hide();
+
             $(".farmeronly").hide();
             $(".cooperativeOnly").hide();
             $(".nocooperative").hide();
-            var category = $("#category").val();
-            if (category == "farmer") {
-                $(".cooperativeOnly").hide();
-                $(".farmonly").hide();
-                $(".farmeronly").show();
-            }
-            if (category == "farm") {
-                $(".cooperativeOnly").hide();
-                $(".farmeronly").hide();
-                $(".farmonly").show();
+            $(".citizen").prop('required', false);
 
-            }
-            if (category == "co-operative" || category == "groups") {
-                $(".farmonly").hide();
-                $(".farmeronly").hide();
-                $(".nocooperative").hide();
-                $(".cooperativeOnly").show();
+        }
 
+        //land Ownership Type
+        if (landOwnerShipType == "Own") {
+            $('.farmonlyOwn').show();
+            $('.farmonlyLease').hide();
+
+        }
+        else if (landOwnerShipType == "Lease") {
+            $('.farmonlyLease').show();
+            $('.farmonlyOwn').hide();
+
+        }
+        else if (landOwnerShipType == "Both") {
+            $('.farmonlyOwn').show();
+            $('.farmonlyLease').show();
+        }
+        else {
+            $('.farmonlyOwn').hide();
+            $('.farmonlyLease').hide();
+        }
+
+        //market type
+        if (marketType != "" && marketType != "Farm Gate") {
+            $("#lblMarketType").val("");
+            $("#lblMarketType").val(marketType);
+        }
+
+        $(document).on('change', '#@Html.IdFor(m=>m.LandOwnershipType)', function () {
+            var landOwnerShipType = $(this).val();
+
+            $('.farmonlyOwn').hide();
+            $('.farmonlyLease').hide();
+             //land Ownership Type
+             if (landOwnerShipType == "Own") {
+                 $('.farmonlyOwn').show();
+                 $('.farmonlyLease').hide();
+
+             }
+             else if (landOwnerShipType == "Lease") {
+                 $('.farmonlyLease').show();
+                 $('.farmonlyOwn').hide();
+
+             }
+             else if (landOwnerShipType == "Both") {
+                 $('.farmonlyOwn').show();
+                 $('.farmonlyLease').show();
+             }
+        })
+
+
+          $(document).on('change', '#@Html.IdFor(m=>m.MarketType)', function () {
+            var marketType = $(this).val();
+            $("#lblMarketType").html("");
+
+            if (marketType != "" && marketType != "Farm Gate") {
+                $("#lblMarketType").html(marketType);
             }
-            if (category == "") {
-                $('.farmeronly input[type="text"]').val('');
-                $('.farmonly input[type="text"]').val('');
-                $('.cooperativeOnly input[type="text"]').val('');
-                $(".farmonly").hide();
-                $(".farmeronly").hide();
-                $(".cooperativeOnly").hide();
-                $(".nocooperative").hide();
-            }
+        })
+
 
             $("#category").change(function () {
                 var category = $(this).val();
                 if (category == "farmer") {
                     $('.farmonly input[type="text"]').val('');
+                    $('.farmonlyOwn input[type="text"]').val('');
+                    $('.farmonlyLease input[type="text"]').val('');
                     $('.farmonly').find("select").prop('selectedIndex', 0);
                     $('.farmonly').find("radio").prop('checked', false);
                     $(".farmonly").hide();
+                    $(".farmonlyOwn").hide();
+                    $(".farmonlyLease").hide();
+
                     $(".farmeronly").show();
                     $(".nocooperative").show();
+                    $(".citizen").prop('required', true);
+
                 }
                 if (category == "farm") {
                     $('.farmeronly input[type="text"]').val('');
@@ -396,25 +558,76 @@
                     $(".farmeronly").hide();
                     $(".farmonly").show();
                     $(".nocooperative").show();
+                    $(".citizen").prop('required', true);
 
                 }
                 if (category == "co-operative" || category == "groups") {
                     $('.farmeronly input[type="text"]').val('');
                     $('.farmeronly').find("select").prop('selectedIndex', 0);
                     $('.farmonly input[type="text"]').val('');
+                    $('.farmonlyOwn input[type="text"]').val('');
+                    $('.farmonlyLease input[type="text"]').val('');
+
                     $('.farmonly').find("select").prop('selectedIndex', 0);
                     $(".farmonly").hide();
+                    $(".farmonlyOwn").hide();
+                    $(".farmonlyLease").hide();
+
                     $(".farmeronly").hide();
                     $(".nocooperative").hide();
+                    $(".citizen").prop('required', false);
                     $(".cooperativeOnly").show();
                 }
                 if (category == "") {
                     $(".farmonly").hide();
+                    $(".farmonlyOwn").hide();
+                    $(".farmonlyLease").hide();
+
                     $(".farmeronly").hide();
                     $(".cooperativeOnly").hide();
                     $(".nocooperative").hide();
+                    $(".citizen").prop('required', false);
                 }
             })
+
+
+
+        //AutoComplete
+         $('#@Html.IdFor(m=>m.NatureOfWork)').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/Anugaman/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $('#@Html.IdFor(m=>m.NatureOfWork)').val(),
+                                type: "Nature Of Work"
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });
 
 
 

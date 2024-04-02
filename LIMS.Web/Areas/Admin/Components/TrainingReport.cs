@@ -8,6 +8,7 @@ using LIMS.Services.Customers;
 using LIMS.Services.Localization;
 using LIMS.Services.LocalStructure;
 using LIMS.Services.MoAMAC;
+using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Breed;
 using LIMS.Web.Areas.Admin.Models.Reports;
 using Microsoft.AspNetCore.Mvc;
@@ -79,6 +80,7 @@ namespace LIMS.Web.Areas.Admin.Components
         #endregion ctor
         public async Task<IViewComponentResult> InvokeAsync(string fiscalyear, string budgetId, string locallevel, string xetra)
         {
+            
             var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
             string orgName = _workContext.CurrentCustomer.OrgName;
             string orgAddress = _workContext.CurrentCustomer.OrgAddress;
@@ -121,17 +123,17 @@ namespace LIMS.Web.Areas.Admin.Components
                     BudgetTitle = objTraining.Budget.ActivityName,
                     MainActivity = objTraining.Purpose,
                     Remarks = objTraining.Remarks,
-                    SN = i.ToString(),
-                    TrainingTitle = objTraining.Talim.NameNepali,
-                    StartDate = objTraining.StartDate.ToString(),
-                    EndDate = objTraining.EndDate.ToString(),
-                    Male = lstTraining.Sum(m=>Convert.ToInt32(m.Male??"0")).ToString(),
-                    Female = lstTraining.Sum(m => Convert.ToInt32(m.Male ?? "0")).ToString(),
-                    Dalit = lstTraining.Sum(m => Convert.ToInt32(m.Dalit ?? "0")).ToString(),
-                    Janajati = lstTraining.Sum(m => Convert.ToInt32(m.Janajati ?? "0")).ToString(),
-                    Others = lstTraining.Sum(m => Convert.ToInt32(m.Others ?? "0")).ToString(),
-                    Total =( lstTraining.Sum(m => Convert.ToInt32(m.Male ?? "0"))+ lstTraining.Sum(m => Convert.ToInt32(m.FeMale ?? "0"))).ToString(),
-                    TotalExpense = objTraining.TotalExpenses.ToString(),
+                    SN = ExecutionHelper.EnglishToNepali(i.ToString()),
+                    TrainingTitle = objTraining.Talim.NameNepali,                    
+                    StartDate = objTraining.StartDate.ToString("yyyy-MM-dd"),                    
+                    EndDate = objTraining.EndDate.ToString("yyyy-MM-dd"),
+                    Male = ExecutionHelper.EnglishToNepali(lstTraining.Sum(m=>Convert.ToInt32(m.Male??"0")).ToString()),
+                    Female = ExecutionHelper.EnglishToNepali(lstTraining.Sum(m => Convert.ToInt32(m.Male ?? "0")).ToString()),
+                    Dalit = ExecutionHelper.EnglishToNepali(lstTraining.Sum(m => Convert.ToInt32(m.Dalit ?? "0")).ToString()),
+                    Janajati = ExecutionHelper.EnglishToNepali(lstTraining.Sum(m => Convert.ToInt32(m.Janajati ?? "0")).ToString()),
+                    Others = ExecutionHelper.EnglishToNepali(lstTraining.Sum(m => Convert.ToInt32(m.Others ?? "0")).ToString()),
+                    Total = ExecutionHelper.EnglishToNepali(( lstTraining.Sum(m => Convert.ToInt32(m.Male ?? "0"))+ lstTraining.Sum(m => Convert.ToInt32(m.FeMale ?? "0"))).ToString()),
+                    TotalExpense =ExecutionHelper.EnglishToNepali(objTraining.TotalExpenses.ToString()),
                     Logistics = objTraining.Logistics,
                     Purpose = objTraining.Purpose,
                     Address = objTraining.Address

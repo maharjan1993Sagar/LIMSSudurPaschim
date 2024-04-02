@@ -71,8 +71,8 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                @*<input asp-for="LocalLevel" disabled="disabled" class="form-control"/>*@
-                                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" disabled>                                   
+                                <input asp-for="LocalLevel" type="hidden"/>
+                                <select name="LocalLevel1" asp-items="@ViewBag.LocalLevels" data-val="@Model.LocalLevel" class="form-control" disabled>                                   
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>

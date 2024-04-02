@@ -413,11 +413,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var District = col["District"].ToList();
             var Add = col["Address"].ToList();
-            var Male = col["MaleMember"].ToList();
-            var Female = col["FemaleMember"].ToList();
-            var Dalit = col["DalitMember"].ToList();
-            var Janajati = col["JanajatiMember"].ToList();
-            var Others = col["Others"].ToList();           
+            //var Male = col["MaleMember"].ToList();
+            //var Female = col["FemaleMember"].ToList();
+            //var Dalit = col["DalitMember"].ToList();
+            //var Janajati = col["JanajatiMember"].ToList();
+            //var Others = col["Others"].ToList();           
+            var Sex = col["Sex"].ToList();
+            var EthinicGroup = col["EthinicGroup"].ToList();
             var Name = col["KrishakKoName"].ToList();
             var Address = col["LocalLevel"].ToList();
             var Phone = col["PhoneNo"].ToList();
@@ -454,18 +456,20 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 farm.PhoneNo = Phone[i];
                 farm.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
                 farm.Ward = Ward[i];
-                farm.MaleMember = Convert.ToInt32(Male[i]);
-                farm.FemaleMember = Convert.ToInt32(Female[i]);
-                farm.DalitMember = Convert.ToInt32(Dalit[i]);
-                farm.JanajatiMember = Convert.ToInt32(Janajati[i]);
-                farm.Others = Convert.ToInt32(Others[i]);
+                farm.MaleMember = Sex[i] == "Male" ? 1 : 0;
+                farm.FemaleMember = Sex[i] == "Female" ? 1 : 0;
+                farm.DalitMember = EthinicGroup[i] == "Dalit" ? 1 : 0;
+                farm.JanajatiMember = EthinicGroup[i] == "Janajati" ? 1 : 0;
+                farm.Others = EthinicGroup[i] == "Anya" ? 1 : 0;
                 farm.SubsidyCategory = subsidycategory[i];               
                 farm.AanudanKokisim = category[i];              
                 farm.AnudanReceiverType = AnudanReceiverType[i];
                 farm.AanudanRakam = Convert.ToDecimal(AanudanRakam[i]);
                 farm.FarmerContribution = Convert.ToDecimal(FarmerContribution[i]);
                 farm.Address = Add[i];
-               
+                farm.Sex = Sex[i];
+                farm.EthinicGroup = EthinicGroup[i];
+
 
                 if (!string.IsNullOrEmpty(LivestockDataId[i]))
                 {
@@ -503,8 +507,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-           
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
@@ -543,9 +549,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             var createdby = _workContext.CurrentCustomer.Id;
             var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
             incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -653,9 +663,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Sex = sex;
 
 
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;

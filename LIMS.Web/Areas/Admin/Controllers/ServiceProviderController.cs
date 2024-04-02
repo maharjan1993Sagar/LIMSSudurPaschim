@@ -96,7 +96,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.provience = provience;
             var serviceProviderType = new List<SelectListItem> {
                 new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
+                new SelectListItem { Text = "Agri-graduate", Value = "Agri-graduate" },
                 new SelectListItem { Text = "Para-professional", Value = "Para-professional" },
+                new SelectListItem { Text = "Gramin Krishi Karyakarta", Value = "Gramin Krishi Karyakarta" },
+                new SelectListItem { Text = "Others", Value = "Others" },
             };
             serviceProviderType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
@@ -229,8 +232,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             ViewBag.Type = type;
             var serviceProviderType = new List<SelectListItem> {
-                new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
+                  new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
+                new SelectListItem { Text = "Agri-graduate", Value = "Agri-graduate" },
                 new SelectListItem { Text = "Para-professional", Value = "Para-professional" },
+                new SelectListItem { Text = "Gramin Krishi Karyakarta", Value = "Gramin Krishi Karyakarta" },
+                new SelectListItem { Text = "Others", Value = "Others" },
             };
             serviceProviderType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
@@ -270,8 +276,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             var serviceProviderType = new List<SelectListItem> {
-                new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
+                  new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
+                new SelectListItem { Text = "Agri-graduate", Value = "Agri-graduate" },
                 new SelectListItem { Text = "Para-professional", Value = "Para-professional" },
+                new SelectListItem { Text = "Gramin Krishi Karyakarta", Value = "Gramin Krishi Karyakarta" },
+                new SelectListItem { Text = "Others", Value = "Others" },
             };
             serviceProviderType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             var type = new List<SelectListItem> {
@@ -367,8 +376,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return RedirectToAction("List");
             }
             var serviceProviderType = new List<SelectListItem> {
-                new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
+                  new SelectListItem { Text = "Vet-graduate", Value = "Vet-graduate" },
+                new SelectListItem { Text = "Agri-graduate", Value = "Agri-graduate" },
                 new SelectListItem { Text = "Para-professional", Value = "Para-professional" },
+                new SelectListItem { Text = "Gramin Krishi Karyakarta", Value = "Gramin Krishi Karyakarta" },
+                new SelectListItem { Text = "Others", Value = "Others" },
             };
             serviceProviderType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 

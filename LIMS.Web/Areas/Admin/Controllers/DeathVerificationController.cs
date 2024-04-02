@@ -1,4 +1,5 @@
 ﻿using LIMS.Core;
+using LIMS.Domain.BasicSetup;
 using LIMS.Domain.Organizations;
 using LIMS.Framework.Kendoui;
 using LIMS.Framework.Mvc.Filters;
@@ -85,7 +86,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
@@ -110,7 +113,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
@@ -119,9 +124,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             wardSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Ward = new SelectList(wardSelect, "Value", "Text");
 
-            var breedSelect = new SelectList(await _livestockBreedService.GetBreed(), "Id", "EnglishName").ToList();
-            breedSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Breed = breedSelect;
+            //var breedSelect = new SelectList(await _livestockBreedService.GetBreed(), "Id", "EnglishName").ToList();
+            //breedSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.Breed = breedSelect;
 
             var speciesSelect = new SelectList(await _livestockSpeciesService.GetBreed(), "Id", "EnglishName").ToList();
             speciesSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -155,6 +160,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     DeathVerification.Organization = await _otherOrganizationService.GetOtherOrganizationById(DeathVerification.OrganizationId);
                 }
 
+                await CreateCategoryByName(DeathVerification.CauseOfDeath,"Cause Of Death");
+                await CreateCategoryByName(DeathVerification.Designation,"Designation");
+                await CreateCategoryByName(DeathVerification.InsuranceCompany,"Insurance Company");
+
                 DeathVerification.CreatedBy = _workContext.CurrentCustomer.Id;
                 DeathVerification.CreatedAt = DateTime.Now;
 
@@ -164,7 +173,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return continueEditing ? RedirectToAction("Edit", new { id = DeathVerification.Id }) : RedirectToAction("Index");
             }
 
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
@@ -173,9 +184,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             wardSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Ward = new SelectList(wardSelect, "Value", "Text");
 
-            var breedSelect = new SelectList(await _livestockBreedService.GetBreed(), "Id", "EnglishName").ToList();
-            breedSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Breed = breedSelect;
+            //var breedSelect = new SelectList(await _livestockBreedService.GetBreed(), "Id", "EnglishName").ToList();
+            //breedSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.Breed = breedSelect;
 
             var speciesSelect = new SelectList(await _livestockSpeciesService.GetBreed(), "Id", "EnglishName").ToList();
             speciesSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -186,6 +197,24 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.FirmRegister = new SelectList(firmRegister, "Value", "Text");
 
             return View(model);
+        }
+
+        public async Task CreateCategoryByName(string term, string type)
+        {
+            var category = await _CategoryService.GetCategoryByNameType(term, type);
+
+          
+            if(category == null )
+            {
+                var newCat = new Category {
+                    NameEnglish = term.Trim(),
+                    NameNepali = term.Trim(),
+                    Type = type.Trim()
+                };
+
+                await _CategoryService.InsertCategory(newCat);
+            }
+
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -203,7 +232,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
@@ -243,6 +274,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     m.Organization = await _otherOrganizationService.GetOtherOrganizationById(DeathVerification.OrganizationId);
                 }
 
+                await CreateCategoryByName(DeathVerification.CauseOfDeath, "Cause Of Death");
+                await CreateCategoryByName(DeathVerification.Designation, "Designation");
+                await CreateCategoryByName(DeathVerification.InsuranceCompany, "Insurance Company");
+
                 m.CreatedBy = _workContext.CurrentCustomer.Id;
                 m.CreatedAt = DateTime.Now;
 
@@ -259,7 +294,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
@@ -338,6 +375,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 return View(model);
             }
 
+        }
+
+        public async Task<ActionResult> GetBreedBySpecies(string species = "")
+        {
+            var breed = await _breedService.GetBreedBySpeciesId(species);
+
+            return Json(breed);
         }
         //public virtual async Task<IActionResult> CategoryAutoComplete(string term, string type)
         //{

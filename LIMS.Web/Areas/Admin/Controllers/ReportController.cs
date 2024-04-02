@@ -101,9 +101,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LivestockReport()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Species = species;
@@ -121,9 +123,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> LivestockReportNepali()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             string entityId = _workContext.CurrentCustomer.EntityId;
             var LssIds = new List<Lss>();
 
@@ -144,9 +148,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> SubsidyReportNepali()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             string entityId = _workContext.CurrentCustomer.EntityId;
             var LssIds = new List<Lss>();
 
@@ -177,9 +183,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> OrgwiseSubsidyReportNepali()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             string entityId = _workContext.CurrentCustomer.EntityId;
             var LssIds = new List<Lss>();
 
@@ -211,9 +219,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LivestockReportDolfd()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             string entityId = _workContext.CurrentCustomer.EntityId;
             List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
 
@@ -230,7 +240,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             string entityId = "610769807e6b0bcd5beed52c";
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",f.Id).ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            ViewBag.FiscalYearId = fiscalyear;
           
             List<Vhlsec> dolfdid = _vhlsecService.GetVhlsecByDolfdId(entityId).Result.ToList();
 
@@ -272,10 +282,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> TrainingReport()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
-            
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -306,9 +318,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> SubsidyReport()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
@@ -338,10 +352,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> ProgressReport()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
-           
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
 
             var month = new MonthHelper();
@@ -410,9 +426,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> TrainingDetailReport()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
@@ -442,9 +460,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> SubsidyDetailReport()
         {
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYear = fiscalyear;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
 
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
@@ -468,6 +488,59 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View(model);
 
 
+        }
+        public async Task<IActionResult> AgricultureCoOperativeReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var model = new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        [HttpPost]
+        public virtual IActionResult AgricultureCoOperativeReportHtml(string FiscalYear)
+        {
+
+            var livestockWardWiseReportHtml = RenderViewComponentToString("AgricultureCoOperativeReport", new { fiscalyear = FiscalYear});
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.AgricultureCoOperativeReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        public async Task<IActionResult> FertilizerShopReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var model = new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        [HttpPost]
+        public virtual IActionResult FertilizerShopReportHtml(string FiscalYear)
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("FertilizerShopReport", new { fiscalyear = FiscalYear});
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.FertilizerShopReport.Success")),
+                livestockWardWiseReportHtml
+            });
         }
         [HttpPost]
         public virtual IActionResult TrainingDetailReportHtml(string FiscalYear, string BudgetId, string LocalLevel = "",string xetra="",string talimId="")

@@ -121,8 +121,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species=species.Where(m => m.Text.ToLower() == "cow" || m.Text.ToLower() == "buffalo" || m.Text.ToLower() == "goat").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             var quater = QuaterHelper.GetQuater();
             quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             var ServicesType = new List<SelectListItem>() {
@@ -152,7 +155,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             ViewBag.QuaterId = quater;
             ViewBag.SpeciesId = species;
-            ViewBag.FiscalYearId = fiscalyear;
+            //ViewBag.FiscalYearId = fiscalyear;
 
             ViewBag.UnitId = unit;
             var vaccination = new SelectList(await _vaccinationService.FiletrVaccinationType("Vaccine"), "Id", "MedicalName").ToList();

@@ -20,7 +20,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <admin-label asp-for="Fiscalyear" />
-                                        <admin-select asp-for="Fiscalyear" asp-items="@ViewBag.FiscalYear"/>
+                                        <admin-select asp-for="Fiscalyear" asp-items="@ViewBag.FiscalYearId"/>
 
                                         <span asp-validation-for="Fiscalyear"></span>
                                     </div>
@@ -45,7 +45,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <admin-label asp-for="LocalLevel" />
-                                        <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels"  class="form-control" required="required" disabled>
+                                        <input type="hidden" asp-for="LocalLevel" />
+                                        <select name="LocalLevel1" asp-items="@ViewBag.LocalLevels"  class="form-control" required="required" disabled>
                                             <option value="">select</option>
                                         </select>
                                         <span asp-validation-for="LocalLevel"></span>

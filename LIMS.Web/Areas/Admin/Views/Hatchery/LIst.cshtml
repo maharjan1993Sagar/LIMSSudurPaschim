@@ -68,12 +68,12 @@
                         <!-- <i class="fa fa-comment"></i>-->
                         @T("Admin.Hatchery.List")
                     </div>
-                    @if (roles.Contains("LssAdmin") || roles.Contains("LssUser") || roles.Contains("VhlsecUser") || roles.Contains("VhlsecUser"))
-                    {
+                    @*@if (roles.Contains("LssAdmin") || roles.Contains("LssUser") || roles.Contains("VhlsecUser") || roles.Contains("VhlsecUser"))
+                    {*@
                     <div class="actions btn-group btn-group-devided">
                         <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
                     </div>
-                    }
+                   @* }*@
                 </div>
                 <div class="x_content form">
                     <div class="form-inline">

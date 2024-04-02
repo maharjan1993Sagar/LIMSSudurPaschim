@@ -11,6 +11,15 @@ namespace LIMS.Web.Areas.Admin.Helper
         public static List<SelectListItem> GetOrganizationType()
         {
             return new List<SelectListItem>() {
+                  new SelectListItem {
+                        Text="Fertilizer Shop",
+                        Value="Fertilizer Shop",
+                    },
+                
+                    new SelectListItem {
+                        Text="Agriculture CoOperative",
+                        Value="Agriculture CoOperative",
+                    },
 
                      new SelectListItem {
                         Text="Hatchery",

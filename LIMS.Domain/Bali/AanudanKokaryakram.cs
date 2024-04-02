@@ -1,4 +1,5 @@
-﻿using LIMS.Domain.BesicSetup;
+﻿using LIMS.Domain.AInR;
+using LIMS.Domain.BesicSetup;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,8 @@ namespace LIMS.Domain.Bali
         public string BudgetId { get; set; }
         public FiscalYear FiscalYear { get; set; }
         public string FiscalyearId { get; set; }
+        public string FarmId { get; set; }
+        public Farm Farm { get; set; }
         public string KrishakKoName { get; set; }
         public string PhoneNo { get; set; }
         public string Sex { get; set; }

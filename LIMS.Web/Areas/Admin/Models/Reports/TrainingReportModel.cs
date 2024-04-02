@@ -63,6 +63,7 @@ namespace LIMS.Web.Areas.Admin.Models.Reports
         [LIMSResourceDisplayName("Admin.Common.EndDate")]
 
         public string EndDate { get; set; }
+
         [LIMSResourceDisplayName("Admin.Common.Male")]
 
         public string Male { get; set; }

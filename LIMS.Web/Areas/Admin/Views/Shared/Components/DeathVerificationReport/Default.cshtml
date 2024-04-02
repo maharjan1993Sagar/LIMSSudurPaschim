@@ -33,7 +33,7 @@
             @Model.DeathVerification.InsuranceCompanyAddress
         </div>
         <div class="col-md-12">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; प्रस्तुत विषयमा @Model.DeathVerification.LocalLevel का वडा नं. @Model.DeathVerification.WardNo मा रहेको अयाशं पशुपालन फर्मका @Model.DeathVerification.FarmerName ले तहाँ कार्यालयमा दर्ता गरी पालेको तपसिल बमोजिमको @Model.DeathVerification.LivestockSpecies.NepaliName मृत्यु भएको व्यहोरा प्रमाणित गरिन्छ |
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; प्रस्तुत विषयमा @Model.DeathVerification.LocalLevel का वडा नं. @Model.DeathVerification.WardNo मा रहेको @(Model.DeathVerification.OrganizationName+ (!String.IsNullOrEmpty(Model.DeathVerification.OrganizationName)?"का":"")) @Model.DeathVerification.FarmerName ले तहाँ कार्यालयमा दर्ता गरी पालेको तपसिल बमोजिमको @Model.DeathVerification.LivestockSpecies.NepaliName मृत्यु भएको व्यहोरा प्रमाणित गरिन्छ |
 
         </div>
         <div class="col-md-12 text-left">
@@ -44,7 +44,7 @@
             रङ्ग : @Model.DeathVerification.Color <br />
             उचाई : @Model.DeathVerification.Height<br />
             विमलेखा नं. : @Model.DeathVerification.InsuranceNo<br />
-            सिफारिस व्यक्ति : @Model.DeathVerification.InsuranceCompany<br />
+            विमा गर्ने कम्पनीको नाम : @Model.DeathVerification.InsuranceCompany<br />
             कारण : @Model.DeathVerification.CauseOfDeath<br />
             विमाकं रकम : @Model.DeathVerification.InsuranceAmount<br />
             मृत्यु भएको मिति: @Model.DeathVerification.DeathDate<br />

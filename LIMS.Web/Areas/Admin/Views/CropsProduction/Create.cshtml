@@ -30,7 +30,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYearId" />
-                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getLivestockData()" required="required" />
+                                <select asp-for="FiscalYearId" class="form-control" asp-items="@ViewBag.FiscalYearId" onchange="getLivestockData()" required="required" ></select>
                                 <span asp-validation-for="FiscalYearId"></span>
                             </div>
                         </div>
@@ -39,8 +39,10 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" onchange="getLivestockData()" class="form-control" disabled>
-                                 </select>
+                                <input name="LocalLevel1" value="@Model.LocalLevel" class="form-control" readonly/>
+                                <input type="hidden" asp-for="LocalLevel" />
+                                @*<select id="locallevel" name="LocalLevel" data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" onchange="getLivestockData()" class="form-control" disabled>
+                                 </select>*@
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>
                         </div>
@@ -157,8 +159,8 @@
     function getLivestockData() {
         var data = {
             fiscalYearId: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
-            district:'',// $('#district').val(),
-            locallevel: $('#locallevel').val(),
+            district: '',// $('#district').val(),
+            locallevel: $('#@Html.IdFor(m=>m.LocalLevel)').val(),
             ward: $('#@Html.IdFor(m=>m.Ward)').val(),
 
         };

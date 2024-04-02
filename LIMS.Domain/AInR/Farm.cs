@@ -21,6 +21,8 @@ namespace LIMS.Domain.AInR
         public string RegNo { get; set; }
         public string PanNO { get; set; }
         public string CitizenshipNo { get; set; }
+        public string IssueDate { get; set; }
+        public string IssueDistrict { get; set; }
         public string RegisteredDate { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
@@ -58,7 +60,13 @@ namespace LIMS.Domain.AInR
         public string NoOfMember { get; set; }
         public string NoOfDalitMember { get; set; }
         public string NoOfFemaleMember { get; set; }
-      
+
+        public string LandOwnershipType { get; set; }
+        public decimal Own { get; set; }
+        public decimal Lease { get; set; }
+        public string LandAreaUnit { get; set; }
+        public string MarketType { get; set; }
+        public string Buyer { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of FarmPicture

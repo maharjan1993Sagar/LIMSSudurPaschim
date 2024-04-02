@@ -1,0 +1,132 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Organization.AgricultureCoOperativeModel
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="actions">
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+                <div class="x_content form">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FiscalYearId" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <span asp-validation-for="FiscalYearId"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="showTable">
+            <table class="table table-bordered tblData">
+                <thead>
+                    <tr>
+                        <td>@T("Admin.OtherOrganizationDetails.OrganizationName")</td>
+                        <td>@T("Admin.AgricultureCoOperative.MaleMembers")</td>
+                        <td>@T("Admin.AgricultureCoOperative.FemaleMembers")</td>
+                        <td>@T("Admin.AgricultureCoOperative.OthersMembers")</td>
+                        <td>@T("Admin.AgricultureCoOperative.Remarks")</td>
+
+                    </tr>
+                </thead>
+                <tbody id="tabularEntry">
+                    @foreach (var items in Model.AllOrganization)
+                    {
+                        <tr>
+                            <td>
+                                @items.OtherOrganization.NameEnglish
+                                <input type="hidden" asp-for="OtherOrganizationId" value="@items.OtherOrganizationId">
+                                <input type="hidden" name="Id" value="@items.Id">
+                            </td>
+
+                            <td>
+                                <admin-input asp-for="MaleMembers" />
+                            </td>
+                            <td>
+                                <admin-input asp-for="FemaleMembers" />
+
+                            </td>
+                            <td>
+                                <admin-input asp-for="OthersMembers" />
+
+                            </td>
+                            <td>
+                                <admin-input asp-for="Remarks" />
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody >
+            </table>
+            <center>
+                <input type="submit" class="btn btn-success" />
+            </center>
+        </div>
+    </div>
+
+</form>
+
+<script>
+       $(document).ready(function () {
+
+         var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+         data = {
+                 fiscalyear: fiscalyear
+           }
+
+
+
+            $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
+                        var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+                        data = {
+                            fiscalyear: fiscalyear
+                        }
+                        if (fiscalyear) {
+                            abc(data);
+                        }
+            });
+
+
+    });
+
+
+    function abc(data) {
+        $(tabularEntry).html("");
+        if (data.fiscalyear ) { 
+            $.post("@Url.Action("GetByFiscalYear", "AgricultureCoOperative")", addAntiForgeryToken(data), function (result) {
+                if (result.length > 0) {
+                   
+                    $.each(result, function (index, item) {
+                        var tableRow =`<tr><td>`+item.OtherOrganization.NameEnglish+`<input type="hidden" name="OtherOrganizationId" value="`+item.OtherOrganizationId+`">
+                                    <input type="hidden" name="Id" value="`+item.Id+`">
+                                     </td>
+                                    <td><input name="MaleMembers" class="form-control" type="Number" value="`+item.MaleMembers+`" /></td>
+                                    <td><input name="FemaleMembers" class="form-control" type="Number" value="`+ item.FemaleMembers + `" /></td>
+                                    <td><input name="OthersMembers" class="form-control" type="Number" value="`+ item.OtherMembers +`" /></td>
+                                    <td><input name="Remarks" class="form-control"s value="`+item.Remarks+`" /></td>`
+
+                        $(tabularEntry).append(tableRow);
+
+                    }); 
+                }
+                    else {
+                    alert("No record found.");
+
+                    }
+
+
+            });
+        }
+
+    }
+  
+</script>
+
