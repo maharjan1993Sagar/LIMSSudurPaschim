@@ -76,9 +76,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var fiscalYear = model.ToEntity();
-                if(model.CurrentFiscalYear==true)
+                if (model.CurrentFiscalYear == true)
                 {
-                   
+
                     var fiscalYears = await _fiscalYearService.GetCurrentFiscalYear();
                     if (fiscalYears != null)
                     {
@@ -175,6 +175,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> FiscalYearList()
         {
             var fiscalYears = await _fiscalYearService.GetFiscalYear();
+            return Json(fiscalYears);
+        }
+        public async Task<IActionResult> GetCurrFiscalYear()
+        {
+            var fiscalYears = await _fiscalYearService.GetCurrentFiscalYear();
             return Json(fiscalYears);
         }
 

@@ -1,7 +1,7 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @{
     //page title
-    ViewBag.Title = "FertilizerDistribution";
+    ViewBag.Title = "DeathVerification";
 }
 @model FarmListModel
 <div class="row">
@@ -10,11 +10,11 @@
             <div class="x_title">
                 <div class="caption">
                     <i class="fa fa-comment"></i>
-                    @T("Admin.FertilizerDistribution.LIST")
+                    @T("Admin.DeathVerification.LIST")
                 </div>
-                <div class="actions btn-group btn-group-devided">
+                @*<div class="actions btn-group btn-group-devided">
                     <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
-                </div>
+                </div>*@
             </div>
             <div class="x_content form">
                 <div class="form-horizontal">
@@ -73,7 +73,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@Html.Raw(Url.Action("List", "FertilizerDistribution"))",
+                        url: "@Html.Raw(Url.Action("List", "DeathVerification"))",
                         type: "POST",
                         dataType: "json",
                         data: additionalData
@@ -105,43 +105,42 @@
             scrollable: false,
             columns: [
                 {
-                    field: "Distributor",
-                    title: "@T("Admin.FertilizerDistribution.Distributor")",
+                    field: "FarmerName",
+                    title: "@T("Admin.DeathVerification.FarmerName")",
                     width: 400,
-                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=Distributor#</a>',
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=FarmerName#</a>',
 
                 },
                  {
-                    field: "FertilizerType",
-                        title: "@T("Admin.FertilizerDistribution.FertilizerType")",
+                    field: "OrganizationName",
+                        title: "@T("Admin.DeathVerification.OrganizationName")",
                           width: 400
 
                 },
-
+                
                  {
-                    field: "Quantity",
-                        title: "@T("Admin.FertilizerDistribution.Quantity")",
+                     field: "LivestockSpecies.EnglishName",
+                        title: "@T("Admin.DeathVerification.LivestockSpeciesId")",
                           width: 400
 
                 },
                 {
-                    field: "Unit.UnitNameEnglish",
-                        title: "@T("Admin.FertilizerDistribution.UnitNameEnglish")",
+                    field: "LivestockBreed.EnglishName",
+                        title: "@T("Admin.DeathVerification.LivestockBreedId")",
                           width: 400
 
                 },
-                 {
-                    field: "FarmerName",
-                        title: "@T("Admin.FertilizerDistribution.FarmerName")",
+                     
+                        {
+                          field: "CauseOfDeath",
+                        title: "@T("Admin.DeathVerification.CauseOfDeath")",
                           width: 400
-
                 },
-                 {
-                    field: "Remarks",
-                        title: "@T("Admin.FertilizerDistribution.Remarks")",
-                          width: 400
-
+                {
+                    title: "",
+                    template: "<a target='_blank' href='Report/#=Id#'>Download Report</a> <a target='_blank' href='Upload/#=Id#'>Upload Document</a>"
                 },
+
             ]
 
         });

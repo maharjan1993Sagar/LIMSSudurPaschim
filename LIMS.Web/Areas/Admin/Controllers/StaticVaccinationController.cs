@@ -7,6 +7,7 @@ using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
 using LIMS.Services.Statisticaldata;
@@ -39,6 +40,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly ICustomerService _customerService;
         public readonly IFarmService _farmService;
         public readonly IServiceProviderService _serviceProvider;
+        public readonly ILocalLevelService _localLevelService;
 
         public readonly IVaccinationTypeService _vaccinationService;
         #endregion fields
@@ -54,7 +56,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
               ICustomerService customerService,
               IFarmService farmService,
                IVaccinationTypeService vaccinationService,
-               IServiceProviderService serviceProvider
+               IServiceProviderService serviceProvider,
+               ILocalLevelService localLevelService
             )
         {
             _localizationService = localizationService;
@@ -69,6 +72,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _farmService = farmService;
             _vaccinationService = vaccinationService;
             _serviceProvider = serviceProvider;
+            _localLevelService = localLevelService;
         }
         #endregion ctor
         #region service
@@ -81,12 +85,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //var ids = createdbys.Select(m => m.Id).ToList();
 
              FarmListModel currentfiscal = new FarmListModel();
+            
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             currentfiscal.CurrentFiscalYear = fiscalyear.Id;
             var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
-
-            ViewBag.fiscalyear = dropdownitem;
+            ViewBag.FiscalYearId = dropdownitem;
 
 
             var specie = await _speciesService.GetSpecies();
@@ -111,6 +115,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command, string Fiscalyear, string Month, string SpeciesId )
         {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
+            ViewBag.FiscalYearId = dropdownitem;
+
             string user = _workContext.CurrentCustomer.Id;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             string createdby = null;
@@ -124,7 +133,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 var admin = await _customerService.GetCustomerByEmail(adminemail);
                 createdby = adminemail;
             }
-            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+           // var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             var CurrentFiscalYear = fiscalyear.Id;
             var service = (dynamic)null;
             if (Fiscalyear != null)
@@ -150,9 +159,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            var createdby = _workContext.CurrentCustomer.EntityId;
-            var createdbys = _customerService.GetCustomerByLssId(null, createdby);
-            var ids = createdbys.Select(m => m.Id).ToList();
+            //var createdby = _workContext.CurrentCustomer.EntityId;
+            //var createdbys = _customerService.GetCustomerByLssId(null, createdby);
+            //var ids = createdbys.Select(m => m.Id).ToList();
 
 
             var tex = new SelectList(await _serviceProvider.GetServiceProvider(), "Id", "NameEnglish").ToList();
@@ -174,12 +183,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();           
+            var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
+            ViewBag.FiscalYearId = dropdownitem;
 
             ViewBag.SpeciesId = species;
-            ViewBag.FiscalYearId = fiscalyear;
-
+           
             ViewBag.UnitId = unit;
             var vaccination = new SelectList(await _vaccinationService.FiletrVaccinationType("Vaccine"), "Id", "MedicalName").ToList();
             vaccination.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -191,6 +202,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ward.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             ViewBag.Ward = ward;
+
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             ServicesModel model = new ServicesModel();
             model.Provience = _workContext.CurrentCustomer.Province;
             model.District = _workContext.CurrentCustomer.District;
@@ -202,6 +219,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ServicesModel model, IFormCollection form)
         {
+            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
+            ViewBag.FiscalYearId = dropdownitem;
+
             var speciesids = form["SpeciesId"].ToList();
           
             var quantities = form["Quantity"].ToList();

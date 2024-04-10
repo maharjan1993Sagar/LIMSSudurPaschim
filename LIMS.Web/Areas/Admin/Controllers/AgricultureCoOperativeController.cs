@@ -79,7 +79,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
             var currFiscalYear = await _fiscalYearService.GetCurrentFiscalYear();
-            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",currFiscalYear.NepaliFiscalYear).ToList();
+            var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", currFiscalYear.Id).ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalyear;
           

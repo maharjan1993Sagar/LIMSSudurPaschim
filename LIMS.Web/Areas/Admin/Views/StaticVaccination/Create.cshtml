@@ -20,64 +20,36 @@
                 <div class="x_content form">
                     <div class="form-row">
 
-
-
-
-
-                        <div class="col-md-2" >
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Vaccination" />
                                 <admin-select asp-for="Vaccination" asp-items="ViewBag.VaccinationId" onchange="getServiceData()" />
                                 <span asp-validation-for="Vaccination"></span>
                             </div>
                         </div>
-                        @if (roles.Contains("LssAdmin") || roles.Contains("VhlsecUser"))
-                        {
-                            @Html.HiddenFor(m => m.LocalLevel)
+                       
                             @Html.HiddenFor(m => m.Provience)
                             @Html.HiddenFor(m => m.District)
-
-                        }
-                        else
-                        {
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <admin-label asp-for="Provience" />
-                                    <admin-select asp-for="Provience" data-val="@Model.Provience" id="country" required>
-                                        <option value="">Select </option>
-                                    </admin-select>
-                                    <span asp-validation-for="Provience"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <admin-label asp-for="District" />
-                                    <select id="district" name="District" class="form-control" required>
-                                        <option value="">Select </option>
-                                    </select>
-                                    <span asp-validation-for="District"></span>
-                                </div>
-                            </div>
+                            
 
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <admin-label asp-for="LocalLevel" />
-                                    <select id="locallevel" name="LocalLevel" class="form-control" required>
-                                        <option value="">Select</option>
-                                    </select>
+                                    <select asp-for="LocalLevel" asp-items="ViewBag.LocalLevels" class="form-control" required>
+                                        </select>
                                     <span asp-validation-for="LocalLevel"></span>
                                 </div>
                             </div>
-                        }
+                        
 
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYear" />
-                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" onchange="getServiceData()" required="required" />
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" onchange="getServiceData()" required="required" ></admin-select>
                                 <span asp-validation-for="FiscalYear"></span>
                             </div>
                         </div>
-                       
+
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="Month" />
@@ -85,7 +57,7 @@
                                 <span asp-validation-for="Month"></span>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div id="showTable">

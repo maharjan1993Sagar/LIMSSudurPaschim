@@ -96,7 +96,6 @@
         <div class="form-group">
             <admin-label asp-for="LocalLevel" />
             <select name="localLevel1" asp-items="@ViewBag.LocalLevels" class="form-control" disabled>
-                <option value="">select</option>
             </select>
             <span asp-validation-for="LocalLevel"></span>
 
@@ -147,7 +146,7 @@
 
         <div class="form-group">
             <admin-label asp-for="IssueDate" />
-            <input asp-for="IssueDate" class="citizen form-control" />
+            <input asp-for="IssueDate" class="citizen nepaliDate1 form-control" />
             <span asp-validation-for="IssueDate"></span>
 
         </div>
@@ -156,7 +155,8 @@
 
         <div class="form-group">
             <admin-label asp-for="IssueDistrict" />
-            <input asp-for="IssueDistrict" class="citizen form-control" />
+            <select asp-for="IssueDistrict" asp-items="ViewBag.Districts" class="form-control citizen"></select>
+           @* <input asp-for="IssueDistrict" class="citizen form-control" />*@
             <span asp-validation-for="IssueDistrict"></span>
 
         </div>
@@ -421,6 +421,12 @@
 
 <script>
     $(document).ready(function () {
+
+        $('.nepaliDate1').nepaliDatePicker({
+            ndpYear: true,
+            ndpMonth: true,
+            ndpYearCount: 10
+        });
 
         $(".hide").hide();
         $(".farmonly").hide();

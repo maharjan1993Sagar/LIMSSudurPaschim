@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LIMS.Web.Areas.Admin.Controllers
@@ -96,6 +97,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View();
 
         }
+        public IActionResult ReportIndex()
+        {
+            return View();
+        }
+       
 
         [PermissionAuthorizeAction(PermissionActionName.List)]
         [HttpPost]
@@ -328,9 +334,38 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Upload(string id)
         {
+            string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + id+ ".jpg");
+            string uploadsPdf = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + id+ ".pdf");
+            FileInfo fileInfo = new FileInfo(uploads);
+            FileInfo fileInfoPdf = new FileInfo(uploadsPdf);
+            
+            string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" }; // Example allowed extensions
+            string filepath = "";
+            string fileExtension = "";
+            double filesize = 0;
+           
+            if (System.IO.File.Exists(uploads) )
+            {
+                filepath = "/uploads/insurance/" + id + ".jpg";
+                fileExtension = System.IO.Path.GetExtension(uploads);
+                filesize = (double)fileInfo.Length / (1024 * 1024);
+            }
+            if (System.IO.File.Exists(uploadsPdf))
+            {
+                filepath = "/uploads/insurance/" + id + ".pdf";
+                fileExtension = System.IO.Path.GetExtension(uploadsPdf);
+                filesize = (double)fileInfoPdf.Length / (1024 * 1024);
+            }
+            // Check magic numbers for various image formats
+
+
             var model = new DeathVerificationUploadModel {
-                            Id=id
-                        };
+                Id=id,
+                FilePath =filepath,
+                FileExtension = fileExtension,
+                FileSize = filesize                
+            };
+
             if (String.IsNullOrEmpty(id))
             {
                 return RedirectToAction("Index");
@@ -353,9 +388,37 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
                 try
                 {
-                    if (model.Image != null && model.Image.Length > 0)
+                    string fileExtension = System.IO.Path.GetExtension(model.Image.FileName);
+                    string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" }; // Example allowed extensions
+
+
+                    if (allowedExtensions.Contains(fileExtension.ToLower()))
                     {
-                        string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/"+model.Id+".jpg");
+                        fileExtension = ".jpg";
+                    }
+                    else
+                    { fileExtension = ".pdf"; }
+                    if (model.Image != null && model.Image.Length > 0)
+                    {                       
+                        
+                        string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/"+model.Id+ fileExtension);
+                        //Delete previously uploaded file if exists
+                        if (fileExtension == ".jpg")
+                        {
+                            string uploadsPDF = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + model.Id + ".pdf");
+                            if (System.IO.File.Exists(uploadsPDF))
+                            {
+                                System.IO.File.Delete(uploadsPDF);
+                            }
+                        
+                        }
+                        else {
+                            string uploadsImage = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + model.Id + ".jpg");
+                            if (System.IO.File.Exists(uploadsImage))
+                            {
+                                System.IO.File.Delete(uploadsImage);
+                            }
+                        }
                         using (Stream fileStream = new FileStream(uploads, FileMode.Create))
                         {
                             await model.Image.CopyToAsync(fileStream);
@@ -383,6 +446,30 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             return Json(breed);
         }
+
+        //public static bool IsPdf(byte[] buffer)
+        //{
+            
+        //    // Check magic number for PDF
+        //    return Encoding.ASCII.GetString(buffer).StartsWith("%PDF");
+        //}
+
+        //// Methods to check file signatures
+
+        //private static bool IsJpeg(byte[] buffer)
+        //{
+        //    return buffer[0] == 0xFF && buffer[1] == 0xD8 && buffer[2] == 0xFF;
+        //}
+
+        //private static bool IsPng(byte[] buffer)
+        //{
+        //    return buffer[0] == 0x89 && buffer[1] == 0x50 && buffer[2] == 0x4E && buffer[3] == 0x47;
+        //}
+
+        //private static bool IsGif(byte[] buffer)
+        //{
+        //    return buffer[0] == 0x47 && buffer[1] == 0x49 && buffer[2] == 0x46;
+        //}
         //public virtual async Task<IActionResult> CategoryAutoComplete(string term, string type)
         //{
         //    var result = await _CategoryService.GetCategoryByType(type, term);

@@ -14,8 +14,10 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         //General Info
         [LIMSResourceDisplayName("Admin.Common.FilePath")]
         public string FilePath { get; set; }
-        [LIMSResourceDisplayName("Admin.Common.File")]
+        public string FileExtension { get; set; }
+        public double  FileSize { get; set; }
 
+        [LIMSResourceDisplayName("Admin.Common.File")]
         public IFormFile Image { get; set; }
         public string Id { get; set; }
 

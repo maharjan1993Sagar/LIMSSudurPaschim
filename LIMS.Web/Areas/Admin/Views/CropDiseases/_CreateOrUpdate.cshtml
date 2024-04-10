@@ -88,7 +88,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="IssuedDate" />
-                    <input asp-for="IssuedDate" class="form-control nepaliDate" required="required" />
+                    <input asp-for="IssuedDate" class="form-control nepaliDate1" required="required" />
                     <span asp-validation-for="IssuedDate"></span>
 
                 </div>
@@ -96,7 +96,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="IssuedDistrict" />
-                    <admin-input asp-for="IssuedDistrict" required="required" />
+                    <select asp-for="IssuedDistrict" class="form-control" asp-items="ViewBag.Districts" required="required" ></select>
                     <span asp-validation-for="IssuedDistrict"></span>
 
                 </div>
@@ -145,6 +145,12 @@
     </div>
 </div><script>
     $(document).ready(function () {
+        $('.nepaliDate1').nepaliDatePicker({
+            ndpYear: true,
+            ndpMonth: true,
+            ndpYearCount: 10
+        });
+
          var species=$("#@Html.IdFor(m=>m.SpeciesId)").val();
 
         if (species!="") {

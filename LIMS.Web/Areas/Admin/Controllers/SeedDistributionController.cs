@@ -91,7 +91,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
         public async Task<IActionResult> Create()
-        {           
+        {
+            var localLevels = await _localLevelService.GetDistrict("");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             var units = new SelectList(await _unitService.GetUnit(), "Id", "UnitNameEnglish").ToList();
             units.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Units = units;
@@ -147,6 +152,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
                 return continueEditing ? RedirectToAction("Edit", new { id = SeedDistribution.Id }) : RedirectToAction("Index");
             }
+            var localLevels = await _localLevelService.GetDistrict("");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+
             var units = new SelectList(await _unitService.GetUnit(), "Id", "UnitNameEnglish").ToList();
             units.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Units = units;

@@ -24,9 +24,14 @@ namespace LIMS.Services.LocalStructure
         public async Task<IList<string>> GetDistrict(string province)
         {
             var query = _localLevelsRepositoty.Table;
-            var district = query.Where(m=>m.Province==province).Select(m => m.District).Distinct().ToList();
-            district.ForEach(m => m = m.Trim());
-            return district;
+            var all = query.ToList();            
+            if (!String.IsNullOrEmpty(province))
+            {
+                all = query.Where(m => m.Province == province).ToList();               
+            }
+
+            var district= all.Select(m=>m.District.Trim()).Distinct().ToList();
+            return district;          
         }
 
         public async Task<IList<string>> GetLocalLevel(string district)

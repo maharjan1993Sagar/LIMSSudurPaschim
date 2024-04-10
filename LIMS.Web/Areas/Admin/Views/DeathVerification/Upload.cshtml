@@ -4,7 +4,6 @@
     ViewBag.Title = "DeathVerification";
 }
 <form asp-area="@Constants.AreaAdmin" asp-controller="DeathVerification" asp-action="Upload" enctype="multipart/form-data" method="post">
-
     <div class="row">
         <div class="col-md-12">
             <div class="x_panel light form-fit">
@@ -12,7 +11,6 @@
                     <div class="caption">
                         <i class="fa fa-comment"></i>
                         @T("Admin.DeathVerification.Upload")
-                        @*@T("Admin.ContentManagement.Blog.BlogPosts.AddNew")*@
                         <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
                     </div>
                     <div class="actions">
@@ -29,26 +27,31 @@
                         <div class="form-body">
 
                             <input type="hidden" asp-for="Id" />
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <admin-label asp-for="Image" />
-                                    <input asp-for="Image" class="form-control" type="file" />
+                                    <input asp-for="Image" type="file" accept="image/*,.pdf" />
                                     <span asp-validation-for="Image"></span>
                                 </div>
                             </div>
-                            @if(!String.IsNullOrEmpty(Model.FilePath))
+                            @if (!String.IsNullOrEmpty(Model.FilePath))
                             {
-                            <div class="col-md-4 col-sm-4">
-                                <img src="@Model.FilePath" height="" width=""/>
-                            </div>
+                                if (Model.FileExtension == ".jpg")
+                                {
+                                    <div class="col-md-12 col-sm-12">
+                                        <img src="@Model.FilePath" height="800" width="1000" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12">
+                                        <a href="@Model.FilePath" target="_blank">Open PDF file in New Window</a>
+                                    </div>
+                                }
                             }
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
         </div>
     </div>

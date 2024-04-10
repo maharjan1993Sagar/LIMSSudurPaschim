@@ -130,11 +130,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             MonthHelper month = new MonthHelper();
             var months = month.GetMonths();
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Months = months;
-            ViewBag.FiscalYearId = fiscalyear;
 
             ViewBag.UnitId = unit;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
@@ -152,6 +152,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(VaccinationDistributionModel model, IFormCollection form)
         {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             var medicine = form["VaccinationTypeId"].ToList();
             var quantity = form["Quantity"].ToList();
             var unit = form["UnitId"].ToList();

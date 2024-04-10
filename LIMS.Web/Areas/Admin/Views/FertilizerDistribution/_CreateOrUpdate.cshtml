@@ -81,14 +81,14 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="IssuedDate" />
-                    <input asp-for="IssuedDate" class="form-control nepaliDate" required="required"/>
+                    <input asp-for="IssuedDate" class="form-control nepaliDate1" required="required"/>
                     <span asp-validation-for="IssuedDate"></span>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="IssuedDistrict" />
-                    <admin-input asp-for="IssuedDistrict" required="required" />
+                    <select asp-items="ViewBag.Districts" class="form-control" asp-for="IssuedDistrict" required="required" ></select>
                     <span asp-validation-for="IssuedDistrict"></span>
 
                 </div>
@@ -114,6 +114,12 @@
 </div><script>
     $(document).ready(function () {
 
+        $('.nepaliDate1').nepaliDatePicker({
+            ndpYear: true,
+            ndpMonth: true,
+            ndpYearCount: 10
+        });
+
         $('.autoComplete').kendoAutoComplete({
             minLength: 3, // Minimum characters before the autocomplete activates
             dataSource: {
@@ -125,7 +131,7 @@
                             return {
                                 // Parameters to pass to the AJAX URL
                                 term: $(this).val(),
-                                type: $(this).attr("data-type");
+                                type: $(this).attr("data-type")
                             };
                         },
                         dataType: "json"
@@ -147,7 +153,7 @@
             select: function (e) {
                 // Set the selected item's ID to the hidden textbox
                 // Set the selected item's value to the autocomplete textbox
-                this.value(e.dataItem.value);
+                this.value(e.dataItem.value)
             }
         });
     });

@@ -1,12 +1,11 @@
 ﻿@model FarmerModel
 @using LIMS.Services.Security;
 
-@inject IPermissionService permissionService
+@*@inject IPermissionService permissionService
 
-@{
-  
+@{  
     var subsidy = await permissionService.Authorize(StandardPermissionProvider.AccessSubsidyRegister);
-}
+}*@
 <div class="x_content form">
     <div class="form-row">
         <div class="col-md-3">
@@ -25,13 +24,12 @@
             <div class="form-group">
                 <admin-label asp-for="TalimId" />
                 <admin-select asp-for="TalimId" class="form-control" required="required">
-                    <option value="">@T("Admin.Common.Select")</option>
                 </admin-select>
                 <span asp-validation-for="TalimId"></span>
 
             </div>
         </div>
-        @if (subsidy)
+        @*@if (subsidy)
         {
             <div class="col-md-3">
 
@@ -47,7 +45,7 @@
 
 
 
-        }
+        }*@
         @*<div class="col-md-3">
 
             <div class="form-group">
@@ -196,7 +194,7 @@
                          $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameEnglish}</option>`);
                      });
                  })
-                 abc();
+                 abc(data);
              }
     });
         $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
@@ -216,7 +214,7 @@
                          $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameEnglish}</option>`);
                      });
                  })
-                 abc();
+                 abc(data);
              }
         });
     $("#@Html.IdFor(m=>m.TalimId)").change(function () {
@@ -245,13 +243,10 @@
     })
     function abc(data) {
         $(tabularEntry).html("");
-        if (data.talim) {
+        if (data.fiscalyear) {
             $.post("@Url.Action("GetTalimData", "Farmer")", addAntiForgeryToken(data), function (result) {
                 if (result.length > 0) {
                     $.each(result, function (index, item) {
-
-
-
                         var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
 
 

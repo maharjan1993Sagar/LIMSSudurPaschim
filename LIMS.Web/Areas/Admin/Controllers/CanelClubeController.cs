@@ -145,6 +145,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(CanelClubeModel model, IFormCollection form)
         {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             var dogBreedToBeSold = form["DogBreedToBeSold"].ToList();
             var providedServices = form["ProvidedServices"].ToList();
             var maleManPower = form["MaleManPower"].ToList();
@@ -184,6 +189,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 };
                 otherOrganizationList.Add(otherOrganization);
             }
+
+           
             await _canelClubeService.InsertCanelClubeList(otherOrganizationList);
             return RedirectToAction("List");
         }

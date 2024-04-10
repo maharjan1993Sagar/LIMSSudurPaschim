@@ -45,6 +45,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ICategoryService _CategoryService;
 
 
+
         public FarmController(ILocalizationService localizationService, IFarmService farmService, IPictureService pictureService,
             ILanguageService languageService, IWorkContext workContext, IVhlsecService vhlsecService, 
             ILssService lssService, ICustomerService customerService, IMediator mediator,
@@ -146,10 +147,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.LandAreaUnit = ExecutionHelper.GetLandAreaUnit();
             ViewBag.MarketType = ExecutionHelper.GetMarketType();
 
+
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+            var districts = await _localLevelService.GetDistrict("");
+            var districtSelect = new SelectList(districts).ToList();
+            districtSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(districtSelect, "Text", "Text");
+
 
             var farmModel = new FarmModel {Own=0,Lease =0 , District="Kathmandu", LocalLevel = ExecutionHelper.LocalLevel};
             return View(farmModel);
@@ -215,6 +223,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
+
+
+            var districts = await _localLevelService.GetDistrict("");
+            var districtSelect = new SelectList(districts).ToList();
+            districtSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(districtSelect, "Text", "Text");
 
             ViewBag.Education = Education;
             ViewBag.FarmType = FarmType;

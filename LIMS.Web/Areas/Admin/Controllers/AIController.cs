@@ -76,31 +76,31 @@ namespace LIMS.Web.Areas.Admin.Controllers
             string user = _workContext.CurrentCustomer.Id;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
 
-            if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
-            {
-                string vhlsecid = _workContext.CurrentCustomer.EntityId;
-                List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
-                var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
-                List<string> customerid = customers.Select(x => x.Id).ToList();
+            //if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
+            //{
+            //    string vhlsecid = _workContext.CurrentCustomer.EntityId;
+            //    List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
+            //    var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
+            //    List<string> customerid = customers.Select(x => x.Id).ToList();
                // var CreatedBy = _workContext.CurrentCustomer.Id;
-                var ai = await _aiService.GetAI(customerid);
+                var ai = await _aiService.GetAI("");
                 var gridModel = new DataSourceResult {
                     Data = ai,
                     Total = ai.TotalCount
                 };
                 return Json(gridModel);
-            }
-            else
-            {
-                var CreatedBy = _workContext.CurrentCustomer.Id;
-                var ai = await _aiService.GetAI(CreatedBy);
+            //}
+            //else
+            //{
+            //    var CreatedBy = _workContext.CurrentCustomer.Id;
+            //    var ai = await _aiService.GetAI(CreatedBy);
  
-                var gridModel = new DataSourceResult {
-                    Data = ai,
-                    Total = ai.TotalCount
-                };
-                return Json(gridModel);
-            }
+            //    var gridModel = new DataSourceResult {
+            //        Data = ai,
+            //        Total = ai.TotalCount
+            //    };
+            //    return Json(gridModel);
+            //}
         }
 
         public async Task<IActionResult> Create()
@@ -115,7 +115,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
-
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
@@ -125,7 +124,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.QuaterId = quater;
 
             ViewBag.SpeciesId = species;
-            ViewBag.FiscalYearId = fiscalyear;
 
             ViewBag.UnitId = unit;
             var typeOfAi = RepeatAiHelper.RepeatAI();
@@ -137,6 +135,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AIServiceModel model)
         {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             if (string.IsNullOrEmpty(model.FarmId))
             {
                 var farm = new Farm() {

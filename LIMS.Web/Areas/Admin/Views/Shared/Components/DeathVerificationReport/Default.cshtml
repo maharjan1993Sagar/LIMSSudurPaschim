@@ -1,4 +1,5 @@
-﻿@model LIMS.Web.Areas.Admin.Models.Bali.DeathVerificationReportModel
+﻿@using LIMS.Web.Areas.Admin.Helper
+@model LIMS.Web.Areas.Admin.Models.Bali.DeathVerificationReportModel
 <div id="Printcontent">
     <div class="col-md-12">
         <div class="col-md-2">
@@ -18,12 +19,12 @@
             </b>
         </div>
         <div class="col-md-2">
-            फोन नं. : @Model.VerificationHeader.PhoneNumber
+            फोन नं. : @ExecutionHelper.EnglishToNepali(Model.VerificationHeader.PhoneNumber)
             <br />
             <br />
             <br />
             <br />
-            मिति: @Model.VerificationHeader.Today
+            मिति: @ExecutionHelper.EnglishToNepali(Model.VerificationHeader.Today)
         </div>
         <div class="col-md-12 text-center">
             विषय: मृत्यु प्रमाणित सम्बन्धमा |
@@ -33,7 +34,7 @@
             @Model.DeathVerification.InsuranceCompanyAddress
         </div>
         <div class="col-md-12">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; प्रस्तुत विषयमा @Model.DeathVerification.LocalLevel का वडा नं. @Model.DeathVerification.WardNo मा रहेको @(Model.DeathVerification.OrganizationName+ (!String.IsNullOrEmpty(Model.DeathVerification.OrganizationName)?"का":"")) @Model.DeathVerification.FarmerName ले तहाँ कार्यालयमा दर्ता गरी पालेको तपसिल बमोजिमको @Model.DeathVerification.LivestockSpecies.NepaliName मृत्यु भएको व्यहोरा प्रमाणित गरिन्छ |
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; प्रस्तुत विषयमा @Model.DeathVerification.LocalLevel का वडा नं. @ExecutionHelper.EnglishToNepali(Model.DeathVerification.WardNo) मा रहेको @(Model.DeathVerification.OrganizationName+ (!String.IsNullOrEmpty(Model.DeathVerification.OrganizationName)?"का":"")) @Model.DeathVerification.FarmerName ले तहाँ कार्यालयमा दर्ता गरी पालेको तपसिल बमोजिमको @Model.DeathVerification.LivestockSpecies.NepaliName मृत्यु भएको व्यहोरा प्रमाणित गरिन्छ |
 
         </div>
         <div class="col-md-12 text-left">
@@ -42,18 +43,18 @@
             नश्ल : @Model.DeathVerification.LivestockBreed.NepaliName <br />
             संकेत नं. : @Model.DeathVerification.TagNo <br />
             रङ्ग : @Model.DeathVerification.Color <br />
-            उचाई : @Model.DeathVerification.Height<br />
+            उचाई : @ExecutionHelper.EnglishToNepali(Model.DeathVerification.Height.ToString())<br />
             विमलेखा नं. : @Model.DeathVerification.InsuranceNo<br />
             विमा गर्ने कम्पनीको नाम : @Model.DeathVerification.InsuranceCompany<br />
             कारण : @Model.DeathVerification.CauseOfDeath<br />
-            विमाकं रकम : @Model.DeathVerification.InsuranceAmount<br />
-            मृत्यु भएको मिति: @Model.DeathVerification.DeathDate<br />
+            विमाकं रकम : @ExecutionHelper.EnglishToNepali(Model.DeathVerification.InsuranceAmount.ToString())<br />
+            मृत्यु भएको मिति: @ExecutionHelper.EnglishToNepali(Model.DeathVerification.DeathDate.ToString("yyyy-MM-dd"))<br />
         </div>
         <div class="col-md-12 text-right">
             हस्ताक्षर: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
             सिफारिस गर्नेको नाम : @Model.DeathVerification.VerifiedBy <br />
             सिफारिस गर्नेको पद : @Model.DeathVerification.Designation <br />
-            सिफारिस गर्नेको फोन नं.: @Model.DeathVerification.PhoneNumber <br />
+            सिफारिस गर्नेको फोन नं.: @ExecutionHelper.EnglishToNepali(Model.DeathVerification.PhoneNumber) <br />
         </div>
     </div>
 

@@ -17,7 +17,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYearId" />
-                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" />
+                                <select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" class="form-control" required="required" ></select>
                                 <span asp-validation-for="FiscalYearId"></span>
                             </div>
                         </div>

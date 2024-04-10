@@ -68,8 +68,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    createdby = admin.Id;
             //}
             //if (roles.Contains(RoleHelper.LssAdmin)|| roles.Contains(RoleHelper.LssUser))
-            //{
-                var hatchery = await _otherOrganizationDetailsService.GetOtherFilteredOrganization("", "Hatchery", Keyword, command.Page - 1, command.PageSize);
+            //{            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+
+
+            var hatchery = await _otherOrganizationDetailsService.GetOtherFilteredOrganization("", "Hatchery", Keyword, command.Page - 1, command.PageSize);
                 var gridModel = new DataSourceResult {
                     Data = hatchery,
                     ExtraData = Keyword,
@@ -139,6 +147,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             var otherOrg= new OtherOrganizationDetailsModel();
             otherOrg.Organization = organization;
             return View(otherOrg);
@@ -146,6 +155,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(OtherOrganizationDetailsModel model, IFormCollection form)
         {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             var totalCapacity = form["TotalCapacity"].ToList();
             var parentType = form["ParentsType"].ToList();
             var parentBreed = form["ParentsBreed"].ToList();

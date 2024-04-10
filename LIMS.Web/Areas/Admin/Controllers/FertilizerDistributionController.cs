@@ -99,10 +99,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             units.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Units = units;
 
-            //var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
-            //var localLevelSelect = new SelectList(localLevels).ToList();
-            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
+            var localLevels = await _localLevelService.GetDistrict("");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
@@ -134,6 +134,11 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Create(FertilizerDistributionModel model, bool continueEditing)
         {
+            var localLevels = await _localLevelService.GetDistrict("");
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             if (ModelState.IsValid)
             {
                 //if(String.IsNullOrEmpty(model.CategoryId))

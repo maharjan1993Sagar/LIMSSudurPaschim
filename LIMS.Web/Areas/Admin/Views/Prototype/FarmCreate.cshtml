@@ -144,7 +144,7 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="IssueDate" />
-                                <admin-input asp-for="IssueDate" required />
+                                <input asp-for="IssueDate" required class="nepaliDate form-control" />
                                 <span asp-validation-for="IssueDate"></span>
 
                             </div>
@@ -153,7 +153,8 @@
 
                             <div class="form-group">
                                 <admin-label asp-for="IssueDistrict" />
-                                <admin-input asp-for="IssueDistrict" required/>
+                               <select asp-for="IssueDistrict" class="form-control"></select>
+                                @*<admin-input asp-for="IssueDistrict" required/>*@
                                 <span asp-validation-for="IssueDistrict"></span>
 
                             </div>

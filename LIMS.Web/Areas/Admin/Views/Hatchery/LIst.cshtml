@@ -5,7 +5,7 @@
     //page title
     ViewBag.Title = T("Admin.OtherOrganization.Hatchery").Text;
     var organizationName = workContext.CurrentCustomer.OrgName;
-    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m=>m.Name).ToList();
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 
 
 }
@@ -19,14 +19,15 @@
         top: 0;
         left: 0;
     }
-          .page-template .header {
+
+        .page-template .header {
             position: absolute;
             top: 30px;
             left: 30px;
             right: 30px;
             border-bottom: 1px solid #888;
             color: #888;
-            padding-bottom:10px;
+            padding-bottom: 10px;
         }
 
             .page-template .header .unicode {
@@ -53,9 +54,15 @@
             transform: rotate(-35deg) scale(1.7, 1.5);
         }
 
-    @@font-face { font-family: "Mukta"; src: url("/content/fonts/Mukta/Mukta-Regular.ttf") format('truetype'); }
-@@font-face { font-family: "mangal"; src: url("/content/fonts/mangal.ttf"); }
+    @@font-face {
+        font-family: "Mukta";
+        src: url("/content/fonts/Mukta/Mukta-Regular.ttf") format('truetype');
+    }
 
+    @@font-face {
+        font-family: "mangal";
+        src: url("/content/fonts/mangal.ttf");
+    }
 </style>
 
 <form asp-area="@Constants.AreaAdmin" asp-controller="Hatchery" asp-action="List" method="post">
@@ -69,11 +76,11 @@
                         @T("Admin.Hatchery.List")
                     </div>
                     @*@if (roles.Contains("LssAdmin") || roles.Contains("LssUser") || roles.Contains("VhlsecUser") || roles.Contains("VhlsecUser"))
-                    {*@
+                        {*@
                     <div class="actions btn-group btn-group-devided">
                         <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
                     </div>
-                   @* }*@
+                    @* }*@
                 </div>
                 <div class="x_content form">
                     <div class="form-inline">
@@ -86,6 +93,8 @@
                                     <div class="form-group">
                                         <label class="col-2 col-sm-2 col-md-2 control-label">Fiscal year</label>
                                         <div class="col-2 col-md-3 col-sm-3">
+                                            @* <select class="form-control" name="FiscalYearId" id="dropdownlist" asp-items="ViewBag.FiscalYearId"></select>*@
+
                                             <input id="dropdownlist" />
                                         </div>
                                         <div class="col-md-5 col-sm-5">
@@ -120,27 +129,27 @@
 <script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
 @*<script type="x/kendo-template" id="page-template">
-    <div class="page-template">
-        <div class="header">
-            <center>
-                <b>हत्चेरी ऊधोग को विवरण
-<b/>
-    <center>
-    अ.ब. :#= getSelectedFiscalYear() #
+        <div class="page-template">
+            <div class="header">
+                <center>
+                    <b>हत्चेरी ऊधोग को विवरण
+    <b/>
+        <center>
+        अ.ब. :#= getSelectedFiscalYear() #
 
-    <br/>
-                <b>स्थानिय तहको नामः
-:@organizationName<b/><br/>
-             <br/>
-     <div><b class="unicode">ह्याचरि उधोगहरुको विवरणः</b></div>
+        <br/>
+                    <b>स्थानिय तहको नामः
+    :@organizationName<b/><br/>
+                 <br/>
+         <div><b class="unicode">ह्याचरि उधोगहरुको विवरणः</b></div>
 
-            </center>
+                </center>
+            </div>
+            <div class="footer">
+                <div style="float: right">Page #: pageNum # of #: totalPages #</div>
+            </div>
         </div>
-        <div class="footer">
-            <div style="float: right">Page #: pageNum # of #: totalPages #</div>
-        </div>
-    </div>
-</script>*@
+    </script>*@
 
 <script>
 
@@ -243,6 +252,7 @@
 
             ]
         });
+
         var fiscalyear = $("#dropdownlist").kendoDropDownList({
             optionLabel: "Select Fiscal Year",
             dataTextField: "NepaliFiscalYear",
@@ -264,8 +274,18 @@
                 // handle the event
             }
         });
+
+        SelectCurrFiscalYear();
     });
 
+    function SelectCurrFiscalYear() {
+        $.get("@Url.Action("GetCurrFiscalYear", "FiscalYear")", function(data) {
+             $("#dropdownlist").value(data.id)
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            // Error callback function
+            console.error("AJAX request failed:", textStatus, errorThrown);
+        });
+    }
 
     function additionalData() {
         var data = {
@@ -274,6 +294,8 @@
         addAntiForgeryToken(data);
         return data;
     }
+
+
 
     function getSelectedFiscalYear() {
         var fiscalYearSelectedText = '';
