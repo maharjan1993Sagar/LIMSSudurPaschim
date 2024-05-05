@@ -143,7 +143,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //}
             //else
             //{
-                service = await _serviceData.GetFilteredByFarmListModel("", "Treatment", SpeciesId, "", CurrentFiscalYear, Month, command.Page - 1, command.PageSize);
+                service = await _serviceData.GetFilteredByFarmListModel("", "Treatment", SpeciesId, "", Fiscalyear, Month, command.Page - 1, command.PageSize);
 
             //}
             var gridModel = new DataSourceResult {
@@ -254,33 +254,39 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(quantities[i]))
                     continue;
                 var service = (dynamic)null;
-
-                service = new ServicesData {
-                   // Unit = await _unitService.GetUnitById(units[i]),
-                    FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYear),
-                    LivestockSpecies = await _livestockSpeciesService.GetBreedById(speciesids[i]),
-                    Provience = model.Provience,
-                    District = model.District,
-                    LocalLevel = _workContext.CurrentCustomer.LocalLevel,
-                    ServicesType = "Treatment",
-                    CreatedBy = createdby,
-                    Month = model.Month,
-                    Quantity = quantities[i],
-                    TreatmentType=model.TreatmentType
-                };
-
-                var isExistingRecord = await _serviceData.GetServiceById(existingServiceId[i]);
-                               
-                if (isExistingRecord !=null)
+                service = await _serviceData.GetServiceById(existingServiceId[i]);
+                if (service != null)
                 {
-                    service.Id = existingServiceId[i];
+                        service.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYear);
+                        service.LivestockSpecies = await _livestockSpeciesService.GetBreedById(speciesids[i]);
+                        service.Provience = model.Provience;
+                        service.District = model.District;
+                        service.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
+                        service.ServicesType = "Treatment";
+                        service.CreatedBy = createdby;
+                        service.Month = model.Month;
+                        service.Quantity = quantities[i];
+                        service.TreatmentType = model.TreatmentType;
+
                     updateServices.Add(service);
                 }
                 else
                 {
+                    service = new ServicesData {
+                        // Unit = await _unitService.GetUnitById(units[i]),
+                        FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYear),
+                        LivestockSpecies = await _livestockSpeciesService.GetBreedById(speciesids[i]),
+                        Provience = model.Provience,
+                        District = model.District,
+                        LocalLevel = _workContext.CurrentCustomer.LocalLevel,
+                        ServicesType = "Treatment",
+                        CreatedBy = createdby,
+                        Month = model.Month,
+                        Quantity = quantities[i],
+                        TreatmentType = model.TreatmentType
+                    };
                     addServices.Add(service);
                 }
-
             }
 
             if (updateServices.Count > 0)
@@ -316,7 +322,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     var objServiceData = new ServicesData{LivestockSpecies =item };
                     objServiceData.Id = "";
-                     lstServiceData.Add(objServiceData);
+                    lstServiceData.Add(objServiceData);
                 }
             }
             

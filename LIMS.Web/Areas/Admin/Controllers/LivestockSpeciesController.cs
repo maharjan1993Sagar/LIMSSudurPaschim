@@ -77,8 +77,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 LivestockSpecies Species = model.ToEntity();
+                var purposes = form["Purposes"].ToList();
+                model.Purposes = purposes;
                 await _SpeciesService.InsertBreed(Species);
                 SuccessNotification(_localizationService.GetResource("Admin.Species.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = Species.Id }) : RedirectToAction("List");
@@ -114,8 +115,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-
                 LivestockSpecies m = model.ToEntity();
+                var purposes = form["Purposes"].ToList();
+                m.Purposes = purposes;
                 await _SpeciesService.UpdateBreed(m);
                 List<LivestockBreed> breed = await _BreedService.GetBreedBySpeciesId(m.Id);
                 breed.ForEach(c => c.Species = m);

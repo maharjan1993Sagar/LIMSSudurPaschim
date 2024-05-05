@@ -31,7 +31,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
     {
         private readonly IDeathVerificationService _DeathVerificationService;
         private readonly IUnitService _unitService;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockBreedService _breedService;
         private readonly ILocalizationService _localizationService;
         private readonly ILanguageService _languageService;
         private readonly IWorkContext _workContext;
@@ -48,7 +48,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IDeathVerificationService DeathVerificationService,
             ILanguageService languageService,
             IUnitService unitService,
-            IBreedService breedService,
+            ILivestockBreedService breedService,
             IWorkContext workContext,
             IFiscalYearService fiscalYearService,
             ICategoryService CategoryService,
@@ -97,8 +97,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View();
 
         }
-        public IActionResult ReportIndex()
+        public async Task<IActionResult> ReportIndex()
         {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
             return View();
         }
        
@@ -339,7 +345,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             FileInfo fileInfo = new FileInfo(uploads);
             FileInfo fileInfoPdf = new FileInfo(uploadsPdf);
             
-            string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" }; // Example allowed extensions
+            string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif",".pdf" }; // Example allowed extensions
             string filepath = "";
             string fileExtension = "";
             double filesize = 0;
@@ -399,26 +405,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     else
                     { fileExtension = ".pdf"; }
                     if (model.Image != null && model.Image.Length > 0)
-                    {                       
-                        
-                        string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/"+model.Id+ fileExtension);
-                        //Delete previously uploaded file if exists
-                        if (fileExtension == ".jpg")
+                    {     
+                        string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + model.Id + fileExtension);
+
+                        string uploadsJpg = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/"+model.Id+ ".jpg");
+                        string uploadsPdf = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + model.Id + ".pdf");
+
+                        if (System.IO.File.Exists(uploadsPdf))
                         {
-                            string uploadsPDF = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + model.Id + ".pdf");
-                            if (System.IO.File.Exists(uploadsPDF))
-                            {
-                                System.IO.File.Delete(uploadsPDF);
-                            }
-                        
+                            System.IO.File.Delete(uploadsPdf);
                         }
-                        else {
-                            string uploadsImage = Path.Combine(_hostingEnvironment.WebRootPath, "uploads/Insurance/" + model.Id + ".jpg");
-                            if (System.IO.File.Exists(uploadsImage))
-                            {
-                                System.IO.File.Delete(uploadsImage);
-                            }
+
+                        if (System.IO.File.Exists(uploadsJpg))
+                        {
+                            System.IO.File.Delete(uploadsJpg);
                         }
+                       
                         using (Stream fileStream = new FileStream(uploads, FileMode.Create))
                         {
                             await model.Image.CopyToAsync(fileStream);

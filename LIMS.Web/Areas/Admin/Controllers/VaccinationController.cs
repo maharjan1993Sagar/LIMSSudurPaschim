@@ -28,24 +28,24 @@ namespace LIMS.Web.Areas.Admin.Controllers
     {
 
         private readonly ILocalizationService _localizationService;
-        private readonly ISpeciesService _speciesService;
+        private readonly ILivestockSpeciesService _speciesService;
         private readonly IUnitService _unitService;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly IVaccinationService _vaccinationService;
         private readonly IWorkContext _workContext;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockBreedService _breedService;
         private readonly ILssService _lssService;
         private readonly ICustomerService _customerService;
         private readonly IFarmService _farmService;
         private readonly IAnimalRegistrationService _animalRegistrationService;
         private readonly IVaccinationTypeService _vaccinationTypeService;
         public VaccinationController(ILocalizationService localizationService,
-            ISpeciesService speciesService,
+            ILivestockSpeciesService speciesService,
             IUnitService unitService,
             IFiscalYearService fiscalYearService,
             IVaccinationService vaccinationService,
             IWorkContext workContxt,
-           IBreedService breedService,
+           ILivestockBreedService breedService,
              ILssService lssService,
              ICustomerService customerService,
              IFarmService farmService,
@@ -112,7 +112,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
@@ -153,7 +153,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 var animal = new AnimalRegistration() {
                     Name = model.AnimalName,
                     SpeciesId = model.SpeciesId,
-                    Species = await _speciesService.GetSpeciesById(model.SpeciesId),
+                    Species = await _speciesService.GetBreedById(model.SpeciesId),
                     Breed = await _breedService.GetBreedById(model.BreedId),
                     BreedId = model.BreedId,
                     EarTagNo = model.Eartag,

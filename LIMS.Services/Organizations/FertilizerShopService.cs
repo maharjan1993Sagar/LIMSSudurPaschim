@@ -87,5 +87,15 @@ namespace LIMS.Services.Organizations
             //event notification
             await _mediator.EntityUpdated(FertilizerShop);
         }
+
+        public async Task UpdateFertilizerShopList(List<FertilizerShop> FertilizerShop)
+        {
+            if (FertilizerShop == null)
+                throw new ArgumentNullException("FertilizerShop");
+            await _FertilizerShopRepository.UpdateAsync(FertilizerShop);
+
+            //event notification
+           // await _mediator.EntityUpdated(FertilizerShop);
+        }
     }
 }

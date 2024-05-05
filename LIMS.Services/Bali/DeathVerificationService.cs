@@ -33,17 +33,17 @@ namespace LIMS.Services.Bali
             await _mediator.EntityDeleted(deathVerification);
         }
 
-        public async Task<IPagedList<DeathVerification>> GetdeathVerification(string createdby,string fiscalYear, string localLevel, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        public async Task<IPagedList<DeathVerification>> GetdeathVerification(string createdby,string fiscalYear, string localLevel, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _deathRepository.Table;
             if (!string.IsNullOrEmpty(createdby))
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
-            if (!string.IsNullOrEmpty(fiscalyear))
+            if (!string.IsNullOrEmpty(fiscalYear))
             {
                 query = query.Where(
-                  m => m.FiscalYearId == fiscalyear
+                  m => m.FiscalYearId == fiscalYear
                 );
             }
             if (!string.IsNullOrEmpty(localLevel))

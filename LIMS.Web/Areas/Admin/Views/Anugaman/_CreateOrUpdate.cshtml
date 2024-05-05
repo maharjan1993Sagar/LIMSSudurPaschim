@@ -139,6 +139,9 @@
                 }
             },
             dataTextField: "value", // Specify the field containing the display text
+            change: function (e) {
+                $('#@Html.IdFor(m=>m.CategoryId)').val("");
+            },
             select: function (e) {
                 // Set the selected item's ID to the hidden textbox
                 $('#@Html.IdFor(m=>m.CategoryId)').val(e.dataItem.id);

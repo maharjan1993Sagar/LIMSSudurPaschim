@@ -6,7 +6,7 @@
             <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
             <div class="x_title">
                 <div class="caption">
-                    Farm Name:@Model.FarmModel.NameEnglish &nbsp; Mobile no: @Model.FarmModel.MoblileNo &nbsp; District:@Model.FarmModel.District
+                    Farm Name:@Model.FarmModel.NameEnglish &nbsp; Mobile no: @Model.FarmModel.MobileNo &nbsp; District:@Model.FarmModel.District
                 </div>
             </div>
             <div class="x_content form">
@@ -71,13 +71,12 @@
                             <span asp-validation-for="AnimalColor"></span>
                         </div>
                     </div>*@
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <admin-label asp-for="Gender" /><br />
                             @foreach (var c in System.Enum.GetValues(typeof(Genders)))
-                            {
-                                <label asp-for="Gender">@c</label>
-                                <input type="radio" asp-for="Gender" value="@(c)" />
+                            {                                
+                                <input type="radio" asp-for="Gender" value="@(c)" /><label asp-for="Gender">@c</label>
                             }
                             <span asp-validation-for="Gender"></span>
                         </div>
@@ -96,7 +95,7 @@
                             <span asp-validation-for="SireId"></span>
                         </div>
                     </div>
-                    <div class="col-md-2 FemaleOnly">
+                    <div class="col-md-3 FemaleOnly">
                         <div class="form-group ">
                             <admin-label asp-for="PregencyStatus" />
                             <br />
@@ -105,7 +104,7 @@
                             <span asp-validation-for="PregencyStatus"></span>
                         </div>
                     </div>
-                    <div class="col-md-2 FemaleOnly">
+                    <div class="col-md-3 FemaleOnly">
                         <div class="form-group ">
                             <admin-label asp-for="MilkStatus" />
                             <br />

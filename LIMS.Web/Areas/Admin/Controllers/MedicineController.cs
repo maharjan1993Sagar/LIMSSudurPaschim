@@ -96,8 +96,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
            
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
-
-            return View();
+            VaccinationTypeModel model = new VaccinationTypeModel();
+            return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
@@ -110,7 +110,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                
                 var createdby = _workContext.CurrentCustomer.Id;
                 vaccinationType.CreatedBy = createdby;
-                vaccinationType.Type = "Medicine";
+              //  vaccinationType.Type = "Medicine";
                 await _vaccinationTypeService.InsertVaccinationType(vaccinationType);
                 SuccessNotification(_localizationService.GetResource("Admin.Medicine.Added"));
                 return continueEditing ? RedirectToAction("Edit", new { id = vaccinationType.Id }) : RedirectToAction("List");

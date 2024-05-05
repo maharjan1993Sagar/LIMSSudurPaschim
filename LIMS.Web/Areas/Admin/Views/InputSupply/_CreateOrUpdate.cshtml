@@ -47,7 +47,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <admin-label asp-for="EnglishDate" />
-                    <input class="form-control" asp-for="EnglishDate" type="date"/>
+                    <input class="form-control" asp-for="EnglishDate" type="date" />
                     <span asp-validation-for="EnglishDate"></span>
                 </div>
             </div>
@@ -134,7 +134,8 @@
 
         </div>
     </div>
-</div><script>
+</div>
+<script>
     $(document).ready(function () {
 
         var fiscalYearId = $("#FiscalYearId").val();
@@ -161,7 +162,7 @@
             });
         });
 
-        
+
         $('#@Html.IdFor(m=>m.CategoryName)').kendoAutoComplete({
             minLength: 3, // Minimum characters before the autocomplete activates
             dataSource: {
@@ -179,6 +180,9 @@
                         dataType: "json"
                     }
                 },
+                change: function (e) {
+                $('#@Html.IdFor(m=>m.CategoryId)').val("");
+            },
                 schema: {
                     // Schema configuration to map your AJAX response
                     data: function (response) {

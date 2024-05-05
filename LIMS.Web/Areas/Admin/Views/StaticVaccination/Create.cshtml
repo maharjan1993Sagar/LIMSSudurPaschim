@@ -27,25 +27,25 @@
                                 <span asp-validation-for="Vaccination"></span>
                             </div>
                         </div>
-                       
-                            @Html.HiddenFor(m => m.Provience)
-                            @Html.HiddenFor(m => m.District)
-                            
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <admin-label asp-for="LocalLevel" />
-                                    <select asp-for="LocalLevel" asp-items="ViewBag.LocalLevels" class="form-control" required>
-                                        </select>
-                                    <span asp-validation-for="LocalLevel"></span>
-                                </div>
+                        @Html.HiddenFor(m => m.Provience)
+                        @Html.HiddenFor(m => m.District)
+
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select asp-for="LocalLevel" asp-items="ViewBag.LocalLevels" class="form-control" required disabled>
+                                </select>
+                                <span asp-validation-for="LocalLevel"></span>
                             </div>
-                        
+                        </div>
+
 
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYear" />
-                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" onchange="getServiceData()" required="required" ></admin-select>
+                                <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" onchange="getServiceData()" required="required"></admin-select>
                                 <span asp-validation-for="FiscalYear"></span>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                     </table>
                     <div class="col-md-8">
                         <center>
-                        <input type="submit" value="@T("Admin.common.submit")" id="subumtform" class="btn btn-success" />
+                            <input type="submit" value="@T("Admin.common.submit")" id="subumtform" class="btn btn-success" />
                         </center>
                     </div>
                 </div>
@@ -111,18 +111,20 @@
         $("#showTable").hide();
         $("#vaccination").hide();
 
-        $("#@Html.IdFor(m=>m.Vaccination)").change(function () {
+        @*$("#@Html.IdFor(m=>m.Vaccination)").change(function () {
 
-            url = "/Admin/Prototype/GetSpeciesVaccination";
+            url = "/Admin/StaticVaccination/GetSpeciesVaccination";
             datas = {
+                fiscalYear: $("#@Html.IdFor(m=>m.FiscalYear)").val(),
+                month: $("#@Html.IdFor(m=>m.Month)").val(),
                 VaccinationId: $(this).val()
             }
             $.getJSON(url, datas, (data) => {
                 $("#tabularEntry").html('');
                 $.each(data, function (i, item) {
                     var tableRow = '<tr id="' + item.Id + '">';
-                    tableRow += '<td>' + item.NepaliName + '<input type="hidden" name="SpeciesId"  value="' + item.Id + '"/><input type="hidden" name="ServiceDataId" value="" /></td>';
-                    tableRow += '<td><input type="number"  onkeyup="if(this.value<0){this.value= this.value * -1}" name="Quantity" class="form-control" min="1" step="1" /></td>';
+                    tableRow += '<td>' + item.NepaliName + '<input type="hidden" name="SpeciesId"  value="' + item.SpeciesId + '"/><input type="hidden" name="ServiceDataId" value="' + item.Id + '"/></td>';
+                    tableRow += '<td><input type="number"  onkeyup="if(this.value<0){this.value= this.value * -1}" name="Quantity" class="form-control" min="1" step="1" value="' + item.Quantity + '"/></td>';
                    tableRow += '</tr>';
                     $("#tabularEntry").append(tableRow);
                     $("#showTable").show();
@@ -132,7 +134,7 @@
 
 
 
-        });
+        });*@
 
     });
 
@@ -145,21 +147,50 @@
             month: $('#@Html.IdFor(m => m.Month)').val()
         };
         addAntiForgeryToken(data);
-        $('input[name="ServiceDataId"]').val('');
-        $('input[name="Quantity"]').val('');
-      
-        $.post("@Url.Action("getServiceData", "StaticVaccination")", data, function (result) {
-            if (result) {
-                $.each(result, function (i, item) {
-                    $('tr#' + item.Species.Id + ' input[name="ServiceDataId"]').val(item.Id);
-                    $('tr#' + item.Species.Id + ' input[name="Quantity"]').val(item.Quantity);
-                    console.log(item);
-                });
-             }
-            
+        //$('input[name="ServiceDataId"]').val('');
+        //$('input[name="Quantity"]').val('');
 
+        url = "/Admin/StaticVaccination/getServiceData";
+            @*datas = {
+                fiscalYear: $("#@Html.IdFor(m=>m.FiscalYear)").val(),
+                month: $("#@Html.IdFor(m=>m.Month)").val(),
+                VaccinationId: $(this).val()
+            }*@
+        //$.getJSON(url, data, (data) => {
+        //    $("#tabularEntry").html('');
+        //    $.each(data, function (i, item) {
+        //        var tableRow = '<tr id="' + item.Id + '">';
+        //        tableRow += '<td>' + item.SpeciesName + '<input type="hidden" name="SpeciesId"  value="' + item.SpeciesId + '"/><input type="hidden" name="ServiceDataId" value="' + item.Id + '"/></td>';
+        //        tableRow += '<td><input type="number"  onkeyup="if(this.value<0){this.value= this.value * -1}" name="Quantity" class="form-control" min="1" step="1" value="' + item.Quantity + '"/></td>';
+        //       tableRow += '</tr>';
+        //        $("#tabularEntry").append(tableRow);
+        //        $("#showTable").show();
+
+        //    });
+        // });
+
+        $.post("@Url.Action("getServiceData", "StaticVaccination")", data, function (result) {
+            $("#tabularEntry").html('');
+            $.each(result, function (i, item) {
+                var tableRow = '<tr id="' + item.Id + '">';
+                tableRow += '<td>' + item.SpeciesName + '<input type="hidden" name="SpeciesId"  value="' + item.SpeciesId + '"/><input type="hidden" name="ServiceDataId" value="' + item.Id + '"/></td>';
+                tableRow += '<td><input type="number"  onkeyup="if(this.value<0){this.value= this.value * -1}" name="Quantity" class="form-control" min="1" step="1" value="' + item.Quantity + '"/></td>';
+                tableRow += '</tr>';
+                $("#tabularEntry").append(tableRow);
+                $("#showTable").show();
+
+                //if (result) {
+                //    $.each(result, function (i, item) {
+                //        $('tr#' + item.Species.Id + ' input[name="ServiceDataId"]').val(item.Id);
+                //        $('tr#' + item.Species.Id + ' input[name="Quantity"]').val(item.Quantity);
+                //        console.log(item);
+                //    });
+                // }
+
+
+            });
         });
-    }
-     
+            }
+
 
 </script>

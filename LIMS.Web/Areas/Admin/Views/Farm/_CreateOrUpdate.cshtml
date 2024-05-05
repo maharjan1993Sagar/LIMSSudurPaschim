@@ -184,9 +184,9 @@
     <div class="col-md-2 ">
 
         <div class="form-group">
-            <admin-label asp-for="MoblileNo" />
-            <admin-input asp-for="MoblileNo" />
-            <span asp-validation-for="MoblileNo"></span>
+            <admin-label asp-for="MobileNo" />
+            <admin-input asp-for="MobileNo" />
+            <span asp-validation-for="MobileNo"></span>
 
         </div>
     </div>
@@ -437,7 +437,7 @@
         $(".farmeronly").hide();
         $(".cooperativeOnly").hide();
         $(".nocooperative").hide();
-        $(".citizen").prop('required', false);
+       // $(".citizen").prop('required', false);
         var category = $("#category").val();
         var landOwnerShipType = $('@Html.IdFor(m=>m.LandOwnershipType)').val();
         var marketType = $('@Html.IdFor(m=>m.MarketType)').val();
@@ -461,7 +461,7 @@
             $(".farmonlyLease").hide();
             $(".farmeronly").hide();
             $(".nocooperative").hide();
-            $(".citizen").prop('required', false);
+           // $(".citizen").prop('required', false);
             $(".cooperativeOnly").show();
 
         }
@@ -478,7 +478,7 @@
             $(".farmeronly").hide();
             $(".cooperativeOnly").hide();
             $(".nocooperative").hide();
-            $(".citizen").prop('required', false);
+           // $(".citizen").prop('required', false);
 
         }
 
@@ -555,7 +555,7 @@
 
                     $(".farmeronly").show();
                     $(".nocooperative").show();
-                    $(".citizen").prop('required', true);
+                   // $(".citizen").prop('required', true);
 
                 }
                 if (category == "farm") {
@@ -564,7 +564,7 @@
                     $(".farmeronly").hide();
                     $(".farmonly").show();
                     $(".nocooperative").show();
-                    $(".citizen").prop('required', true);
+                   // $(".citizen").prop('required', true);
 
                 }
                 if (category == "co-operative" || category == "groups") {
@@ -581,7 +581,7 @@
 
                     $(".farmeronly").hide();
                     $(".nocooperative").hide();
-                    $(".citizen").prop('required', false);
+                  //  $(".citizen").prop('required', false);
                     $(".cooperativeOnly").show();
                 }
                 if (category == "") {
@@ -592,7 +592,7 @@
                     $(".farmeronly").hide();
                     $(".cooperativeOnly").hide();
                     $(".nocooperative").hide();
-                    $(".citizen").prop('required', false);
+                   // $(".citizen").prop('required', false);
                 }
             })
 

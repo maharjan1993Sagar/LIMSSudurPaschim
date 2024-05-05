@@ -49,9 +49,9 @@ namespace LIMS.Services.Breed
         }
         public async Task<List<LivestockBreed>> GetBreedByBreedType(string breedType)
         {
-            throw new NotImplementedException();
-            //var filter = Builders<LivestockBreed>.Filter.Eq(x => x.Type, breedType);
-            // return _LivestockBreedRepository.Collection.Find(filter).ToList();
+            //  throw new NotImplementedException();
+            var filter = Builders<LivestockBreed>.Filter.Eq(x => x.Type, breedType);
+            return _LivestockBreedRepository.Collection.Find(filter).ToList();
         }
 
         public async Task InsertBreed(LivestockBreed LivestockBreed)

@@ -52,10 +52,24 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
         public IActionResult Index() => RedirectToAction("List");
 
-        public IActionResult List() => View();
+        public async Task<IActionResult> List()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> List(DataSourceRequest command,string Keyword="")
         {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
             //string createdby = null;
             //List<string> roles = _context.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
@@ -70,7 +84,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //}
             //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.LssUser))
             //{
-                var hatchery = await _diaryIndustryService.GetDiaryIndustryAndShopByFiscalyear("", "Diary industry", Keyword, command.Page - 1, command.PageSize);
+            var hatchery = await _diaryIndustryService.GetDiaryIndustryAndShopByFiscalyear("", "Diary industry", Keyword, command.Page - 1, command.PageSize);
                 var gridModel = new DataSourceResult {
                     Data = hatchery,
                     ExtraData = Keyword,
@@ -134,7 +148,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    createdby = admin.Id;
             //}
 
-            var organization = await _organizationService.GetOtherOrganizationByType(createdby, "Diary industry");
+            var organization = await _organizationService.GetOtherOrganizationByType("", "Diary industry");
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();

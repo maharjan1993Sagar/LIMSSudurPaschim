@@ -97,15 +97,19 @@ namespace LIMS.Web.Areas.Admin.Components
             {
                 xetra = "कृषि विकास";
             }
-            if (roles.Contains("Livestock"))
+            else if (roles.Contains("Livestock"))
             {
                 xetra = "पशु तथा मत्स्य विकास ";
             }
+            //else
+            //{
+            //    xetra = xetra;
+            //}
             //if (roles.Contains("Administrators"))
             //{
             //    xetra = "";
             //}
-            var pragatis = await _monthlyProgressService.GetFilteredMonthlyPragati("", fiscalyear, "", "", "","",xetra);
+            var pragatis = await _monthlyProgressService.GetFilteredMonthlyPragati("", fiscalyear, "", "",month,"",xetra);
 
             var allBudget = await _budgetService.GetBudget(new List<string>(), fiscalyear);
 

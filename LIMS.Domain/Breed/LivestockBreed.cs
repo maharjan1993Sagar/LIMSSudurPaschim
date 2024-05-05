@@ -16,6 +16,7 @@ namespace LIMS.Domain.Breed
         public string EnglishName { get; set; }
 
         public LivestockSpecies Species { get; set; }
+        public string Type { get; set; }
         public string ScientificName { get; set; }
       
         public string Detail { get; set; }

@@ -17,13 +17,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace LIMS.Web.Areas.Admin.Controllers
 {
     public class PrototypeController : BaseAdminController
     {
         private readonly ILocalizationService _localizationService;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockBreedService _breedService;
         private readonly ISpeciesService _speciesService;
         private readonly ILivestockSpeciesService _livestockSpeciesService;
         private readonly IVaccinationTypeService _vaccinationType;
@@ -32,7 +33,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IMoAMACService _moAMACService;
         private readonly IFiscalYearService _fiscalYearService;
         public PrototypeController(ILocalizationService localizationService,
-            IBreedService breedService, ISpeciesService speciesService,
+            ILivestockBreedService breedService, ISpeciesService speciesService,
             IVaccinationTypeService vaccinationType, IParaProfessionalService paraProfessionalService,
             IVetGraduateService vetGraduateService, IMoAMACService moAMACService, IFiscalYearService fiscalYearService
             ,ILivestockSpeciesService livestockService)
@@ -56,7 +57,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetBreed(string id)
         {
-            return Ok(await _breedService.GetBreedBySpeciesId(id));
+            var breed = await _breedService.GetBreedBySpeciesId(id);
+            return Json(breed);
         }
         [AllowAnonymous]
         public async Task<IActionResult> GetSpecies(string type = "")
@@ -71,10 +73,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> GetSpeciesVaccination(string VaccinationId)
         {
             var vaccination = await _vaccinationType.GetVaccinationTypeById(VaccinationId);
-            var species = new List<Species>();
+            var species = new List<LivestockSpecies>();
             foreach(var item in vaccination.Species)
             {
-                species.Add(await _speciesService.GetSpeciesById(item));
+                species.Add(await _livestockSpeciesService.GetBreedById(item));
             }
             return Ok(species);
         }

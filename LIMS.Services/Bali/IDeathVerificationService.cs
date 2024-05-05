@@ -11,7 +11,7 @@ namespace LIMS.Services.Bali
     public interface IDeathVerificationService
     {
         Task<DeathVerification> GetdeathVerificationById(string id);
-        Task<IPagedList<DeathVerification>> GetdeathVerification(string createdby,string fiscalYear, string localLevel, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<DeathVerification>> GetdeathVerification(string createdby,string fiscalYear, string localLevel, int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<DeathVerification>> GetdeathVerification(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
 
         Task DeletedeathVerification(DeathVerification deathVerification);

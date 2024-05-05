@@ -73,14 +73,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> List(DataSourceRequest command, FarmListModel model)
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
+            if (roles.Contains("Agriculture"))
+            {
+                ViewBag.Role = "Agriculture";
+            }
+            else
+            {
+                ViewBag.Role = "Livestock";
+            }
 
             //if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
             //{
-                //string vhlsecid = _workContext.CurrentCustomer.EntityId;
-                //List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
-                //var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
-                //List<string> customerid = customers.Select(x => x.Id).ToList()/*;*/
-                var farm = await _farmService.SearchFarm( model.Keyword, command.Page-1, command.PageSize);
+            //string vhlsecid = _workContext.CurrentCustomer.EntityId;
+            //List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
+            //var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
+            //List<string> customerid = customers.Select(x => x.Id).ToList()/*;*/
+            var farm = await _farmService.SearchFarm( model.Keyword, command.Page-1, command.PageSize);
                 var currentuser = _workContext.CurrentCustomer.Id;
                 var gridModel = new DataSourceResult {
                     Data = farm,
@@ -182,7 +190,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 farm.CreatedBy = _workContext.CurrentCustomer.Id;
                 farm.Source = _workContext.CurrentCustomer.OrgName;
                 //farm.LocalLevel = model.LocalLevel;
-                farm.MobileNo = model.MoblileNo;
+                //farm.MobileNo = model.MoblileNo;
                 farm.NatureOfWork = model.NatureOfWork.Trim();
                 var objCategory = await _CategoryService.GetCategoryByNameType(model.NatureOfWork.Trim(),"Nature Of Work");
                 if (objCategory == null )
@@ -310,7 +318,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var m = model.ToEntity(farm);
-                m.MobileNo = model.MoblileNo;
                 m.NatureOfWork = m.NatureOfWork.Trim();
                 var objCategory = await _CategoryService.GetCategoryByName(model.NatureOfWork.Trim());
                 if (objCategory == null)
@@ -570,33 +577,33 @@ namespace LIMS.Web.Areas.Admin.Controllers
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
 
             var result = await _farmService.SearchFarm(term);
-            if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
-            {
-                string vhlsecid = _workContext.CurrentCustomer.EntityId;
-                List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
-                var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
-                List<string> customerid = customers.Select(x => x.Id).ToList();
-                var farm = await _farmService.GetFarmByLssId(customerid, term);
+            //if (roles.Contains("VhlsecUser") || roles.Contains("VhlsecAdmin"))
+            //{
+               // string vhlsecid = _workContext.CurrentCustomer.EntityId;
+                //List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
+                //var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
+                //List<string> customerid = customers.Select(x => x.Id).ToList();
+                var farm = await _farmService.GetFarmByLssId(new List<string>(), term);
                 var currentuser = _workContext.CurrentCustomer.Id;
                 //var gridModel = new DataSourceResult {
                 //    Data = farm,
                 //    Total = farm.TotalCount
                 //};
                 return Json(farm);
-            }
-            else
-            {
+            //}
+            //else
+            //{
 
-                var currentuser = _workContext.CurrentCustomer.EntityId;
-                var allCustomer = await _customerService.GetAllCustomers();
-                List<string> customerid = allCustomer.Where(m => m.EntityId == currentuser).Select(x => x.Id).ToList();
-                var farm = await _farmService.GetFarmByLssId(customerid, term);
-                //var gridModel = new DataSourceResult {
-                //    Data = farm,
-                //    Total = farm.Count()
-                //};
-                return Json(farm);
-            }
+            //    var currentuser = _workContext.CurrentCustomer.EntityId;
+            //    var allCustomer = await _customerService.GetAllCustomers();
+            //    List<string> customerid = allCustomer.Where(m => m.EntityId == currentuser).Select(x => x.Id).ToList();
+            //    var farm = await _farmService.GetFarmByLssId(customerid, term);
+            //    //var gridModel = new DataSourceResult {
+            //    //    Data = farm,
+            //    //    Total = farm.Count()
+            //    //};
+            //    return Json(farm);
+            //}
             //return Json(result);
         }
         #endregion
@@ -812,6 +819,25 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             return Json(gridModel);
 
+        }
+
+        public async Task<IActionResult> GetRole()
+        {
+            var customer = _workContext.CurrentCustomer;
+            var roles = customer.CustomerRoles;
+            if(roles.Select(m=>m.Name).Contains("Livestock"))
+            {
+                return Json("Livestock");
+            }
+            else if(roles.Select(m=>m.Name).Contains("Agriculture"))
+            {
+                return Json("Agriculture");
+            }
+            else
+            {
+                return Json("Admin");
+
+            }
         }
 
 

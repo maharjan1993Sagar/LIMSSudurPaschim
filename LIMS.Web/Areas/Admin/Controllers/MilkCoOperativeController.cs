@@ -135,7 +135,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    createdby = admin.Id;
             //}
 
-            var organization = await _organizationService.GetOtherOrganizationByType(createdby, "Milk co-operative");
+            var organization = await _organizationService.GetOtherOrganizationByType("", "Milk co-operative");
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();

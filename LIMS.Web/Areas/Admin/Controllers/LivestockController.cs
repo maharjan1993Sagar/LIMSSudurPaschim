@@ -118,6 +118,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 speci = new SelectList(speciesist, "Id", "EnglishName").ToList();
 
             }
+
             speci.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Species = speci;
             WardHelper wardHelper = new WardHelper();
@@ -142,7 +143,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     createdby = _workContext.CurrentCustomer.Id;
                
                 var currenFiscal = await _fiscalYearService.GetCurrentFiscalYear();
-                var livestocks = _livestockService.GetFilteredLivestock(createdby, speciesId, district, fiscalYear, "",locallevel,Ward,command.Page-1,command.PageSize).Result.ToList();
+                var livestocks = _livestockService.GetFilteredLivestock("", speciesId, "", fiscalYear, "",locallevel,Ward,command.Page-1,command.PageSize).Result.ToList();
                 var live = livestocks.Select(m => m.Ward).Distinct();
                 //List<LivestockListModel> lives = new List<LivestockListModel>();
                 //foreach (var item in live)
@@ -180,12 +181,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(fiscalYear))
                 {
                  var  currenFiscal = await _fiscalYearService.GetCurrentFiscalYear();
-                    livestocks =  _livestockService.GetLivestock(createdby).Result.ToList();
+                    livestocks =  _livestockService.GetLivestock("").Result.ToList();
 
                 }
                 else
                 {
-                    livestocks =  _livestockService.GetLivestock(createdby).Result.ToList();
+                    livestocks =  _livestockService.GetLivestock("").Result.ToList();
 
                 }
 
@@ -330,6 +331,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                         foreach (var items in animal)
                         {
                             lives.Add(new LivestockModel {
+                                SpeciesName = items.Species.NepaliName,
+                                BreedType = items.Breed.NepaliName,
+                                FiscalYear = items.FiscalYear.NepaliFiscalYear,
                                 AgeCategory = _ageCategory.GetAnimalTypeById(items.AnimalType.Id).Result.Name,
                                 Native = items.Local,
                                 Improved = items.Improved,

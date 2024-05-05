@@ -18,7 +18,7 @@ namespace LIMS.Domain.StatisticalData
         {
             Species = new Species();
             LivestockSpecies = new LivestockSpecies();
-            Breed = new BreedReg();
+            Breed = new LivestockBreed();
             FiscalYear = new FiscalYear();
             Unit = new Unit();
         }
@@ -27,7 +27,7 @@ namespace LIMS.Domain.StatisticalData
         public string Native { get; set; }
         public string CrossBreed { get; set; }
         public string PureExotic { get; set; }
-        public BreedReg Breed { get; set; }
+        public LivestockBreed Breed { get; set; }
         public string ServicesType { get; set; }
         public string Quantity { get; set; }
         public Unit Unit { get; set; }

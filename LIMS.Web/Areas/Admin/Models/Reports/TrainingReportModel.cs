@@ -8,6 +8,10 @@ namespace LIMS.Web.Areas.Admin.Models.Reports
 {
     public class TrainingReportModel
     {
+        public TrainingReportModel()
+        {
+            Rows = new List<TrainingRowData>();
+        }
         [LIMSResourceDisplayName("Admin.Common.Address")]
         public string Address { get; set; }
         [LIMSResourceDisplayName("Admin.Common.LocalLevel")]

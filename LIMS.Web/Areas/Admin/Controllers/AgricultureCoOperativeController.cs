@@ -162,10 +162,15 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     otherOrganizationList.Add(otherOrganization);
                 }
             }
-            await _AgricultureCoOperativeService.InsertAgricultureCoOperativeList(otherOrganizationList);
+            if (otherOrganizationList.Count > 0)
+            {
+                await _AgricultureCoOperativeService.InsertAgricultureCoOperativeList(otherOrganizationList);
 
-           await _AgricultureCoOperativeService.UpdateAgricultureCoOperativeList(updateOrganiationList);
-
+            }
+            if (updateOrganiationList.Count > 0)
+            {
+                await _AgricultureCoOperativeService.UpdateAgricultureCoOperativeList(updateOrganiationList);
+            }
             return RedirectToAction("List");
         }
 

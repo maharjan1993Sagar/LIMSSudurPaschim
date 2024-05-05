@@ -93,8 +93,11 @@ namespace LIMS.Web.Areas.Admin.Components
             var distinctBudget = filteredAnudan.ToList().Select(m => m.BudgetId).Distinct();
 
             var subsidy = new SubsidyReportModel();
+            var lstRowData = new List<SubsidyRowData>();
+            
             if (!filteredAnudan.Any())
             {
+                subsidy.Rows = lstRowData;
                 return View(subsidy);
             }
             subsidy.FiscalYear = ExecutionHelper.EnglishToNepali(filteredAnudan.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear);
@@ -104,7 +107,6 @@ namespace LIMS.Web.Areas.Admin.Components
             subsidy.EndDate = "";
             subsidy.Address = orgAddress;
             subsidy.Ward = "";
-            var lstRowData = new List<SubsidyRowData>();
             int i = 1;
             foreach (var item in distinctBudget)
             {

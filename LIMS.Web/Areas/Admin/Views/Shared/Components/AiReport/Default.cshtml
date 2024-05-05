@@ -10,13 +10,9 @@
 }
 <div class="row">
     <div class="col-md-12">
-
+        <center><b>@Model.FirstOrDefault().Municipility</b></center>
         <center><b>Veterinary Hospital and Livestock Service Expert Center</b></center>
-        <center>
-            <b>
-                Progress report of Artificial Insemination (AI)  under VH&LSEC and local municipality level
-            </b>
-        </center>
+        <center><b>Progress report of Artificial Insemination (AI)</b></center>
     </div>
     <div class="col-md-12">
 
@@ -24,19 +20,13 @@
             Fiscal Year: @Model.FirstOrDefault().FiscalYear
         </div>
 
-        @organizationName
-
-
     </div>
     <table class="table table-bordered">
         <thead>
             <tr style="text-align:center">
                 <th>
-                    S.n
-                </th>
-                <th>
-                    Name of municipility
-                </th>
+                    S.N
+                </th>               
                 <th>
                     Cow
                 </th>
@@ -65,9 +55,7 @@
                     <td>
                         @i
                     </td>
-                    <td>
-                        @item.Municipility
-                    </td>
+                   
                     <td style="text-align:right">
                         @item.Cow
                     </td>

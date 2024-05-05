@@ -132,7 +132,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.UnitId = unit;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             var vaccination = new List<VaccinationType>();
-            var vaccine = await _vaccinationTypeService.GetVaccination("");
+            var vaccine = await _vaccinationTypeService.FiletrVaccinationType("Medicine");
             vaccination = vaccine.ToList();
             //if (roles.Contains(RoleHelper.LssAdmin))
             //{
@@ -153,6 +153,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //}
             var model = new MedicineProgressModel();
             model.VaccinationType = vaccination;
+            model.Date = DateTime.Now;
             return View(model);
         }
 
@@ -237,7 +238,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    var admin = await _customerService.GetCustomerByEmail(adminemail);
             //    createdby = admin.Id;
             //}
-            var receivedMedicine = await _medicineProgressService.GetMedicineProgress(createdby, month, fiscalyear);
+            var receivedMedicine = await _medicineProgressService.GetMedicineProgress("", month, fiscalyear);
             return Json(receivedMedicine.ToList());
         }
         #endregion ReceivedMedicine

@@ -108,11 +108,12 @@ namespace LIMS.Services.Ainr
         public Task<PagedList<Farm>> GetFarmByCreatedBy(string createdBy, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _farmRepository.Table;
-           
+            if (!String.IsNullOrEmpty(createdBy))
+            {
                 query = query.Where(f =>
                         f.CreatedBy == createdBy
                     );
-           
+            }
             
             return  PagedList<Farm>.Create(query, pageIndex, pageSize);
 

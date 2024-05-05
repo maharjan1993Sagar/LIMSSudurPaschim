@@ -31,7 +31,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="Date" />
-                                <input asp-for="Date" class="form-control" type="date"  required="required" />
+                                <input asp-for="Date" class="form-control" type="date" required="required" />
                                 <span asp-validation-for="Date"></span>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr style="text-align:center">
-                       <th>@T("Admin.Medicine.VaccinationName")</th>
+                                <th>@T("Admin.Medicine.VaccinationName")</th>
                                 @*<td>@T("Admin.Medicine.Specification")</td>*@
 
                                 <th>@T("Admin.Common.Quantity")</th>
@@ -53,25 +53,25 @@
 
                             @foreach (var item in Model.VaccinationType)
                             {
-                            <tr id="@item.Id">
-                                <td >
-                                    @item.MedicalName
-                                    <input type="hidden" name="MedicineId" value="@item.Id" class="form-control" />
-                                    <input type="hidden" name="ReceivedMedicineId" value="" class="form-control" />
-                                </td>
-                               
-                                <td>
-                                    <input type="number" name="Quantity" class="form-control" />
-                                </td>
-                                <td>
-                                    <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" class="form-control" />
+                                <tr id="@item.Id">
+                                    <td>
+                                        @item.MedicalName
+                                        <input type="hidden" name="MedicineId" value="@item.Id" class="form-control" />
+                                        <input type="hidden" name="ReceivedMedicineId" value="" class="form-control" />
+                                    </td>
 
-                                </td>
-                            </tr>
-                                    }
-                            
+                                    <td>
+                                        <input type="number" name="Quantity" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <admin-select asp-for="UnitId" asp-items="ViewBag.UnitId" class="form-control" />
 
-                            </tbody>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
                     </table>
                     <center>
                         <input type="submit" id="subumtform" class="btn btn-success" />
@@ -90,19 +90,17 @@
 <script>
      function getReceivedData() {
         var data = {
-
-
             fiscalyear: $('#@Html.IdFor(m => m.FiscalYearId)').val(),
             month:$('#@Html.IdFor(m => m.Month)').val()
+         };
 
-        };
         addAntiForgeryToken(data);
         $.post("@Url.Action("GetReceivedMedicine", "ReceivedMedicine")", data, function (result) {
             $.each(result, function (index, item) {
                 $('tr#' + item.Vaccination.Id + ' input[name="ReceivedMedicineId"]').val(item.Id);
                 $('tr#' + item.Vaccination.Id + ' input[name="Quantity"]').val(item.Quantity);
                 $('tr#' + item.Vaccination.Id + ' select[name="UnitId"]').val(item.Unit.Id);
-               
+
                 console.log(item);
             });
         });

@@ -12,7 +12,9 @@ namespace LIMS.Web.Areas.Admin.Models.StatisticalData
     {
         [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.SpeciesName")]
         public string SpeciesName { get; set; }
-
+        [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.SpeciesName")]
+        public string BreedName { get; set; }
+        
         [LIMSResourceDisplayName("Admin.StatisticalData.Livestock.NoOfLiveStock")]
 
         public string NoOfLivestock { get; set; }

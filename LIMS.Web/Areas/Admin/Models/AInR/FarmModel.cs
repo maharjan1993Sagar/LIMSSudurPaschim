@@ -141,7 +141,7 @@ namespace LIMS.Web.Areas.Admin.Models.AInR
 
         [LIMSResourceDisplayName("Admin.Farm.MoblileNo")]
 
-        public string MoblileNo { get; set; }
+        public string MobileNo { get; set; }
 
         [LIMSResourceDisplayName("Admin.Farm.NoOfMember")]
 

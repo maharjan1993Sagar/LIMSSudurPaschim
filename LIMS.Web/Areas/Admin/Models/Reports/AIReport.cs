@@ -7,6 +7,7 @@ namespace LIMS.Web.Areas.Admin.Models.Reports
 {
     public class AIReport
     {
+        public string LocalLevel { get; set; }
         public string Municipility { get; set; }
         public int Cow { get; set; }
         public int Buffalo { get; set; }

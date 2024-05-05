@@ -62,7 +62,7 @@
 
                                     @foreach (var item in ViewBag.Purpose)
                                     {
-                                        if (Model.Species != null)
+                                        if (Model.Species?.Count>0)
                                         {
                                             if (Model.Species.Contains(item.Id))
                                             {

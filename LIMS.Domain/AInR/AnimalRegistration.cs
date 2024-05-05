@@ -13,9 +13,9 @@ namespace LIMS.Domain.AInR
             this.Farm = new Farm();
         }
         public Guid AnimalRegistrationId { get; set; }
-        public Species Species { get; set; }
+        public LivestockSpecies Species { get; set; }
         public string SpeciesId { get; set; }
-        public BreedReg Breed { get; set; }
+        public LivestockBreed Breed { get; set; }
         public string BreedId { get; set; }
         public string Name { get; set; }
         public Farm Farm { get; set; }

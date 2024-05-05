@@ -315,8 +315,8 @@
             var window = $("#modalProgress");
             if (!window.data("kendoWindow")) {
                 window.kendoWindow({
-                    width: 800,  // Set the width to 400 pixels
-                    height: 340, // Set the height to 200 pixels
+                    width: 1000,  // Set the width to 400 pixels
+                    height: 440, // Set the height to 200 pixels
                     modal: true,
                     title: "@T("Admin.Common.UpdateProgress")",
                     actions: ["Close"]
@@ -367,10 +367,10 @@
                     row.data("vautikpragati", updatedVautik);
                     row.data("progressId", result.Id);
 
-                    var tdBitiya = row.find('td:eq(3)');
+                    var tdBitiya = row.find('td:eq(4)');
                     tdBitiya.html(updatedBitiya);
 
-                    var tdVautik = row.find('td:eq(4)');
+                    var tdVautik = row.find('td:eq(3)');
                     tdVautik.html(updatedVautik);
 
                     alert("Success: " + result.Message);

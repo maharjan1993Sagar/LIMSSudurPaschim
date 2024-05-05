@@ -167,15 +167,15 @@
                 {
                   field: "FiscalYearId",
                   title: "@T("Admin.Common.FiscalYear")",
-
                   width: 200,
                   template:"#=FiscalYear.NepaliFiscalYear#"
                 },
 
                 {
-                    field: "Species.NepaliName",
+                    field: "LivestockSpecies.NepaliName",
                 title: "@T("Admin.Treatment.SpeciesName")",
-                width: 200,
+                    width: 200,
+                    template: "#= LivestockSpecies ? LivestockSpecies.NepaliName : '' #"
             },
 
               {

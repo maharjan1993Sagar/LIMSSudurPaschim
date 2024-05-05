@@ -10,7 +10,7 @@ namespace LIMS.Services.Bali
     public interface ISeedDistributionService
     {
         Task<SeedDistribution> GetSeedDistributionById(string id);
-        Task<IPagedList<SeedDistribution>> GetSeedDistribution(string createdby,  string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<SeedDistribution>> GetSeedDistribution(string createdby,  string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<SeedDistribution>> GetSeedDistribution(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
 
         Task<IPagedList<SeedDistribution>> GetSeedDistribution(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");

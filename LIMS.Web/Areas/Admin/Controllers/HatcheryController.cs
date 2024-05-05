@@ -30,7 +30,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ILssService _lssService;
         private readonly IVhlsecService _vhlsecService;
 
-        public HatcheryController(IOtherOrganizationService organizationService, 
+        public HatcheryController(IOtherOrganizationService organizationService,
             IOtherOrganizationDetailsService otherOrganizationDetailsService,
              IFiscalYearService fiscalYearService,
              ICustomerService customerService,
@@ -51,9 +51,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
         public IActionResult Index() => RedirectToAction("List");
 
-        public IActionResult List() => View();
+        public async Task<IActionResult> List()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            return View();
+        }
         [HttpPost]
-        public async Task<IActionResult> List(DataSourceRequest command, string Keyword)
+        public async Task<IActionResult> List(DataSourceRequest command, string Keyword, string fiscalYear)
         {
             //string createdby = null;
             //List<string> roles = _context.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
@@ -70,14 +78,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //if (roles.Contains(RoleHelper.LssAdmin)|| roles.Contains(RoleHelper.LssUser))
             //{            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
-            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYearId = fiscalYear;
-
-
-
-            var hatchery = await _otherOrganizationDetailsService.GetOtherFilteredOrganization("", "Hatchery", Keyword, command.Page - 1, command.PageSize);
+         
+            var hatchery = await _otherOrganizationDetailsService.GetOtherFilteredOrganization("", "Hatchery",fiscalYear, command.Page - 1, command.PageSize);
                 var gridModel = new DataSourceResult {
                     Data = hatchery,
                     ExtraData = Keyword,
@@ -141,7 +143,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    createdby = admin.Id;
             //}
 
-            var organization = await _organizationService.GetOtherOrganizationByType(createdby,"Hatchery");
+            var organization = await _organizationService.GetOtherOrganizationByType("","Hatchery");
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();

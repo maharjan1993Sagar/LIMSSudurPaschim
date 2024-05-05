@@ -97,7 +97,6 @@
                     <admin-label asp-for="IssuedDistrict" />
                     <Select asp-for="IssuedDistrict"  asp-items="ViewBag.Districts" required="required" class="form-control"></Select>
                     <span asp-validation-for="IssuedDistrict"></span>
-
                 </div>
             </div>
             <div class="col-md-2">
@@ -105,7 +104,6 @@
                     <admin-label asp-for="PhoneNo" />
                     <admin-input asp-for="PhoneNo" />
                     <span asp-validation-for="PhoneNo"></span>
-
                 </div>
             </div>
 
@@ -121,6 +119,7 @@
     </div>
 </div><script>
     $(document).ready(function () {
+
         $('.nepaliDate1').nepaliDatePicker({
             ndpYear: true,
             ndpMonth: true,
@@ -152,10 +151,10 @@
             if (species!="") {
             $("#@Html.IdFor(m=>m.BreedId)").empty();
             $("#@Html.IdFor(m=>m.BreedId)").append("<option value=''>Select</option>");
-            url ="@Url.Action("GetBreed", "AnimalRegistration")";
+            url ="@Url.Action("GetBreed", "SeedDistribution")";
             var data = {
-                BreedType: "",
-                Species: species
+                breedType: "",
+                species: species
             }
             $.getJSON(url, data, (result) => {
                 $.each(result, function (i, item) {

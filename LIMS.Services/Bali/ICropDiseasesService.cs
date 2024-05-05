@@ -10,7 +10,7 @@ namespace LIMS.Services.Bali
     public interface ICropDiseasesService
     {
         Task<CropDiseases> GetCropDiseasesById(string id);
-        Task<IPagedList<CropDiseases>> GetCropDiseases(string createdby,  string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
+        Task<IPagedList<CropDiseases>> GetCropDiseases(string createdby,  string fiscalYearId, string LocalLevel, string district, int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<CropDiseases>> GetCropDiseases(string createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");
 
         Task<IPagedList<CropDiseases>> GetCropDiseases(List<string> createdby, int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "");

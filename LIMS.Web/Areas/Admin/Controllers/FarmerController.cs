@@ -132,13 +132,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             string createdby = _workContext.CurrentCustomer.Id;
-            var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
-            incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.IncuvationCenter = incuvationCenter;
-            var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
-            talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Talim = talim;
+            
+            //var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
+            //incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.IncuvationCenter = incuvationCenter;
+
+            //var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
+            //talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.Talim = talim;
+
             FarmerModel model = new FarmerModel();
 
             return View(model);
@@ -149,8 +153,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create(FarmerModel model,IFormCollection col)
         {           
             var animalRegistration = model.ToEntity();
-            animalRegistration.Incubation = await _incuvationCenterService.GetincuvationCenterById(animalRegistration.IncuvationCenterId);
-            animalRegistration.Talim = await _talimService.GettalimById(animalRegistration.TalimId);
+           // animalRegistration.Incubation = await _incuvationCenterService.GetincuvationCenterById(animalRegistration.IncuvationCenterId);
+          //  animalRegistration.Talim = await _talimService.GettalimById(animalRegistration.TalimId);
             animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(animalRegistration.FiscalYearId);
 
             animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
@@ -170,6 +174,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var Ward = col["WardNo"].ToList();
             var Remarks = col["Remarks"].ToList();
             var LivestockDataId = col["LivestockDataId"].ToList();
+            var Sex = col["Gender"].ToList();
+            var EthinicGroup = col["Caste"].ToList();
+
             List<Farmer> update = new List<Farmer>();
             List<Farmer> insert = new List<Farmer>();
             for (int i = 0; i < Name.Count(); i++)
@@ -177,6 +184,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(Name[i]))
                     continue;
                 Farmer farm = new Farmer();
+                farm.IncuvationCenterId = model.IncuvationCenterId;
                 farm.Talim = animalRegistration.Talim;
                 farm.TalimId = animalRegistration.TalimId;
                 farm.Incubation = animalRegistration.Incubation;
@@ -189,11 +197,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 farm.Phone = Phone[i];
                 farm.Address = Address[i];
                 farm.Ward = Ward[i];
-                farm.Male = Male[i];
-                farm.FeMale = Female[i];
-                farm.Dalit = Dalit[i];
-                farm.Janajati = Janajati[i];
-                farm.Others = Others[i];
+                farm.Male = Sex[i] == "Male" ? "1" : "0";
+                farm.FeMale = Sex[i] == "Female" ? "1" : "0";
+                farm.Dalit = EthinicGroup[i] == "Dalit" ? "1" : "0";
+                farm.Janajati = EthinicGroup[i] == "Janajati" ? "1" : "0";
+                farm.Others = EthinicGroup[i] == "Anya" ? "1" : "0";
+                farm.Gender = Sex[i];
+                farm.Caste = EthinicGroup[i];
                 farm.Remarks =Remarks[i];
                 if(!string.IsNullOrEmpty(LivestockDataId[i]))
                 {
@@ -207,7 +217,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             }
            
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
-                return RedirectToAction("TabView","AanudanKaryakram");
+                return RedirectToAction("List");
           
         }
 
@@ -434,6 +444,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
             incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.IncuvationCenter = incuvationCenter;
+            
             var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;

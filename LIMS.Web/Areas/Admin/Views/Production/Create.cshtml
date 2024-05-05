@@ -91,6 +91,13 @@
                                 <span asp-validation-for="FiscalYear"></span>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <admin-label asp-for="FarmId" />
+                                <admin-select asp-for="FarmId" asp-items="ViewBag.FarmId" required="required" onchange="getProductionData()"></admin-select>
+                                <span asp-validation-for="FarmId"></span>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -259,9 +266,13 @@
             district: $('#district').val(),
             locallevel: $('#locallevel').val(),
             ward: $('#@Html.IdFor(m=>m.Ward)').val(),
-            productionType: $('#@Html.IdFor(m => m.ProductionType)').val()
+            productionType: $('#@Html.IdFor(m => m.ProductionType)').val(),
+            farmId :$('#@Html.IdFor(m => m.FarmId)').val()
         };
         addAntiForgeryToken(data);
+        $("#tabularEntry input[name='Quantity']").val("");
+        $("#tabularEntry input[name='Remarks']").val("");
+        $("#tabularEntry input[name='ProductionDataId']").val("");
         $.post("@Url.Action("GetProductionData", "Production")", data, function (result) {
             $.each(result, function (index, item) {
                 $('tr#' + item.Species.Id + ' input[name="ProductionDataId"]').val(item.Id);

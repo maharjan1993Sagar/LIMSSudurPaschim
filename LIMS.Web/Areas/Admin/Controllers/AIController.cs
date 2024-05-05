@@ -30,23 +30,23 @@ namespace LIMS.Web.Areas.Admin.Controllers
     public class AIController : BaseAdminController
     {
         private readonly ILocalizationService _localizationService;
-        private readonly ISpeciesService _speciesService;
+        private readonly ILivestockSpeciesService _speciesService;
         private readonly IUnitService _unitService;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly IAiService _aiService;
         private readonly IWorkContext _workContext;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockBreedService _breedService;
         private readonly ILssService _lssService;
         private readonly ICustomerService _customerService;
         private readonly IFarmService _farmService;
         private readonly IAnimalRegistrationService _animalRegistrationService;
         public AIController(ILocalizationService localizationService,
-            ISpeciesService speciesService,
+            ILivestockSpeciesService speciesService,
             IUnitService unitService,
             IFiscalYearService fiscalYearService,
             IAiService aiService,
             IWorkContext workContxt,
-           IBreedService breedService,
+           ILivestockBreedService breedService,
              ILssService lssService,
              ICustomerService customerService,
              IFarmService farmService,
@@ -111,7 +111,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var provience = ProvinceHelper.GetProvince();
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
 
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
@@ -125,6 +125,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             ViewBag.SpeciesId = species;
 
+            var breed = new SelectList(await _breedService.GetBreed(), "Id", "EnglishName").ToList();
+            breed.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BreedId = breed;
+
             ViewBag.UnitId = unit;
             var typeOfAi = RepeatAiHelper.RepeatAI();
             typeOfAi.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -135,10 +139,34 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AIServiceModel model)
         {
+            var unit = new SelectList(await _unitService.GetUnit(), "Id", "UnitShortName").ToList();
+            unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
+            var provience = ProvinceHelper.GetProvince();
+            provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.provience = provience;
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            var quater = QuaterHelper.GetQuater();
+            quater.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.QuaterId = quater;
+
+            ViewBag.SpeciesId = species;
+
+            var breed = new SelectList(await _breedService.GetBreed(), "Id", "EnglishName").ToList();
+            breed.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BreedId = breed;
+
+            ViewBag.UnitId = unit;
+            var typeOfAi = RepeatAiHelper.RepeatAI();
+            typeOfAi.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.TypeOfAi = typeOfAi;
 
             if (string.IsNullOrEmpty(model.FarmId))
             {
@@ -156,7 +184,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 var animal = new AnimalRegistration() {
                     Name = model.AnimalName,
                     SpeciesId = model.SpeciesId,
-                    Species = await _speciesService.GetSpeciesById(model.SpeciesId),
+                    Species = await _speciesService.GetBreedById(model.SpeciesId),
                     Breed = await _breedService.GetBreedById(model.BreedId),
                     BreedId = model.BreedId,
                     EarTagNo = model.Eartag,

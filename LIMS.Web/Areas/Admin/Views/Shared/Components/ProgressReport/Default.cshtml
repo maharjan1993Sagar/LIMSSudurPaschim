@@ -1,13 +1,13 @@
 ﻿@model LIMS.Web.Areas.Admin.Models.Reports.ProgressReportModel
 <div id="Printcontent">
-    @if (Model.RowsPragatiVayeka.Count() > 0 )
+    @if (Model.RowsPragatiVayeka?.Count() > 0 )
     {
         <div class="text-center">
             <b>
                 @Model.LocalLevel<br />
                 @Model.Level<br />
                 @Model.Address<br />
-                आ.ब. @Model.FiscalYear, @Model.Month महिनासम्मको प्रगति प्रतिवेदन<br />
+                आ.ब. @Model?.FiscalYear, @Model.Month महिनासम्मको प्रगति प्रतिवेदन<br />
             </b>
             @*<b>प्रगति भएका कार्यक्रमहरु</b>*@
         </div>
@@ -26,7 +26,7 @@
             </thead>
             <tbody>
               
-                @if (Model.RowsPragatiVayeka.Count() > 0)
+                @if (Model.RowsPragatiVayeka?.Count() > 0)
                 {
                     @foreach (var item in Model.RowsPragatiVayeka)
                     {
@@ -76,7 +76,7 @@
     }
 </div>
 
-@if ( Model.RowsPragatiVayeka.Count() >0)
+@if ( Model.RowsPragatiVayeka?.Count() >0)
 {
     <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
     <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>

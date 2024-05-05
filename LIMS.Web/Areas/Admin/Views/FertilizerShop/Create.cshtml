@@ -14,7 +14,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYearId" />
-                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required" ></admin-select>
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" required="required"></admin-select>
                                 <span asp-validation-for="FiscalYearId"></span>
                             </div>
                         </div>
@@ -36,37 +36,37 @@
                         <td>@T("Admin.FertilizerShop.Remarks")</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabularEntry">
                     @foreach (var items in Model.Organization)
                     {
-                    <tr>
-                        <td>
-                            @items.NameEnglish
-                            <input type="hidden" asp-for="OtherOrganizationId" value="@items.Id">
-                        </td>
+                        <tr>
+                            <td>
+                                @items.NameEnglish
+                                <input type="hidden" asp-for="OtherOrganizationId" value="@items.Id">
+                            </td>
 
 
-                        <td>
-                            <admin-input asp-for="Fertilizer1" />
-                        </td>
-                        <td>
-                            <admin-input asp-for="Fertilizer2" />
+                            <td>
+                                <admin-input asp-for="Fertilizer1" />
+                            </td>
+                            <td>
+                                <admin-input asp-for="Fertilizer2" />
 
-                        </td>
-                        <td>
-                            <admin-input asp-for="Fertilizer3" />
+                            </td>
+                            <td>
+                                <admin-input asp-for="Fertilizer3" />
 
-                        </td>
-                        <td>
-                            <admin-input asp-for="FertilizerOther" />
+                            </td>
+                            <td>
+                                <admin-input asp-for="FertilizerOther" />
 
-                        </td>
-                        <td>
-                            <admin-input asp-for="Remarks" />
+                            </td>
+                            <td>
+                                <admin-input asp-for="Remarks" />
 
-                        </td>
+                            </td>
 
-                    </tr>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -77,5 +77,65 @@
     </div>
 
 </form>
+
+<script>
+    $(document).ready(function () {
+
+        var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+        data = {
+            fiscalyear: fiscalyear
+        }
+        if (fiscalyear != null) {
+            abc(data);
+        }
+
+
+            $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
+                        var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+                        data = {
+                            fiscalyear: fiscalyear
+                        }
+                        if (fiscalyear) {
+                            abc(data);
+                        }
+            });
+
+
+    });
+
+
+    function abc(data) {
+        $(tabularEntry).html("");
+        if (data.fiscalyear ) {
+            $.post("@Url.Action("GetByFiscalYear", "FertilizerShop")", addAntiForgeryToken(data), function (result) {
+                if (result.length > 0) {
+
+                    $.each(result, function (index, item) {
+                        var tableRow =`<tr><td>`+item.OtherOrganization.NameEnglish+`<input type="hidden" name="OtherOrganizationId" value="`+item.OtherOrganizationId+`">
+                                    <input type="hidden" name="Id" value="`+item.Id+`">
+                                     </td>
+                                    <td><input name="Fertilizer1" class="form-control" type="Number" step="0.01" value="`+item.Fertilizer1+`" /></td>
+                                    <td><input name="Fertilizer2" class="form-control" type="Number" step="0.01" value="`+ item.Fertilizer2 + `" /></td>
+                                    <td><input name="Fertilizer3" class="form-control" type="Number" step="0.01" value="`+ item.Fertilizer3 +`" /></td>
+                                    <td><input name="FertilizerOther" class="form-control" type="Number" step="0.01" value="`+ item.FertilizerOther +`" /></td>
+                                    <td><input name="Remarks" class="form-control"s value="`+item.Remarks+`" /></td>`
+
+                        $(tabularEntry).append(tableRow);
+
+                    });
+                }
+                    else {
+                    alert("No record found.");
+
+                    }
+
+
+            });
+        }
+
+    }
+
+</script>
+
 
 

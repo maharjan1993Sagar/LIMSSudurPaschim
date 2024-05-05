@@ -37,7 +37,7 @@ namespace LIMS.Services.Bali
         //    return await PagedList<MonthlyPragati>.Create(query, pageIndex, pageSize);
         //}
 
-        public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string sourceOfFund, string typeOfExpense, string month, string expenseCategory="", string xetra = "", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        public async Task<IPagedList<MonthlyPragati>> GetFilteredMonthlyPragati(string createdby, string fiscalYear, string sourceOfFund, string typeOfExpense, string month, string expenseCategory="", string xetra = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _MonthlyPragatiRepository.Table;
             if (!String.IsNullOrEmpty(createdby))

@@ -3,6 +3,7 @@
 @{
     //page title
     ViewBag.Title = T("Admin.Livestock.Farms").Text;
+
 }
 
 <form asp-area="@Constants.AreaAdmin" asp-controller="Farm" asp-action="List" method="post">
@@ -25,6 +26,7 @@
                         <div class="form-body col-md-12">
                             <div class="form-group">
                                 <admin-label asp-for="Keyword" class="col-2 col-sm-4 col-md-2 control-label" />
+                                <input type="hidden" name="role" id="txtRole" value="@ViewBag.Role" />
                                 <div class="col-4 col-md-6 col-sm-6">
                                     <input asp-for="Keyword" class="form-control" style="width: inherit!important" placeholder="Search farm/farmer by name and district" />
                                 </div>
@@ -56,7 +58,13 @@
 
 <script>
     $(document).ready(function () {
-        //search button
+        var urlRole = "@Html.Raw(Url.Action("GetRole", "Farm"))";
+        var role = "Agriculture";// $.getJSON(urlRole, {}, (data) => {return data });
+
+        var rolePromise = $.getJSON(urlRole, {}, function (data) {
+            role = data;
+        });
+
         $('#search-farms').click(function () {
             //search
             var grid = $('#farm-grid').data('kendoGrid');
@@ -101,10 +109,17 @@
             scrollable: false,
             columns: [
                 {
+                    title:"@T("Admin.Common.SNo")",
+                    template: function (dataItem) {
+                        var index = $("#farm-grid").data("kendoGrid").dataSource.indexOf(dataItem);
+                        return index + 1;
+                    }
+                },
+                {
                 field: "NameEnglish",
                 title: "@T("Admin.Farm.NameEnglish")",
-                width: 400,
-                template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode(NameEnglish)#</a>',
+                    width: 400,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode(NameEnglish)#</a>',
             },
                 {
                     field: "Category",
@@ -136,7 +151,18 @@
                     field: "Id",
                     title: "Action",
                     width: 200,
-                    template: '<a class="k-button k-button-icontext" href="/Admin/AnimalRegistration/Create?FarmId=#=Id#">Add animal</a>'
+                    template: function (dataItem) {
+                        if (typeof role !== 'undefined') {
+                            // Use the resolved role to conditionally render content
+                            var link = role == "Livestock" ? '<a class="k-button k-button-icontext" href="/Admin/AnimalRegistration/Create?FarmId=' + dataItem.Id + '">Add animal</a>' : '';
+                            console.log(link);
+                            return link;
+                        } else {
+                            // If rolePromise is not yet resolved, return an empty string or loading indicator
+                            return '';
+                        }
+                    }
+                   // template: '<a class="k-button k-button-icontext" href="/Admin/AnimalRegistration/Create?FarmId=#=Id#">Add animal</a>'
                 },
             ]
         });
@@ -149,4 +175,5 @@
         addAntiForgeryToken(data);
         return data;
     }
+
 </script>

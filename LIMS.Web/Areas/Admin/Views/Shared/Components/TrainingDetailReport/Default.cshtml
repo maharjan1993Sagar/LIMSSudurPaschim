@@ -1,18 +1,17 @@
 ﻿@inject IWorkContext workContext
 @model List<LIMS.Domain.Bali.Farmer>
-@{
-    var currentUser = workContext.CurrentCustomer;
-    var objFirst = Model.Count > 0 ? Model[0] : new LIMS.Domain.Bali.Farmer();
-    var fiscalYear = objFirst.FiscalYear != null ? objFirst.FiscalYear.NepaliFiscalYear : "२०८०/०८१";
-    var level = "नगर कार्यपालिकाको कार्यालय";
-    var address = currentUser.OrgAddress;
-    var localLevel = currentUser.OrgName;
-    int i = 1;
-}
 
 <div id="Printcontent">
     @if (Model.Count() > 0)
     {
+        var currentUser = workContext.CurrentCustomer;
+        var objFirst = Model.Count > 0 ? Model[0] : new LIMS.Domain.Bali.Farmer();
+        var fiscalYear = objFirst.FiscalYear != null ? objFirst.FiscalYear.NepaliFiscalYear : "२०८०/०८१";
+        var level = "नगर कार्यपालिकाको कार्यालय";
+        var address = currentUser.OrgAddress;
+        var localLevel = currentUser.OrgName;
+        int i = 1;
+
         <div class="text-center">
             <b>
                 @localLevel<br />
@@ -24,52 +23,55 @@
         </div>
         <div>
             <b> बजेट शिर्षक: @objFirst.Budget.ActivityName</b><br />
-             <b>तालिम: @objFirst.Talim.NameNepali</b> <br />
+           @* <b>तालिम: @objFirst.Talim.NameNepali</b> <br />*@
             <b>सुरु मिति: @objFirst.StartDate.ToString("yyyy-mm-dd") </b>
-             <b> अन्तिम मिति: @objFirst.EndDate.ToString("yyyy-mm-dd") </b>
+            <b> अन्तिम मिति: @objFirst.EndDate.ToString("yyyy-mm-dd") </b>
             <b> जम्मा खर्च: @objFirst.TotalExpenses </b>
-              <b>विवरण: @objFirst.Logistics</b><br />
-               <b>उद्देश्य:@objFirst.Purpose</b><br />
-               <b> कैफियत: @objFirst.Remarks</b><br />
+            <b>विवरण: @objFirst.Logistics</b><br />
+            <b>उद्देश्य:@objFirst.Purpose</b><br />
+            <b> कैफियत: @objFirst.Remarks</b><br />
 
         </div>
         <div class="divTable">
-        <table class="table table-bordered">
-            <thead>
-                @if (Model.Count() > 0)
-                {
-                    <tr style="text-align:center">
-                        <th id="c">@T("Admin.Trining.SN")</th>
-                        <th>@T("Admin.Training.Name")</th>
-                        <th>@T("Admin.Training.Address")</th>
-                        <th>@T("Admin.Training.WardNo")</th>
-                        <th>@T("Admin.Training.Phone")</th>
-                        <th>@T("Admin.Training.Gender")</th>
-                        <th>@T("Admin.Training.Caste")</th>
-                    </tr>
-                }
-            </thead>
-            <tbody>
-                @{string a = "";}
-                @foreach (var item in Model)
-                {
+            <table class="table table-bordered">
+                <thead>
+                    @if (Model.Count() > 0)
+                    {
+                        <tr style="text-align:center">
+                            <th id="c">@T("Admin.Trining.SN")</th>
+                            <th>@T("Admin.Training.Name")</th>
+                            <th>@T("Admin.Training.Address")</th>
+                            <th>@T("Admin.Training.WardNo")</th>
+                            <th>@T("Admin.Training.Phone")</th>
+                            <th>@T("Admin.Training.Gender")</th>
+                            <th>@T("Admin.Training.Caste")</th>
+                        </tr>
+                    }
+                </thead>
+                <tbody>
+                    @{string a = "";}
+                    @foreach (var item in Model)
+                    {
 
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.Name</td>
-                        <td>@item.Address</td>
-                        <td>@item.Ward</td>
-                        <td>@item.Phone</td>
-                        <td>@item.Gender</td>
-                        <td>@item.Caste</td>
-                    </tr>
-                    i = i + 1;
-                }
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.Name</td>
+                            <td>@item.Address</td>
+                            <td>@item.Ward</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Gender</td>
+                            <td>@item.Caste</td>
+                        </tr>
+                        i = i + 1;
+                    }
 
-            </tbody>
-        </table>
-            </div>
-    }
+                </tbody>
+            </table>
+        </div>
+                        }
+                        else {
+                        <div class="text-center">No record found.</div>
+                        }
 </div>
 
 @if (Model.Count() > 0)

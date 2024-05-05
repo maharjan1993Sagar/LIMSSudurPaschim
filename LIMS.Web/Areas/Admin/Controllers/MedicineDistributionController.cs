@@ -135,7 +135,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
             var vaccination = new List<VaccinationType>();
             var createdBy = _workContext.CurrentCustomer.Id;
-            var vaccine = await _vaccinationTypeService.GetVaccination(createdBy);
+            var vaccine = await _vaccinationTypeService.FiletrVaccinationType("Medicine");
             vaccination = vaccine.ToList();
             //if (roles.Contains(RoleHelper.LssAdmin))
             //{

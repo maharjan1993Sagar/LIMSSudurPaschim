@@ -28,8 +28,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly ICustomerService _customerService;
         private readonly ILocalizationService _localizationService;
-        private readonly ISpeciesService _speciesService;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockSpeciesService _speciesService;
+        private readonly ILivestockBreedService _breedService;
         private readonly IAnimalRegistrationService _animalRegistrationService;
         private readonly IFiscalYearService _fiscalYearService;
         private readonly ILssService _lssService;
@@ -43,8 +43,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ICustomerService customerService,
             IWorkContext workContext,
             ILocalizationService localizationService,
-            ISpeciesService speciesService,
-            IBreedService breedService,
+            ILivestockSpeciesService speciesService,
+            ILivestockBreedService breedService,
             IAnimalRegistrationService animalRegistrationService,
             IFiscalYearService fiscalYearService,
             IVhlsecService vhlsecService,
@@ -93,7 +93,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             species=species.Where(m => m.Text.ToLower() != "fish").ToList();
             ViewBag.species = species;
@@ -135,7 +135,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     var animal = new AnimalRegistration() {
                         Name = model.BullName,
                         SpeciesId = model.SpeciesId,
-                        Species = await _speciesService.GetSpeciesById(model.SpeciesId),
+                        Species = await _speciesService.GetBreedById(model.SpeciesId),
                         Breed = await _breedService.GetBreedById(model.BreedId),
                         BreedId = model.BreedId,
                         EarTagNo = model.EarTag,

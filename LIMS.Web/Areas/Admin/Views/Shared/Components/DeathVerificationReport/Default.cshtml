@@ -38,17 +38,90 @@
 
         </div>
         <div class="col-md-12 text-left">
+
             <b><u>तपशिल</u></b> <br />
-            जाती : @Model.DeathVerification.LivestockSpecies.NepaliName <br />
-            नश्ल : @Model.DeathVerification.LivestockBreed.NepaliName <br />
-            संकेत नं. : @Model.DeathVerification.TagNo <br />
-            रङ्ग : @Model.DeathVerification.Color <br />
-            उचाई : @ExecutionHelper.EnglishToNepali(Model.DeathVerification.Height.ToString())<br />
-            विमलेखा नं. : @Model.DeathVerification.InsuranceNo<br />
-            विमा गर्ने कम्पनीको नाम : @Model.DeathVerification.InsuranceCompany<br />
-            कारण : @Model.DeathVerification.CauseOfDeath<br />
-            विमाकं रकम : @ExecutionHelper.EnglishToNepali(Model.DeathVerification.InsuranceAmount.ToString())<br />
-            मृत्यु भएको मिति: @ExecutionHelper.EnglishToNepali(Model.DeathVerification.DeathDate.ToString("yyyy-MM-dd"))<br />
+            <table class="table table-bordered">
+                <tbody>
+
+
+                    <tr>
+                        <td>जाती : </td>
+                        <td>
+                            @Model.DeathVerification.LivestockSpecies.NepaliName <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> नश्ल :                </td>
+                        <td>
+                            @Model.DeathVerification.LivestockBreed.NepaliName <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            संकेत नं. :
+                        </td>
+                        <td>
+                            @Model.DeathVerification.TagNo <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            रङ्ग :
+                        </td>
+                        <td>
+                            @Model.DeathVerification.Color <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            उचाई :
+                        </td>
+                        <td>
+                            @ExecutionHelper.EnglishToNepali(Model.DeathVerification.Height.ToString())<br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            विमलेखा नं. :
+                        </td>
+                        <td>
+                            @Model.DeathVerification.InsuranceNo<br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            विमा गर्ने कम्पनीको नाम :
+                        </td>
+                        <td>
+                            @Model.DeathVerification.InsuranceCompany<br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            कारण :
+                        </td>
+                        <td>
+                            @Model.DeathVerification.CauseOfDeath<br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            विमाकं रकम :
+                        </td>
+                        <td>
+                            @ExecutionHelper.EnglishToNepali(Model.DeathVerification.InsuranceAmount.ToString())<br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            मृत्यु भएको मिति:
+                        </td>
+                        <td>
+                            @ExecutionHelper.EnglishToNepali(Model.DeathVerification.DeathDate.ToString("yyyy-MM-dd"))<br />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="col-md-12 text-right">
             हस्ताक्षर: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />

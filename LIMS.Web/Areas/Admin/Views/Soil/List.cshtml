@@ -39,7 +39,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <admin-label asp-for="LocalLevel" />
-                                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" disabled>
                                 </select>
                                 <span asp-validation-for="LocalLevel"></span>
                             </div>

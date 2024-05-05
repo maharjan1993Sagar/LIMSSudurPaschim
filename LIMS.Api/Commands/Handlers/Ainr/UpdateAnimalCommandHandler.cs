@@ -12,14 +12,14 @@ namespace LIMS.Api.Commands.Handlers.Ainr
     public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, AnimalRegistrationDto>
     {
         private readonly IAnimalRegistrationService _animalRegistrationService;
-        private readonly ISpeciesService _speciesService;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockSpeciesService _speciesService;
+        private readonly ILivestockBreedService _breedService;
         private readonly IFarmService _farmService;
 
         public UpdateAnimalCommandHandler(
             IAnimalRegistrationService animalRegistrationService,
-            ISpeciesService speciesService,
-            IBreedService breedService,
+            ILivestockSpeciesService speciesService,
+            ILivestockBreedService breedService,
             IFarmService farmService)
         {
             _animalRegistrationService = animalRegistrationService;
@@ -35,7 +35,7 @@ namespace LIMS.Api.Commands.Handlers.Ainr
             {
                 animalRegistration = request.Model.ToEntity(animalRegistration);
                 animalRegistration.Farm = await _farmService.GetFarmById(animalRegistration.FarmId);
-                animalRegistration.Species = await _speciesService.GetSpeciesById(animalRegistration.SpeciesId);
+                animalRegistration.Species = await _speciesService.GetBreedById(animalRegistration.SpeciesId);
                 animalRegistration.Breed = await _breedService.GetBreedById(animalRegistration.BreedId);
                 await _animalRegistrationService.UpdateAnimalRegistration(animalRegistration);
 

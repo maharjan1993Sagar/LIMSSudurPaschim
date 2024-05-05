@@ -20,8 +20,8 @@ namespace LIMS.Web.Areas.Admin.Components
 {
     public class ProductionViewComponent:BaseViewComponent
     {
-        private readonly ISpeciesService _speciesService;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockSpeciesService _speciesService;
+        private readonly ILivestockBreedService _breedService;
         private readonly IAnimalTypeService _animalTypeService;
         private readonly ILivestockService _livestockService;
         private readonly IFarmService _farmService;
@@ -33,7 +33,7 @@ namespace LIMS.Web.Areas.Admin.Components
         public readonly IProductionionDataService _productionionDataService;
         public readonly ILssService _lssService;
 
-        public IBreedService BreedService => _breedService;
+        public ILivestockBreedService BreedService => _breedService;
 
         public ILanguageService LanguageService => _languageService;
 
@@ -41,8 +41,8 @@ namespace LIMS.Web.Areas.Admin.Components
             IAnimalRegistrationService animalRegistrationService,
             IFarmService farmService,
             ILanguageService languageService,
-            ISpeciesService speciesService,
-            IBreedService breedService,
+            ILivestockSpeciesService speciesService,
+            ILivestockBreedService breedService,
             IAnimalTypeService animalTypeService,
             ILivestockService livestockService,
             ICustomerService customerService,
@@ -84,7 +84,7 @@ namespace LIMS.Web.Areas.Admin.Components
                 //}
                 var productions = await _productionionDataService.GetProduction("", fiscalyear);
 
-                var species = await _speciesService.GetSpecies();
+                var species = await _speciesService.GetBreed();
 
                 var prod = new ProductionReport();
                 var sp = new List<string>();

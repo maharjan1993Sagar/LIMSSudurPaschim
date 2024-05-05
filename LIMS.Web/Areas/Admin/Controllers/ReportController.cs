@@ -366,9 +366,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Month = months;
 
             string entityId = _workContext.CurrentCustomer.EntityId;
-            var LssIds = new List<Lss>();
+            //var LssIds = new List<Lss>();
 
-            LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+            //LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
 
             //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
             //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));

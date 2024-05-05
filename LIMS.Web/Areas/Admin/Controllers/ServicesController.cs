@@ -34,7 +34,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ISpeciesService _speciesService;
         private readonly IUnitService _unitService;
         public readonly IFiscalYearService _fiscalYearService;
-        public readonly IBreedService _breedService;
+        public readonly ILivestockBreedService _breedService;
         public readonly IWorkContext _workContext;
         public readonly IServiceData _serviceData;
         public readonly ILssService _lssService;
@@ -48,7 +48,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ISpeciesService speciesService,
              IUnitService unitService,
               IFiscalYearService fiscalYearService,
-              IBreedService breedService,
+              ILivestockBreedService breedService,
               IWorkContext workContext,
               IServiceData serviceData,
               ILssService lssService,
@@ -251,7 +251,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     var service = new ServicesData {
 
                         Breed = await _breedService.GetBreedById(breedIds[i]),
-
                         Unit = await _unitService.GetUnitById(units[i]),
                         Ward =model.Ward,
                         Tole = toles[i],
@@ -276,7 +275,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     {
                         service.Id = existingServiceId[i];
                         updateServices.Add(service);
-                    }
+                    } 
                     else
                     {
                         addServices.Add(service);
@@ -347,6 +346,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             
             var servicesData = await _serviceData.GetFilteredService(fiscalyearId,month, serviceType, createdby,district, locallevel,vaccineName,treatMentType,animalHealth,"");
             
+
+
             
             return Json(servicesData);
 

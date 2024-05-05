@@ -24,7 +24,7 @@ namespace LIMS.Web.Areas.Admin.Validators.Ainr
             RuleFor(x => x.Category)
               .NotEmpty()
               .WithMessage(localizationService.GetResource("Admin.Farm.category.Required"));
-            RuleFor(x => x.MoblileNo)
+            RuleFor(x => x.MobileNo)
              .NotEmpty()
              .WithMessage(localizationService.GetResource("Admin.Farm.MobileNo.Required"));
 

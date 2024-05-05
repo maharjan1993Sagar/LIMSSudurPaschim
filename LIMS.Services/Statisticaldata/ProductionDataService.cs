@@ -144,6 +144,10 @@ namespace LIMS.Services.Statisticaldata
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
+            if (!String.IsNullOrEmpty(type))
+            {
+                query = query.Where(m => m.ProductionType == type);
+            }
             if (!String.IsNullOrEmpty(LocalLevel))
             {
                 query = query.Where(m => m.LocalLevel == LocalLevel);
@@ -181,7 +185,7 @@ namespace LIMS.Services.Statisticaldata
 
         }
 
-        public async Task<IPagedList<Production>> GetFilteredProduction(string fiscalyearId,string productiontype,string createdBy,string district,string locallevel,string ward, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Production>> GetFilteredProduction(string fiscalyearId,string productiontype,string createdBy,string district,string locallevel,string ward,string farmId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _productionRepository.Table;
             if (!string.IsNullOrEmpty(createdBy))
@@ -203,6 +207,10 @@ namespace LIMS.Services.Statisticaldata
             if (!String.IsNullOrEmpty(locallevel))
             {
                 query = query.Where(m => m.LocalLevel == locallevel);
+            }
+            if (!String.IsNullOrEmpty(farmId))
+            {
+                query = query.Where(m => m.FarmId == farmId);
             }
             //query = query.Where(m =>
             //  m.LocalLevel == locallevel &&

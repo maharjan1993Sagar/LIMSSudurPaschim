@@ -93,9 +93,9 @@
                                     <div class="form-group">
                                         <label class="col-2 col-sm-2 col-md-2 control-label">Fiscal year</label>
                                         <div class="col-2 col-md-3 col-sm-3">
-                                            @* <select class="form-control" name="FiscalYearId" id="dropdownlist" asp-items="ViewBag.FiscalYearId"></select>*@
+                                             <select class="form-control" name="FiscalYearId" id="dropdownlist" asp-items="ViewBag.FiscalYearId"></select>
 
-                                            <input id="dropdownlist" />
+                                            @*<input id="dropdownlist" />*@
                                         </div>
                                         <div class="col-md-5 col-sm-5">
                                             <button class="btn btn-success filter-submit" id="search-hatchery" style="font-size: 13px!important;">
@@ -158,8 +158,8 @@
         $('#search-hatchery').click(function () {
             //search
             var grid = $('#hatchery-grid').data('kendoGrid');
-            grid.dataSource.page(1); //new search. Set page size to 1
-            //grid.dataSource.read(); we already loaded the grid above using "page" function
+            //grid.dataSource.page(1); //new search. Set page size to 1
+            grid.dataSource.read(); //we already loaded the grid above using "page" function
             return false;
         });
 
@@ -253,7 +253,7 @@
             ]
         });
 
-        var fiscalyear = $("#dropdownlist").kendoDropDownList({
+        @*var fiscalyear = $("#dropdownlist").kendoDropDownList({
             optionLabel: "Select Fiscal Year",
             dataTextField: "NepaliFiscalYear",
             dataValueField: "Id",
@@ -274,22 +274,25 @@
                 // handle the event
             }
         });
-
         SelectCurrFiscalYear();
+   *@
     });
+    
 
-    function SelectCurrFiscalYear() {
-        $.get("@Url.Action("GetCurrFiscalYear", "FiscalYear")", function(data) {
-             $("#dropdownlist").value(data.id)
+    @*function SelectCurrFiscalYear() {
+        $.get("@Url.Action("GetCurrFiscalYear", "FiscalYear")", function (data) {
+            console.log(data);
+            var dropdownlist = $("#dropdownlist").data("kendoDropDownList");
+             dropdownlist.value(data.FiscalYearId)
         }).fail(function(jqXHR, textStatus, errorThrown) {
             // Error callback function
             console.error("AJAX request failed:", textStatus, errorThrown);
         });
-    }
+    }*@
 
     function additionalData() {
         var data = {
-            keyword: $("#dropdownlist").val()
+            fiscalYear: $("#dropdownlist").val()
         };
         addAntiForgeryToken(data);
         return data;
@@ -297,11 +300,11 @@
 
 
 
-    function getSelectedFiscalYear() {
-        var fiscalYearSelectedText = '';
-        if ($('#dropdownlist').val() != '') {
-            fiscalYearSelectedText = $("#dropdownlist").data("kendoDropDownList").text();
-        }
-        return fiscalYearSelectedText;
-    }
+    //function getSelectedFiscalYear() {
+    //    var fiscalYearSelectedText = '';
+    //    if ($('#dropdownlist').val() != '') {
+    //        fiscalYearSelectedText = $("#dropdownlist").data("kendoDropDownList").text();
+    //    }
+    //    return fiscalYearSelectedText;
+    //}
 </script>

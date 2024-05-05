@@ -65,8 +65,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public IActionResult Index() => RedirectToAction("List");
 
-        public async Task<IActionResult> List() {
-
+        public async Task<IActionResult> List()
+        {
             var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
@@ -79,7 +79,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.FiscalYearId = fiscalYear;
 
             return View();
-
         }
 
         [PermissionAuthorizeAction(PermissionActionName.List)]

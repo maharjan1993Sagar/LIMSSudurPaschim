@@ -156,7 +156,7 @@
         if (species!="") {
             $("#@Html.IdFor(m=>m.BreedId)").empty();
             $("#@Html.IdFor(m=>m.BreedId)").append("<option value=''>Select</option>");
-            url ="@Url.Action("GetBreed", "AnimalRegistration")";
+            url ="@Url.Action("GetBreed", "SeedDistribution")";
             var data = {
                 BreedType: "",
                 Species: species
@@ -175,7 +175,7 @@
             if (species!="") {
             $("#@Html.IdFor(m=>m.BreedId)").empty();
             $("#@Html.IdFor(m=>m.BreedId)").append("<option value=''>Select</option>");
-            url ="@Url.Action("GetBreed", "AnimalRegistration")";
+            url ="@Url.Action("GetBreed", "SeedDistribution")";
             var data = {
                 BreedType: "",
                 Species: species

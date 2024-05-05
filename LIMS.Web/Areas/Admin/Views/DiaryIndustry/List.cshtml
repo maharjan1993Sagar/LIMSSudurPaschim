@@ -22,12 +22,12 @@
                         <!-- <i class="fa fa-comment"></i>-->
                         @T("Admin.OtherOrganization.DiaryIndustry")
                     </div>
-                    @if (!roles.Contains("DolfdUser") && !roles.Contains("DolfdAdmin"))
-                    {
+                    @*@if (!roles.Contains("DolfdUser") && !roles.Contains("DolfdAdmin"))
+                    {*@
                         <div class="actions btn-group btn-group-devided">
                             <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
                         </div>
-                    }
+                    @*}*@
                 </div>
                 <div class="x_content form">
                     <div class="form-inline">
@@ -37,8 +37,6 @@
                                 <label class="col-2 col-sm-2 col-md-2 control-label">@T("Admin.common.FiscalYear") </label>
                                 <div class="col-2 col-md-3 col-sm-3">
                                     <admin-select asp-for="Fiscalyear" asp-items="ViewBag.FiscalYearId">
-
-
                                     </admin-select>
                                 </div>
                                 <div class="col-md-5 col-sm-5">

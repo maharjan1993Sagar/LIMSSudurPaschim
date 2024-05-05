@@ -27,15 +27,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
     public class AnimalRegistrationController : BaseAdminController
     {
         private readonly IAnimalRegistrationService _animalRegistrationService;
-        private readonly ISpeciesService _speciesService;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockSpeciesService _speciesService;
+        private readonly ILivestockBreedService _breedService;
         private readonly IEarTagService _earTagService;
         private readonly IFarmService _farmService;
         private readonly ILocalizationService _localizationService;
         private readonly ILanguageService _languageService;
         private readonly IWorkContext _workContext;
 
-        public AnimalRegistrationController(ILocalizationService localizationService, IAnimalRegistrationService animalRegistrationService, IFarmService farmService, ILanguageService languageService, ISpeciesService speciesService, IBreedService breedService, IEarTagService earTagService, IWorkContext workContext)
+        public AnimalRegistrationController(ILocalizationService localizationService, IAnimalRegistrationService animalRegistrationService, 
+            IFarmService farmService, ILanguageService languageService, ILivestockSpeciesService speciesService, ILivestockBreedService breedService, IEarTagService earTagService, IWorkContext workContext)
         {
             _localizationService = localizationService;
             _animalRegistrationService = animalRegistrationService;
@@ -77,7 +78,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create(string farmid)
         {
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             var Provience = GetProvinceList();
@@ -106,7 +107,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 var animalRegistration = model.ToEntity();
                 animalRegistration.Farm = await _farmService.GetFarmById(model.FarmId);
-                animalRegistration.Species = await _speciesService.GetSpeciesById(model.SpeciesId);
+                animalRegistration.Species = await _speciesService.GetBreedById(model.SpeciesId);
                 animalRegistration.Breed = await _breedService.GetBreedById(model.BreedId);
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
                 animalRegistration.Source = _workContext.CurrentCustomer.OrgName;
@@ -115,7 +116,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
                 return continueEditing ? RedirectToAction("Edit", new { id = animalRegistration.Id }) : RedirectToAction("Create", new { farmid = model.FarmId });
             }
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
@@ -145,7 +146,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             entryType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.EntryType = entryType;
             ViewBag.Provience = Provience;
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
@@ -171,7 +172,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             {
                 var m = model.ToEntity(animalRegistration);
                 animalRegistration.Farm = await _farmService.GetFarmById(model.FarmId);
-                animalRegistration.Species = await _speciesService.GetSpeciesById(model.SpeciesId);
+                animalRegistration.Species = await _speciesService.GetBreedById(model.SpeciesId);
                 animalRegistration.Breed = await _breedService.GetBreedById(model.BreedId);
 
                 await _animalRegistrationService.UpdateAnimalRegistration(m);
@@ -189,7 +190,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var entryType = GetEntryType();
             entryType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.EntryType = entryType;
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+            var species = new SelectList(await _speciesService.GetBreed(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
             var Provience = GetProvinceList();
@@ -219,8 +220,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var breeds= await _breedService.GetBreedByBreedType(breedType);
             breeds = breeds.Where(m => m.Species.Id == species).ToList();
             return Json(breeds.ToList());
-        
-        
         }
         private List<SelectListItem> GetEntryType()
         {
@@ -232,7 +231,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 new SelectListItem {
                     Text="From outside",
                     Value="From outside"
-
                 },
                 new SelectListItem {
                     Text="Other",

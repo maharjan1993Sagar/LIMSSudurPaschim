@@ -152,6 +152,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fertilizer3 = form["Fertilizer3"].ToList();
             var fertilizerOther = form["FertilizerOther"].ToList();
             var remarks = form["Remarks"].ToList();
+            var ids = form["Id"].ToList();
             var organizationIds = form["OtherOrganizationId"].ToList();
             string createdby = null;
             List<string> roles = _context.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
@@ -166,27 +167,80 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //    createdby = admin.Id;
             //}
             var otherOrganizationList = new List<FertilizerShop>();
+            var updateOrganizationList = new List<FertilizerShop>();
             for (int i = 0; i < organizationIds.Count(); i++)
             {
                 if (string.IsNullOrEmpty(organizationIds[i]))
                     continue;
+                var otherOrganization = await _FertilizerShopService.GetFertilizerShopById(ids[i]);
 
-                var otherOrganization = new FertilizerShop {
-                    OtherOrganization = await _organizationService.GetOtherOrganizationById(organizationIds[i]),
-                    OtherOrganizationId = organizationIds[i],
-                    Fertilizer1 = Convert.ToDecimal(fertilizer1[i]),
-                    Fertilizer2 = Convert.ToDecimal(fertilizer2[i]),
-                    Fertilizer3 = Convert.ToDecimal(fertilizer3[i]),
-                    FertilizerOther = Convert.ToDecimal(fertilizerOther[i]),
-                    Remarks = remarks[i],
-                    FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
-                    FiscalYearId = model.FiscalYearId,
-                    CreatedBy = createdby
-                };
-                otherOrganizationList.Add(otherOrganization);
+                if (otherOrganization != null)
+                {
+                    otherOrganization.OtherOrganization = await _organizationService.GetOtherOrganizationById(organizationIds[i]);
+                    otherOrganization.OtherOrganizationId = organizationIds[i];
+                        otherOrganization.Fertilizer1 = Convert.ToDecimal(fertilizer1[i]);
+                        otherOrganization.Fertilizer2 = Convert.ToDecimal(fertilizer2[i]);
+                        otherOrganization.Fertilizer3 = Convert.ToDecimal(fertilizer3[i]);
+                        otherOrganization.FertilizerOther = Convert.ToDecimal(fertilizerOther[i]);
+                        otherOrganization.Remarks = remarks[i];
+                        otherOrganization.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
+                        otherOrganization.FiscalYearId = model.FiscalYearId;
+                        otherOrganization.CreatedBy = createdby;
+                    updateOrganizationList.Add(otherOrganization);
+                }
+                else
+                {
+                    otherOrganization = new FertilizerShop {
+                        OtherOrganization = await _organizationService.GetOtherOrganizationById(organizationIds[i]),
+                        OtherOrganizationId = organizationIds[i],
+                        Fertilizer1 = Convert.ToDecimal(fertilizer1[i]),
+                        Fertilizer2 = Convert.ToDecimal(fertilizer2[i]),
+                        Fertilizer3 = Convert.ToDecimal(fertilizer3[i]),
+                        FertilizerOther = Convert.ToDecimal(fertilizerOther[i]),
+                        Remarks = remarks[i],
+                        FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
+                        FiscalYearId = model.FiscalYearId,
+                        CreatedBy = createdby
+                    };
+                    otherOrganizationList.Add(otherOrganization);
+                }
             }
-            await _FertilizerShopService.InsertFertilizerShopList(otherOrganizationList);
+            if (otherOrganizationList.Count > 0)
+            {
+                await _FertilizerShopService.InsertFertilizerShopList(otherOrganizationList);
+            }
+            if(updateOrganizationList.Count>0)
+            {
+                await _FertilizerShopService.UpdateFertilizerShopList(updateOrganizationList);
+            }
             return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetByFiscalYear(string fiscalyear = "")
+        {
+            var lstCoOperative = await _FertilizerShopService.GetFertilizerShop("", fiscalyear);
+
+            var allOrganizations = await _organizationService.GetOtherOrganizationByType("", "Fertilizer Shop");
+
+            foreach (var item in allOrganizations)
+            {
+                if (!lstCoOperative.Any(m => m.OtherOrganizationId == item.Id))
+                {
+                    lstCoOperative.Add(new FertilizerShop {
+                        Id="",
+                        OtherOrganizationId = item.Id,
+                        OtherOrganization = item,
+                        Fertilizer1 = 0,
+                        Fertilizer2 = 0,
+                        Fertilizer3 = 0,
+                        FertilizerOther=0,
+                        Remarks = ""
+                    });
+                }
+            }
+
+            return Json(lstCoOperative);
         }
 
     }

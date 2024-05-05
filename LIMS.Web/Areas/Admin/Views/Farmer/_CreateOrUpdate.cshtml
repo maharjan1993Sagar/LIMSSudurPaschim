@@ -19,28 +19,29 @@
 
             </div>
         </div>
-        <div class="col-md-3">
+        @*<div class="col-md-3">
 
             <div class="form-group">
-                <admin-label asp-for="TalimId" />
-                <admin-select asp-for="TalimId" class="form-control" required="required">
-                </admin-select>
-                <span asp-validation-for="TalimId"></span>
+                <admin-label asp-for="IncuvationCenterId" />
+                <admin-select asp-for="IncuvationCenterId" asp-items="ViewBag.IncuvationCenter" />
+
+                <span asp-validation-for="IncuvationCenterId"></span>
 
             </div>
         </div>
+                <div class="col-md-3">
+
+                    <div class="form-group">
+                        <admin-label asp-for="TalimId" />
+                        <admin-select asp-for="TalimId" asp-items="ViewBag.Talim" class="form-control" required="required">
+                        </admin-select>
+                        <span asp-validation-for="TalimId"></span>
+
+                    </div>
+                </div>*@
         @*@if (subsidy)
         {
-            <div class="col-md-3">
 
-                <div class="form-group">
-                    <admin-label asp-for="IncuvationCenterId" />
-                    <admin-select asp-for="IncuvationCenterId" asp-items="ViewBag.IncuvationCenter" />
-
-                    <span asp-validation-for="IncuvationCenterId"></span>
-
-                </div>
-            </div>
 
 
 
@@ -96,11 +97,12 @@
                     </th>
 
                     <th>
-                        <admin-label asp-for="Male" />
+                        <admin-label asp-for="Gender" />
                     </th>
                     <th>
-                        <admin-label asp-for="Female" />
+                        <admin-label asp-for="Caste" />
                     </th>
+                    @*
                     <th>
                         <admin-label asp-for="Dalit" />
                     </th>
@@ -110,7 +112,7 @@
 
                     <th>
                         <admin-label asp-for="Others" />
-                    </th>
+                    </th>*@
                     <th>
                         <admin-label asp-for="Remarks" />
                     </th>
@@ -154,20 +156,35 @@
                 <admin-input asp-for="Phone" />
             </td>
             <td>
-                <admin-input asp-for="Male" oninput="validity.valid||(value=' + 0 +' );"/>
+                <select name="Gender" class="form-control">
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
             </td>
             <td>
-                <admin-input asp-for="Female" oninput="validity.valid||(value=' + 0 +' );"/>
+                <select name="Caste" class="form-control">
+                    <option value="">Select</option>
+                    <option value="Dalit">Dalit</option>
+                    <option value="Janajati">Janajati</option>
+                    <option value="Anya">Anya</option>
+                </select>
             </td>
-            <td>
-                <admin-input asp-for="Dalit" oninput="validity.valid||(value=' + 0 +' );" />
-            </td>
-            <td>
-                <admin-input asp-for="Janajati" oninput="validity.valid||(value=' + 0 +' );"/>
-            </td>
-            <td>
-                <admin-input asp-for="Others" oninput="validity.valid||(value=' + 0 +' );"/>
-            </td>
+            @*<td>
+            <admin-input asp-for="Male" oninput="validity.valid||(value=' + 0 +' );"/>
+        </td>
+        <td>
+            <admin-input asp-for="Female" oninput="validity.valid||(value=' + 0 +' );"/>
+        </td>
+        <td>
+            <admin-input asp-for="Dalit" oninput="validity.valid||(value=' + 0 +' );" />
+        </td>
+        <td>
+            <admin-input asp-for="Janajati" oninput="validity.valid||(value=' + 0 +' );"/>
+        </td>
+        <td>
+            <admin-input asp-for="Others" oninput="validity.valid||(value=' + 0 +' );"/>
+        </td>*@
 
             <td>
                 <admin-input asp-for="Remarks" />
@@ -254,16 +271,39 @@
                         tableRow += '<td><input type="text" name="Address" class="form-control" value="' + item.Address + '"/></td>';
                         tableRow += '<td><input type="number" name="WardNo" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.WardNo + '"/></td>';
                         tableRow += '<td><input type="text" name="Phone" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Phone + '"/></td>';
-
-                     tableRow += '<td><input type="text" name="Male" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Male + '"/></td>';
-                        tableRow += '<td><input type="text" name="Female" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FeMale + '"/></td>';
-                        tableRow += '<td><input type="text" name="Dalit" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Dalit + '"/></td>';
-                        tableRow += '<td><input type="text" name="Janajati" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Janajati + '"/></td>';
-                        tableRow += '<td><input type="text" name="Others" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Others + '"/></td>';
+                        tableRow += `<td><select name="Gender" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </td>`;
+                        tableRow += `<td>
+                                    <select name="Caste" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="Dalit">Dalit</option>
+                                        <option value="Janajati">Janajati</option>
+                                        <option value="Anya">Anya</option>
+                                    </select>
+                                </td>`;
+                     //tableRow += '<td><input type="text" name="Male" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Male + '"/></td>';
+                     //   tableRow += '<td><input type="text" name="Female" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FeMale + '"/></td>';
+                     //   tableRow += '<td><input type="text" name="Dalit" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Dalit + '"/></td>';
+                     //   tableRow += '<td><input type="text" name="Janajati" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Janajati + '"/></td>';
+                     //   tableRow += '<td><input type="text" name="Others" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Others + '"/></td>';
 
                         tableRow += '<td><input type="text" name="Remarks" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Remarks + '"/></td>';
 
                         $(tabularEntry).append(tableRow);
+
+                        var SexDDL = $("#tabularEntry").find('tr:last select[name="Gender"]');
+                        if (SexDDL.find('option[value="' + item.Gender + '"]').length > 0) {
+                            SexDDL.val(item.Gender);
+                        }
+
+                        var EthinicGroupDDL = $("#tabularEntry").find('tr:last select[name="Caste"]');
+                        if (EthinicGroupDDL.find('option[value="' + item.Caste + '"]').length > 0) {
+                            EthinicGroupDDL.val(item.Caste);
+                        }
                         //$('tr#' + item.Id + ' select[name="Ward"]').val(item.Ward);
                         //$('tr#' + item.Id + ' select[name="LocalLevel"]').val(item.LocalLevel);
                     });

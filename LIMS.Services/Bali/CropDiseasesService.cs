@@ -47,14 +47,14 @@ namespace LIMS.Services.Bali
             return await PagedList<CropDiseases>.Create(query, pageIndex, pageSize);
         }
 
-        public async Task<IPagedList<CropDiseases>> GetCropDiseases(string createdby, string fiscalYear = "", string district = "", string locallevel = "", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        public async Task<IPagedList<CropDiseases>> GetCropDiseases(string createdby, string fiscalYear = "", string district = "", string locallevel = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _CropDiseasesRepository.Table;
             if(!String.IsNullOrEmpty(createdby))
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
-            if (!String.IsNullOrEmpty(fiscalyear))
+            if (!String.IsNullOrEmpty(fiscalYear))
             {
                 query = query.Where(m => m.FiscalYearId == fiscalYear);
             }

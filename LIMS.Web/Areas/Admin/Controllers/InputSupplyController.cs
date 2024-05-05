@@ -1,4 +1,5 @@
 ﻿using LIMS.Core;
+using LIMS.Domain.BasicSetup;
 using LIMS.Framework.Kendoui;
 using LIMS.Framework.Mvc.Filters;
 using LIMS.Framework.Security.Authorization;
@@ -134,10 +135,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 if(String.IsNullOrEmpty(model.CategoryId))
                 {
                     var category = await _categoryService.GetCategoryByName(model.CategoryName);
-                    if(!String.IsNullOrEmpty(category.Id))
+                    if(String.IsNullOrEmpty(category?.Id))
                     {
-                        category.NameEnglish = model.CategoryName;
-                        category.Type = "Input Supply";
+                        category = new Category() {
+                            NameNepali = model.CategoryName,
+                            NameEnglish = model.CategoryName,
+                            Type = "Input Supply"
+                        };
                         await _categoryService.InsertCategory(category);
                         model.CategoryId = category.Id;
                     }
@@ -246,10 +250,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 if (String.IsNullOrEmpty(model.CategoryId))
                 {
                     var category = await _categoryService.GetCategoryByName(model.CategoryName);
-                    if (!String.IsNullOrEmpty(category.Id))
+                    if (String.IsNullOrEmpty(category?.Id))
                     {
-                        category.NameEnglish = model.CategoryName;
-                        category.Type = "Input Supply";
+                        category = new Category() {
+                            NameNepali = model.CategoryName,
+                            NameEnglish = model.CategoryName,
+                            Type = "Input Supply"
+                        };
+                       
                         await _categoryService.InsertCategory(category);
                         model.CategoryId = category.Id;
                     }

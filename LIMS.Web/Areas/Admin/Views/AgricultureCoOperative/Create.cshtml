@@ -75,13 +75,15 @@
 </form>
 
 <script>
-       $(document).ready(function () {
+    $(document).ready(function () {
 
-         var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
-         data = {
-                 fiscalyear: fiscalyear
-           }
-
+        var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+        data = {
+            fiscalyear: fiscalyear
+        }
+        if (fiscalyear != null) {
+            abc(data);
+        }
 
 
             $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
@@ -110,7 +112,7 @@
                                      </td>
                                     <td><input name="MaleMembers" class="form-control" type="Number" value="`+item.MaleMembers+`" /></td>
                                     <td><input name="FemaleMembers" class="form-control" type="Number" value="`+ item.FemaleMembers + `" /></td>
-                                    <td><input name="OthersMembers" class="form-control" type="Number" value="`+ item.OtherMembers +`" /></td>
+                                    <td><input name="OthersMembers" class="form-control" type="Number" value="`+ item.OthersMembers +`" /></td>
                                     <td><input name="Remarks" class="form-control"s value="`+item.Remarks+`" /></td>`
 
                         $(tabularEntry).append(tableRow);

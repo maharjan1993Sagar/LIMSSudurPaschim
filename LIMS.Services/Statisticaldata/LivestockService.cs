@@ -155,35 +155,34 @@ namespace LIMS.Services.Statisticaldata
         public async Task<IPagedList<Livestock>> GetFilteredLivestock(string createdBy, string speciesId, string district, string fiscalYearId, string quater,string locallevel,string month, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _livestockRepository.Table;
-            if (createdBy != "molmac")
+            if (!String.IsNullOrEmpty(createdBy))
             {
                 query = query.Where(m => m.CreatedBy == createdBy);
             }
-            if (fiscalYearId != null && (speciesId == null && string.IsNullOrEmpty(district)))
+            if (fiscalYearId != null) 
             {
                 query = query.Where(m => m.FiscalYear.Id == fiscalYearId);
 
             }
-            if (fiscalYearId != null && speciesId != null && string.IsNullOrEmpty(district))
+            if(speciesId !=null)
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId);
+                query = query.Where(m => m.Species.Id == speciesId);
 
             }
-            if (fiscalYearId != null && speciesId != null && !string.IsNullOrEmpty(district) && string.IsNullOrEmpty(locallevel))
+
+            if (!string.IsNullOrEmpty(district))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId && m.District == district);
+                query = query.Where(m => m.District == district);
 
             }
-            if (fiscalYearId != null && speciesId != null && district != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(locallevel) && string.IsNullOrEmpty(month))
+            if (!string.IsNullOrEmpty(district) )
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId && m.LocalLevel == locallevel);
+                query = query.Where(m => m.LocalLevel == locallevel);
 
             }
-            if (fiscalYearId != null && speciesId != null && district != null && !string.IsNullOrEmpty(district) && !string.IsNullOrEmpty(locallevel) && !string.IsNullOrEmpty(month
-                ))
+            if (!string.IsNullOrEmpty(month))
             {
-                query = query.Where(m => m.FiscalYear.Id == fiscalYearId && m.Species.Id == speciesId && m.LocalLevel == locallevel && m.Ward == month);
-
+                query = query.Where(m =>m.Ward == month);
             }
 
                 return await PagedList<Livestock>.Create(query, pageIndex, pageSize);

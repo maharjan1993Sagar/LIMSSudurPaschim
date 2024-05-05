@@ -127,8 +127,8 @@
                 {
                     field: "Category.NameEnglish",
                         title: "@T("Admin.Anugaman.Category")",
-                          width: 400
-
+                          width: 400,
+                           template: "#= Category !== null && Category.NameEnglish !== null ? Category.NameEnglish : '' #"
                 },
                       {
                           field: "Observations",

@@ -27,7 +27,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <admin-label asp-for="Fiscalyear" />
-                                        <admin-select asp-for="Fiscalyear" asp-items="ViewBag.FiscalYearId" ></admin-select>
+                                        <admin-select asp-for="Fiscalyear" asp-items="ViewBag.FiscalYearId"></admin-select>
                                         <span asp-validation-for="Fiscalyear"></span>
                                     </div>
                                 </div>
@@ -39,26 +39,26 @@
                                     </div>
                                 </div>
                                 @*<div class="col-md-2">
-                                    <div class="form-group">
-                                        <admin-label asp-for="Province" />
-                                        <admin-select asp-for="Province" id="country" />
-                                        <span asp-validation-for="Province"></span>
+                                        <div class="form-group">
+                                            <admin-label asp-for="Province" />
+                                            <admin-select asp-for="Province" id="country" />
+                                            <span asp-validation-for="Province"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <admin-label asp-for="District" />
-                                        <select id="district" name="District" class="form-control">
-                                            <option value="">Select </option>
-                                        </select>
-                                        <span asp-validation-for="District"></span>
-                                    </div>
-                                </div>*@
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <admin-label asp-for="District" />
+                                            <select id="district" name="District" class="form-control">
+                                                <option value="">Select </option>
+                                            </select>
+                                            <span asp-validation-for="District"></span>
+                                        </div>
+                                    </div>*@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <admin-label asp-for="LocalLevel" />
                                         <input type="hidden" asp-for="LocalLevel" />
-                                        <select name="LocalLevel1" asp-items="@ViewBag.LocalLevels"  class="form-control" required="required" disabled>
+                                        <select name="LocalLevel1" asp-items="@ViewBag.LocalLevels" class="form-control" required="required" disabled>
                                             <option value="">select</option>
                                         </select>
                                         <span asp-validation-for="LocalLevel"></span>
@@ -101,7 +101,8 @@
         $('#search-production').click(function () {
             //search
             var grid = $('#production-grid').data('kendoGrid');
-            grid.dataSource.page(1); //new search. Set page size to 1
+            grid.dataSource.read();
+           // grid.dataSource.page(1); //new search. Set page size to 1
             //grid.dataSource.read(); we already loaded the grid above using "page" function
             return false;
         });
@@ -141,34 +142,50 @@
                 mode: "inline"
             },
             scrollable: false,
-            columns: [
+            columns: [                
                  {
                     field: "Ward",
                 title: "@T("Admin.Production.Ward")",
                 width: 200,
-            },
+                },
+                   {
+                    field: "",
+                title: "@T("Admin.FiscalYear.NepaliFiscalYear")",
+                       width: 200,
+                       template: "#= FiscalYear ? FiscalYear.NepaliFiscalYear : '' #"
+
+                },
                 {
                     field: "Species.NepaliName",
                 title: "@T("Admin.Production.SpeciesName")",
+                    width: 200,
+                    template: "#= Species ? Species.NepaliName : '' #"
+
+                },
+                  {
+                    field: "Breed.NepaliName",
+                title: "@T("Admin.Production.BreedName")",
+                      width: 200,
+                      template: "#= Breed ? Breed.NepaliName : '' #"
+
+            },
+                   {
+                    field: "ProductionType",
+                title: "@T("Admin.Production.ProductionType")",
                 width: 200,
             },
-
-
-
-
-
                  {
                     field: "Quantity",
                     title:"@T("Admin.Production.Quantity")",
                     width: 200,
                 },
-                    //{
-                        @*field: "Unit.UnitNameEnglish",
+                 {
+                        field: "Unit.UnitNameEnglish",
                     title:"@T("Admin.Common.Unit")",
-                    width: 200,
-                },*@
-            ]
-        });
+                     width: 200,
+                     template: "#= Unit ? Unit.UnitNameEnglish : '' #"
+                },
+            ]      });
     });
 
     function additionalData() {

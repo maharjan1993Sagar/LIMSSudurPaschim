@@ -39,6 +39,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ICustomerService _customerService;
         private readonly IFarmService _farmService;
         private readonly ILocalLevelService _localLevelService;
+
         public ProductionController(ILocalizationService localizationService, ILivestockSpeciesService speciesService, IUnitService unitService, IFiscalYearService fiscalYearService, IProductionionDataService productionionDataService, IWorkContext workContxt,
            IBreedService breedService,
              ILssService lssService,
@@ -134,6 +135,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalyear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",CurrentFiscalYear).ToList();
             fiscalyear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalyear;
+
             return View();
         }
 
@@ -161,7 +163,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //}
          
 
-            var production = await _productionionDataService.GetFilteredProduction(createdby,type,fiscalYear,locallevel,district);
+            var production = await _productionionDataService.GetFilteredProduction("",type,fiscalYear,locallevel,district);
            // var prod=production.GroupBy(m=>m.ProductionType)
             var gridModel = new DataSourceResult {
                 Data = production,
@@ -169,21 +171,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             };
             return Json(gridModel);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         public async Task<IActionResult> GetSpeciesProductionType(string productionType)
@@ -231,6 +218,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect,"Text","Text",ExecutionHelper.LocalLevel);
+
+
+            var farms =new SelectList(await _farmService.GetFarmByCreatedBy(""),"Id","NameEnglish").ToList();
+            farms.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FarmId = farms;
+
 
             var productionType = new List<SelectListItem>() {
                 new SelectListItem{
@@ -299,6 +292,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
 
+            var farms = new SelectList(await _farmService.GetFarmByCreatedBy(""), "Id", "NameEnglish", model.FarmId).ToList();
+            farms.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FarmId = farms;
+
             var existingProductionDataIds = form["ProductionDataId"].ToList();
             var updateproductions = new List<Production>();
             var addproduction = new List<Production>();
@@ -360,13 +357,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return Json(false);
         }
         [HttpPost]
-        public async Task<IActionResult> GetProductionData(string fiscalyearId, string district,string locallevel,string ward, string productionType)
+        public async Task<IActionResult> GetProductionData(string fiscalyearId, string district,string locallevel,string ward, string productionType, string farmId)
         {
             string createdby = null;
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
            
             //createdby = _workContext.CurrentCustomer.Id;
-            var productiondata = await _productionionDataService.GetFilteredProduction(fiscalyearId, productionType, "", district, locallevel,ward);
+            var productiondata = await _productionionDataService.GetFilteredProduction(fiscalyearId, productionType, "", district, locallevel,ward,farmId);
             return Json(productiondata);
         }
 

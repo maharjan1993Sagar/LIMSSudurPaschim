@@ -22,8 +22,8 @@ namespace LIMS.Api.Commands.Handlers.AnimalBreeding
         private readonly IFarmService _farmService;
         private readonly IWorkContext _workContext;
         private readonly IAiService _aiService;
-        private readonly ISpeciesService _speciesService;
-        private readonly IBreedService _breedService;
+        private readonly ILivestockSpeciesService _speciesService;
+        private readonly ILivestockBreedService _breedService;
         private readonly IFiscalYearService _fiscalYearService;
 
         public AddAiCommandHandler(
@@ -32,8 +32,8 @@ namespace LIMS.Api.Commands.Handlers.AnimalBreeding
             IWorkContext workContext,
             IFiscalYearService fiscalYearService,
             IAiService aiService,
-            ISpeciesService speciesService,
-            IBreedService breedService
+            ILivestockSpeciesService speciesService,
+            ILivestockBreedService breedService
         )
         {
             _animalRegistrationService = animalRegistrationService;
@@ -65,7 +65,7 @@ namespace LIMS.Api.Commands.Handlers.AnimalBreeding
                 var animal = new AnimalRegistration() {
                     Name = model.AnimalName,
                     SpeciesId = model.SpeciesId,
-                    Species = await _speciesService.GetSpeciesById(model.SpeciesId),
+                    Species = await _speciesService.GetBreedById(model.SpeciesId),
                     Breed = await _breedService.GetBreedById(model.BreedId),
                     BreedId = model.BreedId,
                     EarTagNo = model.Eartag,

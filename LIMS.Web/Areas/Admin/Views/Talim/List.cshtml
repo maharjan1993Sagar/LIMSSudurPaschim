@@ -3,9 +3,9 @@
     //page title
     ViewBag.Title = "Talim";
 }
-<a href="@Url.Action("Index","IncubationCenter")"><button class="btn btn-primary">@T("Admin.IncuvationCenter")</button></a>
+@*<a href="@Url.Action("Index","IncubationCenter")"><button class="btn btn-primary">@T("Admin.IncuvationCenter")</button></a>
 
-<a href="@Url.Action("tabview","aanudankaryakram")"><button class="btn btn-primary">@T("Admin.SubsidyAndTraining")</button></a>
+<a href="@Url.Action("tabview","aanudankaryakram")"><button class="btn btn-primary">@T("Admin.SubsidyAndTraining")</button></a>*@
 
 <div class="row">
     <div class="col-md-12">
@@ -76,11 +76,6 @@
                     template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=NameEnglish#</a>',
 
                 },
-
-
-
-
-
                       {
                           field: "StartDate",
                         title: "@T("Admin.Talim.StartDate")",
@@ -100,7 +95,15 @@
                        {
                           field: "FiscalYear.NepaliFiscalYear",
                         title: "@T("Admin.Talim.FiscalYear")",
-                        width: 400,
+                           width: 400,
+                           template: function (dataItem) {
+                               // Check if  null or not
+                               if (dataItem.FiscalYear && dataItem.FiscalYear.NepaliFiscalYear) {
+                                   return dataItem.FiscalYear.NepaliFiscalYear;
+                               } else {
+                                   return "";
+                               }
+                           }
 
                 },
 

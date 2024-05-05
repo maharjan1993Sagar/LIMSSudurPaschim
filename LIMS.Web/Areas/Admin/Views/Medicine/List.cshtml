@@ -17,10 +17,10 @@
                 </div>
             </div>
             <div class="x_content form">
-                    <div class="form-body">
-                        <div class="x_content">
-                            <div id="medicine-grid"></div>
-                        </div>
+                <div class="form-body">
+                    <div class="x_content">
+                        <div id="medicine-grid"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,16 +65,26 @@
             scrollable: false,
             columns: [
 
-
                     {
                         field: "MedicalName",
                         title: "@T("Admin.Medicine.Name")",
-                    width: 400,
+                    width: 100,
                     template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>&nbsp#=kendo.htmlEncode((MedicalName == null) ? " ": MedicalName)#</a>',
 
-                    
+
                 },
-                
+                 {
+                        field: "Type",
+                        title: "@T("Admin.Medicine.Type")",
+                    width: 50,
+
+                },
+                 {
+                        field: "Composition",
+                        title: "@T("Admin.Medicine.Composition")",
+                    width: 200,
+
+                }
 
 
 

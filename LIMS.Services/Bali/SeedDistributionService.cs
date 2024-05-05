@@ -47,14 +47,14 @@ namespace LIMS.Services.Bali
             return await PagedList<SeedDistribution>.Create(query, pageIndex, pageSize);
         }
 
-        public async Task<IPagedList<SeedDistribution>> GetSeedDistribution(string createdby, string fiscalYear = "", string district = "", string locallevel = "", int pageIndex = 0, int pageSize = int.MaxValue, string fiscalyear = "")
+        public async Task<IPagedList<SeedDistribution>> GetSeedDistribution(string createdby, string fiscalYear = "", string district = "", string locallevel = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _SeedDistributionRepository.Table;
             if(!String.IsNullOrEmpty(createdby))
             {
                 query = query.Where(m => m.CreatedBy == createdby);
             }
-            if (!String.IsNullOrEmpty(fiscalyear))
+            if (!String.IsNullOrEmpty(fiscalYear))
             {
                 query = query.Where(m => m.FiscalYearId == fiscalYear);
             }

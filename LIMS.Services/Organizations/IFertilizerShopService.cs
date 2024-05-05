@@ -15,10 +15,9 @@ namespace LIMS.Services.Organizations
         Task<IPagedList<FertilizerShop>> GetFertilizerShop(List<string> createdby, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task DeleteFertilizerShop(FertilizerShop FertilizerShop);
-
         Task InsertFertilizerShop(FertilizerShop FertilizerShop);
         Task InsertFertilizerShopList(List<FertilizerShop> FertilizerShop);
-
         Task UpdateFertilizerShop(FertilizerShop FertilizerShop);
+        Task UpdateFertilizerShopList(List<FertilizerShop> FertilizerShop);
     }
 }

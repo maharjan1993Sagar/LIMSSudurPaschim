@@ -67,8 +67,8 @@ namespace LIMS.Web.Areas.Admin.Components
         public async Task<IViewComponentResult> InvokeAsync(string fiscalyear,string month)
         {
             List<string> roles = _workContext.CurrentCustomer.CustomerRoles.Select(x => x.Name).ToList();
-            if (roles.Contains(RoleHelper.LssUser) || roles.Contains(RoleHelper.LssAdmin))
-            {
+            //if (roles.Contains(RoleHelper.LssUser) || roles.Contains(RoleHelper.LssAdmin))
+            //{
 
                 string createdby = null;
                 //if (roles.Contains(RoleHelper.LssAdmin) || roles.Contains(RoleHelper.VhlsecAdmin) || roles.Contains(RoleHelper.DolfdAdmin))
@@ -327,16 +327,16 @@ namespace LIMS.Web.Areas.Admin.Components
                 );
 
                 return View(reportmodel);
-            }
-            else
-            {
-                string vhlsecid = _workContext.CurrentCustomer.EntityId;
-                List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
-                var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
-                List<string> customerid = customers.Select(x => x.Id).ToList();
-                return View();
+            //}
+            //else
+            //{
+            //    string vhlsecid = _workContext.CurrentCustomer.EntityId;
+            //    List<string> lssId = _lssService.GetLssByVhlsecId(vhlsecid).Result.Select(m => m.Id).ToList();
+            //    var customers = _customerService.GetCustomerByLssId(lssId, vhlsecid);
+            //    List<string> customerid = customers.Select(x => x.Id).ToList();
+            //    return View();
 
-            }
+            //}
 
         }
     }

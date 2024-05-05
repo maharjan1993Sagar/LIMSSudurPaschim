@@ -61,14 +61,14 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> List(DataSourceRequest command)
         {
             var id = _workContext.CurrentCustomer.Id;
-            var bali = await _talimService.Gettalim(id,"","" ,command.Page - 1, command.PageSize);
+            var bali = await _talimService.Gettalim("","","" ,command.Page - 1, command.PageSize);
             var gridModel = new DataSourceResult {
                 Data = bali,
                 Total = bali.TotalCount
             };
             return Json(gridModel);
         }
-
+            
 
         public async Task<IActionResult> Create()
         {
@@ -82,7 +82,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
-
+            var budgetId = new SelectList(await _budgetService.GetBudget("", "", "", "", "Training"), "Id", "ActivityName").ToList();
+            budgetId.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BudgetId = budgetId;
 
             TalimModel model = new TalimModel();
 
@@ -118,6 +120,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
+            var budgetId = new SelectList(await _budgetService.GetBudget("","","","","Training"), "Id", "ActivityName", model.BudgetId).ToList();
+            budgetId.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BudgetId = budgetId;
+
             return View(model);
         }
 
@@ -139,6 +145,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            var budgetId = new SelectList(await _budgetService.GetBudget("", "", "", "", "Training"), "Id", "ActivityName", model.BudgetId).ToList();
+            budgetId.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BudgetId = budgetId;
 
             return View(model);
         }
@@ -168,7 +178,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                   
                     return RedirectToAction("Edit", new { id = model.Id });
                 }
-                return RedirectToAction("TabView","AanudanKaryakram");
+                return RedirectToAction("Index");
             }
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
@@ -180,6 +190,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
 
+            var budgetId = new SelectList(await _budgetService.GetBudget("", "", "", "", "Training"), "Id", "ActivityName", model.BudgetId).ToList();
+            budgetId.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BudgetId = budgetId;
 
             //If we got this far, something failed, redisplay form
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);

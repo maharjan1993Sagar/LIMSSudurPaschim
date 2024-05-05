@@ -261,6 +261,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return RedirectToAction("Create");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetBreed(string breedType, string species)
+        {
+            var breeds = await _breedService.GetBreedByBreedType(breedType);
+            breeds = breeds.Where(m => m.Species.Id == species).ToList();
+            return Json(breeds.ToList());
+        }
 
         public virtual async Task<IActionResult> CategoryAutoComplete(string term, string type)
         {

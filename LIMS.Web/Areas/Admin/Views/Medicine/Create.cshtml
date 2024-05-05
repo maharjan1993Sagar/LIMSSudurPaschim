@@ -34,16 +34,33 @@
 
                             </div>
                         </div>
-                       
+
                         @*<div class="col-md-3 col-sm-3">
 
+            <div class="form-group">
+                <admin-label asp-for="Brand" />
+                <admin-input asp-for="Brand" />
+                <span asp-validation-for="Brand"></span>
+
+            </div>
+        </div>*@
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <admin-label asp-for="Brand" />
-                                <admin-input asp-for="Brand" />
-                                <span asp-validation-for="Brand"></span>
+                                <admin-label asp-for="Type" /><br />
+                                @if (Model.Type == "Vaccine")
+                                {
+                                    <input type="radio" name="Type" value="Vaccine" checked /> <label>Vaccine</label>
+                                     <input type="radio" name="Type" value="Medicine" /> <label>Medicine</label>
+                                 }
+                                else
+                                {
+                                    <input type="radio" name="Type" value="Vaccine"  /><label>Vaccine</label>
+                                     <input type="radio" name="Type" value="Medicine" checked/><label> Medicine </label>
+                                }
+                                <span asp-validation-for="Type"></span>
 
                             </div>
-                        </div>*@
+                        </div>
                         <div class="col-md-6">
 
                             <div class="form-group">
@@ -53,15 +70,26 @@
 
                             </div>
                         </div>
-                        @*<div class="col-md-12">
+                        <div class="col-md-12">
 
                             <div class="form-group">
                                 <admin-label asp-for="Description" />
-                                <admin-textarea asp-for="Description" />
+                                <admin-input asp-for="Description" />
                                 <span asp-validation-for="Description"></span>
 
                             </div>
-                        </div>*@
+                        </div>
+
+
+                        @*<div class="col-md-12">
+
+            <div class="form-group">
+                <admin-label asp-for="Description" />
+                <admin-textarea asp-for="Description" />
+                <span asp-validation-for="Description"></span>
+
+            </div>
+        </div>*@
 
                     </div>
                     </div>

@@ -171,16 +171,16 @@
                 {
                   field: "FiscalYearId",
                   title: "@T("Admin.Common.FiscalYear")",
-
                   width: 200,
                   template:"#=FiscalYear.NepaliFiscalYear#"
                 },
 
                 {
-                    field: "Species.NepaliName",
-                title: "@T("Admin.Vaccine.SpeciesName")",
-                width: 200,
-            },
+                    field: "LivestockSpecies.NepaliName",
+                   title: "@T("Admin.Vaccine.SpeciesName")",
+                   width: 200,
+                  template: "#= LivestockSpecies ? LivestockSpecies.NepaliName : '' #"
+         },
 
               {
                   field: "Vaccination.MedicalName",
@@ -216,8 +216,8 @@
 
     function additionalData() {
         var data = {
-              Fiscalyear: $("#Fiscalyear").val(),
-            Month: $("#Month").val(),
+            Fiscalyear: $("#@Html.IdFor(m=>m.Fiscalyear)").val(),
+            Month: $("#@Html.IdFor(m=>m.Month)").val(),
             SpeciesId: $("#@Html.IdFor(m=>m.SpeciesId)").val(),
         };
         addAntiForgeryToken(data);

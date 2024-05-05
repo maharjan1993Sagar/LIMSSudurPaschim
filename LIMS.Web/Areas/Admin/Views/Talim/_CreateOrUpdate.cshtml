@@ -63,13 +63,11 @@
 
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-9 col-sm-9">
 
                 <div class="form-group">
                     <admin-label asp-for="BudgetId" />
-                    <admin-select asp-for="BudgetId" required="required">
-                        <option value="">Select</option>
-
+                    <admin-select asp-for="BudgetId" asp-items="ViewBag.BudgetId" required="required">
                     </admin-select>
 
                     <span asp-validation-for="BudgetId"></span>
