@@ -193,7 +193,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -391,7 +391,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             model.District = _workContext.CurrentCustomer.OrgAddress;
             model.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -514,7 +514,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);

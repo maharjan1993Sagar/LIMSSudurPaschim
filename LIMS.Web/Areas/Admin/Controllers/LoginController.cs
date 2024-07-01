@@ -9,6 +9,7 @@ using LIMS.Services.Customers;
 using LIMS.Services.Localization;
 using LIMS.Services.Notifications.Customers;
 using LIMS.Web.Areas.Admin.Extensions;
+using LIMS.Web.Areas.Admin.Helper;
 using LIMS.Web.Areas.Admin.Models.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -77,6 +78,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     case CustomerLoginResults.Successful:
                         {
                             var customer = _customerSettings.UsernamesEnabled ? await _customerService.GetCustomerByUsername(model.Username) : await _customerService.GetCustomerByEmail(model.Email);
+                            ExecutionHelper.LocalLevel = customer.LocalLevel;
+                            ExecutionHelper.District = customer.District;
                             //sign in
                             return await SignInAction(customer, model.RememberMe);
                         }

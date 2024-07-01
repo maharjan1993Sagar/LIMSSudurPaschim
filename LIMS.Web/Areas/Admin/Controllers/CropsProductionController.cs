@@ -231,7 +231,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var dropdownitem = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             dropdownitem.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.common.select"), ""));
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
@@ -292,7 +292,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             provience.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.provience = provience;
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -332,7 +332,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CropsProductionModel model, IFormCollection form)
         {
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);

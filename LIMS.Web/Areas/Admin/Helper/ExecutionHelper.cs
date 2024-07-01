@@ -3,13 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace LIMS.Web.Areas.Admin.Helper
 {
 
     public static class ExecutionHelper
     {
-        public static string LocalLevel = "Tokha Municipality";
+        public static string LocalLevel { get; set; } = "Tripurasundari Municipality";
+        public static string LocalLevelNepali { get; set; } = "टेस्ट नगरपालिका";
+        public static string District { get; set; } = "DOLPA";
         public static string LevelNepali = "नगर कार्यपालिकाको कार्यालय";
         public static string LevelEnglish = "Office of Municipal Executive";
         public static string DepartmentLivestock = "पशु सेवा शाखा";

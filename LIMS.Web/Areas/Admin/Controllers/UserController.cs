@@ -148,7 +148,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             ViewBag.Roles = new SelectList(lstRoles,"Value","Text");            
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -165,7 +165,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CustomerModel model, bool continueEditing, IFormCollection form)
         {
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -216,7 +216,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {                
                 model.Province = "BAGAMATI PROVINCE";
-                model.District = "KATHMANDU";
+                model.District = ExecutionHelper.District;
                 model.CreatedBy = _workContext.CurrentCustomer.Id;
                 model.OrgAddress = orgAddress;
                 model.OrgName = orgname;
@@ -271,7 +271,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [PermissionAuthorizeAction(PermissionActionName.Preview)]
         public async Task<IActionResult> Edit(string id)
         {
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -317,7 +317,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Edit(CustomerModel model, bool continueEditing, IFormCollection form)
         {
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -447,10 +447,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [PermissionAuthorizeAction(PermissionActionName.Preview)]
         public async Task<IActionResult> EditAdmin(string id)
         {
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel("");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+
+            var districts = await _localLevelService.GetDistrict("");
+            var districtSelect = new SelectList(districts).ToList();
+            districtSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(districtSelect, "Text", "Text");
 
             var lstRoles = new List<SelectListItem>(){
                             new SelectListItem{Text="Select",Value=""},
@@ -476,10 +482,17 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> EditAdmin(CustomerModel model, bool continueEditing, IFormCollection form)
         {
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel("");
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", model.LocalLevel);
+
+            var districts = await _localLevelService.GetLocalLevel("");
+            var districtSelect = new SelectList(districts).ToList();
+            districtSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Districts = new SelectList(districtSelect, "Text", "Text", model.District);
+
+
 
             var lstRoles = new List<SelectListItem>(){
                             new SelectListItem{Text="Select",Value=""},

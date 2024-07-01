@@ -111,7 +111,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             ViewBag.Month = months;
             MarketModel model = new MarketModel();
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -130,6 +130,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.Breed = await _breedService.GetBreedById(model.BreedId);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
                 animalRegistration.Unit = await _unitService.GetUnitById(model.UnitId);
+                animalRegistration.MinPrice = model.MinPrice.ToString();
+                animalRegistration.MaxPrice = model.MaxPrice.ToString();
+                animalRegistration.WholesalePrice = model.WholesalePrice.ToString();
+                animalRegistration.FarmGetPrice = model.FarmGetPrice.ToString();
 
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
                 await _animalRegistrationService.InsertmarketData(animalRegistration);
@@ -152,7 +156,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -187,7 +191,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.UnitId = unit;
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
@@ -211,6 +215,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.Breed = await _breedService.GetBreedById(model.BreedId);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
                 animalRegistration.Unit = await _unitService.GetUnitById(model.UnitId);
+                animalRegistration.MinPrice = model.MinPrice.ToString();
+                animalRegistration.MaxPrice = model.MaxPrice.ToString();
+                animalRegistration.WholesalePrice = model.WholesalePrice.ToString();
+                animalRegistration.FarmGetPrice = model.FarmGetPrice.ToString();
 
                 await _animalRegistrationService.UpdatemarketData(m);
 
@@ -245,7 +253,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             unit.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.UnitId = unit;
 
-            var localLevels = await _localLevelService.GetLocalLevel("KATHMANDU");
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             var localLevelSelect = new SelectList(localLevels).ToList();
             localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);

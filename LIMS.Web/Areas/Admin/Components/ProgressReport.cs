@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NepaliDateConverter;
 using LIMS.Web.Areas.Admin.Helper;
 
 namespace LIMS.Web.Areas.Admin.Components
@@ -85,160 +84,167 @@ namespace LIMS.Web.Areas.Admin.Components
         #endregion ctor
         public async Task<IViewComponentResult> InvokeAsync(string fiscalyear, string month,string xetra)
         {
-            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
-
-            var monthHelper = new MonthHelper();
-            var monthSerial = monthHelper.AllMonths.FirstOrDefault(m => m.EnglishName == month);
-            int serialNo = monthSerial.SerialNo;
-            string orgName = _workContext.CurrentCustomer.OrgName;
-            string orgAddress = _workContext.CurrentCustomer.OrgAddress;
-            string orgLevel = "नगर कार्यपालिकाको कार्यालय";
-            if (roles.Contains("Agriculture"))
+            try
             {
-                xetra = "कृषि विकास";
-            }
-            else if (roles.Contains("Livestock"))
-            {
-                xetra = "पशु तथा मत्स्य विकास ";
-            }
-            //else
-            //{
-            //    xetra = xetra;
-            //}
-            //if (roles.Contains("Administrators"))
-            //{
-            //    xetra = "";
-            //}
-            var pragatis = await _monthlyProgressService.GetFilteredMonthlyPragati("", fiscalyear, "", "",month,"",xetra);
+                var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 
-            var allBudget = await _budgetService.GetBudget(new List<string>(), fiscalyear);
+                var monthHelper = new MonthHelper();
+                var monthSerial = monthHelper.AllMonths.FirstOrDefault(m => m.EnglishName == month);
+                int serialNo = monthSerial.SerialNo;
+                string orgName = _workContext.CurrentCustomer.OrgName;
+                string orgAddress = _workContext.CurrentCustomer.OrgAddress;
+                string orgLevel = "नगर कार्यपालिकाको कार्यालय";
+                if (roles.Contains("Agriculture"))
+                {
+                    xetra = "कृषि विकास";
+                }
+                else if (roles.Contains("Livestock"))
+                {
+                    xetra = "पशु तथा मत्स्य विकास ";
+                }
+                //else
+                //{
+                //    xetra = xetra;
+                //}
+                //if (roles.Contains("Administrators"))
+                //{
+                //    xetra = "";
+                //}
+                var pragatis = await _monthlyProgressService.GetFilteredMonthlyPragati("", fiscalyear, "", "", month, "", xetra);
 
-            var budget = new List<Budget>();
-            budget = allBudget.ToList(); 
+                var allBudget = await _budgetService.GetBudget(new List<string>(), fiscalyear);
 
-            if(!String.IsNullOrEmpty(xetra))
-            {
-                budget = allBudget.Where(m => m.Xetra == xetra).ToList();
-            }
+                var budget = new List<Budget>();
+                budget = allBudget.ToList();
 
-            var objProgressReport = new ProgressReportModel();
+                if (!String.IsNullOrEmpty(xetra))
+                {
+                    budget = allBudget.Where(m => m.Xetra == xetra).ToList();
+                }
 
-            if (!pragatis.Any())
-            {
+                var objProgressReport = new ProgressReportModel();
+
+                if (!pragatis.Any())
+                {
+                    return View(objProgressReport);
+                }
+
+                objProgressReport.FiscalYear = ExecutionHelper.EnglishToNepali(pragatis.ToList().FirstOrDefault()?.FiscalYear?.NepaliFiscalYear);
+                objProgressReport.Address = orgAddress;
+                objProgressReport.LocalLevel = orgName;
+                objProgressReport.Level = orgLevel;
+                objProgressReport.Ward = "";
+                objProgressReport.Month = ExecutionHelper.GetNepaliMonth(month);
+                // var objNepDate = new  DateConverter();
+                objProgressReport.Xetra = xetra;
+                var lstPragatiVayeka = new List<ProgressRowData>();
+                //var lstPragatiNavayeka = new List<ProgressRowData>();
+                int i = 1;
+
+                foreach (var item in budget)
+                {
+                    var lstprogress = pragatis.Where(m => m.BudgetId == item.Id);
+
+                    for (int j = 0; j <= serialNo; j++)
+                    {
+                        var objMonth = monthHelper.AllMonths.FirstOrDefault(m => m.SerialNo == j);
+                        string mnth = objMonth.EnglishName;
+
+                        var lstMonthProgress = lstprogress.Where(m => m.Month == mnth);
+
+                        if (lstMonthProgress.Count() > 0)
+                        {
+                            var objReportDatas = lstMonthProgress.Select(m => new ProgressRowData {
+                                BudgetTitle = m.Budget.ActivityName,
+                                Anugaman = m.Anugaman,
+                                BitiyaPragati = ExecutionHelper.EnglishToNepali(m.BitiyaPragati),
+                                VautikPragati = ExecutionHelper.EnglishToNepali(m.VautikPragati),
+                                UpalbdiHaru = m.UpalbdiHaru,
+                                Remarks = m.Remarks,
+                                SN = ExecutionHelper.EnglishToNepali(i.ToString()),
+                                Month = objMonth.NepaliName
+                            });
+                            lstPragatiVayeka.AddRange(objReportDatas);
+
+                        }
+                        else
+                        {
+                            var objReportData = new ProgressRowData {
+                                BudgetTitle = item.ActivityName,
+                                Anugaman = "",
+                                BitiyaPragati = "",
+                                VautikPragati = "",
+                                UpalbdiHaru = "",
+                                Remarks = "",
+                                SN = ExecutionHelper.EnglishToNepali(i.ToString()),
+                                Month = objMonth.NepaliName
+                            };
+                            lstPragatiVayeka.Add(objReportData);
+
+                        }
+                        i++;
+                    }
+
+                    //if (lstprogress.Count() > 0)
+                    //{
+                    //    var objReportDatas = lstprogress.Select(m => new ProgressRowData {
+                    //        BudgetTitle = m.Budget.ActivityName,
+                    //        Anugaman = m.Anugaman,
+                    //        BitiyaPragati = m.BitiyaPragati,
+                    //        VautikPragati = m.VautikPragati,
+                    //        UpalbdiHaru = m.UpalbdiHaru,
+                    //        Remarks = m.Remarks
+                    //    });
+                    //    lstPragatiVayeka.AddRange(objReportDatas);
+
+                    //}
+                    //else
+                    //{
+                    //    var objReportData = new ProgressRowData {
+                    //        BudgetTitle = item.ActivityName,
+                    //        Anugaman = "",
+                    //        BitiyaPragati = "",
+                    //        VautikPragati ="",
+                    //        UpalbdiHaru = "",
+                    //        Remarks = ""
+                    //    };
+                    //    lstPragatiVayeka.Add(objReportData);
+
+                    //}
+
+                    //var objReportData = new ProgressRowData {
+                    //    BudgetTitle = item.Budget.ActivityName,
+                    //    Anugaman = item.Anugaman,
+                    //    BitiyaPragati = item.BitiyaPragati,
+                    //    VautikPragati = item.VautikPragati,
+                    //    UpalbdiHaru = item.UpalbdiHaru,
+                    //    Remarks = item.Remarks,
+                    //    SN = i.ToString()
+                    //};
+                    //if ((!String.IsNullOrEmpty(item.BitiyaPragati) && Convert.ToDecimal(item.BitiyaPragati) > 0)
+                    //    && (!String.IsNullOrEmpty(item.VautikPragati) && Convert.ToDecimal(item.VautikPragati) > 0))
+                    //{
+                    //    lstPragatiVayeka.Add(objReportData);
+                    //}
+                    //else
+                    //{ 
+                    //    lstPragatiNavayeka.Add(objReportData);
+                    //}
+                    // lstProgressReportData.Add(objReportData);
+                    //i++;
+                }
+
+                objProgressReport.RowsPragatiVayeka = lstPragatiVayeka;
+                //objProgressReport.RowsPragatiNavayeka = lstPragatiNavayeka;
+
                 return View(objProgressReport);
             }
-
-            objProgressReport.FiscalYear =ExecutionHelper.EnglishToNepali(pragatis.ToList().FirstOrDefault().FiscalYear.NepaliFiscalYear);
-            objProgressReport.Address =orgAddress;
-            objProgressReport.LocalLevel = orgName;
-            objProgressReport.Level = orgLevel;
-            objProgressReport.Ward = "";
-            objProgressReport.Month = ExecutionHelper.GetNepaliMonth(month);
-            var objNepDate = new  DateConverter();
-            objProgressReport.Xetra = xetra;
-            var lstPragatiVayeka = new List<ProgressRowData>();
-            //var lstPragatiNavayeka = new List<ProgressRowData>();
-            int i = 1;
-
-            foreach (var item in budget)
+            catch (Exception ex)            
             {
-                var lstprogress = pragatis.Where(m => m.BudgetId == item.Id);
-
-                for (int j = 0; j <= serialNo; j++)
-                {
-                    var objMonth = monthHelper.AllMonths.FirstOrDefault(m => m.SerialNo == j);
-                    string mnth = objMonth.EnglishName;
-
-                    var lstMonthProgress = lstprogress.Where(m => m.Month == mnth);
-
-                    if (lstMonthProgress.Count() > 0)
-                    {
-                        var objReportDatas = lstMonthProgress.Select(m => new ProgressRowData {
-                            BudgetTitle = m.Budget.ActivityName,
-                            Anugaman = m.Anugaman,
-                            BitiyaPragati =ExecutionHelper.EnglishToNepali(m.BitiyaPragati),
-                            VautikPragati = ExecutionHelper.EnglishToNepali(m.VautikPragati),
-                            UpalbdiHaru = m.UpalbdiHaru,
-                            Remarks = m.Remarks,
-                            SN = ExecutionHelper.EnglishToNepali(i.ToString()),
-                            Month = objMonth.NepaliName
-                        });
-                        lstPragatiVayeka.AddRange(objReportDatas);
-
-                    }
-                    else
-                    {
-                        var objReportData = new ProgressRowData {
-                            BudgetTitle = item.ActivityName,
-                            Anugaman = "",
-                            BitiyaPragati = "",
-                            VautikPragati = "",
-                            UpalbdiHaru = "",
-                            Remarks = "",
-                            SN = ExecutionHelper.EnglishToNepali(i.ToString()),
-                            Month= objMonth.NepaliName
-                        };
-                        lstPragatiVayeka.Add(objReportData);
-
-                    }
-                    i++;
-                } 
-               
-                //if (lstprogress.Count() > 0)
-                //{
-                //    var objReportDatas = lstprogress.Select(m => new ProgressRowData {
-                //        BudgetTitle = m.Budget.ActivityName,
-                //        Anugaman = m.Anugaman,
-                //        BitiyaPragati = m.BitiyaPragati,
-                //        VautikPragati = m.VautikPragati,
-                //        UpalbdiHaru = m.UpalbdiHaru,
-                //        Remarks = m.Remarks
-                //    });
-                //    lstPragatiVayeka.AddRange(objReportDatas);
-
-                //}
-                //else
-                //{
-                //    var objReportData = new ProgressRowData {
-                //        BudgetTitle = item.ActivityName,
-                //        Anugaman = "",
-                //        BitiyaPragati = "",
-                //        VautikPragati ="",
-                //        UpalbdiHaru = "",
-                //        Remarks = ""
-                //    };
-                //    lstPragatiVayeka.Add(objReportData);
-
-                //}
-
-                //var objReportData = new ProgressRowData {
-                //    BudgetTitle = item.Budget.ActivityName,
-                //    Anugaman = item.Anugaman,
-                //    BitiyaPragati = item.BitiyaPragati,
-                //    VautikPragati = item.VautikPragati,
-                //    UpalbdiHaru = item.UpalbdiHaru,
-                //    Remarks = item.Remarks,
-                //    SN = i.ToString()
-                //};
-                //if ((!String.IsNullOrEmpty(item.BitiyaPragati) && Convert.ToDecimal(item.BitiyaPragati) > 0)
-                //    && (!String.IsNullOrEmpty(item.VautikPragati) && Convert.ToDecimal(item.VautikPragati) > 0))
-                //{
-                //    lstPragatiVayeka.Add(objReportData);
-                //}
-                //else
-                //{ 
-                //    lstPragatiNavayeka.Add(objReportData);
-                //}
-                // lstProgressReportData.Add(objReportData);
-                //i++;
+                var objModel = new ProgressReportModel();
+                objModel.Address = ex.Message.ToString();
+                return View(objModel.Address);
             }
-
-            objProgressReport.RowsPragatiVayeka = lstPragatiVayeka;
-            //objProgressReport.RowsPragatiNavayeka = lstPragatiNavayeka;
-
-            return View(objProgressReport);
-
-
         }
     }
 }

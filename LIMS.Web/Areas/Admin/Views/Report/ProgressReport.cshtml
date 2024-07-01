@@ -60,7 +60,7 @@
                 month: $('#@Html.IdFor(m=>m.Month)').val(),
                 xetra:$('#@Html.IdFor(m=>m.Xetra)').val(),
             }
-           // addAntiForgeryToken(data);
+            addAntiForgeryToken(data);
             e.preventDefault();
             $.ajax({
                 cache: false,

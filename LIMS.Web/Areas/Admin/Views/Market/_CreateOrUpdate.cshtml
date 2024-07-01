@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <admin-label asp-for="MinPrice" />
-                <admin-input asp-for="MinPrice" required="required" />
+                <input asp-for="MinPrice" class="form-control" type="number" step="0.01"  required="required" />
                 <span asp-validation-for="MinPrice"></span>
 
             </div>
@@ -45,7 +45,7 @@
 
             <div class="form-group">
                 <admin-label asp-for="MaxPrice" />
-                <admin-input asp-for="MaxPrice" required="required" />
+                <input asp-for="MaxPrice" class="form-control" type="number" step="0.01" required="required" />
                 <span asp-validation-for="MaxPrice"></span>
 
             </div>
@@ -54,7 +54,7 @@
 
             <div class="form-group">
                 <admin-label asp-for="WholesalePrice" />
-                <admin-input asp-for="WholesalePrice" required="required" />
+                <input asp-for="WholesalePrice" class="form-control" type="number" step="0.01"  required="required" />
                 <span asp-validation-for="WholesalePrice"></span>
 
             </div>
@@ -63,7 +63,7 @@
 
             <div class="form-group">
                 <admin-label asp-for="FarmGetPrice" />
-                <admin-input asp-for="FarmGetPrice" required="required" />
+                <input asp-for="FarmGetPrice" class="form-control" type="number" step="0.01" required="required" />
                 <span asp-validation-for="FarmGetPrice"></span>
 
             </div>
