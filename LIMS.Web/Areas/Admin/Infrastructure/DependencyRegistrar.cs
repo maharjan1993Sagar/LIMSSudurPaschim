@@ -155,7 +155,10 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<FishProductionService>().As<IFishProductionService>().InstancePerLifetimeScope();
             builder.RegisterType<DolfdAstaiPadService>().As<IDolfdAstaiPadService>().InstancePerLifetimeScope();
             builder.RegisterType<TahaDarbandiService>().As<ITahaDarbandiService>().InstancePerLifetimeScope();
-
+            
+            builder.RegisterType<BudgetSourceService>().As<IBudgetSourceService>().InstancePerLifetimeScope();
+            builder.RegisterType<SubSectorService>().As<ISubSectorService>().InstancePerLifetimeScope();
+            builder.RegisterType<MainActivityCodeService>().As<IMainActivityCodeService>().InstancePerLifetimeScope();
 
         }
 

@@ -31,6 +31,9 @@ namespace LIMS.Web.Areas.Admin.Infrastructure.Mapper.Profiles
             CreateMap<SubsidyType, SubsidyModel>().ReverseMap();
             CreateMap<CropsProduction, CropsProductionModel>().ReverseMap();
             CreateMap<PujigatKharchaKharakram, PugigatKharchaKaryakramModel>().ReverseMap();
+            CreateMap<BudgetSource, BudgetSourceModel>().ReverseMap();
+            CreateMap<SubSector, SubSectorModel>().ReverseMap();
+            CreateMap<MainActivityCode, MainActivityCodeModel>().ReverseMap();
 
 
         }

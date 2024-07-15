@@ -113,6 +113,8 @@
 
         public const string AccessGeneralCMS = "AccessGeneralCMS";
         public const string AccessCropsProduction = "AccessCropsProduction";
+        public const string AccessBudgetSource = "AccessBudgetSource";
+        public const string AccessSubSector = "AccessSubSector";
 
 
     }

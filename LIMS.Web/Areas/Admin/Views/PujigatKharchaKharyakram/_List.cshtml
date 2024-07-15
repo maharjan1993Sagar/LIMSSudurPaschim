@@ -1,7 +1,8 @@
 ﻿@inject AdminAreaSettings adminAreaSettings
 @model FarmListModel
 @{ //page title
-                ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; }
+ ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text; 
+    }
 
 <div class="row">
     <div class="col-md-12">
@@ -81,10 +82,7 @@
                     errors: "Errors",
                     model: {
                         id: "Id",
-
                     }
-
-
                 },
                 error: function (e) {
                     display_kendoui_grid_error(e);
@@ -109,7 +107,7 @@
                 {
                 field: "Limbis_Code",
                 title: "@T("Admin.PujigatKaryakram.Fields.Limbis_Code")",
-                //template: '<a class="k-link" href="Edit/#=Id#">#=kendo.htmlEncode(Breadcrumb)#</a>',
+                    template: '<a class="k-link" href="Edit/#=Id#">&nbsp#=Limbis_Code#</a>',
             },
             {
                 field: "Program",
@@ -120,8 +118,73 @@
                 field: "kharchaCode",
                 title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
                 },
-
-
+              @*{
+            field: "BudgetSource.NameNepali",
+            title: "@T("Admin.BudgetSource.Fields.NameNepali")",
+            template: "#= BudgetSource && BudgetSource.NameNepali ? BudgetSource.NameNepali : '' #",
+            editable:false
+        },
+        {
+            field: "SubSector.NameNepali",
+            title: "@T("Admin.SubSector.Fields.NameNepali")",
+            template: "#= SubSector && SubSector.NameNepali ? SubSector.NameNepali : '' #",
+            editable:false
+                },*@
+        @*{
+            field: "BudgetSourceId",
+            title: "@T("Admin.BudgetSource.Fields.NameNepali")",
+            editor: function(container, options) {
+                $('<input data-text-field="NameNepali" data-value-field="Id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoDropDownList({
+                        autoBind: true,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("GetBudgetSource", "PujigatKharchaKharyakram"))",
+                                    type: "GET",
+                                    dataType: "json"
+                                }
+                            }
+                        },
+                        select: function(e) {
+                            var dataItem = this.dataItem(e.item.index());
+                            var grid = $("#categories-grid").data("kendoGrid");
+                            grid.dataSource.filter({ field: "BudgetSourceId", operator: "eq", value: dataItem.Id });
+                        },
+                        change: function (e) {
+                            var subSectorDropdown = $("#SubSectorId").data("kendoDropDownList");
+                            subSectorDropdown.dataSource.read({ budgetSourceId: this.value() });
+                            subSectorDropdown.select(0); // Optionally select the first item after reload
+                        }
+                    });
+            },
+            template: "#= BudgetSource && BudgetSource.NameNepali ? BudgetSource.NameNepali : '' #"
+        },
+        {
+            field: "SubSectorId",
+            title: "@T("Admin.SubSector.Fields.NameNepali")",
+            editor: function(container, options) {
+                $('<input data-text-field="NameNepali" data-value-field="Id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoDropDownList({
+                        autoBind: false,
+                        cascadeFrom: "BudgetSourceId",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: function() {
+                                        return "@Html.Raw(Url.Action("SubSectorDropDown", "ControllerName"))?budgetSourceId=" + $("#BudgetSourceId").data("kendoDropDownList").value();
+                                    },
+                                    type: "POST",
+                                    dataType: "json"
+                                }
+                            }
+                        }
+                    });
+            },
+            template: "#= SubSector.NameNepali #"
+        },*@
             {
                 field: "Unit",
                 title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
@@ -134,7 +197,7 @@
                  field: "BarshikParinam",
                 title: "@T("Admin.PujigatKaryakram.Fields.BarshikParinam")",
                 },
-              
+
             {
                 field: "PrathamChaumasikBadjet",
                 title: "@T("Admin.PujigatKaryakram.Fields.PrathamChaumasikBadjet")",
@@ -159,6 +222,14 @@
              {
                  field: "TesroChaumasikParimam",
                 title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikParimam")",
+                },
+              {
+                 field: "ChauthoTrimasikkBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.ChauthoTrimasikkBadjet")",
+                },
+               {
+                   field: "ChauthoTrimasikParimam",
+                title: "@T("Admin.PujigatKaryakram.Fields.ChauthoTrimasikParimam")",
                 },
 
             {
@@ -199,6 +270,22 @@
         return data;
     }
 
+    function fetchBudgetSources() {
+        return $.ajax({
+            url: "/Admin/PujigatKharchaKharyakram/GetBudgetSource", // Replace with your API endpoint URL
+            type: "GET",
+            dataType: "json"
+        });
+    }
+
+    function fetchSubSector() {
+        return $.ajax({
+            url: "/Admin/PujigatKharchaKharyakram/GetBudgetSource", // Replace with your API endpoint URL
+            type: "GET",
+            dataType: "json"
+        });
+    }
+
 </script>
 <script>
     $(document).ready(function () {
@@ -231,10 +318,10 @@
         </div>
         <div class="form-group">
             @*<div class="col-md-3" style="margin-top: 2px; height: 34px; padding-left: 25px;">
-                <label class="control-label">
-                    @T("Admin.Common.ExcelFile"):
-                </label>
-            </div>*@
+            <label class="control-label">
+                @T("Admin.Common.ExcelFile"):
+            </label>
+        </div>*@
 
             <div class="col-md-3">
                 <label>@T("Admin.Common.ExcelFile") </label>
@@ -256,6 +343,18 @@
             <div class="col-md-3">
                 <label>@T("Admin.Common.ProgramType")</label>
                 <select id="Program" name="ProgramType" class="form-control" required>
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>@T("Admin.Common.BudgetSource")</label>
+                <select id="BudgetSourceId" name="BudgetSourceId" class="form-control" required>
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>@T("Admin.Common.SubSector")</label>
+                <select id="SubSectorId" name="SubSectorId" class="form-control" required>
                     <option value="">Select</option>
                 </select>
             </div>
@@ -294,11 +393,36 @@
         $.get("/Admin/PujigatKharchaKharyakram/ProgramType", (result) => {
             $.each(result, function (i, item) {
                 $("#Program").append(`<option value="${item.Value}" selected>${item.Text}</option>`);
-
-
-
             });
         });
+        $.get("/Admin/PujigatKharchaKharyakram/GetBudgetSource", (result) => {
+            $.each(result, function (i, item) {
+                $("#BudgetSourceId").append(`<option value="${item.Id}">${item.NameNepali}</option>`);
+            });
+        });
+        $("#BudgetSourceId").change(function () {
+              var budgetSourceId = $(this).val();
+              if (budgetSourceId) {
+           $("#SubSectorId").empty();
+            $("#SubSectorId").append("<option value=''>Select</option>");
+
+            url = "@Url.Action("GetSubSectorBySource", "PujigatKharchaKharyakram")";
+            addAntiForgeryToken(budgetSourceId);
+            $.getJSON(url, { budgetSourceId: budgetSourceId }, (data) => {
+                $.each(data, function (i, item) {
+                    $("#SubSectorId").append(`<option value="${item.Id}">${item.NameNepali}</option>`);
+                });
+            });
+        }
+        else {
+            $("#SubSectorId").empty();
+            $("#SubSectorId").append("<option value=''>Select</option>");
+        }
+
+
+    });
+
+
             $("#importexcel").click(function (e) {
                 e.preventDefault();
                 var window = $("#importexcel-window");

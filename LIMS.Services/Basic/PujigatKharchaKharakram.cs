@@ -8,6 +8,7 @@ using MediatR;
 using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,10 +17,13 @@ namespace LIMS.Services.Basic
     public class PujigatKharchaKharakramService : IPujigatKharchaKharakramService
     {
         private readonly IRepository<PujigatKharchaKharakram> _pujigatKharchaKharakramRepository;
+        private readonly IRepository<MainActivityCode> _mainActivityCodeRepository;
         private readonly IMediator _mediator;
-        public PujigatKharchaKharakramService(IRepository<PujigatKharchaKharakram> pujigatKharchaKharakramRepository, IMediator mediator)
+        public PujigatKharchaKharakramService(IRepository<PujigatKharchaKharakram> pujigatKharchaKharakramRepository,
+                                               IRepository<MainActivityCode> mainActivityCodeRepository, IMediator mediator)
         {
             _pujigatKharchaKharakramRepository = pujigatKharchaKharakramRepository;
+            _mainActivityCodeRepository = mainActivityCodeRepository;
             _mediator = mediator;
         }
         public async Task DeletePujigatKharchaKharakram(PujigatKharchaKharakram pujigatKharchaKharakram)
@@ -54,9 +58,15 @@ namespace LIMS.Services.Basic
         public async Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakramSelect(string createdby, string keyword = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && (m.kharchaCode == "22522" || m.kharchaCode == "26413" || m.kharchaCode == "26423" || m.kharchaCode == "31159"
-            || m.kharchaCode == "22512"
-            ));
+            var queryCodes = _mainActivityCodeRepository.Table;
+            var mainActivity = queryCodes.Select(m => m.Limbis_Code)
+                                           .Distinct().ToList();
+
+            query = query.Where(m => m.CreatedBy == createdby && mainActivity.Contains(m.kharchaCode));
+           
+            //query = query.Where(m => m.CreatedBy == createdby && (m.kharchaCode == "22522" || m.kharchaCode == "26413" || m.kharchaCode == "26423" || m.kharchaCode == "31159"
+            //|| m.kharchaCode == "22512"
+            //));
           
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -135,7 +145,11 @@ namespace LIMS.Services.Basic
           int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby &&(m.kharchaCode== "22512" || m.kharchaCode=="22522" || m.kharchaCode=="26413"||m.kharchaCode== "26423") && m.FiscalYear.Id == fiscalYear);
+            var queryCodes = _mainActivityCodeRepository.Table;
+            var mainActivity = queryCodes.Select(m => m.Limbis_Code).Distinct().ToList();
+            query = query.Where(m => m.CreatedBy == createdby && mainActivity.Contains(m.kharchaCode) && m.FiscalYear.Id == fiscalYear);
+
+            //query = query.Where(m => m.CreatedBy == createdby &&(m.kharchaCode== "22512" || m.kharchaCode=="22522" || m.kharchaCode=="26413"||m.kharchaCode== "26423") && m.FiscalYear.Id == fiscalYear);
             if (!string.IsNullOrEmpty(programtype))
             {
                 query = query.Where(m => m.ProgramType == programtype);
@@ -207,6 +221,19 @@ namespace LIMS.Services.Basic
 
             //event notification
             await _mediator.EntityUpdated(pujigatKharchaKharakram);
+        }
+
+        public async Task<List<string>> GetLimbis_Code()
+        {
+            var query =_pujigatKharchaKharakramRepository.Table;
+
+            var distinctCode = query.Select(m => m.kharchaCode).ToList();
+
+            distinctCode = distinctCode.Where(m => !String.IsNullOrEmpty(m))
+                            .Distinct().ToList();
+
+            return distinctCode;
+
         }
 
     }

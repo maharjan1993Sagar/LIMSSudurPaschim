@@ -1,0 +1,34 @@
+﻿@model BudgetSourceModel
+<div class="x_content form">
+        <div class="form-body">
+        
+            <div class="col-md-3 col-sm-3">
+                <div class="form-group">
+                    <admin-label asp-for="Name" />
+                    <admin-input asp-for="Name" />
+                    <span asp-validation-for="Name"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3">
+                <div class="form-group">
+                    <admin-label asp-for="NameNepali" />
+                    <admin-input asp-for="NameNepali" />
+                    <span asp-validation-for="NameNepali"></span>
+
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-3">
+                <div class="form-group">
+                    <admin-label asp-for="Description" />
+                    <admin-input asp-for="Description" />
+                    <span asp-validation-for="Description"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+

@@ -130,6 +130,8 @@ namespace LIMS.Services.Security
        public static readonly PermissionRecord AccessMolmacRegister = new PermissionRecord { Name = "Admin area. Manage MolmacRegister", SystemName = PermissionSystemName.AccessMolmacRegister };
        public static readonly PermissionRecord AccessCMS = new PermissionRecord { Name = "Admin area. Manage CDS", SystemName = PermissionSystemName.AccessCDS};
         public static readonly PermissionRecord AccessCropProduction = new PermissionRecord { Name = "Admin area. AccessCropsProduction", SystemName = PermissionSystemName.AccessCropsProduction };
+        public static readonly PermissionRecord AccessBudgetSource = new PermissionRecord { Name = "Admin area. AccessBudgetSource", SystemName = PermissionSystemName.AccessBudgetSource };
+        public static readonly PermissionRecord AccessSubSector = new PermissionRecord { Name = "Admin area. AccessSubSector", SystemName = PermissionSystemName.AccessSubSector };
 
         public virtual IEnumerable<PermissionRecord> GetPermissions()
         {
@@ -232,7 +234,9 @@ namespace LIMS.Services.Security
                     AccessMolmacRegister,
                     AccessCropProduction,
                     AccessSubsidyRegister,
-                    AccessResourceRegister
+                    AccessResourceRegister,
+                    AccessBudgetSource,
+                    AccessSubSector
 
 
             };
@@ -306,7 +310,8 @@ namespace LIMS.Services.Security
                         ManageInteractiveForm,
                         ManageActions,
                         ManageReminders,
-                                   
+                        AccessBudgetSource,
+                        AccessSubSector
                     }
 
 
@@ -389,8 +394,9 @@ namespace LIMS.Services.Security
                         ManageBanners,
                         ManageInteractiveForm,
                         ManageActions,
-                        ManageReminders
-                      
+                        ManageReminders,
+                         AccessBudgetSource,
+                          AccessSubSector
                     }
 
 

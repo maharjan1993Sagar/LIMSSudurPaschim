@@ -27,6 +27,9 @@ namespace LIMS.Domain.Bali
         public string TesroChaumasikParimam { get; set; }
         public string TesroChaumasikVar { get; set; }
         public string TesroChaumasikBadjet { get; set; }
+        public string ChauthoTrimasikParimam { get; set; }
+        public string ChauthoTrimasikVar { get; set; }
+        public string ChauthoTrimasikkBadjet { get; set; }
         public string Expenses_category { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -36,6 +39,10 @@ namespace LIMS.Domain.Bali
         public string ProgramType { get; set; }
         public string IsNitiTathaKaryaKram { get; set; }
         public string IsTrainingKaryaKram { get; set; }
+        public string BudgetSourceId { get; set; }
+        public BudgetSource BudgetSource { get; set; }
+        public string SubSectorId { get; set; }
+        public SubSector SubSector { get; set; }
 
 
 

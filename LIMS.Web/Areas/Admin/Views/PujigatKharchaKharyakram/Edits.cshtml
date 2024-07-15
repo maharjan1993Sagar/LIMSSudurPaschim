@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel light form-fit">
-            <form asp-area="@Constants.AreaAdmin" asp-action="Create" method="post">
+            <form asp-area="@Constants.AreaAdmin" asp-action="Edits" method="post">
 
                 <div class="x_title">
                     <div class="caption">
@@ -25,12 +25,14 @@
                 <div class="x_content form">
                     <div class="form-row">
                         <div class="form-body">
+
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" id="subSecId" value="@Model.SubSectorId"/>
                             <div class="col-md-3">
 
                                 <div class="form-group">
                                     <admin-label asp-for="BudgetSourceId" />
                                     <admin-select asp-for="BudgetSourceId" asp-items="ViewBag.BudgetSourceId" required="required">
-
                                     </admin-select>
                                     <span asp-validation-for="BudgetSourceId"></span>
 
@@ -99,15 +101,15 @@
                             </div>
                             @*<div class="col-md-3">
 
-                                <div class="form-group">
-                                    <admin-label asp-for="ProgramType" />
-                                    <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required">
+            <div class="form-group">
+                <admin-label asp-for="ProgramType" />
+                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" required="required">
 
-                                    </admin-select>
-                                    <span asp-validation-for="ProgramType"></span>
+                </admin-select>
+                <span asp-validation-for="ProgramType"></span>
 
-                                </div>
-                            </div>*@
+            </div>
+        </div>*@
                             <div class="col-md-2">
 
                                 <div class="form-group">
@@ -239,8 +241,28 @@
         </div>
     </div>
 </div>
-    <script>
-    $(document).ready(function () {
+<script>
+        $(document).ready(function () {
+
+            var budgetSource = $("#@Html.FieldIdFor(m=>m.BudgetSourceId)").val();
+            var subsectorId = $("#subSecId").val();
+
+            if (budgetSource) {
+             $("#@Html.FieldIdFor(m=>m.SubSectorId)").append("<option value=''>Select</option>");
+
+            url = "@Url.Action("GetSubSectorBySource", "PujigatKharchaKharyakram")";
+                addAntiForgeryToken(budgetSource);
+                $.getJSON(url, { budgetSourceId: budgetSource }, (data) => {
+                    $.each(data, function (i, item) {
+                           $('#@Html.FieldIdFor(m=>m.SubSectorId)').append(`<option value="${item.Id}" ${item.Id == subsectorId ? "selected" : ""}>${item.NameNepali}</option>`);
+
+                });
+            });
+                @*if (subsectorId) {
+                    $('#@Html.FieldIdFor(m=>m.SubSectorId)').val(subsectorId);
+                }*@
+            }
+
           $("#@Html.FieldIdFor(m=>m.BudgetSourceId)").change(function () {
               var budgetSourceId = $(this).val();
               if (budgetSourceId) {
@@ -263,4 +285,4 @@
 
     });
     })
-    </script>
+</script>

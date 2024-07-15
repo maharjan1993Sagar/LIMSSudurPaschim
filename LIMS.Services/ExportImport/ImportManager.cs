@@ -3,6 +3,7 @@ using LIMS.Domain.Bali;
 using LIMS.Domain.Directory;
 using LIMS.Domain.Media;
 using LIMS.Domain.RationBalance;
+using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Directory;
 using LIMS.Services.ExportImport.Help;
@@ -31,6 +32,8 @@ namespace LIMS.Services.ExportImport
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
         private readonly IFiscalYearService _fiscalYearService;
+        private readonly IBudgetSourceService _budgetSourceService;
+        private readonly ISubSectorService _subSectorService;
         private readonly IWorkContext _workContext;
 
 
@@ -44,6 +47,8 @@ namespace LIMS.Services.ExportImport
             IStateProvinceService stateProvinceService,
             IPujigatKharchaKharakramService pujigatKharchaKharakramService,
             IFiscalYearService fiscalYearService,
+            IBudgetSourceService budgetSourceService,
+            ISubSectorService subSectorService,
              IWorkContext workContext
             )
         {
@@ -52,6 +57,8 @@ namespace LIMS.Services.ExportImport
             _stateProvinceService = stateProvinceService;
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
             _fiscalYearService = fiscalYearService;
+            _budgetSourceService = budgetSourceService;
+            _subSectorService = subSectorService;
             _workContext = workContext;
         }
 
@@ -195,10 +202,6 @@ namespace LIMS.Services.ExportImport
             return count;
         }
 
-
-
-
-
         protected virtual void PrepareCategoryMapping(PujigatKharchaKharakram category, PropertyManager<PujigatKharchaKharakram> manager)
         {
             foreach (var property in manager.GetProperties)
@@ -219,7 +222,7 @@ namespace LIMS.Services.ExportImport
                         
                         break;
                     case "kharchacode":
-                        category.kharchaCode = NumberHelper.EnglishToNepaliNumber(property.StringValue);
+                        category.kharchaCode = NumberHelper.EnglishToNepaliNumber(property.StringValue?.Trim());
                         break;
                     case "1st_quarter_budget":
                         category.PrathamChaumasikBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
@@ -228,21 +231,23 @@ namespace LIMS.Services.ExportImport
                         category.PrathamChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
 
-                        
-
                     case "2nd_quarter_qty":
                         category.DorsoChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
                     case "2nd_quater_budget":
                         category.DosroChaumasikBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
-
-
                     case "3rd_quarter_qty":
                         category.TesroChaumasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
                     case "3rd_quarter_budget":
                         category.TesroChaumasikBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
+                        break;
+                    case "4th_quarter_qty":
+                        category.ChauthoTrimasikParimam = NumberHelper.EnglishToNepaliNumber(property.StringValue);
+                        break;
+                    case "4th_quarter_budget":
+                        category.ChauthoTrimasikkBadjet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
                         break;
                     case "yearly_budget":
                         category.BarsikBajet = NumberHelper.EnglishToNepaliNumber(property.StringValue);
@@ -262,24 +267,9 @@ namespace LIMS.Services.ExportImport
                 }
 
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             
         }
-        public virtual async Task ImportCategoryFromXlsx(Stream stream,string Type, string FiscalYear,string ProgramType)
+        public virtual async Task ImportCategoryFromXlsx(Stream stream,string Type, string FiscalYear,string ProgramType,string BudgetSourceId, string SubSectorId)
         {
             var workbook = new XSSFWorkbook(stream);
             var worksheet = workbook.GetSheetAt(0);
@@ -306,6 +296,10 @@ namespace LIMS.Services.ExportImport
                 pujigatKharcha.FiscalYearId = FiscalYear;
                 pujigatKharcha.FiscalYear =await _fiscalYearService.GetFiscalYearById(FiscalYear);
                 pujigatKharcha.ProgramType = ProgramType;
+                pujigatKharcha.BudgetSourceId = BudgetSourceId;
+                pujigatKharcha.SubSectorId = SubSectorId;
+                pujigatKharcha.BudgetSource = await _budgetSourceService.GetBudgetSourceById(BudgetSourceId);
+                pujigatKharcha.SubSector = await _subSectorService.GetSubSectorById(SubSectorId);
 
                 PrepareCategoryMapping(pujigatKharcha, manager);
                 if (!string.IsNullOrEmpty(pujigatKharcha.Limbis_Code))

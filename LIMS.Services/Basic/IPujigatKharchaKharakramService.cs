@@ -57,5 +57,7 @@ namespace LIMS.Services.Basic
 
 
         Task UpdatePujigatKharchaKharakram(PujigatKharchaKharakram pujigatKharchaKharakram);
+
+        Task<List<string>> GetLimbis_Code();
     }
 }

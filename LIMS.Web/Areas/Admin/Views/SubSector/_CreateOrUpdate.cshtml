@@ -1,0 +1,46 @@
+﻿@model SubSectorModel
+<div class="x_content form">
+        <div class="form-body">
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="BudgetSourceId" />
+                    <admin-select asp-for="BudgetSourceId" asp-items="@ViewBag.BudgetSourceId"></admin-select>
+                    <span asp-validation-for="BudgetSourceId"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="Name" />
+                    <admin-input asp-for="Name" />
+                    <span asp-validation-for="Name"></span>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <admin-label asp-for="NameNepali" />
+                    <admin-input asp-for="NameNepali" />
+                    <span asp-validation-for="NameNepali"></span>
+
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <admin-label asp-for="Description" />
+                    <admin-textarea asp-for="Description" />
+                    <span asp-validation-for="Description"></span>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+

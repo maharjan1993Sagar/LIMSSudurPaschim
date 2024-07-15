@@ -46,9 +46,18 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         public string DosroChaumasikBadjet { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.TesroChaumasikParimam")]
         public string TesroChaumasikParimam { get; set; }
-            public string TesroChaumasikVar { get; set; }
+        public string TesroChaumasikVar { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.TesroChaumasikBadjet")]
         public string TesroChaumasikBadjet { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.ChauthoTrimasikParimam")]
+
+        public string ChauthoTrimasikParimam { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.ChauthoTrimasikVar")]
+
+        public string ChauthoTrimasikVar { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.ChauthoTrimasikkBadjet")]
+
+        public string ChauthoTrimasikkBadjet { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.Expenses_category")]
         public string Expenses_category { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.FiscalYearId")]
@@ -62,9 +71,12 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Common.IsTrainingKaryaKram")]
         public string IsTrainingKaryaKram { get; set; }
 
+        [LIMSResourceDisplayName("LIMS.BudgetSource.Name")]
+        public string BudgetSourceId { get; set; }
+        [LIMSResourceDisplayName("LIMS.SubSector.Name")]
+        public string SubSectorId { get; set; }
 
-
-        }
+    }
 
     
 }

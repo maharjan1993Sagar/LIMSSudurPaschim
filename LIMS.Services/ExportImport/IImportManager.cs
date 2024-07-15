@@ -27,7 +27,7 @@ namespace LIMS.Services.ExportImport
         /// <param name="stream">Stream</param>
         /// <returns>Number of imported states</returns>
      Task<int> ImportStatesFromTxt(Stream stream);
-     Task ImportCategoryFromXlsx(Stream stream,string FiscalYear,string Type,string ProgramType);
+     Task ImportCategoryFromXlsx(Stream stream,string FiscalYear,string Type,string ProgramType,string BudgetSourceId, string SubSectorId);
         /// <summary>
         /// Import manufacturers from XLSX file
         /// </summary>

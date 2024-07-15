@@ -47,7 +47,7 @@
 <script>
     $(document).ready(function () {
         $("#niti-grid").kendoGrid({
-            
+
             dataSource: {
                 transport: {
                     read: {
@@ -111,6 +111,16 @@
                 field: "kharchaCode",
                 title: "@T("Admin.PujigatKaryakram.Fields.kharchaCode")",
                 },
+              {
+            field: "BudgetSource.NameNepali",
+            title: "@T("Admin.BudgetSource.Fields.NameNepali")",
+            template: "#= BudgetSource && BudgetSource.NameNepali ? BudgetSource.NameNepali : '' #"
+        },
+        {
+            field: "SubSector.NameNepali",
+            title: "@T("Admin.SubSector.Fields.NameNepali")",
+            template: "#= SubSector && SubSector.NameNepali ? SubSector.NameNepali : '' #"
+        },
             {
                 field: "Unit",
                 title: "@T("Admin.PujigatKaryakram.Fields.Unit")",
@@ -130,6 +140,9 @@
             {
                 field: "TesroChaumasikBadjet",
                 title: "@T("Admin.PujigatKaryakram.Fields.TesroChaumasikBadjet")",
+                }, {
+                 field: "ChauthoTrimasikkBadjet",
+                title: "@T("Admin.PujigatKaryakram.Fields.ChauthoTrimasikkBadjet")",
                 },
             {
                 field: "IsNitiTathaKaryaKram",
@@ -178,9 +191,9 @@
                 dataSource: [
 
                     { name: "Select", value: "" },
-                   
+
                     { name: "Yes", value: "Yes" },
-               
+
        ]
 
             });

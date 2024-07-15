@@ -1,0 +1,52 @@
+﻿@model List<string>
+@{
+    //page title
+    ViewBag.Title = "";
+}
+<form asp-area="@Constants.AreaAdmin" asp-controller="MainActivityCode" asp-action="AddCode" method="post">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel light form-fit">
+                <div class="x_title">
+                    <div class="caption">
+                        <i class="fa fa-comment"></i>
+                        @T("Admin.MainActivityCode.Create")
+                        @*@T("Admin.ContentManagement.Blog.BlogPosts.AddNew")*@
+                        <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink("Back To list", "List")</small>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <button class="btn btn-success" type="submit" name="save"><i class="fa fa-check"></i> @T("Admin.Common.Save") </button>
+
+                        </div>
+                    </div>
+                </div>
+                <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
+
+                <div class="x_content form">
+
+                        <div class="form-row">
+                            <div class="form-body">
+
+                                <div class="col-md-12 col-sm-12">
+
+                                    <div class="form-group">
+                                        
+                                        <label>Code</label><br />
+                                        @foreach (var item in Model)
+                                        {
+                                            <input type="checkbox" name="LimbsCode" value="@item"/><label>@item</label>
+                                        }
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
