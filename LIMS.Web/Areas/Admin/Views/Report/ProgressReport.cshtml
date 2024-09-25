@@ -1,0 +1,84 @@
+﻿@inject IWorkContext workContext
+@model LIMS.Web.Areas.Admin.Models.Reports.ProgressReportModel
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+
+<form method="get" id="TrainingReport">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear" asp-items="ViewBag.FiscalYearId" required="required" />
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="Month" />
+            <admin-select asp-for="Month" asp-items="ViewBag.Month" required="required" />
+            <span asp-validation-for="Month"></span>
+        </div>
+    </div>
+    @*@if (roles.Contains("Administrators"))
+    {
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Xetra" />
+                <select asp-for="Xetra" asp-items="@ViewBag.Xetras" class="form-control"></select>
+                <span asp-validation-for="Xetra"></span>
+            </div>
+        </div>
+    }*@
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <br />
+            <input type="submit" class="btn btn-sm btn-success" />
+        </div>
+    </div>
+</form>
+<br />
+<div style="display:inline-block !important;">
+
+    <div id="result"></div>
+</div>
+<script>
+    $(document).ready(function () {
+           @*var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYear)").val();
+
+        datas = {
+            fiscalyear: fiscalyear
+               }*@
+
+
+        $('#TrainingReport').submit(function (e) {
+            $('#result').html("");
+            e.preventDefault();
+            var data = {
+                fiscalYear: $('#@Html.IdFor(m=>m.FiscalYear)').val(),
+                month: $('#@Html.IdFor(m=>m.Month)').val(),
+                xetra:""//$('Html.IdFor(m=>m.Xetra)').val(),
+            }
+            addAntiForgeryToken(data);
+            e.preventDefault();
+            $.ajax({
+                cache: false,
+                url: '/Admin/Report/ProgressReportHtml',
+                data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                type: "POST",
+                success: function (response) {
+                    if (response.success) {
+                        $('#result').html(response.livestockWardWiseReportHtml);
+                    }
+                    console.log(response);
+                },
+                error: function (response) {
+                    $('#result').html("");
+                    alert("No record found.");
+                    console.log(response);
+                }
+            });
+        });
+    })
+</script>

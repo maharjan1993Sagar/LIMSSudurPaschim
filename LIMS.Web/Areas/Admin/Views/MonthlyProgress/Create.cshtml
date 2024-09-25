@@ -1,23 +1,25 @@
 ﻿@model MonthlyProgressModel
-@{
 
-    ViewBag.Title = "Livestock";
+@{
+    ViewBag.Title = "Progress";
 }
+
 @inject IWorkContext workContext
 @using LIMS.Web.Areas.Admin.Helper
 
 @{
     var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
 }
+
 <style>
     .printContent {
         height: 550px;
         overflow-y: scroll;
     }
 </style>
-<a asp-action="CreateMainKaryakram"><button class="btn btn-primary">@T("Admin.MainProgress")</button></a>
-<a asp-action="CreateNitigatKaryakram"><button class="btn btn-primary">@T("Admin.NitigatProgress")</button></a>
-<a asp-action="Create"><button class="btn btn-outline-danger">@T("Admin.OverallProgress")</button></a>
+@*<a asp-action="CreateMainKaryakram"><button class="btn btn-primary">@T("Admin.MainProgress")</button></a>
+    <a asp-action="CreateNitigatKaryakram"><button class="btn btn-primary">@T("Admin.NitigatProgress")</button></a>
+    <a asp-action="Create"><button class="btn btn-outline-danger">@T("Admin.OverallProgress")</button></a>*@
 
 <form method="post">
     <div class="row">
@@ -31,35 +33,62 @@
                 <vc:admin-widget widget-zone="blog_details_buttons" additional-data="null" />
                 <div class="x_content form">
                     <div class="form-row">
-
+                        <div class="col-md-12"><i>Note:Choose at least Fiscal year and month to filter out montly progress.</i></div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <admin-label asp-for="FiscalYearId" />
-                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getMonthlyData()" required="required" />
+                                <admin-select asp-for="FiscalYearId" asp-items="ViewBag.FiscalYearId" onchange="getPragati()" required="required" />
                                 <span asp-validation-for="FiscalYearId"></span>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <admin-label asp-for="ProgramType" />
-                                <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getMonthlyData()"  />
-                                <span asp-validation-for="ProgramType"></span>
+                                <admin-label asp-for="ExpensesCategory" />
+                                <admin-select asp-for="ExpensesCategory" asp-items="ViewBag.ExpensesCategory" onchange="getPragati()" />
+                                @* expenses category *@
+                                <span asp-validation-for="ExpensesCategory"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="BudgetSourceId" />
+                                <admin-select asp-for="BudgetSourceId" asp-items="ViewBag.BudgetSourceId" onchange="getPragati()" />
+                                @* expenses category *@
+                                <span asp-validation-for="BudgetSourceId"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="SubSectorId" />
+                                <admin-select asp-for="SubSectorId" asp-items="ViewBag.SubSectorId" onchange="getPragati()" />
+                                @* expenses category *@
+                                <span asp-validation-for="SubSectorId"></span>
+                            </div>
+                        </div>
+                        <!--<div class="col-md-2">
+                        <div class="form-group">
+                            <admin-label asp-for="ProgramType" />
+                            <admin-select asp-for="ProgramType" asp-items="ViewBag.ProgramType" onchange="getPragati()" />-->
+                        @* source of fund *@
+                        <!--<span asp-validation-for="ProgramType"></span>
+                            </div>
+                        </div>-->
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Type" />
+                                <admin-select asp-for="Type" asp-items="ViewBag.Type" onchange="getPragati()" />
+                                @* type of expens *@
+                                <span asp-validation-for="Type"></span>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <admin-label asp-for="Type" />
-                                <admin-select asp-for="Type" asp-items="ViewBag.Type" onchange="getMonthlyData()" />
-                                <span asp-validation-for="Type"></span>
+                                <admin-label asp-for="Month" />
+                                <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getPragati()" required="required" />
+                                <span asp-validation-for="Month"></span>
                             </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <admin-label asp-for="Month" />
-                            <admin-select asp-for="Month" asp-items="ViewBag.Month" onchange="getMonthlyData()" required="required" />
-                            <span asp-validation-for="Month"></span>
                         </div>
                     </div>
                 </div>
@@ -70,17 +99,12 @@
                 <table id="abc" class="table table-bordered">
                     <thead>
                         <tr style="text-align:center">
-                            <th id="c">@T("Admin.PujigatKharcha.Lmbiscode")</th>
-                            <th>@T("Admin.PujigatKharcha.Type")</th>
-                            <th>@T("Admin.PujigatKharcha.BudgetSirshakNo")</th>
-
-
-                            <th>@T("Admin.PujigatKharcha.ProgramName")</th>
-                            <th>@T("Admin.PujigatKharcha.Budget")</th>
-                            <th>@T("Admin.PujigatKharcha.BarshikParinam")</th>
-                            
-                            <th>@T("Admin.PujigatKharcha.BhautikPragati")</th>
-                            <th>@T("Admin.PujigatKharcha.BitiyaPragati")</th>
+                            <th>@T("Admin.pujigatKharchaKharakram.Program")</th>
+                            <th>@T("Admin.pujigatKharchaKharakram.kharchaCode")</th>
+                            <th>@T("Admin.pujigatKharchaKharakram.Limbis_Code")</th>
+                            <th>@T("Admin.pujigatKharchaKharakram.VautikPragati")</th>
+                            <th>@T("Admin.pujigatKharchaKharakram.BitiyaPragati")</th>
+                            <th></th>
 
                         </tr>
                     </thead>
@@ -90,144 +114,175 @@
                         {
                             foreach (var item in Model.pujigatKharchaKharakram)
                             {
-                        <tr id="@item.Id">
-                            <td>
-                                @item.Limbis_Code
-                                <input type="hidden" name="PujigatKharchaId" value="@item.Id" /><input type="hidden" name="ProgressDataId" value="" />
-                            </td>
-                            <td></td>
-
-                            <td>@T(item.Type) </td>
-                            <td>
-                                @item.Program
-                            </td>
-                            <td> item.BarsikBajet </td>
-
-                            <td><input type="text" name="BhautikPragati" class="form-control"/></td>
-                            <td><input type="text" name="BitiyaPragati" class="form-control" /></td>
-
-
-                        </tr>
+                                <tr id="@item.Id" data-budgetid="@item.PujigatKharchaId" data-progressid="@item.Id" data-id="@item.Id" data-upalbdiharu="@item.UpalbdiHaru" data-remarks="@item.Remarks" data-vaukitpragati="@item.VautikPragati" item-bitiyapragati="@item.BitiyaPragati">
+                                    <td>
+                                        @item.pujigatKharchaKharakram.Program
+                                        <input type="hidden" name="BudgetId" value="@item.pujigatKharchaKharakram.Id" />
+                                        <input type="hidden" name="ProgressDataId" value="@item.Id" />
+                                    </td>
+                                    <td>
+                                        @item.pujigatKharchaKharakram.kharchaCode
+                                    </td>
+                                    <td>@T(item.pujigatKharchaKharakram.Limbis_Code) </td>
+                                    <td>@item.VautikPragati</td>
+                                    <td>@item.BitiyaPragati</td>
+                                    <td><button type="button" class="btnUpdate btn btn-primary"><i class="fa fa-edit"></i></button></td>
+                                </tr>
                             }
                         }
                     </tbody>
                 </table>
-                <center>
-                    <input type="submit" class="btn btn-success" />
-                </center>
+                <div class="modal" id="modalProgress">
+                    <input type="hidden" id="hidBudgetId" />
+                    <input type="hidden" id="hidProgressId" />
+                    <input type="hidden" id="hidMonth" />
+                    <input type="hidden" id="hidFiscalYear" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@T("Admin.PujigatKharcha.VautikPragati")</label>
+                            <input type="number" step="001" name="BhautikPragati" id="txtBhautik" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@T("Admin.PujigatKharcha.BitiyaPragati")</label>
+                            <input type="number" step="001" name="BitiyaPragati" id="txtBitiya" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@T("Admin.PujigatKharcha.UpalabdhiHaru")</label>
+                            <textarea type="text" rows="4" id="txtUpalabdhiHaru" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@T("Admin.PujigatKharcha.Kaifiyat")</label>
+                            <textarea type="text" rows="2" id="txtRemarks" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success" id="btnUpdateTable">Submit</button>
+                        <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+                @*<center>
+                        <input type="submit" class="btn btn-success" />
+                    </center>*@
             </div>
         </div>
     </div>
 
 </form>
-
-
-
-
-
 <script>
     $(document).ready(function () {
-
+        var row;
 
         $("#showTable").hide();
-          getPragati();
-        $("#@Html.IdFor(m=>m.ProgramType)").on("change", function () {
-
+        //getPragati();
+          $("#@Html.IdFor(m=>m.BudgetSourceId)").on("change", function () {
             getPragati();
+        })
 
+         $("#@Html.IdFor(m=>m.SubSectorId)").on("change", function () {
+            getPragati();
+        })
+        $("#@Html.IdFor(m=>m.ExpensesCategory)").on("change", function () {
+            getPragati();
         })
         $("#@Html.IdFor(m=>m.FiscalYearId)").on("change", function () {
-
             getPragati();
-
         })
         $("#@Html.IdFor(m=>m.Type)").on("change", function () {
-
             getPragati();
-
         })
-
+         $("#@Html.IdFor(m=>m.Month)").on("change", function () {
+            getPragati();
+        })
 
     });
     async function getPragati() {
-
-            programType = $('#@Html.IdFor(m=>m.ProgramType)').val();
-            type = $('#@Html.IdFor(m=>m.Type)').val();
+        budgetSourceId = $('#@Html.IdFor(m=>m.BudgetSourceId)').val();
+        subSectorId = $('#@Html.IdFor(m=>m.SubSectorId)').val();
+        programType = $('#@Html.IdFor(m=>m.ExpensesCategory)').val(); //sourceOfFund
+        type = $('#@Html.IdFor(m=>m.Type)').val(); //chalu, pujigat
         fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
-                month= $('#@Html.IdFor(m => m.Month)').val();
+        month = $('#@Html.IdFor(m => m.Month)').val();
 
-            if (fiscalYear != null) {
-                var data = {
-                    programType: programType,
-                    type: type,
-                    fiscalYear: fiscalYear,
+        //if (!isEmpty(fiscalYear) && !isEmpty(expensesCategory) && !isEmpty(programType)  && !isEmpty(type)  && !isEmpty(month) ) {
+        if (!isEmpty(fiscalYear) && !isEmpty(month)) {
 
-                };
-                addAntiForgeryToken(data);
-                $.post("@Url.Action("GetPujigatKharcha", "MonthlyProgress")", data, function (result) {
+            var data = {
+                programType: programType,
+                type: type,
+                fiscalYear: fiscalYear,
+                month: month,
+                budgetSourceId: budgetSourceId,
+                subSectorId: subSectorId
+            };
+            addAntiForgeryToken(data);
+            $.get("@Url.Action("GetBudget", "MonthlyProgress")", data, function (result) {
 
-                    if (result.length > 0) {
-                        $("#tabularEntry").empty();
+                $("#tabularEntry").empty();
 
-                        $.each(result, function (index, item) {
-                            var tableRow = '<tr id="' + item.Id + '">';
-                            tableRow += '<td>' + item.Limbis_Code + '<input type="hidden" name="PujigatKharchaId" value="' + item.Id + '"/><input type="hidden" name="ProgressDataId" value="" /></td>';
-                            tableRow += '<td>' + item.Type + '</td>';
-                            tableRow += '<td>' + item.kharchaCode + '</td>';
-                            tableRow += '<td>' + item.Program + '</td>';
-                            tableRow += '<td>' + item.BarsikBajet + '</td>';
-                            tableRow += '<td>' + item.BarshikParinam + '</td>';
-                            
-                            tableRow += '<td><input type="text" name="BhautikPragati" class="form-control"/></td>';
-                            tableRow += '<td><input type="number" name="BitiyaPragati" class="form-control"/></td>';
+                if (result.length > 0) {
+                    // $("#tabularEntry").empty();
 
+                    $.each(result, function (index, item) {                       
+                        var tableRow = '<tr id="' + item.Id + '" data-budgetid="' + item.PujigatKharchaId + '" data-progressid="' + item.Id + '"  data-id="' + item.Id + '" data-upalbdiharu="' + item.UpalbdiHaru + '" data-remarks="' + item.Remarks + '" data-vautikpragati="' + item.VautikPragati + '" data-bitiyapragati="' + item.BitiyaPragati + '">';
+                        tableRow += '<td>' + item.pujigatKharchaKharakram.Program + '<input type="hidden" name="BudgetId" value="' + item.PujigatKharchaId + '"/><input type="hidden" name="ProgressDataId" value="' + item.Id + '" /></td>';
+                        tableRow += '<td>' + item.pujigatKharchaKharakram.kharchaCode + '</td>';
+                        tableRow += '<td>' + item.pujigatKharchaKharakram.Limbis_Code + '</td>';
 
-                            tableRow += '</tr>';
-                            $("#tabularEntry").append(tableRow);
-                        });
+                        tableRow += '<td>' + item.VautikPragati + '</td>';
+                        tableRow += '<td>' + item.BitiyaPragati + '</td>';
+                        tableRow += '<td><button class="btnUpdate btn btn-primary"><i class="fa fa-edit"></i></button></td>';
 
-                        $("#showTable").show();
-                        if (month) {
-                            getMonthlyData();
-                        }
+                        tableRow += '</tr>';
+                        $("#tabularEntry").append(tableRow);
+                    });
 
-                    }
-                    else {
-                        $("#showTable").hide();
-
-                    }
-                });
-
-            }
-
+                    $("#showTable").show();
+                }
+                else {
+                    $("#showTable").hide();
+                }
+            });
+        }
 
     }
-     function getMonthlyData() {
 
-          programType = $('#@Html.IdFor(m=>m.ProgramType)').val();
+     function getMonthlyData() {
+         programType = $('#@Html.IdFor(m=>m.ExpensesCategory)').val();
          type = $('#@Html.IdFor(m=>m.Type)').val();
-        fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
-        month= $('#@Html.IdFor(m => m.Month)').val();
+         fiscalYear = $('#@Html.IdFor(m=>m.FiscalYearId)').val();
+         month = $('#@Html.IdFor(m => m.Month)').val();
+         budgetSourceId = $('#@Html.IdFor(m=>m.BudgetSourceId)').val();
+        subSectorId = $('#@Html.IdFor(m=>m.SubSectorId)').val();
 
         if ( fiscalYear != "" && month!="") {
 
             var data = {
-                programType: $('#@Html.IdFor(m=>m.ProgramType)').val(),
+
+                programType: $('#@Html.IdFor(m=>m.ExpensesCategory)').val(),
                 type: $('#@Html.IdFor(m=>m.Type)').val(),
                 fiscalYear: $('#@Html.IdFor(m=>m.FiscalYearId)').val(),
                 month: $('#@Html.IdFor(m => m.Month)').val(),
+                budgetSourceId: $('#@Html.IdFor(m => m.BudgetSourceId)').val(),
+                subSectorId: $('#@Html.IdFor(m => m.SubSectorId)').val(),
             };
             addAntiForgeryToken(data);
             $.post("@Url.Action("GetProgress", "MonthlyProgress")", data, function (result) {
                 $("input[type=text]").val('');
                 $.each(result, function (index, item) {
-                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="ProgressDataId"]').val(item.Id);
-                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BhautikPragati"]').val(item.VautikPragati);
-                    $('tr#' + item.pujigatKharchaKharakram.Id + ' input[name="BitiyaPragati"]').val(item.BitiyaPragati);
-                });
+                    $('tr#' + item.Budget.Id + ' input[name="ProgressDataId"]').val(item.Id);
+                  });
             });
         }
     }
+
+
     function myFunction() {
         var input, filter, table, tr, td, i;
         input = document.getElementById("myInput");
@@ -236,18 +291,132 @@
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
-            td2 = tr[i].getElementsByTagName("td")[2];
-            td3 = tr[i].getElementsByTagName("td")[3];
+            td2 = tr[i].getElementsByTagName("td")[1];
+            td3 = tr[i].getElementsByTagName("td")[2];
 
             if (td) {
                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1 || td2.innerHTML.toUpperCase().indexOf(filter) > -1 || td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
-                } else {
+                }
+                else {
                     tr[0].style.display = "";
-
                     tr[i].style.display = "none";
                 }
             }
         }
     }
+
+    $("body").on("click", "table tbody tr td button.btnUpdate", function (e) {
+        e.preventDefault();
+
+        row = $(this).closest("tr");
+        var rowId = row.data("id");
+        var progressStatus = row.data("upalbdiharu");
+        var remarks = row.data("remarks");
+        var budgetId = row.data("budgetid");
+        var progressId = row.data("progressid");
+        var bitiya = row.data("bitiyapragati");
+        var vautik = row.data("vautikpragati");
+        var fiscalYear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
+        var month = $('#@Html.IdFor(m => m.Month)').val();
+        if (typeof month === "string" && month.length === 0) {
+            alert("Month is empty");
+            e.preventDefault();
+        }
+        else {
+
+            // Set values in the modal
+            $("#txtUpalabdhiHaru").val(progressStatus);
+            $("#txtRemarks").val(remarks);
+            $("#txtBhautik").val(vautik);
+            $("#txtBitiya").val(bitiya);
+            $("#hidBudgetId").val(budgetId);
+            $("#hidProgressId").val(progressId);
+            $("#hidMonth").val(month);
+            $("#hidFiscalYear").val(fiscalYear);
+
+            // Show the modal
+            var window = $("#modalProgress");
+            if (!window.data("kendoWindow")) {
+                window.kendoWindow({
+                    width: 1000,  // Set the width to 400 pixels
+                    height: 440, // Set the height to 200 pixels
+                    modal: true,
+                    title: "@T("Admin.Common.UpdateProgress")",
+                    actions: ["Close"]
+                });
+            }
+            window.data('kendoWindow').center().open();
+        }
+
+        $("#btnClose").click(function (e) {
+            e.preventDefault();
+
+
+            window.data('kendoWindow').close();
+        })
+
+    });
+   // $('#example tbody').on('click', 'tr span', function (e) {
+        $("body #btnUpdateTable").on('click', function (e) {
+            e.preventDefault();
+
+            var updatedProgressStatus = $("#txtUpalabdhiHaru").val();
+            var updatedRemarks = $("#txtRemarks").val();
+            var updatedVautik = $("#txtBhautik").val();
+            var updatedBitiya = $("#txtBitiya").val();
+            progressId = $("#hidProgressId").val();
+            budgetId = $("#hidBudgetId").val();
+            month = $("#hidMonth").val();
+            fiscalYear = $("#hidFiscalYear").val();
+
+            var data = {
+                progressId : progressId,
+                budgetId: budgetId,
+                fiscalYear: fiscalYear,
+                month: month,
+                bitiya: updatedBitiya,
+                vautik: updatedVautik,
+                upalabdhiharu: updatedProgressStatus,
+                remarks: updatedRemarks
+            };
+            addAntiForgeryToken(data);
+
+            if (!isEmpty(updatedBitiya) && !isEmpty(updatedVautik) && !isEmpty(updatedProgressStatus) && !isEmpty(budgetId) && !isEmpty(fiscalYear)) {
+
+                $.post("@Url.Action("UpdateProgress", "MonthlyProgress")", data, function (result) {
+                    row.data("upalbdiHaru", updatedProgressStatus);
+                    row.data("remarks", updatedRemarks);
+                    row.data("bitiyapragati", updatedBitiya);
+                    row.data("vautikpragati", updatedVautik);
+                    row.data("progressId", result.Id);
+
+                    var tdBitiya = row.find('td:eq(4)');
+                    tdBitiya.html(updatedBitiya);
+
+                    var tdVautik = row.find('td:eq(3)');
+                    tdVautik.html(updatedVautik);
+
+                    alert("Success: " + result.Message);
+
+                }).fail(function (xhr, status, error) {
+                    // Error callback
+                    console.log("Error:", xhr.responseJSON || xhr.responseText);
+
+                    // Handle error here, display error messages, etc.
+                    var errorMessage = "An error occurred while processing your request.";
+                    if (xhr.responseJSON && xhr.responseJSON.Message) {
+                        errorMessage = xhr.responseJSON.Message;
+                    }
+                    alert("Error: " + errorMessage);
+
+                }).always(function () {
+                    // This block will be executed no matter if the request was successful or failed.
+                    console.log("Request completed.");
+                });
+
+
+
+            }
+    });
 </script>

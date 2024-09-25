@@ -1,0 +1,35 @@
+﻿@model LIMS.Web.Areas.Admin.Models.BasicSetup.CategoryModel
+<div asp-validation-summary="All"></div>
+
+<div class="x_content form">
+    <div class="form-row">
+
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-3 col-sm-3">
+            <div class="form-group">
+                <admin-label asp-for="@Model.NameNepali" />
+
+                <admin-input asp-for="@Model.NameNepali">
+                    <span asp-validation-for="@Model.NameNepali"></span>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <div class="form-group">
+                <admin-label asp-for="@Model.NameEnglish" />
+
+                <admin-input asp-for="@Model.NameEnglish">
+                    <span asp-validation-for="@Model.NameEnglish"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="@Model.Type" />
+                <select asp-for="@Model.Type" asp-items="@ViewBag.Types" class="form-control"></select>
+                  <span asp-validation-for="@Model.Type"></span>
+            </div>
+        </div>
+     
+        </div>
+    </div>
+
+

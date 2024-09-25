@@ -2,7 +2,7 @@
 
 <div class="x_content form">
         <div class="form-body">
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-4 col-sm-4">
 
                 <div class="form-group">
                     <admin-label asp-for="NameEnglish" />
@@ -11,7 +11,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
 
                 <div class="form-group">
                     <admin-label asp-for="NameNepali" />
@@ -51,7 +51,7 @@
             </div>
 
 
-            <div class="col-md-3">
+            <div class="col-md-2">
 
                 <div class="form-group">
                     <admin-label asp-for="FiscalYearId" />
@@ -62,7 +62,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-8 col-sm-8">
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
@@ -76,12 +76,11 @@
                 </div>
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-12">
 
                 <div class="form-group">
                     <admin-label asp-for="Description" />
-                    <admin-input asp-for="Description" />
-
+                    <textarea asp-for="Description" rows="3" class="form-control"></textarea>
                     <span asp-validation-for="Description"></span>
 
                 </div>

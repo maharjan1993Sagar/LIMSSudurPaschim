@@ -1,4 +1,5 @@
-﻿using LIMS.Domain.BesicSetup;
+﻿using LIMS.Domain.BasicSetup;
+using LIMS.Domain.BesicSetup;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,7 @@ namespace LIMS.Domain.Bali
         public string ProgramSummery { get; set; }
         public string kharchaCode { get; set; }
         public string Unit { get; set; }
+        //public Unit Unit { get; set; }
         public string YearlyParinam { get; set; }
         public string YearlyVar { get; set; }
         public string BarsikBajet { get; set; }

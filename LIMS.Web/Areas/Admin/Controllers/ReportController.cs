@@ -43,6 +43,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly ILssService _lssService;
         public readonly IVhlsecService _vhlsecService;
 
+
         public ReportController(ILocalizationService localizationService,
             IAnimalRegistrationService animalRegistrationService,
             IFarmService farmService,
@@ -78,6 +79,46 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _vhlsecService = vhlsecService;
         }
 
+        public async Task<IActionResult> ProgressReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            //ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+            var month = new MonthHelper();
+            var months = month.GetMonths();
+            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.AllMonths"), ""));
+            ViewBag.Month = months;
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+
+            //var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+            //species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.Species = species;
+
+            var model = new ProgressReportModel();
+
+            return View(model);
+
+
+        }
+
+        [HttpPost]
+        public virtual IActionResult ProgressReportHtml(string FiscalYear, string xetra = "", string month = "")
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("ProgressReport", new { fiscalyear = FiscalYear, xetra = xetra, month = month });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
 
 
         public async Task<IActionResult> LivestockReport()

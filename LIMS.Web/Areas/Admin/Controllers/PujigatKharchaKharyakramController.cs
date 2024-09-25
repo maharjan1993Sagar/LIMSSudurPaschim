@@ -38,6 +38,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly IFiscalYearService _fiscalYearService;
         private readonly IBudgetSourceService _budgetSourceService;
         private readonly ISubSectorService _subSectorService;
+        private readonly IUnitService _unitService;
         private IHostingEnvironment _environment;
         #endregion
         #region ctor
@@ -53,6 +54,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
               IFiscalYearService fiscalYearService,
               IBudgetSourceService budgetSourceService,
               ISubSectorService subSectorService,
+              IUnitService unitService,
               IHostingEnvironment environment
 
             )
@@ -63,12 +65,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _localizationService = localizationService;
             _storeService = storeService;
             _exportManager = exportManager;
-
             _workContext = workContext;
             _importManager = importManager;
             _fiscalYearService = fiscalYearService;
             _budgetSourceService = budgetSourceService;
             _subSectorService = subSectorService;
+            _unitService = unitService;
             _environment = environment;
         }
         #endregion
@@ -88,14 +90,36 @@ namespace LIMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword)
+        public async Task<IActionResult> ListOther(DataSourceRequest command, string keyword, string category="")
         {
             var createdby = _workContext.CurrentCustomer.Id;
             var categories = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramSelect(createdby, keyword, command.Page - 1, command.PageSize);
-            
+
+            var lstBudget = categories.ToList();
+
+            if (!String.IsNullOrEmpty(category))
+            {
+                if (category.ToLower() == "training")
+                {
+                    lstBudget = lstBudget.Where(m => !String.IsNullOrEmpty(m.IsTrainingKaryaKram) && m.IsTrainingKaryaKram.ToLower() == "training").ToList();
+                }
+                else if (category.ToLower() == "subsidy")
+                {
+                    lstBudget = lstBudget.Where(m => !String.IsNullOrEmpty(m.Expenses_category) && m.Expenses_category.ToLower() == "subsidy").ToList();
+                }
+                else if (category.ToLower() == "niti")
+                {
+                    lstBudget = lstBudget.Where(m => !String.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.IsNitiTathaKaryaKram.ToLower() == "yes").ToList();
+                }
+                else
+                {
+                    lstBudget = new List<PujigatKharchaKharakram>();
+                }
+            }
+
             var gridModel = new DataSourceResult {
-                Data = categories,
-                Total = categories.TotalCount
+                Data = lstBudget,
+                Total = lstBudget.Count()
             };
             return Json(gridModel);
 
@@ -136,6 +160,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var p = pujigatKharchaKharakram.ToEntity();
             p.BudgetSource = await _budgetSourceService.GetBudgetSourceById(pujigatKharchaKharakram.BudgetSourceId);
+            p.FiscalYear = await _fiscalYearService.GetFiscalYearById(pujigatKharchaKharakram.FiscalYearId);
             p.SubSector = await _subSectorService.GetSubSectorById(pujigatKharchaKharakram.SubSectorId);
             p.kharchaCode = p.kharchaCode?.Trim();
             p.CreatedAt = DateTime.Now;
@@ -207,6 +232,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var m = pujigatKharchaKharakram.ToEntity(pujigat);
             pujigat.BudgetSource = await _budgetSourceService.GetBudgetSourceById(pujigatKharchaKharakram.BudgetSourceId);
             pujigat.SubSector = await _subSectorService.GetSubSectorById(pujigatKharchaKharakram.SubSectorId);
+            pujigat.FiscalYear = await _fiscalYearService.GetFiscalYearById(pujigatKharchaKharakram.FiscalYearId);
             pujigat.kharchaCode = pujigatKharchaKharakram.kharchaCode?.Trim();
             pujigat.CreatedAt = DateTime.Now;
             pujigat.CreatedBy = _workContext.CurrentCustomer.Id;
@@ -313,8 +339,40 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         }
 
+        public async Task<IActionResult> Edit(string? id)
+        {
+            if (!String.IsNullOrEmpty(id))
+            {
+                var pujigat =  await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(id);
+              //  var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
 
-         [HttpPost]
+                var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", pujigat.FiscalYearId).ToList();
+                fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                ViewBag.FiscalYearId = fiscalYear;
+
+                var budgetSource = new SelectList(await _budgetSourceService.GetBudgetSource(), "Id", "NameNepali", pujigat.BudgetSourceId).ToList();
+                budgetSource.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                ViewBag.BudgetSourceId = budgetSource;
+
+                var subSector = new SelectList(await _subSectorService.GetSubSector(), "Id", "NameNepali",pujigat.SubSectorId).ToList();
+                subSector.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                ViewBag.SubSector = subSector;
+
+                var type = PujigatType();
+               // type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                ViewBag.Type = new SelectList(PujigatType(), "Value", "Text", pujigat.Type);
+
+                var programType = ProgramType();
+                programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+                ViewBag.ProgramType = new SelectList(ProgramType(), "Value", "Text", pujigat.ProgramType);
+
+                return View(pujigat);
+            }
+
+            return RedirectToAction("Index");
+
+        }
+        [HttpPost]
         public async Task<IActionResult> Edit(PujigatKharchaKharakram pujigatKharchaKharakram)
         {
             var userapi = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaKharakram.Id);

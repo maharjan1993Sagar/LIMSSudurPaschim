@@ -1,0 +1,91 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.ProgressReportModel
+<div id="Printcontent">
+    @if (Model.RowsPragatiVayeka?.Count() > 0 )
+    {
+        <div class="text-center">
+            <b>
+                @Model.LocalLevel<br />
+                @Model.Level<br />
+                @Model.Address<br />
+                आ.ब. @Model?.FiscalYear, @Model.Month महिनासम्मको प्रगति प्रतिवेदन<br />
+            </b>
+            @*<b>प्रगति भएका कार्यक्रमहरु</b>*@
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr style="text-align:center">
+                    <th id="c">@T("Admin.Progress.SN")</th>
+                    <th>@T("Admin.Progress.Title")</th>
+                    <th>@T("Admin.Progress.Month")</th>
+                    <th>@T("Admin.Progress.VautikPragati")</th>
+                    <th>@T("Admin.Progress.BitiyaPragati")</th>
+                    <th>@T("Admin.Progress.Upalabdhiharu")</th>
+                    <th>@T("Admin.Report.Remarks")</th>
+                </tr>
+
+            </thead>
+            <tbody>
+              
+                @if (Model.RowsPragatiVayeka?.Count() > 0)
+                {
+                    @foreach (var item in Model.RowsPragatiVayeka)
+                    {
+                <tr>
+                    <td>@item.SN</td>
+                    <td>@item.BudgetTitle</td>
+                    <td>@item.Month</td>
+                    <td>@item.VautikPragati</td>
+                    <td>@item.BitiyaPragati</td>
+                    <td>@Html.Raw(item.UpalbdiHaru)</td>
+                    <td>@Html.Raw(item.Remarks)</td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @*<div> <b>प्रगति नभएका</b> </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr style="text-align:center">
+                    <th id="c">@T("Admin.Progress.SN")</th>
+                    <th>@T("Admin.Progress.Title")</th>
+                    <th>@T("Admin.Progress.VautikPragati")</th>
+                    <th>@T("Admin.Progress.BitiyaPragati")</th>
+                    <th>@T("Admin.Progress.Upalabdhiharu")</th>
+                    <th>@T("Admin.Report.Remarks")</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @if (Model.RowsPragatiNavayeka.Count() > 0)
+                {
+                    @foreach (var item in Model.RowsPragatiNavayeka)
+                    {
+                        <tr>
+                            <td>@item.SN</td>
+                            <td>@item.BudgetTitle</td>
+                            <td>@item.VautikPragati</td>
+                            <td>@item.BitiyaPragati</td>
+                            <td>@Html.Raw(item.UpalbdiHaru)</td>
+                            <td>@Html.Raw(item.Remarks)</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>*@
+    }
+</div>
+
+@if ( Model.RowsPragatiVayeka?.Count() >0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "Progress.xls"
+        });
+    }
+</script>

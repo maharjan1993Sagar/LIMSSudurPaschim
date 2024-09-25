@@ -33,10 +33,15 @@ namespace LIMS.Domain.Bali
         public DateTime CreatedAt { get; set; }
         public PujigatKharchaKharakram pujigatKharchaKharakram { get; set; }
         public string pujigatKharchaKharakramId { get; set; }
+        public string budgetId { get; set; }
         public DateTime  StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
         public string Duration { get; set; }
         public string Purpose { get; set; }
+        public decimal TotalExpenses { get; set; }
+        public string Logistics { get; set; }
+        public string Gender { get; set; }
+        public string Caste { get; set; }
     }
 }

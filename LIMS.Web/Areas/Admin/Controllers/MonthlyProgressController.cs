@@ -38,6 +38,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly INlboService _nlboService;
         private readonly IVhlsecService _vhlsecService;
         private readonly ICustomerService _customerService;
+        private readonly IBudgetSourceService _budgetSourceService;
+        private readonly ISubSectorService _subSectorService;
 
         public MonthlyProgressController(ILocalizationService localizationService,
             IMonthlyPragatiService animalRegistrationService,
@@ -51,8 +53,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             INlboService nlboService,
             IVhlsecService vhlsecService,
             IPujigatKharchaKharakramService pujigatKharchaKharakramService,
-            ICustomerService customerService
-
+            ICustomerService customerService,
+            IBudgetSourceService budgetSourceService,
+            ISubSectorService subSectorService
             )
         {
             _localizationService = localizationService;
@@ -68,6 +71,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _nlboService = nlboService;
             _dolfdService = dolfdService;
             _customerService = customerService;
+            _budgetSourceService = budgetSourceService;
+            _subSectorService = subSectorService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -90,6 +95,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
+            var createdBy = _workContext.CurrentCustomer.Id;
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
@@ -100,9 +106,22 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",CurrentFiscalYear).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            ViewBag.ExpensesCategory = new SelectList(ExecutionHelper.GetExecTypes(), "Value", "Text");
+
+
+            var budgetSource = new SelectList(await _budgetSourceService.GetBudgetSource(), "Id", "NameNepali").ToList();
+            budgetSource.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BudgetSourceId = budgetSource; 
+            
+            var subSector = new SelectList(await _subSectorService.GetSubSector(), "Id", "NameNepali").ToList();
+            subSector.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.SubSectorId = subSector;
+
             var type = PujigatType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+
             var programType = ProgramType();
             programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.ProgramType = programType;
@@ -112,9 +131,32 @@ namespace LIMS.Web.Areas.Admin.Controllers
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
             var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, CurrentFiscalYear, "", "");
-            
+
+            var Budget = await _pujigatKharchaKharakramService.GetMainKharakram(createdBy, CurrentFiscalYear);
+
+            var progress = await _animalRegistrationService.GetFilteredMonthlyPragati(createdBy, CurrentFiscalYear,"","","");
+
             MonthlyProgressModel model = new MonthlyProgressModel();
-            model.pujigatKharchaKharakram = pujigatKaryakram.ToList();
+
+            foreach (var item in Budget)
+            {
+                var objPragati = progress.FirstOrDefault(m => m.PujigatKharchaId == item.Id);
+
+                if (!progress.Any(m => m.PujigatKharchaId == item.Id))
+                {
+                    var pragati = new MonthlyPragati {
+                        PujigatKharchaId = item.Id,
+                        pujigatKharchaKharakram = item,
+                        FiscalYearId = item.FiscalYearId,
+                        //Month = "",
+                        Id = ""
+                    };
+                    progress.Add(pragati);
+                }
+
+            }
+            model.pujigatKharchaKharakram = progress.ToList();
+
             return View(model);
         }
 
@@ -123,31 +165,37 @@ namespace LIMS.Web.Areas.Admin.Controllers
         {
             var bhautikpragati = form["BhautikPragati"].ToList();
             var bitiyaPragati = form["BitiyaPragati"].ToList();
-            var pujigatKharchaId = form["PujigatKharchaId"].ToList();
+            var budgetId = form["BudgetId"].ToList();
             var progressDataId = form["ProgressDataId"].ToList();
+            var upalabdhiHaru = form["UpalbdiHaru"].ToList();
+            var remarks = form["Remarks"].ToList();
+
             var updateLivestocks = new List<MonthlyPragati>();
             var addLivestocks = new List<MonthlyPragati>();
             string createdby = null;
-           
-                createdby = _workContext.CurrentCustomer.Id;
-           
-            for (int i = 0; i < pujigatKharchaId.Count(); i++)
+
+            createdby = _workContext.CurrentCustomer.Id;
+
+            for (int i = 0; i < budgetId.Count(); i++)
             {
                 if (string.IsNullOrEmpty(bitiyaPragati[i]))
                     continue;
 
                 var livestock = new MonthlyPragati {
-                    pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaId[i]),
+                    pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(budgetId[i]),
                     BitiyaPragati = bitiyaPragati[i],
                     VautikPragati = bhautikpragati[i],
-                    PujigatKharchaId=pujigatKharchaId[i],
+                    PujigatKharchaId = budgetId[i],
+                    UpalbdiHaru = upalabdhiHaru[i],
+                    Remarks = remarks[i],
                     FiscalYearId = model.FiscalYearId,
-                    FiscalYear=await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
-                  
+                    FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
                     CreatedBy = createdby,
                     Month = model.Month
-
                 };
+
+
+
                 if (!string.IsNullOrEmpty(progressDataId[i]))
                 {
                     livestock.Id = progressDataId[i];
@@ -159,268 +207,447 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 }
 
             }
-            if (updateLivestocks.Count > 0)
-                await _animalRegistrationService.UpdateMonthlyPragatiList(updateLivestocks);
-            if (addLivestocks.Count > 0)
-                await _animalRegistrationService.InsertMonthlyPragatiList(addLivestocks);
-
+           
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+            
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",model.FiscalYearId).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            ViewBag.ExpensesCategory = new SelectList(ExecutionHelper.GetExecTypes(), "Value", "Text");
+
+
             var type = PujigatType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+            
             var programType = ProgramType();
             programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.ProgramType = programType;
-            var month = new MonthHelper();
+            
+            var month = new MonthHelper();           
             var months = month.GetMonths();
-
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
+
+            var budgetSource = new SelectList(await _budgetSourceService.GetBudgetSource(), "Id", "NameNepali").ToList();
+            budgetSource.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BudgetSourceId = budgetSource;
+
+            var subSector = new SelectList(await _subSectorService.GetSubSector(), "Id", "NameNepali").ToList();
+            subSector.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.SubSectorId = subSector;
 
             var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, model.FiscalYearId, "", "");
 
             MonthlyProgressModel models = new MonthlyProgressModel();
-            models.pujigatKharchaKharakram = pujigatKaryakram.ToList();
+            models.pujigatKharchaKharakram = model.pujigatKharchaKharakram.ToList();
 
             return View(models);
         }
+        //public async Task<ActionResult> GetBudget(string type, string programType, string fiscalYear, string month, string budgetSourceId, string subSectorId)
+        //{
+        //    var createdby = _workContext.CurrentCustomer.Id;
+
+            
+        //    //Get Budget
+        //    var budget = await _pujigatKharchaKharakramService.GetMainKharakram(createdby, fiscalYear, programType, type, programt, xetra);
+
+        //    //Get Progress
+        //    var progress = await _animalRegistrationService.GetFilteredMonthlyPragati("", fiscalYear, programType, type, month, expensesCategory, xetra);
+
+        //    var lstProgress = new List<MonthlyPragati>();
+
+        //    foreach (var item in budget)
+        //    {
+        //        var objPragati = progress.FirstOrDefault(m => m.BudgetId == item.Id);
+
+        //        if (!progress.Any(m => m.BudgetId == item.Id))
+        //        {
+        //            var pragati = new MonthlyPragati {
+        //                BudgetId = item.Id,
+        //                Budget = item,
+        //                FiscalYearId = item.FiscalYearId,
+        //                Month = month,
+        //                VautikPragati = "0",
+        //                BitiyaPragati = "0",
+        //                Id = ""
+        //            };
+        //            lstProgress.Add(pragati);
+        //        }
+        //        else
+        //        {
+        //            lstProgress.Add(objPragati);
+        //        }
+
+        //    }
+
+        //    //decimal a = 0;
+        //    //progress.ToList().ForEach(m => m. = ((decimal.TryParse(m.Yearly, out a) ? a * 100000 : 0).ToStrin~g()));
+
+        //    return Json(lstProgress);
+        //}
 
 
-        public async Task<IActionResult> CreateNitigatKaryakram()
+        public async Task<ActionResult> UpdateProgress(string budgetId, string progressId, string month, string bitiya, string vautik, string upalabdhiharu, string remarks, string fiscalYear)
         {
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
-            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.SpeciesId = species;
-            var id = _workContext.CurrentCustomer.Id;
-            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
-            var CurrentFiscalYear = fiscalyear.Id;
-
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
-            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYearId = fiscalYear;
-            var type = PujigatType();
-            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Type = type;
-            var programType = ProgramType();
-            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ProgramType = programType;
-            var month = new MonthHelper();
-            var months = month.GetMonths();
-
-            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Month = months;
-            var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, CurrentFiscalYear, "", "");
-
-            MonthlyProgressModel model = new MonthlyProgressModel();
-            model.pujigatKharchaKharakram = pujigatKaryakram.ToList();
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateNitigatKaryakram(MonthlyProgressModel model, IFormCollection form)
-        {
-            var bhautikpragati = form["BhautikPragati"].ToList();
-            var bitiyaPragati = form["BitiyaPragati"].ToList();
-            var pujigatKharchaId = form["PujigatKharchaId"].ToList();
-            var progressDataId = form["ProgressDataId"].ToList();
-
-            var SuchanaPrakashan = form["SuchanaPrakashan"].ToList();
-            var FieldVerification = form["FieldVerification"].ToList();
-            var Samzauta = form["Samzauta"].ToList();
-            var Anugaman = form["Anugaman"].ToList();
-            var UpalbdiHaru = form["UpalbdiHaru"].ToList();
-           // var KharchaKoSwrot = form["KharchaKoSwrot"].ToList();
-            var Remarks = form["Remarks"].ToList();
-
-
-            var updateLivestocks = new List<MonthlyPragati>();
-            var addLivestocks = new List<MonthlyPragati>();
-            string createdby = null;
-
-            createdby = _workContext.CurrentCustomer.Id;
-
-            for (int i = 0; i < pujigatKharchaId.Count(); i++)
+            try
             {
-                if (string.IsNullOrEmpty(bitiyaPragati[i]))
-                    continue;
+                var createdby = _workContext.CurrentCustomer.Id;
 
-                var livestock = new MonthlyPragati {
-                    pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaId[i]),
-                    BitiyaPragati = bitiyaPragati[i],
-                    //   VautikPragati = bhautikpragati[i],
-                    PujigatKharchaId = pujigatKharchaId[i],
-                    SuchanaPrakashan= SuchanaPrakashan[i],
-                    FieldVerification= FieldVerification[i],
-                   // KharchaKoSwrot= KharchaKoSwrot[i],
-                    Samzauta =Samzauta[i],
-                    Anugaman= Anugaman[i],
-                    UpalbdiHaru= UpalbdiHaru[i],
-                FiscalYearId = model.FiscalYearId,
-                Remarks=Remarks[i],
-                    FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
 
-                    CreatedBy = createdby,
-                    Month = model.Month
-
-                };
-                if (!string.IsNullOrEmpty(progressDataId[i]))
+                if (!String.IsNullOrEmpty(progressId))
                 {
-                    livestock.Id = progressDataId[i];
-                    updateLivestocks.Add(livestock);
+                    var objMonthlyPragati = await _animalRegistrationService.GetMonthlyPragatiById(progressId);
+                    if (objMonthlyPragati != null)
+                    {
+                        objMonthlyPragati.pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(budgetId);
+                        objMonthlyPragati.BitiyaPragati = bitiya;
+                        objMonthlyPragati.VautikPragati = vautik;
+                        objMonthlyPragati.UpalbdiHaru = upalabdhiharu;
+                        objMonthlyPragati.Remarks = remarks;
+                        objMonthlyPragati.Month = month;
+                        objMonthlyPragati.CreatedAt = DateTime.Now;
+                        objMonthlyPragati.CreatedBy = createdby;
+
+                        await _animalRegistrationService.UpdateMonthlyPragati(objMonthlyPragati);
+                        return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
+                    }
+                    else
+                    {
+                        objMonthlyPragati = new MonthlyPragati();
+
+                        objMonthlyPragati.PujigatKharchaId = budgetId;
+                        objMonthlyPragati.pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(budgetId);
+                        objMonthlyPragati.BitiyaPragati = bitiya;
+                        objMonthlyPragati.VautikPragati = vautik;
+                        objMonthlyPragati.UpalbdiHaru = upalabdhiharu;
+                        objMonthlyPragati.Remarks = remarks;
+                        objMonthlyPragati.Month = month;
+                        objMonthlyPragati.CreatedAt = DateTime.Now;
+                        objMonthlyPragati.CreatedBy = createdby;
+                        objMonthlyPragati.FiscalYearId = fiscalYear;
+                        objMonthlyPragati.FiscalYear = await _fiscalYearService.GetFiscalYearById(fiscalYear);
+
+
+
+                        await _animalRegistrationService.InsertMonthlyPragati(objMonthlyPragati);
+
+                        return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
+                    }
                 }
-                else
+                else if (!String.IsNullOrEmpty(budgetId))
                 {
-                    addLivestocks.Add(livestock);
+                    var objMonthlyPragati = new MonthlyPragati();
+
+                    objMonthlyPragati.PujigatKharchaId = budgetId;
+                    objMonthlyPragati.pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(budgetId);
+                    objMonthlyPragati.BitiyaPragati = bitiya;
+                    objMonthlyPragati.VautikPragati = vautik;
+                    objMonthlyPragati.UpalbdiHaru = upalabdhiharu;
+                    objMonthlyPragati.Remarks = remarks;
+                    objMonthlyPragati.Month = month;
+                    objMonthlyPragati.CreatedAt = DateTime.Now;
+                    objMonthlyPragati.CreatedBy = createdby;
+                    objMonthlyPragati.FiscalYearId = fiscalYear;
+                    objMonthlyPragati.FiscalYear = await _fiscalYearService.GetFiscalYearById(fiscalYear);
+
+
+                    await _animalRegistrationService.InsertMonthlyPragati(objMonthlyPragati);
+                    return Ok(new { Message = _localizationService.GetResource("Admin.Common.Success"), id = objMonthlyPragati.Id });
+
                 }
+
+                return Ok(new { Message = _localizationService.GetResource("Admin.Common.Fail"), id = "" });
+
+
 
             }
-            if (updateLivestocks.Count > 0)
-                await _animalRegistrationService.UpdateMonthlyPragatiList(updateLivestocks);
-            if (addLivestocks.Count > 0)
-                await _animalRegistrationService.InsertMonthlyPragatiList(addLivestocks);
-
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
-            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.SpeciesId = species;
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", model.FiscalYearId).ToList();
-            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYearId = fiscalYear;
-            var type = PujigatType();
-            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Type = type;
-            var programType = ProgramType();
-            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ProgramType = programType;
-            var month = new MonthHelper();
-            var months = month.GetMonths();
-
-            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Month = months;
-
-            var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, model.FiscalYearId, "", "");
-
-            MonthlyProgressModel models = new MonthlyProgressModel();
-            models.pujigatKharchaKharakram = pujigatKaryakram.ToList();
-
-            return View(models);
-        }
-        public async Task<IActionResult> CreateMainKaryakram()
-        {
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
-            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.SpeciesId = species;
-            var id = _workContext.CurrentCustomer.Id;
-            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
-            var CurrentFiscalYear = fiscalyear.Id;
-
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
-            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYearId = fiscalYear;
-            var type = PujigatType();
-            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Type = type;
-            var programType = ProgramType();
-            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ProgramType = programType;
-            var month = new MonthHelper();
-            var months = month.GetMonths();
-
-            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Month = months;
-            decimal a = 0;
-            var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, CurrentFiscalYear, "", "");
-            MonthlyProgressModel model = new MonthlyProgressModel();
-            model.pujigatKharchaKharakram = pujigatKaryakram.ToList();
-            model.pujigatKharchaKharakram.ForEach(m => m.BarsikBajet = ((decimal.TryParse(m.BarsikBajet, out a) ? a * 100000 : 0).ToString()));
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateMainKaryakram(MonthlyProgressModel model, IFormCollection form)
-        {
-            var bhautikpragati = form["BhautikPragati"].ToList();
-            var bitiyaPragati = form["BitiyaPragati"].ToList();
-            var pujigatKharchaId = form["PujigatKharchaId"].ToList();
-            var progressDataId = form["ProgressDataId"].ToList();
-
-            var VuktaniPauneKoNam = form["VuktaniPauneKoNam"].ToList();
-            var Remarks = form["Remarks"].ToList();
-           
-
-
-            var updateLivestocks = new List<MonthlyPragati>();
-            var addLivestocks = new List<MonthlyPragati>();
-            string createdby = null;
-
-            createdby = _workContext.CurrentCustomer.Id;
-
-            for (int i = 0; i < pujigatKharchaId.Count(); i++)
+            catch (Exception ex)
             {
-                if (string.IsNullOrEmpty(bitiyaPragati[i]))
-                    continue;
 
-                var livestock = new MonthlyPragati {
-                    pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaId[i]),
-                    BitiyaPragati = bitiyaPragati[i],
-                    //   VautikPragati = bhautikpragati[i],
-                    PujigatKharchaId = pujigatKharchaId[i],
-                     VuktaniPauneKoNam= VuktaniPauneKoNam[i],
-                    Remarks = Remarks[i],
-                  
-                    FiscalYearId = model.FiscalYearId,
-                    FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
-
-                    CreatedBy = createdby,
-                    Month = model.Month
-
-                };
-                if (!string.IsNullOrEmpty(progressDataId[i]))
-                {
-                    livestock.Id = progressDataId[i];
-                    updateLivestocks.Add(livestock);
-                }
-                else
-                {
-                    addLivestocks.Add(livestock);
-                }
+                return BadRequest(new { Message = _localizationService.GetResource("Admin.Common.Fail") + "   " + ex.Message, id = "" });
 
             }
-            if (updateLivestocks.Count > 0)
-                await _animalRegistrationService.UpdateMonthlyPragatiList(updateLivestocks);
-            if (addLivestocks.Count > 0)
-                await _animalRegistrationService.InsertMonthlyPragatiList(addLivestocks);
-
-            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
-            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.SpeciesId = species;
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", model.FiscalYearId).ToList();
-            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.FiscalYearId = fiscalYear;
-            var type = PujigatType();
-            type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Type = type;
-            var programType = ProgramType();
-            programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.ProgramType = programType;
-            var month = new MonthHelper();
-            var months = month.GetMonths();
-
-            months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            ViewBag.Month = months;
-
-            var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, model.FiscalYearId, "", "");
-
-            MonthlyProgressModel models = new MonthlyProgressModel();
-            models.pujigatKharchaKharakram = pujigatKaryakram.ToList();
-
-            return View(models);
         }
+
+
+
+        //public async Task<IActionResult> CreateNitigatKaryakram()
+        //{
+        //    var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+        //    species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.SpeciesId = species;
+        //    var id = _workContext.CurrentCustomer.Id;
+        //    var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+        //    var CurrentFiscalYear = fiscalyear.Id;
+
+        //    var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
+        //    fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.FiscalYearId = fiscalYear;
+        //    var type = PujigatType();
+        //    type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Type = type;
+        //    var programType = ProgramType();
+        //    programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.ProgramType = programType;
+        //    var month = new MonthHelper();
+        //    var months = month.GetMonths();
+
+        //    months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Month = months;
+        //    var Budget = await _pujigatKharchaKharakramService.GetMainKharakram(id, CurrentFiscalYear);
+
+        //    var progress = await _animalRegistrationService.GetFilteredMonthlyPragati(id, CurrentFiscalYear, "", "", "");
+
+        //    MonthlyProgressModel model = new MonthlyProgressModel();
+
+        //    foreach (var item in Budget)
+        //    {
+        //        var objPragati = progress.FirstOrDefault(m => m.PujigatKharchaId == item.Id);
+
+        //        if (!progress.Any(m => m.PujigatKharchaId == item.Id))
+        //        {
+        //            var pragati = new MonthlyPragati {
+        //                PujigatKharchaId = item.Id,
+        //                pujigatKharchaKharakram = item,
+        //                FiscalYearId = item.FiscalYearId,
+        //                //Month = "",
+        //                Id = ""
+        //            };
+        //            progress.Add(pragati);
+        //        }
+
+        //    }
+        //    model.pujigatKharchaKharakram = progress.ToList();
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateNitigatKaryakram(MonthlyProgressModel model, IFormCollection form)
+        //{
+        //    var bhautikpragati = form["BhautikPragati"].ToList();
+        //    var bitiyaPragati = form["BitiyaPragati"].ToList();
+        //    var pujigatKharchaId = form["PujigatKharchaId"].ToList();
+        //    var progressDataId = form["ProgressDataId"].ToList();
+
+        //    var SuchanaPrakashan = form["SuchanaPrakashan"].ToList();
+        //    var FieldVerification = form["FieldVerification"].ToList();
+        //    var Samzauta = form["Samzauta"].ToList();
+        //    var Anugaman = form["Anugaman"].ToList();
+        //    var UpalbdiHaru = form["UpalbdiHaru"].ToList();
+        //   // var KharchaKoSwrot = form["KharchaKoSwrot"].ToList();
+        //    var Remarks = form["Remarks"].ToList();
+
+
+        //    var updateLivestocks = new List<MonthlyPragati>();
+        //    var addLivestocks = new List<MonthlyPragati>();
+        //    string createdby = null;
+
+        //    createdby = _workContext.CurrentCustomer.Id;
+
+        //    for (int i = 0; i < pujigatKharchaId.Count(); i++)
+        //    {
+        //        if (string.IsNullOrEmpty(bitiyaPragati[i]))
+        //            continue;
+
+        //        var livestock = new MonthlyPragati {
+        //            pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaId[i]),
+        //            BitiyaPragati = bitiyaPragati[i],
+        //            //   VautikPragati = bhautikpragati[i],
+        //            PujigatKharchaId = pujigatKharchaId[i],
+        //            SuchanaPrakashan= SuchanaPrakashan[i],
+        //            FieldVerification= FieldVerification[i],
+        //           // KharchaKoSwrot= KharchaKoSwrot[i],
+        //            Samzauta =Samzauta[i],
+        //            Anugaman= Anugaman[i],
+        //            UpalbdiHaru= UpalbdiHaru[i],
+        //        FiscalYearId = model.FiscalYearId,
+        //        Remarks=Remarks[i],
+        //            FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
+
+        //            CreatedBy = createdby,
+        //            Month = model.Month
+
+        //        };
+        //        if (!string.IsNullOrEmpty(progressDataId[i]))
+        //        {
+        //            livestock.Id = progressDataId[i];
+        //            updateLivestocks.Add(livestock);
+        //        }
+        //        else
+        //        {
+        //            addLivestocks.Add(livestock);
+        //        }
+
+        //    }
+        //    if (updateLivestocks.Count > 0)
+        //        await _animalRegistrationService.UpdateMonthlyPragatiList(updateLivestocks);
+        //    if (addLivestocks.Count > 0)
+        //        await _animalRegistrationService.InsertMonthlyPragatiList(addLivestocks);
+
+        //    var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+        //    species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.SpeciesId = species;
+        //    var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", model.FiscalYearId).ToList();
+        //    fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.FiscalYearId = fiscalYear;
+        //    var type = PujigatType();
+        //    type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Type = type;
+        //    var programType = ProgramType();
+        //    programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.ProgramType = programType;
+        //    var month = new MonthHelper();
+        //    var months = month.GetMonths();
+
+        //    months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Month = months;
+
+        //    var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, model.FiscalYearId, "", "");
+
+        //    MonthlyProgressModel models = new MonthlyProgressModel();
+        //    models.pujigatKharchaKharakram = model.pujigatKharchaKharakram;
+
+        //    return View(models);
+        //}
+        //public async Task<IActionResult> CreateMainKaryakram()
+        //{
+        //    var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+        //    species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.SpeciesId = species;
+        //    var id = _workContext.CurrentCustomer.Id;
+        //    var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+        //    var CurrentFiscalYear = fiscalyear.Id;
+
+        //    var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
+        //    fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.FiscalYearId = fiscalYear;
+        //    var type = PujigatType();
+        //    type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Type = type;
+        //    var programType = ProgramType();
+        //    programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.ProgramType = programType;
+        //    var month = new MonthHelper();
+        //    var months = month.GetMonths();
+
+        //    months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Month = months;
+        //    decimal a = 0;
+        //     var Budget = await _pujigatKharchaKharakramService.GetMainKharakram(createdBy, CurrentFiscalYear);
+
+        //    var progress = await _animalRegistrationService.GetFilteredMonthlyPragati(createdBy, CurrentFiscalYear,"","","");
+
+        //    MonthlyProgressModel model = new MonthlyProgressModel();
+
+        //    foreach (var item in Budget)
+        //    {
+        //        var objPragati = progress.FirstOrDefault(m => m.PujigatKharchaId == item.Id);
+
+        //        if (!progress.Any(m => m.PujigatKharchaId == item.Id))
+        //        {
+        //            var pragati = new MonthlyPragati {
+        //                PujigatKharchaId = item.Id,
+        //                pujigatKharchaKharakram = item,
+        //                FiscalYearId = item.FiscalYearId,
+        //                //Month = "",
+        //                Id = ""
+        //            };
+        //            progress.Add(pragati);
+        //        }
+
+        //    }
+        //    model.pujigatKharchaKharakram = progress.ToList();
+
+        //    model.pujigatKharchaKharakram = pujigatKaryakram.ToList();
+        //    model.pujigatKharchaKharakram.ForEach(m => m.BarsikBajet = ((decimal.TryParse(m.BarsikBajet, out a) ? a * 100000 : 0).ToString()));
+
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateMainKaryakram(MonthlyProgressModel model, IFormCollection form)
+        //{
+        //    var bhautikpragati = form["BhautikPragati"].ToList();
+        //    var bitiyaPragati = form["BitiyaPragati"].ToList();
+        //    var pujigatKharchaId = form["PujigatKharchaId"].ToList();
+        //    var progressDataId = form["ProgressDataId"].ToList();
+
+        //    var VuktaniPauneKoNam = form["VuktaniPauneKoNam"].ToList();
+        //    var Remarks = form["Remarks"].ToList();
+
+
+
+        //    var updateLivestocks = new List<MonthlyPragati>();
+        //    var addLivestocks = new List<MonthlyPragati>();
+        //    string createdby = null;
+
+        //    createdby = _workContext.CurrentCustomer.Id;
+
+        //    for (int i = 0; i < pujigatKharchaId.Count(); i++)
+        //    {
+        //        if (string.IsNullOrEmpty(bitiyaPragati[i]))
+        //            continue;
+
+        //        var livestock = new MonthlyPragati {
+        //            pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(pujigatKharchaId[i]),
+        //            BitiyaPragati = bitiyaPragati[i],
+        //            //   VautikPragati = bhautikpragati[i],
+        //            PujigatKharchaId = pujigatKharchaId[i],
+        //             VuktaniPauneKoNam= VuktaniPauneKoNam[i],
+        //            Remarks = Remarks[i],
+
+        //            FiscalYearId = model.FiscalYearId,
+        //            FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId),
+
+        //            CreatedBy = createdby,
+        //            Month = model.Month
+
+        //        };
+        //        if (!string.IsNullOrEmpty(progressDataId[i]))
+        //        {
+        //            livestock.Id = progressDataId[i];
+        //            updateLivestocks.Add(livestock);
+        //        }
+        //        else
+        //        {
+        //            addLivestocks.Add(livestock);
+        //        }
+
+        //    }
+        //    if (updateLivestocks.Count > 0)
+        //        await _animalRegistrationService.UpdateMonthlyPragatiList(updateLivestocks);
+        //    if (addLivestocks.Count > 0)
+        //        await _animalRegistrationService.InsertMonthlyPragatiList(addLivestocks);
+
+        //    var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
+        //    species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.SpeciesId = species;
+        //    var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", model.FiscalYearId).ToList();
+        //    fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.FiscalYearId = fiscalYear;
+        //    var type = PujigatType();
+        //    type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Type = type;
+        //    var programType = ProgramType();
+        //    programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.ProgramType = programType;
+        //    var month = new MonthHelper();
+        //    var months = month.GetMonths();
+
+        //    months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Month = months;
+
+        //    var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, model.FiscalYearId, "", "");
+
+        //    MonthlyProgressModel models = new MonthlyProgressModel();
+        //    models.pujigatKharchaKharakram = pujigatKaryakram.ToList();
+
+        //    return View(models);
+        //}
 
 
 
@@ -575,7 +802,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     }
                     else
                     {
-                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, fiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, fiscalYear, programType, type,"","", command.Page - 1, command.PageSize);
 
                     }
                     //var id = _workContext.CurrentCustomer.Id;
@@ -622,7 +849,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     }
                     else
                     {
-                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, CurrentFiscalYear, programType, type, command.Page - 1, command.PageSize);
+                        pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, CurrentFiscalYear, programType, type,"","", command.Page - 1, command.PageSize);
 
                     }
                     //var id = _workContext.CurrentCustomer.Id;
@@ -1097,19 +1324,31 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+
             var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
             var CurrentFiscalYear = fiscalyear.Id;
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", CurrentFiscalYear).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
             var type = PujigatType();
             type.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Type = type;
+
             var programType = ProgramType();
             programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.ProgramType = programType;
+
             var month = new MonthHelper();
             var months = month.GetMonths();
+
+            var budgetSource = new SelectList(await _budgetSourceService.GetBudgetSource(), "Id", "NameNepali").ToList();
+            budgetSource.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.BudgetSourceId = budgetSource;
+
+            var subSector = new SelectList(await _subSectorService.GetSubSector(), "Id", "NameNepali").ToList();
+            subSector.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.SubSectorId = subSector;
 
             months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Month = months;
@@ -1136,9 +1375,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SummerizedReportHtml(string FiscalYear)
+        public async Task<IActionResult> SummerizedReportHtml(string FiscalYear, string budgetSourceId, string subSectorId)
         {
-            var livestockWardWiseReportHtml = RenderViewComponentToString("SeasonalReportReport", new { fiscalyear = FiscalYear });
+            var livestockWardWiseReportHtml = RenderViewComponentToString("SeasonalReportReport", new { fiscalyear = FiscalYear, budgetSourceId = budgetSourceId, subSectorId = subSectorId });
 
             return Json(new
             {
@@ -1157,10 +1396,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
 
 
-        public async Task<ActionResult> GetPujigatKharcha(string type, string programType, string fiscalYear)
+        public async Task<ActionResult> GetPujigatKharcha(string type, string programType, string fiscalYear, string budgetSourceId, string subSectorId)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, fiscalYear, programType, type );
+            var pujigatKaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, fiscalYear, programType, type , budgetSourceId, subSectorId);
             decimal a = 0;
             pujigatKaryakram.ToList().ForEach(m => m.BarsikBajet = ((decimal.TryParse(m.BarsikBajet, out a) ? a * 100000 : 0).ToString()));
 
@@ -1187,10 +1426,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             return Json(pujigatKaryakram);
         }
-        public async Task<ActionResult> GetProgress(string type, string programType, string fiscalYear,string month)
+        public async Task<ActionResult> GetProgress(string type, string programType, string fiscalYear,string month, string budgetSourceId, string subSectorId)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pujigatKaryakram = await _animalRegistrationService.GetFilteredMonthlyPragati(createdby, fiscalYear, programType, type,month);
+            var pujigatKaryakram = await _animalRegistrationService.GetFilteredMonthlyPragati(createdby, fiscalYear, programType, type,month,budgetSourceId, subSectorId);
            
             return Json(pujigatKaryakram);
         }
@@ -1200,11 +1439,56 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var pujigatKaryakram = await _animalRegistrationService.GetFilteredNitiMonthlyPragati(createdby, fiscalYear, programType, type, month);
             return Json(pujigatKaryakram);
         }
+
         public async Task<ActionResult> GetMainProgress(string type, string programType, string fiscalYear, string month)
         {
             var createdby = _workContext.CurrentCustomer.Id;
             var pujigatKaryakram = await _animalRegistrationService.GetFilteredMainMonthlyPragati(createdby, fiscalYear, programType, type, month);
             return Json(pujigatKaryakram);
+        }
+
+        public async Task<ActionResult> GetBudget(string type, string programType, string fiscalYear, string month, string budgetSourceId, string subSectorId)
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+
+            var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+           
+            //Get Budget
+            var budget = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby, fiscalYear, programType, type, budgetSourceId,subSectorId);
+
+            //Get Progress
+            var progress = await _animalRegistrationService.GetFilteredMainMonthlyPragati(createdby, fiscalYear, programType, type, month, budgetSourceId, subSectorId);
+
+            var lstProgress = new List<MonthlyPragati>();
+
+            foreach (var item in budget)
+            {
+                var objPragati = progress.FirstOrDefault(m => m.PujigatKharchaId == item.Id);
+
+                if (!progress.Any(m => m.PujigatKharchaId == item.Id))
+                {
+                    var pragati = new MonthlyPragati {
+                        PujigatKharchaId = item.Id,
+                        pujigatKharchaKharakram = item,
+                        FiscalYearId = item.FiscalYearId,
+                        Month = month,
+                        VautikPragati = "0",
+                        BitiyaPragati = "0",
+                        Id = ""
+                    };
+                    lstProgress.Add(pragati);
+                }
+                else
+                {
+                    lstProgress.Add(objPragati);
+                }
+
+            }
+
+            //decimal a = 0;
+            //progress.ToList().ForEach(m => m. = ((decimal.TryParse(m.Yearly, out a) ? a * 100000 : 0).ToStrin~g()));
+
+            return Json(lstProgress);
         }
 
         public async Task<ActionResult> GetBreed(string species)

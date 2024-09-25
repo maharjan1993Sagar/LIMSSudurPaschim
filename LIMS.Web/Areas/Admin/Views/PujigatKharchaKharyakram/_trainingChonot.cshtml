@@ -60,7 +60,7 @@
                         url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: additionalData
+                        data: additionalData3
                     },
                     update: {
                         url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
@@ -151,11 +151,10 @@
                  field: "ChauthoTrimasikkBadjet",
                 title: "@T("Admin.PujigatKaryakram.Fields.ChauthoTrimasikkBadjet")",
                 },
-
             {
                 field: "IsTrainingKaryaKram",
                 title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
-                editor: TDropDownEditor
+                editor: TDropDownEditor3
                 },
             {
                 field: "Remarks",
@@ -180,15 +179,32 @@
         });
 
     });
-    function additionalData() {
+    function additionalData3() {
         var data = {
-            Keyword: $("#Keyword").val()
+            Keyword: $("#Keyword").val(),
+            category: "training"
         };
         addAntiForgeryToken(data);
         return data;
     }
-    function TDropDownEditor(container, options) {
+    function TDropDownEditor3(container, options) {
         $('<input name="IsTrainingKaryaKram"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                valuePrimitive: true,
+
+                autoBind: true,
+                dataTextField: "name",
+                dataValueField: "value",
+                dataSource: [
+                { name: "Select", value: "" },
+                { name: "Training", value: "Training" },
+       ]
+
+            });
+    }
+    function sDropDownEditor3(container, options) {
+        $('<input name="Expenses_category"/>')
             .appendTo(container)
             .kendoDropDownList({
                 valuePrimitive: true,
@@ -199,13 +215,13 @@
                 dataSource: [
 
                     { name: "Select", value: "" },
+                   // { name: "Subsidy", value: "Subsidy" }
+                    { name: "Training", value: "Training" }
 
-                { name: "Training", value: "Training" },
-       ]
+                ]
 
             });
     }
-
 </script>
 <script>$(document).ready(function () {
         //search button

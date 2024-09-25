@@ -54,7 +54,7 @@
                         url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: additionalData
+                        data: additionalData4
                     },
                     update: {
                         url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
@@ -147,7 +147,7 @@
             {
                 field: "IsNitiTathaKaryaKram",
                 title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
-                editor: ExpancesDropDownEditor
+                editor: ExpancesDropDownEditor4
                 },
             {
                 field: "Remarks",
@@ -172,14 +172,15 @@
         });
 
     });
-    function additionalData() {
+    function additionalData4() {
         var data = {
-            Keyword: $("#Keyword").val()
+            Keyword: $("#Keyword").val(),
+            category: "niti"
         };
         addAntiForgeryToken(data);
         return data;
     }
-    function ExpancesDropDownEditor(container, options) {
+    function ExpancesDropDownEditor4(container, options) {
         $('<input name="IsNitiTathaKaryaKram"/>')
             .appendTo(container)
             .kendoDropDownList({
@@ -189,9 +190,7 @@
                 dataTextField: "name",
                 dataValueField: "value",
                 dataSource: [
-
                     { name: "Select", value: "" },
-
                     { name: "Yes", value: "Yes" },
 
        ]

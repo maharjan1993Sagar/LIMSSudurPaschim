@@ -124,6 +124,9 @@
                 $('#sidebar-menu').find('li.active > ul').show();
             }
         }
+        function isEmpty(value) {
+            return (value == null || (typeof value === "string" && value.trim().length === 0));
+        }
 
     </script>
     <style>
