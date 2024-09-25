@@ -90,7 +90,7 @@
                             </a>
                             <div class="carousel-caption">
                                 <p>
-                                    Banner Caption
+                                    Caption
                                 </p>
                             </div>
                         </div>
@@ -495,7 +495,7 @@
                             <a target="_blank" asp-controller="gallery" asp-action="index">
                                 <img src='@((Model.Gallery!=null&& Model.Gallery.Images.Any())?
                                                 Model.Gallery.Images.FirstOrDefault().PictureUrl:
-                                                    "/dolfd/img/nep-gov.png")'
+                                                    "/Dolfd/img/nep-gov.png")'
                                      alt="Album" width="300" height="200">
                             </a>
                             <div class="desc">@(Model.Gallery!=null?Model.Gallery.Title:"Gallery")</div>
@@ -524,7 +524,7 @@
                                 <a target="_blank" asp-controller="gallery" asp-action="index">
                                     <img src='@((item != null && item.Images.Any()) ?
                       item.Images.FirstOrDefault().PictureUrl :
-                          "/dolfd/img/nep-gov.png")'
+                          "/Dolfd/img/nep-gov.png")'
                                          alt="Album" width="150" height="150">
                                 </a>
                                 <div class="desc cut-text">@(item != null ? item.Title : "Gallery")</div>

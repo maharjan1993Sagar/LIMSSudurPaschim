@@ -60,9 +60,9 @@
 
                             <div class="panel-body">
 
-                                <h3>
+                                <h4>
                                     @Model.OfficeName
-                                </h3>
+                                </h4>
                                 <p>
                                     @Model.Address
 
@@ -100,9 +100,9 @@
                         {
                             <div class="panel-body">
 
-                                <h3>
+                                <h4>
                                     Office Name
-                                </h3>
+                                </h4>
                                 <p>
                                     Office Address
 
@@ -148,7 +148,7 @@
                         </h4>
                     </div>
                     <div class="panel-body">
-                        <iframe width="400" height="557" id="gmap_canvas" src="https://maps.google.com/maps?q=Ministry%20of%20Land%20Management%20and%20Agriculture,%20Dhangadi&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                        <iframe width="360" height="557" id="gmap_canvas" src="https://maps.google.com/maps?q=Ministry%20of%20Land%20Management%20and%20Agriculture,%20Dhangadi&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                         @*<iframe width="550" height="557" id="gmap_canvas" src="https://maps.google.com/maps?q=State%20Public%20Service%20Commission%2C%20Hetauda&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>*@
                         <br />
                         <br />
@@ -162,6 +162,38 @@
                     <h6>Highlights</h6>
                 </div>
                 <ul>
+                    @if (Model.NewsAndEvent.Count() > 0)
+                    {
+                        @foreach (var item in Model.NewsAndEvent)
+                        {
+                            <li class="d-flex mb-4 news-highlight">
+                                <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/nep-gov1.png")' onerror="this.onerror=null; this.src='/Dolfd/img/nep-gov1.png'" alt="" width="25" height="20">
+
+                                <a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="@item.TypeName">
+                                    @item.Title
+                                    <br /><span class="date d-block ml-0 mt-1">
+                                        <i class="fa fa-calendar">   @item.ActiveDate.ToString("dd MMM yyyy")</i>
+                                    </span>
+                                </a>
+                            </li>
+                            <div class="clearfix"></div>
+                        }
+                    }
+                    else
+                    {
+                        <li class="d-flex mb-4 news-highlight">
+                            <img src="img/nep-gov1.png" width="60px" class="hilight-img">
+                            <a href="#" target="_blank">
+                                No records found
+                                <br /><span class="date d-block ml-0 mt-1">
+                                    <i class="fa fa-calendar"></i>&#2408;&#2406;&#2413;&#2414;&#45;&#2408;&#45;&#2408;&#2409;
+                                </span>
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+                <!--<ul>
                     <li class="d-flex mb-4 news-highlight">
                         <img src="img/nep-gov.png" width="60px" class="hilight-img">
                         <a href="#" target="_blank">
@@ -211,21 +243,21 @@
                             </span>
                         </a>
                     </li>
-                    <div class="clearfix"></div>
+                    <div class="clearfix"></div>-->
 
 
                     <!--
-                    <div class="clearfix"></div>
-                    <li class="d-flex mb-4 news-highlight">
-                                                                    <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
+        <div class="clearfix"></div>
+        <li class="d-flex mb-4 news-highlight">
+                                                        <img src="https://mocit.gov.np/application/resources/site/img/logo.png" class="hilight-img">
 
-                        <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
-                            वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
-                            <i class="fa fa-calendar"></i>
-                            &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
-                        </a>
-                    </li>		-->
-                </ul>
+            <a href="https://mocit.gov.np/categorydetail/20780124d" target="_blank">
+                वि.सं. २०७६ र २०७७ सालको वरिष्ठ पत्रकार सम्मान एवं राष्ट्रिय पत्रकारिता पुरस्कार घोषणा सम्बन्धी प्रेस विज्ञप्ति										<span class="date d-block ml-0 mt-1">
+                <i class="fa fa-calendar"></i>
+                &#2408;&#2406;&#2413;&#2414;&#45;&#2407;&#45;&#2408;&#2410;									</span>
+            </a>
+        </li>		-->
+                <!--</ul>-->
             </div>
         </div>
 

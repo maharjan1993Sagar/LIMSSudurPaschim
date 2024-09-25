@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\XML\Labels.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LIMS.Framework\LIMS.Framework.csproj" />
   </ItemGroup>
 
@@ -19,6 +23,14 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\XML\Labels.xml" />
   </ItemGroup>
 
 </Project>

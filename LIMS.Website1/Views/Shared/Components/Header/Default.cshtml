@@ -8,6 +8,8 @@
     var culture = CultureInfo.CurrentCulture.ToString();
 
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+    var fullUrl = returnUrl + Context.Request.QueryString.Value ?? "";
+    returnUrl = fullUrl;
 }
 
 <style>
@@ -28,7 +30,7 @@
                     <a class="btn-link" target="_blank" href='@("http://fas.dibugsoft.com/@dmin/login.aspx")'><i class="fas fa-network-wired"></i><span>Office automation</span></a>
                 </div>
                 <div role="listitem" class="item">
-                    <button class="btn btn-info" style="color: #fff; background-color: #c40c0c; border-color: #5a8f9e; "> <a class="btn-link" target="_blank" href='http://103.69.127.42/'><span>Link to SAIMS</span></a></button>
+                    <button class="btn btn-info" style="color: #fff; background-color: #c40c0c; border-color: #5a8f9e; "> <a class="btn-link" target="_blank" href='http://103.175.192.249/'><span>Link to SAIMS</span></a></button>
                 </div>
             </div>
             <div>

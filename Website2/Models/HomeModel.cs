@@ -179,6 +179,9 @@ namespace LIMS.Website1.Models
         public string TweeterUrl { get; set; }
         public string WebsiteUrl { get; set; }
         public string UserId { get; set; }
+        public List<NewsEventTenderModel> NewsAndEvent { get; set; }
+
+
     }
     public class ImportantLinks
     {

@@ -131,7 +131,13 @@ namespace LIMS.Website1.Controllers
         public async Task<IActionResult> ContactUs()
         {
             var contactUs = await _db.GetContactUsModel();
+            var newsEventTenders = await _db.GetNewsEventTender("");
 
+            newsEventTenders
+                .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
+
+            contactUs.NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList();
+               
             return View(contactUs);
         }
         public List<string> Menus()

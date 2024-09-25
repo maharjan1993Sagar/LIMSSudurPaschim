@@ -1,21 +1,25 @@
 ﻿@model GalleryModel
-@{ 
+@{
     int i = 1;
 
 }
-
-        <div class="col-md-12 text-right">
-            <a asp-controller="gallery" asp-action="Index" class="btn">Go to list</a>
-        </div>
-        <div class="col-md-12">
-            <h2><i class="fa fa-picture-o"></i> @Model.Title</h2>
-        </div>
-        @foreach (var item in Model.Images)
-        {
-    <div class="col-md-2">  
+<div class="col-md-12 text-right">
+    <a asp-controller="gallery" asp-action="Index" class="btn">Go to list</a>
+</div>
+<div class="col-md-12">
+    <h2><i class="fa fa-picture-o"></i> @Model.Title</h2>
+</div>
+@foreach (var item in Model.Images)
+{
+    <div class="col-md-2">
         <a data-gallery="bookGallery" data-caption="@("Image"+i)" data-group="a" href="@item.PictureUrl">
-            <img src="@item.PictureUrl" alt="Book Image" height='180' width='200'>
+            <div class="thumbnail text-center">
+
+                <img src="@item.PictureUrl" alt="Book Image" height='180' width='200'>
+            </div>
         </a>
     </div>
-        }
-   
+}
+
+
+

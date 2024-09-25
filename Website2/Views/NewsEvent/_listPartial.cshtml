@@ -39,18 +39,18 @@
                                 </td>
                                 <td>@(item.Image.FileSize+" KB")</td>
                                 <td>
-                                    @if (!String.IsNullOrEmpty(item.Image.FileName))
-                                    {
+                                    @*@if (!String.IsNullOrEmpty(item.Image.FileName))
+                                    {*@
                                         <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
                                             <i class="fa fa-download"></i>
                                         </a>
-                                    }
+                                    @*}
                                     @if (item.ShowText)
                                     {
                                         <a asp-controller="NewsEvent" asp-action="Details" asp-route-id="@item.Id">
                                          Details
                                         </a>
-                                    }
+                                    }*@
                                 </td>
                             </tr>
                         }

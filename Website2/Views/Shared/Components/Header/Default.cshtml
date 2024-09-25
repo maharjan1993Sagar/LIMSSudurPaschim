@@ -8,6 +8,8 @@
     var culture = CultureInfo.CurrentCulture.ToString();
 
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+    var fullUrl = returnUrl + Context.Request.QueryString.Value ?? "";
+    returnUrl = fullUrl;
 }
 <style>
     .web__topbar {
@@ -114,7 +116,7 @@
                         <a class="btn-link" target="_blank" href='@("http://fas.dibugsoft.com/@dmin/login.aspx")'><i class="fas fa-network-wired"></i><span>Office automation</span></a>
                     </div>
                     <div role="listitem" class="item">
-                        <a class="btn-link" target="_blank" href='http://103.69.127.42/'><i class="fas fa-network-wired"></i><span>Link to CDMS</span></a>
+                        <a class="btn-link" target="_blank" href='http://103.175.192.249/'><i class="fas fa-network-wired"></i><span>Link to CDMS</span></a>
                     </div>
                 </div>
                 <div>
@@ -162,12 +164,12 @@
                     <div class="col-md-6">
                         <div class="busniess-area ">
                             <div class="logo-area">
-                                <a href="/home"><img src="~/dolfd/img/nep-gov1.png" height="60px" width="80px"></a>
+                                <a href="/home"><img src="~/Dolfd/img/nep-gov1.png" height="60px" width="80px"></a>
                             </div>
                             <div class="" style="margin-left:6px;">
                                 <p style="font-size: 11px; color:red;">
                                     Government of Sudurpashchim Province	<br />
-                                    <span style="font-size: 16px; font-family: serif; font-weight:bold;">Ministy of Land Management, Agriculatural & Cooperative</span><br />
+                                    <span style="font-size: 16px; font-family: serif; font-weight:bold;">Ministy of Land Management, Agriculture & Cooperative</span><br />
                                     <span style="font-size: 12px;">Dhangadhi, Kailali</span>
                                 </p>
                             </div>

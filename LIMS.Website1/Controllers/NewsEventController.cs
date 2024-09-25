@@ -261,6 +261,9 @@ namespace LIMS.Website1.Controllers
                 if (idx > -1)
                 {
                     fileName = fileNameById.Substring(idx + 1);
+                    fileName= "download";
+                    string ext = System.IO.Path.GetExtension(filePath);
+                    fileName = fileName + ext;
                 }
 
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
