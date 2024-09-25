@@ -108,7 +108,6 @@
                     <admin-label asp-for="Email2" />
                     <admin-input asp-for="Email2" />
                     <span asp-validation-for="Email2"></span>
-
                 </div>
             </div>
 
@@ -120,7 +119,24 @@
                     <span asp-validation-for="Address"></span>
                 </div>
             </div>
-
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="DesignationLabel" />
+                    <admin-input asp-for="DesignationLabel" />
+                    <span asp-validation-for="DesignationLabel"></span>
+                </div>
+            </div>
+            <div class="col-md-1">
+    <div class="form-group">
+        <admin-label asp-for="PositionOfLabel" />
+        <select class="form-control" asp-for="PositionOfLabel">
+            <option value="1">Top</option>
+            <option value="2">Bottom</option>
+        </select>
+        @*<admin-input asp-for="PositionOfLabel" />*@
+        <span asp-validation-for="PositionOfLabel"></span>
+    </div>
+</div>
 
             @*<div class="col-md-3">
 
