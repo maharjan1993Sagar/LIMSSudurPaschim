@@ -71,6 +71,13 @@ namespace LIMS.Web.Areas.Admin.Models.GeneralCMS
         [LIMSResourceDisplayName("Admin.Employee.IsOfficeChief/Director")]
 
         public bool IsOfficeChief { get; set; }
+        [LIMSResourceDisplayName("Admin.Employee.DesignationLabel")]
+
+        public string DesignationLabel { get; set; }
+        [LIMSResourceDisplayName("Admin.Employee.PositionOfLabel")]
+
+        public int PositionOfLabel { get; set; }
+
         public NewsEventFileModel ImageModel { get; set; }
     }
 }

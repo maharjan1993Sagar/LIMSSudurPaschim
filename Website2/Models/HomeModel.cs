@@ -70,8 +70,9 @@ namespace LIMS.Website1.Models
         public string Status { get; set; }
         public NewsEventFileModel Image { get; set; }
         public bool IsInformationOfficer { get; set; }
-
         public bool IsOfficeChief { get; set; }
+        public string DesignationLabel { get; set; }
+        public int PositionOfLabel { get; set; }
     }
     public class NewsEventTenderModel
     {

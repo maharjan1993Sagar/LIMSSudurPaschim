@@ -31,5 +31,7 @@ namespace LIMS.Api.DTOs.GeneralCMS
 
         public bool IsOfficeChief { get; set; }
         public NewsEventFileDto Image { get; set; }
+        public string DesignationLabel { get; set; }
+        public int PositionOfLabel { get; set; }
     }
 }

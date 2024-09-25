@@ -148,10 +148,24 @@
                 <img src='@((Model.Minister != null && (!String.IsNullOrEmpty(Model.Minister.Image.PictureUrl))) ? Model.Minister.Image.PictureUrl : "/Dolfd/img/111.png")' />
             </div>
             <div class="member-desc">
-                <div class="member-name">
-                    @(Model.Minister != null ? Model.Minister.Name : "Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                </div>
-                <div class="member-postion">Minister</div>
+                @if (Model.Minister != null && Model.Minister.PositionOfLabel == 2)
+                {
+                    <div class="member-name">
+                        @(Model.Minister != null ? Model.Minister.Name : "Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                    <div class="member-postion">
+                        @(Model.Minister != null ? Model.Minister.DesignationLabel : "Minister")
+                    </div>
+                }
+                else
+                {
+                    <div class="member-postion">
+                        @(Model.Minister != null ? Model.Minister.DesignationLabel : "Minister")
+                    </div>
+                    <div class="member-name">
+                        @(Model.Minister != null ? Model.Minister.Name : "Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                }
             </div>
         </div>
         <div class="member-area">
@@ -159,11 +173,25 @@
                 <img src='@((Model.StateMinister != null && (!String.IsNullOrEmpty(Model.StateMinister.Image.PictureUrl))) ? Model.StateMinister.Image.PictureUrl : "/Dolfd/img/111.png")'  />
             </div>
             <div class="member-desc">
-                <div class="member-name">
-                    @(Model.StateMinister != null ? Model.StateMinister.Name : "State Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                </div>
-                <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                <div class="member-postion">State Minister‍</div>
+                @if (Model.StateMinister != null && Model.StateMinister.PositionOfLabel == 2)
+                {
+                    <div class="member-name">
+                        @(Model.StateMinister != null ? Model.StateMinister.Name : "State Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                    <div class="member-postion">
+                        @(Model.StateMinister != null ? Model.StateMinister.DesignationLabel : "State Minister")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                }
+                else
+                {
+                    <div class="member-postion">
+                        @(Model.StateMinister != null ? Model.StateMinister.DesignationLabel : "State Minister")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                    <div class="member-name">
+                        @(Model.StateMinister != null ? Model.StateMinister.Name : "State Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+
+                }
             </div>
         </div>
         <div class="member-area">
@@ -171,10 +199,28 @@
                 <img src='@((Model.Secratory != null && (!String.IsNullOrEmpty(Model.Secratory.Image.PictureUrl))) ? Model.Secratory.Image.PictureUrl : "/Dolfd/img/111.png")' />
             </div>
             <div class="member-desc">
-                <div class="member-name">
-                    @(Model.Secratory != null ? Model.Secratory.Name : "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                </div>
-                <div class="member-postion">Secretary</div>
+                @if (Model.Secratory != null && Model.Secratory.PositionOfLabel == 2)
+                {
+                    <div class="member-name">
+                        @(Model.Secratory != null ? Model.Secratory.Name : "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+                    <div class="member-postion">
+                        @(Model.Secratory != null ? Model.Secratory.DesignationLabel : "Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+
+                    </div>
+                }
+                else
+                {
+                    <div class="member-postion">
+                        @(Model.Secratory != null ? Model.Secratory.DesignationLabel : "Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+
+                    </div>
+                    <div class="member-name">
+                        @(Model.Secratory != null ? Model.Secratory.Name : "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                    </div>
+
+                }
+
             </div>
         </div>
 
