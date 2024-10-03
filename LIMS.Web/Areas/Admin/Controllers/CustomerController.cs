@@ -249,6 +249,36 @@ namespace LIMS.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> ChangePasswordEmail()
+        {
+            ResetModel reset = new ResetModel();
+            return View(reset);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordEmail(ResetModel reset)
+        {
+            if (ModelState.IsValid)
+            {
+                var customer = await _customerService.GetCustomerByEmail(reset.Email);
+
+                var response = await _customerRegistrationService.ChangePassword(new ChangePasswordRequest(reset.Email,
+                         false, _customerSettings.DefaultPasswordFormat, reset.NewPassword));
+                if (response.Success)
+                {
+                    await _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.PasswordRecoveryToken, "");
+
+                    //model.DisablePasswordChanging = true;
+                    //model.Result = _localizationService.GetResource("Account.PasswordRecovery.PasswordHasBeenChanged");
+                    return RedirectToAction("Logout", "Customer", new { area = "" });
+                }
+                else
+                {
+                    //model.Result = response.Errors.FirstOrDefault();
+                }
+            }
+
+            return View();
+        }
 
 
 
