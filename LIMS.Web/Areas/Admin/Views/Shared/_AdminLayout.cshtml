@@ -376,6 +376,16 @@
 
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "MolmacDashboard", new { Area = "Admin" })">@T("Admin.Dashboard")</a></li>
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Website", "Dashboard", new { Area = "Admin" })">@T("Admin.Website")</a></li>
+                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
+                    <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.MainActivityCode")</a>
+                    <ul class="dropdown-menu">                      
+                            <li class="dropdown-item"><a href="@Url.Action("Index", "MainActivityCode", new { Area = "Admin" })">@T("Admin.MainActivityCode")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Index", "BudgetSource", new { Area = "Admin" })">@T("Admin.Common.BudgetSource")</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("Index", "SubSector", new { Area = "Admin" })">@T("Admin.SubSector")</a></li>
+                        
+
+                    </ul>
+                </li>
                 @if (livestock)
                 {
                     <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Index", "Livestock", new { Area = "Admin" })">@T("Admin.Livestock")</a></li>
@@ -420,17 +430,6 @@
                         </ul>
                     </li>
                 }
-               
-                <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
-                    <a style="Color:#FFF" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.MainActivities")</a>
-                    <ul id="GenSubMenu" class="dropdown-menu">
-                        <li class="dropdown-item"><a href="@Url.Action("Index", "MainActivityCode", new { Area = "Admin" })">@T("Admin.MainActivityCode")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("Index", "BudgetSource", new { Area = "Admin" })">@T("Admin.BudgetSource")</a></li>
-                        <li class="dropdown-item"><a href="@Url.Action("Index", "SubSector", new { Area = "Admin" })">@T("Admin.SubSector")</a></li>
-                    </ul>
-                </li>
-
-               
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("tabentry", "PujigatKharchaKharyakram", new { Area = "Admin" })">@T("Admin.PujigatKharchaKharyakram")</a></li>
 
 
