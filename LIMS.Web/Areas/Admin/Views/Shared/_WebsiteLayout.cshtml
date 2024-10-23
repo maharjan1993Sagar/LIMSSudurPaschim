@@ -98,7 +98,7 @@
             <script-files asp-location="Head" bundle-files="false">
                 <style>
                     .right_col {
-                        margin-left: 230px!important;
+                        margin-left: 230px !important;
                     }
                 </style>
 </head>
@@ -302,9 +302,9 @@
                 @RenderSection("headermenu")
             }
             else
-                {
-                    <partial name="Menu" />
-                }
+            {
+                <partial name="Menu" />
+            }
             <div class="right_col" role="main" style="min-height: 900px!important;">
                 <partial name="Notifications" />
                 @RenderBody()
@@ -466,3 +466,5 @@
     });
 
 </script>
+
+<script src="~/scripts/print.js"></script>

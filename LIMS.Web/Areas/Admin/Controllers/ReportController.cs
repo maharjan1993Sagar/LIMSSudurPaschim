@@ -5,10 +5,13 @@ using LIMS.Domain.StatisticalData;
 using LIMS.Framework.Kendoui;
 using LIMS.Framework.Security.Authorization;
 using LIMS.Services.Ainr;
+using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
+using LIMS.Services.Common;
 using LIMS.Services.Customers;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.MedicineInventory;
 using LIMS.Services.MoAMAC;
 using LIMS.Services.Security;
@@ -20,8 +23,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Wkhtmltopdf.NetCore;
 using static LIMS.Web.Areas.Admin.Models.Reports.LivestockReport;
 
 namespace LIMS.Web.Areas.Admin.Controllers
@@ -42,6 +47,13 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public readonly IFiscalYearService _fiscalYearService;
         public readonly ILssService _lssService;
         public readonly IVhlsecService _vhlsecService;
+        public readonly ILocalLevelService _localLevelService;
+        public readonly ITalimService _talimService;
+        public readonly IPujigatKharchaKharakramService _pujigatService;
+        public readonly IAnudanService _anudanService;
+        public readonly IPdfService _pdfService;
+        public readonly IGeneratePdf _generatePdf;
+
 
 
         public ReportController(ILocalizationService localizationService,
@@ -58,12 +70,16 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IFiscalYearService fiscalYearService,
             ILssService lssService,
             IWorkContext workContext,
-            IVhlsecService vhlsecService
-            
+            IVhlsecService vhlsecService,
+            ILocalLevelService localLevelService,
+            ITalimService talimService,
+            IPujigatKharchaKharakramService pujigatService,
+            IAnudanService anudanService,
+            IPdfService pdfService,
+            IGeneratePdf generatePdf
             )
         {
             _localizationService = localizationService;
-
             _languageService = languageService;
             _farmService = farmService;
             _speciesService = speciesService;
@@ -77,6 +93,12 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _fiscalYearService = fiscalYearService;
             _lssService = lssService;
             _vhlsecService = vhlsecService;
+            _localLevelService = localLevelService;
+            _talimService = talimService;
+            _pujigatService = pujigatService;
+            _anudanService = anudanService;
+            _pdfService = pdfService;
+            _generatePdf = generatePdf;
         }
 
         public async Task<IActionResult> ProgressReport()
@@ -291,8 +313,347 @@ namespace LIMS.Web.Areas.Admin.Controllers
             });
         }
 
-     
-      
+        public async Task<IActionResult> TrainingReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text");
+
+
+            //ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+            var LssIds = new List<Lss>();
+
+            LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+
+            //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+            //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevel = lss;
+
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Species = species;
+
+            var model = new TrainingReportModel();
+
+            return View(model);
+
+
+        }
+
+        public async Task<IActionResult> SubsidyReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect.ToList(), "Text", "Text", ExecutionHelper.LocalLevel);
+
+            //ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+
+            //var LssIds = new List<Lss>();
+            //LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+            //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+            //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevel = lss;
+
+
+            var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+            species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Species = species;
+
+            var model = new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        //public async Task<IActionResult> ProgressReport()
+        //{
+        //    var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+        //    var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+        //    fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.FiscalYearId = fiscalYear;
+
+        //    ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+        //    var month = new MonthHelper();
+        //    var months = month.GetMonths();
+        //    months.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.AllMonths"), ""));
+        //    ViewBag.Month = months;
+
+        //    string entityId = _workContext.CurrentCustomer.EntityId;
+        //    //var LssIds = new List<Lss>();
+
+        //    //LssIds.AddRange(await _lssService.GetLssByVhlsecId(entityId));
+
+        //    //var lss = new SelectList(LssIds, "Id", "NameNepali").ToList();
+        //    //lss.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    //ViewBag.LocalLevel = lss;
+
+        //    var species = new SelectList(await _speciesService.GetSpecies(), "Id", "NepaliName").ToList();
+        //    species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+        //    ViewBag.Species = species;
+
+        //    var model = new ProgressReportModel();
+
+        //    return View(model);
+
+
+        //}
+        [HttpPost]
+        public virtual IActionResult TrainingReportHtml(string FiscalYear, string BudgetId, string LocalLevel = "", string xetra = "")
+        {
+
+            var livestockWardWiseReportHtml = RenderViewComponentToString("TrainingReport", new { fiscalyear = FiscalYear, budgetId = BudgetId, localLevel = LocalLevel, xetra = xetra });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        [HttpPost]
+        public virtual IActionResult SubsidyReportHtml(string FiscalYear, string LocalLevel = "", string xetra = "")
+        {
+
+            var livestockWardWiseReportHtml = RenderViewComponentToString("SubsidyReport", new { fiscalyear = FiscalYear, LocalLevel = LocalLevel, xetra = xetra });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        //[HttpPost]
+        //public virtual IActionResult ProgressReportHtml(string FiscalYear, string xetra = "", string month = "")
+        //{
+        //    var livestockWardWiseReportHtml = RenderViewComponentToString("ProgressReport", new { fiscalyear = FiscalYear, xetra = xetra, month = month });
+
+        //    return Json(new
+        //    {
+        //        success = true,
+        //        message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+        //        livestockWardWiseReportHtml
+        //    });
+        //}
+
+
+        public async Task<IActionResult> TrainingDetailReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+            // var trainings = await _training
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+            var c = await _fiscalYearService.GetCurrentFiscalYear();
+
+
+            string createdby = _workContext.CurrentCustomer.Id;
+
+            var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
+            talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Talim = talim;
+
+            ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+
+            var model = new TrainingReportModel();
+
+            return View(model);
+
+
+        }
+        public async Task<IActionResult> SubsidyDetailReport()
+        {
+            var createdBy = _workContext.CurrentCustomer.Id;
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
+            var localLevelSelect = new SelectList(localLevels).ToList();
+            // localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
+            var budget = await _pujigatService.GetPujigatKharchaKharakram(createdBy,fiscalyear.Id,"subsidy");
+            //var anudan = budget.Where(m => m.ExpensesCategory == "Subsidy").ToList();
+
+            var budgetSelect = new SelectList(budget, "Id", "Program").ToList();
+            budgetSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.Budget = budgetSelect;
+
+            ViewBag.Xetras = new SelectList(ExecutionHelper.GetXetras(), "Value", "Text");
+
+
+            string entityId = _workContext.CurrentCustomer.EntityId;
+
+            var model = new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        public async Task<IActionResult> AgricultureCoOperativeReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var model = new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        [HttpPost]
+        public virtual IActionResult AgricultureCoOperativeReportHtml(string FiscalYear)
+        {
+
+            var livestockWardWiseReportHtml = RenderViewComponentToString("AgricultureCoOperativeReport", new { fiscalyear = FiscalYear });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.AgricultureCoOperativeReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        public async Task<IActionResult> FertilizerShopReport()
+        {
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
+            fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            ViewBag.FiscalYearId = fiscalYear;
+
+            var model = new SubsidyReportModel();
+
+            return View(model);
+
+
+        }
+        [HttpPost]
+        public virtual IActionResult FertilizerShopReportHtml(string FiscalYear)
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("FertilizerShopReport", new { fiscalyear = FiscalYear });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.FertilizerShopReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        [HttpPost]
+        public virtual IActionResult TrainingDetailReportHtml(string FiscalYear, string BudgetId, string LocalLevel = "", string xetra = "", string talimId = "")
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("TrainingDetailReport", new { fiscalyear = FiscalYear, budgetId = BudgetId, localLevel = LocalLevel, xetra = xetra, talimId = talimId });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        [HttpPost]
+        public virtual IActionResult SubsidyDetailReportHtml(string FiscalYear, string budgetId, string LocalLevel = "", string xetra = "")
+        {
+
+            var livestockWardWiseReportHtml = RenderViewComponentToString("SubsidyDetailReport", new { fiscalyear = FiscalYear, budgetId = budgetId, LocalLevel = LocalLevel, xetra = xetra });
+
+            return Json(new
+            {
+                success = true,
+                message = string.Format(_localizationService.GetResource("Admin.Report.LivestockWardWiseReport.Success")),
+                livestockWardWiseReportHtml
+            });
+        }
+        [PermissionAuthorizeAction(PermissionActionName.Export)]
+        [HttpPost]
+        //[FormValueRequired("download-subsidy-pdf")]
+        public async Task<IActionResult> DownloadSubsidyPdf(string FiscalYear, string LocalLevel = "")
+        {
+            var reportModel = await _anudanService.GetSubsidyReportModel("", FiscalYear, LocalLevel, "");
+            //RenderViewComponentToString("SubsidyReport", new { fiscalyear = FiscalYear, LocalLevel = LocalLevel });
+
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                    await _pdfService.PrintSubsidyPdf(stream, reportModel);
+                    bytes = stream.ToArray();
+                }
+                return File(bytes, "application/octet-stream", "subsidy.pdf");
+            }
+            catch (Exception exc)
+            {
+                ErrorNotification(exc);
+                return RedirectToAction("SubsidyReport");
+            }
+        }
+
+        [PermissionAuthorizeAction(PermissionActionName.Export)]
+        [HttpPost]
+        //[FormValueRequired("download-talim-pdf")]
+        public async Task<IActionResult> DownloadTrainingPdf(string FiscalYear, string BudgetId, string LocalLevel = "")
+        {
+            var livestockWardWiseReportHtml = RenderViewComponentToString("TrainingReport", new { fiscalyear = FiscalYear, budgetId = BudgetId, localLevel = LocalLevel });
+
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                    //  await pdfService.PrintToPdf(stream, livestockWardWiseReportHtml);
+                    bytes = _generatePdf.GetPDF(livestockWardWiseReportHtml);
+                    // bytes = stream.ToArray();
+                }
+                return File(bytes, "application/pdf", "training.pdf");
+            }
+            catch (Exception exc)
+            {
+                ErrorNotification(exc);
+                return RedirectToAction("TrainingReport");
+            }
+        }
+
+
 
     }
 }

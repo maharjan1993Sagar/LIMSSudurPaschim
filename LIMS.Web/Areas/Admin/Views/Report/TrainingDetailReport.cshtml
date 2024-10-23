@@ -1,0 +1,184 @@
+﻿@inject IWorkContext workContext
+@model LIMS.Web.Areas.Admin.Models.Reports.TrainingReportModel
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+
+<form method="get" id="TrainingReport">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear" asp-items="@ViewBag.FiscalYearId" required="required" />
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+
+        <div class="form-group">
+            <admin-label asp-for="BudgetId" />
+            <select asp-for="BudgetId" class="form-control" required="required"></select>
+            <span asp-validation-for="BudgetId"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+
+        <div class="form-group">
+            <admin-label asp-for="TalimId" />
+            <select asp-for="TalimId" class="form-control"></select>
+            <span asp-validation-for="TalimId"></span>
+        </div>
+    </div>
+
+    @*<div class="col-md-2">
+
+        <div class="form-group">
+            <admin-label asp-for="LocalLevel" />
+            <select asp-for="@Model.LocalLevel" disabled data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
+            </select>
+            <span asp-validation-for="LocalLevel"></span>
+        </div>
+    </div>*@
+
+    @*@if (roles.Contains("Administrators"))
+    {
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Xetra" />
+                <select asp-for="Xetra" asp-items="@ViewBag.Xetras" class="form-control"></select>
+                <span asp-validation-for="Xetra"></span>
+            </div>
+        </div>
+    }*@
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <br />
+            <input type="submit" class="btn btn-sm btn-success" />
+        </div>
+    </div>
+</form>
+<br />
+<div style="display:inline-block !important;">
+
+    <div id="result"></div>
+</div>
+<script>
+    $(document).ready(function () {
+           var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYear)").val();
+          var budgetId = $("#@Html.IdFor(m=>m.BudgetId)").val();
+
+        datas = {
+            fiscalyear: fiscalyear
+               }
+
+        if (fiscalyear) {
+            var a = $("#@Html.IdFor(m=>m.BudgetId)").data('val');
+                 $("#@Html.IdFor(m=>m.BudgetId)").empty();
+                 $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/LabambitKrishak/GetBudget";
+                 $.getJSON(url, datas, function (result) {
+                     $.each(result, function (i, item) {
+                         if (a == item.Id) {
+                             $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}" selected>${item.ActivityName}</option>`);
+                         }
+                         else {
+                             $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
+                         }
+                         });
+                 })
+        }
+
+
+        if (budgetId) {
+            var a = $("#@Html.IdFor(m=>m.TalimId)").data('val');
+            $("#@Html.IdFor(m=>m.TalimId)").empty();
+            $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
+
+            url = "/Admin/LabambitKrishak/GetTrainingProgram";
+            $.getJSON(url, datas, function (result) {
+                $.each(result, function (i, item) {
+                    if (a == item.Id) {
+                        $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}" selected>${item.NameNepali}</option>`);
+                    }
+                    else {
+                        $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameNepali}</option>`);
+                    }
+                });
+            })
+        }
+
+     $("#@Html.IdFor(m=>m.FiscalYear)").change(function () {
+             fiscalyear = $(this).val();
+             data = {
+            fiscalyear:$("#@Html.IdFor(m=>m.FiscalYear)").val()
+
+            }
+
+             if (fiscalyear) {
+                 $("#@Html.IdFor(m=>m.BudgetId)").empty();
+                 $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/LabambitKrishak/GetBudget";
+                 $.getJSON(url, data, function (result) {
+                     $.each(result, function (i, item) {
+                         $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}">${item.Program}</option>`);
+                     });
+                 })
+            }
+           });
+
+
+        $("#@Html.IdFor(m=>m.BudgetId)").change(function () {
+            budgetId = $(this).val();
+            data = {
+                fiscalyear: $("#@Html.IdFor(m=>m.FiscalYear)").val(),
+                budgetId: $("#@Html.IdFor(m=>m.BudgetId)").val()
+            }
+            if (budgetId) {
+                $("#@Html.IdFor(m=>m.TalimId)").empty();
+                $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
+
+                url = "/Admin/LabambitKrishak/GetTrainingProgram";
+                $.getJSON(url, data, function (result) {
+                    $.each(result, function (i, item) {
+                        $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="${item.Id}">${item.NameNepali}</option>`);
+                    });
+                })
+            }
+        });
+
+        $('#TrainingReport').submit(function (e) {
+            $('#result').html("");
+
+            e.preventDefault();
+            var data = {
+                fiscalYear: $('#FiscalYear').val(),
+                budgetId: $('#@Html.IdFor(m=>m.BudgetId)').val(),
+               // localLevel: $('#@Html.IdFor(m=>m.LocalLevel)').val(),
+                talimId: $('#@Html.IdFor(m=>m.TalimId)').val(),
+               // xetra:$('#@Html.IdFor(m=>m.Xetra)').val(),
+            }
+            addAntiForgeryToken(data);
+            e.preventDefault();
+            $.ajax({
+                cache: false,
+                url: '/Admin/Report/TrainingDetailReportHtml',
+                data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                type: "POST",
+                success: function (response) {
+                    if (response.success) {
+                        $('#result').html(response.livestockWardWiseReportHtml);
+                    }
+                    console.log(response);
+                },
+                error: function (response) {
+                    $('#result').html("");
+                    alert("No record found.");
+                    console.log(response);
+                }
+            });
+        });
+    })
+</script>

@@ -69,13 +69,23 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
+            var id = _workContext.CurrentCustomer.Id;
+            var currentFis = await _fiscalYearService.GetCurrentFiscalYear();
+
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
-           TalimModel model = new TalimModel();
+
+            //var pujigat = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, currentFis.Id,"","","","");
+            //var ddlPujigat =new SelectList(pujigat, "Id","Program").ToList();
+            //ddlPujigat.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.PujigatKharchaKaryakramId = ddlPujigat;
+
+            TalimModel model = new TalimModel();
 
             return View(model);
         }
@@ -91,6 +101,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
 
                 animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
+                animalRegistration.PujigatKharchaKharakramId = model.PujigatKharchaKaryakramId;
+
                 await _animalRegistrationService.Inserttalim(animalRegistration);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
@@ -100,10 +112,18 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+
             ViewBag.AllLanguages = await _languageService.GetAllLanguages(true);
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            //var pujigat = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(id, currentFis.Id, "", "", "", "");
+            //var ddlPujigat = new SelectList(pujigat, "Id", "Program").ToList();
+            //ddlPujigat.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.PujigatKharchaKaryakramId = ddlPujigat;
+
+
             return View(model);
         }
 
@@ -120,6 +140,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+            model.PujigatKharchaKaryakramId = animalRegistration.PujigatKharchaKharakramId;
             return View(model);
         }
 
@@ -137,7 +158,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 var m = model.ToEntity(animalRegistration);
                 animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(model.FiscalYearId);
                 animalRegistration.PujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(model.PujigatKharchaKaryakramId);
-
+                animalRegistration.PujigatKharchaKharakramId = model.PujigatKharchaKaryakramId;
                 await _animalRegistrationService.Updatetalim(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Update.Successful"));

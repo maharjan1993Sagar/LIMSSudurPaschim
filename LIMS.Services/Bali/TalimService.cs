@@ -38,7 +38,7 @@ namespace LIMS.Services.Bali
             if (!string.IsNullOrEmpty(fiscalyear))
             {
                 query = query.Where(
-                  m => m.FiscalYear.Id == fiscalyear
+                  m => m.FiscalYearId == fiscalyear
                 );
             }
 

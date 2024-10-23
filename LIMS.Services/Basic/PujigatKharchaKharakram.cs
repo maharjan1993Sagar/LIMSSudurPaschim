@@ -104,10 +104,23 @@ namespace LIMS.Services.Basic
             )
         {
             var query = _pujigatKharchaKharakramRepository.Table;
-            query = query.Where(m => m.CreatedBy == createdby && m.FiscalYearId == fiscalYear);
+            query = query.Where(m => m.CreatedBy == createdby && (m.FiscalYear.Id == fiscalYear || m.FiscalYearId == fiscalYear));
             if (!string.IsNullOrEmpty(programtype))
             {
-                query = query.Where(m => m.ProgramType == programtype);
+                if (programtype.ToLower() == "subsidy")
+                {
+                    query = query.Where(m => m.Expenses_category.ToLower() == programtype.ToLower());
+
+                }
+                if (programtype.ToLower() == "training")
+                {
+                    query = query.Where(m => !String.IsNullOrEmpty(m.IsTrainingKaryaKram) && m.IsTrainingKaryaKram.ToLower() == programtype.ToLower());
+                }
+                if (programtype.ToLower() == "niti")
+                {
+                    query = query.Where(m => !String.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.IsNitiTathaKaryaKram.ToLower() == "yes");
+                }
+               // query = query.Where(m => m.ProgramType == programtype);
             }
             if (!string.IsNullOrEmpty(type))
             {
@@ -136,7 +149,7 @@ namespace LIMS.Services.Basic
             query = query.Where(m => m.CreatedBy == createdby && !string.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.FiscalYearId == fiscalYear);
             if (!string.IsNullOrEmpty(programtype))
             {
-                query = query.Where(m => m.ProgramType == programtype);
+                query = query.Where(m => m.ProgramType.ToLower() == programtype.ToLower());
             }
             if (!string.IsNullOrEmpty(type))
             {
@@ -157,23 +170,26 @@ namespace LIMS.Services.Basic
             var query = _pujigatKharchaKharakramRepository.Table;
             var queryCodes = _mainActivityCodeRepository.Table;
             var mainActivity = queryCodes.Select(m => m.Limbis_Code).Distinct().ToList();
-            query = query.Where(m => m.CreatedBy == createdby && mainActivity.Contains(m.kharchaCode) && m.FiscalYearId == fiscalYear);
+            query = query.Where(m => m.CreatedBy == createdby && mainActivity.Contains(m.kharchaCode) );
 
-            //query = query.Where(m => m.CreatedBy == createdby &&(m.kharchaCode== "22512" || m.kharchaCode=="22522" || m.kharchaCode=="26413"||m.kharchaCode== "26423") && m.FiscalYear.Id == fiscalYear);
-            if (!string.IsNullOrEmpty(programtype))
+            if (!String.IsNullOrEmpty(fiscalYear))
+            {
+                query = query.Where(m =>  m.FiscalYearId == fiscalYear || m.FiscalYear.Id == fiscalYear);
+
+            }  if (!string.IsNullOrEmpty(programtype))
             {
                 if (programtype.ToLower() == "subsidy")
                 {
-                    query = query.Where(m => m.Expenses_category == programtype);
+                    query = query.Where(m => m.Expenses_category.ToLower() == programtype.ToLower());
 
                 }
                 if (programtype.ToLower() == "training")
                 {
-                    query = query.Where(m => !String.IsNullOrEmpty(m.IsTrainingKaryaKram) && m.IsTrainingKaryaKram == programtype);
+                    query = query.Where(m => !String.IsNullOrEmpty(m.IsTrainingKaryaKram) && m.IsTrainingKaryaKram.ToLower() == programtype.ToLower());
                 }
                 if (programtype.ToLower() == "niti")
                 {
-                    query = query.Where(m => !String.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.IsNitiTathaKaryaKram == "yes");
+                    query = query.Where(m => !String.IsNullOrEmpty(m.IsNitiTathaKaryaKram) && m.IsNitiTathaKaryaKram.ToLower() == "yes");
                 }               
             }
 
@@ -197,7 +213,7 @@ namespace LIMS.Services.Basic
             query = query.Where(m => createdby.Contains(m.CreatedBy)  && m.FiscalYearId == fiscalYear);
             if (!string.IsNullOrEmpty(programtype))
             {
-                query = query.Where(m => m.ProgramType == programtype);
+                query = query.Where(m => m.ProgramType.ToLower() == programtype.ToLower());
             }
             if (!string.IsNullOrEmpty(type))
             {

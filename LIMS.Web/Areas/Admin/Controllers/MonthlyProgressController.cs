@@ -1387,15 +1387,6 @@ namespace LIMS.Web.Areas.Admin.Controllers
             });
         }
 
-
-
-
-
-
-
-
-
-
         public async Task<ActionResult> GetPujigatKharcha(string type, string programType, string fiscalYear, string budgetSourceId, string subSectorId)
         {
             var createdby = _workContext.CurrentCustomer.Id;

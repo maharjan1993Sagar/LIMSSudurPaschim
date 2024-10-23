@@ -66,9 +66,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
-                    <admin-select asp-for="PujigatKharchaKaryakramId" required="required">
-                        <option value="">Select</option>
-
+                    <admin-select asp-for="PujigatKharchaKaryakramId" required="required" asp-items="@ViewBag.PujigatKharchaKaryakramId">                       
                     </admin-select>
 
                     <span asp-validation-for="PujigatKharchaKaryakramId"></span>
@@ -92,11 +90,13 @@
      $("document").ready(function () {
          $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
              fiscalyear = $(this).val();
+
              data = {
                  fiscalyear: fiscalyear
              }
              if (fiscalyear) {
-                 url = "/Admin/LabambitKrishak/GetTrainingProgram";
+                 $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").empty();
+                 url = "/Admin/LabambitKrishak/GetPujigatKaryakram";
                  $.getJSON(url, data, function (result) {
                      $.each(result, function (i, item) {
                          $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);

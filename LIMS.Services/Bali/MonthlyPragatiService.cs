@@ -63,7 +63,7 @@ namespace LIMS.Services.Bali
                 {
                 query = query.Where(m => !String.IsNullOrEmpty(m.pujigatKharchaKharakram.IsTrainingKaryaKram) && m.pujigatKharchaKharakram.IsTrainingKaryaKram == programtype.ToLower());
                 }
-                if (programtype.ToLower() == "Niti")
+                if (programtype.ToLower() == "niti")
                  { 
                 query = query.Where(m => !String.IsNullOrEmpty(m.pujigatKharchaKharakram.IsNitiTathaKaryaKram) && m.pujigatKharchaKharakram.IsNitiTathaKaryaKram =="yes");
                 }
@@ -113,12 +113,26 @@ namespace LIMS.Services.Bali
             var mainActivity = queryCodes.Select(m => m.Limbis_Code)
                                            .Distinct().ToList();
 
-            query = query.Where(m => m.CreatedBy == createdby&& mainActivity.Contains(m.pujigatKharchaKharakram.kharchaCode) && m.FiscalYear.Id == fiscalYear && m.Month == month);
+            query = query.Where(m => m.CreatedBy == createdby&& mainActivity.Contains(m.pujigatKharchaKharakram.kharchaCode) && m.FiscalYearId == fiscalYear && m.Month == month);
            // query = query.Where(m => m.CreatedBy == createdby&& (m.pujigatKharchaKharakram.kharchaCode == "22512" || m.pujigatKharchaKharakram.kharchaCode == "22522" || m.pujigatKharchaKharakram.kharchaCode == "26413" || m.pujigatKharchaKharakram.kharchaCode == "26423") && m.FiscalYear.Id == fiscalYear && m.Month == month);
             if (!string.IsNullOrEmpty(programtype))
             {
-                query = query.Where(m => m.pujigatKharchaKharakram.ProgramType == programtype);
+                if (!string.IsNullOrEmpty(programtype))
+                {
+                    if (programtype.ToLower() == "subsidy")
+                    {
+                        query = query.Where(m => m.pujigatKharchaKharakram.Expenses_category.ToLower() == programtype.ToLower());
 
+                    }
+                    if (programtype.ToLower() == "training")
+                    {
+                        query = query.Where(m => !String.IsNullOrEmpty(m.pujigatKharchaKharakram.IsTrainingKaryaKram) && m.pujigatKharchaKharakram.IsTrainingKaryaKram.ToLower() == programtype.ToLower());
+                    }
+                    if (programtype.ToLower() == "niti")
+                    {
+                        query = query.Where(m => !String.IsNullOrEmpty(m.pujigatKharchaKharakram.IsNitiTathaKaryaKram) && m.pujigatKharchaKharakram.IsNitiTathaKaryaKram.ToLower() == "yes");
+                    }
+                }
             }
             if (!string.IsNullOrEmpty(budgetSourceId))
             {

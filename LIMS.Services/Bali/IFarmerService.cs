@@ -15,7 +15,7 @@ namespace LIMS.Services.Bali
         
         Task<IPagedList<Farmer>> GetfarmerByIncuvationCenter(string createdby,string keyword="",string fiscalyear="", int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<Farmer>> GetfarmerByIncuvationCenter(string createdby, string district,string talimname , string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue);
-        Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string district, string talimname, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string district, string pujigatkharchaId, string fiscalyear,string talimId="", int pageIndex = 0, int pageSize = int.MaxValue);
 
         Task Deletefarmer(Farmer farmer);
 

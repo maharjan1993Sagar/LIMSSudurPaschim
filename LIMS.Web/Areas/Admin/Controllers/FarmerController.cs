@@ -187,9 +187,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     await _animalRegistrationService.Insertfarmer(farm);
                 }
 
-
-            }
-           
+            }           
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
                 return RedirectToAction("TabView","AanudanKaryakram");
           
@@ -222,7 +220,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             //var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
             //var localLevelSelect = new SelectList(localLevels).ToList();
             //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text","Text", ExecutionHelper.LocalLevel);
+            //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
 
             return View(model);
         }
@@ -315,77 +313,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
             return View(model);
-            //var animalRegistration = model.ToEntity();
-            //animalRegistration.Incubation = await _incuvationCenterService.GetincuvationCenterById(animalRegistration.IncuvationCenterId);
-            //animalRegistration.pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(animalRegistration.pujigatKharchaKharakramId);
-            //animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(animalRegistration.FiscalYearId);
-
-            //animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
-
-            //var Male = col["Male"].ToList();
-            //var Female = col["Female"].ToList();
-            //var Dalit = col["Dalit"].ToList();
-            //var Janajati = col["Janajati"].ToList();
-
-            //var StartDate = col["StartDate"].ToList();
-            //var EndDate = col["EndDate"].ToList();
-            //var Others = col["Others"].ToList();
-            //var Name = col["Name"].ToList();
-            //var Address = col["Address"].ToList();
-            //var Phone = col["Phone"].ToList();
-            //// var WardNo = col["WardNo"].ToList();
-            //var Ward = col["WardNo"].ToList();
-            //var Duration = col["Duration"].ToList();
-            //var Purpose = col["Purpose"].ToList();
-            //var Remarks = col["Remarks"].ToList();
-            //var LivestockDataId = col["LivestockDataId"].ToList();
-            //List<Farmer> update = new List<Farmer>();
-            //List<Farmer> insert = new List<Farmer>();
-            //for (int i = 0; i < Name.Count(); i++)
-            //{
-            //    if (string.IsNullOrEmpty(Name[i]))
-            //        continue;
-            //    Farmer farm = new Farmer();
-               
-            //    farm.Incubation = animalRegistration.Incubation;
-            //    farm.IncuvationCenterId = animalRegistration.IncuvationCenterId;
-            //    farm.pujigatKharchaKharakram = animalRegistration.pujigatKharchaKharakram;
-            //    farm.pujigatKharchaKharakramId = animalRegistration.pujigatKharchaKharakramId;
-            //    farm.FiscalYear = animalRegistration.FiscalYear;
-            //    farm.FiscalYearId = animalRegistration.FiscalYearId;
-            //    farm.CreatedBy = animalRegistration.CreatedBy;
-            //    farm.District = animalRegistration.District;
-            //    farm.Name = Name[i];
-            //    farm.Phone = Phone[i];
-            //    farm.Address = Address[i];
-            //    farm.Ward = Ward[i];
-            //    farm.Male = Male[i];
-            //    farm.FeMale = Female[i];
-            //    farm.Dalit = Dalit[i];
-            //    farm.Janajati = Janajati[i];
-            //    farm.Others = Others[i];
-            //    farm.Remarks = Remarks[i];
-            //    farm.StartDate = Convert.ToDateTime(StartDate[i]);
-            //    farm.EndDate = Convert.ToDateTime(EndDate[i]);
-            //    farm.Duration = Duration[i];
-            //    farm.Purpose = Purpose[i];
-            //    if (!string.IsNullOrEmpty(LivestockDataId[i]))
-            //    {
-            //        farm.Id = LivestockDataId[i];
-            //        await _animalRegistrationService.Updatefarmer(farm);
-            //    }
-            //    else
-            //    {
-            //        await _animalRegistrationService.Insertfarmer(farm);
-            //    }
-
-
-            //}
-            //var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
-            //fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
-            //ViewBag.FiscalYearId = fiscalYear;
-            //SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
-            //return View(model);
+           
 
         }
 
@@ -478,11 +406,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             return Json(t.ToList());
         }
+        //[HttpPost]
+        //public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string district, string talim)
+        //{
+        //    var createdby = _workContext.CurrentCustomer.Id;
+        //    var t = await _animalRegistrationService.GetfarmerByPugigatType(createdby, district, talim, fiscalyear);
+
+        //    return Json(t.ToList());
+        //}
         [HttpPost]
-        public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string district, string talim)
+        public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string pujigatKharchaKharakramId, string talimId, string district)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var t = await _animalRegistrationService.GetfarmerByPugigatType(createdby, district, talim, fiscalyear);
+            var t = await _animalRegistrationService.GetfarmerByPugigatType(createdby, district, pujigatKharchaKharakramId, fiscalyear, talimId);
 
             return Json(t.ToList());
         }

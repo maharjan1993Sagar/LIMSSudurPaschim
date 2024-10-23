@@ -266,33 +266,33 @@
         $("#tal").hide();
         $("#hide").hide();
         var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
-        var budgetId = $("#@Html.IdFor(m=>m.budgetId)").val();
-        var localLevel =$("#@Html.IdFor(m=>m.LocalLevel)").val();
+        var pujigatKharchaKharakramId = $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val();
+        var district =$("#@Html.IdFor(m=>m.District)").val();
 
         datas = {
             fiscalyear: fiscalyear,
-            budgetId: budgetId
+            pujigatKharchaKharakramId: pujigatKharchaKharakramId
         }
 
         if (fiscalyear) {
-            var a = $("#@Html.IdFor(m=>m.budgetId)").data('val');
-                 $("#@Html.IdFor(m=>m.budgetId)").empty();
-                 $("#@Html.IdFor(m=>m.budgetId)").append(`<option value="">Select</option>`);
+            var a = $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").data('val');
+                 $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").empty();
+                 $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="">Select</option>`);
 
-                 url = "/Admin/LabambitKrishak/GetBudget";
+            url = "/Admin/LabambitKrishak/GetPujigatKharcha";
                  $.getJSON(url, datas, function (result) {
                      $.each(result, function (i, item) {
                          if (a == item.Id) {
-                             $("#@Html.IdFor(m=>m.budgetId)").append(`<option value="${item.Id}" selected>${item.Program}</option>`);
+                             $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="${item.Id}" selected>${item.Program}</option>`);
                          }
                          else {
-                             $("#@Html.IdFor(m=>m.budgetId)").append(`<option value="${item.Id}">${item.Program}</option>`);
+                             $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);
                          }
                          });
                  })
         }
 
-        if (budgetId) {
+        if (pujigatKharchaKharakramId) {
             var a = $("#@Html.IdFor(m=>m.TalimId)").data('val');
                  $("#@Html.IdFor(m=>m.TalimId)").empty();
                  $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
@@ -312,8 +312,8 @@
 
           data = {
             fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
-            budgetId:$("#@Html.IdFor(m=>m.budgetId)").val(),
-            localLevel: $("#@Html.IdFor(m=>m.LocalLevel)").val(),
+              pujigatKharchaKharakramId:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
+            district: $("#@Html.IdFor(m=>m.District)").val(),
             talimId: $("#@Html.IdFor(m=>m.TalimId)").val(),
                 }
         abc(data);
@@ -323,34 +323,34 @@
              fiscalyear = $(this).val();
              data = {
             fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
-            budgetId:$("#@Html.IdFor(m=>m.budgetId)").val(),
-            localLevel:$("#@Html.IdFor(m=>m.LocalLevel)").val(),
+            pujigatKharchaKharakramId:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
+            district:$("#@Html.IdFor(m=>m.District)").val(),
             talimId:$("#@Html.IdFor(m=>m.TalimId)").val(),
             }
 
              if (fiscalyear) {
-                 $("#@Html.IdFor(m=>m.budgetId)").empty();
-                 $("#@Html.IdFor(m=>m.budgetId)").append(`<option value="">Select</option>`);
+                 $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").empty();
+                 $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="">Select</option>`);
 
-                 url = "/Admin/LabambitKrishak/GetBudget";
+                 url = "/Admin/LabambitKrishak/GetPujigatKaryakram";
                  $.getJSON(url, data, function (result) {
                      $.each(result, function (i, item) {
-                         $("#@Html.IdFor(m=>m.budgetId)").append(`<option value="${item.Id}">${item.ActivityName}</option>`);
+                         $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);
                      });
                  })
             }
             abc(data);
         });
 
-    $("#@Html.IdFor(m=>m.budgetId)").change(function () {
-        budgetId = $(this).val();
+    $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").change(function () {
+        pujigatKharchaKharakramId = $(this).val();
         data = {
            fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
-            budgetId:$("#@Html.IdFor(m=>m.budgetId)").val(),
-            localLevel: $("#@Html.IdFor(m=>m.LocalLevel)").val(),
+            pujigatKharchaKharakramId:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
+            district: $("#@Html.IdFor(m=>m.District)").val(),
             talimId:$("#@Html.IdFor(m=>m.TalimId)").val()
         }
-        if (budgetId) {
+        if (pujigatKharchaKharakramId) {
                  $("#@Html.IdFor(m=>m.TalimId)").empty();
                  $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
 
@@ -366,8 +366,8 @@
       $("#@Html.IdFor(m=>m.TalimId)").change(function () {
         data = {
             fiscalyear:$("#@Html.IdFor(m => m.FiscalYearId)").val(),
-            budgetId:$("#@Html.IdFor(m=>m.budgetId)").val(),
-            localLevel: $("#@Html.IdFor(m=>m.LocalLevel)").val(),
+            pujigatKharchaKharakramId:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
+            district: $("#@Html.IdFor(m=>m.District)").val(),
             talimId:  $("#@Html.IdFor(m=>m.TalimId)").val()
         }
         abc(data);
@@ -376,8 +376,8 @@
       $("#@Html.IdFor(m=>m.LocalLevel)").change(function () {
         data = {
             fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
-            budgetId:$("#@Html.IdFor(m=>m.budgetId)").val(),
-            localLevel: $("#@Html.IdFor(m=>m.LocalLevel)").val(),
+            pujigatKharchaKharakramId:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
+            district: $("#@Html.IdFor(m=>m.District)").val(),
             talimId:  $("#@Html.IdFor(m=>m.TalimId)").val()
         }
         abc(data);
@@ -389,7 +389,7 @@
     })
     function abc(data) {
         $(tabularEntry).html("");
-        if (data.fiscalyear && data.budgetId && data.talimId) { // && data.localLevel
+        if (data.fiscalyear && data.pujigatKharchaKharakramId && data.talimId) { // && data.localLevel
             $.post("@Url.Action("GetTalimDataNew", "Farmer")", addAntiForgeryToken(data), function (result) {
                 if (result.length > 0) {
                     // Convert date strings to Date objects and format them for input fields
@@ -490,151 +490,3 @@
         });
     }
 </script>
-@*<script>
-    $(document).ready(function () {
-        $("#tal").hide();
-        $("#hide").hide();
-        var fiscalyear = $("#@Html.IdFor(m=>m.FiscalYearId)").val();
-
-
-        datas = {
-            fiscalyear: fiscalyear,
-
-        }
-
-        if (fiscalyear) {
-            var a = $("#@Html.IdFor(m=>m.TalimId)").data('val');
-                 $("#@Html.IdFor(m=>m.TalimId)").empty();
-                 $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
-
-                 url = "/Admin/LabambitKrishak/GetTrainingProgram";
-                 $.getJSON(url, datas, function (result) {
-                     $.each(result, function (i, item) {
-                         if (a == item.Id) {
-                             $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="${item.Id}" selected>${item.Program}</option>`);
-                         }
-                         else {
-                                                          $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);
-
-                         }
-                         });
-                 })
-        }
-          data = {
-            fiscalyear: fiscalyear,
-             talim:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
-         district:$("#district").val(),
-        }
-        abc(data);
-    });
-        $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
-
-
-             fiscalyear = $(this).val();
-             data = {
-                 fiscalyear: fiscalyear
-             }
-             if (fiscalyear) {
-                 $("#@Html.IdFor(m=>m.TalimId)").empty();
-                 $("#@Html.IdFor(m=>m.TalimId)").append(`<option value="">Select</option>`);
-
-                 url = "/Admin/LabambitKrishak/GetTrainingProgram";
-                 $.getJSON(url, data, function (result) {
-                     $.each(result, function (i, item) {
-                         $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);
-                     });
-                 })
-            }
-            abc(data);
-        });
-    $("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").change(function () {
-        data = {
-            fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
-            talim:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
-            district:$("#district").val(),
-        }
-        abc(data);
-        //var tablerow = $("#hide tbody").html();
-        //$("#tabularEntry").append(tablerow);
-        //$("#tal").show();
-    });
-
-      $("#district").change(function () {
-        data = {
-            fiscalyear:$("#@Html.IdFor(m=>m.FiscalYearId)").val(),
-            talim:$("#@Html.IdFor(m=>m.pujigatKharchaKharakramId)").val(),
-            district:$("#district").val(),
-        }
-        abc(data);
-      });
-    $("#add").click(function () {
-        var tablerow = $("#hide tbody").html();
-        $("#tabularEntry").append(tablerow);
-    })
-    function abc(data) {
-        $(tabularEntry).html("");
-        if (data.fiscalyear) {
-            $.post("@Url.Action("GetTalimDataNew", "Farmer")", addAntiForgeryToken(data), function (result) {
-                if (result.length > 0) {
-                    $.each(result, function (index, item) {
-
-                        var d = new Date(Date.parse(item.StartDate));
-                        var today = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
-                        var dA = new Date(Date.parse(item.EndDate));
-                        var todayA = dA.getFullYear() + "-" + ("0" + (dA.getMonth() + 1)).slice(-2) + "-" + ("0" + dA.getDate()).slice(-2);
-
-
-                        var tableRow = '<tr id="' + item.Id + '"> <td><input type="hidden" name="LivestockDataId" value="' + item.Id + '"/> ';
-
-
-                        tableRow += '<input type="text" name="Name" class="form-control"  value="' + item.Name + '"/></td>';
-                        tableRow += '<td><input type="text" name="Address" class="form-control" value="' + item.Address + '"/></td>';
-                        tableRow += '<td><input type="number" name="WardNo" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Ward + '"/></td>';
-                        tableRow += '<td><input type="text" name="Phone" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Phone + '"/></td>';
-                        tableRow += '<td><input type="number" name="Male" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Male + '"/></td>';
-                        tableRow += '<td><input type="number" name="Female" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.FeMale + '"/></td>';
-                        tableRow += '<td><input type="number" name="Dalit" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Dalit + '"/></td>';
-                        tableRow += '<td><input type="number" name="Janajati" class="form-control" min="0" oninput="validity.valid||(value=' + 0 +' );" value="' + item.Janajati + '"/></td>';
-                        tableRow += '<td><input type="number" name="Others" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Others + '"/></td>';
-                        tableRow += '<td><input type="date" name="StartDate" class="form-control" value="' + today + '" /></td>';
-                        tableRow += '<td><input type="date" name="EndDate" class="form-control" value="' + todayA + '"/></td>';
-                        tableRow += '<td><input type="number" name="Duration" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Duration + '"/></td>';
-                        tableRow += '<td><input type="text" name="Purpose" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Purpose + '"/></td>';
-
-                        tableRow += '<td><input type="text" name="Remarks" class="form-control" min="0" oninput="validity.valid||(value=' + 0 + ' );" value="' + item.Remarks + '"/></td>';
-
-                        $(tabularEntry).append(tableRow);
-                        //$('tr#' + item.Id + ' select[name="Ward"]').val(item.Ward);
-                        //$('tr#' + item.Id + ' select[name="LocalLevel"]').val(item.LocalLevel);
-                    });
-                    $("#tal").show();
-                }
-
-                    else {
-
-
-
-
-                    var tablerow = $("#hide tbody").html();
-                    $("#tabularEntry").append(tablerow);
-
-                    }
-                $("#tal").show();
-
-            });
-
-
-
-        }
-
-
-
-    }
-
-
-    function Export() {
-        $(".table").table2excel({
-            filename: "Livestock.xls"
-        });
-    }
-</script>*@

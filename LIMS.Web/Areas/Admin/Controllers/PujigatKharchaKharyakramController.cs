@@ -161,6 +161,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var p = pujigatKharchaKharakram.ToEntity();
             p.BudgetSource = await _budgetSourceService.GetBudgetSourceById(pujigatKharchaKharakram.BudgetSourceId);
             p.FiscalYear = await _fiscalYearService.GetFiscalYearById(pujigatKharchaKharakram.FiscalYearId);
+            p.FiscalYearId = pujigatKharchaKharakram.FiscalYearId;
             p.SubSector = await _subSectorService.GetSubSectorById(pujigatKharchaKharakram.SubSectorId);
             p.kharchaCode = p.kharchaCode?.Trim();
             p.CreatedAt = DateTime.Now;
@@ -366,7 +367,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 programType.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
                 ViewBag.ProgramType = new SelectList(ProgramType(), "Value", "Text", pujigat.ProgramType);
 
-                return View(pujigat);
+                var model = pujigat.ToModel();
+
+                return View(model);
             }
 
             return RedirectToAction("Index");

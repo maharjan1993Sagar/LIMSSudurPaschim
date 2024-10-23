@@ -1,0 +1,80 @@
+﻿@model LIMS.Web.Areas.Admin.Models.Reports.TrainingReportModel
+<div id="Printcontent">
+    @if (Model.Rows.Count() > 0)
+    {
+        <div class="text-center">
+            @*@Model.LocalLevel<br />
+            @Model.Level<br />
+            @Model.Address<br />*@
+            आ.ब. @Model.FiscalYear का सम्पन्न तालिमहरुको प्रतिवेदन
+
+        </div>
+        <div class="divTable">
+        <table class="table table-bordered">
+            <thead>
+                @if (Model.Rows.Count() > 0)
+                {
+                    <tr style="text-align:center">
+                        <th id="c">@T("Admin.Training.SN")</th>
+                        <th>@T("Admin.Training.Budget")</th>
+                        <th>@T("Admin.Training.Talim")</th>
+                        <th>@T("Admin.Training.Date")</th>
+                        <th>@T("Admin.Report.Male")</th>
+                        <th>@T("Admin.Report.Female")</th>
+                        <th>@T("Admin.Report.Dalit")</th>
+                        <th>@T("Admin.Report.Janajati")</th>
+                        <th>@T("Admin.Report.Others")</th>
+                        <th>@T("Admin.Report.Total")</th>
+                        <th>@T("Admin.Report.Purpose")</th>
+                        <th>@T("Admin.Report.TotalExpense")</th>
+                        <th>@T("Admin.Report.Logistics")</th>
+                        <th>@T("Admin.Training.Remarks")</th>
+                    </tr>
+                }
+            </thead>
+            <tbody>
+                @{string a = "";}
+                @foreach (var item in Model.Rows)
+                {
+
+                    <tr>
+                        <td>@item.SN</td>
+                        <td>@item.BudgetTitle</td>
+                        <td>@item.TrainingTitle</td>
+                        <td>@(item.StartDate + "-" + item.EndDate) </td>
+                        <td>@item.Male</td>
+                        <td>@item.Female</td>
+                        <td>@item.Dalit</td>
+                        <td>@item.Janajati</td>
+                        <td>@item.Others</td>
+                        <td>@item.Total</td>
+                        <td>@item.Purpose</td>
+                        <td>@item.TotalExpense</td>
+                        <td>@item.Logistics</td>
+                        <td>@item.Remarks</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+            </div>
+                    }
+                    else
+                    {
+                    <div class="textx-center">No record found.</div>
+                    }
+    
+</div>
+
+@if (Model.Rows.Count() > 0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "Training.xls"
+        });
+    }
+</script>

@@ -1,0 +1,200 @@
+﻿@inject IWorkContext workContext
+@model LIMS.Web.Areas.Admin.Models.Reports.SubsidyReportModel
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+
+<form id="subsidy">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear"  asp-items="ViewBag.FiscalYearId" required="required" />
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+    @*<div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="BudgetId" />
+                <select asp-for="BudgetId" asp-items="@ViewBag.budgetId" data-val="@Model.BudgetId" class="form-control" required="required"></select>
+                <span asp-validation-for="BudgetId"></span>
+            </div>
+        </div>*@
+
+    @*<div class="col-md-2">
+
+        <div class="form-group">
+            <admin-label asp-for="LocalLevel" />
+            <select asp-for="@Model.LocalLevel" disabled data-val="@Model.LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control" required="required">
+            </select>
+            <span asp-validation-for="LocalLevel"></span>
+        </div>
+    </div>
+    @if (roles.Contains("Administrators"))
+    {
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <admin-label asp-for="Xetra" />
+                <select asp-for="Xetra" asp-items="@ViewBag.Xetras" class="form-control"></select>
+                <span asp-validation-for="Xetra"></span>
+            </div>
+        </div>
+    }*@
+    <div class="col-md-2">
+        <div class="form-group">
+            <br />
+            <button type="submit" class="btn btn-sm btn-success">Show Report</button>
+        </div>
+    </div>
+    @*<div class="col-md-2">
+            <div class="form-group">
+                <br />
+                <button type="submit" formaction="DownloadSubsidyPdf" class="btn btn-sm btn-success">Download Pdf</button>
+            </div>
+        </div>
+        <button id="btnPrint"  class="btn btn-sm btn-success">print post</button>*@
+</form>
+<br />
+<div style="display:inline-block !important;">
+    <div id="result"></div>
+</div>
+<script>
+        $(document).ready(function () {
+
+            $('#btnPrint').click(function (e) {
+                e.preventDefault();
+
+                var data = {
+                    FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val(),
+                    localLevel: $('#@Html.IdFor(m => m.LocalLevel)').val()
+                }
+
+                $.ajax({
+                    cache: false,
+                    url: '/Admin/Report/DownloadSubsidyPdf',
+                    data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                    type: "POST",
+                    success: function (response) {
+                        if (response.success) {
+                            alert("File Dowloaded");
+                          //  $('#result').html(response.livestockWardWiseReportHtml);
+                        }
+                       // console.log(response);
+                    },
+                    error: function (response) {
+                      //  console.log(response);
+                        console.error('Error:', response);
+                    }
+                });
+
+                @*
+                addAntiForgeryToken(data);
+                fetch('/Admin/Report/DownloadSubsidyPdf', {
+                    method: 'POST',
+                    data: data
+                    // Add headers if needed, e.g., for authorization or content type
+                })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        // Create a Blob object and create a URL for it
+                        const blobUrl = URL.createObjectURL(blob);
+
+                        // Create an anchor element
+                        const downloadLink = document.createElement('a');
+
+                        // Set the href attribute to the Blob URL
+                        downloadLink.href = blobUrl;
+
+                        // Set the download attribute to the desired file name
+                        downloadLink.download = 'subsidy.pdf';
+
+                        // Append the anchor element to the document
+                        document.body.appendChild(downloadLink);
+
+                        // Programmatically click the link to trigger the download
+                        downloadLink.click();
+
+                        // Remove the anchor element from the document
+                        document.body.removeChild(downloadLink);
+
+                        // Revoke the Blob URL to release resources
+                        URL.revokeObjectURL(blobUrl);
+                    })
+                    .catch(error => {
+                        console.error('Error downloading file:', error);
+                    });*@
+
+
+                //e.preventDefault();
+                //$.ajax({
+                //    cache: false,
+                //    url: '/Admin/Report/DownloadSubsidyPdf',
+                //    data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                //    type: "POST",
+                //    success: function (response) {
+                //        if (response.success) {
+                //            alert("File Dowloaded");
+                //          //  $('#result').html(response.livestockWardWiseReportHtml);
+                //        }
+                //       // console.log(response);
+                //    },
+                //    error: function (response) {
+                //      //  console.log(response);
+                //        console.error('Error:', response);
+                //    }
+                //});
+            });
+
+
+              $("#@Html.IdFor(m=>m.FiscalYear)").change(function () {
+             fiscalyear = $(this).val();
+             data = {
+            fiscalyear:$("#@Html.IdFor(m=>m.FiscalYear)").val()
+
+            }
+
+             if (fiscalyear) {
+                 $("#@Html.IdFor(m=>m.BudgetId)").empty();
+                 $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="">Select</option>`);
+
+                 url = "/Admin/LabambitKrishak/GetSubsidyProgram";
+                 $.getJSON(url, data, function (result) {
+                     $.each(result, function (i, item) {
+                         $("#@Html.IdFor(m=>m.BudgetId)").append(`<option value="${item.Id}">${item.Program}</option>`);
+                     });
+                 })
+            }
+        });
+
+
+            $('#subsidy').submit(function (e) {
+
+                    $('#result').html("");
+                    var data = {
+                        FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val(),
+                       // localLevel: $('#@Html.IdFor(m => m.LocalLevel)').val(),
+                       // xetra:$('#@Html.IdFor(m=>m.Xetra)').val()
+                    }
+                    addAntiForgeryToken(data);
+                    e.preventDefault();
+                    $.ajax({
+                        cache: false,
+                        url: '/Admin/Report/SubsidyReportHtml',
+                        data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                        type: "POST",
+                        success: function (response) {
+                            if (response.success) {
+                                $('#result').html(response.livestockWardWiseReportHtml);
+                            }
+                            console.log(response);
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                })
+                //action for update here
+            });
+
+</script>
