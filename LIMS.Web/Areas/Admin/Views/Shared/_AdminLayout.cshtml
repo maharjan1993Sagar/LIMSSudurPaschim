@@ -92,7 +92,7 @@
 
 
 <!DOCTYPE html>
-<html @if (supportRtl) {<text> dir="rtl" </text> } onloadstart="myFunction()">
+<html @if (supportRtl) { <text> dir="rtl" </text> } onloadstart="myFunction()">
 <head>
     <title>@adminPageTitle</title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
@@ -135,9 +135,9 @@
             white-space: normal;
             text-align: center !important;
         }
+
         .table td, .table th {
             padding: 0.5rem !important;
-          
         }
 
         @@media(min-width: 1100px) {
@@ -378,11 +378,11 @@
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;"><a style="Color:#FFF" href="@Url.Action("Website", "Dashboard", new { Area = "Admin" })">@T("Admin.Website")</a></li>
                 <li style="display:block;float: left;color:white!important;text-align: center; padding: 14px 16px;">
                     <a style="Color:#FFF" href="javascript:;" class=" dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@T("Admin.MainActivityCode")</a>
-                    <ul class="dropdown-menu">                      
-                            <li class="dropdown-item"><a href="@Url.Action("Index", "MainActivityCode", new { Area = "Admin" })">@T("Admin.MainActivityCode")</a></li>
-                            <li class="dropdown-item"><a href="@Url.Action("Index", "BudgetSource", new { Area = "Admin" })">@T("Admin.Common.BudgetSource")</a></li>
-                            <li class="dropdown-item"><a href="@Url.Action("Index", "SubSector", new { Area = "Admin" })">@T("Admin.SubSector")</a></li>
-                        
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="@Url.Action("Index", "MainActivityCode", new { Area = "Admin" })">@T("Admin.MainActivityCode")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Index", "BudgetSource", new { Area = "Admin" })">@T("Admin.Common.BudgetSource")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Index", "SubSector", new { Area = "Admin" })">@T("Admin.SubSector")</a></li>
+
 
                     </ul>
                 </li>
@@ -482,7 +482,10 @@
                         <li class="dropdown-item"><a href="@Url.Action("SummerizedReport","MonthlyProgress")">@T("Admin.MonthlyProgress.SummerizedReport")</a></li>
                         <li class="dropdown-item"><a href="@Url.Action("Report","DolfdSthai")">@T("Admin.SthaiTaha.Report")</a></li>
                         <li class="dropdown-item"><a href="@Url.Action("Report","DolfdTaha")">@T("Admin.AstaiTaha.Report")</a></li>
-
+                        <li class="dropdown-item"><a href="@Url.Action("Report","TrainingReport")">@T("Admin.Training.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Report","TrainingDetailReport")">@T("Admin.TrainingDetail.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Report","SubsidyReport")">@T("Admin.Subsidy.Report")</a></li>
+                        <li class="dropdown-item"><a href="@Url.Action("Report","SubsidyDetailReport")">@T("Admin.SubsidyDetail.Report")</a></li>
                         @if (crop)
                         {
                             <li class="dropdown-item"><a href="@Url.Action("Report", "CropsProduction")">@T("Admin.CropProduction.Report")</a></li>
@@ -491,7 +494,6 @@
                         {
                             <li class="dropdown-item"><a href="@Url.Action("Report", "Production")">@T("Admin.LivestockProduction.Report")</a></li>
                             <li class="dropdown-item"><a href="@Url.Action("LivestockReportDolfdNepali", "Report", new { Area = "Admin" })">@T("Admin.LivestockReport")</a></li>
-
                             <li class="dropdown-item"><a href="@Url.Action("Report", "Livestock")">@T("Admin.Livestock.Report")</a></li>
                         }
 
@@ -670,3 +672,5 @@
     });
 
 </script>
+
+<script src="~/scripts/print.js"></script>
