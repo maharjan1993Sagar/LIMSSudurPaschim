@@ -1,0 +1,161 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@{
+    //page title
+    ViewBag.Title = "SeedDistribution";
+}
+@model FarmListModel
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel light form-fit">
+            <div class="x_title">
+                <div class="caption">
+                    <i class="fa fa-comment"></i>
+                    @T("Admin.SeedDistribution.LIST")
+                </div>
+                <div class="actions btn-group btn-group-devided">
+                    <a href="@Url.Action("Create")" class="btn green"><i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @T("Admin.Common.AddNew") </span></a>
+                </div>
+            </div>
+            <div class="x_content form">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="Fiscalyear" />
+                                <select id="FiscalYearId" name="FiscalYearId" asp-items="@ViewBag.FiscalYearId" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="LocalLevel" />
+                                <select id="LocalLevel" name="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                                </select>
+                            </div>
+                        </div>*@
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <br />
+                                <input type="submit" id="search" class="btn-sm btn-success" style="margin-top:10px;" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-body">
+                        <div class="x_content">
+                            <div id="bali-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/pako_deflate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#search').click(function () {
+            //search
+            var grid = $('#bali-grid').data('kendoGrid');
+           // grid.dataSource.page(1); //new search. Set page size to 1
+            grid.dataSource.read();// we already loaded the grid above using "page" function
+            return false;
+        });
+
+        $("#bali-grid").kendoGrid({
+            toolbar:["excel"],
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "SeedDistribution"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(adminAreaSettings.GridPageSizes)]
+            },
+            editable: {
+                confirmation: false,
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "Distributor",
+                    title: "@T("Admin.SeedDistribution.Distributor")",
+                    width: 400,
+                    template: '<a class="k-link" href="Edit/#=Id#"><i class="fa fa-edit"/>#=Distributor#</a>',
+
+                },
+                 {
+                    field: "Breed.EnglishName",
+                        title: "@T("Admin.BreedReg.EnglishName")",
+                          width: 400
+
+                },
+                 {
+                    field: "Quantity",
+                        title: "@T("Admin.SeedDistribution.Quantity")",
+                          width: 400
+
+                },
+                   {
+                       field: "Unit.UnitNameEnglish",
+                        title: "@T("Admin.Unit.UnitNameEnglish")",
+                          width: 400
+
+                },
+                 {
+                    field: "FarmerName",
+                        title: "@T("Admin.SeedDistribution.FarmerName")",
+                          width: 400
+
+                },
+               
+                        {
+                          field: "Remarks",
+                        title: "@T("Admin.SeedDistribution.Remarks")",
+                          width: 400
+                },
+
+            ]
+
+        });
+
+        function additionalData() {
+        var data = {
+
+             fiscalYear:$("#FiscalYearId").val()
+            //locallevel: $("#LocalLevel").val()
+
+
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+    });
+</script>

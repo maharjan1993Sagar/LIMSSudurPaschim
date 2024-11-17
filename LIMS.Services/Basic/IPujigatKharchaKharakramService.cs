@@ -31,11 +31,12 @@ namespace LIMS.Services.Basic
         int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<PujigatKharchaKharakram>> GetPujigatKharchaKharakram(string createdby,
               string fiscalyear,
-            string programtype="",
-          
+            string programtype="",          
             string type="",
-            
-        int pageIndex = 0, int pageSize = int.MaxValue);
+             string budgetSourceId = "",
+            string subSectorId = "",
+        int pageIndex = 0, int pageSize = int.MaxValue
+           );
         Task<IPagedList<PujigatKharchaKharakram>> GetNitigatKharakram(string createdby,
             string fiscalyear,
           string programtype = "",
@@ -46,9 +47,9 @@ namespace LIMS.Services.Basic
         Task<IPagedList<PujigatKharchaKharakram>> GetMainKharakram(string createdby,
          string fiscalyear,
        string programtype = "",
-
        string type = "",
-
+       string budgetSourceId="",
+       string subSectorId ="",
    int pageIndex = 0, int pageSize = int.MaxValue);
         Task DeletePujigatKharchaKharakram(PujigatKharchaKharakram pujigatKharchaKharakram);
 

@@ -7,6 +7,7 @@ using LIMS.Services.Bali;
 using LIMS.Services.Basic;
 using LIMS.Services.Breed;
 using LIMS.Services.Localization;
+using LIMS.Services.LocalStructure;
 using LIMS.Services.Security;
 using LIMS.Web.Areas.Admin.Extensions.Mapping;
 using LIMS.Web.Areas.Admin.Models.Bali;
@@ -32,6 +33,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
         private readonly ITalimService _talimService;
         private readonly IIncuvationCenterService _incuvationCenterService;
         private readonly IPujigatKharchaKharakramService _pujigatKharchaKharakramService;
+        private readonly ILocalLevelService _localLevelService;
 
         public FarmerController(ILocalizationService localizationService,
             IFarmerService animalRegistrationService,
@@ -42,7 +44,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
             IFiscalYearService fiscalYearService,
             ITalimService talimService,
             IIncuvationCenterService incuvationCenterService,
-            IPujigatKharchaKharakramService pujigatKharchaKharakramService
+            IPujigatKharchaKharakramService pujigatKharchaKharakramService,
+            ILocalLevelService localLevelService
 
             )
         {
@@ -56,6 +59,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
             _talimService = talimService;
             _incuvationCenterService = incuvationCenterService;
             _pujigatKharchaKharakramService = pujigatKharchaKharakramService;
+            _localLevelService = localLevelService;
         }
 
         public IActionResult Index() => RedirectToAction("List");
@@ -183,9 +187,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                     await _animalRegistrationService.Insertfarmer(farm);
                 }
 
-
-            }
-           
+            }           
                 SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
                 return RedirectToAction("TabView","AanudanKaryakram");
           
@@ -197,19 +199,29 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var species = new SelectList(await _speciesService.GetSpecies(), "Id", "EnglishName").ToList();
             species.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.SpeciesId = species;
+            
             var c =await _fiscalYearService.GetCurrentFiscalYear();
             var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear",c.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+           
             string createdby = _workContext.CurrentCustomer.Id;
             var incuvationCenter = new SelectList(await _incuvationCenterService.GetincuvationCenter(createdby), "Id", "OrganizationNameEnglish").ToList();
             incuvationCenter.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.IncuvationCenter = incuvationCenter;
+            
             var talim = new SelectList(await _talimService.Gettalim(createdby), "Id", "NameEnglish").ToList();
             talim.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.Talim = talim;
+            
             FarmerModel model = new FarmerModel();
-            model.District = _workContext.CurrentCustomer.OrgAddress;
+            //model.District = _workContext.CurrentCustomer.OrgAddress;
+
+            //var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
+            //var localLevelSelect = new SelectList(localLevels).ToList();
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             return View(model);
         }
 
@@ -217,19 +229,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> CreateOne(FarmerModel model, IFormCollection col)
         {
-
             var animalRegistration = model.ToEntity();
+            animalRegistration.Talim = await _talimService.GettalimById(animalRegistration.TalimId);
             animalRegistration.Incubation = await _incuvationCenterService.GetincuvationCenterById(animalRegistration.IncuvationCenterId);
             animalRegistration.pujigatKharchaKharakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramById(animalRegistration.pujigatKharchaKharakramId);
             animalRegistration.FiscalYear = await _fiscalYearService.GetFiscalYearById(animalRegistration.FiscalYearId);
-
             animalRegistration.CreatedBy = _workContext.CurrentCustomer.Id;
-
             var Male = col["Male"].ToList();
+            var localLevel = col["LocalLevel"];
+            var Gender = col["Gender"].ToList();
+            var Caste = col["Caste"].ToList();
             var Female = col["Female"].ToList();
             var Dalit = col["Dalit"].ToList();
             var Janajati = col["Janajati"].ToList();
-
             var StartDate = col["StartDate"].ToList();
             var EndDate = col["EndDate"].ToList();
             var Others = col["Others"].ToList();
@@ -249,29 +261,35 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(Name[i]))
                     continue;
                 Farmer farm = new Farmer();
-               
-                farm.Incubation = animalRegistration.Incubation;
-                farm.IncuvationCenterId = animalRegistration.IncuvationCenterId;
+                //farm.Incubation = animalRegistration.Incubation;
+                //farm.IncuvationCenterId = animalRegistration.IncuvationCenterId;
+                farm.TalimId = animalRegistration.TalimId;
+                farm.Talim = animalRegistration.Talim;
                 farm.pujigatKharchaKharakram = animalRegistration.pujigatKharchaKharakram;
                 farm.pujigatKharchaKharakramId = animalRegistration.pujigatKharchaKharakramId;
                 farm.FiscalYear = animalRegistration.FiscalYear;
                 farm.FiscalYearId = animalRegistration.FiscalYearId;
                 farm.CreatedBy = animalRegistration.CreatedBy;
                 farm.District = animalRegistration.District;
+                farm.LocalLevel = _workContext.CurrentCustomer.LocalLevel;
+                farm.TotalExpenses = model.TotalExpense;
+                farm.Logistics = model.Logistics;
                 farm.Name = Name[i];
                 farm.Phone = Phone[i];
                 farm.Address = Address[i];
                 farm.Ward = Ward[i];
-                farm.Male = Male[i];
-                farm.FeMale = Female[i];
-                farm.Dalit = Dalit[i];
-                farm.Janajati = Janajati[i];
-                farm.Others = Others[i];
-                farm.Remarks = Remarks[i];
-                farm.StartDate = Convert.ToDateTime(StartDate[i]);
-                farm.EndDate = Convert.ToDateTime(EndDate[i]);
-                farm.Duration = Duration[i];
-                farm.Purpose = Purpose[i];
+                farm.Male = (Gender[i] == "Male") ? "1" : "0";
+                farm.FeMale = (Gender[i] == "Female") ? "1" : "0";
+                farm.Dalit = (Caste[i] == "Dalit") ? "1" : "0";
+                farm.Janajati = (Caste[i] == "Janajati") ? "1" : "0";
+                farm.Others = (Caste[i] == "Anya") ? "1" : "0";
+                farm.Remarks = Remarks[0];
+                farm.StartDate = Convert.ToDateTime(StartDate[0]);
+                farm.EndDate = Convert.ToDateTime(EndDate[0]);
+                farm.Duration = (farm.EndDate - farm.StartDate).TotalDays.ToString();
+                farm.Purpose = Purpose[0];
+                farm.Gender = Gender[i];
+                farm.Caste = Caste[i];
                 if (!string.IsNullOrEmpty(LivestockDataId[i]))
                 {
                     farm.Id = LivestockDataId[i];
@@ -281,14 +299,21 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     await _animalRegistrationService.Insertfarmer(farm);
                 }
-
-
             }
-            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear").ToList();
+            var fiscalyear = await _fiscalYearService.GetCurrentFiscalYear();
+
+            var fiscalYear = new SelectList(await _fiscalYearService.GetFiscalYear(), "Id", "NepaliFiscalYear", fiscalyear.Id).ToList();
             fiscalYear.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
             ViewBag.FiscalYearId = fiscalYear;
+
+            //var localLevels = await _localLevelService.GetLocalLevel(ExecutionHelper.District);
+            //var localLevelSelect = new SelectList(localLevels).ToList();
+            //localLevelSelect.Insert(0, new SelectListItem(_localizationService.GetResource("Admin.Common.Select"), ""));
+            //ViewBag.LocalLevels = new SelectList(localLevelSelect, "Text", "Text", ExecutionHelper.LocalLevel);
+
             SuccessNotification(_localizationService.GetResource("Admin.Create.successful"));
             return View(model);
+           
 
         }
 
@@ -381,11 +406,19 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             return Json(t.ToList());
         }
+        //[HttpPost]
+        //public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string district, string talim)
+        //{
+        //    var createdby = _workContext.CurrentCustomer.Id;
+        //    var t = await _animalRegistrationService.GetfarmerByPugigatType(createdby, district, talim, fiscalyear);
+
+        //    return Json(t.ToList());
+        //}
         [HttpPost]
-        public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string district, string talim)
+        public async Task<ActionResult> GetTalimDataNew(string fiscalyear, string pujigatKharchaKharakramId, string talimId, string district)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var t = await _animalRegistrationService.GetfarmerByPugigatType(createdby, district, talim, fiscalyear);
+            var t = await _animalRegistrationService.GetfarmerByPugigatType(createdby, district, pujigatKharchaKharakramId, fiscalyear, talimId);
 
             return Json(t.ToList());
         }

@@ -1,0 +1,206 @@
+﻿@model SeedDistributionModel
+<div class="x_content form">
+    <div class="form-row">
+        <div class="form-body">
+            <div class="col-md-2 col-sm-3">
+                <div class="form-group">
+                    <admin-label asp-for="LocalLevel" />
+                    <input name="LocalLevel1" value="@Model.LocalLevel" readonly class="form-control" />
+                    <input asp-for="LocalLevel" type="hidden" />
+                    <span asp-validation-for="LocalLevel"></span>
+                </div>
+            </div>
+
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="FiscalYearId" />
+                    <select asp-for="FiscalYearId" asp-items="@ViewBag.FiscalYearId" class="form-control"></select>
+                    <span asp-validation-for="FiscalYearId"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="Distributor" />
+                    <admin-input asp-for="Distributor" />
+                    <span asp-validation-for="Distributor"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="SpeciesId" />
+                    <select asp-for="SpeciesId" asp-items="@ViewBag.Species" class="form-control"></select>
+                    <span asp-validation-for="SpeciesId"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="BreedId" />
+                    <select asp-for="BreedId" asp-items="@ViewBag.BreedId" class="form-control"></select>
+                    <span asp-validation-for="BreedId"></span>
+                </div>
+            </div>
+            @*<div class="col-md-3">
+            <div class="form-group">
+                <admin-label asp-for="LocalLevel" />
+                <select asp-for="LocalLevel" asp-items="@ViewBag.LocalLevels" class="form-control">
+                </select>
+                <span asp-validation-for="LocalLevel"></span>
+            </div>
+        </div>*@
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="EnglishDate" />
+                    <input asp-for="EnglishDate" class="form-control" type="date" />
+                    <span asp-validation-for="EnglishDate"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="Quantity" />
+                    <admin-input asp-for="Quantity" />
+                    <span asp-validation-for="Quantity"></span>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="UnitId" />
+                    <select asp-for="UnitId" asp-items="@ViewBag.Units" class="form-control"></select>
+                    <span asp-validation-for="UnitId"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <admin-label asp-for="FarmerName" />
+                    <admin-input asp-for="FarmerName" required="required" />
+                    <span asp-validation-for="FarmerName"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="CitizenshipNo" />
+                    <admin-input asp-for="CitizenshipNo" required="required" />
+                    <span asp-validation-for="CitizenshipNo"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="IssuedDate" />
+                    <input asp-for="IssuedDate" class="form-control nepaliDate1" required="required" />
+                    <span asp-validation-for="IssuedDate"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="IssuedDistrict" />
+                    <Select asp-for="IssuedDistrict"  asp-items="ViewBag.Districts" required="required" class="form-control"></Select>
+                    <span asp-validation-for="IssuedDistrict"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <admin-label asp-for="PhoneNo" />
+                    <admin-input asp-for="PhoneNo" />
+                    <span asp-validation-for="PhoneNo"></span>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <admin-label asp-for="Remarks" />
+                    <admin-input asp-for="Remarks" />
+                    <span asp-validation-for="Remarks"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div><script>
+    $(document).ready(function () {
+
+        $('.nepaliDate1').nepaliDatePicker({
+            ndpYear: true,
+            ndpMonth: true,
+            ndpYearCount: 10
+        });
+
+        var species=$("#@Html.IdFor(m=>m.SpeciesId)").val();
+
+        if (species != "") {
+
+            $("#@Html.IdFor(m=>m.BreedId)").empty();
+            $("#@Html.IdFor(m=>m.BreedId)").append("<option value=''>Select</option>");
+            url ="@Url.Action("GetBreed", "AnimalRegistration")";
+            var data = {
+                BreedType: "",
+                Species: species
+            }
+            $.getJSON(url, data, (result) => {
+                $.each(result, function (i, item) {
+                    $("#@Html.IdFor(m=>m.BreedId)").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        }
+
+        $("#@Html.IdFor(m=>m.SpeciesId)").on("change", function () {
+            species = $(this).val();
+            $("#@Html.IdFor(m=>m.BreedId)").val('');
+
+            if (species!="") {
+            $("#@Html.IdFor(m=>m.BreedId)").empty();
+            $("#@Html.IdFor(m=>m.BreedId)").append("<option value=''>Select</option>");
+            url ="@Url.Action("GetBreed", "SeedDistribution")";
+            var data = {
+                breedType: "",
+                species: species
+            }
+            $.getJSON(url, data, (result) => {
+                $.each(result, function (i, item) {
+                    $("#@Html.IdFor(m=>m.BreedId)").append(`<option value="${item.Id}">${item.EnglishName}</option>`);
+                });
+            });
+        }
+
+        });
+
+
+        $('.autoComplete').kendoAutoComplete({
+            minLength: 3, // Minimum characters before the autocomplete activates
+            dataSource: {
+                transport: {
+                    // AJAX Configuration
+                    read: {
+                        url: "/Admin/Anugaman/CategoryAutoComplete",
+                        data: function () {
+                            return {
+                                // Parameters to pass to the AJAX URL
+                                term: $(this).val(),
+                                type: $(this).attr("data-type")
+                            };
+                        },
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    // Schema configuration to map your AJAX response
+                    data: function (response) {
+                        return $.map(response, function (item) {
+                            return {
+                                id: item.Id,
+                                value: item.NameEnglish
+                            };
+                        });
+                    }
+                }
+            },
+            dataTextField: "value", // Specify the field containing the display text
+            select: function (e) {
+                // Set the selected item's ID to the hidden textbox
+                // Set the selected item's value to the autocomplete textbox
+                this.value(e.dataItem.value);
+            }
+        });
+    });
+</script>

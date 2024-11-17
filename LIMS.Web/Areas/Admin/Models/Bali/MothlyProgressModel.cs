@@ -10,7 +10,7 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
 {
     public class MonthlyProgressModel:BaseEntity
     {
-        public List<PujigatKharchaKharakram> pujigatKharchaKharakram { get; set; }
+        public List<MonthlyPragati> pujigatKharchaKharakram { get; set; }
         [LIMSResourceDisplayName("LIMS.Common.PujigatKharchaId")]
 
         public string PujigatKharchaId { get; set; }
@@ -31,6 +31,17 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("LIMS.Common.ProgramType")]
 
         public string ProgramType { get; set; }
+        [LIMSResourceDisplayName("LIMS.Common.ExpensesCategory")]
+
+        public string ExpensesCategory { get; set; }
+
+        [LIMSResourceDisplayName("LIMS.Common.BudgetSource")]
+
+        public string BudgetSourceId { get; set; }
+
+        [LIMSResourceDisplayName("LIMS.Common.SubSector")]
+
+        public string SubSectorId { get; set; }
 
         [LIMSResourceDisplayName("LIMS.Common.Dolfd")]
 

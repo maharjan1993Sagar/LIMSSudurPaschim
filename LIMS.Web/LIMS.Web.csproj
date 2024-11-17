@@ -50,6 +50,10 @@
     <None Remove="Events\**" />
     <None Remove="Plugins\**" />
     <None Remove="Themes\**" />
+    <Compile Remove="Areas\Admin\Components\AgricultureCoOperativeReport.cs" />
+    <Compile Remove="Areas\Admin\Components\AiReport.cs" />
+    <Compile Remove="Areas\Admin\Components\FertilizerShopReport.cs" />
+    <Content Remove="Areas\Admin\Views\Shared\Components\SubsidyDetailReport\Default.cshtml" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.7.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.7.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Core" Version="3.1.4" />
@@ -76,6 +80,7 @@
     <None Include="Areas\Admin\Views\Customer\ChangePassword.cshtml" />
     <None Include="Areas\Admin\Views\FishProduction\Create.cshtml" />
     <None Include="Areas\Admin\Views\FishProduction\List.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\Components\SubsidyDetailReport\Default.cshtml" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

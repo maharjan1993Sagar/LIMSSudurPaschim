@@ -159,6 +159,8 @@ namespace LIMS.Web.Areas.Admin.Infrastructure
             builder.RegisterType<BudgetSourceService>().As<IBudgetSourceService>().InstancePerLifetimeScope();
             builder.RegisterType<SubSectorService>().As<ISubSectorService>().InstancePerLifetimeScope();
             builder.RegisterType<MainActivityCodeService>().As<IMainActivityCodeService>().InstancePerLifetimeScope();
+            builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<SeedDistributionService>().As<ISeedDistributionService>().InstancePerLifetimeScope();
 
         }
 

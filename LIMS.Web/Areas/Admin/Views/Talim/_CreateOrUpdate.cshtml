@@ -2,7 +2,7 @@
 
 <div class="x_content form">
         <div class="form-body">
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-4 col-sm-4">
 
                 <div class="form-group">
                     <admin-label asp-for="NameEnglish" />
@@ -11,7 +11,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
 
                 <div class="form-group">
                     <admin-label asp-for="NameNepali" />
@@ -51,7 +51,7 @@
             </div>
 
 
-            <div class="col-md-3">
+            <div class="col-md-2">
 
                 <div class="form-group">
                     <admin-label asp-for="FiscalYearId" />
@@ -62,13 +62,11 @@
 
                 </div>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-8 col-sm-8">
 
                 <div class="form-group">
                     <admin-label asp-for="PujigatKharchaKaryakramId" />
-                    <admin-select asp-for="PujigatKharchaKaryakramId" required="required">
-                        <option value="">Select</option>
-
+                    <admin-select asp-for="PujigatKharchaKaryakramId" required="required" asp-items="@ViewBag.PujigatKharchaKaryakramId">                       
                     </admin-select>
 
                     <span asp-validation-for="PujigatKharchaKaryakramId"></span>
@@ -76,12 +74,11 @@
                 </div>
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-12">
 
                 <div class="form-group">
                     <admin-label asp-for="Description" />
-                    <admin-input asp-for="Description" />
-
+                    <textarea asp-for="Description" rows="3" class="form-control"></textarea>
                     <span asp-validation-for="Description"></span>
 
                 </div>
@@ -93,11 +90,13 @@
      $("document").ready(function () {
          $("#@Html.IdFor(m=>m.FiscalYearId)").change(function () {
              fiscalyear = $(this).val();
+
              data = {
                  fiscalyear: fiscalyear
              }
              if (fiscalyear) {
-                 url = "/Admin/LabambitKrishak/GetTrainingProgram";
+                 $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").empty();
+                 url = "/Admin/LabambitKrishak/GetPujigatKaryakram";
                  $.getJSON(url, data, function (result) {
                      $.each(result, function (i, item) {
                          $("#@Html.IdFor(m=>m.PujigatKharchaKaryakramId)").append(`<option value="${item.Id}">${item.Program}</option>`);

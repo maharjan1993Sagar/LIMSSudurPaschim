@@ -444,7 +444,35 @@ namespace LIMS.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Create");
         }
+        public async Task<ActionResult> GetBudget(string fiscalyear)
+        {
+            var createdby = _workContext.CurrentCustomer.Id;
+            var budgets = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby,fiscalyear,"");
 
+            //var roles = _workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+            //string xetra = "";
+
+            //if (roles.Contains("Agriculture"))
+            //{
+            //    xetra = "कृषि विकास";
+            //}
+            //if (roles.Contains("Livestock"))
+            //{
+            //    xetra = "पशु तथा मत्स्य विकास ";
+            //}
+            //if (roles.Contains("Administrators"))
+            //{
+            //    xetra = "";
+            //}
+
+          
+            //if (!String.IsNullOrEmpty(xetra))
+            //{
+            //    lstBudgets = lstBudgets.Where(m => m.Xetra == xetra);
+
+            //}
+            return Json(budgets.ToList());
+        }
 
         public async Task<ActionResult> GetBreed(string species)
         {
@@ -462,23 +490,38 @@ namespace LIMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetProgram(string fiscalyear)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
-            return Json(karyakram.ToList());
+            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby,fiscalyear,"subsidy");
+            //var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
+            return Json(pugigatkaryakram.ToList());
         }
         public async Task<ActionResult> GetSubsidyProgram(string fiscalyear)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.Expenses_category == "Subsidy");
-            return Json(karyakram.ToList());
+            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby,fiscalyear,"subsidy");
+            //var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear 
+            //                                                && m.Expenses_category == "Subsidy");
+            return Json(pugigatkaryakram.ToList());
         }
-        public async Task<ActionResult> GetTrainingProgram(string fiscalyear)
+        //public async Task<ActionResult> GetTrainingProgram(string fiscalyear)
+        //{
+        //    var createdby = _workContext.CurrentCustomer.Id;
+        //    var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
+        //    var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.IsTrainingKaryaKram == "Training");
+        //    return Json(karyakram.ToList());
+        //}
+        public async Task<ActionResult> GetPujigatKaryakram(string fiscalYear)
+        {
+            var createdBy = _workContext.CurrentCustomer.Id;
+            var pujigats = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdBy, fiscalYear, "training");
+            return Json(pujigats.ToList());
+        }
+
+        public async Task<ActionResult> GetTrainingProgram(string fiscalyear, string pujigatKharchaKharakramId)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var pugigatkaryakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
-            var karyakram = pugigatkaryakram.Where(m => m.FiscalYear.Id == fiscalyear && m.IsTrainingKaryaKram == "Training");
-            return Json(karyakram.ToList());
+            var talims = await _talimService.Gettalim(createdby, fiscalyear:fiscalyear);
+            var filTalims = talims.Where(m =>  m.PujigatKharchaKharakramId == pujigatKharchaKharakramId).ToList();
+            return Json(filTalims);
         }
 
         public List<SelectListItem> PujigatType()

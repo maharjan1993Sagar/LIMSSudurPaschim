@@ -304,6 +304,7 @@ namespace LIMS.Services.ExportImport
                 PrepareCategoryMapping(pujigatKharcha, manager);
                 if (!string.IsNullOrEmpty(pujigatKharcha.Limbis_Code))
                 {
+                    //fiscalYear
                     if(await _pujigatKharchaKharakramService.GetPujigatKharchaKharakramByLmBIsCode(pujigatKharcha.Limbis_Code))
                     {
                         await _pujigatKharchaKharakramService.UpdatePujigatKharchaKharakram(pujigatKharcha);

@@ -17,33 +17,49 @@
             </div>
         </div>
 
-        @*@if (role.Contains("MolmacAdmin"))
-                        {
-            <div class="col-md-2">
-                <div class="form-group">
-                    <admin-label asp-for="DolfdId" />
-                    <admin-select asp-for="DolfdId" asp-items="ViewBag.dolfd" />
-                    <span asp-validation-for="DolfdId"></span>
-                </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="BudgetSourceId" />
+                <admin-select asp-for="BudgetSourceId" asp-items="ViewBag.BudgetSourceId" required="required" />
+                <span asp-validation-for="BudgetSourceId"></span>
             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <admin-label asp-for="VhlsecId" />
-                                    <admin-select asp-for="VhlsecId">
-                                        <option value=''>Select</option>
-                                    </admin-select>
-                                    <span asp-validation-for="VhlsecId"></span>
-                                </div>
-                            </div>}
-                        @if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
-                        {
-            <div class="col-md-2">
-                <div class="form-group">
-                    <admin-label asp-for="VhlsecId" />
-                    <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
-                    <span asp-validation-for="VhlsecId"></span>
-                </div>
-            </div>}*@
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="SubSectorId" />
+                <admin-select asp-for="SubSectorId" asp-items="ViewBag.SubSectorId" required="required" />
+                <span asp-validation-for="SubSectorId"></span>
+            </div>
+        </div>
+
+        @*@if (role.Contains("MolmacAdmin"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="DolfdId" />
+                <admin-select asp-for="DolfdId" asp-items="ViewBag.dolfd" />
+                <span asp-validation-for="DolfdId"></span>
+            </div>
+        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <admin-label asp-for="VhlsecId" />
+                                <admin-select asp-for="VhlsecId">
+                                    <option value=''>Select</option>
+                                </admin-select>
+                                <span asp-validation-for="VhlsecId"></span>
+                            </div>
+                        </div>}
+                    @if (role.Contains("DolfdAdmin") || role.Contains("DolfdUser") || role.Contains("AddAdmin") || role.Contains("AddUser"))
+                    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <admin-label asp-for="VhlsecId" />
+                <admin-select asp-for="VhlsecId" asp-items="ViewBag.vhlsec" />
+                <span asp-validation-for="VhlsecId"></span>
+            </div>
+        </div>}*@
 
 
 

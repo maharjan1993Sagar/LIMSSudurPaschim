@@ -1,0 +1,96 @@
+﻿@inject IWorkContext workContext
+@using LIMS.Web.Areas.Admin.Helper
+@model List<LIMS.Domain.Bali.AanudanKokaryakram>
+
+
+<div id="Printcontent">
+    @if (Model.Count() > 0)
+    {
+        var currentCustomer = workContext.CurrentCustomer;
+        var objFirst = Model[0];
+        var level = "नगर कार्यपालिकाको कार्यालय";
+        var address = currentCustomer.OrgAddress;
+        var localLevel = currentCustomer.OrgName;
+        int i = 1;
+
+
+        <div class="text-center">
+            <b>
+                @*@localLevel<br />
+                @level<br />
+                @address<br />*@
+                आ.ब. @ExecutionHelper.EnglishToNepali(objFirst.FiscalYear.NepaliFiscalYear) @objFirst.PujigatKharchaKharakram.Program को अनुदानको विवरण
+            </b>
+        </div>
+        <div>
+            <b>बजेट शिर्षक: @objFirst.PujigatKharchaKharakram.Program</b><br />
+            <b>आसातित प्रतिफलहरू: @objFirst.ExpectedOutput</b><br />
+            <b>कैफियत: @objFirst.Remaks</b><br />
+        </div>
+        <div class="divTable">
+            <table class="table table-bordered">
+                <thead>
+                    @if (Model.Count() > 0)
+                    {
+                        <tr style="text-align:center">
+                            <th id="c">@T("Admin.Subsidy.SN")</th>
+                            <th>@T("Admin.Subsidy.FarmerName")</th>
+                            <th>@T("Admin.Subsidy.Address")</th>
+                            <th>@T("Admin.Subsidy.WardNo")</th>
+                            <th>@T("Admin.Subsidy.Phone")</th>
+                            <th>@T("Admin.Subsidy.BeneficiaryType")</th>
+                            <th>@T("Admin.Subsidy.SubsidyCategory")</th>
+                            <th>@T("Admin.Subsidy.TypeOfSubsidy")</th>
+                            <th>@T("Admin.Subsidy.SubsidyAmount")</th>
+                            <th>@T("Admin.Subsidy.FarmerContributionAmt")</th>
+                            <th>@T("Admin.Subsidy.Gender")</th>
+                            <th>@T("Admin.Subsidy.EthinicGroup")</th>
+                        </tr>
+                    }
+                </thead>
+                <tbody>
+                    @{string a = "";}
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td>@(ExecutionHelper.EnglishToNepali(i.ToString()))</td>
+                            <td>@item.KrishakKoName</td>
+                            <td>@item.District</td>
+                            <td>@(ExecutionHelper.EnglishToNepali(item.Ward.ToString()))</td>
+                            <td>@item.PhoneNo</td>
+                            <td>@T(item.AnudanReceiverType)</td>
+                            <td>@T(item.SubsidyCategory)</td>
+                            <td>@item.AanudanKokisim</td>
+                            <td>@ExecutionHelper.EnglishToNepali(item.AanudanRakam.ToString())</td>
+                            <td>@(ExecutionHelper.EnglishToNepali(item.FarmerContribution.ToString()))</td>
+                            <td>@item.Sex</td>
+                            <td>@item.EthinicGroup</td>
+                        </tr>
+                        i = i + 1;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="textx-center">No record found.</div>
+    }
+</div>
+
+@if (Model.Count() > 0)
+{
+    <button class="btn btn-success" onclick="Export()">@T("Admin.Button.Export")</button>
+    <button onclick="extractAndPrintContent()" class="btn btn-success">@T("Admin.Button.Print")</button>
+
+}
+<script src="~/scripts/jquery.table2excel.js"></script>
+<script>
+    function Export() {
+        $("#Printcontent").table2excel({
+            filename: "SubsidyDetails.xls"
+        });
+    }
+</script>

@@ -91,7 +91,10 @@ namespace LIMS.Web.Areas.Admin.Controllers
             var model = new DashboardModel { };
             return View(model);
         }
-
+        public IActionResult Print()
+        {
+            return View();
+        }
         public async Task<IActionResult> DashboardActivity()
         {
             var model = await PrepareActivityModel();

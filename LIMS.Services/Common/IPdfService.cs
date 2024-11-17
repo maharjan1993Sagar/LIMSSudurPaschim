@@ -1,4 +1,5 @@
 using LIMS.Domain.AInR;
+using LIMS.Domain.Report;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace LIMS.Services.Common
         /// </summary>
         /// <param name="stream">Stream</param>
         /// <param name="earTags">Eartags</param>
-        Task PrintEarTagsToPdf(Stream stream, IList<EarTag> earTags);       
+        Task PrintEarTagsToPdf(Stream stream, IList<EarTag> earTags);
+        Task PrintSubsidyPdf(Stream stream, SubsidyReportModel reportModel);
     }
 }

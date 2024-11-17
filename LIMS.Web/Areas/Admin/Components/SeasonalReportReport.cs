@@ -63,10 +63,10 @@ namespace LIMS.Web.Areas.Admin.Components
             _customerService = customerService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string fiscalYear)
+        public async Task<IViewComponentResult> InvokeAsync(string fiscalYear, string budgetSourceId, string subSectorId)
         {
             var createdby = _workContext.CurrentCustomer.Id;
-            var progress = await _animalRegistrationService.GetMonthlyPragati(createdby, fiscalyear: fiscalYear);
+            var progress = await _animalRegistrationService.GetMonthlyPragati(createdby,budgetSourceId: budgetSourceId, subSectorId:subSectorId, fiscalyear: fiscalYear);
             var karyakram = await _pujigatKharchaKharakramService.GetPujigatKharchaKharakram(createdby);
             decimal a = 0;
             var TotalBudget = karyakram.ToList().Select(m => (decimal.TryParse(m.BarsikBajet, out a) ? a * 100000 : 0).ToString()).Sum(x=>Convert.ToDecimal(x));

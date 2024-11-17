@@ -75,5 +75,10 @@ namespace LIMS.Web.Areas.Admin.Models.Bali
         [LIMSResourceDisplayName("Lims.Talim.EndDate")]
 
         public DateTime EndDate { get; set; }
+        public decimal TotalExpense { get; set; }
+        public string Logistics { get; set; }
+        public string Gender { get; set; }
+        public string Caste { get; set; }
+        public string budgetId { get; set; }
     }
 }

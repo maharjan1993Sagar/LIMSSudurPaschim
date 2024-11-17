@@ -1,0 +1,92 @@
+﻿@inject IWorkContext workContext
+@model LIMS.Web.Areas.Admin.Models.Reports.SubsidyReportModel
+@{
+    var roles = workContext.CurrentCustomer.CustomerRoles.Select(m => m.Name).ToList();
+}
+
+<form id="subsidy">
+    <div class="col-md-2">
+        <div class="form-group">
+            <admin-label asp-for="FiscalYear" />
+            <admin-select asp-for="FiscalYear" asp-items="@ViewBag.FiscalYearId" required="required" ></admin-select>
+            <span asp-validation-for="FiscalYear"></span>
+        </div>
+    </div>
+ 
+    <div class="col-md-2">
+        <div class="form-group">
+            <br />
+            <button type="submit" class="btn btn-sm btn-success">Show Report</button>
+        </div>
+    </div>
+    @*<div class="col-md-2">
+            <div class="form-group">
+                <br />
+                <button type="submit" formaction="DownloadSubsidyPdf" class="btn btn-sm btn-success">Download Pdf</button>
+            </div>
+        </div>
+        <button id="btnPrint"  class="btn btn-sm btn-success">print post</button>*@
+</form>
+<br />
+<div style="display:inline-block !important;">
+    <div id="result"></div>
+</div>
+<script>
+        $(document).ready(function () {
+
+            $('#btnPrint').click(function (e) {
+                e.preventDefault();
+
+                var data = {
+                    FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val()
+                }
+
+                $.ajax({
+                    cache: false,
+                    url: '/Admin/Report/DownloadSubsidyPdf',
+                    data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                    type: "POST",
+                    success: function (response) {
+                        if (response.success) {
+                            alert("File Dowloaded");
+                          //  $('#result').html(response.livestockWardWiseReportHtml);
+                        }
+                       // console.log(response);
+                    },
+                    error: function (response) {
+                      //  console.log(response);
+                        console.error('Error:', response);
+                    }
+                });
+
+              
+            });
+
+
+            $('#subsidy').submit(function (e) {
+                $('#result').html("");
+                    var data = {
+                        FiscalYear: $('#@Html.IdFor(m => m.FiscalYear)').val()
+                    }
+                    addAntiForgeryToken(data);
+                    e.preventDefault();
+                    $.ajax({
+                        cache: false,
+                        url: '/Admin/Report/FertilizerShopReportHtml',
+                        data: data,  // { 'fiscalyear': $('#FiscalYear').val() },
+                        type: "POST",
+                        success: function (response) {
+                            if (response.success) {
+                                $('#result').html(response.livestockWardWiseReportHtml);
+                            }
+                            console.log(response);
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                })
+                //action for update here
+            });
+
+</script>

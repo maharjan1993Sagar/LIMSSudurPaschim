@@ -67,18 +67,27 @@ namespace LIMS.Services.Bali
             return await PagedList<Farmer>.Create(query, pageIndex, pageSize);
 
         }
-        public async Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string district, string talimname, string fiscalyear, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Farmer>> GetfarmerByPugigatType(string createdby, string district, string pujigatkharchaId, string fiscalyear, string talimId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _farmerRepository.Table;
-            query = query.Where(m => createdby == m.CreatedBy && m.FiscalYear.Id == fiscalyear  );
-            if(!string.IsNullOrEmpty(talimname))
+            query = query.Where(m => createdby == m.CreatedBy);
+            if (!string.IsNullOrEmpty(pujigatkharchaId))
             {
-                query = query.Where(m => m.pujigatKharchaKharakram.Id == talimname);
+                query = query.Where(m => m.FiscalYearId == fiscalyear || m.FiscalYear.Id == fiscalyear);
+            }
+            if(!string.IsNullOrEmpty(pujigatkharchaId))
+            {
+                query = query.Where(m => m.pujigatKharchaKharakramId == pujigatkharchaId);
 
             }
-            if(!string.IsNullOrEmpty(talimname)&&!string.IsNullOrEmpty(district))
+            if(!string.IsNullOrEmpty(district))
             {
                 query = query.Where(m => m.District == district);
+
+            }
+            if (!string.IsNullOrEmpty(talimId) )
+            {
+                query = query.Where(m => m.TalimId == talimId);
 
             }
             return await PagedList<Farmer>.Create(query, pageIndex, pageSize);

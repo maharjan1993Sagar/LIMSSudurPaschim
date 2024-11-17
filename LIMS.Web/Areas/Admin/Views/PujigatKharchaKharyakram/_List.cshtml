@@ -231,6 +231,21 @@
                    field: "ChauthoTrimasikParimam",
                 title: "@T("Admin.PujigatKaryakram.Fields.ChauthoTrimasikParimam")",
                 },
+               {
+                field: "Expenses_category",
+                title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
+                editor: sDropDownEditor
+                },
+                 {
+                field: "IsTrainingKaryaKram",
+                title: "@T("Admin.PujigatKaryakram.Fields.IsTrainingKaryaKram")",
+                editor: TDropDownEditor
+                },
+               {
+                field: "IsNitiTathaKaryaKram",
+                title: "@T("Admin.PujigatKaryakram.Fields.IsNitiTathaKaryaKram")",
+                editor: ExpancesDropDownEditor
+                },
 
             {
                 field: "Remarks",
@@ -285,7 +300,58 @@
             dataType: "json"
         });
     }
+    function sDropDownEditor(container, options) {
+        $('<input name="Expenses_category"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                valuePrimitive: true,
 
+                autoBind: true,
+                dataTextField: "name",
+                dataValueField: "value",
+                dataSource: [
+
+                    { name: "Select", value: "" },
+                    { name: "Subsidy", value: "Subsidy" }
+                   // { name: "Training", value: "Training" },
+
+                ]
+
+            });
+    }
+    function TDropDownEditor(container, options) {
+        $('<input name="IsTrainingKaryaKram"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                valuePrimitive: true,
+
+                autoBind: true,
+                dataTextField: "name",
+                dataValueField: "value",
+                dataSource: [
+                    { name: "Select", value: "" },
+                    { name: "Training", value: "Training" },
+                ]
+
+            });
+    }
+    function ExpancesDropDownEditor(container, options) {
+        $('<input name="IsNitiTathaKaryaKram"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                valuePrimitive: true,
+
+                autoBind: true,
+                dataTextField: "name",
+                dataValueField: "value",
+                dataSource: [
+                    { name: "Select", value: "" },
+                    { name: "Yes", value: "Yes" },
+
+                ]
+
+            });
+    }
 </script>
 <script>
     $(document).ready(function () {
@@ -340,19 +406,19 @@
                     <option value="">Select</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            @*<div class="col-md-3">
                 <label>@T("Admin.Common.ProgramType")</label>
                 <select id="Program" name="ProgramType" class="form-control" required>
                     <option value="">Select</option>
                 </select>
-            </div>
-            <div class="col-md-3">
+            </div>*@
+            <div class="col-md-6">
                 <label>@T("Admin.Common.BudgetSource")</label>
                 <select id="BudgetSourceId" name="BudgetSourceId" class="form-control" required>
                     <option value="">Select</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label>@T("Admin.Common.SubSector")</label>
                 <select id="SubSectorId" name="SubSectorId" class="form-control" required>
                     <option value="">Select</option>

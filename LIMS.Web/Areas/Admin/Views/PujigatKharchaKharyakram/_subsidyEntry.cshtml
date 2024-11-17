@@ -60,7 +60,7 @@
                         url: "@Html.Raw(Url.Action("ListOther", "PujigatKharchaKharyakram"))",
                         type: "POST",
                         dataType: "json",
-                        data: additionalData
+                        data: additionalData2
                     },
                     update: {
                         url: "@Html.Raw(Url.Action("Edit", "PujigatKharchaKharyakram"))",
@@ -153,7 +153,7 @@
             {
                 field: "Expenses_category",
                 title: "@T("Admin.PujigatKaryakram.Fields.ExpensesCategory")",
-                editor: sDropDownEditor
+                editor: sDropDownEditor2
                 },
             {
                 field: "Remarks",
@@ -178,14 +178,15 @@
         });
 
     });
-    function additionalData() {
+    function additionalData2() {
         var data = {
-            Keyword: $("#Keyword").val()
+            Keyword: $("#Keyword").val(),
+            category: "subsidy"
         };
         addAntiForgeryToken(data);
         return data;
     }
-    function sDropDownEditor(container, options) {
+    function sDropDownEditor2(container, options) {
         $('<input name="Expenses_category"/>')
             .appendTo(container)
             .kendoDropDownList({
@@ -197,7 +198,8 @@
                 dataSource: [
 
                     { name: "Select", value: "" },
-                { name: "Subsidy", value: "Subsidy" },
+                    { name: "Subsidy", value: "Subsidy" }
+                //{ name: "Training", value: "Training" },
 
        ]
 
