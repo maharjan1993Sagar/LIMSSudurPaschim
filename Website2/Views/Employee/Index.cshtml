@@ -1,4 +1,15 @@
 ﻿@model List<EmployeeModel>
+@using LIMS.Website1.Data
+@using System.Globalization
+@inject IGetLabel _lbl
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+    var SN = _lbl.GetByName("SN", culture);
+    var Name = _lbl.GetByName("Name", culture);
+    var Designation = _lbl.GetByName("Designation", culture);
+    var Photo = _lbl.GetByName("Photo", culture);
+    var Email = _lbl.GetByName("Email", culture);
+}
 @{
 
     int i = 1;
@@ -12,25 +23,20 @@
                     <thead>
                         <tr>
                             <th>
-                                S.N.
-                                @*सि.नं.*@
+                               @SN
                             </th>
                             <th>
-                                Name
-                                @*नाम, थर*@
+                                @Name
                             </th>
                             <th>
-                                Designation
-                                @*पद*@
+                                @Designation
                             </th>
                             <th>
-                                Photo
-                                @*फोटो*@
+                                @Photo
                             </th>
 
                             <th>
-                                Email
-                                @*इमेल*@
+                                @Email
                             </th>
 
                         </tr>
@@ -51,13 +57,13 @@
                                     </td>
                                     <td>@item.Email1</td>
                                 </tr>
-                                 i=i+1;
+                                i = i + 1;
                             }
                         }
                         else
                         {
                             <tr>
-                        <td colspan="5">No record found.</td>
+                                <td colspan="5">No record found.</td>
                             </tr>
                         }
                     </tbody>

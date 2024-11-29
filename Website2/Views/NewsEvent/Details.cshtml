@@ -1,4 +1,10 @@
 ﻿@model NewsEventTenderModel
+@using LIMS.Website1.Data
+@using System.Globalization
+@inject IGetLabel _lbl
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+}
 <section>
     @if (Model != null)
     {

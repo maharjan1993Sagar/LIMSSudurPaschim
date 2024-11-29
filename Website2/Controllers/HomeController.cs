@@ -34,6 +34,9 @@ namespace LIMS.Website1.Controllers
 
             var newsEventTenders = await _db.GetNewsEventTender("");
 
+            newsEventTenders = newsEventTenders.OrderByDescending(m => m.CreatedDate).ToList();
+
+
             newsEventTenders
                 .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
 
@@ -61,20 +64,20 @@ namespace LIMS.Website1.Controllers
 
             }
             var newsScroll = newsEventTenders.Where(m => m.IsScroll);
-            var news = newsEventTenders.Where(m => m.TypeName == "News");
-            var events = newsEventTenders.Where(m => m.TypeName == "Event");
-            var tenders = newsEventTenders.Where(m => m.TypeName == "Tender");
-            var notices = newsEventTenders.Where(m => m.TypeName == "Notices");
-            var rules = newsEventTenders.Where(m => m.TypeName == "Rules & Regulation");
+            var news = newsEventTenders.Where(m => m.TypeName == "Information");
+            var events = newsEventTenders.Where(m => m.TypeName == "Right To Information");
+            var tenders = newsEventTenders.Where(m => m.TypeName == "Tender Notice");
+            var notices = newsEventTenders.Where(m => m.TypeName == "General Notices");
+            var rules = newsEventTenders.Where(m => m.TypeName == "Regulations");
             var directives = newsEventTenders.Where(m => m.TypeName == "Directives");
-            var acts = newsEventTenders.Where(m => m.TypeName == "Act");
-            var reports = newsEventTenders.Where(m => m.TypeName == "Report");
-            var otherFiles = newsEventTenders.Where(m => m.TypeName == "OtherFiles");
-            var pressRelease = newsEventTenders.Where(m => m.TypeName == "PressRelease");
+            var acts = newsEventTenders.Where(m => m.TypeName == "Act" || m.TypeName == "Policy/Strategy");
+            var reports = newsEventTenders.Where(m => m.TypeName == "Policy/Strategy");
+            var otherFiles = newsEventTenders.Where(m => m.TypeName == "Guidance");
+            var pressRelease = newsEventTenders.Where(m => m.TypeName == "Criteria");
             var pressandLetter = newsEventTenders.Where(m => m.TypeName == "PressRelease"|| m.TypeName == "Letter");
 
-            var letters = newsEventTenders.Where(m => m.TypeName == "Letter");
-            var publication= newsEventTenders.Where(m => m.TypeName == "Publication");
+            var letters = newsEventTenders.Where(m => m.TypeName == "Working Procedure");
+            var publication= newsEventTenders.Where(m => m.TypeName == "Technical Publications" || m.TypeName == "Yearly Progress Book");
 
             var galleryVideo = await _db.GetGallery();
             galleryVideo
@@ -131,12 +134,12 @@ namespace LIMS.Website1.Controllers
         public async Task<IActionResult> ContactUs()
         {
             var contactUs = await _db.GetContactUsModel();
-            var newsEventTenders = await _db.GetNewsEventTender("");
+            //var newsEventTenders = await _db.GetNewsEventTender("");
 
-            newsEventTenders
-                .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
+            //newsEventTenders
+            //    .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
 
-            contactUs.NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList();
+           // contactUs.NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList();
                
             return View(contactUs);
         }

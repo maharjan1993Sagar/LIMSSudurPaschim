@@ -1,12 +1,14 @@
 ﻿@model HeaderViewModel
 @using LIMS.Website1.Data
 @using System.Globalization
-@inject IGetResource getResource
+@inject IGetLabel getResource
 @{
-    var aboutUs = getResource.GetByName("AboutUs");
-
     var culture = CultureInfo.CurrentCulture.ToString();
 
+    var Government = getResource.GetByName("Government of Sudurpashchim Province", culture);
+    var Ministy = getResource.GetByName("Ministry of Land Management, Agriculture & Cooperative", culture);
+    var Dhangadhi = getResource.GetByName("Dhangadi, Kailali", culture);
+    
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
     var fullUrl = returnUrl + Context.Request.QueryString.Value ?? "";
     returnUrl = fullUrl;
@@ -168,9 +170,9 @@
                             </div>
                             <div class="" style="margin-left:6px;">
                                 <p style="font-size: 11px; color:red;">
-                                    Government of Sudurpashchim Province	<br />
-                                    <span style="font-size: 16px; font-family: serif; font-weight:bold;">Ministy of Land Management, Agriculture & Cooperative</span><br />
-                                    <span style="font-size: 12px;">Dhangadhi, Kailali</span>
+                                    @Government	<br />
+                                    <span style="font-size: 16px; font-family: serif; font-weight:bold;">@Ministy</span><br />
+                                    <span style="font-size: 12px;">@Dhangadhi</span>
                                 </p>
                             </div>
                             <!-- <div>

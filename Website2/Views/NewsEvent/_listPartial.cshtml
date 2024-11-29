@@ -1,27 +1,31 @@
 ﻿@model NewsEventViewModel
 @using LIMS.Website1.Data
+@using System.Globalization
 @inject IGetLabel _lbl
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h3 class="text-primary">
                 <i class="fa fa-book"></i>@Model.Type
-            </h3>       
+            </h3>
             <table id="tblPublication" class="table table-responsive table-bordered">
                 <thead>
                     <tr style="background: #fefefe;">
                         <th>
-                            @_lbl.GetByName("News.Title", "")
-                            
+                            @_lbl.GetByName("Title", culture)
+
                         </th>
                         <th>
-                            @_lbl.GetByName("News.PublishedDate", "")
+                            @_lbl.GetByName("Published Date", culture)
                         </th>
                         <th>
-                            @_lbl.GetByName("News.File.Size", "")
+                            @_lbl.GetByName("Size", culture)
                         </th>
                         <th>
-                            @_lbl.GetByName("News.Download", "")                            
+                            @_lbl.GetByName("Download", culture)
                         </th>
                     </tr>
                 </thead>
@@ -40,17 +44,17 @@
                                 <td>@(item.Image.FileSize+" KB")</td>
                                 <td>
                                     @*@if (!String.IsNullOrEmpty(item.Image.FileName))
-                                    {*@
-                                        <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
-                                            <i class="fa fa-download"></i>
-                                        </a>
+                                        {*@
+                                    <a asp-controller="NewsEvent" asp-action="Download" asp-route-id="@item.Id">
+                                        <i class="fa fa-download"></i>
+                                    </a>
                                     @*}
-                                    @if (item.ShowText)
-                                    {
-                                        <a asp-controller="NewsEvent" asp-action="Details" asp-route-id="@item.Id">
-                                         Details
-                                        </a>
-                                    }*@
+                                        @if (item.ShowText)
+                                        {
+                                            <a asp-controller="NewsEvent" asp-action="Details" asp-route-id="@item.Id">
+                                             Details
+                                            </a>
+                                        }*@
                                 </td>
                             </tr>
                         }

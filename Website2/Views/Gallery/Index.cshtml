@@ -1,4 +1,13 @@
 ﻿@model GalleryViewModel
+@using LIMS.Website1.Data
+@using System.Globalization
+@inject IGetLabel _lbl
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+    var Gallery = _lbl.GetByName("Gallery", culture);
+    var Video = _lbl.GetByName("Video", culture);
+    var ViewAll = _lbl.GetByName("View All", culture);
+}
 <link href="~/Dolfd/css/photoViewer/photoviewer.css" rel="stylesheet" type="text/css" />
 
 <style>
@@ -6,8 +15,8 @@
         background-color: #f1f1f1;
         background-image: none;
     }
+
     .gallery-list .card-img-top {
-       
         height: 165px !important;
     }
 </style>
@@ -19,7 +28,7 @@
     <div class="col-12 col-md-12">
         <div class="main-abt-area">
             <div class="main-comon-title">
-                <h4>Photo Gallery</h4>
+                <h4>@Gallery</h4>
             </div>
             <div class="clearfix"></div>
             <div class="common-title">
@@ -41,22 +50,22 @@
                                                                       "/Dolfd/img/nep-gov.png")' width="120px" alt="123">
                                     <div class="card-body">
                                         <h5 class="card-title">@item.Title</h5>
-                                        <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View All </a>
+                                        <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">@ViewAll </a>
                                     </div>
                                 </div>
                             </div>
                         }
                     }
-                  
+
                 </div>
-               
+
             </div>
         </div>
     </div>
     <div class="col-12 col-md-12">
         <div class="main-abt-area">
             <div class="main-comon-title">
-                <h4>Videos</h4>
+                <h4>@Video</h4>
             </div>
             <div class="clearfix"></div>
             <div class="common-title">
@@ -78,13 +87,13 @@
                                                                       "/Dolfd/img/nep-gov.png")' width="120px" alt="123">
                                     <div class="card-body">
                                         <h5 class="card-title">@item.Title</h5>
-                                        <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">View All </a>
+                                        <a data-gallery="bookGallery" asp-controller="Gallery" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">@ViewAll </a>
                                     </div>
                                 </div>
                             </div>
                         }
                     }
-                  
+
                 </div>
             </div>
         </div>

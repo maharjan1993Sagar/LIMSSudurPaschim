@@ -1,10 +1,17 @@
 ﻿@model GalleryModel
+@using LIMS.Website1.Data
+@using System.Globalization
+@inject IGetLabel _lbl
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+    var GoToList = _lbl.GetByName("Go To List", culture);
+}
 @{
     int i = 1;
 
 }
 <div class="col-md-12 text-right">
-    <a asp-controller="gallery" asp-action="Index" class="btn">Go to list</a>
+    <a asp-controller="gallery" asp-action="Index" class="btn">@GoToList</a>
 </div>
 <div class="col-md-12">
     <h2><i class="fa fa-picture-o"></i> @Model.Title</h2>

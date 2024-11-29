@@ -1,11 +1,20 @@
 ﻿@model FooterViewModel
-
+@using LIMS.Website1.Data
+@using System.Globalization
+@inject IGetLabel _lbl
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+    var Spokeperson = _lbl.GetByName("Spokeperson", culture);
+    var InformationOfficer = _lbl.GetByName("Information Officer", culture);
+    var ImportantLinks = _lbl.GetByName("Important Links", culture);
+    var ContactInformation = _lbl.GetByName("Contact Information", culture);
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-sm-3 col-md-2">
 
             <div class="footer-c-title">
-                <span>Spokeperson</span>
+                <span>@Spokeperson</span>
             </div>
             <div class="s-area">
                 <div class="spoke-person-area">
@@ -29,10 +38,10 @@
                     </div>
                 </div>
             </div>
-           
+
         </div>
         <div class="col-12 col-sm-3 col-md-2">
-            <div class="footer-c-title">Information officer</div>
+            <div class="footer-c-title">@InformationOfficer</div>
 
             <div class="spoke-person-area">
                 <div class="member-area">
@@ -57,7 +66,7 @@
         </div>
         <div class="col-12 col-sm-6 col-md-4">
             <div class="footer-c-title">
-                Importance Links
+                @ImportantLinks
             </div>
             <div class="f-content f-others">
                 <ul class="list-unstyled">
@@ -81,13 +90,13 @@
                         <li><a href="https://www.plgsp.gov.np/">Provincial and Local Government Support Program</a></li>
                     }
                 </ul>
-                    
+
             </div>
 
         </div>
         <div class="col-12 col-sm-6 col-md-4">
             <div class="footer-c-title">
-                Contact <span>Information</span>
+                @ContactInformation
             </div>
             <div class="f-content f-contact">
                 <ul class="list-unstyled">
@@ -95,7 +104,7 @@
                     <li>   @Model.Customer.OrgAddress</li>
                     <li class="c-phone"><a href="tel: @(Model.ContactUs!=null?Model.ContactUs.Phone1:"Phone")">Phone: @(Model.ContactUs!=null?Model.ContactUs.Phone1:"Phone")</a></li>
                     <li class="c-email"><a href="@(Model.ContactUs!=null?Model.ContactUs.Email1:"officeEmail@email.com")">Email:@(Model.ContactUs!=null?Model.ContactUs.Email1:"officeEmail@email.com")</a></li>
-                   
+
                 </ul>
             </div>
         </div>

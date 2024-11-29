@@ -36,6 +36,12 @@
     <EnglishName>Introduction</EnglishName>
     <NepaliName>परिचय</NepaliName>
   </Label>
+   <Label>
+    <Id>128</Id>
+    <Title>Trending</Title>
+    <EnglishName>Trending</EnglishName>
+    <NepaliName>ट्रेडिङ</NepaliName>
+  </Label>
   <Label>
     <Id>ecdf64a4-cfe1-4744-8fb1-5726d19797ee</Id>
     <Title>Login.Email</Title>
@@ -52,72 +58,354 @@
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7aff</Id>
     <Title>Footer.ContactInformation</Title>
     <EnglishName>Contact Information</EnglishName>
-    <NepaliName>Contact Information</NepaliName>
+    <NepaliName>सम्पर्क</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7af8</Id>
     <Title>Footer.RelatedLinks</Title>
     <EnglishName>Related links</EnglishName>
-    <NepaliName>Related links</NepaliName>
+    <NepaliName>लिंकहरु</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a88</Id>
     <Title>News.Title</Title>
     <EnglishName>Title</EnglishName>
-    <NepaliName>Title</NepaliName>
+    <NepaliName>शिर्षक</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a38</Id>
     <Title>News.PublishedDate</Title>
     <EnglishName>Published date</EnglishName>
-    <NepaliName>Published date</NepaliName>
+    <NepaliName>प्रकाशन मिति</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a3e</Id>
     <Title>News.Download</Title>
     <EnglishName>Download</EnglishName>
-    <NepaliName>Download</NepaliName>
+    <NepaliName>डाउनलोड</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7aff</Id>
     <Title>News.Type</Title>
     <EnglishName>Type</EnglishName>
-    <NepaliName>Type</NepaliName>
+    <NepaliName>प्रकार</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7aff</Id>
     <Title>Footer.FindUsInMap</Title>
     <EnglishName>Find us in map</EnglishName>
-    <NepaliName>Find us in map</NepaliName>
+    <NepaliName>नक्सा</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7afg</Id>
     <Title>ContactUs.Comment/Feedback</Title>
     <EnglishName>Comment/Feedback</EnglishName>
-    <NepaliName>Comment/Feedback</NepaliName>
+    <NepaliName>प्रतिक्रिया/सुझाब</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e7afa</Id>
     <Title>ContactUs.Email</Title>
     <EnglishName>Email</EnglishName>
-    <NepaliName>Email</NepaliName>
+    <NepaliName>इमेल</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e7aea</Id>
     <Title>ContactUs.Phone</Title>
     <EnglishName>Phone</EnglishName>
-    <NepaliName>Phone</NepaliName>
+    <NepaliName>फोन</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e8aea</Id>
+    <Title>Comment Detail</Title>
+    <EnglishName>Comment Detail</EnglishName>
+    <NepaliName>सुझाब विवरण</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e9aea</Id>
+    <Title>Contact Detail</Title>
+    <EnglishName>Contact Detail</EnglishName>
+    <NepaliName>विवरण</NepaliName>
+  </Label>
+   <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7aff</Id>
+    <Title>Find Us</Title>
+    <EnglishName>Find Us</EnglishName>
+    <NepaliName>नक्सा</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7afg</Id>
+    <Title>ContactUs.Comment/Feedback</Title>
+    <EnglishName>Comment/Feedback</EnglishName>
+    <NepaliName>प्रतिक्रिया/सुझाब</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e7afa</Id>
+    <Title>ContactUs.Email</Title>
+    <EnglishName>Email</EnglishName>
+    <NepaliName>इमेल</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e7aea</Id>
+    <Title>ContactUs.Phone</Title>
+    <EnglishName>Phone</EnglishName>
+    <NepaliName>फोन</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e8aea</Id>
     <Title>ContactUs.Subject</Title>
     <EnglishName>Subject</EnglishName>
-    <NepaliName>Subject</NepaliName>
+    <NepaliName>विषय</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e8aea</Id>
+    <Title>SN</Title>
+    <EnglishName>S.N.</EnglishName>
+    <NepaliName>क्र.स.</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e8aea</Id>
+    <Title>Name</Title>
+    <EnglishName>Name</EnglishName>
+    <NepaliName>नाम, थर</NepaliName>
+  </Label>
+    <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e8aea</Id>
+    <Title>Designation</Title>
+    <EnglishName>Designation</EnglishName>
+    <NepaliName>पद</NepaliName>
+  </Label>
+    <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e8aea</Id>
+    <Title>Photo</Title>
+    <EnglishName>Photo</EnglishName>
+    <NepaliName>फोटो</NepaliName>
   </Label>
   <Label>
     <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e9aea</Id>
     <Title>ContactUs.Details</Title>
     <EnglishName>Details</EnglishName>
-    <NepaliName>Details</NepaliName>
+    <NepaliName>विवरण</NepaliName>
+  </Label>
+  <Label>
+    <Id>ecdf64a4-cfe1-4744-8fb1-5726d19797ee</Id>
+    <Title>Email</Title>
+    <EnglishName>Email</EnglishName>
+    <NepaliName>इमेल</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7ae9</Id>
+    <Title>Labels</Title>
+    <EnglishName>Labels</EnglishName>
+    <NepaliName>टेस्ट</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7aff</Id>
+    <Title>Contact Information</Title>
+    <EnglishName>Contact Information</EnglishName>
+    <NepaliName>सम्पर्क</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7af8</Id>
+    <Title>Related Links</Title>
+    <EnglishName>Related links</EnglishName>
+    <NepaliName>लिंकहरु</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a88</Id>
+    <Title>Title</Title>
+    <EnglishName>Title</EnglishName>
+    <NepaliName>शिर्षक</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a38</Id>
+    <Title>Published Date</Title>
+    <EnglishName>Published date</EnglishName>
+    <NepaliName>प्रकाशन मिति</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a38</Id>
+    <Title>Size</Title>
+    <EnglishName>Size</EnglishName>
+    <NepaliName>साइज</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a3e</Id>
+    <Title>Download</Title>
+    <EnglishName>Download</EnglishName>
+    <NepaliName>डाउनलोड</NepaliName>
+  </Label>
+   <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a3e</Id>
+    <Title>Go To List</Title>
+    <EnglishName>Go To List</EnglishName>
+    <NepaliName>सबै हेर्नुहोस</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7a3e</Id>
+    <Title>View All</Title>
+    <EnglishName>View All</EnglishName>
+    <NepaliName>सबै हेर्नुहोस</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7aff</Id>
+    <Title>Type</Title>
+    <EnglishName>Type</EnglishName>
+    <NepaliName>प्रकार</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7aff</Id>
+    <Title>Find Us In Map</Title>
+    <EnglishName>Find us in map</EnglishName>
+    <NepaliName>नक्सा</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5d7afg</Id>
+    <Title>Comment/Feedback</Title>
+    <EnglishName>Comment/Feedback</EnglishName>
+    <NepaliName>प्रतिक्रिया/सुझाब</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e7afa</Id>
+    <Title>Email</Title>
+    <EnglishName>Email</EnglishName>
+    <NepaliName>इमेल</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e7aea</Id>
+    <Title>Phone</Title>
+    <EnglishName>Phone</EnglishName>
+    <NepaliName>फोन</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e8aea</Id>
+    <Title>Subject</Title>
+    <EnglishName>Subject</EnglishName>
+    <NepaliName>विषय</NepaliName>
+  </Label>
+  <Label>
+    <Id>6ed1ecfb-9546-4b8f-b39a-889d5b5e9aea</Id>
+    <Title>Details</Title>
+    <EnglishName>Details</EnglishName>
+    <NepaliName>विवरण</NepaliName>
+  </Label>
+  <Label>
+    <Id>131</Id>
+    <Title>General Notices</Title>
+    <EnglishName>General Notices</EnglishName>
+    <NepaliName></NepaliName>
+  </Label>
+  <Label>
+    <Id>132</Id>
+    <Title>Information</Title>
+    <EnglishName>Information</EnglishName>
+    <NepaliName></NepaliName>
+  </Label>
+  <Label>
+    <Id>133</Id>
+    <Title>Right To Information</Title>
+    <EnglishName>Right To Information</EnglishName>
+    <NepaliName></NepaliName>
+  </Label>
+  <Label>
+    <Id>134</Id>
+    <Title>Name/Title</Title>
+    <EnglishName>Name/Title</EnglishName>
+    <NepaliName>नाम/शिर्षक</NepaliName>
+  </Label>  
+  <Label>
+    <Id>136</Id>
+    <Title>Highlights</Title>
+    <EnglishName>Highlights</EnglishName>
+    <NepaliName>हाईलाइटहरु</NepaliName>
+  </Label>
+  <Label>
+    <Id>137</Id>
+    <Title>Gallery</Title>
+    <EnglishName>Gallery</EnglishName>
+    <NepaliName>ग्यालरी</NepaliName>
+  </Label>
+  <Label>
+    <Id>138</Id>
+    <Title>Video</Title>
+    <EnglishName>Video</EnglishName>
+    <NepaliName>भिडियो</NepaliName>
+  </Label>
+  <Label>
+    <Id>139</Id>
+    <Title>Publications</Title>
+    <EnglishName>Publications</EnglishName>
+    <NepaliName>प्रकाशन</NepaliName>
+  </Label>
+  <Label>
+    <Id>140</Id>
+    <Title>Act &amp; Policies</Title>
+    <EnglishName>Act &amp; Policies</EnglishName>
+    <NepaliName>ऐन तथा नीति/रणनीति</NepaliName>
+  </Label>
+  <Label>
+    <Id>141</Id>
+    <Title>Regulations</Title>
+    <EnglishName>Regulations</EnglishName>
+    <NepaliName>नियमावली</NepaliName>
+  </Label>
+  <Label>
+    <Id>142</Id>
+    <Title>Directives</Title>
+    <EnglishName>Directives</EnglishName>
+    <NepaliName>निर्देशिका</NepaliName>
+  </Label>
+  <Label>
+    <Id>143</Id>
+    <Title>Guidance</Title>
+    <EnglishName>Guidance</EnglishName>
+    <NepaliName>मार्गदर्शन</NepaliName>
+  </Label>
+  <Label>
+    <Id>144</Id>
+    <Title>Facebook Plugin</Title>
+    <EnglishName>Facebook Plugin</EnglishName>
+    <NepaliName>फेसबुक</NepaliName>
+  </Label>
+  <Label>
+    <Id>145</Id>
+    <Title>Spokeperson</Title>
+    <EnglishName>Spokeperson</EnglishName>
+    <NepaliName>प्रवक्ता</NepaliName>
+  </Label>
+  <Label>
+    <Id>146</Id>
+    <Title>Information Officer</Title>
+    <EnglishName>Information Officer</EnglishName>
+    <NepaliName>सूचना अधिकारी</NepaliName>
+  </Label>
+  <Label>
+    <Id>147</Id>
+    <Title>Important Links</Title>
+    <EnglishName>Important Links</EnglishName>
+    <NepaliName>मुख्य लिंकहरु</NepaliName>
+  </Label>
+  <Label>
+    <Id>148</Id>
+    <Title>Contact Information</Title>
+    <EnglishName>Contact Information</EnglishName>
+    <NepaliName>सम्पर्क विवरण</NepaliName>
+  </Label>
+  <Label>
+    <Id>149</Id>
+    <Title>Ministry of Land Management, Agriculture &amp; Cooperative</Title>
+    <EnglishName>Ministry of Land Management, Agriculture &amp; Cooperative</EnglishName>
+    <NepaliName>भूमि व्यवस्था, कृषि तथा सहकारी मत्रालय</NepaliName>
+  </Label>
+  <Label>
+    <Id>150</Id>
+    <Title>Government of Sudurpashchim Province</Title>
+    <EnglishName>Government of Sudurpashchim Province</EnglishName>
+    <NepaliName>सुदूरपश्चिम प्रदेश सरकार</NepaliName>
+  </Label>
+  <Label>
+    <Id>151</Id>
+    <Title>Dhangadi, Kailali</Title>
+    <EnglishName>Dhangadi, Kailali</EnglishName>
+    <NepaliName>धनगढी, कैलाली</NepaliName>
   </Label>
 </Labels>

@@ -1,4 +1,28 @@
 ﻿@model HomeModel
+@using LIMS.Website1.Data
+@using System.Globalization
+@inject IGetLabel getResource
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+
+    var Trending = getResource.GetByName("Trending", culture);
+    var GeneralNotices = getResource.GetByName("General Notices", culture);
+    var Information = getResource.GetByName("Information", culture);
+    var RightToInformation = getResource.GetByName("Right To Information", culture);
+    var NameTitle = getResource.GetByName("Name/Title", culture);
+    var Subject = getResource.GetByName("Subject", culture);
+    var Download = getResource.GetByName("Download", culture);
+    var Highlights = getResource.GetByName("Highlights", culture);
+    var Gallery = getResource.GetByName("Gallery", culture);
+    var Video = getResource.GetByName("Video", culture);
+    var Publications = getResource.GetByName("Publications", culture);
+    var ActPolicies = getResource.GetByName("Act & Policies", culture);
+    var Regulations =  getResource.GetByName("Regulations",culture);
+    var Directives = getResource.GetByName("Directives", culture);
+    var Guidance = getResource.GetByName("Guidance", culture);
+    var FacebookPlugin = getResource.GetByName("Facebook Plugin", culture);
+   
+}
 <style>
     img {
         max-width: 100% !important;
@@ -8,7 +32,7 @@
     <div class="trending">
         <div class="container">
             <div class="trending-now">
-                <p>Trending:</p>
+                <p>@Trending</p>
             </div>
 
             <marquee behavior="scroll" direction="left" onmouseover="this.stop();"
@@ -18,7 +42,7 @@
                     foreach (var item in Model.NewsScroll)
                     {
                         <span class="news-text news-text-mar-left">
-                            <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.TypeName" asp-route-id="@item.Id">@(item.Title + "(" + item.TypeName + ")")</a>
+                            <a asp-controller="NewsEvent" asp-action="Index" asp-route-type="@item.TypeName" asp-route-id="@item.Id">@(item.Title)</a>
                         </span>
                     }
                 }
@@ -92,56 +116,56 @@
                 </div>
             </div>
             @*<div id="demo" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
+                    <div class="carousel-inner">
 
-                    @if (Model.Banner.Any())
-                    {
-                        @for (int i = 0; i < Model.Banner.Count; i++)
+                        @if (Model.Banner.Any())
                         {
-                            <div class='@(i == 0 ? "carousel-item active" : "carousel-item")'>
+                            @for (int i = 0; i < Model.Banner.Count; i++)
+                            {
+                                <div class='@(i == 0 ? "carousel-item active" : "carousel-item")'>
+                                    <a href="#">
+                                        <img src='@Model.Banner[i].Image.PictureUrl' alt="" style="width: 100%; height: 500px; overflow: hidden;">
+                                    </a>
+                                    <div class="carousel-caption">
+                                        <h3></h3>
+                                        <a href="#">
+                                            <p style="color:white;"> @Model.Banner[i].Title</p>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class='carousel-item active'>
                                 <a href="#">
-                                    <img src='@Model.Banner[i].Image.PictureUrl' alt="" style="width: 100%; height: 500px; overflow: hidden;">
+                                    <img src='/Dolfd/img/11.jpg' alt="" style="width: 100%; height: 500px; overflow: hidden;">
                                 </a>
                                 <div class="carousel-caption">
                                     <h3></h3>
                                     <a href="#">
-                                        <p style="color:white;"> @Model.Banner[i].Title</p>
+                                        <p style="color:white;"> Banner title</p>
                                     </a>
                                 </div>
-
                             </div>
                         }
-                    }
-                    else
-                    {
-                        <div class='carousel-item active'>
-                            <a href="#">
-                                <img src='/Dolfd/img/11.jpg' alt="" style="width: 100%; height: 500px; overflow: hidden;">
-                            </a>
-                            <div class="carousel-caption">
-                                <h3></h3>
-                                <a href="#">
-                                    <p style="color:white;"> Banner title</p>
-                                </a>
-                            </div>
-                        </div>
-                    }
 
 
 
-                </div>
-                <a class="carousel-control-prev" href="#demo" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#demo" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>*@
+                    </div>
+                    <a class="carousel-control-prev" href="#demo" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>*@
         </div>
     </div>
-    <div class="col-2 col-lg-3 col-md-3 col-sm-4 col-xs-6 pos-abs">
+    <div style="border:1px solid black;" class="col-2 col-lg-3 col-md-3 col-sm-4 col-xs-6 pos-abs">
 
         <div class="member-area">
             <div class="member-img">
@@ -170,7 +194,7 @@
         </div>
         <div class="member-area">
             <div class="member-img">
-                <img src='@((Model.StateMinister != null && (!String.IsNullOrEmpty(Model.StateMinister.Image.PictureUrl))) ? Model.StateMinister.Image.PictureUrl : "/Dolfd/img/111.png")'  />
+                <img src='@((Model.StateMinister != null && (!String.IsNullOrEmpty(Model.StateMinister.Image.PictureUrl))) ? Model.StateMinister.Image.PictureUrl : "/Dolfd/img/111.png")' />
             </div>
             <div class="member-desc">
                 @if (Model.StateMinister != null && Model.StateMinister.PositionOfLabel == 2)
@@ -233,7 +257,7 @@
 <style type="text/css">
     .pos-abs .member-img {
         width: 120px;
-        height:100px;
+        height: 100px;
         border: 2px solid #fff;
         border-radius: 10px;
         overflow: hidden;
@@ -403,11 +427,11 @@
     <div class="row">
 
         <div class="col-12 col-md-9">
-         
+
             <ul class="nav nav-pills">
-                <li class="active" style="font-weight: 500"><a data-toggle="pill" href="#home">News</a></li>
-                <li style="font-weight: 500"><a data-toggle="pill" href="#menu1">Event</a></li>
-                <li style="font-weight: 500"><a data-toggle="pill" href="#menu2">Notices</a></li>
+                <li class="active" style="font-weight: 500"><a data-toggle="pill" href="#home">@GeneralNotices</a></li>
+                <li style="font-weight: 500"><a data-toggle="pill" href="#menu1">@Information</a></li>
+                <li style="font-weight: 500"><a data-toggle="pill" href="#menu2">@RightToInformation</a></li>
 
             </ul>
 
@@ -417,23 +441,23 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if (Model.News.Any())
+                            @if (Model.Notices.Any())
                             {
-                                @foreach (var item in Model.News)
+                                @foreach (var item in Model.Notices)
                                 {
                                     <tr>
                                         <td>
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
-                                        <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="News">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">News</td>
+                                        <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="General Notices">@item.Title</a> </td>
+                                        <td class="hidden-sm hidden-xs">General Notices</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -454,23 +478,23 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if (Model.Tenders.Any())
+                            @if (Model.News.Any())
                             {
-                                @foreach (var item in Model.Tenders)
+                                @foreach (var item in Model.News)
                                 {
                                     <tr>
                                         <td>
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
-                                        <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Tender">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">Tender</td>
+                                        <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Information">@item.Title</a> </td>
+                                        <td class="hidden-sm hidden-xs">Information</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -491,22 +515,22 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if (Model.Notices.Any())
+                            @if (Model.Events.Any())
                             {
-                                @foreach (var item in Model.Notices)
+                                @foreach (var item in Model.Events)
                                 {
                                     <tr>
                                         <td>
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
-                                        <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Notices">@item.Title</a> </td>
+                                        <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Right To Information">@item.Title</a> </td>
                                         <td class="hidden-sm hidden-xs">Notice</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
@@ -528,7 +552,7 @@
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="highlight-section">
                 <div class="highlight-header text-center">
-                    <h6>Highlights</h6>
+                    <h6>@Highlights</h6>
                 </div>
                 <ul>
                     @if (Model.NewsAndEvent.Count() > 0)
@@ -573,7 +597,7 @@
         <div class=" col-md-6">
             <div class="col-md-12">
                 <div class="common-title word-break has-border-s">
-                    <h3><i class="fa fa-photo"> Gallery</i></h3>
+                    <h3><i class="fa fa-photo"> @Gallery</i></h3>
                 </div>
             </div>
 
@@ -612,7 +636,7 @@
 
             <div class="col-md-12">
                 <div class="common-title word-break has-border-s">
-                    <h3> <i class="fa fa-video"> </i>Video</h3>
+                    <h3> <i class="fa fa-video"> </i>@Video</h3>
                 </div>
             </div>
             <div class="col-md-6" style="margin-top:5px;">
@@ -647,11 +671,11 @@
         <div class="col-12 col-md-9">
 
             <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="pill" href="#home1">Publications</a></li>
-                <li><a data-toggle="pill" href="#menu4">Letters</a></li>
-                <li><a data-toggle="pill" href="#menu5">Directives</a></li>
-                <li><a data-toggle="pill" href="#menu6">Act & Policies</a></li>
-                <li><a data-toggle="pill" href="#menu7">Other files</a></li>
+                <li class="active"><a data-toggle="pill" href="#home1">@Publications</a></li>
+                <li><a data-toggle="pill" href="#menu4">@ActPolicies</a></li>
+                <li><a data-toggle="pill" href="#menu5">@Regulations</a></li>
+                <li><a data-toggle="pill" href="#menu6">@Directives</a></li>
+                <li><a data-toggle="pill" href="#menu7">@Guidance</a></li>
             </ul>
 
             <div class="tab-content">
@@ -660,9 +684,9 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -676,7 +700,7 @@
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
                                         <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Publication">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">Publication</td>
+                                        <td class="hidden-sm hidden-xs">@item.TypeName</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -697,23 +721,23 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if (Model.Letters.Any())
+                            @if (Model.ActsPolices.Any())
                             {
-                                @foreach (var item in Model.Letters)
+                                @foreach (var item in Model.ActsPolices)
                                 {
                                     <tr>
                                         <td>
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
                                         <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Letter">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">Letters</td>
+                                        <td class="hidden-sm hidden-xs">@item.TypeName</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -734,23 +758,23 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if (Model.Directives.Any())
+                            @if (Model.RulesRegulation.Any())
                             {
-                                @foreach (var item in Model.Directives)
+                                @foreach (var item in Model.RulesRegulation)
                                 {
                                     <tr>
                                         <td>
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
                                         <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Directives">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">Directories</td>
+                                        <td class="hidden-sm hidden-xs">@item.TypeName</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -771,23 +795,23 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if (Model.ActsPolices.Any())
+                            @if (Model.Directives.Any())
                             {
-                                @foreach (var item in Model.ActsPolices)
+                                @foreach (var item in Model.Directives)
                                 {
                                     <tr>
                                         <td>
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
                                         <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Act">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">Acts and Polices</td>
+                                        <td class="hidden-sm hidden-xs">@item.TypeName</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -808,9 +832,9 @@
                         <thead>
                             <tr>
                                 <th width="5%"></th>
-                                <th width="50%">Name/Title</th>
-                                <th width="25%" class="hidden-sm hidden-xs">Subject</th>
-                                <th class="text-center">Download</th>
+                                <th width="50%">@NameTitle</th>
+                                <th width="25%" class="hidden-sm hidden-xs">@Subject</th>
+                                <th class="text-center">@Download</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -824,7 +848,7 @@
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
                                         <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="OtherFiles">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">Other files</td>
+                                        <td class="hidden-sm hidden-xs">@item.TypeName</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -848,7 +872,7 @@
 
             <div class="text-center">
                 <div class="panel panel-primary">
-                    <div class="panel-heading text-center">Facebook Plugin</div>
+                    <div class="panel-heading text-center">@FacebookPlugin</div>
                     <div class="panel-body" style="min-height:200px;">
                         @if (Model.Facebook != null)
                         {

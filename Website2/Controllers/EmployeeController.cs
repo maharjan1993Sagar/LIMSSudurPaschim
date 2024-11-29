@@ -29,6 +29,8 @@ namespace LIMS.Website1.Controllers
         {
             var employee = await _db.GetEmployee();
             employee = employee.OrderBy(m => m.SerialNo).ToList();
+            var minister = employee.Where(m => m.Type == "Hon. Minister" || m.Type == "Hon. State Minister").ToList();
+            employee = employee.Except(minister).ToList();
             employee.ForEach(m=>m.Image.PictureUrl =GetPath(m.Image.PictureUrl));
 
             return View(employee);

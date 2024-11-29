@@ -82,9 +82,13 @@ namespace LIMS.Website1.Data
                     {
                         return obj.NepaliName;
                     }
-                    else
+                    else if (culture == "en-US")
                     {
                         return obj.EnglishName;
+                    }
+                    else
+                    {
+                        return name;
                     }
                 }
             }

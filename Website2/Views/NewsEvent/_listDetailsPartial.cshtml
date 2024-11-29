@@ -1,6 +1,20 @@
 ﻿@model NewsEventViewModel
 @using LIMS.Website1.Data
-@inject IGetLabel _lbl
+@using System.Globalization
+@inject IGetLabel getResource
+@{
+    var culture = CultureInfo.CurrentCulture.ToString();
+
+    var CommentFeedback = getResource.GetByName("Comment/Feedback", culture);
+    var Email = getResource.GetByName("Email", culture);
+    var Phone = getResource.GetByName("Phone", culture);
+    var Subject = getResource.GetByName("Subject", culture);
+    var CommentDetail = getResource.GetByName("Comment Detail", culture);
+    var ContactDetail = getResource.GetByName("Contact Deail", culture);
+    var OfficeName = getResource.GetByName("OfficeName", culture);
+    var OfficeAddress = getResource.GetByName("OfficeAddress", culture);
+    var FindUs = getResource.GetByName("FindUs", culture);
+}
 
 <div class="container">
     <div class="row">
@@ -10,25 +24,25 @@
                 <div class="panel-heading">
                     <h4 class="text-primary">
                         <i class="fa fa-newspaper-o"></i>
-                        @Model.Type
+                        @getResource.GetByName(Model.Type,culture)
                     </h4>
                 </div>
                 <div class="panel-body">
                     <ul class="scholoar-ship" style="list-style-type: circle;">
                         @if (Model.News.Any())
                         {
-                        @foreach (var item in Model.News)
+                            @foreach (var item in Model.News)
                             {
-                        <li>
-                            <a style="color: #1892F5;" asp-route-id="@item.Id" asp-route-subsubmenu="@item.SubSubMenu" asp-route-submenu="@item.SubMenu" asp-route-mainmenu="@item.Type">
-                                @item.Title<span></span>
-                            </a>
-                        </li>
+                                <li>
+                                    <a style="color: #1892F5;" asp-route-id="@item.Id" asp-route-subsubmenu="@item.SubSubMenu" asp-route-submenu="@item.SubMenu" asp-route-mainmenu="@item.Type">
+                                        @item.Title<span></span>
+                                    </a>
+                                </li>
                             }
                         }
                         else
                         {
-                        <li><a href="">No record found.</a></li>
+                            <li><a href="">No record found.</a></li>
                         }
                     </ul>
                 </div>
@@ -36,43 +50,43 @@
         </div>
         @if (Model.ObjNews != null)
         {
-        <div class="col-md-9">
+            <div class="col-md-9">
 
-            <h4 class="text-primary">
-                <i class="fa fa-newspaper-o"></i>
-                @Model.ObjNews.Title
-            </h4>
-            <font style="color: rgb(159,159,159);">
-                <i class="fa fa-calendar">&nbsp;@Model.ObjNews.ActiveDate.ToShortDateString() &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
-            </font><br />
-            @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("image"))
+                <h4 class="text-primary">
+                    <i class="fa fa-newspaper-o"></i>
+                    @Model.ObjNews.Title
+                </h4>
+                <font style="color: rgb(159,159,159);">
+                    <i class="fa fa-calendar">&nbsp;@Model.ObjNews.ActiveDate.ToShortDateString() &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;@Model.ObjNews.UploadedBy</i>
+                </font><br />
+                @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("image"))
                 {
-            <div class="text-center">
-                <img src='@(Model.ObjNews.Image.FilePath)' onerror="hideImage(this);" width="550"
-                     alt="Avatar" />
-            </div>
+                    <div class="text-center">
+                        <img src='@(Model.ObjNews.Image.FilePath)' onerror="hideImage(this);" width="550"
+                             alt="Avatar" />
+                    </div>
                 }
-            @Model.ObjNews.Description
-            @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("pdf"))
+                @Model.ObjNews.Description
+                @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("pdf"))
                 {
-            <div>
-                File:<a asp-action="download" asp-route-id="@Model.ObjNews.Id" style="color:#245580;"><i class="fa fa-download"></i></a>
-            </div>
+                    <div>
+                        File:<a asp-action="download" asp-route-id="@Model.ObjNews.Id" style="color:#245580;"><i class="fa fa-download"></i></a>
+                    </div>
                 }
-        </div>
+            </div>
         }
         else
         {
-        <div class="col-md-9">
-            <h4 class="text-primary">
-                <i class="fa fa-newspaper-o"></i>
-                Title
-            </h4>
-            <font style="color: rgb(159,159,159);">
-                <i class="fa fa-calendar">&nbsp;@DateTime.Now &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;Admin</i>
-            </font><br />
-            No record found.
-        </div>
+            <div class="col-md-9">
+                <h4 class="text-primary">
+                    <i class="fa fa-newspaper-o"></i>
+                    Title
+                </h4>
+                <font style="color: rgb(159,159,159);">
+                    <i class="fa fa-calendar">&nbsp;@DateTime.Now &nbsp;</i>&nbsp;<i class="fa fa-edit">&nbsp;Admin</i>
+                </font><br />
+                No record found.
+            </div>
         }
     </div>
 </div>
