@@ -8,7 +8,7 @@
     var Trending = getResource.GetByName("Trending", culture);
     var GeneralNotices = getResource.GetByName("General Notices", culture);
     var Information = getResource.GetByName("Information", culture);
-    var RightToInformation = getResource.GetByName("Right To Information", culture);
+    var RightToInformation = getResource.GetByName("Right to Information", culture);
     var NameTitle = getResource.GetByName("Name/Title", culture);
     var Subject = getResource.GetByName("Subject", culture);
     var Download = getResource.GetByName("Download", culture);
@@ -17,11 +17,11 @@
     var Video = getResource.GetByName("Video", culture);
     var Publications = getResource.GetByName("Publications", culture);
     var ActPolicies = getResource.GetByName("Act & Policies", culture);
-    var Regulations =  getResource.GetByName("Regulations",culture);
+    var Regulations = getResource.GetByName("Regulations", culture);
     var Directives = getResource.GetByName("Directives", culture);
     var Guidance = getResource.GetByName("Guidance", culture);
     var FacebookPlugin = getResource.GetByName("Facebook Plugin", culture);
-   
+
 }
 <style>
     img {
@@ -168,85 +168,67 @@
     <div style="border:1px solid black;" class="col-2 col-lg-3 col-md-3 col-sm-4 col-xs-6 pos-abs">
 
         <div class="member-area">
-            <div class="member-img">
-                <img src='@((Model.Minister != null && (!String.IsNullOrEmpty(Model.Minister.Image.PictureUrl))) ? Model.Minister.Image.PictureUrl : "/Dolfd/img/111.png")' />
+            @if (Model.Minister != null )
+            {
+                <div class="member-img">
+                    <img src='@((Model.Minister != null && (!String.IsNullOrEmpty(Model.Minister.Image.PictureUrl))) ? Model.Minister.Image.PictureUrl : "/Dolfd/img/111.png")' />
+                </div>
+            }
+                <div class="member-desc">
+                    @if (Model.Minister != null )
+                    {
+                        <div class="member-name">
+                            @(Model.Minister != null ? Model.Minister.Name : "Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                        </div>
+                        <div class="member-postion">
+                            @(Model.Minister != null ? Model.Minister.DesignationLabel : "Minister")
+                        </div>
+                    }
+
+                </div>
             </div>
-            <div class="member-desc">
-                @if (Model.Minister != null && Model.Minister.PositionOfLabel == 2)
-                {
-                    <div class="member-name">
-                        @(Model.Minister != null ? Model.Minister.Name : "Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
-                    <div class="member-postion">
-                        @(Model.Minister != null ? Model.Minister.DesignationLabel : "Minister")
-                    </div>
-                }
-                else
-                {
-                    <div class="member-postion">
-                        @(Model.Minister != null ? Model.Minister.DesignationLabel : "Minister")
-                    </div>
-                    <div class="member-name">
-                        @(Model.Minister != null ? Model.Minister.Name : "Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
-                }
-            </div>
-        </div>
         <div class="member-area">
-            <div class="member-img">
-                <img src='@((Model.StateMinister != null && (!String.IsNullOrEmpty(Model.StateMinister.Image.PictureUrl))) ? Model.StateMinister.Image.PictureUrl : "/Dolfd/img/111.png")' />
-            </div>
-            <div class="member-desc">
-                @if (Model.StateMinister != null && Model.StateMinister.PositionOfLabel == 2)
-                {
-                    <div class="member-name">
-                        @(Model.StateMinister != null ? Model.StateMinister.Name : "State Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
-                    <div class="member-postion">
-                        @(Model.StateMinister != null ? Model.StateMinister.DesignationLabel : "State Minister")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
-                }
-                else
-                {
-                    <div class="member-postion">
-                        @(Model.StateMinister != null ? Model.StateMinister.DesignationLabel : "State Minister")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
-                    <div class="member-name">
-                        @(Model.StateMinister != null ? Model.StateMinister.Name : "State Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
+            @if (Model.StateMinister != null )
+            {
+                <div class="member-img">
+                    <img src='@((Model.StateMinister != null && (!String.IsNullOrEmpty(Model.StateMinister.Image.PictureUrl))) ? Model.StateMinister.Image.PictureUrl : "/Dolfd/img/111.png")' />
+                </div>
+            }
+                <div class="member-desc">
+                    @if (Model.StateMinister != null )
+                    {
+                        <div class="member-name">
+                            @(Model.StateMinister != null ? Model.StateMinister.Name : "State Minister name")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                        </div>
+                        <div class="member-postion">
+                            @(Model.StateMinister != null ? Model.StateMinister.DesignationLabel : "State Minister")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                        </div>
+                    }
 
-                }
+                </div>
             </div>
-        </div>
         <div class="member-area">
-            <div class="member-img">
-                <img src='@((Model.Secratory != null && (!String.IsNullOrEmpty(Model.Secratory.Image.PictureUrl))) ? Model.Secratory.Image.PictureUrl : "/Dolfd/img/111.png")' />
+            @if (Model.Secratory != null )
+            {
+                <div class="member-img">
+                    <img src='@((Model.Secratory != null && (!String.IsNullOrEmpty(Model.Secratory.Image.PictureUrl))) ? Model.Secratory.Image.PictureUrl : "/Dolfd/img/111.png")' />
+                </div>
+            }
+                <div class="member-desc">
+                    @if (Model.Secratory != null )
+                    {
+                        <div class="member-name">
+                            @(Model.Secratory != null ? Model.Secratory.Name : "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+                        </div>
+                        <div class="member-postion">
+                            @(Model.Secratory != null ? Model.Secratory.DesignationLabel : "Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
+
+                        </div>
+                    }
+
+
+                </div>
             </div>
-            <div class="member-desc">
-                @if (Model.Secratory != null && Model.Secratory.PositionOfLabel == 2)
-                {
-                    <div class="member-name">
-                        @(Model.Secratory != null ? Model.Secratory.Name : "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
-                    <div class="member-postion">
-                        @(Model.Secratory != null ? Model.Secratory.DesignationLabel : "Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-
-                    </div>
-                }
-                else
-                {
-                    <div class="member-postion">
-                        @(Model.Secratory != null ? Model.Secratory.DesignationLabel : "Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-
-                    </div>
-                    <div class="member-name">
-                        @(Model.Secratory != null ? Model.Secratory.Name : "Name of Secretary")                    <!-- <p style="font-weight:  normal;">सम्माननीय प्रधानमन्त्री एवं मन्त्री सञ्चार तथा सूचना प्रविधि ‍</p> -->
-                    </div>
-
-                }
-
-            </div>
-        </div>
 
 
     </div>
@@ -354,7 +336,7 @@
     }
 
     .highlight-header {
-        background: #2b39bc;
+        background: #2657ba;
         color: #fff;
         padding: 10px 20px;
         margin: auto;
@@ -405,22 +387,54 @@
             background: transparent;
             height: auto;
         }
+        
     }
 </style>
 <div class="clearfix"></div>
-
+@section Scripts{ 
 <script type="text/javascript">
-    function PopUp(hideOrshow) {
-        if (hideOrshow == 'hide') document.getElementById('ac-wrapper').style.display = "none";
-        else document.getElementById('ac-wrapper').removeAttribute('style');
-    }
-    window.onload = function () {
+    $(document).ready(function () {
 
-        setTimeout(function () {
-            PopUp('show');
-        }, 300);
-    }
+        $(".btn-Close").click(function () {
+            $('#modal').hide();
+        })
+
+        loadModalContent();
+
+
+        function loadModalContent() {
+            $.ajax({
+                url: '/Home/GetPopup',  
+                type: 'GET',
+                success: function (response) {
+                    $('body').append(response);
+
+                    if (response.length > 0) {
+                        $('#modal').modal('show');
+                }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading modal: ' + error);
+                }
+            });
+        }
+    })
+
+    //function PopUp(hideOrshow) {
+    //    if (hideOrshow == 'hide') document.getElementById('ac-wrapper').style.display = "none";
+    //    else document.getElementById('ac-wrapper').removeAttribute('style');
+    //}
+    //window.onload = function () {
+
+    //    setTimeout(function () {
+    //        PopUp('show');
+    //    }, 300);
+    //}
+
+   
+
 </script>
+}
 <!-- end of about us -->
 <section class="newsevents">
 
@@ -531,7 +545,7 @@
                                             <img src='@((!string.IsNullOrEmpty(item.Image.FilePath))?item.Image.FilePath:"/Dolfd/img/38.png")' onerror="this.onerror=null; this.src='/Dolfd/img/38.png'" alt="" width="25" height="20">
                                         </td>
                                         <td><a asp-controller="NewsEvent" asp-action="Index" asp-route-id="@item.Id" asp-route-type="Right To Information">@item.Title</a> </td>
-                                        <td class="hidden-sm hidden-xs">Notice</td>
+                                        <td class="hidden-sm hidden-xs">Right to Information</td>
                                         <td align="center"><a asp-controller="Home" asp-action="Download" asp-route-id="@item.Id" target="_blank"><i class="fa fa-download btn btn-primary btn-sm"></i></a></td>
 
                                     </tr>
@@ -607,7 +621,7 @@
                     @foreach (var item in Model.Galleries)
                     {
                         <div class="col-md-4">
-                            <div>
+                            <div style="height:150px;border:1px solid black;">
                                 <a target="_blank" asp-controller="gallery" asp-action="index">
                                     <img src='@((item != null && item.Images.Any()) ?
                       item.Images.FirstOrDefault().PictureUrl :
@@ -903,6 +917,7 @@
     </div>
 
 </section>
+
 
 
 

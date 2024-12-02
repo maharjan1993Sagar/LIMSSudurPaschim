@@ -34,7 +34,7 @@ namespace LIMS.Website1.Controllers
 
             var newsEventTenders = await _db.GetNewsEventTender("");
 
-            newsEventTenders = newsEventTenders.OrderByDescending(m => m.CreatedDate).ToList();
+            newsEventTenders = newsEventTenders.OrderByDescending(m => m.ActiveDate).ToList();
 
 
             newsEventTenders
@@ -65,7 +65,7 @@ namespace LIMS.Website1.Controllers
             }
             var newsScroll = newsEventTenders.Where(m => m.IsScroll);
             var news = newsEventTenders.Where(m => m.TypeName == "Information");
-            var events = newsEventTenders.Where(m => m.TypeName == "Right To Information");
+            var events = newsEventTenders.Where(m => m.TypeName == "Right to Information");
             var tenders = newsEventTenders.Where(m => m.TypeName == "Tender Notice");
             var notices = newsEventTenders.Where(m => m.TypeName == "General Notices");
             var rules = newsEventTenders.Where(m => m.TypeName == "Regulations");
@@ -130,7 +130,25 @@ namespace LIMS.Website1.Controllers
         //{
         //    return list.Take(list.Count > 4 ? 4 : list.Count).ToList();
         //}
+        public async Task<IActionResult> GetPopup()
+        {
+            var newsEventTender = await _db.GetNewsEventTender("");
 
+            newsEventTender = newsEventTender.Where(m => m.ActiveDate <= DateTime.Now
+                                                        && m.ExpiryDate >= DateTime.Now
+                                                        && m.IsActive && m.IsModalPopup
+                                                        ).OrderByDescending(m => m.ActiveDate).ToList();
+            newsEventTender = newsEventTender.Take(5).ToList();
+
+            var modelContent = newsEventTender.Select(m =>
+                                                        new PopupModel {
+                                                            Title = m.Title,
+                                                            Description = m.Description
+                                                        }).ToList();
+
+            return PartialView("_modalContent", modelContent);
+
+        }
         public async Task<IActionResult> ContactUs()
         {
             var contactUs = await _db.GetContactUsModel();
@@ -141,6 +159,18 @@ namespace LIMS.Website1.Controllers
 
            // contactUs.NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList();
                
+            return View(contactUs);
+        }
+        public async Task<IActionResult> Contact()
+        {
+            var contactUs = await _db.GetContactUsModel();
+            //var newsEventTenders = await _db.GetNewsEventTender("");
+
+            //newsEventTenders
+            //    .ForEach(m => m.Image.FilePath = GetPath(m.Image.FilePath));
+
+            // contactUs.NewsAndEvent = newsEventTenders.Take(newsEventTenders.ToList().Count > 10 ? 10 : newsEventTenders.ToList().Count).ToList();
+
             return View(contactUs);
         }
         public List<string> Menus()

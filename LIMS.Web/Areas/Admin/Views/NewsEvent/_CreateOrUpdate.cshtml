@@ -91,7 +91,7 @@
 
                 <div class="form-group">
                     <admin-label asp-for="Description" />
-                    <admin-textarea asp-for="Description" />
+                    <admin-textarea asp-for="Description"/>
                     <span asp-validation-for="Description"></span>
 
                 </div>
@@ -130,6 +130,7 @@
         </div>
     </div>
 </div>
+<script src="/ckeditor/ckeditor.js" referrerpolicy="origin"></script>
 <script>
     $(document).ready(function () {
         var type = $("#@Html.IdFor(m=>m.Type)").val();
@@ -190,7 +191,13 @@
                     $("#@Html.IdFor(m=>m.SubSubMenu)").append(`<option value="${item.Value}">${item.Text}</option>`);
                 });
             });
-        })
+          })
+        $("#@Html.IdFor(m=>m.Description)")
+
+        var a = $("#@Html.IdFor(m=>m.Description)").val();
+        CKEDITOR.replace("@Html.IdFor(m=>m.Description)", {
+            height: 400
+        });
     })
 </script>
 

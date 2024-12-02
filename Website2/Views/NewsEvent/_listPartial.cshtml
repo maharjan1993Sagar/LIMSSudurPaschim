@@ -18,12 +18,12 @@
                             @_lbl.GetByName("Title", culture)
 
                         </th>
-                        <th>
+                        @*<th>
                             @_lbl.GetByName("Published Date", culture)
                         </th>
                         <th>
                             @_lbl.GetByName("Size", culture)
-                        </th>
+                        </th>*@
                         <th>
                             @_lbl.GetByName("Download", culture)
                         </th>
@@ -38,10 +38,10 @@
                                 <td>
                                     @item.Title
                                 </td>
-                                <td>
+                                @*<td>
                                     @item.ActiveDate.ToShortDateString()
                                 </td>
-                                <td>@(item.Image.FileSize+" KB")</td>
+                                <td>@(item.Image.FileSize+" KB")</td>*@
                                 <td>
                                     @*@if (!String.IsNullOrEmpty(item.Image.FileName))
                                         {*@

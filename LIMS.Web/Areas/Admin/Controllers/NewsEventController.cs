@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using LIMS.Domain.NewsEvent;
 using MimeKit;
 using Microsoft.AspNetCore.Hosting;
+using System;
 using System.IO;
 using LIMS.Domain.DynamicMenu;
 using LIMS.Services.DynamicMenu;
@@ -138,6 +139,8 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 NewsEvent.subMenus = await _subMenuService.GetSubMenuById(NewsEvent.SubMenu);
                 NewsEvent.subSubMenus = await _subSubMenuService.GetSubSubMenuById(NewsEvent.SubSubMenu);
                 NewsEvent.Mainmenu = await _mainMenu.GetMainMenuById(NewsEvent.Type);
+                NewsEvent.CreatedDate = DateTime.Now;
+                NewsEvent.CreatedBy = _workContext.CurrentCustomer.Id;
 
                 if (NewsEvent.subSubMenus!=null)
                 {
@@ -242,6 +245,9 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 m.subMenus = await _subMenuService.GetSubMenuById(m.SubMenu);
                 m.subSubMenus = await _subSubMenuService.GetSubSubMenuById(m.SubSubMenu);
                 m.Mainmenu = await _mainMenu.GetMainMenuById(m.Type);
+                m.UpdatedDate = DateTime.Now;
+                m.UpdatedBy = _workContext.CurrentCustomer.Id;
+
                 if (m.subSubMenus != null)
                 {
                     m.TypeName = m.subSubMenus.SubSubMenuName;
@@ -254,6 +260,7 @@ namespace LIMS.Web.Areas.Admin.Controllers
                 {
                     m.TypeName = m.Mainmenu.MainMenuName;
                 }
+               
                 await _newsEventService.UpdateNewsEvent(m);
 
                 SuccessNotification(_localizationService.GetResource("Admin.NewsEvent.Updated"));

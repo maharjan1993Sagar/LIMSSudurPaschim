@@ -70,7 +70,7 @@
                 @if (Model.ObjNews.Image != null && Model.ObjNews.Image.Type.Contains("pdf"))
                 {
                     <div>
-                        File:<a asp-action="download" asp-route-id="@Model.ObjNews.Id" style="color:#245580;"><i class="fa fa-download"></i></a>
+                        Download File:<a asp-action="download" asp-route-id="@Model.ObjNews.Id" style="color:#245580;"><i class="fa fa-download"></i></a>
                     </div>
                 }
             </div>
