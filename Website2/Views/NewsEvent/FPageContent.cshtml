@@ -3,11 +3,29 @@
 <section>
     @if (Model.News.Any())
     {
-    <partial name="_listPartial.cshtml" model="@Model" />
+        <partial name="_listPartial.cshtml" model="@Model" />
     }
     else
     {
-    <partial name="~/views/shared/_RecordNotFound.cshtml" />
+        <partial name="~/views/shared/_RecordNotFound.cshtml" />
     }
-   
+
 </section>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function hideImage(img) {
+                img.style.display = "none";
+            }
+            if ($('#tblPublication').length)         // use this if you are using id to check
+            {
+                $('#tblPublication').DataTable({
+                    language: {
+                        searchPlaceholder: "Search...",
+                        search: "",
+                    }
+                });
+            }
+        });
+    </script>
+}
